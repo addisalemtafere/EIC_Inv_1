@@ -127,7 +127,10 @@
           <mat-icon>reorder</mat-icon>
           {{'mainMenu.capitalRegistration' | translate}}
         </a>
-        <mat-expansion-panel *ngIf="canViewTasks" #serv [class.mat-elevation-z0]="!serv.expanded">
+        <mat-expansion-panel
+          *ngIf="canManageManageIncentiveAssignedServices || canManageAssignedServicesPermission"
+          #serv
+          [class.mat-elevation-z0]="!serv.expanded">
 
 
           <mat-expansion-panel-header>

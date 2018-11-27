@@ -54,6 +54,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   public inId: number;
   private subscription: Subscription;
   public isLogged: any;
+  private allServices: ServiceModel[] = [];
 
   constructor(storageManager: LocalStoreManager,
               public notificationService: NotificationService,
@@ -85,7 +86,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   ngOnInit() {
     localStorage.setItem('loggIn', 'false');
-    this.getAllServices();
+
     this.checkInvestor();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -102,6 +103,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         }
 
         if ((url.indexOf('dashboard') > 0)) {
+          this.getAllServices();
+
           if (this.authService.isLoggedIn) {
             setTimeout(() => this.isLoggedIn$ = Observable.of(true));
             this.countNotification(this.accountService.currentUser.Id);
@@ -179,16 +182,15 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   getAllServices() {
     this.serviceService.getAll()
       .subscribe(result => {
-        this.serviceList = result;
-        console.log(result);
+        // this.allServices = result;
+        this.filterService(result);
+
+        // console.log(result);
       });
   }
 
   checkInvestor() {
-    // console.log(this.accountService.currentUser.Tin);
-    // if (this.accountService.currentUser.Tin !== null) {
-    //   this.checkInvestorRegistered === true;
-    // }
+
   }
 
   public startService(serviceId: any, title: string) {
@@ -290,6 +292,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     return this.accountService.userHasPermission(Permission.DispatchIncentivesServicesPermission);
   }
 
+  get canManageAssignedServicesPermission() {
+    return this.accountService.userHasPermission(Permission.ManageAssignedServicesPermission);
+  }
+
   get canManageApproveIncentiveUploadedItems() {
     return this.accountService.userHasPermission(Permission.ApproveIncentiveUploadedItemsPermission);
   }
@@ -328,6 +334,18 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   get canManageUsers() {
     return this.accountService.userHasPermission(Permission.manageUsersPermission);
+  }
+
+  private filterService(result: ServiceModel[]) {
+    this.serviceList = result.filter((item) => {
+      console.log(item)
+      if (this.canManageManageIncentiveAssignedServices) {
+        return item.TypeOfService == '4';
+      } else if (this.canManageAssignedServicesPermission) {
+        return item.TypeOfService == '3';
+      }
+      console.log(this.serviceList)
+    });
   }
 }
 
