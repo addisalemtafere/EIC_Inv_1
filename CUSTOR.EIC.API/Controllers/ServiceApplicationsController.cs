@@ -426,7 +426,8 @@ namespace EIC.Investment.API.Controllers
         {
             var serviceGroup = new List<ServiceGroup>();
 
-            var services = _context.Service.Where(c => c.IsActive == true && c.TypeOfService == "0")
+            var services = _context.Service
+                .Where(c => c.IsActive == true && c.TypeOfService == "3" || c.TypeOfService == "4")
                 .ToList();
             foreach (var service in services)
             {

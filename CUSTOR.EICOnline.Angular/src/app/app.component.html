@@ -67,6 +67,12 @@
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
+        <a *ngIf="!isInvestor" mat-list-item routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }"
+           routerLink="/management-dashboard">
+          <mat-icon class="mat-18">collections</mat-icon>
+          Service Overview
+        </a>
 
         <mat-expansion-panel *ngIf="isInvestor" #profile [class.mat-elevation-z0]="!profile.expanded">
           <mat-expansion-panel-header style="font-size: 16px;">
