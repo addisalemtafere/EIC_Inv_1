@@ -113,6 +113,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public DbQuery<series> series { get; set; }
         public DbQuery<IncentiveDetailDto> IncentiveDetailDto { get; set; }
+        public DbQuery<IncentiveBomDto> IncentiveBomDto { get; set; }
 
         public override int SaveChanges()
         {

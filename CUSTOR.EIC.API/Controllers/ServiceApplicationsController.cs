@@ -265,7 +265,7 @@ namespace EIC.Investment.API.Controllers
             editServiceApplication.ServiceWorkflow.Add(serviceWorkflow);
             _context.ServiceApplication.Add(editServiceApplication);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetServiceApplication", new {id = serviceApplication.ServiceApplicationId},
+            return CreatedAtAction("GetServiceApplication", new { id = serviceApplication.ServiceApplicationId },
                 editServiceApplication);
         }
 
@@ -338,7 +338,7 @@ namespace EIC.Investment.API.Controllers
             await _context.SaveChangesAsync();
 
 
-            return CreatedAtAction("GetServiceApplication", new {id = serviceApplication.ServiceApplicationId},
+            return CreatedAtAction("GetServiceApplication", new { id = serviceApplication.ServiceApplicationId },
                 editServiceApplication);
         }
 
