@@ -61,7 +61,7 @@
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
-        <a *ngIf="!isInvestor" mat-list-item routerLinkActive="active"
+        <a *ngIf="!isInvestor && !canViewReadOnlyData" mat-list-item routerLinkActive="active"
            [routerLinkActiveOptions]="{ exact: true }"
            routerLink="/officer-dashboard">
           <mat-icon>dashboard</mat-icon>

@@ -141,16 +141,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   CheckLoginStatus() {
     if (this.authService.isLoggedIn) {
-      // Get current user profile
       this.user = this.authService.currentUser;
       this.currentUsername = this.user.UserName;
-      // setTimeout(() => this.isLoggedIn$ = Observable.of(true), 1000);
 
-      // this.router.navigateByUrl('/servicestarter');
     }
 
     this.isLoggedIn$ = Observable.of(false);
-    // this.router.navigateByUrl('/login');
   }
 
   DoLogin() {
@@ -182,10 +178,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   getAllServices() {
     this.serviceService.getAll()
       .subscribe(result => {
-        // this.allServices = result;
         this.filterService(result);
 
-        // console.log(result);
       });
   }
 
@@ -338,13 +332,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   private filterService(result: ServiceModel[]) {
     this.serviceList = result.filter((item) => {
-      console.log(item)
       if (this.canManageManageIncentiveAssignedServices) {
         return item.TypeOfService == '4';
       } else if (this.canManageAssignedServicesPermission) {
         return item.TypeOfService == '3';
       }
-      console.log(this.serviceList)
     });
   }
 }
