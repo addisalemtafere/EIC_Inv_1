@@ -229,14 +229,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   ngAfterContentChecked(): void {
     this.isLogged = localStorage.getItem('loggIn');
-    // if()
-    // this.currentUsername = this.user.UserName ? this.user.UserName === 'undefined' :;
-    // console.log(this.currentUsername);
+
   }
 
   ngAfterViewChecked(): void {
     if (this.authService.isLoggedIn) {
-      // Get current user profile
       this.user = this.authService.currentUser;
       this.currentUsername = this.user.UserName;
     }

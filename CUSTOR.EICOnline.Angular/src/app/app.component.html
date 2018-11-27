@@ -120,13 +120,7 @@
           <mat-icon>library_add</mat-icon>
           Archive application
         </a>
-        <!--<a *ngIf="!isInvestor" mat-list-item routerLink="/officer">-->
-        <!--<mat-icon>reorder</mat-icon>-->
-        <!--{{'mainMenu.officer' | translate}}</a>-->
-        <!--<a *ngIf="!isInvestor" mat-list-item routerLinkActive="active" routerLink="/project/list">-->
-        <!--<mat-icon>reorder</mat-icon>-->
-        <!--{{'mainMenu.Services' | translate}}-->
-        <!--</a>-->
+
 
         <a *ngIf="canViewTasks" mat-list-item="" (click)="startService('1001','capitalRegistration')">
 
@@ -189,7 +183,9 @@
           </mat-list>
         </mat-expansion-panel>
 
-        <mat-expansion-panel *ngIf="!isInvestor" #admin [class.mat-elevation-z0]="!admin.expanded">
+        <mat-expansion-panel
+          *ngIf="canManageRoles || canManageUsers || canManageAdmins" #admin
+          [class.mat-elevation-z0]="!admin.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>security</mat-icon>
