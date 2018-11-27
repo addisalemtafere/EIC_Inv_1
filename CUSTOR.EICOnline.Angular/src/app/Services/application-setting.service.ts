@@ -16,4 +16,5 @@ export class ApplicationSettingService extends BaseService<ApplicationSettingMod
     protected  errMsg: ErrorMessage) {
     super(http, appConfig.urls.url('ApplicationSettings'), errMsg);
   }
+
 }

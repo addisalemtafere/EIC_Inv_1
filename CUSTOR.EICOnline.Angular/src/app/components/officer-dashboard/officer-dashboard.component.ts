@@ -74,39 +74,12 @@ export class OfficerDashboardComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getAllService();
+    // this.getAllService();
   }
 
-  onSelect(event) {
-    console.log(event);
-  }
-
-  getAllService() {
-    this.serviceApplicationService.getApplicationGroupByServiceId()
-      .subscribe(result => {
-        this.multi = result;
-        console.log(result);
-      });
-    this.serviceApplicationService.getProjectsGroupBySectorId()
-      .subscribe(result => {
-        this.projects = result;
-      });
 
 
-    this.serviceApplicationService.getProjectsGroupByEconomicSector()
-      .subscribe(result => {
-        this.byEconomicSector = result;
-      });
 
-    this.serviceApplicationService.getAllProjectsProjectStage()
-      .subscribe(result => {
-        this.projectStageSum = result;
-      });
-  }
-
-  get canViewReadOnlyData() {
-    return this.accountService.userHasPermission(Permission.ViewReadOnlyDataPermission);
-  }
 
   get canViewTasks() {
     return this.accountService.userHasPermission(Permission.viewServiceList);

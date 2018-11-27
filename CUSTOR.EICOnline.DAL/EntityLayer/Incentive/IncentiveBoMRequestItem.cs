@@ -23,6 +23,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public decimal ApprovedQuantity { get; set; }
     public decimal Balance { get; set; }
     public DateTime EventDatetime { get; set; }
+    public DateTime? UploadDate { get; set; }
     public int? RejectionReason { get; set; }
     public int? Phase { get; set; }
     public int? CreatedUserId { get; set; }

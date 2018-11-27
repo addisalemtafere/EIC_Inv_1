@@ -10,6 +10,7 @@ import {AccountService} from '@custor/services/security/account.service';
 import {InvestorService} from '../../investor/investor.service';
 import {Investor} from '../../../model/investor';
 import {DataSharingService} from '../../../Services/data-sharing.service';
+import {Permission} from "../../../model/security/permission.model";
 
 @Component({
   selector: 'app-login-control',
@@ -115,10 +116,14 @@ export class LoginControlComponent implements OnInit, OnDestroy {
               if (this.accountService.getUserType()) {
                 this.router.navigate(['/dashboard']);
 
-
               } else {
+                if (this.canViewReadOnlyData) {
+                  this.router.navigate(['/management-dashboard']);
 
-                this.router.navigate(['/officer-dashboard']);
+                } else {
+                  this.router.navigate(['/officer-dashboard']);
+
+                }
 
 
               }
@@ -186,6 +191,10 @@ export class LoginControlComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.formResetToggle = true;
     });
+  }
+
+  get canViewReadOnlyData() {
+    return this.accountService.userHasPermission(Permission.ViewReadOnlyDataPermission);
   }
 
 }

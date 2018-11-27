@@ -205,7 +205,7 @@ export class AppConfiguration {
 
 
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
-    IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/ByProjectId',
+    IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/GetByProjectId',
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];

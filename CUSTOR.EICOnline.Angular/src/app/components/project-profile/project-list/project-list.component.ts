@@ -130,9 +130,10 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     localStorage.setItem('ProjectId', ProjectId); // Todo Project Id must be removed
     // this.router.navigate(['/project-renewal', 0]);
     console.log(localStorage.getItem('ServiceApplicationId'));
-
+    console.log(serviceId)
     switch (serviceId) {
-      case 13 || 1023:
+      case 13:
+      case 1023:
         this.router.navigate(['/officer']);
 
         break;

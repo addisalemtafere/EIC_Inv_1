@@ -18,6 +18,7 @@ export class ServiceModel {
   public UpdatedEventDatetime: Date;
   public UpdatedUserId: number;
   public UpdatedUserName: string;
+  public TypeOfService: any;
   public ServiceTariff?: ServiceTariffModel[];
   // public ObjectId: Guid;
   // public DurationUnit: Lookup;

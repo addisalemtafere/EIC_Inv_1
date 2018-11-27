@@ -61,11 +61,17 @@
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
-        <a *ngIf="!isInvestor" mat-list-item routerLinkActive="active"
+        <a *ngIf="!isInvestor && !canViewReadOnlyData" mat-list-item routerLinkActive="active"
            [routerLinkActiveOptions]="{ exact: true }"
            routerLink="/officer-dashboard">
           <mat-icon>dashboard</mat-icon>
           Dashboard
+        </a>
+        <a *ngIf="!isInvestor" mat-list-item routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }"
+           routerLink="/management-dashboard">
+          <mat-icon class="mat-18">collections</mat-icon>
+          Service Overview
         </a>
 
         <mat-expansion-panel *ngIf="isInvestor" #profile [class.mat-elevation-z0]="!profile.expanded">
@@ -114,20 +120,17 @@
           <mat-icon>library_add</mat-icon>
           Archive application
         </a>
-        <!--<a *ngIf="!isInvestor" mat-list-item routerLink="/officer">-->
-        <!--<mat-icon>reorder</mat-icon>-->
-        <!--{{'mainMenu.officer' | translate}}</a>-->
-        <!--<a *ngIf="!isInvestor" mat-list-item routerLinkActive="active" routerLink="/project/list">-->
-        <!--<mat-icon>reorder</mat-icon>-->
-        <!--{{'mainMenu.Services' | translate}}-->
-        <!--</a>-->
+
 
         <a *ngIf="canViewTasks" mat-list-item="" (click)="startService('1001','capitalRegistration')">
 
           <mat-icon>reorder</mat-icon>
           {{'mainMenu.capitalRegistration' | translate}}
         </a>
-        <mat-expansion-panel *ngIf="canViewTasks" #serv [class.mat-elevation-z0]="!serv.expanded">
+        <mat-expansion-panel
+          *ngIf="canManageManageIncentiveAssignedServices || canManageAssignedServicesPermission"
+          #serv
+          [class.mat-elevation-z0]="!serv.expanded">
 
 
           <mat-expansion-panel-header>
@@ -180,7 +183,9 @@
           </mat-list>
         </mat-expansion-panel>
 
-        <mat-expansion-panel *ngIf="!isInvestor" #admin [class.mat-elevation-z0]="!admin.expanded">
+        <mat-expansion-panel
+          *ngIf="canManageRoles || canManageUsers || canManageAdmins" #admin
+          [class.mat-elevation-z0]="!admin.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>security</mat-icon>

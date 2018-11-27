@@ -24,12 +24,16 @@ import {ConfigurationService} from '@custor/services/configuration.service';
 export class BalanceComponent implements OnInit, AfterViewInit {
 
   dataSource: any;
+  bomListDataSource: any;
   loading: boolean;
   searchForm: FormGroup;
   documentForm: FormGroup;
   serviceList: ServiceModel[] = [];
   displayedColumns = [
     'No', 'Description', 'HsCode', 'Quantity', 'MesurmentUnit', 'Balance'
+  ];
+  displayedGroupedColumns = [
+    'No', 'IncentiveCategory', 'UploadDate', 'UploadQuantity', 'Action'
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   errors: Array<string> = [];
@@ -59,6 +63,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
   public stepperIndex: number;
   public isInvestor = false;
   public unitTypes: UnitType[] = [];
+  showDetail = false;
   private currentCategoryId: any;
   private ServiceApplicationId: any;
   private currentLang: string;
@@ -153,7 +158,10 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.productEditIndex = index;
     this.productEdit = this.itemList[index];
     this.billOfMaterialForm.patchValue(this.productEdit);
+  }
 
+  showDetails(incentiveRequestItemModes: IncentiveBoMRequestItemModel) {
+    this.getBillOfMaterialByServiceApplicationId(incentiveRequestItemModes.ServiceApplicationId);
   }
 
   addItem() {
@@ -174,28 +182,39 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.billOfMaterilService.getBillOfMaterialByProjectId(ProjectId)
       .subscribe(result => {
         this.itemList = result;
-        console.log(result);
-        this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
+        this.bomListDataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
         this.loading = false;
-        this.dataSource.paginator = this.paginator;
-
-
+        this.bomListDataSource.paginator = this.paginator;
       }, error => this.errMsg.getError(error));
   }
 
-  // getBillOfMaterial(ServiceApplicationId: any) {
-  //   this.loading = true;
-  //   this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId)
-  //     .subscribe(result => {
-  //       this.itemList = result.IncentiveBoMRequestItem;
-  //       console.log(result);
-  //       this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result.IncentiveBoMRequestItem);
-  //       this.loading = false;
-  //       this.dataSource.paginator = this.paginator;
-  //
-  //
-  //     }, error => this.errMsg.getError(error));
-  // }
+// getBillOfMaterial(ProjectId: any) {
+//     this.loading = true;
+//     this.billOfMaterilService.getBillOfMaterialByProjectId(ProjectId)
+//       .subscribe(result => {
+//         this.itemList = result;
+//         this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
+//         this.loading = false;
+//         this.dataSource.paginator = this.paginator;
+//       }, error => this.errMsg.getError(error));
+//   }
+
+  getBillOfMaterialByServiceApplicationId(ServiceApplicationId: any) {
+    this.loading = true;
+    this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId)
+      .subscribe(result => {
+        this.itemList = result.IncentiveBoMRequestItem;
+        if (this.itemList.length > 0) {
+          this.showDetail = true;
+          this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result.IncentiveBoMRequestItem);
+          this.loading = false;
+          this.dataSource.paginator = this.paginator;
+        } else {
+          this.showDetail = false;
+        }
+
+      }, error => this.errMsg.getError(error));
+  }
 
   upload(i: number, files: FileList) {
     // this.loading = true;

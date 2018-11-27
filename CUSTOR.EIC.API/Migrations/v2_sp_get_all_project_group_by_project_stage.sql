@@ -15,5 +15,4 @@ WHERE  p1.IsDeleted = 'false'
 GROUP BY ProjectStage;
 go
 
-select *
-from LetterTemplate;
+

@@ -37,6 +37,7 @@ export class SparePartComponent implements OnInit, OnDestroy, AfterContentChecke
   loading = false;
   projectId: number;
   dataSource: any;
+  sparePartDataSource: any;
   ShowDetail = false;
   IncentiveItemtEditIndex: number;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
@@ -95,7 +96,7 @@ export class SparePartComponent implements OnInit, OnDestroy, AfterContentChecke
     this.incentiveRequestDetailService.getIncentiveRequestslistByProjectId(projectId).subscribe(result => {
       if (result.length > 0) {
         this.incentiveRequestDetailModels = result;
-        this.dataSource = new MatTableDataSource<IncentiveRequestDetailModel>(this.incentiveRequestDetailModels);
+        this.sparePartDataSource = new MatTableDataSource<IncentiveRequestDetailModel>(this.incentiveRequestDetailModels);
         this.loading = false;
       }
     }, error => this.errMsg.getError(error));
@@ -116,9 +117,6 @@ export class SparePartComponent implements OnInit, OnDestroy, AfterContentChecke
 
   onEditIncentiveItem(index: number) {
     this.editMode = true;
-    // this.IncentiveItemtEditIndex = index;
-    // this.IncentiveRequestDetailModel = this.IncentiveRequestDetailModels[index];
-    // this.incentiveRequestHistoryForm.patchValue(this.IncentiveRequestDetailModel);
     this.ShowDetail = true;
     this.getIncentiveRequestDetailsByProjectId(localStorage.getItem('ProjectId'));
 

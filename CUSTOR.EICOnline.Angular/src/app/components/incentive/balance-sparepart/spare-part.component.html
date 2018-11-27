@@ -7,7 +7,7 @@
     <div class="spinner-container" *ngIf="loading ">
       <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
-    <mat-table #table [dataSource]="dataSource">
+    <mat-table #table [dataSource]="sparePartDataSource">
 
       <!--<ng-container matColumnDef="Description">-->
       <!--<mat-header-cell *matHeaderCellDef fxFlex="35">Incentive Item</mat-header-cell>-->
@@ -88,30 +88,6 @@
         <mat-cell *matCellDef="let items" fxFlex="14"> {{items.Amount }}
         </mat-cell>
       </ng-container>
-      <!-- <ng-container matColumnDef="Balance">
-        <mat-header-cell *matHeaderCellDef fxFlex="14"> Balance</mat-header-cell>
-        <mat-cell *matCellDef="let items" fxFlex="14"> {{items.Balance }}
-        </mat-cell>
-      </ng-container> -->
-      <!--<ng-container matColumnDef="Action">-->
-      <!--<mat-header-cell fxFlex="22" *matHeaderCellDef>Action</mat-header-cell>-->
-      <!--<mat-cell fxFlex="18" *matCellDef="let items;let i=index;">-->
-      <!--<div>-->
-      <!--<a class="pointer" mat-min-fab matTooltip="Click here to edit the incentive request"-->
-      <!--(click)="onEditIncentiveItem(i)">-->
-      <!--<mat-icon color="primary" class="mat-18">edit</mat-icon>-->
-      <!--Edit-->
-      <!--</a>-->
-      <!--<a class="pointer" mat&#45;&#45;mini-fab color="warn" matTooltip="Click here to delete the incentive item"-->
-      <!--(click)="deleteIncentiveItem(i,items.IncentiveRequestItemId)">-->
-      <!--&lt;!&ndash; <a class="pointer" mat&#45;&#45;mini-fab color="warn" matTooltip="Click here to delete the incentive item"-->
-      <!--(click)="deleteRecord(items.IncentiveRequestItemId)"> &ndash;&gt;-->
-      <!--<mat-icon color="warn">delete</mat-icon>-->
-      <!--Delete-->
-      <!--</a>-->
-      <!--</div>-->
-      <!--</mat-cell>-->
-      <!--</ng-container>-->
       <mat-header-row *matHeaderRowDef="displayedColumnsDetail">
       </mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumnsDetail;">
