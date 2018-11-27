@@ -361,6 +361,9 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   get canManageAftercareData() {
     return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
   }
+  get canManageManageIncentiveAssignedServices() {
+    return this.accountService.userHasPermission(Permission.ManageIncentiveAssignedServicesPermission);
+  }
 
   ngAfterContentChecked(): void {
     this.serviceTitle = localStorage.getItem('title');
