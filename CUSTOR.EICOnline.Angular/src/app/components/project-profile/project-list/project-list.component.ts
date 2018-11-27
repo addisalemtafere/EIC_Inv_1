@@ -369,26 +369,6 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
 
-  // viewDetailTask(taskId: any) {
-  //   localStorage.setItem('TodoTaskId', taskId);
-  //   const dialogConfig = new MatDialogConfig();
-  //
-  //   dialogConfig.disableClose = false;
-  //   dialogConfig.autoFocus = false;
-  //   dialogConfig.position = {
-  //     'top': '106px',
-  //     'right': '230px'
-  //
-  //   };
-  //   dialogConfig.minWidth = '800px';
-  //   // dialogConfig.maxHeight = '500px';
-  //   dialogConfig.minHeight = '400px';
-  //   dialogConfig.maxHeight = '400px';
-  //   dialogConfig.panelClass = 'padding:1px;';
-  //
-  //   this.dialog.open(TaskDispatcherComponent, dialogConfig);
-  //
-  // }
   checkAuthorization() {
     if (!this.canManageTask || !this.canViewTasks) {
       // this.alertService.error('You are not allowed to access this page');
