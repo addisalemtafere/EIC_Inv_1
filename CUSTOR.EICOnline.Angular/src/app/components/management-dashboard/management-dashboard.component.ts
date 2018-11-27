@@ -1,16 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material';
-import {Config, Data} from 'plotly.js/dist/plotly.js';
-import {ServiceApplicationService} from '../../Services/service-application.service';
-import {Permission} from '../../model/security/permission.model';
-import {AccountService} from '@custor/services/security/account.service';
+import { Component, OnInit } from '@angular/core';
+import {MatDialog} from "@angular/material";
+import {AccountService} from "@custor/services/security/account.service";
+import {ServiceApplicationService} from "../../Services/service-application.service";
+import {Permission} from "../../model/security/permission.model";
 
 @Component({
-  selector: 'officer-dashboard',
-  templateUrl: './officer-dashboard.component.html',
-  styleUrls: ['./officer-dashboard.component.scss']
+  selector: 'app-management-dashboard',
+  templateUrl: './management-dashboard.component.html',
+  styleUrls: ['./management-dashboard.component.scss']
 })
-export class OfficerDashboardComponent implements OnInit {
+export class ManagementDashboardComponent implements OnInit {
   cards = [
     {title: 'Card 1', cols: 2, rows: 1},
     {title: 'Card 2', cols: 1, rows: 1},
@@ -18,7 +17,6 @@ export class OfficerDashboardComponent implements OnInit {
     {title: 'Card 4', cols: 1, rows: 1}
   ];
   private cal: any[] = [];
-  // private allServiceList: ServiceGroupModel[] = [];
 
 
   single: any[];
@@ -67,19 +65,44 @@ export class OfficerDashboardComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private accountService: AccountService,
               private serviceApplicationService: ServiceApplicationService) {
-    // Object.assign(this, {single});
-
 
   }
 
 
   ngOnInit() {
-    // this.getAllService();
+    this.getAllService();
   }
 
+  onSelect(event) {
+    console.log(event);
+  }
+
+  getAllService() {
+    this.serviceApplicationService.getApplicationGroupByServiceId()
+      .subscribe(result => {
+        this.multi = result;
+        console.log(result);
+      });
+    this.serviceApplicationService.getProjectsGroupBySectorId()
+      .subscribe(result => {
+        this.projects = result;
+      });
 
 
+    this.serviceApplicationService.getProjectsGroupByEconomicSector()
+      .subscribe(result => {
+        this.byEconomicSector = result;
+      });
 
+    this.serviceApplicationService.getAllProjectsProjectStage()
+      .subscribe(result => {
+        this.projectStageSum = result;
+      });
+  }
+
+  get canViewReadOnlyData() {
+    return this.accountService.userHasPermission(Permission.ViewReadOnlyDataPermission);
+  }
 
   get canViewTasks() {
     return this.accountService.userHasPermission(Permission.viewServiceList);

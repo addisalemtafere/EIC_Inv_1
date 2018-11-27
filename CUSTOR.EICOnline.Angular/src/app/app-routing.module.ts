@@ -31,6 +31,11 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
+        path: 'management-dashboard',
+        loadChildren: 'app/components/management-dashboard/management.module#ManagementModule',
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'login',
         component: LoginComponent
       },
