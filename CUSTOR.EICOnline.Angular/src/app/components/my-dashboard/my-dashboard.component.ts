@@ -28,7 +28,6 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   public serviceApplicationList: ServiceApplicationModel[];
   public notitficationList: NotificationModel[];
   isChecked = false;
-  // dataSource: any;
   public dataSource: MatTableDataSource<ServiceApplicationModel>;
 
   loading = true;
@@ -71,10 +70,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   toServiceList() {
-    // this.dialog.open(CustomerServiceStarterComponent);
     this.router.navigate(['/service-list']);
-
-
   }
 
   getServiceApplication() {
@@ -83,7 +79,6 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result);
         this.loading = false;
         this.serviceApplicationList = result;
-        // this.dataSource.paginator = this.paginator;
       }, error => this.errMsg.getError(error));
   }
 

@@ -66,6 +66,7 @@ export class Permission {
   public static readonly ManageIncentiveAssignedServicesPermission: PermissionValues = 'incentiveServices.manage';
   public static readonly ApproveIncentiveUploadedItemsPermission: PermissionValues = 'uploadedItems.manage';
   public static readonly DispatchIncentivesServicesPermission: PermissionValues = 'incentivesServices.manage';
+
   // Manage Aftercare Data
   public static readonly ManageAftercareDataPermission: PermissionValues = 'aftercareData.manage';
 
