@@ -51,11 +51,13 @@
       </div>
     </div>
   </form>
-  <mat-divider></mat-divider>
+  <!--<mat-divider></mat-divider>-->
 
-  <button style="margin-top: 20px;" mat-raised-button
-          (click)="sendMessage()"
-          color="primary" mat-dialog-clos>
-    Send Message
-  </button>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2em">
+    <button style="margin-top: 20px;" mat-raised-button
+            (click)="sendMessage()"
+            color="primary" mat-dialog-clos>
+      Send Message
+    </button>
+  </div>
 </div>

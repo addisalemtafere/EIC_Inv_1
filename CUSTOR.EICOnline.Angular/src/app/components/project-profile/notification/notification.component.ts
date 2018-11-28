@@ -40,7 +40,6 @@ export class NotificationComponent implements OnInit {
   }
 
   getServiceApplication(id: any) {
-    // console.log(localStorage.getItem('serviceApplicationId'));
     this.serviceApplicationService.getServiceApplicationWithInvestor(id)
       .subscribe((result: ServiceApplicationModel) => {
         console.log(result);
