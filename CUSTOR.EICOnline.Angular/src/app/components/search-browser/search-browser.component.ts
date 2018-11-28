@@ -18,7 +18,7 @@ import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
 import {ServiceapplicationService} from '../setting/services-tabs/serviceApplication/serviceapplication.service';
 import {TodoTaskModel} from '../../model/TodoTask.model';
 import {ServiceModel} from '../../model/Service.model';
-import {Permission} from "../../model/security/permission.model";
+import {Permission} from '../../model/security/permission.model';
 
 @Component({
   selector: 'app-search-browser',
@@ -47,13 +47,13 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
   formErrors: {};
-  private investors: Investor[];
-  private projectList: ProjectModel[];
   public invName: any;
   todoTask: TodoTaskModel;
   public serviceApplication: ServiceApplicationModel;
   public projectName: string | null;
   public investorName: string | null;
+  private investors: Investor[];
+  private projectList: ProjectModel[];
 
   constructor(public fb: FormBuilder,
               private http: HttpClient,
@@ -68,6 +68,18 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
               private router: Router, private route: ActivatedRoute) {
     this.serviceApplication = new ServiceApplicationModel();
     this.todoTask = new TodoTaskModel();
+  }
+
+  get canViewTasks() {
+    return this.accountService.userHasPermission(Permission.viewServiceList);
+  }
+
+  get canManageAftercareData() {
+    return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
+  }
+
+  get canManageManageIncentiveAssignedServices() {
+    return this.accountService.userHasPermission(Permission.ManageIncentiveAssignedServicesPermission);
   }
 
   ngOnInit() {
@@ -165,7 +177,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   }
 
-
   editInvestor(investor: Investor) {
     if (investor) {
       this.router.navigate(['/investor/edit', investor.InvestorId], {relativeTo: this.route});
@@ -231,7 +242,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     setTimeout(() => this.dataSharing.isNew.next(true), 0);
     this.router.navigate(['pro/', projectId]);
   }
-
 
   projectDetail(id: number) {
     console.log(this.router.url);
@@ -354,16 +364,15 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  get canViewTasks() {
-    return this.accountService.userHasPermission(Permission.viewServiceList);
+  showIncentiveDetials(projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, projectName?: any) {
+    if (projectStatus !== 9) {
+      this.toastr.warning('Project Is Not Active');
+    } else {
+      localStorage.setItem('projectName', projectName);
+      localStorage.setItem('ServiceApplicationId', ServiceApplicationId);
+    }
   }
 
-  get canManageAftercareData() {
-    return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
-  }
-  get canManageManageIncentiveAssignedServices() {
-    return this.accountService.userHasPermission(Permission.ManageIncentiveAssignedServicesPermission);
-  }
 
   ngAfterContentChecked(): void {
     this.serviceTitle = localStorage.getItem('title');

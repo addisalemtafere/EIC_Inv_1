@@ -105,14 +105,17 @@ export class LetterComponent implements OnInit {
     this.getLetterTempalte();
     if (localStorage.getItem('ServiceId') === '1045') {
       this.getItemLookup(2846, 100);
+      this.getLetters(2846, 100);
     }
     else if (localStorage.getItem('ServiceId') === '1046' || localStorage.getItem('ServiceId') === '1047' || localStorage.getItem('ServiceId') === '1054') {
       this.getItemLookup(2845, 2847);
+      this.getLetters(2845, 2847);
     } else if (localStorage.getItem('ServiceId') === '13') {
       this.getItemLookup(2851, 2854);
+      this.getLetters(2851, 2854);
     }
     this.getReveuneLookup();
-    this.getLetters();
+
     this.getAddressData(localStorage.getItem('ProjectId'));
     if (localStorage.getItem('ServiceId') === '1045') {
       this.getTaxExemptionDetails();
@@ -155,8 +158,8 @@ export class LetterComponent implements OnInit {
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
-  getLetters() {
-    this.letterService.getLetterList(localStorage.getItem('ProjectId'))
+  getLetters(LetterType: any, LetterType1:any) {
+    this.letterService.getLetterList(localStorage.getItem('ProjectId'), LetterType, LetterType1)
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
@@ -322,7 +325,7 @@ export class LetterComponent implements OnInit {
     // this.RequestDate);
     this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
       //this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
-      "n343en7"
+      'n343en7'
     );
     this.LetterContent = this.LetterContent.replace(/{{Region}}/g,
       this.addressList.Region.Description);
@@ -378,9 +381,14 @@ export class LetterComponent implements OnInit {
   private saveCompleted(letter?: LetterModel) {
     if (letter) {
       this.letterModel = letter;
-      // console.log(this.letterModelList);
-      // this.dataSource = new MatTableDataSource<LetterModel>(this.letterModelList);
-      this.getLetters();
+      if (localStorage.getItem('ServiceId') === '1045') {
+        this.getLetters(2846, 100);
+      }
+      else if (localStorage.getItem('ServiceId') === '1046' || localStorage.getItem('ServiceId') === '1047' || localStorage.getItem('ServiceId') === '1054') {
+        this.getLetters(2845, 2847);
+      } else if (localStorage.getItem('ServiceId') === '13') {
+        this.getLetters(2851, 2854);
+      }
     }
     this.onClear();
     this.loadingIndicator = false;

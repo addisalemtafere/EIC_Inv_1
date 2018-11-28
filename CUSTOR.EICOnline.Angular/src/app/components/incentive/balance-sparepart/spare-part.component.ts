@@ -46,7 +46,7 @@ export class SparePartComponent implements OnInit, OnDestroy, AfterContentChecke
     'TotalAmount','Amount', 'Balance', 'Action'
   ];
   displayedColumnsDetail = [
-    'No', 'Description', 'Amount','Quantity'
+    'No', 'Description','RequestDate', 'Amount','Quantity'
   ];
   subscription: Subscription;
 
@@ -96,6 +96,7 @@ export class SparePartComponent implements OnInit, OnDestroy, AfterContentChecke
     this.incentiveRequestDetailService.getIncentiveRequestslistByProjectId(projectId).subscribe(result => {
       if (result.length > 0) {
         this.incentiveRequestDetailModels = result;
+        console.log(this.incentiveRequestDetailModels);
         this.sparePartDataSource = new MatTableDataSource<IncentiveRequestDetailModel>(this.incentiveRequestDetailModels);
         this.loading = false;
       }
@@ -118,7 +119,9 @@ export class SparePartComponent implements OnInit, OnDestroy, AfterContentChecke
   onEditIncentiveItem(index: number) {
     this.editMode = true;
     this.ShowDetail = true;
-    this.getIncentiveRequestDetailsByProjectId(localStorage.getItem('ProjectId'));
+    this.IncentiveItemtEditIndex = index;
+    this.incentiveRequestDetailModel = this.incentiveRequestDetailModels[index];
+    this.getIncentiveRequestDetailsByProjectId(this.incentiveRequestDetailModel.ProjectId);
 
   }
 

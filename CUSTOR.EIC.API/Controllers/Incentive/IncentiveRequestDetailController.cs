@@ -43,23 +43,20 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
 
         [HttpGet]
         [Route("{id:int}")]
-        public async Task<IEnumerable<IncentiveRequestDetail>> GetIncentiveRequestDetails(int id, int page = -1,
-            int pageSize = 15)
+        public async Task<IEnumerable<IncentiveRequestDetail>> GetIncentiveRequestDetails(int id, int page = -1,int pageSize = 15)
         {
             return await _IncentiveRequestDetailRepoo.GetIncentiveRequestDetails(id, page, pageSize);
         }
 
         [HttpGet]
-        [Route("DetailByProjectId{id:int}")]
-        public async Task<IEnumerable<IncentiveRequestDetail>> GetIncentiveRequestDetailsByProjectId(int id,
-            int page = -1, int pageSize = 15)
+        [Route("DetailByProjectId/{id:int}")]
+        public async Task<IEnumerable<IncentiveRequestDetail>> GetIncentiveRequestDetailsByProjectId(int id,int page = -1, int pageSize = 15)
         {
-            return await _IncentiveRequestDetailRepoo.GetIncentiveRequestDetails(id, page, pageSize);
+            return await _IncentiveRequestDetailRepoo.GetIncentiveRequestDetailsByProjectIds(id, page, pageSize);
         }
 
         [HttpGet("BillOfMaterial/{id}")]
-        public async Task<IEnumerable<IncentiveRequestDetail>> GetIncentiveDetailsByProjectId(int id, int page = -1,
-            int pageSize = 15)
+        public async Task<IEnumerable<IncentiveRequestDetail>> GetIncentiveDetailsByProjectId(int id, int page = -1, int pageSize = 15)
         {
             return await _IncentiveRequestDetailRepoo.GetIncentiveRequestDetailsByProjectId(id, page, pageSize);
         }
@@ -214,10 +211,9 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         {
             var ProjectId = new SqlParameter("@ProjectId", id);
             IEnumerable<IncentiveDetailDto> series = context.Query<IncentiveDetailDto>().FromSql(
-                    "select (select isNull(Sum(Amount)*.15,0.00) From IncentiveRequestDetail Where IncentiveCategoryId='10774') as TotalAmount, sum(Amount) as Amount,sum(ApprovedQty) as ApprovedQty,(select isNull(Sum(Amount)*.15,0.00) From IncentiveRequestDetail Where IncentiveCategoryId='10774')-sum(Amount) as Balance from IncentiveRequestDetail "
-                    //// + " Inner Join LookUpType on LookupType.LookUpTypeId = IncentiveRequestDetail.IncentiveCategoryId "
-                    + " where IncentiveCategoryId = '10774' AND ProjectId={0}"
-                    + "  ", id)
+                    "select ProjectId,(select isNull(Sum(Amount)*.15,0.00) From IncentiveRequestDetail Where IncentiveCategoryId='10774') as TotalAmount, sum(Amount) as Amount,sum(ApprovedQty) as ApprovedQty,(select isNull(Sum(Amount)*.15,0.00) From IncentiveRequestDetail Where IncentiveCategoryId='10774')-sum(Amount) as Balance from IncentiveRequestDetail "
+                    + " where IncentiveCategoryId = '10777' AND ProjectId={0}"
+                    + " Group By IncentiveRequestDetail.ProjectId ", id)
                 .ToList();
             return series;
         }

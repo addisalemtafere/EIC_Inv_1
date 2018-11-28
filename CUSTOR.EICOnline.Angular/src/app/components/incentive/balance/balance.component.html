@@ -31,12 +31,18 @@
       </ng-container>
       <ng-container matColumnDef="UploadDate">
         <mat-header-cell *matHeaderCellDef fxFlex="8">Upload Date</mat-header-cell>
-        <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="8"> {{IncentiveRequestItemModes.UploadDate |  date:'MM/dd/yyyy'}}
+        <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="8"> {{IncentiveRequestItemModes.UploadDate |
+          date:'MM/dd/yyyy'}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="UploadQuantity">
         <mat-header-cell *matHeaderCellDef fxFlex="8">Upload Quantity</mat-header-cell>
         <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="8">{{IncentiveRequestItemModes.Quantity }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Phase">
+        <mat-header-cell *matHeaderCellDef fxFlex="8">Phase</mat-header-cell>
+        <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="8">{{IncentiveRequestItemModes.Phase |  lookupPhasePipe:1}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="Action">
@@ -50,6 +56,7 @@
           <!--</span>-->
         </mat-cell>
       </ng-container>
+
       <mat-header-row *matHeaderRowDef="displayedGroupedColumns">
       </mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedGroupedColumns;">

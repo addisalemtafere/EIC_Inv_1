@@ -33,10 +33,10 @@ namespace CUSTOR.EICOnline.API.Controllers
 
 
         [HttpGet]
-        [Route("api/letters/{id:int}")]
-        public async Task<IEnumerable<Letter>> GetLetters(int id, int page = -1, int pageSize = 10)
+        [Route("api/letters/{id:int}/{letterType:int}/{letterType1:int}")]
+        public async Task<IEnumerable<Letter>> GetLetters(int id, string letterType, string letterType1, int page = -1, int pageSize = 10)
         {
-            return await _LetterRepo.GetLetters(id, page, pageSize);
+            return await _LetterRepo.GetLetters(id, letterType, letterType1, page, pageSize);
         }
 
 

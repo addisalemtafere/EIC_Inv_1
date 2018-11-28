@@ -66,7 +66,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   public isInvestor = false;
   public unitTypes: UnitType[] = [];
   PhaseLookups: LookupsModel[];
-  phaseId: number;
+  public phaseId: number;
   private currentCategoryId: any;
   private ServiceApplicationId: any;
   private currentLang: string;
@@ -118,7 +118,9 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     this.initStaticData(this.currentLang);
 
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getItemLookup() {
     this.lookupSub = this.lookUpsService
       .getLookupByParentId(10780)
@@ -228,8 +230,8 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   upload(i: number, files: FileList) {
     console.log(this.phaseId);
-    if (this.phaseId === 0 || this.phaseId === null) {
-      this.toastr.error('Please Select Construction Materials Incentive Phase');
+    if (this.phaseId === 0 || this.phaseId === null || this.phaseId === undefined) {
+      this.toastr.error('Please Select Construction Materials Incentive Batch');
       return true;
     }
     // this.loading = true;
@@ -270,8 +272,8 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     formData.append('KeyWords', formModel.KeyWords);
     formData.append('ProjectId', localStorage.getItem('ProjectId'));
     formData.append('IncentiveCategoryId', this.IncentiveCategoryId.toString());
-    //formData.append('Phase',this.phaseId );//formModel.Phase
-    // console.log(formModel.Phase);
+    formData.append('PhaseId',this.phaseId.toString() );//formModel.Phase
+    console.log(this.phaseId);
     return formData;
   }
 
@@ -315,9 +317,6 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   //
   //
 
-  getUserType() {
-    this.isInvestor = this.accountService.getUserType();
-  }
 
   initStaticData(currentLang) {
 

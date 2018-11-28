@@ -300,7 +300,7 @@
     "CurrencyType": "Currency Type",
     "Amount": "Amount",
     "InvoiceNo": "InvoiceNo",
-    "Phase": "Phase"
+    "Phase": "Batch"
   },
   "incentiverequestitem": {
     "IncentiveItem": "Incentive Item",
@@ -316,7 +316,7 @@
     "ExemptionYear": "Exemption Year"
   },
   "billofmaterrial": {
-    "Phase": "Phase",
+    "Phase": "Batch",
     "RejectionReason": "Rejection Reason",
     "MesurmentUnit": "Unit",
     "Quantity": "Quantity",
@@ -324,7 +324,7 @@
     "Description": "Description"
   },
   "balance": {
-    "Phase": "Phase",
+    "Phase": "Batch",
     "MesurmentUnit": "Unit",
     "Quantity": "Quantity",
     "HsCode": "HsCode",

@@ -246,7 +246,9 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
                         ApprovedQuantity = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
                         Balance = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
                         MesurmentUnit = workSheet.Cells[i, 4].Value.ToString(),
-                        Phase = 1,
+                        UploadDate = DateTime.Now,
+                        EventDatetime= DateTime.Now,
+                        Phase = vm.PhaseId,
                         IncentiveCategoryId = vm.IncentiveCategoryId,
                         ProjectId = vm.ProjectId,
                         ServiceApplicationId = vm.ServiceApplicationId,
@@ -273,10 +275,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         {
             var ProjectId = new SqlParameter("@ProjectId", id);
             IEnumerable<IncentiveBomDto> series = _context.Query<IncentiveBomDto>().FromSql(
-                    "select ServiceApplicationId,ProjectId,DescriptionEnglish as Description,UpLoadDate,count(IncentiveBoMRequestItemId) as Quantity from IncentiveBoMRequestItem "
+                    "select ServiceApplicationId,ProjectId,DescriptionEnglish as Description,Cast(UpLoadDate as Date) as UpLoadDate,Phase,count(IncentiveBoMRequestItemId) as Quantity from IncentiveBoMRequestItem "
                      + " Inner Join LookUpType on LookupType.LookUpTypeId = IncentiveBoMRequestItem.IncentiveCategoryId "
-                    + " where IncentiveCategoryId=10778 AND ProjectId={0}"
-                    + " group by ServiceApplicationId,ProjectId,IncentiveCategoryId,LookUpType.DescriptionEnglish,UpLoadDate ", id)
+                    + " where IsApproved=1 AND IncentiveCategoryId=10778 AND ProjectId={0}"
+                    + " group by ServiceApplicationId,ProjectId,IncentiveCategoryId,LookUpType.DescriptionEnglish,Cast(UpLoadDate as Date),Phase ", id)
                 .ToList();
             return series;
         }

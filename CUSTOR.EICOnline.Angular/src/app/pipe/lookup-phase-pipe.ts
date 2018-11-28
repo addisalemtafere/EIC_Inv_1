@@ -3,9 +3,9 @@ import {LookupsModel} from '../model/lookups';
 import {LookUpService} from '../Services/look-up.service';
 
 @Pipe({
-  name: 'lookupPipe'
+  name: 'lookupPhasePipe'
 })
-export class LookupPipe implements PipeTransform {
+export class LookupPhasePipe implements PipeTransform {
   allLookup: LookupsModel[] = [];
 
   constructor(private lookUpService: LookUpService) {
@@ -27,7 +27,7 @@ export class LookupPipe implements PipeTransform {
 
   getLookups() {
 
-    this.lookUpService.getLookupByParentId(707).subscribe(result => {
+    this.lookUpService.getLookupByParentId(10781).subscribe(result => {
       this.allLookup = result;
     });
   }

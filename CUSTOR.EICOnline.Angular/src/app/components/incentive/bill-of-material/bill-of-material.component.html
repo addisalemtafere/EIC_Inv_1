@@ -13,12 +13,11 @@
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
       <form *ngIf="!itemList.length>0" formGroup="documentForm">
-        <!--<div class="block" fxFlex="" style="max-width: 10px;">-->
 
-        <div style="margin: 10px;padding: 15px">
-          <!--<mat-form-field>-->
-          <mat-label>{{'billofmaterrial.Phase' | translate}}</mat-label>
-          <mat-select formControlName="Phase" style="font-family: Calibri" type="text"
+        <div class="block" style="margin: 20px;padding: 15px;float:left">
+          <mat-form-field>
+            <mat-label>{{'billofmaterrial.Phase' | translate}}</mat-label>
+            <mat-select formControlName="Phase" style="font-family: Calibri" type="text"
                         (selectionChange)="getPhaseId($event.value)"
                         [compareWith]="compareIds" required>
               <option value="0">--Select--</option>
@@ -26,7 +25,7 @@
                 <span>{{Phase.English}}</span>
               </mat-option>
             </mat-select>
-          <!--</mat-form-field>-->
+          </mat-form-field>
           <a class="pointer"
              (click)="file.click()">
             <span class="custom-button" style="padding: 10px">Attach Item List</span>
@@ -96,6 +95,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <span *ngIf="!isInvestor">
           <mat-form-field [fxFlex]="20">
             <mat-label>{{'billofmaterrial.RejectionReason' | translate}}</mat-label>
             <mat-select formControlName="RejectionReason" required>
@@ -106,6 +106,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+          </span>
         </div>
 
         <div class="block" fxFlex="15%">

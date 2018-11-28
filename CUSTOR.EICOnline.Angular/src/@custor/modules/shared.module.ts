@@ -30,6 +30,7 @@ import {ShowErrorsComponent} from '../../app/components/show-errors/show-errors.
 import {CustomsbranchPipe} from '../../app/pipe/customsbranch-pipe';
 import {LetterLookupPipe} from '../../app/pipe/letter-lookup.pipe';
 import {LookupReasonPipe} from '../../app/pipe/lookup-reason-pipe.pipe';
+import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
 
 @NgModule({
   imports: [
@@ -78,7 +79,8 @@ import {LookupReasonPipe} from '../../app/pipe/lookup-reason-pipe.pipe';
     ShowErrorsComponent,
     CustomsbranchPipe,
     LookupReasonPipe,
-    LetterLookupPipe
+    LetterLookupPipe,
+    LookupPhasePipe
 
   ],
   declarations: [
@@ -106,7 +108,8 @@ import {LookupReasonPipe} from '../../app/pipe/lookup-reason-pipe.pipe';
     ShowErrorsComponent,
     CustomsbranchPipe,
     LookupReasonPipe,
-    LetterLookupPipe
+    LetterLookupPipe,
+    LookupPhasePipe
 
   ],
   entryComponents: [
