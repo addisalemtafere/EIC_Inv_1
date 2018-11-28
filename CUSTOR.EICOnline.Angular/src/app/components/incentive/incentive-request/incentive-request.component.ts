@@ -360,7 +360,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     console.log(inRequest);
     this.router.navigate(['/requested-items-list/' +
     inRequest.IncentiveCategoryId + '/' + inRequest.ProjectId + '/' +
-    inRequest.IncentiveRequestId + '/' + inRequest.Quantity + '/' + inRequest.CurrencyType + '/' + inRequest.CurrencyRate + '/' + this.incentiveRequestItemForm.get('Phase')]);
+    inRequest.IncentiveRequestId + '/' + inRequest.Quantity + '/' + inRequest.CurrencyType + '/' + inRequest.CurrencyRate + '/' + inRequest.Phase]);
 
   }
 

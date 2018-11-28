@@ -18,8 +18,8 @@ export class LetterService {
               private config: AppConfiguration, private errMsg: ErrorMessage) {
   }
 
-  getLetterList(projectId: any): Observable<LetterModel[]> {
-    return this.httpClient.get<LetterModel[]>(this.config.urls.url('letters', projectId)).pipe(
+  getLetterList(projectId: any, LetterType: any, LetterType1: any): Observable<LetterModel[]> {
+    return this.httpClient.get<LetterModel[]>(this.config.urls.url('letters', projectId, LetterType, LetterType1)).pipe(
       map(letterModelList => this.letterModelList = letterModelList),
       catchError(this.errMsg.parseObservableResponseError));
   }

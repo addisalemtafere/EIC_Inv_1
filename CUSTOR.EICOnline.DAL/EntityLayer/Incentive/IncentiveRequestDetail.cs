@@ -11,6 +11,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Incentive
         public int? ProjectId { get; set; }
         public int? IncentiveItemId { get; set; }
         public int IncentiveCategoryId { get; set; }
+        public DateTime? RequestDate { get; set; }
         public decimal? Amount { get; set; }
         public string Description { get; set; }
         public decimal Quantity { get; set; }

@@ -41,6 +41,19 @@ namespace CUSTOR.EICOnline.DAL
 
             return IncentiveRequestDetails.ToListAsync();
         }
+        public Task<List<IncentiveRequestDetail>> GetIncentiveRequestDetailsByProjectIds(int id, int page = 0, int pageSize = 15)
+        {
+            IQueryable<IncentiveRequestDetail> IncentiveRequestDetails = Context.IncentiveRequestDetail
+                .Where(Ince => Ince.ProjectId == id && Ince.IncentiveCategoryId == 10774);
+            if (page > 0)
+            {
+                IncentiveRequestDetails = IncentiveRequestDetails
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
+            }
+
+            return IncentiveRequestDetails.ToListAsync();
+        }
 
         public IncentiveRequestDetail GetIncentiveRequestDetail(object IncentiveRequestIteId)
         {

@@ -174,7 +174,7 @@
             <mat-header-cell [fxFlex]="32" *matHeaderCellDef>Action</mat-header-cell>
             <mat-cell [fxFlex]="32" *matCellDef="let serviceApplicationList; let i=index">
               <div>
-                <span *ngIf="canViewTasks">
+                <span *ngIf="canViewTasks || canManageManageIncentiveAssignedServices">
                   <a class=" pointer a-link" color="accent"
                      matTooltip="Click here for detail of the project"
                      (click)="projectDetail(serviceApplicationList.ProjectId)">

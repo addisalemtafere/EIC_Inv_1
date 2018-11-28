@@ -7,7 +7,6 @@ import {IncentiveRequestDetailService} from '../../../incentive/incentive-reques
 import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs/index';
 import {ActivatedRoute, Router} from '@angular/router';
-// import {IncentiveRequestDetailModel} from '../../../../model/incentive/IncentiveRequestItem.model';
 import {ToastrService} from 'ngx-toastr';
 import {CurrencyType, UnitType} from '../../../../model/lookupData';
 import {CurrencyTypes, UnitTypes} from '@custor/const/consts';
@@ -50,10 +49,11 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   currentCategoryId: number;
   parentRequestId: number;
   isBOMRequired: boolean;
+  isVisibleShowBalance: boolean;
   currentBOMTableId: number;
   preEditApprovedBalance = 0;
   displayedColumns = [
-    'IncentiveItem', 'Quantity', 'Amount', 'Action'
+    'IncentiveItem', 'Quantity', 'Amount','RequestDate', 'Action'
   ];
   subscription: Subscription;
   formErrors = {
@@ -108,58 +108,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     this.initStaticData('en');
   }
 
-  get bOMIncentiveItemId() {
-    return this.incentiveRequestItemForm.get('BOMIncentiveItemId');
-  }
 
-  get incentiveItemId() {
-    return this.incentiveRequestItemForm.get('IncentiveItemId');
-  }
-
-  get quantity() {
-    return this.incentiveRequestItemForm.get('Quantity');
-  }
-
-  get approvedQty() {
-    return this.incentiveRequestItemForm.get('ApprovedQty');
-  }
-
-  get amount() {
-    return this.incentiveRequestItemForm.get('Amount');
-  }
-
-  get currencyType() {
-    return this.incentiveRequestItemForm.get('CurrencyType');
-  }
-
-  get exRate() {
-    return this.incentiveRequestItemForm.get('ExRate');
-  }
-
-  get chassisNo() {
-    return this.incentiveRequestItemForm.get('ChassisNo');
-  }
-
-  get motorNo() {
-    return this.incentiveRequestItemForm.get('MotorNo');
-  }
-
-  get description() {
-    return this.incentiveRequestItemForm.get('Description');
-  }
-
-  // getIncentiveCategory() {
-  //   this.lookUpTypeService.getLookupByParentId().subscribe(result => {
-  //     this.IncentiveCategoryLookup = result;
-  //   });
-
-  get balance() {
-    return this.incentiveRequestItemForm.get('Balance');
-  }
-
-  get measurementUnit() {
-    return this.incentiveRequestItemForm.get('MeasurementUnit');
-  }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -178,6 +127,9 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     //  Protected one BoM item to be added in the same installmnet
     // to-do get Currency Deatils from the parent record
     this.currentCategoryId = this.activatedRoute.snapshot.params['categoryId'];
+    if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782 || this.currentCategoryId == 10777) {
+      this.isVisibleShowBalance = true;
+    }
     this.isBOMRequired = (this.currentCategoryId.toString() === this.incenticeCategoryLookuptypes.ConstructionMaterials ||
       this.currentCategoryId.toString() === this.incenticeCategoryLookuptypes.LaboratoryEquipment);
 
@@ -356,6 +308,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       MeasurementUnit: this.itemDetail.MeasurementUnit || '',
       Amount: this.itemDetail.Amount,
       CurrencyType: this.itemDetail.CurrencyType,
+      RequestDate: this.itemDetail.RequestDate,
       ChassisNo: this.itemDetail.ChassisNo,
       MotorNo: this.itemDetail.MotorNo,
       Description: this.itemDetail.Description == null ? '' : this.itemDetail.Description,
@@ -374,6 +327,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     this.incentiveRequestItemForm = this.fb.group({
       IncentiveCategoryId: ['0', Validators.required],
       IncentiveItemId: ['0', Validators.required],
+      RequestDate: [new Date(), Validators.required],
       MeasurementUnit: [''],
       Quantity: [''],
       ApprovedQty: ['', Validators.compose([Validators.required, Validators.maxLength(4), Validators.pattern('^[0-9]+$')])],
@@ -598,6 +552,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       Quantity: formModel.Quantity,
       ApprovedQty: formModel.ApprovedQty,
       Amount: formModel.Amount,
+      RequestDate: formModel.RequestDate,
       CurrencyType: formModel.CurrencyType,
       CurrencyRate: formModel.ExRate,
       ChassisNo: formModel.ChassisNo,
@@ -607,5 +562,61 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       Balance: this.getNewBalance(formModel.Balance, formModel.ApprovedQty),
       MeasurementUnit: formModel.MeasurementUnit
     };
+  }
+
+  get bOMIncentiveItemId() {
+    return this.incentiveRequestItemForm.get('BOMIncentiveItemId');
+  }
+
+  get incentiveItemId() {
+    return this.incentiveRequestItemForm.get('IncentiveItemId');
+  }
+
+  get quantity() {
+    return this.incentiveRequestItemForm.get('Quantity');
+  }
+
+  get approvedQty() {
+    return this.incentiveRequestItemForm.get('ApprovedQty');
+  }
+
+  get amount() {
+    return this.incentiveRequestItemForm.get('Amount');
+  }
+
+  get currencyType() {
+    return this.incentiveRequestItemForm.get('CurrencyType');
+  }
+  get requestDate() {
+    return this.incentiveRequestItemForm.get('RequestDate');
+  }
+
+  get exRate() {
+    return this.incentiveRequestItemForm.get('ExRate');
+  }
+
+  get chassisNo() {
+    return this.incentiveRequestItemForm.get('ChassisNo');
+  }
+
+  get motorNo() {
+    return this.incentiveRequestItemForm.get('MotorNo');
+  }
+
+  get description() {
+    return this.incentiveRequestItemForm.get('Description');
+  }
+
+  // getIncentiveCategory() {
+  //   this.lookUpTypeService.getLookupByParentId().subscribe(result => {
+  //     this.IncentiveCategoryLookup = result;
+  //   });
+
+  get balance() {
+    return this.incentiveRequestItemForm.get('Balance');
+  }
+
+  get measurementUnit() {
+    return this.incentiveRequestItemForm.get('MeasurementUnit');
   }
 }

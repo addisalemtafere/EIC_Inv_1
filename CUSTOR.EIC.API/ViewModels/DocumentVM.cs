@@ -11,5 +11,6 @@ namespace EIC.Investment.API.ViewModels
         public int? WorkFlowId { get; set; }
         public int ProjectId { get; set; }
         public int IncentiveCategoryId { get; set; }
+        public int PhaseId { get; set; }
     }
 }

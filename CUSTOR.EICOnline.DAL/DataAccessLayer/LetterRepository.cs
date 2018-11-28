@@ -13,10 +13,10 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
         public LetterRepository(ApplicationDbContext context) : base(context)
         { }
 
-        public Task<List<Letter>> GetLetters(int id, int page = 0, int pageSize = 15)
+        public Task<List<Letter>> GetLetters(int id, string letterType, string letterType1, int page = 0, int pageSize = 15)
         {
             IQueryable<Letter> Letters = Context.Letter
-                .Where(Let => Let.ProjectId == id)
+                .Where(Let => Let.ProjectId == id || Let.LetterType == letterType || Let.LetterType == letterType1)
                 .OrderBy(Let => Let.LetterId);
             if (page > 0)
             {

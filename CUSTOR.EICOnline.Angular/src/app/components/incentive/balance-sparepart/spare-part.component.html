@@ -1,4 +1,4 @@
-<mat-card class="margin-2 padding-0">
+<mat-card class="margin-2 padding-0" fxFlex="80">
   <mat-card-header>
     <mat-card-subtitle class="sub-title">Spare Part Balance
     </mat-card-subtitle>
@@ -50,7 +50,7 @@
   </mat-card-content>
 </mat-card>
 <span *ngIf="ShowDetail">
-<mat-card class="margin-2 padding-0">
+<mat-card class="margin-2 padding-0" fxFlex="80">
   <!--<div class="search-box" style="width: 500px">-->
   <!--<mat-form-field>-->
   <!--<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search requested item">-->
@@ -69,15 +69,15 @@
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="Description">
-        <mat-header-cell *matHeaderCellDef fxFlex="28">Incentive Item</mat-header-cell>
-        <mat-cell *matCellDef="let items" fxFlex="28"> {{items.Description }}
+        <mat-header-cell *matHeaderCellDef fxFlex="15">Incentive Item</mat-header-cell>
+        <mat-cell *matCellDef="let items" fxFlex="15"> {{items.Description }}
         </mat-cell>
       </ng-container>
-      <!--<ng-container matColumnDef="RequesteDate">-->
-        <!--<mat-header-cell *matHeaderCellDef fxFlex="28">Request Date</mat-header-cell>-->
-        <!--<mat-cell *matCellDef="let items" fxFlex="28"> {{items.RequestDate |  date:'MM/dd/yyyy'}}-->
-        <!--</mat-cell>-->
-      <!--</ng-container>-->
+      <ng-container matColumnDef="RequestDate">
+        <mat-header-cell *matHeaderCellDef fxFlex="15">Request Date</mat-header-cell>
+        <mat-cell *matCellDef="let items" fxFlex="15"> {{items.RequestDate |  date:'MM/dd/yyyy'}}
+        </mat-cell>
+      </ng-container>
       <ng-container matColumnDef="Quantity">
         <mat-header-cell *matHeaderCellDef fxFlex="14">Quantity</mat-header-cell>
         <mat-cell *matCellDef="let items" fxFlex="14">{{items.Quantity }}
