@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EIC.Investment.API.Controllers
 {
+    
     [Produces("application/json")]
     [Route("api/ServiceApplications")]
     [ServiceFilter(typeof(ApiExceptionFilter))]
@@ -18,6 +19,7 @@ namespace EIC.Investment.API.Controllers
     public class ServiceApplicationsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        
 
         public ServiceApplicationsController(ApplicationDbContext context)
         {
