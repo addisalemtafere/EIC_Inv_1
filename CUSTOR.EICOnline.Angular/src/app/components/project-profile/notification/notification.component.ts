@@ -13,7 +13,7 @@ import {ServiceModel} from '../../../model/Service.model';
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss']
 })
-export class NotificationComponent implements OnInit, AfterContentChecked {
+export class NotificationComponent implements OnInit {
   userName: string;
   investorName: string;
   UserId: string;
@@ -40,7 +40,6 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
   }
 
   getServiceApplication(id: any) {
-    // console.log(localStorage.getItem('serviceApplicationId'));
     this.serviceApplicationService.getServiceApplicationWithInvestor(id)
       .subscribe((result: ServiceApplicationModel) => {
         console.log(result);
@@ -76,23 +75,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
     });
   }
 
-  Approve() {
-    this.notificationForm.patchValue({
-      CurrentStatus: 44447,
-
-    });
-    this.notificationService.create(this.notificationForm.value)
-      .subscribe(result => {
-        console.log(result);
-        this.toast.success('message has been sent', 'Message');
-      });
-  }
-
-  InComplete() {
-    this.notificationForm.patchValue({
-      CurrentStatus: 44448,
-
-    });
+  sendMessage() {
     this.notificationService.create(this.notificationForm.value)
       .subscribe(result => {
         console.log(result);
@@ -103,16 +86,12 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
   getAllService() {
     this.serviceService.getAll()
       .subscribe(result => {
-        // console.log(result)
         this.allServices = result;
       });
   }
 
 
   getServiceName(serviceId: any): any {
-    // this.allServices.filter((item) => {
-    //   return item.ServiceId === serviceId;
-    // });
     for (const services of this.allServices) {
       if (services.ServiceId === serviceId) {
         return services.NameEnglish;
@@ -121,6 +100,5 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
     return null;
   }
 
-  ngAfterContentChecked(): void {
-  }
+
 }
