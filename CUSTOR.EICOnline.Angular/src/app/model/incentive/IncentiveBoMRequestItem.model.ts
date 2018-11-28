@@ -19,6 +19,7 @@ export class IncentiveBoMRequestItemModel {
   public ApprovedQuantity?: number;
   public Balance?: number;
   public EventDatetime?: Date;
+  public UploadDate?: Date;
   public CreatedUserId: number;
   public UpdatedUserId?: number;
   public CreatedUserName?: string;

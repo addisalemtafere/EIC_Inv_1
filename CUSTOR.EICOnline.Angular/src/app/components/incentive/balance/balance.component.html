@@ -6,17 +6,63 @@
       <li class="mat-error" *ngFor="let error of errors;">{{error}}</li>
     </ol>
   </div>
-
-
 </div>
+<mat-card class="margin-2 padding-0" fxFlex="80">
+  <mat-card-header>
+    <mat-card-subtitle class="sub-title">List of Incentive Request
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="spinner-container" *ngIf="loading ">
+      <mat-progress-bar mode="query"></mat-progress-bar>
+    </div>
+    <mat-table #table [dataSource]="bomListDataSource">
+      <ng-container matColumnDef="No">
+        <mat-header-cell [fxFlex]="6" *matHeaderCellDef>No</mat-header-cell>
+        <mat-cell [fxFlex]="6" *matCellDef="let itemList;let i=index;">
+          {{i+1}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="IncentiveCategory">
+        <mat-header-cell *matHeaderCellDef fxFlex="20">Incentive Category</mat-header-cell>
+        <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="20">
+          {{IncentiveRequestItemModes.Description }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="UploadDate">
+        <mat-header-cell *matHeaderCellDef fxFlex="8">Upload Date</mat-header-cell>
+        <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="8"> {{IncentiveRequestItemModes.UploadDate |  date:'MM/dd/yyyy'}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="UploadQuantity">
+        <mat-header-cell *matHeaderCellDef fxFlex="8">Upload Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="8">{{IncentiveRequestItemModes.Quantity }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Action">
+        <mat-header-cell fxFlex="" *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell fxFlex="" *matCellDef="let IncentiveRequestItemModes;let i=index;">
+          <!--<span *ngIf="!isInvestor">-->
+          <a class="pointer custom-button" matTooltip="Click here to show detail the incentive request"
+             (click)="showDetails(IncentiveRequestItemModes)">
+            Show Balance
+          </a>
+          <!--</span>-->
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedGroupedColumns">
+      </mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedGroupedColumns;">
+      </mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>
 
+<span *ngIf="showDetail">
 <mat-card class="margin-2" style="box-shadow: none;padding: 15px !important;border: 1px solid #dddddd"
           *ngIf="addshow || editMode">
-
   <form [formGroup]="billOfMaterialForm" novalidate>
-
     <mat-card-content>
-
       <div fxLayout.xs="row wrap"
            fxLayoutAlign.xs="start center"
            fxLayoutGap="2em">
@@ -100,7 +146,7 @@
         </ng-container>
         <ng-container matColumnDef="Balance">
           <mat-header-cell *matHeaderCellDef>
-            <span > Balance</span>
+            <span> Balance</span>
           </mat-header-cell>
           <mat-cell *matCellDef="let itemList">
             {{itemList?.Balance }}
@@ -123,3 +169,5 @@
     </div>
   </mat-card-content>
 </mat-card>
+</span>
+

@@ -13,6 +13,7 @@ using EIC.Investment.API.ViewModels;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive;
 using CUSTOR.API.ExceptionFilter;
 using Microsoft.AspNetCore.Cors;
+using System.Data.SqlClient;
 
 namespace CUSTOR.EICOnline.API.Controllers.Incentive
 {
@@ -24,7 +25,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         private readonly ApplicationDbContext _context;
         private readonly IncentiveBoMRequestItemsRepository _itemsRepository;
         private readonly IHostingEnvironment _hostingEnvironment;
-       
+
 
         public IncentiveBoMRequestItemsController(IHostingEnvironment hostingEnvironment,
           ApplicationDbContext context,
@@ -52,11 +53,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         public async Task<IActionResult> GetBillOfmaterialAndFinalizeAsync([FromRoute] int id)
         {
             IncentiveBoMRequestItem incentiveBoMRequestItem = _context.IncentiveBoMRequestItem.First(p => p.IncentiveBoMRequestItemId == id);
-
+            incentiveBoMRequestItem.UploadDate = DateTime.Now;
             if (incentiveBoMRequestItem.IsApproved)
             {
-                incentiveBoMRequestItem.IsApproved = false;
-
+                incentiveBoMRequestItem.IsApproved = false;                
                 _context.Entry(incentiveBoMRequestItem).State = EntityState.Modified;
             }
             else
@@ -214,12 +214,6 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         {
             return _context.IncentiveBoMRequestItem.Any(e => e.IncentiveBoMRequestItemId == id);
         }
-
-
-
-        
-
-
         [HttpPost]
         [Route("ImportItem")]
         public async Task<IList<IncentiveBoMRequestItem>> PostAsync([FromForm]DocumentVM vm)
@@ -272,6 +266,19 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
 
                 return incentiveBoMRequestItems;
             }
+        }
+
+        [HttpGet("GetByProjectId/{id:int}")]
+        public IEnumerable<IncentiveBomDto> GetByProjectId(int id)
+        {
+            var ProjectId = new SqlParameter("@ProjectId", id);
+            IEnumerable<IncentiveBomDto> series = _context.Query<IncentiveBomDto>().FromSql(
+                    "select ServiceApplicationId,ProjectId,DescriptionEnglish as Description,UpLoadDate,count(IncentiveBoMRequestItemId) as Quantity from IncentiveBoMRequestItem "
+                     + " Inner Join LookUpType on LookupType.LookUpTypeId = IncentiveBoMRequestItem.IncentiveCategoryId "
+                    + " where IncentiveCategoryId=10778 AND ProjectId={0}"
+                    + " group by ServiceApplicationId,ProjectId,IncentiveCategoryId,LookUpType.DescriptionEnglish,UpLoadDate ", id)
+                .ToList();
+            return series;
         }
     }
 }

@@ -38,6 +38,7 @@ namespace EICOnline.API
             return WebHost.CreateDefaultBuilder(args)
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
+                .UseKestrel()
                 .UseStartup<Startup>()
                 .Build();
         }

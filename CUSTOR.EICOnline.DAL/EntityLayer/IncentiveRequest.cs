@@ -26,6 +26,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public string InvoiceNo { get; set; }
     public bool? IsApproved { get; set; }
     public int? Status { get; set; }
+    public int? Phase { get; set; }
     //public DateTime? ApprovedDate { get; set; }
     //public DateTime? EffectiveDate { get; set; }
     //public DateTime? ExpirationDate { get; set; }
