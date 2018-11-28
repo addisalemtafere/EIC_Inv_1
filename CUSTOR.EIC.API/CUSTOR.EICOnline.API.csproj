@@ -82,6 +82,12 @@
     <Folder Include="wwwroot\Upload\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="CUSTORDBWEB6, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>bin\Debug\CUSTORDBWEB6.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 
 
 

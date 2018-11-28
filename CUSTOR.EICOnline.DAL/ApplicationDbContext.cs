@@ -114,6 +114,19 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbQuery<series> series { get; set; }
         public DbQuery<IncentiveDetailDto> IncentiveDetailDto { get; set; }
         public DbQuery<IncentiveBomDto> IncentiveBomDto { get; set; }
+        
+        
+        public DbSet<tblDivision> tblDivision { get; set; }
+        public DbSet<tblGroup> tblGroup { get; set; }
+        public DbSet<tblMajorDivision> tblMajorDivision { get; set; }
+        public DbSet<tblMajorGroup> tblMajorGroup { get; set; }
+        public DbSet<tblSubGroup> tblSubGroup { get; set; }
+        public DbSet<BudgetYearType> BudgetYearTypes { get; set; }
+        public DbSet<Registration> Registrations { get; set; }
+        public DbSet<RegistrationCatagory> RegistrationCatagorys { get; set; }
+
+        public DbSet<Business> Businesses { get; set; }
+        public DbSet<BusinessLicensingGroup> BusinessLicensingGroup { get; set; }
 
         public override int SaveChanges()
         {
@@ -2078,6 +2091,36 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .HasForeignKey(d => d.RegionId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
+       
+            modelBuilder.Entity<BudgetYearType>(entity =>
+            {
+                entity.ToTable("BudgetYearType", "dbo");
+                entity.HasIndex(e => e.Code);
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Description).HasMaxLength(50);
+                entity.Property(e => e.amDescription).HasMaxLength(50);
+            });
+            modelBuilder.Entity<Registration>(entity =>
+            {
+                entity.ToTable("tblRegistration", "dbo");
+            });
+            modelBuilder.Entity<RegistrationCatagory>(entity =>
+            {
+                entity.ToTable("tblCatagoryRegistration", "dbo");
+
+            });
+
+            modelBuilder.Entity<Business>(entity =>
+            {
+                entity.ToTable("tblBusiness", "dbo");
+
+            });
+            modelBuilder.Entity<BusinessLicensingGroup>(entity =>
+            {
+                entity.ToTable("tblBusinessLicensingGroup", "dbo");
+
+            });
+
         }
     }
 }

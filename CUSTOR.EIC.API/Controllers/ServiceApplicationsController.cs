@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EIC.Investment.API.Controllers
 {
-    
     [Produces("application/json")]
     [Route("api/ServiceApplications")]
     [ServiceFilter(typeof(ApiExceptionFilter))]
@@ -19,7 +18,7 @@ namespace EIC.Investment.API.Controllers
     public class ServiceApplicationsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        
+
 
         public ServiceApplicationsController(ApplicationDbContext context)
         {
@@ -43,6 +42,17 @@ namespace EIC.Investment.API.Controllers
         {
             var serviceApplication = await _context.ServiceApplication
                 .Include(s => s.Document)
+                .Include(s => s.Service)
+                .ThenInclude(s => s.ServiceTariff)
+                .ThenInclude(s => s.Tariff)
+                .SingleOrDefaultAsync(m => m.ServiceApplicationId == id);
+            return serviceApplication;
+        }
+
+        [HttpGet("ServiceAndPayment/{id}")]
+        public async Task<ServiceApplication> GetServiceAndPayment([FromRoute] int id)
+        {
+            var serviceApplication = await _context.ServiceApplication
                 .Include(s => s.Service)
                 .ThenInclude(s => s.ServiceTariff)
                 .ThenInclude(s => s.Tariff)
@@ -267,7 +277,7 @@ namespace EIC.Investment.API.Controllers
             editServiceApplication.ServiceWorkflow.Add(serviceWorkflow);
             _context.ServiceApplication.Add(editServiceApplication);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetServiceApplication", new { id = serviceApplication.ServiceApplicationId },
+            return CreatedAtAction("GetServiceApplication", new {id = serviceApplication.ServiceApplicationId},
                 editServiceApplication);
         }
 
@@ -340,7 +350,7 @@ namespace EIC.Investment.API.Controllers
             await _context.SaveChangesAsync();
 
 
-            return CreatedAtAction("GetServiceApplication", new { id = serviceApplication.ServiceApplicationId },
+            return CreatedAtAction("GetServiceApplication", new {id = serviceApplication.ServiceApplicationId},
                 editServiceApplication);
         }
 
