@@ -373,6 +373,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
+
   ngAfterContentChecked(): void {
     this.serviceTitle = localStorage.getItem('title');
     this.title = localStorage.getItem('title');
