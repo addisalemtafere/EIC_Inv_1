@@ -65,10 +65,7 @@ namespace EIC.Investment.API.Controllers.Controllers
         [HttpDelete("api/activity/{id:int}")]
         public async Task<bool> DeleteActivity(int id)
         {
-            //if (!HttpContext.User.Identity.IsAuthenticated)
-            //    throw new ApiException("You have to be logged in first", 401);
-
-            return await _ActivityRepo.DeleteActivity(id);
+                      return await _ActivityRepo.DeleteActivity(id);
         }
     }
 }

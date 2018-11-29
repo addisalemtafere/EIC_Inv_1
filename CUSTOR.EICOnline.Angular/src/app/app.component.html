@@ -184,7 +184,7 @@
         </mat-expansion-panel>
 
         <mat-expansion-panel
-          *ngIf="canManageRoles || canManageUsers || canManageAdmins" #admin
+          *ngIf="(canManageRoles || canManageUsers || canManageAdmins) && !isInvestor" #admin
           [class.mat-elevation-z0]="!admin.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
