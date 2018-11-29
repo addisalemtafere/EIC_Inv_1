@@ -11,7 +11,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
 import {ErrorComponent} from './components/error/error.component';
 import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {AddressComponent} from './components/project-profile/address/address.component';
-
+import {RegistrationModule} from './components/registration/registration.module';
 @NgModule({
   imports: [
     RouterModule.forRoot([

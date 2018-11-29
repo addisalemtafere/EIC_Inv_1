@@ -279,6 +279,16 @@ namespace EICOnline.API
                 services.AddScoped<IncentiveBoMRequestItemsRepository>();
 
 
+                services.AddScoped<BudgetYearTypeRepository>();
+                services.AddScoped<tblDivisionRepository>();
+                services.AddScoped<tblMajorDivisionRepository>();
+                services.AddScoped<tblGroupRepository>();
+                services.AddScoped<tblSubGroupRepository>();
+                services.AddScoped<RegistrationRepository>();
+                services.AddScoped<RegistrationCatagoryRepository>();
+
+
+
                 // Repositories
                 services.AddScoped<IAccountManager, AccountManager>();
 
