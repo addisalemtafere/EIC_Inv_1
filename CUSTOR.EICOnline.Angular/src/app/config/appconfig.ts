@@ -207,6 +207,22 @@ export class AppConfiguration {
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
     IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/GetByProjectId',
 
+    GetAllBudgetYearTypes: 'api/GetAllBudgetYearTypes',
+    Divisions: 'api/Divisions/',
+    MajorDivisions: 'api/MajorDivisions/',
+    MajorGroup: 'api/MajorGroup/',
+    Groups: 'api/Groups/',
+    SubGroups: 'api/SubGroups',
+
+    Bussiness: 'api/Business/Save',
+    SaveBussinessLicense: 'api/SaveBussinessLicense',
+    Registrations: 'api/registration/GetRegistrations',
+    /*GetRegistration: 'api/Business/GetRegistration',*/
+    GetRegistrationByTin: 'api/RegistrationByTin',
+    SaveRegistration: 'api/saveregistration',
+    UpdateRegistration: 'api/UpdateRegistration',
+    SaveRegistrationCatagory: 'api/registrationcatagory',
+
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];
       if (parm1) {
