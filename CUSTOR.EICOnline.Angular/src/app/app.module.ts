@@ -1,6 +1,5 @@
 import {ErrorHandler, NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {AgmCoreModule} from '@agm/core';
@@ -67,8 +66,7 @@ import {EditorModule} from '@tinymce/tinymce-angular';
 import {ErrorComponent} from './components/error/error.component';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
 import {AddressComponent} from './components/project-profile/address/address.component';
-import {BusinessTabComponent} from './components/business/business-tab/business-tab.component';
-import {ManagementDashboardComponent} from './components/management-dashboard/management-dashboard.component';
+import {AppComponent} from './app.component';
 
 
 @NgModule({

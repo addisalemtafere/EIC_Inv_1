@@ -27,7 +27,12 @@ export const LEGAL_STATUS: any[] =
     {'Id': '4', 'Description': 'የመንግስት ተቋም', 'DescriptionEnglish': 'Public Enterprise'},
     {'Id': '5', 'Description': 'የስራ ማህበራት', 'DescriptionEnglish': 'Cooperative Society'}
   ];
+export const STATUS: any[] =
+  [
+    {'Id': '0', 'Description': 'በስራ ላይ', 'DescriptionEnglish': 'Active'},
+    {'Id': '1', 'Description': 'የተዘጋ', 'DescriptionEnglish': 'Closed'}
 
+  ];
 export const SOLE_PROPRIETERSHIP_CODE = '1';
 export const ETHIOPIA_CODE = 1;
 const ALPHABET_WITHSPACE_REGEX = new RegExp(/^[a-zA-Z ]+$/);

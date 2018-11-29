@@ -359,6 +359,17 @@ import {AddressComponent} from './components/project-profile/address/address.com
         loadChildren: 'app/components/incentive/balance-sparepart/spare-part.module#SparePartModule',
         canActivate: [AuthGuard]
       },
+      {
+        path: 'registration',
+        loadChildren: 'app/components/registration/registration.module#RegistrationModule',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'bussiness',
+        loadChildren: 'app/components/bussiness/bussiness.module#BussinessModule',
+        canActivate: [AuthGuard]
+      },
+
 
       {path: '', component: HomeComponent},
       {path: '**', component: NotFoundComponent},
