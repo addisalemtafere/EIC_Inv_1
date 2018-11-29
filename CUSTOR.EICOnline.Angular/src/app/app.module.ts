@@ -71,6 +71,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
 import {BusinessTabComponent} from './components/business/business-tab/business-tab.component';
 import {ManagementDashboardComponent} from './components/management-dashboard/management-dashboard.component';
 import { FollowupComponent } from './followup/followup.component';
+import { FollowComponent } from './follow/follow.component';
 =======
 >>>>>>> d8b598b3b0d0886d5d04020a380324c9ac25e9c1
 
@@ -97,7 +98,8 @@ import { FollowupComponent } from './followup/followup.component';
     BaseComponent,
     ErrorComponent,
     AddressComponent,
-    FollowupComponent
+    FollowupComponent,
+    FollowComponent
   ],
   // ,
   imports: [
