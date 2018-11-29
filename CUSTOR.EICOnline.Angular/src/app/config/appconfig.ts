@@ -99,7 +99,7 @@ export class AppConfiguration {
     servicePrerequisiteByServiceId: 'api/servicePrerequisiteByServiceId',
     // order: 'api/Order',
     ServiceApplications: 'api/ServiceApplications',
-    certificate: '/api/certificate',
+    certificate: 'api/certificate',
     Notification: 'api/Notifications',
     ChangeStatus: 'api/Notifications/ChangeStatus',
     CountNotification: 'api/Notifications/CountNotification',
@@ -127,7 +127,7 @@ export class AppConfiguration {
     ServiceApplicationBillOfMaterial: 'api/ServiceApplications/ServiceApplicationBillOfMaterial',
 
     ProjectsByInvestorId: 'api/Projects/ByInvestorId',
-    SearchInvestor: '/api/SearchInvestor',
+    SearchInvestor: 'api/SearchInvestor',
 
     TodoTasks: 'api/TodoTasks',
     CompletedTask: 'api/TodoTasks/CompletedTask',
