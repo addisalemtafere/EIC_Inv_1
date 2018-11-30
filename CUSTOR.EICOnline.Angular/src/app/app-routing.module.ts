@@ -11,6 +11,9 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
 import {ErrorComponent} from './components/error/error.component';
 import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {AddressComponent} from './components/project-profile/address/address.component';
+import {FollowComponent} from './follow/follow.component';
+import {FollowupComponent} from './followup/followup.component';
+import {FollowupModule} from './followup/followup.module';
 
 @NgModule({
   imports: [
@@ -19,6 +22,11 @@ import {AddressComponent} from './components/project-profile/address/address.com
         path: 'home',
         redirectTo: '/',
         pathMatch: 'full'
+      },
+      {
+        path: 'followup',
+        loadChildren: 'app/followup/followup.module#FollowupModule'
+        // canActivate: [AuthGuard]
       },
       {
         path: 'dashboard',
