@@ -113,7 +113,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'pro/:id',
+        path: 'pro/:id/:ServiceApplicationId/:ServiceId/:workFlowId/:InvestorId',
         loadChildren: './components/project-profile/project.module#ProjectModule',
         canActivate: [AuthGuard]
       },

@@ -126,7 +126,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           break;
       }
       console.log(stepIndex);
-      this.router.navigate(['pro/', projectId]);
+      this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + 0]);
     }
     localStorage.setItem('ServiceId', serviceId);
     localStorage.setItem('ProjectId', projectId);
@@ -184,7 +184,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     localStorage.setItem('ServiceApplicationId', serviceApplicationId);
     localStorage.setItem('ServiceId', serviceId);
     setTimeout(() => this.dataSharing.isNew.next(true), 0);
-    this.router.navigate(['pro/', projectId]);
+    this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
   }
 
   projectDetail(id: any, ServiceApplicationId: any, serviceId: any) {

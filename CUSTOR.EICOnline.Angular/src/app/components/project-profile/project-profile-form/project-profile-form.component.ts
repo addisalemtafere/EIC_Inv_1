@@ -37,12 +37,11 @@ import {SiteModel} from '../../../model/Site.model';
   templateUrl: './project-profile-form.component.html',
   styleUrls: ['./project-profile-form.component.css']
 })
-export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterContentChecked {
+export class ProjectProfileFormComponent implements OnInit, AfterContentChecked {
   @ViewChild('costF') costForm: NgForm;
   formOfOwnershipList: FormOfOwnershipModel[] = [];
   subscription: Subscription;
   serviceIdSubscription: Subscription;
-  // serviceId: any;
   editMode = false;
   loading = false;
   project: ProjectModel;
@@ -68,8 +67,6 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
     EndingDate: '',
     Sector: '',
     SubSector: '',
-    // FormOfInvestment: '',
-    // FormOfOwnership: '',
     Region: '',
     Zone: '',
     Woreda: '',
@@ -92,6 +89,10 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
   public filterInvestmentActivityList: InvActivityModel[];
   public filterSubSectorList: SubSectorModel[];
   public allSiteList: SiteModel[] = [];
+  private ServiceId: any;
+  private InvestorId: any;
+  private workFlowId: any;
+  private ServiceApplicationId: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -165,46 +166,47 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
           this.getProjectDetail();
         }
       });
+
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+
   }
 
   getProjectDetail() {
-    this.projectProfileService.getOneById(this.projectId).subscribe(project => {
-      console.log(project);
-      if (localStorage.getItem('ParentProjectId') === null) {
-        this.editMode = true;
-        this.projectIdEditing = project.ProjectId;
-        this.projectId = project.ProjectId;
-        localStorage.setItem('ProjectId', this.projectId);
-        localStorage.setItem('workFlowId', project.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
-        localStorage.setItem('ServiceId', project.ServiceApplication[0].ServiceId);
-      }
-      this.projectForm.patchValue(project);
-      this.getAddressData(project.ProjectId);
-    }, error => this.errMsg.getError(error));
+    this.projectProfileService
+      .getOneById(this.projectId)
+      .subscribe(project => {
+        if (localStorage.getItem('ParentProjectId') === null) {
+          this.editMode = true;
+          this.projectIdEditing = project.ProjectId;
+          this.projectId = project.ProjectId;
+          // localStorage.setItem('ProjectId', this.projectId);
+          // localStorage.setItem('workFlowId', project.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
+          // localStorage.setItem('ServiceId', project.ServiceApplication[0].ServiceId);
+        }
+        this.projectForm.patchValue(project);
+        this.getAddressData(project.ProjectId);
+      }, error => this.errMsg.getError(error));
   }
 
   getAddressData(parent: number) {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        // console.log(result)
         this.getKebeleByWoredaId(result.WoredaId);
         this.addressId = result.AddressId;
         this.projectForm.get('address').patchValue(result);
       }, error => this.errMsg.getError(error));
   }
 
-  ngOnDestroy(): void {
-    // this.subscription.unsubscribe();
-  }
 
   fillAddressLookups() {
-    // To-do bring all in one go caching
     this.loading = true;
     this.getRegions();
     this.getAllZones();
     this.getAllWoredas();
-    // this.getAllKebeles();
     this.getAllSector();
     this.getAllSubSector();
     this.getAllActivityService();
@@ -235,7 +237,6 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
     this.activityService.getActivitys()
       .subscribe(result => {
         this.activity = result;
-
         this.filterActivityLIst = result;
       }, error => this.toastr.error(this.errMsg.getError(error)));
   }
@@ -244,7 +245,6 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
     this.invactivityService.getInActivitys()
       .subscribe(result => {
         this.investmentActivity = result;
-
         this.filterInvestmentActivityList = result;
       }, error => this.toastr.error(this.errMsg.getError(error)));
   }
@@ -279,14 +279,12 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
     this.addressService.getKebelesByWoreda(wordaId)
       .subscribe(result => {
         this.kebeles = result;
-        // console.log(result);
         this.loading = false;
         this.filteredKebeles = result;
       });
   }
 
   filterRegion(regionCode: string) {
-    console.log(regionCode);
     if (!regionCode) {
       return;
     }
@@ -357,13 +355,15 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
       if (!this.editMode) {
         this.projectProfileService.create(this.projectForm.value)
           .subscribe(result => {
-            // console.log(result);
             console.log(result.ServiceApplication[0].ServiceApplicationId);
             this.projectId = result.ProjectId;
-            localStorage.setItem('ProjectId', this.projectId);
-            this.router.navigate(['pro/', this.projectId]);
-            localStorage.setItem('workFlowId', result.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
-            localStorage.setItem('ServiceApplicationId', result.ServiceApplication[0].ServiceApplicationId);
+            // localStorage.setItem('ProjectId', this.projectId);
+            // this.router.navigate(['pro/', this.projectId]);
+            // localStorage.setItem('workFlowId', result.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
+            // localStorage.setItem('ServiceApplicationId', result.ServiceApplication[0].ServiceApplicationId);
+
+            this.router.navigate(['pro/' + this.projectId + '/' + result.ServiceApplication[0].ServiceApplicationId + '/' + this.ServiceId + '/' + result.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId + '/' + this.InvestorId]);
+
             this.notification('project  saved');
             this.saveAddress();
           });
@@ -390,14 +390,12 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
       this.addressService.updateAddress(this.projectForm.get('address').value, this.addressId)
         .subscribe(result => {
           this.notification('address updated');
-          // this.onClear();
         });
     } else {
       this.addressService.saveAddress(this.projectForm.get('address').value)
         .subscribe(result => {
           setTimeout(() => this.dataSharing.projectId.next(this.projectId), 0);
           this.notification('address saved');
-          // this.onClear();
           setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
           setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
         });

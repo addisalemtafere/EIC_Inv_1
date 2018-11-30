@@ -102,7 +102,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     switch (serviceId) {
       case 13 || 1023 || 1028:
         // this.router.navigate(['/officer']);
-        this.router.navigate(['pro/', projectId]);
+        this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
         break;
       case 18:
         this.router.navigate(['/project-renewal', serviceApplicationId]);
@@ -224,7 +224,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     localStorage.setItem('projectName', projectName);
     setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
-    this.router.navigate(['pro/', projectId]);
+    this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + InvestorId]);
   }
 
   getAllService() {

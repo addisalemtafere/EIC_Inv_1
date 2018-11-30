@@ -84,7 +84,7 @@ export class CustomerServiceStarterComponent implements OnInit {
 
       switch (serviceId) {
         case 13:
-          this.router.navigate(['/pro', 0]);
+          this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + localStorage.getItem('InvestorId')]);
           break;
         case 18:
           this.router.navigate(['/project-renewal', 0]);

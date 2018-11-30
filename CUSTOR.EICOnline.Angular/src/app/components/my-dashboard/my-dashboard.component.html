@@ -1,9 +1,9 @@
-<app-page-header title="dashboard" icon="dashboard"></app-page-header>
 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0">
-  <div class="block" fxFlex="83" style="padding-left: 30px">
-    <div class="sub-label">All Applications</div>
+  <div class="block" fxFlex="84">
+    <app-page-header title="dashboard" icon="dashboard"></app-page-header>
+
   </div>
-  <div fxFlexAlign="Center Right" id="title1" class="block" fxFlex="15">
+  <div class="block" fxFlex="15">
     <button (click)="toServiceList()"
             style="margin-left: 2px;"
             color="primary"
@@ -11,6 +11,9 @@
       Request Service
     </button>
   </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0">
+  <div class="mini-label">All Applications</div>
 </div>
 
 <mat-sidenav-container>
@@ -156,12 +159,22 @@
             </mat-card-content>
           </mat-card>
         </mat-grid-tile>
+
+
+
         <mat-grid-tile [colspan]="2" [rowspan]="1">
+
           <div class="padding-0">
+
             <mat-card style="overflow: auto; background-color: white" class="padding-0 dashboard-card">
 
 
               <mat-card-content class="dashboard-card-content">
+
+                <div style="background-color: rgb(250, 250, 250);" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0">
+                  <div class="mini-label">All Notifications</div>
+                </div>
+
                 <div class="spinner-container" *ngIf="loading ">
                   <mat-progress-bar mode="query"></mat-progress-bar>
                 </div>
