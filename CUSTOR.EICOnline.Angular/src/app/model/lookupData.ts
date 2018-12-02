@@ -106,3 +106,9 @@ export class UnitType {
   public Description: string;
   public DescriptionEnglish: string;
 }
+
+@Injectable()
+export class RegistrationStatus {
+  public Id: number;
+  public Desc: string;
+}

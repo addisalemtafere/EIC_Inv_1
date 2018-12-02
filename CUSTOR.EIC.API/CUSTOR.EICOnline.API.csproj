@@ -69,6 +69,28 @@
     <Compile Remove="ProfileService.cs" />
   </ItemGroup>
 
+
+
+  <ItemGroup>
+    <Content Include="bin\Debug\netcoreapp2.0\CUSTOR.EIC.API.deps.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\CUSTOR.EIC.API.runtimeconfig.dev.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\CUSTOR.EIC.API.runtimeconfig.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\CUSTOR.EICOnline.API.deps.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\CUSTOR.EICOnline.API.runtimeconfig.dev.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\CUSTOR.EICOnline.API.runtimeconfig.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\publish\appsettings.Development.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\publish\appsettings.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\publish\CUSTOR.EICOnline.API.deps.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\publish\CUSTOR.EICOnline.API.runtimeconfig.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\publish\libman.json" />
+    <Content Include="bin\Debug\netcoreapp2.0\publish\wwwroot\photo\Mgr4005.jpg" />
+    <Content Include="bin\Debug\netcoreapp2.0\publish\wwwroot\photo\Mgr4006.jpg" />
+    <Content Include="bin\Debug\netcoreapp2.0\publish\wwwroot\photo\Mgr4007.jpg" />
+    <Content Include="bin\Debug\netcoreapp2.1\CUSTOR.EICOnline.API.deps.json" />
+    <Content Include="bin\Debug\netcoreapp2.1\CUSTOR.EICOnline.API.runtimeconfig.dev.json" />
+    <Content Include="bin\Debug\netcoreapp2.1\CUSTOR.EICOnline.API.runtimeconfig.json" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\CUSTOR.EICOnline.DAL\CUSTOR.EICOnline.DAL.csproj" />
   </ItemGroup>
@@ -80,11 +102,7 @@
     <Folder Include="wwwroot\photo\" />
     <Folder Include="wwwroot\uploadbom\" />
     <Folder Include="wwwroot\Upload\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="bin\Debug\CUSTORDBWEB6.dll" />
-  </ItemGroup>
+  </ItemGroup>  
 
   <ItemGroup>
     <Reference Include="CUSTORDBWEB6, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
