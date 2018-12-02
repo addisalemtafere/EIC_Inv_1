@@ -247,12 +247,12 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="Action">
-          <mat-header-cell [fxFlex]="40" *matHeaderCellDef>Action
+        <ng-container matColumnDef="Action" [fxFlex]="80">
+          <mat-header-cell  *matHeaderCellDef>Action
 
           </mat-header-cell>
 
-          <mat-cell [fxFlex]="40" *matCellDef="let projectList; let i=index">
+          <mat-cell  *matCellDef="let projectList; let i=index">
             <div>
 
               <a class="margin-10 pointer"
@@ -274,9 +274,9 @@
               projectList?.ProjectName)">
                 <!--<mat-icon color="primary" class="mat-18">done</mat-icon>-->
 
-                <span style="font-weight: bolder;padding: 10px">Continue </span>
+                <span style="font-weight: bolder;padding: 5px">Continue </span>
               </button>
-              <div style="padding: 10px">
+              <div style="padding: 5px">
               <button *ngIf="canManageManageIncentiveAssignedServices "
                       mat-raised-button
                       [disabled]="!projectList.IsActive"

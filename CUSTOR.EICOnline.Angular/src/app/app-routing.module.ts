@@ -143,7 +143,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'letter',
+        path: 'letter/:projectId/:isForDetail',
         loadChildren: './components/project-profile/letter/letter.module#LetterModule',
         canActivate: [AuthGuard]
       },
@@ -296,7 +296,8 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'bom-balance/:type/:ServiceApplicationId',
+        //path: 'bom-balance/:type/:ServiceApplicationId',
+        path: 'bom-balance',
         loadChildren: 'app/components/incentive/balance/balance.module#BalanceModule',
         canActivate: [AuthGuard]
       },
@@ -321,7 +322,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
       },
       {
         path: 'letter-template',
-        loadChildren: 'app/components/letter/lettertemplate.module#LettertemplateModule',
+        loadChildren: 'app/components/letter-template/lettertemplate.module#LettertemplateModule',
         canActivate: [AuthGuard]
       },
       {
@@ -359,7 +360,11 @@ import {AddressComponent} from './components/project-profile/address/address.com
         loadChildren: 'app/components/incentive/balance-sparepart/spare-part.module#SparePartModule',
         canActivate: [AuthGuard]
       },
-
+      {
+        path: 'incentive-detail/:projectId',
+        loadChildren: 'app/components/incentive/incentive-detail/incentive-detail.module#IncentiveDetailModule',
+        canActivate: [AuthGuard]
+      },
       {path: '', component: HomeComponent},
       {path: '**', component: NotFoundComponent},
     ])

@@ -184,6 +184,7 @@ export class AppConfiguration {
     letter: 'api/letter',
     letters: 'api/letters',
 
+
     incentiveRequests: 'api/incentiveRequests/ByIds',
     incentiveRequest: 'api/incentiveRequest',
     incentiveRequestsothers: 'api/incentiveRequests/ByOtherServiceAppId',
@@ -206,6 +207,10 @@ export class AppConfiguration {
 
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
     IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/GetByProjectId',
+
+    lettersByProjectId: 'api/letters/ByProjectId',
+    IncentiveRequestDetailsByProjectId: 'api/IncentiveRequestDetail/ByProjectId',
+    IncentiveRequestDetailsByCategoryId: 'api/IncentiveRequestDetail/ByCategoryId',
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];

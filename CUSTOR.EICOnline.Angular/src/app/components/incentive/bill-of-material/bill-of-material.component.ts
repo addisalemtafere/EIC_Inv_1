@@ -19,6 +19,7 @@ import {LookupsModel} from '../../../model/lookups';
 import {Subscription} from 'rxjs';
 import {LookUpService} from '../../../Services/look-up.service';
 import {determineId} from '@custor/helpers/compare';
+import {IncentiveRequestDetailService} from '../incentive-request/requested-items-list/requested-items-list.service';
 
 @Component({
   selector: 'app-bill-of-material',
@@ -67,6 +68,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   public unitTypes: UnitType[] = [];
   PhaseLookups: LookupsModel[];
   public phaseId: number;
+  BOMItems: IncentiveBoMRequestItemModel[] = [];
   private currentCategoryId: any;
   private ServiceApplicationId: any;
   private currentLang: string;
@@ -85,6 +87,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
               private lookUpsService: LookUpService,
               private toast: ToastrService,
               private configService: ConfigurationService,
+              private IncentiveRequestItemService: IncentiveRequestDetailService,
               private toastr: ToastrService,
               private formBuilder: FormBuilder,
               private formService: FormService) {
@@ -118,9 +121,11 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     this.initStaticData(this.currentLang);
 
   }
+
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
   }
+
   getItemLookup() {
     this.lookupSub = this.lookUpsService
       .getLookupByParentId(10780)
@@ -230,8 +235,19 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   upload(i: number, files: FileList) {
     console.log(this.phaseId);
-    if (this.phaseId === 0 || this.phaseId === null || this.phaseId === undefined) {
+    if (this.phaseId == 0 || this.phaseId == null || this.phaseId == undefined) {
       this.toastr.error('Please Select Construction Materials Incentive Batch');
+      return true;
+    }
+    this.IncentiveRequestItemService
+      .getIncentiveBoMRequestDetails(localStorage.getItem('ProjectId'), 10778, this.phaseId)
+      .subscribe((items) => {
+        this.BOMItems = items;
+      });
+    console.log(this.BOMItems.length);
+
+    if (this.BOMItems.length > 0) {
+      this.toastr.error('You Cannot Import Construction Materials, Because there is Uploaded data in this Batch');
       return true;
     }
     // this.loading = true;
@@ -272,7 +288,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     formData.append('KeyWords', formModel.KeyWords);
     formData.append('ProjectId', localStorage.getItem('ProjectId'));
     formData.append('IncentiveCategoryId', this.IncentiveCategoryId.toString());
-    formData.append('PhaseId',this.phaseId.toString() );//formModel.Phase
+    formData.append('PhaseId', this.phaseId.toString());//formModel.Phase
     console.log(this.phaseId);
     return formData;
   }

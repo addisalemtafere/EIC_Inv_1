@@ -338,6 +338,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.toastr.warning('Project Is Not Active');
     } else {
       console.log(projectName);
+      console.log(projectId);
       this.todoTask.AssignedUserId = this.accountService.currentUser.Id;
       this.todoTask.CreatedUserId = this.accountService.currentUser.Id;
       this.todoTask.CreatedUserName = this.accountService.currentUser.UserName;
@@ -361,6 +362,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           this.nextService(projectId, result.ServiceApplicationId, ServiceId, projectStatus);
         });
       localStorage.setItem('projectName', projectName);
+      console.log(localStorage.getItem('projectName'));
     }
   }
 
@@ -368,12 +370,21 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     if (projectStatus !== 9) {
       this.toastr.warning('Project Is Not Active');
     } else {
+      console.log(projectId);
       localStorage.setItem('projectName', projectName);
       localStorage.setItem('ServiceApplicationId', ServiceApplicationId);
+      this.router.navigate(['incentive-detail/' + projectId]);
     }
   }
 
-
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue.replace(/[\W_]/g, '');
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
   ngAfterContentChecked(): void {
     this.serviceTitle = localStorage.getItem('title');
     this.title = localStorage.getItem('title');

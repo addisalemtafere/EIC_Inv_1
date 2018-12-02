@@ -83,6 +83,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="bin\Debug\CUSTORDBWEB6.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="CUSTORDBWEB6, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>bin\Debug\CUSTORDBWEB6.dll</HintPath>
     </Reference>

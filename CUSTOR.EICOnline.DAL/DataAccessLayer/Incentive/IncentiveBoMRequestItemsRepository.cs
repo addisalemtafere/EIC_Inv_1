@@ -43,10 +43,10 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive
             return IncentiveBoMRequestItems.ToListAsync();
         }
 
-        public async Task<IEnumerable<IncentiveBoMRequestItem>> GetAllItems(int projectId, int incentiveCategoryId)
+        public async Task<IEnumerable<IncentiveBoMRequestItem>> GetAllItems(int projectId, int incentiveCategoryId, int Phase)
         {
             var incentiveBoMRequestItems = Context.IncentiveBoMRequestItem
-                .Where(item => item.ProjectId == projectId && item.IncentiveCategoryId == incentiveCategoryId)
+                .Where(item => item.ProjectId == projectId && item.IncentiveCategoryId == incentiveCategoryId && item.Phase == Phase)
                 .OrderBy(item => item.Description);
             return await incentiveBoMRequestItems.ToListAsync();
         }
