@@ -41,7 +41,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumnsProject = [
-    'ProjectName', 'startDate', 'InvActivity', 'ProjectStage', 'ProjectStatus', 'Action'
+    'ProjectName', 'InvActivity', 'ProjectStage', 'ProjectStatus', 'Action'
   ];
   @ViewChild(MatPaginator) paginator2: MatPaginator;
   dialogRef: any;
@@ -154,10 +154,10 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.loadingIndicator = true;
     this.projectService.getProjectByInvestorId(InvestorId)
       .subscribe(result => {
+          this.investorShow = false;
           this.projectList = result;
           this.title = 'ProjectDetail';
-          this.investorShow = false;
-          if (!this.projectList) {
+          if (this.projectList.length == 0) {
             this.loadingIndicator = false;
             this.toastr.error('No records were found to list', 'Error', {
               closeButton: true,
@@ -217,7 +217,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   deleteProject(id: number) {
-    console.log(id);
     const response = confirm('Do you want to Delete this Project ?');
     if (response === true) {
       this.projectService.delete(id)
@@ -263,7 +262,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     const serviceId = +localStorage.getItem('ServiceId');
     const investorId = localStorage.getItem('InvestorId');
 
-    // localStorage.setItem('ProjectId', projectId);
     switch (serviceId) {
       case 13:
         this.router.navigate(['/pro', 0]);

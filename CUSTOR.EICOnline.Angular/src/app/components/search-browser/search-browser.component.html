@@ -169,26 +169,20 @@
       </div>
       <mat-table #table [dataSource]="dataSource">
         <ng-container matColumnDef="ProjectName">
-          <mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>
-          <mat-cell *matCellDef="let projectList">
+          <mat-header-cell fxFlex="15" *matHeaderCellDef>Project Name</mat-header-cell>
+          <mat-cell fxFlex="15" *matCellDef="let projectList">
             {{projectList?.ProjectName}}
           </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="ProjectDescription">
-          <mat-header-cell *matHeaderCellDef>Project Description</mat-header-cell>
-          <mat-cell *matCellDef="let projectList">
 
-            {{(projectList.ProjectDescription!=null) ? (projectList.ProjectDescription |
-            filterPipe:10): ''}}
-          </mat-cell>
-        </ng-container>
 
-        <ng-container matColumnDef="startDate">
-          <mat-header-cell *matHeaderCellDef> Start Date</mat-header-cell>
-          <mat-cell *matCellDef="let projectList">
-            {{projectList?.StartDate | date}}
-          </mat-cell>
-        </ng-container>
+        <!--<ng-container matColumnDef="startDate">-->
+        <!--<mat-header-cell *matHeaderCellDef> Start Date</mat-header-cell>-->
+        <!--<mat-cell *matCellDef="let projectList">-->
+        <!--{{projectList?.StartDate | date}}-->
+        <!--</mat-cell>-->
+        <!--</ng-container>-->
+        <!---->
         <ng-container matColumnDef="InvActivity">
           <mat-header-cell *matHeaderCellDef> Investment Activity</mat-header-cell>
           <mat-cell *matCellDef="let projectList">
@@ -197,8 +191,8 @@
         </ng-container>
 
         <ng-container matColumnDef="ProjectStage">
-          <mat-header-cell *matHeaderCellDef>Project Stage</mat-header-cell>
-          <mat-cell *matCellDef="let projectList">
+          <mat-header-cell fxFlex="8" *matHeaderCellDef>Project Stage</mat-header-cell>
+          <mat-cell fxFlex="8" *matCellDef="let projectList">
 
               <span style="color: #00bcd4;font-weight: bolder" *ngIf="projectList?.ProjectStage===1">
                 PreImplementation
@@ -213,8 +207,8 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="ProjectStatus">
-          <mat-header-cell fxFlex="10" *matHeaderCellDef>Project Status</mat-header-cell>
-          <mat-cell fxFlex="10" *matCellDef="let projectList">
+          <mat-header-cell fxFlex="8" *matHeaderCellDef>Project Status</mat-header-cell>
+          <mat-cell fxFlex="8" *matCellDef="let projectList">
 <span style="color: red;font-weight: bolder;"
       *ngIf="projectList?.ProjectStatus===4">
                Cancelled
@@ -248,11 +242,11 @@
         </ng-container>
 
         <ng-container matColumnDef="Action">
-          <mat-header-cell [fxFlex]="40" *matHeaderCellDef>Action
+          <mat-header-cell [fxFlex]="33" *matHeaderCellDef>Action
 
           </mat-header-cell>
 
-          <mat-cell [fxFlex]="40" *matCellDef="let projectList; let i=index">
+          <mat-cell [fxFlex]="33" *matCellDef="let projectList; let i=index">
             <div>
 
               <a class="margin-10 pointer"
@@ -270,22 +264,20 @@
                       (click)="startApplication(projectList)">
                 <!--<mat-icon color="primary" class="mat-18">done</mat-icon>-->
 
-                <span style="font-weight: bolder;padding: 10px">Continue </span>
+                <span style="font-weight: bolder;">Continue </span>
               </button>
-              <div style="padding: 10px">
-                <button *ngIf="canManageManageIncentiveAssignedServices "
-                        mat-raised-button
-                        [disabled]="!projectList.IsActive"
-                        color="primary"
-                        matTooltip="Click Here to Continue"
-                        (click)="showIncentiveDetials(projectList?.ProjectId,
+              <button style="margin-left: 5px" *ngIf="canManageManageIncentiveAssignedServices "
+                      mat-raised-button
+                      [disabled]="!projectList.IsActive"
+                      color="primary"
+                      matTooltip="Click Here to Continue"
+                      (click)="showIncentiveDetials(projectList?.ProjectId,
                       projectList?.ServiceApplicationId,
               projectList.ServiceId,
               projectList?.ProjectStatus,
               projectList?.ProjectName)">
-                  <span style="font-weight: bolder;">Incentive Detail</span>
-                </button>
-              </div>
+                <span style="font-weight: bolder;">Incentive Detail</span>
+              </button>
             </div>
           </mat-cell>
         </ng-container>
