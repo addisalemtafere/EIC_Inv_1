@@ -318,6 +318,9 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       case 1001:
         this.router.navigate(['capital-registration/', projectId]);
         break;
+      case 1236:
+        this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+        break;
       default:
         this.router.navigate(['/notfound'], {relativeTo: this.route});
         break;

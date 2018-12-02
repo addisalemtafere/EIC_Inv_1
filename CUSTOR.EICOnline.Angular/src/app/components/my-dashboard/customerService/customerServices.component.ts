@@ -72,7 +72,7 @@ export class CustomerServiceStarterComponent implements OnInit {
           this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
           break;
         case 1027:
-          this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
+          this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
           break;
         case 1028:
           this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);

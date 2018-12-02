@@ -35,6 +35,8 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
   public projectCancellationReasonList: any[];
   private currentLang: any;
   lookup: Lookup;
+  // private ServiceId: any;
+  private serviceId: any;
 
   constructor(public fb: FormBuilder,
               public projetServices: ProjectProfileService,
@@ -53,6 +55,11 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
   ngOnInit() {
     this.currentLang = this.configService.language;
     this.initStaticDataOwnerShip(this.currentLang);
+    this.serviceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    // this.workFlowId = this.route.snapshot.params['workFlowId'];
+    // this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+
     this.initForm();
     this.editMode = false;
     this.getAllProjects();
@@ -88,7 +95,7 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
   initForm() {
     this.projectCancellationForm = this.fb.group({
       ProjectId: new FormControl(),
-      ServiceId: '',
+      ServiceId: this.serviceId,
       // CancellationType: new FormControl(),
       CancellationReason: new FormControl(),
       // ApprovedBy: new FormControl(),
@@ -128,9 +135,9 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
   }
 
   ngAfterContentChecked(): void {
-    this.projectCancellationForm.patchValue({
-      ServiceId: localStorage.getItem('ServiceId'),
-    });
+    // this.projectCancellationForm.patchValue({
+    //   ServiceId: localStorage.getItem('ServiceId'),
+    // });
     if (this.isInvestor) {
       this.projectCancellationForm.patchValue({
         ProjectId: localStorage.getItem('ProjectId'),

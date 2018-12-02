@@ -123,7 +123,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   projectApprove(serviceApplication: ServiceApplicationModel) {
-
+    console.log(serviceApplication)
     const id = serviceApplication.ServiceApplicationId;
     const projectId = serviceApplication.ProjectId;
     const serviceId = serviceApplication.ServiceId;
