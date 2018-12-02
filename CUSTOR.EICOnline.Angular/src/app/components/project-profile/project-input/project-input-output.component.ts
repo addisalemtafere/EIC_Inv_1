@@ -21,15 +21,14 @@ import {ProjectStatus, Quarter} from '@custor/const/consts';
   templateUrl: './project-input-output.component.html',
   styleUrls: ['./project-input-output.component.css']
 })
-export class ProjectInputOutputComponent implements OnInit, AfterContentChecked, OnDestroy {
+export class ProjectInputOutputComponent implements OnInit, AfterContentChecked {
+
   pIOform: FormGroup;
-  rawMaterialInput: FormArray;
   editMode = false;
   editModeInput = false;
   rawInputId: number;
   loading = false;
   subscription: Subscription;
-  // projectInputData: ProjectInputModel[] = [];
   projectId: number;
   formErrors = {
     ElectricPower: 'Minimum 0 Maximum 1000 kwh!',
@@ -42,13 +41,13 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked,
   };
 
   dataSource: any;
-  // displayedColumns = ['No', 'RawMaterialType', 'Remark', 'Action'];
-  public projectInput: ProjectInputModel[] = [];
-  inputEditIndex: number;
   public stepperIndex: number;
   public ServiceId: string;
   public projectStatus: ProjectStatusModel[] = [];
   public Quarter: QuarterModel[] = [];
+  private InvestorId: any;
+  private ServiceApplicationId: any;
+  private workFlowId: any;
 
   constructor(private formBuilder: FormBuilder,
               private errMsg: ErrorMessage,
@@ -59,23 +58,24 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked,
               private formService: FormService,
               private dataSharing: DataSharingService,
               private dataSharingService: DataSharingService,
-              private pRequirementService: ProjectRequirementService,
-              private pInputService: ProjectInputService) {
+              private pRequirementService: ProjectRequirementService) {
   }
 
   ngOnInit() {
     this.initForm();
-    this.ServiceId = localStorage.getItem('ServiceId');
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
     if (this.ServiceId === '1234') {
-      this.getProjectStatus(+localStorage.getItem('ProjectId'));
+      this.getProjectStatus(this.route.snapshot.params['ProjectId']);
     }
     this.initStaticData('en');
     this.route.params
       .subscribe((params: Params) => {
         this.projectId = +params['id'];
         if (this.projectId > 1) {
-          // this.getProjectRawMaterial();
           this.getProjectRequirement();
         }
       });
@@ -105,14 +105,11 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked,
             setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
             setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
 
-
-            // this.onClear();
-          }, error => this.toastr.error(this.errMsg.getError(error)));
+            }, error => this.toastr.error(this.errMsg.getError(error)));
       } else {
         this.formErrors = this.formService.validateForm(this.pIOform, this.formErrors, false);
       }
     } else {
-      // this.pIOform.get('RawMaterial').clearValidators();
       this.pRequirementService.update(this.getUtility(), this.rawInputId)
         .subscribe(result => {
           this.notification('update');
@@ -132,7 +129,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked,
       OtherUtility: [0, [Validators.min(0)]],
       LandIndustrial: [0, [Validators.min(0)]],
       LandAgricultural: [0, [Validators.min(0)]],
-      LandService:[0, [Validators.min(0)]],
+      LandService: [0, [Validators.min(0)]],
       OwnLand: [0, [Validators.min(0)]],
       LeaseLand: [0, [Validators.min(0)]],
       RentalLand: [0, [Validators.min(0)]],
@@ -140,7 +137,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked,
       RegistrationYear: [''],
       ProjectStatus: [''],
       Remark: ['', [Validators.minLength(2)]],
-      workFlowId: ['']
+      workFlowId: []
     })
     ;
 
@@ -154,11 +151,6 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked,
     this.pIOform.reset();
   }
 
-
-  ngOnDestroy(): void {
-    // this.subscription.unsubscribe();
-  }
-
   notification(message: string) {
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
 
@@ -170,7 +162,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked,
 
   getUtility(): ProjectRequirementModel {
     return {
-      ProjectId: this.pIOform.get('ProjectId').value,
+      ProjectId: this.projectId,
       ElectricPower: this.pIOform.get('ElectricPower').value,
       Water: this.pIOform.get('Water').value,
       OtherUtility: this.pIOform.get('OtherUtility').value,
@@ -186,12 +178,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked,
   }
 
   ngAfterContentChecked(): void {
-    this.pIOform.patchValue({
-      ProjectId: localStorage.getItem('ProjectId')
-    });
-    // this.pIOform.get('RawMaterial').patchValue({
-    //   ProjectId: localStorage.getItem('ProjectId')
-    // });
+
     this.pIOform.patchValue({
       workFlowId: localStorage.getItem('workFlowId')
     });
@@ -207,13 +194,21 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked,
 
     let projectStatus1: ProjectStatusModel = new ProjectStatusModel();
     ProjectStatus.forEach(pair => {
-      projectStatus1 = {'Id': pair.Id.toString(), 'DescriptionEnglish': pair.DescriptionEnglish, 'Description': pair.Description};
+      projectStatus1 = {
+        'Id': pair.Id.toString(),
+        'DescriptionEnglish': pair.DescriptionEnglish,
+        'Description': pair.Description
+      };
       this.projectStatus.push(projectStatus1);
     });
 
     let Quarter1: QuarterModel = new QuarterModel();
     Quarter.forEach(pair => {
-      Quarter1 = {'Id': pair.Id.toString(), 'DescriptionEnglish': pair.DescriptionEnglish, 'Description': pair.Description};
+      Quarter1 = {
+        'Id': pair.Id.toString(),
+        'DescriptionEnglish': pair.DescriptionEnglish,
+        'Description': pair.Description
+      };
       this.Quarter.push(Quarter1);
     });
 

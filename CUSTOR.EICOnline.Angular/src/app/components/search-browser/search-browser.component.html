@@ -267,28 +267,24 @@
                       [disabled]="!projectList.IsActive"
                       color="primary"
                       matTooltip="Click Here to Continue"
-                      (click)="startApplication(projectList?.ProjectId,
-                      projectList?.ServiceApplicationId,
-              projectList.ServiceId,
-              projectList?.ProjectStatus,
-              projectList?.ProjectName)">
+                      (click)="startApplication(projectList)">
                 <!--<mat-icon color="primary" class="mat-18">done</mat-icon>-->
 
                 <span style="font-weight: bolder;padding: 10px">Continue </span>
               </button>
               <div style="padding: 10px">
-              <button *ngIf="canManageManageIncentiveAssignedServices "
-                      mat-raised-button
-                      [disabled]="!projectList.IsActive"
-                      color="primary"
-                      matTooltip="Click Here to Continue"
-                      (click)="showIncentiveDetials(projectList?.ProjectId,
+                <button *ngIf="canManageManageIncentiveAssignedServices "
+                        mat-raised-button
+                        [disabled]="!projectList.IsActive"
+                        color="primary"
+                        matTooltip="Click Here to Continue"
+                        (click)="showIncentiveDetials(projectList?.ProjectId,
                       projectList?.ServiceApplicationId,
               projectList.ServiceId,
               projectList?.ProjectStatus,
               projectList?.ProjectName)">
-                <span style="font-weight: bolder;">Incentive Detail</span>
-              </button>
+                  <span style="font-weight: bolder;">Incentive Detail</span>
+                </button>
               </div>
             </div>
           </mat-cell>

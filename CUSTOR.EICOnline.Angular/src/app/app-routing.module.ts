@@ -48,7 +48,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
         loadChildren: 'app/components/auth/register/register.module#RegisterModule'
       },
       {
-        path: 'officer',
+        path: 'officer/:ServiceId/:InvestorId/:ServiceApplicationId/:workFlowId',
         loadChildren: 'app/components/officer-Task/officer.module#OfficerModule',
         canActivate: [AuthGuard]
       },
@@ -63,7 +63,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'business-tab/:ServiceId/:id',
+        path: 'business-tab/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/business/business-tab/business-tab.module#BusinessTabModule',
         canActivate: [AuthGuard]
       },
@@ -113,12 +113,12 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'pro/:id',
+        path: 'pro/:id/:ServiceApplicationId/:ServiceId/:workFlowId/:InvestorId',
         loadChildren: './components/project-profile/project.module#ProjectModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'project-substitute/:id',
+        path: 'project-substitute/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: './components/project-profile/project-substitute/ProjectSubstitute.module#ProjectSubstituteModule',
         canActivate: [AuthGuard]
       },
@@ -216,12 +216,12 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'project-renewal/:id',
+        path: 'project-renewal/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/project-profile/project-renewal-tab/projectRenewal.module#ProjectRenewalModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'project-cancellation/:id',
+        path: 'project-cancellation/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/project-profile/project-cancellation-tab/project-cancellation-tab.module#ProjectCancellationTabModule',
         canActivate: [AuthGuard]
       },
@@ -269,7 +269,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-project-list',
+        path: 'investor-project-list/:ServiceId',
         loadChildren: 'app/components/project-list-modal/InvestorProjectList.module#InvestorProjectListModule',
         canActivate: [AuthGuard]
       },
@@ -291,7 +291,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'bill-of-material/:type/:ServiceApplicationId',
+        path: 'bill-of-material/:type/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/incentive/bill-of-material/billOfMaterial.module#BillOfMaterialModule',
         canActivate: [AuthGuard]
       },
@@ -305,17 +305,13 @@ import {AddressComponent} from './components/project-profile/address/address.com
         loadChildren: 'app/components/incentive/incentive-services/incentiveService.module#IncentiveServiceModule',
         canActivate: [AuthGuard]
       },
-      // {
-      //   path: 'incentive-tab',
-      //   loadChildren: 'app/components/incentive/incentive-tab/incentive-tab.module#IncentiveTabModule',
-      //   canActivate: [AuthGuard]
-      // },
+
       {
         path: 'denied',
         component: AccessDeniedComponent
       },
       {
-        path: 'incentive-request-item/:id',
+        path: 'incentive-request-item/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/incentive/incentive-request/incentive-request.module#IncentiveRequestModule',
         canActivate: [AuthGuard]
       },
@@ -325,7 +321,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'tax-exemption/:id',
+        path: 'tax-exemption/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/incentive/tax-exemption/tax-exemption.module#TaxExemptionModule',
         canActivate: [AuthGuard]
       },

@@ -73,11 +73,11 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
   }
 
   addProject() {
-    localStorage.setItem('ServiceId', '13');
+    // localStorage.setItem('ServiceId', '13');
     setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
 
     setTimeout(() => this.dataSharing.isNew.next(true), 0);
-    this.router.navigate(['pro/', 0]);
+    this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + 13 + '/' + 0 + '/' + localStorage.getItem('InvestorId')]);
   }
 
   getInvestorsByTin() {
@@ -199,16 +199,16 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
 
   }
 
-  editProject(projectId: number, serviceApplicationId: any, serviceId: any) {
-    localStorage.setItem('ServiceApplicationId', serviceApplicationId);
-    localStorage.setItem('ServiceId', serviceId);
-    // localStorage.setItem('title', title);
-
-    setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
-
-    setTimeout(() => this.dataSharing.isNew.next(true), 0);
-    this.router.navigate(['pro/', projectId]);
-  }
+  // editProject(projectId: number, serviceApplicationId: any, serviceId: any) {
+  //   localStorage.setItem('ServiceApplicationId', serviceApplicationId);
+  //   localStorage.setItem('ServiceId', serviceId);
+  //   // localStorage.setItem('title', title);
+  //
+  //   setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+  //
+  //   setTimeout(() => this.dataSharing.isNew.next(true), 0);
+  //   this.router.navigate(['pro/', projectId]);
+  // }
 
 
   projectDetail(id: number) {
