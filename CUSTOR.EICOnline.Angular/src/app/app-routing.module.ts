@@ -11,7 +11,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
 import {ErrorComponent} from './components/error/error.component';
 import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {AddressComponent} from './components/project-profile/address/address.component';
-import {RegistrationModule} from './components/registration/registration.module';
+
 @NgModule({
   imports: [
     RouterModule.forRoot([
@@ -143,7 +143,7 @@ import {RegistrationModule} from './components/registration/registration.module'
         canActivate: [AuthGuard]
       },
       {
-        path: 'letter',
+        path: 'letter/:projectId/:isForDetail',
         loadChildren: './components/project-profile/letter/letter.module#LetterModule',
         canActivate: [AuthGuard]
       },
@@ -296,7 +296,8 @@ import {RegistrationModule} from './components/registration/registration.module'
         canActivate: [AuthGuard]
       },
       {
-        path: 'bom-balance/:type/:ServiceApplicationId',
+        //path: 'bom-balance/:type/:ServiceApplicationId',
+        path: 'bom-balance',
         loadChildren: 'app/components/incentive/balance/balance.module#BalanceModule',
         canActivate: [AuthGuard]
       },
@@ -317,7 +318,7 @@ import {RegistrationModule} from './components/registration/registration.module'
       },
       {
         path: 'letter-template',
-        loadChildren: 'app/components/letter/lettertemplate.module#LettertemplateModule',
+        loadChildren: 'app/components/letter-template/lettertemplate.module#LettertemplateModule',
         canActivate: [AuthGuard]
       },
       {
@@ -356,17 +357,10 @@ import {RegistrationModule} from './components/registration/registration.module'
         canActivate: [AuthGuard]
       },
       {
-        path: 'registration',
-        loadChildren: 'app/components/registration/registration.module#RegistrationModule',
+        path: 'incentive-detail/:projectId',
+        loadChildren: 'app/components/incentive/incentive-detail/incentive-detail.module#IncentiveDetailModule',
         canActivate: [AuthGuard]
       },
-      {
-        path: 'bussiness',
-        loadChildren: 'app/components/bussiness/bussiness.module#BussinessModule',
-        canActivate: [AuthGuard]
-      },
-
-
       {path: '', component: HomeComponent},
       {path: '**', component: NotFoundComponent},
     ])

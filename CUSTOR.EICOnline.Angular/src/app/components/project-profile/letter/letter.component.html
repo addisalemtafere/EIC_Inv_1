@@ -9,7 +9,9 @@
         <mat-divider></mat-divider>
           </span>
       </div>
+      <span *ngIf="isForDetails">
       <button class="custom-button" *ngIf="enableButtonGenerate" (click)="generatePDF()">Generate Letter</button>
+        </span>
       <mat-divider></mat-divider>
     </div>
 
@@ -21,7 +23,7 @@
                       (selectionChange)="SetControls($event.value)"
                       required>
             <option value="0">--Select--</option>
-            <mat-option *ngFor="let LetterType of Lookups" [value]="LetterType.LookupId" >
+            <mat-option *ngFor="let LetterType of Lookups" [value]="LetterType.LookupId">
               <span>{{LetterType.English}}</span>
             </mat-option>
           </mat-select>
@@ -124,7 +126,7 @@ toolbar_items_size: 'small'}">
       <ng-container matColumnDef="RequestDate">
         <mat-header-cell *matHeaderCellDef fxFlex="25">Request Date</mat-header-cell>
         <mat-cell *matCellDef="let LetterModels" fxFlex="25">
-          {{LetterModels.RequestDate |  date:'MM/dd/yyyy'}}
+          {{LetterModels.RequestDate | date:'MM/dd/yyyy'}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="Action">

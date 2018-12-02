@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {LettertepmlateService} from '../../letter/lettertepmlate.service';
+import {LettertepmlateService} from '../../letter-template/lettertepmlate.service';
 import {LetterTemplateModel} from '../../../model/letter-template.model';
 import {AppConfiguration} from '../../../config/appconfig';
 import {HttpClient} from '@angular/common/http';
@@ -53,7 +53,7 @@ export class LetterComponent implements OnInit {
   dataSource: any;
   loading = false;
   ShowSave = false;
-
+  isForDetails = true;
   revenueBranchu = false;
   RequestedDate = false;
   attachment = false;
@@ -100,25 +100,31 @@ export class LetterComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.getProjectDetails();
-    this.getIncentiveDetails();
-    this.getLetterTempalte();
-    if (localStorage.getItem('ServiceId') === '1045') {
-      this.getItemLookup(2846, 100);
-      this.getLetters(2846, 100);
-    }
-    else if (localStorage.getItem('ServiceId') === '1046' || localStorage.getItem('ServiceId') === '1047' || localStorage.getItem('ServiceId') === '1054') {
-      this.getItemLookup(2845, 2847);
-      this.getLetters(2845, 2847);
-    } else if (localStorage.getItem('ServiceId') === '13') {
-      this.getItemLookup(2851, 2854);
-      this.getLetters(2851, 2854);
-    }
-    this.getReveuneLookup();
+    if (this.activatedRoute.snapshot.params['isForDetail'] == 1) {
+      this.getLetter();
+      this.getLookups();
+      this.isForDetails = false;
+    } else {
+      this.getProjectDetails();
+      this.getIncentiveDetails();
+      this.getLetterTempalte();
+      if (localStorage.getItem('ServiceId') === '1045') {
+        this.getItemLookup(2846, 100);
+        this.getLetters(2846, 100);
+      }
+      else if (localStorage.getItem('ServiceId') === '1046' || localStorage.getItem('ServiceId') === '1047' || localStorage.getItem('ServiceId') === '1054') {
+        this.getItemLookup(2845, 2847);
+        this.getLetters(2845, 2847);
+      } else if (localStorage.getItem('ServiceId') === '13') {
+        this.getItemLookup(2851, 2854);
+        this.getLetters(2851, 2854);
+      }
+      this.getReveuneLookup();
 
-    this.getAddressData(localStorage.getItem('ProjectId'));
-    if (localStorage.getItem('ServiceId') === '1045') {
-      this.getTaxExemptionDetails();
+      this.getAddressData(localStorage.getItem('ProjectId'));
+      if (localStorage.getItem('ServiceId') === '1045') {
+        this.getTaxExemptionDetails();
+      }
     }
     // else if (localStorage.getItem('ServiceId') === '1046') {
     //
@@ -126,6 +132,20 @@ export class LetterComponent implements OnInit {
     //
     // }
   }
+
+  getLetter() {
+    console.log(this.activatedRoute.snapshot.params['projectId']);
+    this.letterService.getLetterLists(this.activatedRoute.snapshot.params['projectId'])
+      .subscribe(result => {
+          if (result) {
+            this.letterModelList = result;
+            console.log(this.letterModelList);
+            this.dataSource = new MatTableDataSource<LetterModel>(this.letterModelList);
+          }
+        },
+        error => this.errMsg.getError(error));
+  }
+
 
   getTaxExemptionDetails() {
     this.taxExemptionService.getTaxExemption(localStorage.getItem('IncentiveTaxExemptionRequestID'))
@@ -158,7 +178,17 @@ export class LetterComponent implements OnInit {
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
-  getLetters(LetterType: any, LetterType1:any) {
+  getLookups() {
+    this.loadingIndicator = true;
+    this.lookupSub = this.lookUpsService
+      .getLookupByParentId(707)
+      .subscribe(result => {
+          this.Lookups = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+
+  getLetters(LetterType: any, LetterType1: any) {
     this.letterService.getLetterList(localStorage.getItem('ProjectId'), LetterType, LetterType1)
       .subscribe(result => {
           if (result) {
@@ -248,8 +278,6 @@ export class LetterComponent implements OnInit {
       Attachment: ['', Validators.compose([Validators.required, Validators.maxLength(2), Validators.pattern('^[0-9 .]+$')])],
       CategoryCode: ['', Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9 .]+$')])],
       RequestDate: new FormControl(),
-
-
     });
   }
 
@@ -323,10 +351,13 @@ export class LetterComponent implements OnInit {
     this.LetterContent = this.LetterContent.replace(/{{ReqDate}}/g,
       new Date().toDateString());
     // this.RequestDate);
-    this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
-      //this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
-      'n343en7'
-    );
+
+    if (localStorage.getItem('ServiceId') !== '1045') {
+      this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
+        this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
+        //'n343en7'
+      );
+    }
     this.LetterContent = this.LetterContent.replace(/{{Region}}/g,
       this.addressList.Region.Description);
 

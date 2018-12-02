@@ -184,6 +184,7 @@ export class AppConfiguration {
     letter: 'api/letter',
     letters: 'api/letters',
 
+
     incentiveRequests: 'api/incentiveRequests/ByIds',
     incentiveRequest: 'api/incentiveRequest',
     incentiveRequestsothers: 'api/incentiveRequests/ByOtherServiceAppId',
@@ -207,6 +208,11 @@ export class AppConfiguration {
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
     IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/GetByProjectId',
 
+
+    lettersByProjectId: 'api/letters/ByProjectId',
+    IncentiveRequestDetailsByProjectId: 'api/IncentiveRequestDetail/ByProjectId',
+    IncentiveRequestDetailsByCategoryId: 'api/IncentiveRequestDetail/ByCategoryId',
+
     GetAllBudgetYearTypes: 'api/GetAllBudgetYearTypes',
     Divisions: 'api/Divisions/',
     MajorDivisions: 'api/MajorDivisions/',
@@ -222,6 +228,7 @@ export class AppConfiguration {
     SaveRegistration: 'api/saveregistration',
     UpdateRegistration: 'api/UpdateRegistration',
     SaveRegistrationCatagory: 'api/registrationcatagory',
+
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];

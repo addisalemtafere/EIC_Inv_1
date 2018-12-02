@@ -43,11 +43,11 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         {
             return _itemsRepository.GetAll();
         }
-        [HttpGet("{projectId}/{incentiveCategoryId}")]
-        public async Task<IEnumerable<IncentiveBoMRequestItem>> GetIncentiveBoMRequestItems(int projectId, int incentiveCategoryId)
+        [HttpGet("{projectId}/{incentiveCategoryId}/{Phase}")]
+        public async Task<IEnumerable<IncentiveBoMRequestItem>> GetIncentiveBoMRequestItems(int projectId, int incentiveCategoryId,int Phase)
         {
             // to-do return required fields only
-            return await _itemsRepository.GetAllItems(projectId, incentiveCategoryId);
+            return await _itemsRepository.GetAllItems(projectId, incentiveCategoryId, Phase);
         }
         [HttpGet("finalForApproval/{id}")]
         public async Task<IActionResult> GetBillOfmaterialAndFinalizeAsync([FromRoute] int id)

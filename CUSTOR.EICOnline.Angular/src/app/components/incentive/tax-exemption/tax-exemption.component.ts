@@ -183,11 +183,11 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   hasValidationErrors() {
-    if (this.RevenueBranch.value === 0 || this.RevenueBranch.value === null) {
+    if (this.RevenueBranch.value == 0 || this.RevenueBranch.value == null || this.RevenueBranch.value == undefined) {
       this.toastr.error('Please Select Revenue Branch');
       return true;
     }
-    if (this.RequestDate.value === 0 || this.RequestDate.value === null) {
+    if (this.RequestDate.value == 0 || this.RequestDate.value == null || this.RequestDate.value == undefined) {
       this.toastr.error('Please Select Request Date');
       return true;
     }
@@ -200,7 +200,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
     else {
       if (this.editMode === false) {
         this.projectProfileService.ProjectsDetail(+localStorage.getItem('ProjectId')).subscribe(result => {
-          if (result.BusinessLicenseNo === null) {
+          if (result.BusinessLicenseNo == null) {
             this.existanceNotification('The Project Does not Have Business License');
             return;
           }
