@@ -58,7 +58,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-tab/:ServiceId/:id',
+        path: 'investor-tab/:ServiceId/:id/:InvestorId',
         loadChildren: 'app/components/investor/investor-tab/investor-tab.module#InvestorTabModule',
         canActivate: [AuthGuard]
       },

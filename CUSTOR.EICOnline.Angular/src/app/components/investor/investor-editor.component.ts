@@ -1,6 +1,6 @@
 import {AfterContentChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {fadeInOut} from '@custor/services/animations';
 import {InvestorService} from './investor.service';
@@ -77,8 +77,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   originFlag = true;
   public countryListWithOutEthipia: LookupsModel[];
   public branch = false;
+  private ServiceId: any;
+  private ServiceApplicationId: any;
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
               private lookUpService: LookUpService,
@@ -113,6 +115,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   ngOnInit() {
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.ServiceApplicationId = this.route.snapshot.params['id'];
+
+
     this.loadingIndicator = true;
     this.currentLang = this.configService.language;
     this.initStaticData(this.currentLang);
@@ -120,14 +126,12 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.formControlValueChanged();
     this.getMajorDivisions();
 
-    const id = this.activatedRoute.snapshot.params['id'];
-    // console.debug(id);
+    const id = this.route.snapshot.params['InvestorId'];
     if (id < 1) {
       this.isNewInvestor = true;
       this.isCompany = false;
 
       this.title = 'Create a new Investor';
-
       return;
     }
     if (id) {
@@ -297,6 +301,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.loadingIndicator = false;
   }
 
+
   getAddressData(parent: number) {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
@@ -345,6 +350,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         },
         error => this.toastr.error(error));
   }
+
   getRegions() {
     this.custService.getRegionsByLang(this.currentLang)
       .subscribe(result => {
@@ -483,8 +489,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       cPaidCapital: this.investor.PaidCapital || '',
       cSighnedCapital: this.investor.SighnedCapital || '',
 
-    /*  cTradeNameEng: this.investor.TradeNameEnglish || '',
-      cTradeName: this.investor.TradeName || '',*/
+      /*  cTradeNameEng: this.investor.TradeNameEnglish || '',
+        cTradeName: this.investor.TradeName || '',*/
       Title: this.investor.Title || '',
       // FormOfOwnership: this.investor.FormOfOwnership || '',
       FormOfOwnership: this.investor.FormOfOwnership == null ? '' : this.investor.FormOfOwnership.toString(),
@@ -512,7 +518,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       Email: this.investor.Email || '',
       OtherAddress: this.investor.OtherAddress || ''
     });
-  // }, 2000);
+    // }, 2000);
     this.branch = (this.investor.FormOfOwnership.toString() === '5');
   }
 
@@ -531,7 +537,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     const lStatus: number = this.legalStatus.value;
     const fOwnership: number = this.FormOfOwnershipV.value;
     // alert (fOwnership);
-    if (lStatus.toString() === '1' && fOwnership.toString() === '4' ) {
+    if (lStatus.toString() === '1' && fOwnership.toString() === '4') {
       this.toastr.error('The legal status and form of ownership combination is invalid');
       return;
     }
@@ -541,12 +547,13 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       return;
     }
     this.loadingIndicator = true;
-    console.log(this.getEditedInvestor());
     return this.custService.saveInvestor(this.getEditedInvestor())
-      .subscribe((investor: Investor) => {
+      .subscribe((investor) => {
           this.saveCompleted(investor);
           localStorage.setItem('InvestorId', investor.InvestorId.toString());
-          localStorage.setItem('legalStatus', investor.LegalStatus.toString());
+          //localStorage.setItem('legalStatus', investor.LegalStatus.toString());
+          this.router.navigate(['investor-tab/1235/' + investor.ServiceApplicationId + '/' + investor.InvestorId]);
+          //alert(investor.ServiceApplicationId);
           this.saveAddress();
         },
         err => this.handleError(err)
@@ -589,7 +596,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     const formModel = this.investorForm.value;
 
     const add = this.investorForm.get('address').value;
-    console.log (add);
+    console.log(add);
     return {
       InvestorId: this.isNewInvestor ? 0 : this.investor.InvestorId,
       FirstName: this.isCompany ? formModel.cCompanyName : formModel.cFirstName,
@@ -756,6 +763,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     });
     // this.getKebeleByWoredaId(woredaCode);
   }
+
   getInvestorTitle(id: any) {
     this.lookUpService.getLookupByParentId(id).subscribe(result => {
       console.log(result);

@@ -107,7 +107,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
   ngOnInit() {
     this.currentLang = this.configService.language;
-    const id = this.activatedRoute.snapshot.params['id'];
+    const id = this.activatedRoute.snapshot.params['InvestorId'];
     this.initStaticData(this.currentLang);
     this.imgBase64 = '';
     if (id < 1) {
@@ -116,20 +116,14 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       this.associateId = 0;
       this.title = 'Create a new associate';
       this.imgPhoto = '';
-
       return;
     }
     if (id) {
       // to-do
       // get the selected investor either through @Input or shared service
       this.getInvestor(id);
-      this.associateId = id;
-      this.imgPhoto = this.appConfig.urls.baseUrl + 'photo/Mgr' + this.associateId + '.jpg'; // to-do put the path in config
-      console.log(this.imgPhoto);
     }
     this.fillAddressLookups();
-    console.log('i am here ');
-
   }
 
 
@@ -158,21 +152,33 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     // this.investorSub.unsubscribe();
   }
 
+
   getInvestor(id) {
-    this.isNewInvestor = false;
     this.loadingIndicator = true;
     this.investorSub = this.associateService
-      .getOneById(id)
+      .getOneAssociateByInvestorId(id)
       .subscribe(result => {
           this.associate = result;
           this.fillAddressLookups();
 
-          this.updateForm();
+          if(result == null){
+            this.isNewInvestor = true;
+          }
+          else {
+            this.isNewInvestor = false;
+            this.updateForm();
+            this.associateId = id;
+            this.imgPhoto = this.appConfig.urls.baseUrl + 'photo/Mgr' + this.associate.AssociateId + '.jpg'; // to-do put the path in config
+          }
+          console.log(this.imgPhoto);
+            // this.updateForm();
           // this.getAddressData(this.associate.AssociateId);
         },
         error => this.toastr.error(error));
     this.loadingIndicator = false;
   }
+
+
 
   getAddressData(parent: number) {
     this.addressService.getAddress(parent)

@@ -45,6 +45,15 @@ namespace CUSTOR.EICOnline.API.Controllers
                 .Where(p => p.InvestorId == id);
         }
 
+
+        [HttpGet("GetOneAssociateByInvestorId/{id}")]
+        public async Task<Associate> GetOneAssociateByInvestorID([FromRoute] int id)
+        {
+            var associate = await _context.Associate.FirstOrDefaultAsync(m => m.InvestorId == id);
+            return associate;
+        }
+
+
         // GET: api/Associates/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAssociate([FromRoute] int id)
@@ -52,7 +61,6 @@ namespace CUSTOR.EICOnline.API.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var associate = await _context.Associate.FirstOrDefaultAsync(m => m.AssociateId == id);
-
             if (associate == null) return NotFound();
 
             return Ok(associate);

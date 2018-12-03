@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CUSTOR.EICOnline.API", "CUS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CUSTOR.EICOnline.DAL", "CUSTOR.EICOnline.DAL\CUSTOR.EICOnline.DAL.csproj", "{63667743-DE73-4FE5-9AD8-7AC2697FC891}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CUSTOR.EICOnline.Angular(1)", "CUSTOR.EICOnline.Angular\", "{5962126F-2F8F-4051-8F90-8A000E4F653A}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CUSTOR.EICOnline.Angular", "CUSTOR.EICOnline.Angular\", "{A29D3EC3-0309-418E-8F05-62CCE81EEA07}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_51424"
@@ -25,6 +25,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CUSTOR.EICOnline.Angular(1)
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "51424"
+		SlnRelativePath = "CUSTOR.EICOnline.Angular\"
 	EndProjectSection
 EndProject
 Global
@@ -34,11 +35,16 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6E9C1410-5194-44A4-A4E2-D23BF4D47D6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E9C1410-5194-44A4-A4E2-D23BF4D47D6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E9C1410-5194-44A4-A4E2-D23BF4D47D6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E9C1410-5194-44A4-A4E2-D23BF4D47D6D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63667743-DE73-4FE5-9AD8-7AC2697FC891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63667743-DE73-4FE5-9AD8-7AC2697FC891}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63667743-DE73-4FE5-9AD8-7AC2697FC891}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63667743-DE73-4FE5-9AD8-7AC2697FC891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A29D3EC3-0309-418E-8F05-62CCE81EEA07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A29D3EC3-0309-418E-8F05-62CCE81EEA07}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{A29D3EC3-0309-418E-8F05-62CCE81EEA07}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

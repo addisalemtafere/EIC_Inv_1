@@ -48,6 +48,8 @@ namespace EICOnline.Controllers
             return await InvestorRepo.GetRecord(id);
         }
 
+
+
         [HttpGet("api/InvestorByUserId/{id}")]
         public async Task<IEnumerable<Investor>> GetInvestorByUserId(string id)
         {

@@ -63,8 +63,8 @@ export class RegistratioinTabComponent implements OnInit {
 
             localStorage.setItem('Tin', this.investor.Tin.toString());
             localStorage.setItem('LegalStatus', this.investor.LegalStatus.toString());
-            localStorage.setItem('TradeName', this.investor.TradeName.toString());
-            localStorage.setItem('TradeNameEnglish', this.investor.TradeNameEnglish.toString());
+           /* localStorage.setItem('TradeName', this.investor.TradeName.toString());
+            localStorage.setItem('TradeNameEnglish', this.investor.TradeNameEnglish.toString());*/
           }
         },
         error => this.toastr.error(error));

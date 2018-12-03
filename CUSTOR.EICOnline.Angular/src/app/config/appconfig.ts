@@ -163,6 +163,7 @@ export class AppConfiguration {
 
     associates: 'api/Associates',
     byInvestorId: 'api/Associates/ByInvestorId',
+    GetOneAssociateByInvestorID: 'api/Associates/GetOneAssociateByInvestorID',
     ProjectAssociates: 'api/ProjectAssociates',
     ProjectAssociatesByProject: 'api/ProjectAssociates/ByProject',
 

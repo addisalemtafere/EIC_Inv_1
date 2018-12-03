@@ -96,12 +96,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\Business\" />
     <Folder Include="obj\" />
     <Folder Include="ViewModels\project\" />
     <Folder Include="ViewModels\Validations\" />
     <Folder Include="wwwroot\photo\" />
     <Folder Include="wwwroot\uploadbom\" />
     <Folder Include="wwwroot\Upload\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\CUSTORDBWEB6.dll" />
   </ItemGroup>  
 
   <ItemGroup>

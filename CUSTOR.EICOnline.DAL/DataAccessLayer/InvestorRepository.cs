@@ -36,6 +36,8 @@ namespace CUSTOR.EICOnline.DAL
       }
       return investor;
     }
+
+
     public async Task<List<Investor>> GetRecordByUserId(object UserId)
     {
       List<Investor> investor = null;
