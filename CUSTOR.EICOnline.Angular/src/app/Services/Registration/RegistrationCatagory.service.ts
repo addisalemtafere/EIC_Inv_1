@@ -25,6 +25,15 @@ export class RegistrationCatagoryService extends BaseService<RegistrationCatagor
     super(http, appConfig.urls.url('registrationCatagory'), errMsg);
   }
 
+
+  getRegistrationCatagoriesByInvestorId(InvestorId): Observable<RegistrationCatagory[]> {
+    return this.httpClient.get<RegistrationCatagory[]>(this.appConfig.urls.url('GetRegistrationCatagoryByInvestorId', InvestorId)).pipe(
+      map(result => {
+        return result;
+      }),
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
   getRegistrationCatagoriesByTin(Tin): Observable<RegistrationCatagory[]> {
     return this.httpClient.get<RegistrationCatagory[]>(this.appConfig.urls.url('GetRegistrationCatagoryByTin', Tin)).pipe(
       map(result => {

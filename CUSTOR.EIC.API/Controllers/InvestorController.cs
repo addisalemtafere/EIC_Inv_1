@@ -17,11 +17,13 @@ namespace EICOnline.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly InvestorRepository InvestorRepo;
+        private RegistrationCatagoryRepository regCatagoryRepo;
 
-        public InvestorController(ApplicationDbContext ctx, InvestorRepository investorRepo)
+        public InvestorController(ApplicationDbContext ctx, InvestorRepository investorRepo , RegistrationCatagoryRepository RegCatagoryRepo)
         {
             context = ctx;
             InvestorRepo = investorRepo;
+            regCatagoryRepo = RegCatagoryRepo;
         }
 
         [HttpGet]
@@ -65,46 +67,67 @@ namespace EICOnline.Controllers
             return await InvestorRepo.FindInvestor(searchInvestorDto);
         }
 
+
         [HttpPost("api/investor")]
         public async Task<ServiceApplication> SaveInvestor([FromBody] Investor postedInvestor)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    throw new ApiException("Model binding failed.", 500);
 
-                context.Investors.Add(postedInvestor);
-                await context.SaveChangesAsync();
-                var serviceApplication = new ServiceApplication
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                try
                 {
-                    InvestorId = postedInvestor.InvestorId,
-                    CaseNumber = "12",
-                    ServiceId = 1235,
-                    CurrentStatusId = 44450,
-                    IsSelfService = true,
-                    IsPaid = true,
-                    StartDate = DateTime.Now,
-                    CreatedUserId = 1,
-                    IsActive = false,
-                    CreatedUserName = "Investor",
-                    InvestorNameAmharic = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
-                                          postedInvestor.FirstNameEng,
-                    InvestorNameEnglish = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
-                                          postedInvestor.FirstNameEng,
-                    ServiceNameAmharic = "Customer Registration",
-                    ServiceNameEnglish = "Customer Registration",
-                    ProjectNameEnglish = "",
-                    ProjectNameAmharic = ""
-                };
 
-                context.ServiceApplication.Add(serviceApplication);
-                await context.SaveChangesAsync();
-                return serviceApplication;
-            }
-            catch (Exception ex)
-            {
-                var s = ex.Message;
-                throw new Exception(ex.Message);
+                    if (!ModelState.IsValid)
+                        throw new ApiException("Model binding failed.", 500);
+
+                    context.Investors.Add(postedInvestor);
+                    await context.SaveChangesAsync();
+                    var serviceApplication = new ServiceApplication
+                    {
+                        InvestorId = postedInvestor.InvestorId,
+                        CaseNumber = "12",
+                        ServiceId = 1235,
+                        CurrentStatusId = 44450,
+                        IsSelfService = true,
+                        IsPaid = true,
+                        StartDate = DateTime.Now,
+                        CreatedUserId = 1,
+                        IsActive = false,
+                        CreatedUserName = "Investor",
+                        InvestorNameAmharic = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
+                                              postedInvestor.FirstNameEng,
+                        InvestorNameEnglish = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
+                                              postedInvestor.FirstNameEng,
+                        ServiceNameAmharic = "Customer Registration",
+                        ServiceNameEnglish = "Customer Registration",
+                        ProjectNameEnglish = "",
+                        ProjectNameAmharic = ""
+                    };
+                    context.ServiceApplication.Add(serviceApplication);
+                    await context.SaveChangesAsync();
+
+                    await regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(postedInvestor.InvestorId);
+                    foreach (var catagory in postedInvestor.RegistrationCatagories)
+                    {
+                        RegistrationCatagory regCatagory = new RegistrationCatagory();
+                        //regCatagory.Tin = postedInvestor.Tin;
+                        regCatagory.InvestorId = postedInvestor.InvestorId;
+                        regCatagory.MajorCatagoryCode = catagory;
+                        //regCatagory.MainGuid = Guid.NewGuid();
+                        context.RegistrationCatagorys.Add(regCatagory);
+                        context.SaveChanges();
+                    }
+
+                    
+                    transaction.Commit();
+                    return serviceApplication;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    var s = ex.Message;
+                    throw new Exception(ex.Message);
+                }
             }
         }
 

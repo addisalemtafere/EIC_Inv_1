@@ -28,6 +28,10 @@ import {LookupsModel} from '../../model/lookups';
 import {FormOfOwnershipModel} from '../../model/EnumModel';
 import {FormOfOwnership} from '@custor/const/consts';
 import {NationalityModel} from '../../model/address/NationalityModel';
+import {MajorDivision} from '../../model/catagory/MajorDivision.model';
+import {CatagoryService} from '../../Services/Catagory/Catagory.service';
+import {RegistrationCatagory} from '../../model/Registration/RegistrationCatagory';
+import {RegistrationCatagoryService} from '../../Services/Registration/RegistrationCatagory.service';
 
 @Component({
   selector: 'app-edit-investor',
@@ -54,6 +58,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   filteredWoredas: WoredaModel[] = [];
   kebeles: KebeleModel[] = [];
   filteredKebeles: KebeleModel[] = [];
+  majorDivisions: MajorDivision[] = [];
+  registrationCatagoryList: RegistrationCatagory[] = [];
   // isEditMode = false;
   investorForm: FormGroup;
   loadingIndicator: boolean;
@@ -77,9 +83,11 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               public dataSharing: DataSharingService,
               private lookUpService: LookUpService,
               private addressService: AddressService,
+              private registrationCatagoryService: RegistrationCatagoryService,
               private http: HttpClient, private accountService: AccountService,
               private authService: AuthService,
               private custService: InvestorService,
+              private catagoryService: CatagoryService,
               private configService: ConfigurationService,
               private toastr: ToastrService,
               private fb: FormBuilder) {
@@ -110,6 +118,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.initStaticData(this.currentLang);
     this.initStaticDataOwnerShip(this.currentLang);
     this.formControlValueChanged();
+    this.getMajorDivisions();
+
     const id = this.activatedRoute.snapshot.params['id'];
     // console.debug(id);
     if (id < 1) {
@@ -126,6 +136,14 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.getInvestor(id);
     }
     this.fillAddressLookups();
+  }
+
+  getMajorDivisions() {
+    this.catagoryService.getMajorDivision()
+      .subscribe(result => {
+          this.majorDivisions = result;
+        },
+        error => this.toastr.error(error));
   }
 
   formControlValueChanged() {
@@ -410,8 +428,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
       cRegNumber: [''],
       cRegDate: [''],
-      cTradeNameEng: [''],
-      cTradeName: [''],
+      cPaidCapital: ['', [Validators.compose([Validators.required, Validators.minLength(2),])]],
+      cSighnedCapital: [''],
+      cMajorDivision: [],
+
       'address': new FormGroup({
         ParentId: new FormControl(),
         RegionId: new FormControl(),
@@ -459,8 +479,12 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       // cOtherAddress: this.investor.OtherAddress || '',
       cRegNumber: this.investor.RegistrationNumber || '',
       cRegDate: this.investor.RegistrationDate || '',
-      cTradeNameEng: this.investor.TradeNameEnglish || '',
-      cTradeName: this.investor.TradeName || '',
+
+      cPaidCapital: this.investor.PaidCapital || '',
+      cSighnedCapital: this.investor.SighnedCapital || '',
+
+    /*  cTradeNameEng: this.investor.TradeNameEnglish || '',
+      cTradeName: this.investor.TradeName || '',*/
       Title: this.investor.Title || '',
       // FormOfOwnership: this.investor.FormOfOwnership || '',
       FormOfOwnership: this.investor.FormOfOwnership == null ? '' : this.investor.FormOfOwnership.toString(),
@@ -529,6 +553,15 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       );
   }
 
+  getRegistrationCatagoryData(Tin: string) {
+    this.registrationCatagoryService.getRegistrationCatagoriesByTin(Tin)
+      .subscribe((result: RegistrationCatagory[]) => {
+        this.registrationCatagoryList = result;
+        this.investorForm.get('cMajorDivision').patchValue(result);
+      }, error => this.toastr.error(error));
+  }
+
+
   private saveCompleted(investor?: Investor) {
     if (investor) {
       this.investor = investor;
@@ -570,10 +603,16 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       Tin: formModel.cTin,
       RegistrationDate: formModel.cRegDate,
       RegistrationNumber: formModel.cRegNumber,
-      TradeName: formModel.cTradeName,
-      TradeNameEnglish: formModel.cTradeNameEng,
+      /*TradeName: formModel.cTradeName,
+      TradeNameEnglish: formModel.cTradeNameEng,*/
+      PaidCapital: formModel.cPaidCapital,
+      SighnedCapital: formModel.cSighnedCapital,
+
       LegalStatus: formModel.cLegalStatus,
       IsEthiopianOrigin: formModel.cIsEthiopianOrigin,
+
+      RegistrationCatagories: formModel.cMajorDivision,
+
       UserId: this.accountService.currentUser.Id,
       SiteId: '',
       IsActive: true,
@@ -840,13 +879,22 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     return this.investorForm.get('FormOfOwnership');
   }
 
-  get tradeName() {
+  /*get tradeName() {
     return this.investorForm.get('cTradeName');
   }
 
   get tradeNameEng() {
     return this.investorForm.get('cTradeNameEng');
+  }*/
+
+  get sighnedCapital() {
+    return this.investorForm.get('cSighnedCapital');
   }
+
+  get paidCapital() {
+    return this.investorForm.get('cPaidCapital');
+  }
+
 
   get regDate() {
     return this.investorForm.get('cRegDate');

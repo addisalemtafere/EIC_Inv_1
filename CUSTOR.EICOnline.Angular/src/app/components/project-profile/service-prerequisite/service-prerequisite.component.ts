@@ -242,8 +242,6 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
       .subscribe((result: Investor) => {
         this.getPreReqService(prerequeste, result);
       });
-
-
   }
 
   getPreReqService(pre: any, investor: Investor) {

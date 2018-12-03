@@ -134,6 +134,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     localStorage.setItem('ServiceId', '1235');
   }
 
+  gotoCommericalRegistration() {
+    this.router.navigate(['investor-tab/1235/0']);
+    localStorage.setItem('ServiceId', '1235');
+  }
+
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
 

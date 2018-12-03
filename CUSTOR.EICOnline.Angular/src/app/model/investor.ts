@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Validators} from '@angular/forms';
 
 @Injectable()
 export class Investor {
@@ -26,11 +27,16 @@ export class Investor {
   // IsDiaspora = false;
   Tin?: string = null;
   RegistrationNumber?: string = null;
+  RegistrationCatagories : string[];
   RegistrationDate?: Date = null;
-  TradeName?: string = null;
+  // TradeName?: string = null;
   // tradeNameSort: string = null;
   // tradeNameSoundX: string = null;
-  TradeNameEnglish?: string = null;
+  // TradeNameEnglish?: string = null;
+
+  PaidCapital= null;
+  SighnedCapital= null;
+
   UserId: string = null;
   SiteId: string = null;
   IsActive = true;

@@ -1,0 +1,163 @@
+<app-page-header title="address" icon="address"></app-page-header>
+
+<form class="margin-2" (ngSubmit)="onSubmit()" [formGroup]="registrationAddressForm" novalidate>
+
+  <mat-card class="border">
+    <mat-card-content>
+      <div fxLayout="row" fxLayoutAlign="start center" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field  fxFlex  fxFlex="15">
+            <mat-label>{{'registrationAddress.editor.Region' | translate}}</mat-label>
+            <mat-select formControlName="RegionId"
+                        (selectionChange)="filterRegion($event.value)">
+              <mat-option value="0">-</mat-option>
+              <mat-option *ngFor="let region of regions" [value]="region.RegionId">
+                {{region.Description}}
+              </mat-option>
+            </mat-select>
+            <mat-error align="start" *ngIf="formErrors.Region">{{ formErrors.Region }}</mat-error>
+          </mat-form-field>
+          <mat-form-field  fxFlex  fxFlex="15">
+            <mat-label>{{'registrationAddress.editor.Town' | translate}}</mat-label>
+            <mat-select formControlName="TownId">
+              <mat-option value="0">-</mat-option>
+              <mat-option *ngFor="let town of filteredTowns" [value]="town.TownId">
+                {{town.Description}}
+              </mat-option>
+            </mat-select>
+            <mat-error align="start" *ngIf="formErrors.Town">{{ formErrors.Town }}</mat-error>
+          </mat-form-field>
+         <mat-form-field  fxFlex  fxFlex="15">
+            <mat-label>{{'registrationAddress.editor.Zone' | translate}}</mat-label>
+            <mat-select formControlName="ZoneId" (selectionChange)="filterZone($event.value)">
+              <mat-option value="0">-</mat-option>
+              <mat-option *ngFor="let zone of filteredZones" [value]="zone.ZoneId">
+                {{zone.Description}}
+              </mat-option>
+            </mat-select>
+            <mat-error align="start" *ngIf="formErrors.Zone">{{ formErrors.Zone }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field  fxFlex  fxFlex="15">
+            <mat-label>{{'registrationAddress.editor.Woreda' | translate}}</mat-label>
+            <mat-select formControlName="WoredaId" (selectionChange)="getKebeleByWoredaId($event.value)">
+              <mat-option value="0">-</mat-option>
+              <mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">
+                {{w.Description}}
+              </mat-option>
+            </mat-select>
+            <mat-error align="start" *ngIf="formErrors.Woreda">{{ formErrors.Woreda }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex  fxFlex="15">
+            <mat-label>{{'registrationAddress.editor.Kebele' | translate}}</mat-label>
+            <mat-select formControlName="KebeleId">
+              <mat-option value="0">-</mat-option>
+              <mat-option *ngFor="let k of filteredKebeles" [value]="k.KebeleId">
+                {{k.Description}}
+              </mat-option>
+            </mat-select>
+            <mat-error align="start" *ngIf="formErrors.Kebele">{{ formErrors.Kebele }}</mat-error>
+          </mat-form-field>
+        <mat-form-field  fxFlex  fxFlex="15">
+          <mat-label>{{'registrationAddress.editor.HouseNo' | translate}}</mat-label>
+          <input matInput formControlName="HouseNo" required/>
+          <!--<mat-error align="start" *ngIf="formErrors.HouseNo">{{ formErrors.HouseNo }}</mat-error>-->
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+
+        <mat-form-field   fxFlex  fxFlex="15">
+          <mat-label>{{'registrationAddress.editor.PhoneDirect' | translate}}</mat-label>
+          <input matInput formControlName="DirectTeleNo"/>
+        <!--  <mat-error align="start" *ngIf="formErrors.DirectTeleNo">{{ formErrors.DirectTeleNo }}</mat-error>-->
+        </mat-form-field>
+
+
+        <mat-form-field   fxFlex  fxFlex="15">
+          <mat-label>{{'registrationAddress.editor.PhoneMobile' | translate}}</mat-label>
+          <input matInput formControlName="CellPhoneNumber"/>
+          <!--<mat-error align="start" *ngIf="formErrors.CellPhoneNumber">{{ formErrors.CellPhoneNumber }}</mat-error>-->
+        </mat-form-field>
+
+        <mat-form-field   fxFlex  fxFlex="15">
+          <mat-label>{{'registrationAddress.editor.Fax' | translate}}</mat-label>
+          <input matInput formControlName="Fax"/>
+        </mat-form-field>
+
+
+        <mat-form-field   fxFlex  fxFlex="15">
+          <mat-label>{{'registrationAddress.editor.Pobox' | translate}}</mat-label>
+          <input matInput formControlName="Pobox"/>
+        </mat-form-field>
+
+          <mat-form-field  fxFlex  fxFlex="15">
+            <mat-label>{{'registrationAddress.editor.SpecificAreaName' | translate}}</mat-label>
+            <input formControlName="SpecificAreaName" matInput type="text">
+            <mat-error align="start" *ngIf="formErrors.SpecificAreaName">{{ formErrors.SpecificAreaName }}</mat-error>
+          </mat-form-field>
+
+        <mat-checkbox formControlName="IsMainOffice">{{'registrationAddress.editor.IsMainOffice' | translate}}
+        </mat-checkbox>
+
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center">
+        <div style="text-align: center" fxFlex="67" fxFlexAlign="center">
+          <button
+            mat-raised-button=""
+            type="submit"
+            color="primary">
+            <mat-icon class="mat-18">done</mat-icon>
+            <span class="agree">{{editMode ? 'update' : 'Save'}}</span>
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!--<mat-card class="border" style="border-top: 0px;margin-bottom: 40px; ">
+    <mat-card-content>
+      <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="Region">
+          <mat-header-cell *matHeaderCellDef fxFlex="15">{{'registrationAddress.editor.Region' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let items" fxFlex="15"> {{items.Region }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Zone">
+          <mat-header-cell *matHeaderCellDef fxFlex="15">{{'registrationAddress.editor.Zone' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let items" fxFlex="15"> {{items.Zone }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Woreda">
+          <mat-header-cell *matHeaderCellDef fxFlex="15">{{'registrationAddress.editor.Woreda' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let items" fxFlex="15"> {{items.Woreda }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Kebele">
+          <mat-header-cell *matHeaderCellDef fxFlex="15">{{'registrationAddress.editor.Kebele' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let items" fxFlex="15"> {{items.Kebele }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="HouseNo">
+          <mat-header-cell *matHeaderCellDef fxFlex="15">{{'registrationAddress.editor.HouseNo' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let items" fxFlex="15"> {{items.HouseNo }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="PhoneMobile">
+          <mat-header-cell *matHeaderCellDef fxFlex="15">{{'registrationAddress.editor.PhoneMobile' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let items" fxFlex="15"> {{items.PhoneMobile }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="IsMainOffice">
+          <mat-header-cell *matHeaderCellDef fxFlex="14">{{'registrationAddress.editor.IsMainOffice' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let items" fxFlex="14"> {{items.IsMainOffice }}
+          </mat-cell>
+        </ng-container>
+      </mat-table>
+    </mat-card-content>
+  </mat-card>-->
+</form>
+
+<div *ngIf="loading" class="loadme-circleBounce">
+  <div class="loadme-circleBounce1"></div>
+  <div class="loadme-circleBounce2"></div>
+</div>

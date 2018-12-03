@@ -94,7 +94,8 @@
     "associate": "Manager",
     "capitalRegistration": "Capital Registration",
     "customerRegistration": "Customer Registration",
-    "changePassword": "Change Password"
+    "changePassword": "Change Password",
+    "changePassword": "Commercial Registration"
   },
   "pageHeader": {
     "Dashboard": "Dashboard",
@@ -355,6 +356,65 @@
     "KebeleCode": "Kebele Code",
     "Description": "Description",
     "DescriptionEnglish": "Description English"
+  },
+  "registration": {
+    "management": {
+      "RegistrationName": "Trade Information"
+    },
+    "editor": {
+      "LegalStatus": "Legal Status",
+      "CompanyNameAmharic": "Company Name (Amharic)",
+      "CompanyNameEnglish": "Company Name (English)",
+      "CompanyNameRegional": "Company Name (Regional)",
+      "IsWithForighner": "With Forighner?",
+      "EthiopiansShare": "Ethiopian's Share",
+      "BudgetCatagory": "Budget Catagory",
+      "RegistrationStatus": "Status",
+
+      "Tin": "Tin",
+      "RegNumber": "Registration Number",
+      "RegDate": "Registration Date",
+      "PaidCapital": "Paid Up Capital",
+      "SighnedCapital": "Sighned Capital",
+      "SingleShareValue": "Single Share Value",
+
+      "RepresentativeNameAmharic": "Grantor Company Name(Amharic)",
+      "RepresentativeNameEnglish": "Grantor Company Name(English)",
+      "RepresentativeNameRegional": "Grantor Company Name(Regional)",
+
+      "RepresentativeManagerNameAmharic": "Grantor Company Manager Name(Amharic)",
+      "RepresentativeManagerNameEnglish": "Grantor Company Manager Name(English)",
+      "RepresentativeManagerNameRegional": "Grantor Company Manager Name(Regional)",
+
+      "MainOfficeAddressAmharic": "Main Office Country(Amharic)",
+      "MainOfficeAddressEnglish": "Main Office Country(English)",
+      "MainOfficeAddressRegional": "Main Office Country(Regional)",
+
+      "MainOfficeCountryNameAmharic": "Country (Amharic)",
+      "MainOfficeCountryNameEnglish": "Country(English)",
+      "MainOfficeCountryNameRegional": "Country(Regional)"
+    }
+  },
+
+  "registrationAddress": {
+    "management": {
+      "RegistrationAddressName": "Address"
+    },
+    "editor": {
+      "Region": "Region",
+      "Zone": "Zone",
+      "Town": "Town",
+      "Woreda": "Wereda",
+      "Kebele": "Kebele",
+      "HouseNo": "House Number",
+      "PhoneDirect": "Telephine (Direct)",
+      "PhoneMobile": "Telephine (Mobile)",
+      "Fax": "Fax",
+      "Pobox": "P.O.Box",
+      "Email": "Email",
+      "SpecificAreaName": "Specific Area Name",
+      "IsMainOffice": "Is Main Office"
+    }
   }
 }
 

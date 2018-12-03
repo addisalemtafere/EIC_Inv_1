@@ -103,6 +103,12 @@
           {{'mainMenu.customerRegistration' | translate}}
         </a>
 
+
+        <a *ngIf="canViewTasks || isInvestor" mat-list-item routerLinkActive="active"
+           (click)="gotoCustomerRegistration()">
+          <mat-icon>people</mat-icon>
+          {{'mainMenu.commericalRegistration' | translate}}
+        </a>
         <!--<a *ngIf="!isInvestor" mat-list-item routerLinkActive="active" (click)="gotoCustomerRegistration()">-->
         <!--<mat-icon>people</mat-icon>-->
         <!--{{'mainMenu.customerRegistration' | translate}}</a>-->

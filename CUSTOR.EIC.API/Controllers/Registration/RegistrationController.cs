@@ -80,17 +80,17 @@ namespace EICOnline.Controllers
                         throw new ApiException(RegistrationRepo.ErrorMessage);
 
 
-                    await regCatagoryRepo.DeleteRegistrationCatagory(postedRegistration.Tin);
-                    foreach (var catagory in postedRegistration.RegistrationCatagories)
-                    {
-                        RegistrationCatagory regCatagory = new RegistrationCatagory();
-                        regCatagory.Tin = postedRegistration.Tin;
-                        regCatagory.MajorCatagoryCode = catagory;
-                        regCatagory.MainGuid = Guid.NewGuid();
-                        context.RegistrationCatagorys.Add(regCatagory);
-                        context.SaveChanges();
-                    }
-                    transaction.Commit();
+                    //await regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(postedRegistration.Tin);
+                    //foreach (var catagory in postedRegistration.RegistrationCatagories)
+                    //{
+                    //    RegistrationCatagory regCatagory = new RegistrationCatagory();
+                    //    regCatagory.Tin = postedRegistration.Tin;
+                    //    regCatagory.MajorCatagoryCode = catagory;
+                    //    regCatagory.MainGuid = Guid.NewGuid();
+                    //    context.RegistrationCatagorys.Add(regCatagory);
+                    //    context.SaveChanges();
+                    //}
+                    //transaction.Commit();
                     return postedRegistration;
                 }
 
@@ -138,16 +138,16 @@ namespace EICOnline.Controllers
                         throw new ApiException(RegistrationRepo.ErrorMessage);
 
 
-                    await regCatagoryRepo.DeleteRegistrationCatagory(editedRegistration.Tin);
-                    foreach (var catagory in editedRegistration.RegistrationCatagories)
-                    {
-                        RegistrationCatagory regCatagory = new RegistrationCatagory();
-                        regCatagory.Tin = editedRegistration.Tin;
-                        regCatagory.MajorCatagoryCode = catagory;
-                        regCatagory.MainGuid = Guid.NewGuid();
-                        context.RegistrationCatagorys.Add(regCatagory);
-                        context.SaveChanges();
-                    }
+                    //await regCatagoryRepo.DeleteRegistrationCatagory(editedRegistration.Tin);
+                    //foreach (var catagory in editedRegistration.RegistrationCatagories)
+                    //{
+                    //    RegistrationCatagory regCatagory = new RegistrationCatagory();
+                    //    regCatagory.Tin = editedRegistration.Tin;
+                    //    regCatagory.MajorCatagoryCode = catagory;
+                    //    regCatagory.MainGuid = Guid.NewGuid();
+                    //    context.RegistrationCatagorys.Add(regCatagory);
+                    //    context.SaveChanges();
+                    //}
                     transaction.Commit();
                     return editedRegistration;
                 }

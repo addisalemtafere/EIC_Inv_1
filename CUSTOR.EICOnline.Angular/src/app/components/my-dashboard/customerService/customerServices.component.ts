@@ -77,7 +77,6 @@ export class CustomerServiceStarterComponent implements OnInit {
 
       localStorage.setItem('currentIndex', '0');
       // this.router.navigate(['/service-info', serviceId]);
-
       // this.openDialog();
       const ch = +localStorage.getItem('ServiceId');
       // this.dialogRef.close();
@@ -110,13 +109,14 @@ export class CustomerServiceStarterComponent implements OnInit {
 
           this.router.navigate(['/investor-project-list'], {relativeTo: this.route});
           break;
+        case 1237:
+          this.router.navigate(['registration-tab/' + serviceId + '/' + 0 + '/' + 0]);
+          break;
         default:
           this.router.navigate(['/notfound'], {relativeTo: this.route});
           break;
-
       }
       this.dialog.closeAll();
-
     } else {
       this.notification('Your Profile Must be completed');
       this.router.navigate(['/investor-tab']);
