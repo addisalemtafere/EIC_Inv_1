@@ -18,11 +18,12 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            CurrentUserId = "5926fc5c-7c25-48d5-878d-79e35ba2f8d1"; //for now
+           
         }
 
         public string CurrentUserId { get; set; }
-
+        public string CurrentUserName { get; set; }
+        
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Investor> Investors { get; set; }
         public DbSet<CompanyClearance> CompanyClearances { get; set; }
@@ -130,63 +131,61 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public override int SaveChanges()
         {
-            UpdateAuditEntities();
+            //await UpdateAuditEntitiesAsync();
             return base.SaveChanges();
         }
 
-        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            UpdateAuditEntities();
-            return base.SaveChanges(acceptAllChangesOnSuccess);
+            await UpdateAuditEntitiesAsync();
+            return await base.SaveChangesAsync(cancellationToken);
         }
+ 
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        private async Task UpdateAuditEntitiesAsync()
         {
-            UpdateAuditEntities();
-            return base.SaveChangesAsync(cancellationToken);
-        }
-
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            UpdateAuditEntities();
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        private void UpdateAuditEntities()
-        {
-            var modifiedEntries = ChangeTracker.Entries()
-                .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
-
-            foreach (var entry in modifiedEntries)
+            try
             {
-                var entity = (IAuditableEntity)entry.Entity;
-                DateTime now = DateTime.UtcNow;
-
-                if (entry.State == EntityState.Added)
+                var modifiedEntries = ChangeTracker.Entries()
+                    .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+                foreach (var entry in modifiedEntries)
                 {
-                    entity.CreatedDate = now;
-                    entity.CreatedBy = CurrentUserId;
-                }
-                else
-                {
-                    base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
-                    base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
-                }
 
-                entity.UpdatedDate = now;
-                entity.UpdatedBy = CurrentUserId;
+                    var entity = (IAuditableEntity)entry.Entity;
+                    DateTime now = DateTime.UtcNow;
+
+                    if (entry.State == EntityState.Added)
+                    {
+                        entity.CreatedDate = now;
+                        entity.CreatedBy = CurrentUserName;
+                        entity.CreatedUserId = CurrentUserId;
+                        entity.UpdatedDate = null;
+                        entity.UpdatedBy = null;
+                        entity.UpdatedUserId = null;
+                    }
+                    else
+                    {
+                        base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
+                        base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
+                        entity.UpdatedDate = now;
+                        entity.UpdatedBy = CurrentUserName;
+                        entity.UpdatedUserId = CurrentUserId;
+                    }
+
+                   
+                }
             }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.Message);
+            }
+           
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //  if (!optionsBuilder.IsConfigured)
-        //  {
-        //    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-        //    optionsBuilder.UseSqlServer(@"server=LAPTOP-ANIV3T71;Initial Catalog=EIC;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-        //  }
-        //}
 
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -214,7 +213,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                   entity.Property(e => e.Email).HasMaxLength(50);
 
-                  entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                 
 
                   entity.Property(e => e.Fax).HasMaxLength(50);
 
@@ -333,11 +332,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             {
                 entity.ToTable("Associate", "dbo");
 
-                entity.HasIndex(e => e.AddressId);
-
-                entity.HasIndex(e => e.InvestorId);
-
-                entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+              
 
                 entity.Property(e => e.FatherName).HasMaxLength(50);
 
@@ -370,15 +365,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 entity.Property(e => e.Remark).HasMaxLength(100);
 
                 entity.Property(e => e.Tin).HasMaxLength(100);
-
-                entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Associate)
-                    .HasForeignKey(d => d.AddressId);
-
-                entity.HasOne(d => d.Investor)
-                    .WithMany(p => p.Associate)
-                    .HasForeignKey(d => d.InvestorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+//
+//                entity.HasOne(d => d.Address)
+//                    .WithMany(p => p.Associate)
+//                    .HasForeignKey(d => d.AddressId);
+//
+//                entity.HasOne(d => d.Investor)
+//                    .WithMany(p => p.Associate)
+//                    .HasForeignKey(d => d.InvestorId)
+//                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Caption>(entity =>

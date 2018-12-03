@@ -83,7 +83,8 @@
           </mat-expansion-panel-header>
 
           <mat-list dense class="mat-expansion-panel-body">
-            <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" (click)="Investor()">
+            <a *ngIf="isInvestor" mat-list-item routerLinkActive="active"
+               (click)="Investor()">
               <mat-icon color="primary" class="mat-18">account_circle</mat-icon>
               {{'mainMenu.InvestorProfile' | translate}}</a>
             <a *ngIf="isInvestor" (click)="toMangerList()" mat-list-item routerLinkActive="active">

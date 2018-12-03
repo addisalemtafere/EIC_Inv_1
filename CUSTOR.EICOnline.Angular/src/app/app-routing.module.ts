@@ -270,7 +270,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
         canActivate: [AuthGuard]
       },
       {
-        path: 'search-browser',
+        path: 'search-browser/:ServiceId/:InvestorId/:ProjectId',
         loadChildren: 'app/components/search-browser/search-browser.module#SearchBrowserModule',
         canActivate: [AuthGuard]
       },

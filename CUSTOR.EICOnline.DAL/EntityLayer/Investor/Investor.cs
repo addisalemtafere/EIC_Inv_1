@@ -1,15 +1,16 @@
-﻿using System;
+﻿using CUSTOR.EICOnline.DAL.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
-    public partial class Investor
+    public partial class Investor : IAuditableEntity
     {
         public Investor()
         {
-            Associate = new HashSet<Associate>();
+            //Associate = new HashSet<Associate>();
 
         }
 
@@ -34,7 +35,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int InvestorId { get; set; }
-
+        //public int AddressId { get; set; }
         public int LegalStatus { get; set; }
 
         public int? Title { get; set; }
@@ -62,38 +63,24 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         //public byte?[] Photo { get; set; }
         public string Tin { get; set; }
 
-        [NotMapped]
-        public string[] RegistrationCatagories { get; set; }
-
-
         public string RegistrationNumber { get; set; }
         public DateTime? RegistrationDate { get; set; }
-
-        public decimal PaidCapital { get; set; }
-        public decimal SighnedCapital { get; set; }
-
-
+        public string TradeName { get; set; }
+        public string TradeNameSort { get; set; }
+        public string TradeNameSoundX { get; set; }
+        public string TradeNameEnglish { get; set; }
         public string UserId { get; set; }
-        public int? SiteId { get; set; }
+        //public string SiteCode { get; set; }
         public bool? IsActive { get; set; }
         public bool IsDeleted { get; set; }
-
+        public string CreatedUserId { get; set; }
+        public string UpdatedUserId { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
+
         public Guid ObjectId { get; set; }
-        public string RegionId { get; set; }
-        public string ZoneId { get; set; }
-        public string WoredaId { get; set; }
-        public string KebeleId { get; set; }
-        public string HouseNo { get; set; }
-        public string TeleNo { get; set; }
-        public string Pobox { get; set; }
-        public string Fax { get; set; }
-        public string CellPhoneNo { get; set; }
-        public string Email { get; set; }
-        public string OtherAddress { get; set; }
-        public ICollection<Associate> Associate { get; set; }
+
     }
 }

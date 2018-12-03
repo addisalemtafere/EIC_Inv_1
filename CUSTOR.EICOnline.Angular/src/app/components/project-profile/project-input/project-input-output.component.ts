@@ -105,7 +105,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
             setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
             setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
 
-            }, error => this.toastr.error(this.errMsg.getError(error)));
+          }, error => this.toastr.error(this.errMsg.getError(error)));
       } else {
         this.formErrors = this.formService.validateForm(this.pIOform, this.formErrors, false);
       }
@@ -137,7 +137,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
       RegistrationYear: [''],
       ProjectStatus: [''],
       Remark: ['', [Validators.minLength(2)]],
-      workFlowId: []
+      workFlowId: [this.workFlowId]
     })
     ;
 
@@ -179,9 +179,9 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
 
   ngAfterContentChecked(): void {
 
-    this.pIOform.patchValue({
-      workFlowId: localStorage.getItem('workFlowId')
-    });
+    // this.pIOform.patchValue({
+    //   workFlowId: localStorage.getItem('workFlowId')
+    // });
   }
 
   next() {

@@ -48,7 +48,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
     }
     if (this.InvestorId) {
 
-      this.getCompanyClearance(InvestorId);
+    //  this.getCompanyClearance(InvestorId);
     }
   }
 
@@ -68,21 +68,21 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
 
   getCompanyClearance(id) {
     this.loadingIndicator = true;
-    this.com = this.companyClearanceService
-      .getOneAssociateByInvestorId(id)
-      .subscribe(result => {
-          this.associate = result;
-
-
-          if(result == null){
-            this.editMode = false;
-          }
-          else {
-            this.editMode = true;
-            this.updateForm();
-          }
-        },
-        error => this.toastr.error(error));
+    // this.com = this.companyClearanceService
+    //   .getOneAssociateByInvestorId(id)
+    //   .subscribe(result => {
+    //       this.associate = result;
+    //
+    //
+    //       if(result == null){
+    //         this.editMode = false;
+    //       }
+    //       else {
+    //         this.editMode = true;
+    //         this.updateForm();
+    //       }
+    //     },
+    //     error => this.toastr.error(error));
     this.loadingIndicator = false;
   }
 
