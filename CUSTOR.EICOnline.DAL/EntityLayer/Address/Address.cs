@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
-  public partial class Address
+  public partial class Address: IAuditableEntity
   {
     public Address()
     {
-      Associate = new HashSet<Associate>();
+      //Associate = new HashSet<Associate>();
       //Investor = new HashSet<Investor>();
     }
 
@@ -28,28 +28,24 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public string CellPhoneNo { get; set; }
     public string Email { get; set; }
     public string OtherAddress { get; set; }
-
     public bool? IsIndustrialPark { get; set; }
     public int? IndustrialParkId { get; set; }
-
-
     public string Remark { get; set; }
     public bool? IsActive { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTime EventDatetime { get; set; }
-    public int CreatedUserId { get; set; }
-    public string CreatedUserName { get; set; }
-    public DateTime? UpdatedEventDatetime { get; set; }
-    public int? UpdatedUserId { get; set; }
-    public string UpdatedUserName { get; set; }
+    public string CreatedUserId { get; set; }
+    public string UpdatedUserId { get; set; }
+    public DateTime? CreatedDate { get; set; }
+    public string CreatedBy { get; set; }
+    public DateTime? UpdatedDate { get; set; }
+    public string UpdatedBy { get; set; }
     public Guid? ObjectId { get; set; }
-
     public Kebele Kebele { get; set; }
     public Region Region { get; set; }
     public Town Town { get; set; }
     public Woreda Woreda { get; set; }
     public Zone Zone { get; set; }
-    public ICollection<Associate> Associate { get; set; }
+    //public ICollection<Associate> Associate { get; set; }
     //public ICollection<Investor> Investor { get; set; }
   }
 }

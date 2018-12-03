@@ -213,7 +213,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                   entity.Property(e => e.Email).HasMaxLength(50);
 
-                  entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                 
 
                   entity.Property(e => e.Fax).HasMaxLength(50);
 

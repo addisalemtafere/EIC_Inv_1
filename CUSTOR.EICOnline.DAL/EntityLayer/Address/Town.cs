@@ -1,6 +1,6 @@
-﻿using System;
+﻿using CUSTOR.EICOnline.DAL.EntityLayer;
+using System;
 using System.Collections.Generic;
-using CUSTOR.EICOnline.DAL.EntityLayer;
 
 namespace CUSTOR.EICOnline.DAL
 {
