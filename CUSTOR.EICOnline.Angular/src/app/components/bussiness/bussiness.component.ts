@@ -8,7 +8,7 @@ import {BussinessModel} from '../../model/bussiness/BussinessModel.model';
 import {ALPHABET_WITHSPACE_REGEX, STATUS, ET_ALPHABET_WITHSPACE_REGEX, GENDERS} from '../../const/consts';
 
 import {BussinessCatagory} from '../../model/bussiness/BussinessCatagory.model';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {DivisionModel} from '../../model/catagory/DivisionModel.model';
 import {Status} from 'tslint/lib/runner';
 import {CatagoryService} from '../../Services/Catagory/Catagory.service';
@@ -35,6 +35,7 @@ export class BussinessComponent implements OnInit {
   filterGroupList: DivisionModel[] = [];
   bussinessCatagory: BussinessCatagory;
   SubGroupList = [];
+  ServiceApplicationId: any;
   filterSubGroupList = [];
   Tin: string;
   // DivisionList = []
@@ -43,6 +44,7 @@ export class BussinessComponent implements OnInit {
                private catagoryservice: CatagoryService,
                private  bussinessService: BussinessService,
                private router: Router,
+               public route: ActivatedRoute,
                 private fb: FormBuilder) {
    /* this.bussinessForm = new FormGroup({
       BussinessName: new FormControl(),
@@ -66,7 +68,7 @@ export class BussinessComponent implements OnInit {
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
       cCapital: ['', [Validators.compose([Validators.required, Validators.minLength(2)])]],
       cLicenseNum: ['', [Validators.compose([Validators.required, Validators.minLength(2)])]],
-      cStatus: ['1'], // Ethiopian
+      cStatus: ['0'],
       'Catagory': new FormGroup({
         MajorDivision: new FormControl(),
         Division: new FormControl(),
@@ -81,11 +83,13 @@ export class BussinessComponent implements OnInit {
   ngOnInit() {
     this.loadingIndicator = true;
     let Bussinessta: any = [];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    localStorage.setItem('Tin',"0016233161");
     this.Tin = localStorage.getItem('Tin');
     this.bussinessService.getRegistrationByTin(this.Tin).subscribe(
       result => {
         this.bussinessForm.patchValue({
-          cBussinessName: result.BusinessNameAmh,
+         cBussinessName: result.BusinessNameAmh,
           cBussinessNameEng: result.BusinessName,
           cCapital: result.PaidUpCapital});
         this.loadingIndicator = false;
@@ -176,10 +180,12 @@ export class BussinessComponent implements OnInit {
     this.toastr.success('Record saved successfully!');
   }
   private getEditedbussiness(): BussinessModel {
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.Tin = localStorage.getItem('Tin');
     const formModel = this.bussinessForm.value;
     return {
       OwnerTIN: this.Tin,
+      ServiceApplicationId: this.ServiceApplicationId,
       MainGuid: '00000000-0000-0000-0000-000000000000',
       TradeNameAmh: formModel.cBussinessName,
       TradesName: formModel.cBussinessNameEng,

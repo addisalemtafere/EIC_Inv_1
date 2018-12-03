@@ -63,13 +63,13 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
             {
                 
                 bussiness.DateRegistered = DateTime.Now;
-                bussiness.EventDateTime = DateTime.Now;
+                bussiness.CreatedDate = DateTime.Now;
                 bussiness.IsPrivouslyRegistered = false;
                 bussiness.MainGuid = Guid.NewGuid();
                 bussiness.SiteID = "";
                 bussiness.Status = "0";
                 bussiness.TradeNameDate = DateTime.Now;
-                bussiness.Username = "";
+                bussiness.CreatedBy = "";
                 Context.Businesses.Add(bussiness);
                 await Context.SaveChangesAsync();
             }
