@@ -19,7 +19,7 @@ import {ProjectStatus, Quarter} from '@custor/const/consts';
   templateUrl: './raw-material-form.component.html',
   styleUrls: ['./raw-material-form.component.scss']
 })
-export class RawMaterialFormComponent implements OnInit, AfterContentChecked, OnDestroy {
+export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
   //
   pRawMaterialForm: FormGroup;
   editModeInput = false;
@@ -35,6 +35,9 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked, On
   public projectStatus: ProjectStatusModel[] = [];
   public Quarter: QuarterModel[] = [];
   public ServiceId: string;
+  private InvestorId: any;
+  private workFlowId: any;
+  private ServiceApplicationId: any;
 
   constructor(private formBuilder: FormBuilder,
               private errMsg: ErrorMessage,
@@ -51,10 +54,13 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked, On
 
   ngOnInit() {
     this.initForm();
-    this.ServiceId = localStorage.getItem('ServiceId');
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
     if (this.ServiceId === '1234') {
-      this.getProjectStatus(+localStorage.getItem('ProjectId'));
+      this.getProjectStatus(this.route.snapshot.params['ProjectId']);
     }
     this.initStaticData('en');
     this.route.params
@@ -95,9 +101,7 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked, On
       ProjectStatus: [''],
     });
 
-    // this.pRawMaterialForm.valueChanges.subscribe((data) => {
-    //   this.formErrors = this.formService.validateForm(this.pRawMaterialForm, this.formErrors, true);
-    // });
+
   }
 
   onSubmitRawMaterial() {
@@ -111,7 +115,7 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked, On
           this.dataSource = new MatTableDataSource<ProjectInputModel>(this.projectInputData);
           this.pRawMaterialForm.reset();
           if (this.ServiceId === '1234') {
-            this.getProjectStatus(+localStorage.getItem('ProjectId'));
+            this.getProjectStatus(this.route.snapshot.params['ProjectId']);
           }
         }, error => this.toastr.error(this.errMsg.getError(error)));
     } else {
@@ -124,11 +128,6 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked, On
 
         }, error => this.toastr.error(this.errMsg.getError(error)));
     }
-  }
-
-
-  ngOnDestroy(): void {
-    // this.subscription.unsubscribe();
   }
 
 
@@ -157,13 +156,10 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked, On
     console.log(this.projectInputData[index].IsForeign);
   }
 
-  // ngAfterViewChecked(): void {
-  //
-  // }
 
   getInputData(): ProjectInputModel {
     return {
-      ProjectId: this.pRawMaterialForm.get('ProjectId').value,
+      ProjectId: this.projectId,
       RawMaterialType: this.pRawMaterialForm.get('RawMaterialType').value,
       IsForeign: this.pRawMaterialForm.get('IsForeign').value,
       Remark: this.pRawMaterialForm.get('Remark').value,
@@ -174,13 +170,13 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked, On
   }
 
   ngAfterContentChecked(): void {
-    this.pRawMaterialForm.patchValue({
-      ProjectId: localStorage.getItem('ProjectId')
-    });
+    // this.pRawMaterialForm.patchValue({
+    //   ProjectId: localStorage.getItem('ProjectId')
+    // });
 
-    this.pRawMaterialForm.patchValue({
-      workFlowId: localStorage.getItem('workFlowId')
-    });
+    // this.pRawMaterialForm.patchValue({
+    //   workFlowId: localStorage.getItem('workFlowId')
+    // });
   }
 
   next() {

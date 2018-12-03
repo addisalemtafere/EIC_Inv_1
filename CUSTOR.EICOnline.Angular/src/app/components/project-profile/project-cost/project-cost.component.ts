@@ -1,5 +1,13 @@
 import {AfterContentChecked, Component, OnDestroy, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {ProjectCostModel} from '../../../model/ProjectCost.model';
 import {MatSnackBar} from '@angular/material';
 
@@ -55,6 +63,9 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
   public ServiceId: string;
   public Quarter: QuarterModel[] = [];
   private sumOfPlan: number;
+  private InvestorId: any;
+  private workFlowId: any;
+  private ServiceApplicationId: any;
 
   constructor(private formBuilder: FormBuilder,
               public formService: FormService,
@@ -70,12 +81,16 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
   }
 
   ngOnInit() {
-    this.ServiceId = localStorage.getItem('ServiceId');
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
-    this.formBuild();
+
     if (this.ServiceId === '1234') {
-      this.getProjectStatus(+localStorage.getItem('ProjectId'));
+      this.getProjectStatus(this.route.snapshot.params['ProjectId']);
     }
+
     this.initStaticData('en');
     this.route.params
       .subscribe((params: Params) => {
@@ -84,19 +99,20 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
           this.getProjectCost();
         }
       });
-
+    this.formBuild();
     this.getExchangeRate();
     this.formControlValueChanged();
   }
 
   getProjectCost() {
-    this.projectCostService.getCostByProjectId(this.projectId).subscribe(result => {
-      if (typeof (result) !== 'undefined') {
-        this.editMode = true;
-        this.costId = result.ProjectCostId;
-        this.projectCostForm.patchValue(result);
-      }
-    }, error => this.errMsg.getError(error));
+    this.projectCostService.getCostByProjectId(this.projectId)
+      .subscribe(result => {
+        if (typeof (result) !== 'undefined') {
+          this.editMode = true;
+          this.costId = result.ProjectCostId;
+          this.projectCostForm.patchValue(result);
+        }
+      }, error => this.errMsg.getError(error));
   }
 
   initStaticData(currentLang) {
@@ -107,7 +123,11 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
     });
     let projectStatus1: ProjectStatusModel = new ProjectStatusModel();
     ProjectStatus.forEach(pair => {
-      projectStatus1 = {'Id': pair.Id.toString(), 'DescriptionEnglish': pair.DescriptionEnglish, 'Description': pair.Description};
+      projectStatus1 = {
+        'Id': pair.Id.toString(),
+        'DescriptionEnglish': pair.DescriptionEnglish,
+        'Description': pair.Description
+      };
       this.projectStatus.push(projectStatus1);
     });
 
@@ -151,8 +171,8 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
 
   formBuild() {
     this.projectCostForm = new FormGroup({
-      ProjectId: new FormControl(''),
-      workFlowId: new FormControl(''),
+      ProjectId: new FormControl(this.projectId),
+      workFlowId: new FormControl(this.workFlowId),
       LandCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       BuildingCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       MachineryCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
@@ -193,8 +213,8 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
     const formModel = this.projectCostForm.value;
 
     return {
-      ProjectId: formModel.ProjectId,
-      workFlowId: formModel.workFlowId,
+      ProjectId: this.projectId,
+      workFlowId: this.workFlowId,
       LandCost: formModel.LandCost,
       BuildingCost: formModel.BuildingCost,
       MachineryCost: formModel.MachineryCost,
@@ -246,12 +266,12 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
   }
 
   ngAfterContentChecked(): void {
-    this.projectCostForm.patchValue({
-      ProjectId: localStorage.getItem('ProjectId')
-    });
-    this.projectCostForm.patchValue({
-      workFlowId: localStorage.getItem('workFlowId')
-    });
+    // this.projectCostForm.patchValue({
+    //   ProjectId: localStorage.getItem('ProjectId')
+    // });
+    // this.projectCostForm.patchValue({
+    //   workFlowId: localStorage.getItem('workFlowId')
+    // });
     this.projectCostForm.patchValue({
       ExchangeRate: this.ExchangeRate
     });

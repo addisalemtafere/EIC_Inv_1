@@ -16,7 +16,22 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
         public Task<List<Letter>> GetLetters(int id, string letterType, string letterType1, int page = 0, int pageSize = 15)
         {
             IQueryable<Letter> Letters = Context.Letter
-                .Where(Let => Let.ProjectId == id || Let.LetterType == letterType || Let.LetterType == letterType1)
+                .Where(Let => Let.ProjectId == id && (Let.LetterType == letterType || Let.LetterType == letterType1))
+                .OrderBy(Let => Let.LetterId);
+            if (page > 0)
+            {
+                Letters = Letters
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
+            }
+
+            return Letters.ToListAsync();
+        }
+
+        public Task<List<Letter>> GetLettersByProjectId(int id, int page = 0, int pageSize = 15)
+        {
+            IQueryable<Letter> Letters = Context.Letter
+                .Where(Let => Let.ProjectId == id)
                 .OrderBy(Let => Let.LetterId);
             if (page > 0)
             {

@@ -104,7 +104,7 @@ export class AppConfiguration {
     servicePrerequisiteByServiceId: 'api/servicePrerequisiteByServiceId',
     // order: 'api/Order',
     ServiceApplications: 'api/ServiceApplications',
-    certificate: '/api/certificate',
+    certificate: 'api/certificate',
     Notification: 'api/Notifications',
     ChangeStatus: 'api/Notifications/ChangeStatus',
     CountNotification: 'api/Notifications/CountNotification',
@@ -132,7 +132,7 @@ export class AppConfiguration {
     ServiceApplicationBillOfMaterial: 'api/ServiceApplications/ServiceApplicationBillOfMaterial',
 
     ProjectsByInvestorId: 'api/Projects/ByInvestorId',
-    SearchInvestor: '/api/SearchInvestor',
+    SearchInvestor: 'api/SearchInvestor',
 
     TodoTasks: 'api/TodoTasks',
     CompletedTask: 'api/TodoTasks/CompletedTask',
@@ -190,6 +190,7 @@ export class AppConfiguration {
     letter: 'api/letter',
     letters: 'api/letters',
 
+
     incentiveRequests: 'api/incentiveRequests/ByIds',
     incentiveRequest: 'api/incentiveRequest',
     incentiveRequestsothers: 'api/incentiveRequests/ByOtherServiceAppId',
@@ -213,6 +214,11 @@ export class AppConfiguration {
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
     IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/GetByProjectId',
 
+
+    lettersByProjectId: 'api/letters/ByProjectId',
+    IncentiveRequestDetailsByProjectId: 'api/IncentiveRequestDetail/ByProjectId',
+    IncentiveRequestDetailsByCategoryId: 'api/IncentiveRequestDetail/ByCategoryId',
+
     GetAllBudgetYearTypes: 'api/GetAllBudgetYearTypes',
     Divisions: 'api/Divisions/',
     MajorDivisions: 'api/MajorDivisions/',
@@ -228,6 +234,7 @@ export class AppConfiguration {
     SaveRegistration: 'api/saveregistration',
     UpdateRegistration: 'api/UpdateRegistration',
     SaveRegistrationCatagory: 'api/registrationcatagory',
+
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];

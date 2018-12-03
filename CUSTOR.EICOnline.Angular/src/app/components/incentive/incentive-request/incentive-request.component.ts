@@ -19,6 +19,8 @@ import {IncentiveRequestModel} from '../../../model/IncentiveRequest.model';
 import {ApplicationSettingService} from '../../../Services/application-setting.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
 import {AccountService} from '@custor/services/security/account.service';
+import {IncentiveRequestDetailService} from './requested-items-list/requested-items-list.service';
+import {IncentiveBoMRequestItemModel} from '../../../model/incentive/IncentiveBoMRequestItem.model';
 
 @Component({
   selector: 'app-incentive-request',
@@ -28,7 +30,7 @@ import {AccountService} from '@custor/services/security/account.service';
 export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterContentChecked {
   @ViewChild('form')
 
-  incentiveRequestItemSub: Subscription;
+  incentiveRequestSub: Subscription;
   lookupSub: Subscription;
   title: string;
   isNewIncentiveRequestItem = false;
@@ -66,9 +68,10 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   hasManyDetial = false;
   showPhase = false;
   PhaseLookups: LookupsModel[];
+  public isInvestor: boolean;
+  BOMItems: IncentiveBoMRequestItemModel[] = [];
   private form: NgForm;
   private ExchangeRate: string;
-  public isInvestor: boolean;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -81,7 +84,8 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
               public dialog: MatDialog,
               public accountService: AccountService,
               public settingService: ApplicationSettingService,
-              private IncentiveRequestItemService: IncentiveRequestService, private errMsg: ErrorMessage,
+              private IncentiveRequestItemService: IncentiveRequestDetailService,
+              private IncentiveRequestService: IncentiveRequestService, private errMsg: ErrorMessage,
               private toastr: ToastrService,
               private fb: FormBuilder) {
     this.IncentiveRequestModel = <IncentiveRequestModel>{};
@@ -104,6 +108,46 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   //       },
   //       error => this.toastr.error(this.errMsg.getError(error)));
   // }
+
+  get quantity() {
+    return this.incentiveRequestItemForm.get('Quantity');
+  }
+
+  get CustomsSiteId() {
+    return this.incentiveRequestItemForm.get('CustomsSiteId');
+  }
+
+  get amount() {
+    return this.incentiveRequestItemForm.get('Amount');
+  }
+
+  get currencyType() {
+    return this.incentiveRequestItemForm.get('CurrencyType');
+  }
+
+  get RequestDate() {
+    return this.incentiveRequestItemForm.get('RequestDate');
+  }
+
+  get Quantity() {
+    return this.incentiveRequestItemForm.get('Quantity');
+  }
+
+  get Amount() {
+    return this.incentiveRequestItemForm.get('Amount');
+  }
+
+  get CurrencyType() {
+    return this.incentiveRequestItemForm.get('CurrencyType');
+  }
+
+  get InvoiceNo() {
+    return this.incentiveRequestItemForm.get('InvoiceNo');
+  }
+
+  get Phase() {
+    return this.incentiveRequestItemForm.get('Phase');
+  }
 
   ngOnInit() {
     this.initForm();
@@ -145,7 +189,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.incentiveRequestItemForm.reset();
     this.incentiveRequestItemForm.patchValue({
       ExchangeRate: this.ExchangeRate,
-      RequestDate:new Date()
+      RequestDate: new Date()
     });
     this.isNewIncentiveRequestItem = true;
   }
@@ -167,7 +211,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   getIncentiveReaquestItmesByServiceAppId(ServiceApplicationId) {
-    this.IncentiveRequestItemService.getIncentiveRequestByServiceApplicationId(ServiceApplicationId).subscribe(result => {
+    this.IncentiveRequestService.getIncentiveRequestByServiceApplicationId(ServiceApplicationId).subscribe(result => {
       if (result.length > 0) {
         this.IncentiveRequestModels = result;
         this.dataSource = new MatTableDataSource<IncentiveRequestModel>(this.IncentiveRequestModels);
@@ -177,7 +221,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   getIncentiveReaquestItmes(projectId, serviceApplicationId) {
-    this.IncentiveRequestItemService.getIncentiveRequestslist(projectId, serviceApplicationId).subscribe(result => {
+    this.IncentiveRequestService.getIncentiveRequestslist(projectId, serviceApplicationId).subscribe(result => {
       if (result.length > 1) {
         this.hasManyDetial = true;
       }
@@ -200,7 +244,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   getIncentiveRequestItem(id) {
     this.isNewIncentiveRequestItem = false;
     this.loadingIndicator = true;
-    this.incentiveRequestItemSub = this.IncentiveRequestItemService
+    this.incentiveRequestSub = this.IncentiveRequestService
       .getIncentiveRequest(id)
       .subscribe(result => {
           this.IncentiveRequestModel = result;
@@ -261,7 +305,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       return;
     } else {
       this.loadingIndicator = true;
-      return this.IncentiveRequestItemService.saveIncentiveRequest(
+      return this.IncentiveRequestService.saveIncentiveRequest(
         this.getEditedIncentiveItem()).subscribe((incentiveRequestModel: IncentiveRequestModel) => {
           this.saveCompleted(incentiveRequestModel);
         },
@@ -282,7 +326,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       this.toastr.error(' Requested quantity can not be 0');
       return true;
     }
-    if (this.CustomsSiteId.value === 0 || this.CustomsSiteId.value === null) {
+    if (this.CustomsSiteId.value === 0 || this.CustomsSiteId.value === null || this.CustomsSiteId.value === undefined) {
       this.toastr.error('Please Select Customs Site');
       return true;
     }
@@ -302,10 +346,23 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       this.toastr.error('Please Enter Amount');
       return true;
     }
-    if (this.incentiveRequestItemForm.get('IncentiveCategoryId').toString() === '10778' || this.incentiveRequestItemForm.get('IncentiveCategoryId').toString() === '10782') {
-      if (this.Phase.value === 0 || this.Phase.value === null) {
-        this.toastr.error('Please Enter Incentive Request Phase Number');
+
+    if (this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10778' || this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10782') {
+
+      if (this.Phase.value == 0 || this.Phase.value == null) {
+        this.toastr.error('Please Enter Incentive Request Batch Number');
         return true;
+      }
+      if (this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10778') {
+        this.IncentiveRequestItemService
+          .getIncentiveBoMRequestDetails(localStorage.getItem('ProjectId'), this.incentiveRequestItemForm.get('IncentiveCategoryId').value, this.incentiveRequestItemForm.get('Phase').value)
+          .subscribe((items) => {
+            this.BOMItems = items;
+          });
+        if (this.BOMItems.length == 0) {
+          this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
+          return true;
+        }
       }
     }
   }
@@ -321,7 +378,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.confirmDialogRef.afterClosed().subscribe(result => {
       this.loadingIndicator = true;
       if (result) {
-        this.IncentiveRequestItemService.deleteIncentiveRequest(id)
+        this.IncentiveRequestService.deleteIncentiveRequest(id)
           .subscribe(() => {
             this.notification('Deleted');
             this.IncentiveRequestModels.splice(index, 1);
@@ -368,6 +425,21 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.router.navigate(['/incentive-request-history']);
   }
 
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
+
+  filterIncentiveCategory(categoryCode: number) {
+    if (!categoryCode) {
+      return;
+    }
+    if (categoryCode === 10778 || categoryCode === 10782) {
+      this.showPhase = true;
+    } else {
+      this.showPhase = false;
+    }
+  }
+
   private saveCompleted(incentiveRequestModel?: IncentiveRequestModel) {
     if (incentiveRequestModel) {
       this.IncentiveRequestModel = incentiveRequestModel;
@@ -401,59 +473,6 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       ProjectId: localStorage.getItem('ProjectId'),
       ServiceApplicationId: localStorage.getItem('ServiceApplicationId')
     };
-  }
-  getUserType() {
-    this.isInvestor = this.accountService.getUserType();
-  }
-  get quantity() {
-    return this.incentiveRequestItemForm.get('Quantity');
-  }
-
-  get CustomsSiteId() {
-    return this.incentiveRequestItemForm.get('CustomsSiteId');
-  }
-
-  get amount() {
-    return this.incentiveRequestItemForm.get('Amount');
-  }
-
-  get currencyType() {
-    return this.incentiveRequestItemForm.get('CurrencyType');
-  }
-
-  get RequestDate() {
-    return this.incentiveRequestItemForm.get('RequestDate');
-  }
-
-  get Quantity() {
-    return this.incentiveRequestItemForm.get('Quantity');
-  }
-
-  get Amount() {
-    return this.incentiveRequestItemForm.get('Amount');
-  }
-
-  get CurrencyType() {
-    return this.incentiveRequestItemForm.get('CurrencyType');
-  }
-
-  get InvoiceNo() {
-    return this.incentiveRequestItemForm.get('InvoiceNo');
-  }
-
-  get Phase() {
-    return this.incentiveRequestItemForm.get('Phase');
-  }
-
-  filterIncentiveCategory(categoryCode: number) {
-    if (!categoryCode) {
-      return;
-    }
-    if (categoryCode === 10778 || categoryCode === 10782) {
-      this.showPhase = true;
-    } else {
-      this.showPhase = false;
-    }
   }
 
 }

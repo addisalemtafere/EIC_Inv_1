@@ -53,44 +53,8 @@ export class ArchiveApplicationComponent implements OnInit {
         this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result);
         this.loading = false;
         this.serviceApplicationList = result;
-        console.log(this.serviceApplicationList[0].ServiceWorkflow[0].NextStepId);
         this.dataSource.paginator = this.paginator;
       }, error => this.errMsg.getError(error));
-  }
-
-  nextStep(step: number, projectId: number, serviceApplicationId: any) {
-    let stepIndex;
-
-    switch (step) {
-      case 8:
-        stepIndex = 1;
-        break;
-      case 9:
-        stepIndex = 3;
-        break;
-      case 10:
-        stepIndex = 4;
-        break;
-      case 11:
-        stepIndex = 2;
-        break;
-      case 12:
-        stepIndex = 6;
-        break;
-      case 13:
-        stepIndex = 2;
-        break;
-      case 14:
-        stepIndex = 5;
-        break;
-      case 18:
-        stepIndex = 7;
-        break;
-    }
-    console.log(stepIndex);
-    localStorage.setItem('ServiceApplicationId', serviceApplicationId);
-    setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
-    this.router.navigate(['pro/', projectId]);
   }
 
 
@@ -108,13 +72,6 @@ export class ArchiveApplicationComponent implements OnInit {
     }
   }
 
-  editProject(projectId: number, serviceApplicationId: any, serviceId: any) {
-    localStorage.setItem('ServiceApplicationId', serviceApplicationId);
-    localStorage.setItem('ServiceId', serviceId);
-    setTimeout(() => this.dataSharing.isNew.next(true), 0);
-    this.router.navigate(['pro/', projectId]);
-    this.dataSharing.steeperIndex.next(10);
-  }
 
   projectDetail(id: number) {
     console.log(this.router.url);

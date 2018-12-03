@@ -32,7 +32,6 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
     'No', 'ProductName', 'ProductQty', 'ProductValue', 'DomesticMarketShare', 'ExportMarketShare', 'Remark',
     'Action'
   ];
-  ProjectOutputChanged = new Subject<ProjectOutputModel[]>();
   subscription: Subscription;
   formErrors = {
     ProductName: '',
@@ -57,6 +56,9 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
   public projectStatus: ProjectStatusModel[] = [];
   public Quarter: QuarterModel[] = [];
   public unitTypes: UnitType[] = [];
+  private InvestorId: any;
+  private workFlowId: any;
+  private ServiceApplicationId: any;
 
   constructor(private formBuilder: FormBuilder,
               private errMsg: ErrorMessage,
@@ -73,8 +75,11 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
   }
 
   ngOnInit() {
-    this.initForm();
-    this.ServiceId = localStorage.getItem('ServiceId');
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+
 
     if (this.ServiceId === '1234') {
       this.getProjectStatus(+localStorage.getItem('ProjectId'));
@@ -87,6 +92,8 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
           this.getProjectOutPut();
         }
       });
+    this.initForm();
+
     this.autoSum();
   }
 
@@ -138,9 +145,9 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
 
   initForm() {
     this.productForm = this.formBuilder.group({
-      ProjectId: new FormControl(''),
+      ProjectId: new FormControl(this.projectId),
       ProjectOutputId: new FormControl(''),
-      workFlowId: new FormControl(''),
+      workFlowId: new FormControl(this.workFlowId),
       ProductName: new FormControl('', [Validators.required, Validators.minLength(2)]),
       ProductQty: new FormControl(0, [Validators.required, Validators.min(0)]),
       ProductUnit: new FormControl('', [Validators.required]),
@@ -222,12 +229,12 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
   }
 
   ngAfterViewChecked(): void {
-    this.productForm.patchValue({
-      ProjectId: localStorage.getItem('ProjectId')
-    });
-    this.productForm.patchValue({
-      workFlowId: localStorage.getItem('workFlowId')
-    });
+    // this.productForm.patchValue({
+    //   ProjectId: localStorage.getItem('ProjectId')
+    // });
+    // this.productForm.patchValue({
+    //   workFlowId: localStorage.getItem('workFlowId')
+    // });
   }
 
   next() {

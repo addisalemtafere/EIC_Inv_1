@@ -43,6 +43,10 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   public steeperIndex: number;
   public isSol: boolean;
   public InvestorDetial: Investor;
+  private ServiceId: any;
+  private InvestorId: any;
+  private workFlowId: any;
+  private ServiceApplicationId: any;
 
   constructor(private formBuilder: FormBuilder,
               private snackbar: MatSnackBar,
@@ -58,7 +62,11 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   ngOnInit() {
-    this.formBuild();
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+
     this.getAllNation();
     this.getInvestorType();
     this.route.params
@@ -68,6 +76,8 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
           this.getNationalityCompositionsByProject();
         }
       });
+    this.formBuild();
+
   }
 
   getNationalityCompositionsByProject() {
@@ -113,9 +123,9 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
 
   formBuild() {
     this.projectShareForm = this.formBuilder.group({
-      ProjectId: new FormControl(['']),
+      ProjectId: new FormControl([this.projectId]),
       ProjectNationalityCompositionId: new FormControl(''),
-      workFlowId: new FormControl(['']),
+      workFlowId: new FormControl([this.workFlowId]),
       Nationality: new FormControl(null, [Validators.required, this.checkNationality.bind(this)]),
       Qty: new FormControl('', [Validators.required]),
       SharePercent: new FormControl(null, [Validators.required, this.validateTotal.bind(this)]),
@@ -198,7 +208,6 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
     this.invService.getInvestor(localStorage.getItem('InvestorId'))
       .subscribe((result: Investor) => {
         this.InvestorDetial = result;
-        console.log(result);
         if (result.LegalStatus === 1) {
           this.isSol = true;
         } else {
@@ -211,16 +220,15 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   ngAfterContentChecked(): void {
-    this.projectShareForm.patchValue({
-      ProjectId: localStorage.getItem('ProjectId')
-    });
-    this.projectShareForm.patchValue({
-      workFlowId: localStorage.getItem('workFlowId')
-    });
+    // this.projectShareForm.patchValue({
+    //   ProjectId: localStorage.getItem('ProjectId')
+    // });
+    // this.projectShareForm.patchValue({
+    //   workFlowId: localStorage.getItem('workFlowId')
+    // });
   }
 
   next() {
     this.dataSharing.steeperIndex.next(6);
-
   }
 }

@@ -89,15 +89,12 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.getUserType();
     this.initForm();
     this.addForm();
-    this.currentCategoryId = this.route.snapshot.params['type'];
-    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    if (this.currentCategoryId === '10778') {
+    // this.currentCategoryId = this.route.snapshot.params['type'];
+    // this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    // if (this.currentCategoryId === '10778') {
       // this.getBillOfMaterial(this.ServiceApplicationId);
       this.getBillOfMaterial(localStorage.getItem('ProjectId'));
-    }
-    else if (this.currentCategoryId === '10782') {
-
-    }
+    // }
     this.initStaticData(this.currentLang);
 
   }
