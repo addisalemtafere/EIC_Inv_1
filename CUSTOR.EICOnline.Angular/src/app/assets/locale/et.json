@@ -35,8 +35,7 @@
       "InvalidDate": "ትክክለኛ ቀን ያስገቡ",
       "FutureDate": "ይህ ቀን ከዛሬ መብለጥ የለበትም",
       "InvalidEmail": "ትክክለኛ ኢሜል ያስገቡ! ",
-	        "NumberOnly": "ቁጥር ብቻ ያስገቡ!"
-
+      "NumberOnly": "ቁጥር ብቻ ያስገቡ!"
     },
     "messages": {
       "Saved": "መረጃው በትክክል ተቀምጧል",
@@ -93,7 +92,8 @@
     "InvestorProfile": "My Profile",
     "capitalRegistration": "Capital Registration",
     "customerRegistration": "Customer Registration",
-    "changePassword": "Change Password"
+    "changePassword": "Change Password",
+    "commericalRegistration": "Commercial Registration"
   },
   "pageHeader": {
     "Dashboard": "Dashboard",
@@ -263,8 +263,7 @@
     "Cancel": "Cancel",
     "Reset": "Reset",
     "Reload": "Reload"
-  }
-,
+  },
   "incentiverequest": {
     "CustomsBranch": "ጉምሩክ ጣቢያ",
     "IncentiveCategory": "የማበረታቻ አይነት",
@@ -336,6 +335,62 @@
     "KebeleCode": "ቀበሌ ኮድ",
     "Description": "መግለጫ",
     "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+  },
+  "registration": {
+    "management": {
+      "RegistrationName": "የ ነጋዴው መረጃ"
+    },
+    "editor": {
+      "LegalStatus": "ህጋዊ አቋም",
+      "CompanyNameAmharic": "የድርጅት ስም(በአማርኛ)",
+      "CompanyNameEnglish": "የድርጅት ስም(በእንግሊዝኛ)",
+      "CompanyNameRegional": "የድርጅት ስም(በክልል ቋንቋ)",
+      "IsWithForighner": "ከውጭ አገር ዜጋ ጋር?",
+      "EthiopiansShare": "የኢትዮጲያዊው ድርሻ",
+      "BudgetCatagory": "የበጀት ምድብ",
+      "RegistrationStatus": "ያለበት ሁኔታ",
+      "Tin": "የግብር ከፋይ መለያ",
+      "RegNumber": "የምዝገባ ቁጥር",
+      "RegDate": "የምዝገባ ቀን",
+      "PaidCapital": "የግብር ከፋይ መለያ",
+      "SighnedCapital": "የምዝገባ ቁጥር",
+      "SingleShareValue": "የምዝገባ ቀን",
+      "RepresentativeNameAmharic": "የወካይ ድርጅት ስም(በአማርኛ)",
+      "RepresentativeNameEnglish": "የወካይ ድርጅት ስም(በእንግሊዝኛ)",
+      "RepresentativeNameRegional": "የወካይ ድርጅት ስም(በክልል ቋንቋ)",
+      "RepresentativeManagerNameAmharic": "የድርጅቱ ሥራ አሥኪያጅ ሥም(በአማርኛ)",
+      "RepresentativeManagerNameEnglish": "የድርጅቱ ሥራ አሥኪያጅ ሥም(በእንግሊዝኛ)",
+      "RepresentativeManagerNameRegional": "የድርጅቱ ሥራ አሥኪያጅ ሥም(በክልል ቋንቋ)",
+      "MainOfficeAddressAmharic": "የውና መ/ቤት አድራሻ ከኢትዮጲያ ውጪ",
+      "MainOfficeAddressEnglish": "የውና መ/ቤት አድራሻ ከኢትዮጲያ ውጪ(በእንግሊዝኛ)",
+      "MainOfficeAddressRegional": "የውና መ/ቤት አድራሻ ከኢትዮጲያ ውጪ(በክልል ቋንቋ)",
+      "MainOfficeCountryNameAmharic": "የተቋቋመበት አገር",
+      "MainOfficeCountryNameEnglish": "የተቋቋመበት አገር(በእንግሊዝኛ)",
+      "MainOfficeCountryNameRegional": "የተቋቋመበት አገር(በክልል ቋንቋ)"
+    }
+  },
+
+  "registrationAddress": {
+    "management": {
+      "RegistrationAddressName": "Address"
+    },
+    "editor": {
+
+      "Region": "ክልል",
+      "Zone": "ዞን/ከተማ",
+      "Town": "ከተማ",
+      "Woreda": "ወረዳ/ክፍለ ከተማ",
+      "Kebele": "ቀበሌ/ወረዳ",
+      "HouseNo": "የቤት ቁጥር",
+      "PhoneDirect": "ቴሌፎን (ቀጥታ)",
+      "PhoneMobile": "ቴሌፎን (ሞባይል)",
+      "Fax": "ፋክስ",
+      "Pobox": "ፓስታ ሳጥን ቁ",
+      "Email": "ኢሜል",
+      "SpecificAreaName": "የአካባቢው ልዩ ",
+      "IsMainOffice": "ዋና መስሪያ ቤት"
+    }
   }
+
 }
 

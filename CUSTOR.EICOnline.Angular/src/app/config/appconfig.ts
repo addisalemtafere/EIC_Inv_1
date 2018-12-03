@@ -92,6 +92,11 @@ export class AppConfiguration {
     region: 'api/region',
     zones: 'api/Zones',
     zone: 'api/zone',
+
+    towns: 'api/Towns',
+    town: 'api/town',
+
+
     woredas: 'api/Woredas',
     woreda: 'api/woreda',
     kebeles: 'api/Kebeles',
@@ -151,6 +156,7 @@ export class AppConfiguration {
     kebeleById: 'api/Kebele/ById',
     regionsById: 'api/Regions/ById',
     zoneById: 'api/Zones/ById',
+    townById: 'api/Towns/ById',
     requirementByProject: 'api/ProjectRequirements/ByProject',
     ProjectsDetail: 'api/Projects/Detail',
     IncentiveLogs: 'api/IncentiveLogs',

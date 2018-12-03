@@ -346,17 +346,22 @@
           <mat-datepicker-toggle matSuffix [for]="cRegDate"></mat-datepicker-toggle>
           <mat-datepicker #cRegDate></mat-datepicker>
         </mat-form-field>
-      </div>
-      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
-        <mat-form-field fxFlex="64">
-          <mat-label name="lblTradeNameEng">{{'investors.editor.TradeNameEng' | translate}}</mat-label>
-          <input matInput formControlName="cTradeNameEng"/>
+        <mat-form-field fxFlex fxFlex="14">
+          <mat-label name="lblPaidCapital">{{'investors.editor.PaidCapital' | translate}}</mat-label>
+          <input matInput formControlName="cPaidCapital"/>
         </mat-form-field>
-        <mat-form-field fxFlex="64">
-          <mat-label name="lblTradeName">{{'investors.editor.TradeName' | translate}}</mat-label>
-          <input matInput formControlName="cTradeName"/>
+        <mat-form-field fxFlex fxFlex="15">
+          <mat-label name="lblSighnedCapital">{{'investors.editor.SighnedCapital' | translate}}</mat-label>
+          <input matInput formControlName="cSighnedCapital" />
         </mat-form-field>
       </div>
+        <div  fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em">
+          <mat-form-field fxFlex fxFlex="100">
+            <mat-select placeholder="ዘርፍ *" formControlName="cMajorDivision" multiple>
+              <mat-option *ngFor="let MajorDivision of majorDivisions" [value]="MajorDivision.Id">{{MajorDivision.Description}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
     </div>
     <div mat-dialog-actions style="margin: 15px; text-align: center">
       <button mat-raised-button type="submit" color="primary" style="margin-right: 10px">

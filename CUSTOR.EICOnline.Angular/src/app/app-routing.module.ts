@@ -68,6 +68,12 @@ import {RegistrationModule} from './components/registration/registration.module'
         canActivate: [AuthGuard]
       },
       {
+        path: 'registration-tab/:ServiceId/:tin/:serviceApplicationId',
+        loadChildren: 'app/components/registration/Registration-tab/registration-tab.module#RegistrationTabModule',
+        canActivate: [AuthGuard]
+      },
+
+      {
         path: 'service-detail/:id',
         loadChildren: 'app/components/project-profile/project-profile-detail/project-detail.module#ProjectDetailModule',
         canActivate: [AuthGuard]

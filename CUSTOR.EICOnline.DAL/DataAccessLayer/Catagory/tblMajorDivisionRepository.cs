@@ -35,13 +35,37 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             return tblMajorDivisions;
         }
 
-        public async Task<List<tblMajorDivision>> GetRecordsByTin(string Tin)
+        //public async Task<List<tblMajorDivision>> GetRecordsByTin(string Tin)
+        //{
+        //    List<tblMajorDivision> tblMajorDivisions = new List<tblMajorDivision>();
+        //    try
+        //    {
+        //        var catagory = await Context.RegistrationCatagorys
+        //            .SingleOrDefaultAsync(param => param.Tin == Tin);
+
+        //        tblMajorDivisions = await Context.tblMajorDivision
+        //            .Where(param => param.Code.ToString() == catagory.MajorCatagoryCode)
+        //            .ToListAsync();
+        //    }
+        //    catch (InvalidOperationException exc)
+        //    {
+        //        SetError("Couldn't load tblMajorDivisions");
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SetError(ex);
+        //    }
+        //    return tblMajorDivisions;
+        //}
+
+        public async Task<List<tblMajorDivision>> GetMajorDivisionsByInvestorID(int InvstorId)
         {
             List<tblMajorDivision> tblMajorDivisions = new List<tblMajorDivision>();
             try
             {
                 var catagory = await Context.RegistrationCatagorys
-                    .SingleOrDefaultAsync(param => param.Tin == Tin);
+                    .SingleOrDefaultAsync(param => param.InvestorId == InvstorId);
 
                 tblMajorDivisions = await Context.tblMajorDivision
                     .Where(param => param.Code.ToString() == catagory.MajorCatagoryCode)
@@ -58,5 +82,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             }
             return tblMajorDivisions;
         }
+
+
     }
 }
