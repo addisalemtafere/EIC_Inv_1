@@ -54,6 +54,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   public investorName: string | null;
   private investors: Investor[];
   private projectList: ProjectModel[];
+  private ServiceId: any;
 
   constructor(public fb: FormBuilder,
               private http: HttpClient,
@@ -83,6 +84,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.initForm();
     this.getInvestors();
     this.title = localStorage.getItem('title');
@@ -149,11 +151,12 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   select(InvestorId: any, investorName: any) {
-    localStorage.setItem('InvestorId', InvestorId);
+    // localStorage.setItem('InvestorId', InvestorId);
     this.invName = investorName;
     this.loadingIndicator = true;
     this.projectService.getProjectByInvestorId(InvestorId)
       .subscribe(result => {
+
           this.investorShow = false;
           this.projectList = result;
           this.title = 'ProjectDetail';
@@ -244,7 +247,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 // Todo Application must be Intiated
   goToService(InvestorId: any, investorName: any) {
     localStorage.setItem('investorName', investorName);
-    const serviceId = +localStorage.getItem('ServiceId');
+    const serviceId = this.ServiceId;
     if (serviceId === 13) {
       setTimeout(() => this.dataSharing.currentIndex.next(0), 0);
 
@@ -252,6 +255,8 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + InvestorId]);
     } else {
       this.select(InvestorId, investorName);
+      this.router.navigate(['/search-browser/' + serviceId + '/' + InvestorId + '/' + 0]);
+
 
     }
 
@@ -331,21 +336,21 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     const projectName = projectList.ProjectName;
     const projectId = projectList.ProjectId;
     const projectStatus = projectList.ProjectStatus;
-    const ServiceId = projectList.ServiceId;
+    const ServiceId = this.ServiceId;
+    const InvestorId = this.route.snapshot.params['InvestorId'];
 
     if (projectStatus !== 9) {
       this.toastr.warning('Project Is Not Active');
     } else {
-      console.log(projectName);
-      console.log(projectId);
+
       this.todoTask.AssignedUserId = this.accountService.currentUser.Id;
       this.todoTask.CreatedUserId = this.accountService.currentUser.Id;
       this.todoTask.CreatedUserName = this.accountService.currentUser.UserName;
       this.todoTask.IsActive = false;
 
       this.serviceApplication.ProjectId = projectId;
-      this.serviceApplication.ServiceId = localStorage.getItem('ServiceId');
-      this.serviceApplication.InvestorId = localStorage.getItem('InvestorId');
+      this.serviceApplication.ServiceId = this.ServiceId;
+      this.serviceApplication.InvestorId = InvestorId;
       this.serviceApplication.CaseNumber = '1';
       this.serviceApplication.CurrentStatusId = 44450;
       this.serviceApplication.IsSelfService = true;
@@ -384,6 +389,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.dataSource.paginator.firstPage();
     }
   }
+
   ngAfterContentChecked(): void {
     this.serviceTitle = localStorage.getItem('title');
     this.title = localStorage.getItem('title');

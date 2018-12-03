@@ -1,4 +1,4 @@
-import {AfterContentChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild, Input} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs';
 import {Utilities} from '@custor/helpers/utilities';
 
 import {Gender, LegalStatus, Lookup} from '../../model/lookupData';
-import {ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../const/consts';
+import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../const/consts';
 import {determineId} from '@custor/helpers/compare';
 import {ConfigurationService} from '@custor/services/configuration.service';
 import {ToastrService} from 'ngx-toastr';
@@ -28,7 +28,6 @@ import {LookupsModel} from '../../model/lookups';
 import {FormOfOwnershipModel} from '../../model/EnumModel';
 import {FormOfOwnership} from '@custor/const/consts';
 import {NationalityModel} from '../../model/address/NationalityModel';
-
 @Component({
   selector: 'app-edit-investor',
   templateUrl: './investor-editor.component.html',
@@ -60,7 +59,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   genders: Gender[] = [];
   legalStatuses: LegalStatus[] = [];
   isCompany: boolean;
-  currentLang = 'en';
+  currentLang = '';
   countryLookupType = 1;
   allPermissions: Permission[] = [];
   private addressList: AddressModel;
@@ -71,6 +70,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   originFlag = true;
   public countryListWithOutEthipia: LookupsModel[];
   public branch = false;
+  AllowCascading = true;
+  @Input() errors: string[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -107,30 +108,25 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   ngOnInit() {
     this.loadingIndicator = true;
     this.currentLang = this.configService.language;
-    this.initStaticData(this.currentLang);
+    this.initStaticData('this.currentLang');
     this.initStaticDataOwnerShip(this.currentLang);
+    this.fillAddressLookups();
     this.formControlValueChanged();
+
     const id = this.activatedRoute.snapshot.params['id'];
-    // console.debug(id);
     if (id < 1) {
       this.isNewInvestor = true;
       this.isCompany = false;
-
-      this.title = 'Create a new Investor';
-
       return;
     }
     if (id) {
-      // to-do
-      // get the selected investor either through @Input or shared service
       this.getInvestor(id);
     }
-    this.fillAddressLookups();
+
   }
 
   formControlValueChanged() {
-    const cLStatus = this.investorForm.get('cLegalStatus');
-    const cCompName = this.investorForm.get('cNationalityCompany');
+    const cFather = this.investorForm.get('cFatherName');
     this.legalStatus.valueChanges.subscribe(
       (intLegal: number) => {
         if (intLegal === 1) { // Sole
@@ -142,45 +138,31 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
           this.grandNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          // this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
-          //   Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
-          // this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
-          //   Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
-          // this.grandName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
-          //   Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
           this.nationality.setValidators([Validators.required]);
           this.gender.setValidators([Validators.required]);
 
           this.isCompany = false;
         } else {
           this.ClearSoleValidators();
-          this.nationalityCompany.setValidators([Validators.required]);
           this.companyNameEng.setValidators([Validators.required]);
-          // this.companyName.setValidators([Validators.required]);
-
+          cFather.updateValueAndValidity();
           this.isCompany = true;
         }
-        // cCompName.updateValueAndValidity();
-        // cLStatus.updateValueAndValidity();
       });
 
-
-    // this.investorForm.get('FormOfOwnership').valueChanges.subscribe(
-    //   (intLegal: number) => {
-    //     console.log(intLegal);
-    //     if (intLegal === 5) {
-    //       this.branch = true;
-    //       // alert (this.branch);
-    //       console.log(this.branch);
-
-    //     } else {
-    //       this.branch = false;
-    //       console.log(this.branch);
-
-    //     }
-    //   });
+  }
+  ClearSoleValidators() {
+    this.firstNameEng.clearValidators();
+    this.fatherNameEng.clearValidators();
+    this.grandNameEng.clearValidators();
+    this.nationality.clearValidators();
+    this.gender.clearValidators();
   }
 
+  ClearCompanyValidators() {
+    // this.nationalityCompany.clearValidators();
+    this.companyNameEng.clearValidators();
+  }
   private getAllNation() {
     this.addressService.getNationality()
       .subscribe(result => {
@@ -201,24 +183,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
       this.formOfOwnershipList.push(formOfOwnership);
     });
-    // console.log(this.formOfOwnershipList);
-  }
-
-  ClearSoleValidators() {
-    // this.firstNameEng.clearValidators();
-    // this.fatherNameEng.clearValidators();
-    // this.grandNameEng.clearValidators();
-    this.firstName.clearValidators();
-    this.fatherName.clearValidators();
-    this.grandName.clearValidators();
-    this.nationality.clearValidators();
-    this.gender.clearValidators();
-  }
-
-  ClearCompanyValidators() {
-    this.nationalityCompany.clearValidators();
-    // this.companyName.clearValidators();
-    this.companyNameEng.clearValidators();
   }
 
   initStaticData(currentLang) {
@@ -271,23 +235,11 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getInvestor(id)
       .subscribe(result => {
           this.investor = result;
-          this.fillAddressLookups();
+          // this.fillAddressLookups();
           this.updateForm();
-          // this.getAddressData(this.investor.InvestorId);
         },
         error => this.toastr.error(error));
     this.loadingIndicator = false;
-  }
-
-  getAddressData(parent: number) {
-    this.addressService.getAddress(parent)
-      .subscribe((result: AddressModel) => {
-        this.addressList = result;
-        console.log(result);
-        this.getKebeleByWoredaId(result.WoredaId);
-        this.addressId = result.AddressId;
-        this.investorForm.get('address').patchValue(result);
-      }, error => this.toastr.error(error));
   }
 
   // getInvestorTitle() {
@@ -308,7 +260,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.getInvestorTitle(89);
     this.getCountryTitle(31);
     this.getAllNation();
-    this.getAllKebeles();
+    // this.getAllKebeles();
     // this.getInvestorTitle();
 
   }
@@ -341,7 +293,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           this.zones = z;
           if (this.zones) {
             console.log('Region ' + this.investor.RegionId);
-            this.filterRegion(this.investor.RegionId);
+            // this.filterRegion(this.investor.RegionId);
           }
         },
         error => this.toastr.error(error));
@@ -349,12 +301,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   getAllWoredas() {
     this.custService.getAllWoredasByLang(this.currentLang)
-      .subscribe(result => {
-          this.woredas = result;
-          // alert (result.length);
-          if (this.woredas) {
-            this.filterZone(this.investor.ZoneId);
-          }
+      .subscribe(result => {this.woredas = result;
         },
         error => this.toastr.error(error));
   }
@@ -371,30 +318,13 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         error => this.toastr.error(error));
   }
 
-  // getRegions() {
-  //   this.custService.getRegionsByLang(this.currentLang)
-  //     .subscribe(result => {
-  //         this.regions = result;
-  //       },
-  //       error => this.toastr.error(error));
-  // }
-  // getRegions() {
-  //   this.addressService.getRegions()
-  //     .subscribe(result => {
-  //         this.regions = result;
-  //       },
-  //       error => this.toastr.error(error));
-  // }
 
   initForm() {
     this.investorForm = this.fb.group({
-      cLegalStatus: ['1', Validators.required], // sole
-      cFirstNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
-        Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      cFatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
-        Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      cGrandNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
-        Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
+      cLegalStatus: ['', Validators.required],
+      cFirstNameEng: [''],
+      cFatherNameEng: [''],
+      cGrandNameEng: [''],
       cFirstName: [''],
       cFatherName: [''],
       cGrandName: [''],
@@ -404,9 +334,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       cCompanyNameEng: [''],
       cGender: [''],
       Title: [''],
-      FormOfOwnership: [''],
+      FormOfOwnership: ['', Validators.required],
       cIsEthiopianOrigin: [false],
-      cTin: ['', Validators.maxLength(10)],
+      cTin: [''],
 
       cRegNumber: [''],
       cRegDate: [''],
@@ -434,10 +364,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   updateForm() {
     // const _shortDate = 'dd/MM/yyyy';
-    //Todo improved
-    // setTimeout(() => //expensive operation - due to a bug in mat-select. To be improved!
-    // {
-
     this.investorForm.patchValue({
       cLegalStatus: this.investor.LegalStatus,
       cFirstName: this.investor.FirstName || '',
@@ -448,33 +374,40 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       cGrandNameEng: this.investor.GrandNameEng || '',
       cNationality: this.investor.Nationality == null ? '' : this.investor.Nationality.toString(),
       cNationalityCompany: this.investor.Nationality == null ? '' : this.investor.Nationality.toString(),
-      // RegionId: this.investor.RegionId == null ? '' : this.investor.RegionId.toString(),
-      // ZoneId: this.investor.ZoneId == null ? '' : this.investor.ZoneId.toString(),
-      // WoredaId: this.investor.WoredaId == null ? '' : this.investor.WoredaId.toString(),
-      // KebeleId: this.investor.KebeleId == null ? '' : this.investor.KebeleId.toString(),
       cGender: this.investor.Gender == null ? '' : this.investor.Gender.toString(),
       cCompanyName: this.investor.FirstName || '',
       cCompanyNameEng: this.investor.FirstNameEng || '',
       cTin: this.investor.Tin || '',
-      // cOtherAddress: this.investor.OtherAddress || '',
       cRegNumber: this.investor.RegistrationNumber || '',
       cRegDate: this.investor.RegistrationDate || '',
       cTradeNameEng: this.investor.TradeNameEnglish || '',
       cTradeName: this.investor.TradeName || '',
       Title: this.investor.Title || '',
-      // FormOfOwnership: this.investor.FormOfOwnership || '',
       FormOfOwnership: this.investor.FormOfOwnership == null ? '' : this.investor.FormOfOwnership.toString(),
       cIsEthiopianOrigin: this.investor.IsEthiopianOrigin,
-
     });
-    // },2000);
+
     if (this.investor.LegalStatus > 1) {
       this.isCompany = true;
     } else {
       this.isCompany = false;
     }
     this.isNewInvestor = false;
-    // setTimeout(() => {
+
+    // Set dropdown values
+    setTimeout(() => {
+        this.AllowCascading = false;
+        if (this.investor.ZoneId != null) {
+            this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.investor.ZoneId);
+        }
+        if (this.investor.RegionId != null) {
+          this.filteredZones = this.zones.filter((item) => item.RegionId === this.investor.RegionId);
+        }
+        if (this.investor.WoredaId != null) {
+          this.getKebeleByWoredaId (this.investor.WoredaId);
+        }
+    }, 200);
+
     this.investorForm.get('address').patchValue({
       RegionId: this.investor.RegionId == null ? '' : this.investor.RegionId.toString(),
       ZoneId: this.investor.ZoneId == null ? '' : this.investor.ZoneId.toString(),
@@ -488,8 +421,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       Email: this.investor.Email || '',
       OtherAddress: this.investor.OtherAddress || ''
     });
-  // }, 2000);
+
     this.branch = (this.investor.FormOfOwnership.toString() === '5');
+    this.AllowCascading = true;
   }
 
   compareIds(id1: any, id2: any): boolean {
@@ -499,20 +433,38 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   public onSubmit() {
+
+    // put dummy values to avoid conditional validation issues
+    if (this.isCompany) {
+      this.investorForm.get('cFirstNameEng').patchValue('NA');
+      this.investorForm.get('cFatherNameEng').patchValue('NA');
+      this.investorForm.get('cGrandNameEng').patchValue('NA');
+      this.investorForm.get('cGender').patchValue('1');
+    }
+    if (!this.branch)     {
+      this.investorForm.get('cNationalityCompany').patchValue('0');
+    }
     if (!this.investorForm.valid) {
       console.log('error!!');
       return;
     }
-    // alert (this.legalStatus.value);
     const lStatus: number = this.legalStatus.value;
     const fOwnership: number = this.FormOfOwnershipV.value;
-    // alert (fOwnership);
+    const natCompany: number =  this.investorForm.get('cNationalityCompany').value;
+    if (fOwnership.toString() === '5' && natCompany < 1 ) {
+      this.toastr.error('Please select the country of incorporation of the parent company');
+      return;
+    }
     if (lStatus.toString() === '1' && fOwnership.toString() === '4' ) {
-      this.toastr.error('The legal status and form of ownership combination is invalid');
+      this.toastr.error('The form of ownership can not be Joint Venture when the Legal Status is Sole');
+      return;
+    }
+    if (fOwnership < 1 ) {
+      this.toastr.error('Please select form of ownership');
       return;
     }
     const t: string = this.tin.value;
-    if (t.replace(' ', '').trim().length > 0 && t.replace(' ', '').trim().length < 10) {
+    if (t.replace(' ', '').trim().length > 0 && t.replace(' ', '').trim().length !== 10) {
       this.toastr.error('TIN must be 10 digits long');
       return;
     }
@@ -521,9 +473,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     return this.custService.saveInvestor(this.getEditedInvestor())
       .subscribe((investor: Investor) => {
           this.saveCompleted(investor);
-          localStorage.setItem('InvestorId', investor.InvestorId.toString());
-          localStorage.setItem('legalStatus', investor.LegalStatus.toString());
-          this.saveAddress();
+          // this.saveAddress();
         },
         err => this.handleError(err)
       );
@@ -532,29 +482,41 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   private saveCompleted(investor?: Investor) {
     if (investor) {
       this.investor = investor;
+    } else {
+      this.toastr.success('Error. Record was not saved!');
+      return;
     }
     this.loadingIndicator = false;
+     // clear the dummy values uaed to avoid conditional validation issues
+    if (this.isCompany) {
+      this.investorForm.get('cFirstNameEng').patchValue('');
+      this.investorForm.get('cFatherNameEng').patchValue('');
+      this.investorForm.get('cGrandNameEng').patchValue('');
+      this.investorForm.get('cGender').patchValue('');
+    }
     this.toastr.success('Record saved successfully!');
-    // if (this.accountService.getUserType()) {
-    //   this.router.navigate(['investor']);
-    // } else {
-    //   this.router.navigate(['search-browser']);
-    //
-    // }
+    if (this.accountService.getUserType()) {
+      this.router.navigate(['investor']);
+    } else {
+      this.router.navigate(['search-browser']);
+    }
   }
 
-  private handleError(err) {
-    // alert (this.errMsg.response.toString());
+  private handleError(error) {
+    this.loadingIndicator = false;
 
-    this.loadingIndicator = false;
-    this.toastr.error(err);
-    this.loadingIndicator = false;
-    // console.log(err.message);
+    const errList = Utilities.getHttpResponseMessage(error);
+    if (error.status === 400) { // bad request (validation)
+      this.errors = errList;
+      this.toastr.error('Please fix the listed errors', 'Error');
+    } else {
+      this.errors = [];
+      this.toastr.error(error.status + ':' + errList[0].toString(), 'Error');
+    }
   }
 
   private getEditedInvestor(): Investor {
     const formModel = this.investorForm.value;
-
     const add = this.investorForm.get('address').value;
     console.log (add);
     return {
@@ -575,7 +537,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       LegalStatus: formModel.cLegalStatus,
       IsEthiopianOrigin: formModel.cIsEthiopianOrigin,
       UserId: this.accountService.currentUser.Id,
-      SiteId: '',
+      // SiteCode: this.accountService.currentUser.SiteCode,
       IsActive: true,
       IsDeleted: false,
       Title: this.isCompany ? null : formModel.Title,
@@ -590,132 +552,50 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       Fax: add.Fax,
       CellPhoneNo: add.CellPhoneNo,
       Email: add.Email,
-      OtherAddress: add.OtherAddress
+      OtherAddress: add.OtherAddress,
+      UserName: this.accountService.currentUser.UserName,
+      AddressId: this.isNewInvestor ? 0 : this.investor.AddressId
     };
   }
-
-
-  saveAddress() {
-    this.investorForm.get('address').patchValue({
-      ParentId: localStorage.getItem('InvestorId')
-    });
-    console.log('address');
-    console.log(this.investorForm.get('address').value);
-    this.addressService.saveAddress(this.investorForm.get('address').value)
-      .subscribe(result => {
-        // this.notification('address saved');
-        this.dataSharing.investorTabSelectedIndex.next(1);
-        // this.router.navigate(['associate/form/0']);
-      });
-
-  }
-
-  // getAllZones() {
-  //   this.addressService.getAllZones()
-  //     .subscribe(result => {
-  //         this.zones = result;
-  //         this.filteredZones = result;
-  //       },
-  //       error => this.toastr.error(error));
-  // }
-
-  // getAllWoredas() {
-  //   this.addressService.getAllWoredas()
-  //     .subscribe(result => {
-  //         this.woredas = result;
-  //         this.filteredWoredas = result;
-
-  //       },
-  //       error => this.toastr.error(error));
-  // }
 
   getKebeleByWoredaId(wordaId: any) {
     this.addressService.getKebelesByWoreda(wordaId)
       .subscribe(result => {
-        this.kebeles = result;
+        // this.kebeles = result;
         // console.log(result);
-
         this.filteredKebeles = result;
       });
   }
 
-  // filterRegion(regionCode: string) {
-  //   console.log(regionCode);
-  //   if (!regionCode) {
-  //     return;
-  //   }
-  //   this.filteredZones = null;
-  //   this.filteredKebeles = null;
-  //   this.filteredWoredas = null;
-  //   this.filteredZones = this.zones.filter((item) => {
-  //     return item.RegionId === regionCode;
-  //   });
-  // }
-
-  // filterZone(zoneCode: string) {
-  //   if (!zoneCode) {
-  //     return;
-  //   }
-  //   this.filteredKebeles = null;
-  //   this.filteredWoredas = null;
-
-  //   this.filteredWoredas = this.woredas.filter((item) => {
-  //     return item.ZoneId === zoneCode;
-  //   });
-  // }
-
-  // filterWoreda(woredaCode: string) {
-  //   if (!woredaCode) {
-  //     return;
-  //   }
-  //   this.getKebeleByWoredaId(woredaCode);
-
-  //   console.log(woredaCode);
-
-  // }
   filterRegion(regionCode: string) {
-    if (!regionCode) {
-      return;
-    }
-    // this.filteredZones = null;
-    // this.filteredKebeles = null;
-    // this.filteredWoredas = null;
-    //  this.investorForm.get('address').patchValue({
-    //   ZoneId: '--',
-    //   WoredaId: '--',
-    //   KebeleId: '--'
-    // });
-    if (!this.zones) {
-      return;
-    }
-
-    this.filteredZones = this.zones.filter((item) => {
-      return item.RegionId === regionCode;
-    });
-    // this.investorForm.controls['cZone'].patchValue("0");
+      if (!regionCode || !this.AllowCascading) {
+        return;
+      }
+      this.filteredKebeles = null;
+      this.filteredWoredas = null;
+      if (!this.zones) {
+        return;
+      }
+      this.filteredZones = this.zones.filter((item) => {
+        return item.RegionId === regionCode;
+      });
   }
 
   filterZone(zoneCode: string) {
-    if (!zoneCode) {
-      return;
-    }
-    // this.filteredKebeles = null;
-    // this.filteredWoredas = null;
-
-    this.filteredWoredas = this.woredas.filter((item) => {
-      return item.ZoneId === zoneCode;
-    });
+      if (!zoneCode || !this.AllowCascading) {
+        return;
+      }
+      this.filteredKebeles = null;
+      this.filteredWoredas = this.woredas.filter((item) => {
+        return item.ZoneId === zoneCode;
+      });
   }
 
   filterWoreda(woredaCode: string) {
-    if (!woredaCode) {
+    if (!woredaCode || !this.AllowCascading) {
       return;
     }
-    // this.filteredKebeles = null;
-    this.filteredKebeles = this.kebeles.filter((item) => {
-      return item.WoredaId === woredaCode;
-    });
-    // this.getKebeleByWoredaId(woredaCode);
+    this.getKebeleByWoredaId(woredaCode);
   }
   getInvestorTitle(id: any) {
     this.lookUpService.getLookupByParentId(id).subscribe(result => {
@@ -743,7 +623,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.initStaticDataOwnerShip(this.currentLang);
     } else {
       this.isCompany = false;
-      this.formOfOwnershipList.splice(4, 1);
+      this.formOfOwnershipList.splice(3, 1);
       console.log(this.formOfOwnershipList);
     }
   }
@@ -896,7 +776,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   ngAfterViewInit(): void {
-    this.fillAddressLookups();
+    // this.fillAddressLookups();
   }
 
   checkCountry(id: any) {
@@ -907,7 +787,11 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   onFormOfOwnershipChanged(id: any) {
     this.branch = (id === '5');
-
+    if (this.branch) {
+      this.nationalityCompany.setValidators([Validators.required]);
+    } else {
+      this.nationalityCompany.clearValidators();
+    }
   }
 
 }

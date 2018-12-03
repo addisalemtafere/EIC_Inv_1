@@ -1,4 +1,4 @@
-import {AfterContentChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectorRef, Input} from '@angular/core';
 import {AddressModel} from '../../../../model/address/Address.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
@@ -19,7 +19,7 @@ import {AuthService} from '@custor/services/security/auth.service';
 import {Utilities} from '@custor/helpers/utilities';
 import {AccountService} from '@custor/services/security/account.service';
 import {DataSharingService} from '../../../../Services/data-sharing.service';
-import {AssociateModel} from '../../../../model/associate.model';
+// import {AssociateDTO} from '../../../../model/associate.model';
 import {AssociateDTO} from '../../../../model/associate.model';
 import {AssociateService} from '../../../../Services/associate.service';
 import {InvestorService} from '../../investor.service';
@@ -41,7 +41,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   private form: NgForm;
   title: string;
   isNewInvestor = false;
-  associate: AssociateModel;
+  associate: AssociateDTO;
 
   lookups: Lookup[] = [];
   regions: RegionModel[] = [];
@@ -69,6 +69,9 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   public imgBase64 = '';
   public imgInput: string;
   associateId: number;
+  investorId: number;
+  AllowCascading = true;
+  @Input() errors: string[] = [];
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
@@ -88,9 +91,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.initForm();
     console.log(this.accountService.currentUser.Roles);
   }
-
-  // To-do 1) Validate photo (required) 2) Delete file when a record is deleted 3) Allow clear
-
+ 
 
   checkAuthoriation() {
     // if (!this.canManageInvestors) {
@@ -108,7 +109,9 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   ngOnInit() {
     this.currentLang = this.configService.language;
     const id = this.activatedRoute.snapshot.params['id'];
+    this.investorId = this.activatedRoute.snapshot.params['invid'];
     this.initStaticData(this.currentLang);
+    this.fillAddressLookups();
     this.imgBase64 = '';
     if (id < 1) {
       this.isNewInvestor = true;
@@ -116,7 +119,6 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       this.associateId = 0;
       this.title = 'Create a new associate';
       this.imgPhoto = '';
-
       return;
     }
     if (id) {
@@ -127,9 +129,6 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       this.imgPhoto = this.appConfig.urls.baseUrl + 'photo/Mgr' + this.associateId + '.jpg'; // to-do put the path in config
       console.log(this.imgPhoto);
     }
-    this.fillAddressLookups();
-    console.log('i am here ');
-
   }
 
 
@@ -165,8 +164,6 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       .getOneById(id)
       .subscribe(result => {
           this.associate = result;
-          this.fillAddressLookups();
-
           this.updateForm();
           // this.getAddressData(this.associate.AssociateId);
         },
@@ -203,38 +200,17 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.getInvestorTitle(89);
     this.getAllKebeles();
     // this.getInvestorTitle();
-    this.getAllNation();
+    this.getAllNations();
   }
 
-  private getAllNation() {
+  private getAllNations() {
     this.addressService.getNationality()
       .subscribe(result => {
         this.nationList = result;
       });
   }
 
-  // getLookups() {
-  //   this.custService.getLookupsByLang(this.currentLang)
-  //     .subscribe(result => {
-  //         this.countries = result;
-  //         console.log(result);
-  //         // console.log (this.lookups.length + ' countries');
-  //         // if (this.lookups) {
-  //         //   this.countries = this.lookups.filter((item) => item.LookupTypeId === this.countryLookupType);
-  //         //   console.log(this.countries);
-  //         //   // filter more lookups
-  //         // }
-  //       },
-  //       error => this.toastr.error(error));
-  // }
 
-  // getRegions() {
-  //   this.addressService.getRegions()
-  //     .subscribe(result => {
-  //         this.regions = result;
-  //       },
-  //       error => this.toastr.error(error));
-  // }
   getRegions() {
     this.custService.getRegionsByLang(this.currentLang)
       .subscribe(result => {
@@ -330,42 +306,59 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       cIsEthiopianOrigin: this.associate.Origin,
       Title: this.associate.Title || '',
     });
-    this.isNewInvestor = false;
-    this.imgBase64 =  ''; // image file should not be recreated if not file is picked
 
-    this.associateForm.get('address').patchValue({
-      RegionId: this.associate.RegionId == null ? '' : this.associate.RegionId.toString(),
-      ZoneId: this.associate.ZoneId == null ? '' : this.associate.ZoneId.toString(),
-      WoredaId: this.associate.WoredaId == null ? '' : this.associate.WoredaId.toString(),
-      KebeleId: this.associate.KebeleId == null ? '' : this.associate.KebeleId.toString(),
-      HouseNo: this.associate.HouseNo || '',
-      TeleNo: this.associate.TeleNo || '',
-      Pobox: this.associate.Pobox || '',
-      Fax: this.associate.Fax || '',
-      CellPhoneNo: this.associate.CellPhoneNo || '',
-      Email: this.associate.Email || '',
-      OtherAddress: this.associate.OtherAddress || ''
-    });
+    this.AllowCascading = false;
+    // Set dropdown values
+    setTimeout(() => {
+      if (this.associate.ZoneId != null) {
+          this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.associate.ZoneId);
+      }
+    }, 100);
+    setTimeout(() => {
+      if (this.associate.RegionId != null) {
+        this.filteredZones = this.zones.filter((item) => item.RegionId === this.associate.RegionId);
+      }
+    }, 100);
+    setTimeout(() => {
+      if (this.associate.WoredaId != null) {
+        this.getKebeleByWoredaId (this.associate.WoredaId);
+      }
+  }, 100);
+
+  this.associateForm.get('address').patchValue({
+    RegionId: this.associate.RegionId == null ? '' : this.associate.RegionId.toString(),
+    ZoneId: this.associate.ZoneId == null ? '' : this.associate.ZoneId.toString(),
+    WoredaId: this.associate.WoredaId == null ? '' : this.associate.WoredaId.toString(),
+    KebeleId: this.associate.KebeleId == null ? '' : this.associate.KebeleId.toString(),
+    HouseNo: this.associate.HouseNo || '',
+    TeleNo: this.associate.TeleNo || '',
+    Pobox: this.associate.Pobox || '',
+    Fax: this.associate.Fax || '',
+    CellPhoneNo: this.associate.CellPhoneNo || '',
+    Email: this.associate.Email || '',
+    OtherAddress: this.associate.OtherAddress || ''
+  });
+  this.isNewInvestor = false;
+  this.imgBase64 =  ''; // image file should not be recreated if not file is picked
+  this.AllowCascading = true;
   }
 
 
   public onSubmit() {
     if (!this.associateForm.valid) {
-      console.log('error!!');
-      // return;
+      // console.log('error!!');
+      return;
     }
     console.log(this.imgBase64);
-    // if (this.imgBase64 === '') {
-    //   this.toastr.error('Please add photograph of the Manager');
-    //   return;
-    // }
+    if (this.imgBase64 === '' && this.associateId === 0) {
+      this.toastr.error('Please add photograph of the Manager');
+      return;
+    }
     this.loadingIndicator = true;
     console.log(this.getEditedInvestor());
     return this.associateService.create(this.getEditedInvestor())
       .subscribe((associate: AssociateDTO) => {
           this.saveCompleted(associate);
-          localStorage.setItem('AssociateId', associate.AssociateId.toString());
-          this.saveAddress();
         },
         err => this.handleError(err)
       );
@@ -378,22 +371,20 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.loadingIndicator = false;
     this.toastr.success('Record saved successfully!');
     this.dataSharing.investorTabSelectedIndex.next(2);
-
-    // if (this.accountService.getUserType()) {
-    //   this.router.navigate(['investor']);
-    // } else {
-    //   this.router.navigate(['search-browser']);
-    //
-    // }
+    this.router.navigate(['/associate/list']);
   }
 
-  private handleError(err) {
-    // alert (this.errMsg.response.toString());
-
+  private handleError(error) {
+  
     this.loadingIndicator = false;
-    this.toastr.error(err);
-    this.loadingIndicator = false;
-    // console.log(err.message);
+    const errList = Utilities.getHttpResponseMessage(error);
+    if (error.status === 400) { // bad request (validation)
+      this.errors = errList;
+      this.toastr.error('Please fix the listed errors', 'Error');
+    } else {
+      this.errors = [];
+      this.toastr.error(error.status + ':' + errList[0].toString(), 'Error');
+    }
   }
 
   private getEditedInvestor(): AssociateDTO {
@@ -401,7 +392,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     const add = this.associateForm.get('address').value;
     return {
       AssociateId: this.isNewInvestor ? 0 : this.associate.AssociateId,
-      InvestorId: +localStorage.getItem('InvestorId'),
+      InvestorId: this.investorId,
       FirstName: formModel.cFirstName,
       FatherName: formModel.cFatherName,
       GrandName: formModel.cGrandName,
@@ -410,14 +401,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       GrandNameEng: formModel.cGrandNameEng,
       Nationality: formModel.cNationality,
       Gender: formModel.cGender,
-      // Tin: formModel.cTin,
-      // RegistrationDate: formModel.cRegDate,
-      // RegistrationNumber: formModel.cRegNumber,
-      // TradeName: formModel.cTradeName,
-      // TradeNameEnglish: formModel.cTradeNameEng,
-      // LegalStatus: formModel.cLegalStatus,
       Origin: formModel.cIsEthiopianOrigin,
-      // UserId: this.accountService.currentUser.Id,
       IsActive: true,
       IsDeleted: false,
       Title: formModel.Title,
@@ -432,7 +416,9 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       Fax: add.Fax,
       CellPhoneNo: add.CellPhoneNo,
       Email: add.Email,
-      OtherAddress: add.OtherAddress
+      OtherAddress: add.OtherAddress,
+      AddressId: this.isNewInvestor ? 0 : this.associate.AddressId,
+      UserName: this.accountService.currentUser.UserName
     };
   }
 
@@ -449,129 +435,46 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       this.legalStatuses.push(legalS);
     });
 
-    // Fill data from Lookup table
-    // this.getLookups();
   }
-
-  saveAddress() {
-    this.associateForm.get('address').patchValue({
-      ParentId: localStorage.getItem('AssociateId')
-    });
-    console.log(this.associateForm.get('address').value);
-    this.addressService.saveAddress(this.associateForm.get('address').value)
-      .subscribe(result => {
-        // this.notification('address saved');
-        // this.router.navigate(['/associate/list']);
-      });
-
-  }
-
-  // getAllZones() {
-  //   this.addressService.getAllZones()
-  //     .subscribe(result => {
-  //         this.zones = result;
-  //         this.filteredZones = result;
-  //       },
-  //       error => this.toastr.error(error));
-  // }
-
-  // getAllWoredas() {
-  //   this.addressService.getAllWoredas()
-  //     .subscribe(result => {
-  //         this.woredas = result;
-  //         this.filteredWoredas = result;
-
-  //       },
-  //       error => this.toastr.error(error));
-  // }
 
   getKebeleByWoredaId(wordaId: any) {
     this.addressService.getKebelesByWoreda(wordaId)
       .subscribe(result => {
-        this.kebeles = result;
+        // this.kebeles = result;
         // console.log(result);
-
         this.filteredKebeles = result;
       });
   }
 
-  // filterRegion(regionCode: string) {
-  //   console.log(regionCode);
-  //   if (!regionCode) {
-  //     return;
-  //   }
-  //   this.filteredZones = null;
-  //   this.filteredKebeles = null;
-  //   this.filteredWoredas = null;
-  //   this.filteredZones = this.zones.filter((item) => {
-  //     return item.RegionId === regionCode;
-  //   });
-  // }
-
-  // filterZone(zoneCode: string) {
-  //   if (!zoneCode) {
-  //     return;
-  //   }
-  //   this.filteredKebeles = null;
-  //   this.filteredWoredas = null;
-
-  //   this.filteredWoredas = this.woredas.filter((item) => {
-  //     return item.ZoneId === zoneCode;
-  //   });
-  // }
-
-  // filterWoreda(woredaCode: string) {
-  //   if (!woredaCode) {
-  //     return;
-  //   }
-  //   this.getKebeleByWoredaId(woredaCode);
-
-  //   console.log(woredaCode);
-
-  // }
   filterRegion(regionCode: string) {
-    if (!regionCode) {
-      return;
-    }
-    // this.filteredZones = null;
-    // this.filteredKebeles = null;
-    // this.filteredWoredas = null;
-    //  this.investorForm.get('address').patchValue({
-    //   ZoneId: '--',
-    //   WoredaId: '--',
-    //   KebeleId: '--'
-    // });
-    if (!this.zones) {
-      return;
-    }
-
-    this.filteredZones = this.zones.filter((item) => {
-      return item.RegionId === regionCode;
-    });
-    // this.investorForm.controls['cZone'].patchValue("0");
+      if (!regionCode || !this.AllowCascading) {
+        return;
+      }
+      this.filteredKebeles = null;
+      this.filteredWoredas = null;
+      if (!this.zones) {
+        return;
+      }
+      this.filteredZones = this.zones.filter((item) => {
+        return item.RegionId === regionCode;
+      });
   }
 
   filterZone(zoneCode: string) {
-    if (!zoneCode) {
-      return;
-    }
-    // this.filteredKebeles = null;
-    // this.filteredWoredas = null;
-
-    this.filteredWoredas = this.woredas.filter((item) => {
-      return item.ZoneId === zoneCode;
-    });
+      if (!zoneCode || !this.AllowCascading) {
+        return;
+      }
+      this.filteredKebeles = null;
+      this.filteredWoredas = this.woredas.filter((item) => {
+        return item.ZoneId === zoneCode;
+      });
   }
 
   filterWoreda(woredaCode: string) {
-    if (!woredaCode) {
+    if (!woredaCode || !this.AllowCascading) {
       return;
     }
-    // this.filteredKebeles = null;
-    this.filteredKebeles = this.kebeles.filter((item) => {
-      return item.WoredaId === woredaCode;
-    });
-    // this.getKebeleByWoredaId(woredaCode);
+    this.getKebeleByWoredaId(woredaCode);
   }
   compareIds(id1: any, id2: any): boolean {
     const a1 = determineId(id1);
@@ -724,7 +627,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
 // Photo Management
   ngAfterViewInit(): void {
-    this.fillAddressLookups();
+    // this.fillAddressLookups();
   }
   fileChange(input) {
       const pattern = /image-*/;
