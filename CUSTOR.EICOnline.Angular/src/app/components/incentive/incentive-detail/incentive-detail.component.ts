@@ -87,9 +87,10 @@ export class IncentiveDetailComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.serviceId = this.activatedRoute.snapshot.params['serviceId'];
-    this.serviceApplicationId = this.activatedRoute.snapshot.params['serviceApplicationId'];
-    this.projectId = this.activatedRoute.snapshot.params['projectId'];
+    this.serviceId = this.activatedRoute.snapshot.params['serviceId'] || this.activatedRoute.snapshot.params['ServiceId'];
+    this.serviceApplicationId = this.activatedRoute.snapshot.params['serviceApplicationId'] || this.activatedRoute.snapshot.params['ServiceApplicationId'];
+    this.projectId = this.activatedRoute.snapshot.params['projectId'] || this.activatedRoute.snapshot.params['ProjectId'];
+    //console.log(this.serviceId);
     this.route.params
       .subscribe((params: Params) => {
         this.getIncentiveRequestItems(this.projectId);
@@ -177,7 +178,8 @@ export class IncentiveDetailComponent implements OnInit {
   }
 
   showLetter() {
-    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.isForDetail]);
+    console.log('hi');
+    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + this.isForDetail]);
   }
 
   compareIds(id1: any, id2: any): boolean {
