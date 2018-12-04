@@ -214,13 +214,11 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
           else {
             this.doSaveExemption();
           }
+
         }, error => this.errMsg.getError(error));
 
 
-      } else {
-        this.doSaveExemption();
-      }
-      //TODO  Jumped Validators
+      }//TODO  Jumped Validators
       this.loadingIndicator = true;
 
     }

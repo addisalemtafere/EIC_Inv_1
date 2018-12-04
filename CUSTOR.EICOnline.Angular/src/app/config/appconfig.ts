@@ -209,6 +209,10 @@ export class AppConfiguration {
     incentiveRequestsDetailByProjectId: 'api/IncentiveRequestDetail/DetailByProjectId',
 
     CompanyClearances: 'api/CompanyClearances',
+    CompanyClearanceByInvestorId: 'api/CompanyClearances/getCompanyClearanceByInvestorId',
+    SaveFinalApprovedName: 'api/CompanyClearances/SaveFinalApprovedName',
+
+
     ServiceApplicationWithInvestor: 'api/ServiceApplications/ServiceApplicationWithInvestor',
 
 
