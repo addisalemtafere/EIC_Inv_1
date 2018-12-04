@@ -298,9 +298,15 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     // if (!this.incentiveRequestItemForm.valid) {
     //   return;
     // }
+    this.CheckExistance();
     if (this.hasValidationErrors()) {
       return;
-    } else {
+    }
+    else if (this.BOMItems.length == 0) {
+      this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
+      return;
+    }
+    else {
       this.loadingIndicator = true;
       return this.IncentiveRequestService.saveIncentiveRequest(
         this.getEditedIncentiveItem()).subscribe((incentiveRequestModel: IncentiveRequestModel) => {
@@ -309,6 +315,18 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
         err => this.handleError(err));
     }
   }
+
+  CheckExistance() {
+    if (this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10778') {
+      this.IncentiveRequestItemService
+        .getIncentiveBoMRequestDetails(this.ProjectId, this.incentiveRequestItemForm.get('IncentiveCategoryId').value, this.incentiveRequestItemForm.get('Phase').value)
+        .subscribe((items) => {
+          console.log(this.BOMItems);
+          this.BOMItems = items;
+        });//TODO Validation Jump
+    }
+  }
+
 
   onEditIncentiveItem(index: number) {
     this.editMode = true;
@@ -350,17 +368,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
         this.toastr.error('Please Enter Incentive Request Batch Number');
         return true;
       }
-      if (this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10778') {
-        this.IncentiveRequestItemService
-          .getIncentiveBoMRequestDetails(this.ProjectId, this.incentiveRequestItemForm.get('IncentiveCategoryId').value, this.incentiveRequestItemForm.get('Phase').value)
-          .subscribe((items) => {
-            this.BOMItems = items;
-            if (this.BOMItems.length == 0) {
-              this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
-              return true;
-            }
-          });//TODO Validation Jump
-      }
+
     }
   }
 

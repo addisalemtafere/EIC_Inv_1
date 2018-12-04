@@ -99,8 +99,8 @@ export class LetterComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.ServiceId = this.activatedRoute.snapshot.params['ServiceId'];
-    this.ProjectId = this.activatedRoute.snapshot.params['ProjectId'];
+    this.ServiceId = this.activatedRoute.snapshot.params['serviceId'];
+    this.ProjectId = this.activatedRoute.snapshot.params['projectId'];
     this.ServiceApplicationId = this.activatedRoute.snapshot.params['ServiceApplicationId'];
 
     if (this.activatedRoute.snapshot.params['isForDetail'] == 1) {
