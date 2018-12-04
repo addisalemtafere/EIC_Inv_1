@@ -1,90 +1,128 @@
-<mat-card style="margin: 20px;" *ngIf="1==1" class="dashboard-card">
+<!--<mat-card style="margin: 20px;" *ngIf="1==1" class="dashboard-card">
 
-  <mat-card-content class="dashboard-card-content">
+  <mat-card-content class="dashboard-card-content">-->
 
     <mat-progress-bar *ngIf="loadingIndicator" mode="indeterminate"></mat-progress-bar>
 
-    <mat-table #table [dataSource]="dataSource">
+    <mat-card class="border" style="margin-top: 20px;" *ngIf="selectedBranchList.length==0">
 
-      <ng-container matColumnDef="BusinessNameAmh">
-        <mat-header-cell *matHeaderCellDef>የድርጅት/የግለሰብ ስም </mat-header-cell>
-        <mat-cell *matCellDef="let selectedRegistrationList">
-          {{selectedRegistrationList?.BusinessNameAmh}}
+
+      <mat-card-subtitle class="sub-title">Commertial Registration Branch
+        <mat-divider></mat-divider>
+      </mat-card-subtitle>
+
+    <mat-table #table [dataSource]="dataSource" *ngIf="selectedBranchList.length==0">
+
+      <ng-container matColumnDef="RegionID">
+        <mat-header-cell *matHeaderCellDef>ክልል  </mat-header-cell>
+        <mat-cell *matCellDef="let RegistrationBranchList">
+          {{RegistrationBranchList?.RegionName}}
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="Tin">
-        <mat-header-cell *matHeaderCellDef>ቲን </mat-header-cell>
-        <mat-cell *matCellDef="let selectedRegistrationList">
-          {{selectedRegistrationList?.Tin}}
-        </mat-cell>
-      </ng-container>
-      <!-- <ng-container matColumnDef="LicenceNumber">
-         <mat-header-cell *matHeaderCellDef>License No</mat-header-cell>
-         <mat-cell *matCellDef="let investors">
-           {{selectedRegistrationList?.LicenceNumber}}
-         </mat-cell>
-       </ng-container>-->
-
-
-      <ng-container matColumnDef="RegDate">
-        <mat-header-cell *matHeaderCellDef>የምዝገባ ቀን </mat-header-cell>
-        <mat-cell *matCellDef="let selectedRegistrationList">
-          {{selectedRegistrationList.RegDate | date}}
+      <ng-container matColumnDef="Zone">
+        <mat-header-cell *matHeaderCellDef>ዞን  </mat-header-cell>
+        <mat-cell *matCellDef="let RegistrationBranchList">
+       {{RegistrationBranchList?.ZoneName}}
         </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="WoredaID">
+        <mat-header-cell *matHeaderCellDef>ክፍለ ከተማ </mat-header-cell>
+        <mat-cell *matCellDef="let RegistrationBranchList">
+          {{RegistrationBranchList?.WoredaName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="HouseNo">
+        <mat-header-cell *matHeaderCellDef>የቤት ቁጥር   </mat-header-cell>
+        <mat-cell *matCellDef="let RegistrationBranchList">
+            {{RegistrationBranchList.HouseNo }}
+          </mat-cell>
+        </ng-container>
 
 
       <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef fxFlex="25%">
-          <!-- <button mat-button color="primary" (click)="editInvestor()">
-             <mat-icon class="mat-button-icon">add</mat-icon>
-             {{'common.commands.Add' | translate}}
-           </button>-->
+        <mat-header-cell *matHeaderCellDef>
         </mat-header-cell>
-        <mat-header-cell *matHeaderCellDef fxFlex="28%">
-        </mat-header-cell>
-        <mat-cell *matCellDef="let selectedRegistrationList" fxFlex="28%">
-          <a class="margin-10 a-link pointer" matTooltip="Click her to for detail"
-             (click)="select(selectedRegistrationList.Tin)">
-            <mat-icon color="primary"></mat-icon>
-            <span>አዲስ ንግድ ፍቃድ</span>
-          </a>
+
+        <mat-cell *matCellDef="let RegistrationBranchList">
+
+          <mat-checkbox [value]="RegistrationBranchList?.AddressId"
+                        [checked]="RegistrationBranchList.selected"
+                        (change)="onBussinessBranchControlChanged($event,selectedBranchList)">
+          </mat-checkbox>
 
         </mat-cell>
+
       </ng-container>
+
       <mat-header-row *matHeaderRowDef="displayedColumns">
       </mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;">
       </mat-row>
     </mat-table>
-  </mat-card-content>
-</mat-card>
-
-<mat-card class="margin-2" *ngIf="!investorShow">
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
-
-    <div fxFlex="80">
-      <!--<h5> Investor Name : {{invName}}</h5>-->
-      <!--<h5 style="text-transform: capitalize;"> {{invName}}</h5>-->
-    </div>
-    <div fxFlex="18">
-    </div>
-
-  </div>
-
-
+    </mat-card>
+<mat-card class="border" style="margin-top: 20px;" *ngIf="selectedBranchList.length">
+<mat-card-subtitle class="sub-title">Bussiness Registration Branch
   <mat-divider></mat-divider>
-  <mat-card-content>
-    <!-- <div fxFlex="100%">
+</mat-card-subtitle>
 
-       <mat-card-actions class="margin-10">
-         <button mat-raised-button="" (click)="back()" color="primary">
-           <mat-icon class="mat-18">arrow_back</mat-icon>
-           Back
-         </button>
-       </mat-card-actions>
-     </div>-->
-  </mat-card-content>
+    <mat-table #table [dataSource]="dataSourceBranch" >
+
+      <ng-container matColumnDef="RegionID">
+        <mat-header-cell *matHeaderCellDef>ክልል  </mat-header-cell>
+        <mat-cell *matCellDef="let selectedBranchList">
+          {{selectedBranchList?.RegionName}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Zone">
+        <mat-header-cell *matHeaderCellDef>ዞን  </mat-header-cell>
+        <mat-cell *matCellDef="let selectedBranchList">
+          {{selectedBranchList?.ZoneName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="WoredaID">
+        <mat-header-cell *matHeaderCellDef>ክፍለ ከተማ </mat-header-cell>
+        <mat-cell *matCellDef="let selectedBranchList">
+          {{selectedBranchList?.WoredaName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="HouseNo">
+        <mat-header-cell *matHeaderCellDef>የቤት ቁጥር   </mat-header-cell>
+        <mat-cell *matCellDef="let selectedBranchList">
+          {{selectedBranchList.HouseNo }}
+        </mat-cell>
+      </ng-container>
+
+
+     <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>
+        </mat-header-cell>
+
+        <mat-cell *matCellDef="let selectedBranchList">
+            <a class="margin-10 a-link pointer" matTooltip="Delete Bussiness Branch"
+             (click)="DeleteBussinessBranch(selectedBranchList.AddressId)">
+              <mat-icon color="warn"></mat-icon>
+            <!--<mat-icon color="primary"></mat-icon>-->
+          <span>Delete</span>
+          </a>
+          <!--<mat-checkbox [value]="selectedBranchList?.MainGuid"
+                        [checked]="selectedBranchList.selected"
+                        (change)="onBussinessBranchControlChanged($event,selectedBranchList)">
+          </mat-checkbox>-->
+
+        </mat-cell>
+
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumnsBranch">
+      </mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsBranch;">
+      </mat-row>
+    </mat-table>
 </mat-card>
+
+
 

@@ -88,6 +88,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   Lookups: LookupsModel[];
   filterLookups: LookupsModel[];
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  incentiveRequestDetailModels: IncentiveRequestDetailModel[] = [];
   private form: NgForm;
   private ExchangeRate: string;
   private CuurencyType: number;
@@ -102,6 +103,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
               private lookUpsService: LookUpService,
               private config: AppConfiguration,
               private IncentiveRequestItemService: IncentiveRequestDetailService,
+              private incentiveRequestDetailService: IncentiveRequestDetailService,
               private errMsg: ErrorMessage,
               private toastr: ToastrService,
               public dialog: MatDialog,
@@ -181,7 +183,8 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     //  Protected one BoM item to be added in the same installmnet
     // to-do get Currency Deatils from the parent record
     this.currentCategoryId = this.activatedRoute.snapshot.params['categoryId'];
-    this.serviceApplicationId = this.activatedRoute.snapshot.params['serviceApplicationId'];
+    this.serviceApplicationId = this.activatedRoute.snapshot.params['ServiceApplicationId'];
+    this.projectId = this.activatedRoute.snapshot.params['projectId'];
     this.serviceId = this.activatedRoute.snapshot.params['serviceId'];
     this.phaseId = this.activatedRoute.snapshot.params['Phase'];
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782 || this.currentCategoryId == 10777) {
@@ -191,7 +194,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       this.currentCategoryId.toString() === this.incenticeCategoryLookuptypes.LaboratoryEquipment);
 
     if (this.isBOMRequired) { // get items from BOM table
-      this.projectId = this.activatedRoute.snapshot.params['projectId'];
+
       this.getBOMItems(this.projectId, this.currentCategoryId, this.phaseId);
     } else { // get items from lookup table
       this.filterIncentiveCategory(this.currentCategoryId);
@@ -199,6 +202,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
 
     this.parentRequestId = this.activatedRoute.snapshot.params['requestId'];
     // bind items grid
+    console.log(this.parentRequestId);
     this.getIncentiveRequestItems(this.parentRequestId);
 
     if (this.currentCategoryId.toString() === this.incenticeCategoryLookuptypes.MotorVehicles) {
@@ -235,6 +239,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     this.incentiveRequestItemForm.get('Quantity').patchValue(this.activatedRoute.snapshot.params['Quantity']);
     this.incentiveRequestItemForm.get('CurrencyType').patchValue(this.activatedRoute.snapshot.params['CurrencyType']);
     this.incentiveRequestItemForm.get('ExRate').patchValue(this.activatedRoute.snapshot.params['CurrencyRate']);
+    this.incentiveRequestItemForm.get('RequestDate').patchValue(new Date());
     this.preEditApprovedBalance = 0;
   }
 
@@ -468,13 +473,28 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     this.onClear();
   }
 
+  getIncentiveReaquestItmes(projectId) {
+    this.incentiveRequestDetailService.getIncentiveRequestslistByProjectId(projectId).subscribe(result => {
+      if (result.length > 0) {
+        this.incentiveRequestDetailModels = result;
+        this.loading = false;
+      }
+    }, error => this.errMsg.getError(error));
+  }
+
   public onSubmit() {
     if (this.hasValidationErrors()) {
       return;
+    } else if (this.currentCategoryId == 10777) {
+      this.getIncentiveReaquestItmes(this.projectId);
+      if (this.incentiveRequestDetailModels[0].TotalAmount < this.incentiveRequestDetailModels[0].Amount + this.incentiveRequestItemForm.get('Amount').value) {
+        this.toastr.error('You Cannot Save SparePart Request, Already Used 15% of Capital Goods');
+        return;
+      }
     }
     this.loadingIndicator = true;
     if (this.isNewIncentiveRequestItem) {
-      return this.IncentiveRequestItemService.saveIncentiveRequestItem(
+      this.IncentiveRequestItemService.saveIncentiveRequestItem(
         this.getEditedIncentiveItem()).subscribe((itemDetail: IncentiveRequestDetailModel) => {
           this.saveCompleted(itemDetail);
         },
@@ -576,7 +596,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   showBalance() {
     console.log(this.currentCategoryId);
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {
-      this.router.navigate(['bom-balance/'+ this.projectId +  '/' + this.serviceApplicationId + '/' + this.serviceId ]);
+      this.router.navigate(['bom-balance/' + this.projectId + '/' + this.serviceApplicationId + '/' + this.serviceId]);
     } else if (this.currentCategoryId == 10777) {
       this.router.navigate(['sparepart-balance/' + this.projectId + '/' + this.serviceApplicationId]);
     }
@@ -620,7 +640,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       ChassisNo: formModel.ChassisNo,
       MotorNo: formModel.MotorNo,
       Description: formModel.Description,
-      ProjectId: 23134, // formModel.ProjectId,
+      ProjectId: +this.projectId, // formModel.ProjectId,
       Balance: this.getNewBalance(formModel.Balance, formModel.ApprovedQty),
       MeasurementUnit: formModel.MeasurementUnit
     };

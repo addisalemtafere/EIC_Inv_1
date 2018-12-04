@@ -1,5 +1,5 @@
 export class BussinessCatagory {
-  public BusinessMainGuid: string;
+  public BusinessId: string;
   public MajorDivision: string;
   public Division: string;
   public MajorGroup: string;

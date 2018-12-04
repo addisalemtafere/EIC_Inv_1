@@ -23,8 +23,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DateTime RegDate { get; set; }
         public int Status { get; set; }
 
-        public bool IsPrivouslyRegistered { get; set; }
-        public DateTime PreviousRegDate { get; set; }
+        public bool? IsPrivouslyRegistered { get; set; }
+        public DateTime? PreviousRegDate { get; set; }
         public string PrivousRegNumber { get; set; }
         public string MainCancilationReason { get; set; }
         public string FileNumber { get; set; }
@@ -34,7 +34,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public decimal SignedCapital { get; set; }
         public decimal ApprovedCapital { get; set; }
         public decimal SingleShareAmount { get; set; }
-        public bool IsSharedWithForeigner { get; set; }
+        public bool? IsSharedWithForeigner { get; set; }
         public decimal LocalPersonCapital { get; set; }
         public string GrantorName { get; set; }
         public string GrantorCountry { get; set; }
@@ -44,7 +44,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string GrantorCountryEng { get; set; }
         public string GrantorMainAddressEng { get; set; }
         public string GrantorManagerNameEng { get; set; }
-        public string BudgetYearCode { get; set; }
+       // public string BudgetYearCode { get; set; }
         //public ICollection<RegistrationCatagory> RegistrationCatagory { get; set; }
         [NotMapped]
         public string[] RegistrationCatagories { get; set; }
@@ -59,16 +59,16 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string TradeNameRegional { get; set; }
         public string TradeNameRegionalSort { get; set; }
         public string TradeNameRegionalSoundeX { get; set; }
-        public DateTime DateRegistered { get; set; }
+        public DateTime? DateRegistered { get; set; }
         public string TradeNameStatus { get; set; }
         public string PersonCanceldRegistration { get; set; }
-        public DateTime CancilationDate { get; set; }
+        public DateTime? CancilationDate { get; set; }
 
 
         public string Username { get; set; }
-        public DateTime EventDateTime { get; set; }
+        public DateTime? EventDateTime { get; set; }
         public string UpdatedUsername { get; set; }
-        public DateTime UpdatedEventDatetime { get; set; }
+        public DateTime? UpdatedEventDatetime { get; set; }
         public string SiteID { get; set; }       
     }
 }

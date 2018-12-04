@@ -34,6 +34,26 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             return await businessRepo.GetRegistrationByTin(Tin);
         }
 
+        [HttpGet("GetRegistrationCatagory/{InvestorId:int}")]
+        public List<tblMajorDivision> GetRegistrationcata(int InvestorId)
+        {
+            var catdatalist = context.RegistrationCatagorys.Where(param => param.InvestorId == InvestorId).ToList();
+            List<tblMajorDivision> descriptionList = new List<tblMajorDivision>() ;
+            for (int i = 0; i < catdatalist.Count; i++)
+            {
+                tblMajorDivision description=new tblMajorDivision();
+                int code=Convert.ToInt16(catdatalist[0].MajorCatagoryCode);
+                var catdata = context.tblMajorDivision.SingleOrDefault(param => param.Code == code);
+                if (catdata != null)
+                {
+                    description.EnglishDescription = catdata.EnglishDescription;
+                    description.Description = catdata.Description;
+                    descriptionList.Add(description);
+                }
+            }
+            return descriptionList;
+        }
+
         [HttpPost("Save")]
         public async Task<IActionResult> SaveBussiness([FromBody] DAL.EntityLayer.Business bussiness)
         {
@@ -41,16 +61,19 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             {
                 return BadRequest(ModelState);
             }
-            try
-            {
-                BusinessRepository
-           businessRepo = new BusinessRepository(context);
-                 await businessRepo.SaveBussiness(bussiness);
-            }
-            catch(Exception ex)
-            {
+            
+                try
+                {
+        
 
-            }
+                    BusinessRepository
+               businessRepo = new BusinessRepository(context);
+                    await businessRepo.SaveBussiness(bussiness);
+                }
+                catch (Exception ex)
+                {
+
+                }
             return CreatedAtAction("SaveBussiness", new { id = bussiness.ID }, bussiness);
         }
 
