@@ -2,7 +2,6 @@ import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import * as html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import {MatDialog} from '@angular/material';
-import {ToastrService} from 'ngx-toastr';
 import {ServiceApplicationModel} from '../../../model/ServiceApplication.model';
 import {AddressModel} from '../../../model/address/Address.model';
 import {InvActivityModel} from '../../../model/invactivity';
@@ -61,7 +60,6 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   ngOnInit() {
-    console.log('lazy or eager');
     this.getDate();
   }
 
