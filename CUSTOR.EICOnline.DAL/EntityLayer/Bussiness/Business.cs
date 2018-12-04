@@ -9,6 +9,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public int ID { get; set; }
 
         public Guid MainGuid { get; set; }
+        public int ServiceApplicationId { get; set; }
+        public int InvestorId { get; set; }
 
         public string TradeNameAmh { get; set; }
         public string TradesName { get; set; }
@@ -28,14 +30,6 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DateTime ? PrivousDateRegistered { get; set; }
 
         public string Status { get; set; }
-
-        public string Username { get; set; }
-
-        public DateTime  EventDateTime { get; set; }
-
-        public string  UpdatedUsername { get; set; }
-
-        public DateTime ? UpdatedEventDatetime { get; set; }
 
         public DateTime ? TradeNameDate { get; set; }
 
@@ -57,13 +51,14 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public string ReplacementResion { get; set; }
 
-        public int ? Location { get; set; }
-
         public Guid ? TradeNameGuid { get; set; }
 
         public DateTime ? CancellationDate { get; set; }
 
-        public bool ? IsAddisAbaba { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public string UpdatedBy { get; set; }
 
     }
 }

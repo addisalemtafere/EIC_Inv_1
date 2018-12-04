@@ -19,7 +19,7 @@ namespace CUSTOR.EICOnline.DAL
         {
             List<RegistrationCatagory> registrationCatagory = null;
             try
-            {               
+            {
                 registrationCatagory = await Context.RegistrationCatagorys
                   .Where(reg => reg.InvestorId == InvestorID)
                                 .ToListAsync();
@@ -62,18 +62,33 @@ namespace CUSTOR.EICOnline.DAL
 
 
 
-        public async Task<bool> DeleteRegistrationCatagoryByInvestorId(int InvestorID)
+        public bool DeleteRegistrationCatagoryByInvestorId(int InvestorID)
         {
-            var registrationCatagory = await Context.RegistrationCatagorys
-                .FirstOrDefaultAsync(reg => reg.InvestorId == InvestorID);
+            var registrationCatagory = Context.RegistrationCatagorys
+                .FirstOrDefault(reg => reg.InvestorId == InvestorID);
             if (registrationCatagory == null)
             {
                 //SetError("Registration does not exist");
                 return false;
             }
             Context.RegistrationCatagorys.Remove(registrationCatagory);
-            return await SaveAsync();
+            Context.SaveChanges();
+            return true;
         }
+
+
+        //public void DeleteRegistrationCatagoryByInvestorId(int InvestorID)
+        //{
+        //    var registrationCatagory = Context.RegistrationCatagorys
+        //        .FirstOrDefaultAsync(reg => reg.InvestorId == InvestorID);
+        //    if (registrationCatagory == null)
+        //    {
+        //        //SetError("Registration does not exist");
+        //        return;
+        //    }
+        //    Context.RegistrationCatagorys.Remove(registrationCatagory);
+        //    Context.SaveChanges();
+        //}
 
         //public async Task<bool> DeleteRegistrationCatagory(string Tin)
         //{
