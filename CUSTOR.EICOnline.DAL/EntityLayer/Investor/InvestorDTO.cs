@@ -57,10 +57,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string Tin { get; set; }
         public string RegistrationNumber { get; set; }
         public DateTime? RegistrationDate { get; set; }
-        public string TradeName { get; set; }
-        public string TradeNameSort { get; set; }
-        public string TradeNameSoundX { get; set; }
-        public string TradeNameEnglish { get; set; }
+        
         public string UserId { get; set; }
         //public string SiteCode { get; set; }
         public bool? IsActive { get; set; }
@@ -80,7 +77,6 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string UserName { get; set; }
         public int AddressId { get; set; }
 
-        [NotMapped]
         public string[] RegistrationCatagories { get; set; }
     }
 }

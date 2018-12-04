@@ -13,12 +13,14 @@ namespace CUSTOR.EICOnline.DAL
 {
     public class InvestorRepository : EFRepository<ApplicationDbContext, Investor>
     {
-
         RegistrationCatagoryRepository regCatagoryRepo;
-        public InvestorRepository(ApplicationDbContext context, RegistrationCatagoryRepository RegCatagoryRepo) : base(context)
+
+        public InvestorRepository(ApplicationDbContext context, RegistrationCatagoryRepository RegCatagoryRepo) :
+            base(context)
         {
             this.regCatagoryRepo = RegCatagoryRepo;
         }
+
         public async Task<InvestorDTO> GetInvestor(int InvestorId)
         {
             Investor investor = null;
@@ -27,10 +29,10 @@ namespace CUSTOR.EICOnline.DAL
             {
                 int id = InvestorId;
                 investor = await Context.Investors
-                           .FirstOrDefaultAsync(inv => inv.InvestorId == id);
+                    .FirstOrDefaultAsync(inv => inv.InvestorId == id);
                 //int m = (int)AddressType.eInvestor;
                 add = await Context.Address
-                            .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eInvestor);
+                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eInvestor);
             }
             catch (InvalidOperationException)
             {
@@ -41,15 +43,16 @@ namespace CUSTOR.EICOnline.DAL
             {
                 SetError(ex);
             }
+
             return InvestorHelper.GetInvestorDTO(investor, add);
         }
+
         public async Task<InvestorDTO> SaveInvestor(InvestorDTO postedInvestor, ApplicationUser appUser)
         {
-
             bool isUpdate = (postedInvestor.InvestorId > 0);
             Investor inv = InvestorHelper.GetInvestor(postedInvestor);
 
-            inv.UserId = appUser.Id;//redundent
+            inv.UserId = appUser.Id; //redundent
 
             Context.CurrentUserId = appUser.Id;
             Context.CurrentUserName = appUser.FullName;
@@ -67,6 +70,16 @@ namespace CUSTOR.EICOnline.DAL
                     Address address = InvestorHelper.GetAddress(postedInvestor);
                     address.ParentId = inv.InvestorId;
 
+//                    await regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(postedInvestor.InvestorId);
+//                    foreach (var catagory in postedInvestor.RegistrationCatagories)
+//                    {
+//                        RegistrationCatagory regCatagory = new RegistrationCatagory();
+//                        regCatagory.InvestorId = 2;
+//                        regCatagory.MajorCatagoryCode = catagory;
+//                        Context.RegistrationCatagorys.Add(regCatagory);
+//                        Context.SaveChangesAsync();
+//                    }
+
                     if (isUpdate)
                     {
                         address.AddressId = postedInvestor.AddressId;
@@ -77,18 +90,6 @@ namespace CUSTOR.EICOnline.DAL
                         Context.Address.Add(address);
                     }
 
-                  
-                   
-                    await regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(postedInvestor.InvestorId);
-                    foreach (var catagory in postedInvestor.RegistrationCatagories)
-                    {
-                        RegistrationCatagory regCatagory = new RegistrationCatagory();
-                        regCatagory.InvestorId = postedInvestor.InvestorId;
-                        regCatagory.MajorCatagoryCode = catagory;
-                        Context.RegistrationCatagorys.Add(regCatagory);
-                        Context.SaveChanges();
-                    }
-
                     await Context.SaveChangesAsync();
                 }
                 catch (Exception ex)
@@ -96,20 +97,22 @@ namespace CUSTOR.EICOnline.DAL
                     transaction.Rollback();
                     SetError(ex.Message);
                 }
+
                 transaction.Commit();
+
                 return postedInvestor;
             }
-
         }
+
         public override async Task<Investor> GetRecord(object InvestorId)
         {
             Investor investor = null;
             try
             {
-                int id = (int)InvestorId;
+                int id = (int) InvestorId;
                 investor = await Context.Investors
-                                //.Include(p => p.Associate)
-                                .FirstOrDefaultAsync(inv => inv.InvestorId == id);
+                    //.Include(p => p.Associate)
+                    .FirstOrDefaultAsync(inv => inv.InvestorId == id);
             }
             catch (InvalidOperationException)
             {
@@ -120,17 +123,19 @@ namespace CUSTOR.EICOnline.DAL
             {
                 SetError(ex);
             }
+
             return investor;
         }
+
         public async Task<List<Investor>> GetRecordByUserId(object UserId)
         {
             List<Investor> investor = null;
             try
             {
-                string id = (string)UserId;
+                string id = (string) UserId;
                 investor = await Context.Investors
-                  .Where(inv => inv.UserId == id)
-                                .ToListAsync();
+                    .Where(inv => inv.UserId == id)
+                    .ToListAsync();
             }
             catch (InvalidOperationException)
             {
@@ -141,19 +146,19 @@ namespace CUSTOR.EICOnline.DAL
             {
                 SetError(ex);
             }
+
             return investor;
         }
-
 
         public async Task<List<Investor>> GetRecordByTIN(object Tin)
         {
             List<Investor> investor = null;
             try
             {
-                string id = (string)Tin;
+                string id = (string) Tin;
                 investor = await Context.Investors
-                  .Where(inv => inv.Tin == id)
-                                .ToListAsync();
+                    .Where(inv => inv.Tin == id)
+                    .ToListAsync();
             }
             catch (InvalidOperationException)
             {
@@ -164,6 +169,7 @@ namespace CUSTOR.EICOnline.DAL
             {
                 SetError(ex);
             }
+
             return investor;
         }
 
@@ -172,53 +178,50 @@ namespace CUSTOR.EICOnline.DAL
             List<Investor> investor = null;
             try
             {
-
-                if (searchInvestorDto.Tin != null && searchInvestorDto.FirstNameEng != null && searchInvestorDto.FatherNameEng != null && searchInvestorDto.GrandNameEng != null)
+                if (searchInvestorDto.Tin != null && searchInvestorDto.FirstNameEng != null &&
+                    searchInvestorDto.FatherNameEng != null && searchInvestorDto.GrandNameEng != null)
                 {
-
-                    investor = await Context.Investors.
-                   Where(m => EF.Functions.Like(m.Tin, searchInvestorDto.Tin + "%") &&
-                             EF.Functions.Like(m.FirstNameEng, searchInvestorDto.FirstNameEng + "%") &&
-                             EF.Functions.Like(m.FatherNameEng, searchInvestorDto.FatherNameEng + "%") &&
+                    investor = await Context.Investors.Where(m =>
+                            EF.Functions.Like(m.Tin, searchInvestorDto.Tin + "%") &&
+                            EF.Functions.Like(m.FirstNameEng, searchInvestorDto.FirstNameEng + "%") &&
+                            EF.Functions.Like(m.FatherNameEng, searchInvestorDto.FatherNameEng + "%") &&
                             EF.Functions.Like(m.GrandNameEng, searchInvestorDto.GrandNameEng + "%"))
-                                 .ToListAsync();
+                        .ToListAsync();
                 }
-                else if (searchInvestorDto.FirstNameEng != null && searchInvestorDto.FatherNameEng != null && searchInvestorDto.GrandNameEng != null)
+                else if (searchInvestorDto.FirstNameEng != null && searchInvestorDto.FatherNameEng != null &&
+                         searchInvestorDto.GrandNameEng != null)
                 {
-                    investor = await Context.Investors.
-                    Where(m => EF.Functions.Like(m.FirstNameEng, searchInvestorDto.FirstNameEng + "%") &&
-                              EF.Functions.Like(m.FatherNameEng, searchInvestorDto.FatherNameEng + "%") &&
-                             EF.Functions.Like(m.GrandNameEng, searchInvestorDto.GrandNameEng + "%"))
-                                  .ToListAsync();
+                    investor = await Context.Investors.Where(m =>
+                            EF.Functions.Like(m.FirstNameEng, searchInvestorDto.FirstNameEng + "%") &&
+                            EF.Functions.Like(m.FatherNameEng, searchInvestorDto.FatherNameEng + "%") &&
+                            EF.Functions.Like(m.GrandNameEng, searchInvestorDto.GrandNameEng + "%"))
+                        .ToListAsync();
                 }
                 else if (searchInvestorDto.FirstNameEng != null && searchInvestorDto.FatherNameEng != null)
                 {
-                    investor = await Context.Investors.
-                     Where(m => EF.Functions.Like(m.FirstNameEng, searchInvestorDto.FirstNameEng + "%") &&
-                               EF.Functions.Like(m.FatherNameEng, searchInvestorDto.FatherNameEng + "%"))
-                                   .ToListAsync();
+                    investor = await Context.Investors.Where(m =>
+                            EF.Functions.Like(m.FirstNameEng, searchInvestorDto.FirstNameEng + "%") &&
+                            EF.Functions.Like(m.FatherNameEng, searchInvestorDto.FatherNameEng + "%"))
+                        .ToListAsync();
                 }
                 else if (searchInvestorDto.FirstNameEng != null)
                 {
-                    investor = await Context.Investors.
-                      Where(m => EF.Functions.Like(m.FirstNameEng, searchInvestorDto.FirstNameEng + "%"))
-                                    .ToListAsync();
+                    investor = await Context.Investors.Where(m =>
+                            EF.Functions.Like(m.FirstNameEng, searchInvestorDto.FirstNameEng + "%"))
+                        .ToListAsync();
                 }
                 else if (searchInvestorDto.Tin != null)
                 {
-                    investor = await Context.Investors.
-                    Where(m => EF.Functions.Like(m.Tin, searchInvestorDto.Tin + "%"))
-                                  .ToListAsync();
+                    investor = await Context.Investors.Where(m => EF.Functions.Like(m.Tin, searchInvestorDto.Tin + "%"))
+                        .ToListAsync();
                 }
                 else
                 {
                     investor = await Context.Investors
-                                   .ToListAsync();
+                        .ToListAsync();
                 }
 
                 //context.Customers.Where(c => EF.Functions.Like(c.Name, "a%"));
-
-
             }
             catch (InvalidOperationException)
             {
@@ -229,6 +232,7 @@ namespace CUSTOR.EICOnline.DAL
             {
                 SetError(ex);
             }
+
             return investor;
         }
 
@@ -241,8 +245,8 @@ namespace CUSTOR.EICOnline.DAL
                 if (page > 0)
                 {
                     investors = investors
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize);
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize);
                 }
                 //foreach (Investor inv in Investors)
                 //{
@@ -256,6 +260,7 @@ namespace CUSTOR.EICOnline.DAL
                 string s = ex.Message;
                 SetError(ex);
             }
+
             return await investors.ToListAsync();
         }
 
@@ -266,25 +271,27 @@ namespace CUSTOR.EICOnline.DAL
                 try
                 {
                     var investor = await Context.Investors
-                         .FirstOrDefaultAsync(inv => inv.InvestorId == id);
+                        .FirstOrDefaultAsync(inv => inv.InvestorId == id);
                     if (investor == null)
                     {
                         transaction.Rollback();
                         SetError("Investor does not exist");
                         return false;
                     }
+
                     Context.Investors.Remove(investor);
                     await SaveAsync();
 
 
                     var add = await Context.Address
-                       .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eManager);
+                        .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eManager);
 
                     if (add != null)
                     {
                         Context.Address.Remove(add);
                         await SaveAsync();
                     }
+
                     transaction.Commit();
                     return true;
                 }
@@ -294,9 +301,7 @@ namespace CUSTOR.EICOnline.DAL
                     SetError(ex.Message);
                     return false;
                 }
-
             }
-
         }
 
         protected override bool OnValidate(Investor entity)
@@ -306,6 +311,7 @@ namespace CUSTOR.EICOnline.DAL
                 ValidationErrors.Add("No record was provided");
                 return false;
             }
+
             if (string.IsNullOrEmpty(entity.FirstName))
                 ValidationErrors.Add("Please enter first name of the Investor", "FirstName");
             else if (string.IsNullOrEmpty(entity.FirstName) || entity.FirstName.Length < 2)
