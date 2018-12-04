@@ -250,7 +250,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   }
 
   private filterPrerequisite(prerequeste: ServicePrerequisite[]) {
-    this.investorService.getInvestor(localStorage.getItem('InvestorId'))
+    this.investorService.getInvestor(this.InvestorId)
       .subscribe((result: Investor) => {
         this.getPreReqService(prerequeste, result);
       });
