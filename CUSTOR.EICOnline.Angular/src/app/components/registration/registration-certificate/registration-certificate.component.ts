@@ -36,11 +36,12 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   projectCost: ProjectCostModel;
   investmentActivity: InvActivityModel;
   exportMarketShare: number;
-  MajorDivisionList: MajorDivision[] = [];
   ServiceApplicationId: any;
   viewCertificate = false;
   lookup: Lookup;
+  InvestorId: any;
   projectCostTotal: number;
+  MajorDivisionList: any;
   public manager: ProjectAssociateModel[];
 
   constructor(public certificateService: CertificateService,
@@ -48,6 +49,7 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
               public errMsg: ErrorMessage,
               public projectService: ProjectProfileService,
               public serviceApplication: ServiceApplicationService,
+              public bussnesServ: BussinessService,
               public dialog: MatDialog,
               public toast: ToastrService,
               private projectCostService: ProjectCostService,
@@ -100,6 +102,11 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   getInvestorDetail(id: any){
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.bussnesServ.getRegistrationCatagory('2').subscribe(result => {
+        this.MajorDivisionList = result;
+      }
+    );
     this.certificateService.getOneById(id)
       .subscribe((result: ServiceApplicationModel) => {
         this.investorDetailList = result;

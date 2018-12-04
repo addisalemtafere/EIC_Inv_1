@@ -94,7 +94,7 @@ export class BussinessService {
   }
 
   getRegistrationCatagory(InvestorId: string) {
-    return this.httpClient.get('api/Business/GetRegistrationCatagory/' + InvestorId).pipe(
+    return this.httpClient.get(this.config.urls.url('GetRegistrationCatagory', InvestorId)).pipe(
       map(result => {
         return result;
       }), catchError(this.errMsg.parseObservableResponseError));

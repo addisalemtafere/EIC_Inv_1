@@ -18,7 +18,8 @@ import { BussinessBranchComponent } from './bussiness-branch/bussiness-branch.co
   declarations: [ BussinessComponent, BussinessTabComponent,
     RegistrationListComponent,
     BussinessBranchComponent],
-  exports: [ BussinessComponent,
+  exports: [
+    BussinessComponent,
     BussinessBranchComponent
   ]
 })
