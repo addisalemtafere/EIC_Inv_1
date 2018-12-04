@@ -123,9 +123,9 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
 
   formBuild() {
     this.projectShareForm = this.formBuilder.group({
-      ProjectId: new FormControl([this.projectId]),
+      ProjectId: new FormControl(this.projectId),
       ProjectNationalityCompositionId: new FormControl(''),
-      workFlowId: new FormControl([this.workFlowId]),
+      workFlowId: new FormControl(this.workFlowId),
       Nationality: new FormControl(null, [Validators.required, this.checkNationality.bind(this)]),
       Qty: new FormControl('', [Validators.required]),
       SharePercent: new FormControl(null, [Validators.required, this.validateTotal.bind(this)]),
