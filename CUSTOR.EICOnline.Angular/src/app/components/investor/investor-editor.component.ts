@@ -134,19 +134,22 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.getMajorDivisions();
 
     const id = this.route.snapshot.params['InvestorId'];
+    // console.debug(id);
     if (id < 1) {
       this.isNewInvestor = true;
       this.isCompany = false;
 
       this.title = 'Create a new Investor';
 
-
-
+      return;
+    }
     if (id) {
+      // to-do
+      // get the selected investor either through @Input or shared service
       this.getInvestor(id);
     }
+  }
 
-  }}
 
   getMajorDivisions() {
     this.catagoryService.getMajorDivision()

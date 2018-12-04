@@ -132,7 +132,6 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
   }
 
-
   private getPermissions() {
     this.loadingIndicator = true;
     this.accountService.getPermissions()
