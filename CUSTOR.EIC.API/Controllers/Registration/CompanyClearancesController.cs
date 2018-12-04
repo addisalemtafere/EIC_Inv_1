@@ -60,7 +60,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             _context.CompanyClearances.Add(editedCompanyClearance);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCapitalRegistrations", new { id = editedCompanyClearance.CompanyClearanceId },
+            return CreatedAtAction("getCompanyClearanceByInvestorId", new { id = editedCompanyClearance.CompanyClearanceId },
                 editedCompanyClearance);
         }
 
@@ -78,7 +78,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             _context.Entry(companyClearance).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCapitalRegistrations", companyClearance);
+            return CreatedAtAction("getCompanyClearanceByInvestorId", companyClearance);
         }
 
 
@@ -114,7 +114,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             inv.FirstNameEng = CompnayNameEnglish;
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCapitalRegistrations", companyClearance);
+            return CreatedAtAction("getCompanyClearanceByInvestorId", companyClearance);
         }
 
 

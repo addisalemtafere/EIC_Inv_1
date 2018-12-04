@@ -56,8 +56,7 @@ namespace CUSTOR.EICOnline.DAL
 
             Context.CurrentUserId = appUser.Id;
             Context.CurrentUserName = appUser.FullName;
-            using (var transaction = await Context.Database.BeginTransactionAsync())
-            {
+         
                 try
                 {
                     if (isUpdate)
@@ -75,34 +74,37 @@ namespace CUSTOR.EICOnline.DAL
                     {
                         address.AddressId = postedInvestor.AddressId;
                         Context.Address.Update(address);
+                         Context.SaveChanges();
+
                     }
                     else
                     {
                         Context.Address.Add(address);
-                    }                    
-                    
+                         Context.SaveChanges();
 
-                    regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(postedInvestor.InvestorId);
-                    foreach (var catagory in postedInvestor.RegistrationCatagories)
+                    }
+
+
+                    regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(inv.InvestorId);
+                    foreach (var catagory in inv.RegistrationCatagories)
                     {
                         RegistrationCatagory regCatagory = new RegistrationCatagory();
                         regCatagory.InvestorId = inv.InvestorId;
                         regCatagory.MajorCatagoryCode = catagory;
                         Context.RegistrationCatagorys.Add(regCatagory);
-                        //await Context.SaveChangesAsync();
+                         Context.SaveChanges();
                     }
-                    await Context.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
-                    transaction.Rollback();
+                    //transaction.Rollback();
                     SetError(ex.Message);
                 }
 
-                transaction.Commit();
+                //transaction.Commit();
 
                 return postedInvestor;
-            }
+            //}
         }
 
         public override async Task<Investor> GetRecord(object InvestorId)
