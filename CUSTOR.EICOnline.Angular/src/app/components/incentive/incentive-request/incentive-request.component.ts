@@ -298,12 +298,11 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     // if (!this.incentiveRequestItemForm.valid) {
     //   return;
     // }
-    this.CheckExistance();
+
     if (this.hasValidationErrors()) {
       return;
     }
-    else if (this.BOMItems.length == 0) {
-      this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
+    else if (this.CheckExistance()) {
       return;
     }
     else {
@@ -323,6 +322,14 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
         .subscribe((items) => {
           console.log(this.BOMItems);
           this.BOMItems = items;
+          if (this.BOMItems.length === 0) {
+            this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
+            return true;
+          }
+          else {
+            return false;
+          }
+
         });//TODO Validation Jump
     }
   }

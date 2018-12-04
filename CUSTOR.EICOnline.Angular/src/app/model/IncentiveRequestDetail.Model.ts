@@ -6,6 +6,7 @@ export class IncentiveRequestDetailModel {
   public IncentiveItemId: number;
   public IncentiveCategoryId: number;
   public Amount: number;
+  public TotalAmount?: number;
   public RequestDate?: Date;
   public Description: string;
   public Quantity: number;
