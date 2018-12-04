@@ -108,11 +108,8 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
   ngOnInit() {
     this.currentLang = this.configService.language;
-
     const id = this.activatedRoute.snapshot.params['InvestorId'];
-
-   // const id = this.activatedRoute.snapshot.params['id'];
-    this.investorId = this.activatedRoute.snapshot.params['invid'];
+    this.investorId = this.activatedRoute.snapshot.params['InvestorId'];
     this.initStaticData(this.currentLang);
     this.fillAddressLookups();
     this.imgBase64 = '';
@@ -386,7 +383,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.loadingIndicator = false;
     this.toastr.success('Record saved successfully!');
     this.dataSharing.investorTabSelectedIndex.next(2);
-    this.router.navigate(['/associate/list']);
+    //this.router.navigate(['/associate/list']);
   }
 
   private handleError(error) {

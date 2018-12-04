@@ -171,6 +171,16 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
     window.history.back();
   }
 
+  onApproveNameOptionOne() {
+
+}
+  onApproveNameOptionTwo() {
+
+}
+  onApproveNameOptionThree() {
+
+}
+
   ngAfterContentChecked(): void {
   }
 

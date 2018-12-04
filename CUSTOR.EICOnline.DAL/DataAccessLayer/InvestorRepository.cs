@@ -34,7 +34,7 @@ namespace CUSTOR.EICOnline.DAL
                 add = await Context.Address
                     .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eInvestor);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
                 SetError("Couldn't load Investor - invalid Investor id specified.");
                 return null;
@@ -64,21 +64,12 @@ namespace CUSTOR.EICOnline.DAL
                         Context.Update(inv);
                     else
                         Context.Add(inv);
-                    await Context.SaveChangesAsync();
+                    Context.SaveChanges();
 
                     // Add/Update Address
+                    postedInvestor.InvestorId = inv.InvestorId;
                     Address address = InvestorHelper.GetAddress(postedInvestor);
-                    address.ParentId = inv.InvestorId;
-
-//                    await regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(postedInvestor.InvestorId);
-//                    foreach (var catagory in postedInvestor.RegistrationCatagories)
-//                    {
-//                        RegistrationCatagory regCatagory = new RegistrationCatagory();
-//                        regCatagory.InvestorId = 2;
-//                        regCatagory.MajorCatagoryCode = catagory;
-//                        Context.RegistrationCatagorys.Add(regCatagory);
-//                        Context.SaveChangesAsync();
-//                    }
+                    address.ParentId = inv.InvestorId;                   
 
                     if (isUpdate)
                     {
@@ -88,8 +79,18 @@ namespace CUSTOR.EICOnline.DAL
                     else
                     {
                         Context.Address.Add(address);
-                    }
+                    }                    
+                    
 
+                    regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(postedInvestor.InvestorId);
+                    foreach (var catagory in postedInvestor.RegistrationCatagories)
+                    {
+                        RegistrationCatagory regCatagory = new RegistrationCatagory();
+                        regCatagory.InvestorId = inv.InvestorId;
+                        regCatagory.MajorCatagoryCode = catagory;
+                        Context.RegistrationCatagorys.Add(regCatagory);
+                        //await Context.SaveChangesAsync();
+                    }
                     await Context.SaveChangesAsync();
                 }
                 catch (Exception ex)

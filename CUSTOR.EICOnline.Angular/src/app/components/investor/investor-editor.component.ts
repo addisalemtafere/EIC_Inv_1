@@ -269,12 +269,14 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getInvestor(id)
       .subscribe(result => {
           this.investor = result;
-          // this.fillAddressLookups();
+          this.fillAddressLookups();
           this.updateForm();
+          // this.getAddressData(this.investor.InvestorId);
         },
         error => this.toastr.error(error));
     this.loadingIndicator = false;
   }
+
 
 
 

@@ -1,4 +1,4 @@
-<div class="margin-2 page-content mat-elevation-z2">
+<div [@fadeInOut] class="page-content margin-2 mat-elevation-z8">
   <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
   <form #form="ngForm" [formGroup]="companyClearanceForm" novalidate (ngSubmit)="onSubmit()" fxLayout="column"
         autocomplete="off">
@@ -8,8 +8,8 @@
     <div id="divSole" style="margin-top: 40px">
 
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
-        <div class="block">
-          <mat-form-field>
+        <div class="block full-width">
+          <mat-form-field fxFlex="100" class="full-width">
             <mat-label>Company Name English Option One</mat-label>
             <input required matInput="" formControlName="CompanyNameOneEnglish">
             <mat-error *ngIf="companyNameOneEnglish.hasError('required')">
@@ -17,8 +17,8 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="block">
-          <mat-form-field>
+        <div class="block full-width">
+          <mat-form-field fxFlex="100" class="full-width">
             <mat-label>Company Name Amharic Option One</mat-label>
             <input required matInput="" formControlName="CompanyNameOneAmharic">
             <mat-error *ngIf="companyNameOneAmharic.hasError('required')">
@@ -26,11 +26,17 @@
             </mat-error>
           </mat-form-field>
         </div>
-
+        <div class="block full-width">
+          <div mat-dialog-actions>
+            <button mat-raised-button (click)="onApproveNameOptionOne()" color="green" type="button">
+              {{'common.commands.Approve' | translate}}
+            </button>
+          </div>
+        </div>
       </div>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
-        <div class="block">
-          <mat-form-field>
+        <div class="block full-width">
+          <mat-form-field fxFlex="100" class="full-width">
             <mat-label>Company NameEnglish Option Two</mat-label>
             <input required matInput="" formControlName="CompanyNameTwoEnglish">
             <mat-error *ngIf="companyNameTwoEnglish.hasError('required')">
@@ -38,8 +44,8 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="block">
-          <mat-form-field>
+        <div class="block full-width">
+          <mat-form-field fxFlex="100" class="full-width">
             <mat-label>Company Name Amharic Option Two</mat-label>
             <input required matInput="" formControlName="CompanyNameTwoAmharic">
             <mat-error *ngIf="companyNameTwoAmharic.hasError('required')">
@@ -47,11 +53,17 @@
             </mat-error>
           </mat-form-field>
         </div>
-
+        <div class="block full-width">
+          <div mat-dialog-actions>
+            <button mat-raised-button (click)="onApproveNameOptionTwo()" color="green" type="button">
+              {{'common.commands.Approve' | translate}}
+            </button>
+          </div>
+        </div>
       </div>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
-        <div class="block">
-          <mat-form-field>
+        <div class="block full-width">
+          <mat-form-field fxFlex="100" class="full-width">
             <mat-label>Company NameEnglish Option Three</mat-label>
             <input required matInput="" formControlName="CompanyNameThreeEnglish">
             <mat-error *ngIf="companyNameThreeEnglish.hasError('required')">
@@ -59,8 +71,8 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="block">
-          <mat-form-field>
+        <div class="block full-width">
+          <mat-form-field  fxFlex="100" class="full-width">
             <mat-label>Company Name Amharic Option Three</mat-label>
             <input required matInput="" formControlName="CompanyNameThreeAmharic">
             <mat-error *ngIf="companyNameThreeAmharic.hasError('required')">
@@ -68,10 +80,12 @@
             </mat-error>
           </mat-form-field>
         </div>
-
+        <div class="block full-width">
+            <button mat-raised-button (click)="onApproveNameOptionThree()" color="green" type="button">
+              {{'common.commands.Approve' | translate}}
+            </button>
+        </div>
       </div>
-
-
     </div>
 
     <mat-divider></mat-divider>

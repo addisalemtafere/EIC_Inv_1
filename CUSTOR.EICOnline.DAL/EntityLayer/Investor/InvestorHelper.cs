@@ -64,7 +64,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 LegalStatus = investorDTO.LegalStatus,
                 RegistrationDate = investorDTO.RegistrationDate,
                 RegistrationNumber = investorDTO.RegistrationNumber,
-                
+
+                PaidCapital = investorDTO.PaidCapital,
+                SighnedCapital = investorDTO.SighnedCapital,
                 //SiteCode = investorDTO.SiteCode
 
             };
@@ -98,7 +100,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 LegalStatus = inv.LegalStatus,
                 RegistrationDate = inv.RegistrationDate,
                 RegistrationNumber = inv.RegistrationNumber,
-              
+                PaidCapital = inv.PaidCapital,
+                SighnedCapital = inv.SighnedCapital,
+
                 //SiteCode = inv.SiteCode,
                 CellPhoneNo = add.CellPhoneNo,
                 Email = add.Email,
