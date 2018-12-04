@@ -1,5 +1,5 @@
 export class BussinessBranchModel {
-  public MainGuid: string;
+  public AddressId: number;
   public ParentGuid?: string;
   public RegionName?: string;
   public ZoneName?: string;

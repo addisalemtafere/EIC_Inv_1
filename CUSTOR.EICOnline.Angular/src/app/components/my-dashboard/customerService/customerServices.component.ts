@@ -107,7 +107,7 @@ export class CustomerServiceStarterComponent implements OnInit {
         case 1023:
         case 1236:
 
-          this.router.navigate(['/investor-project-list'], {relativeTo: this.route});
+          this.router.navigate(['/business-tab', 1236, 10], {relativeTo: this.route});
           break;
         case 1237:
           this.router.navigate(['registration-tab/' + serviceId + '/' + 0 + '/' + 0]);

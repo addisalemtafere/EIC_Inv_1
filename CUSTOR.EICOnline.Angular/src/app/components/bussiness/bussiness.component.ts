@@ -36,8 +36,11 @@ export class BussinessComponent implements OnInit {
   bussinessCatagory: BussinessCatagory;
   SubGroupList = [];
   ServiceApplicationId: any;
+  InvestorId: any;
   filterSubGroupList = [];
   Tin: string;
+  private BussinessN: string;
+  private BussinessNeng: string;
   // DivisionList = []
   constructor( private http: HttpClient,
                public toastr: ToastrService,
@@ -84,14 +87,32 @@ export class BussinessComponent implements OnInit {
     this.loadingIndicator = true;
     let Bussinessta: any = [];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
     localStorage.setItem('Tin',"0016233161");
     this.Tin = localStorage.getItem('Tin');
-    this.bussinessService.getRegistrationByTin(this.Tin).subscribe(
+   // this.bussinessService.getRegistrationByTin(this.Tin).subscribe(
+    //  result => {
+    //    this.bussinessForm.patchValue({
+     //    cBussinessName: result.BusinessNameAmh,
+     //     cBussinessNameEng: result.BusinessName,
+      //    cCapital: result.PaidUpCapital});
+      //  this.loadingIndicator = false;
+     // }
+   // );
+    this.bussinessService.getRegistrationByInvestorId(this.InvestorId).subscribe(
       result => {
+        if (result.LegalStatus === '1') {
+          this.BussinessNeng = result.FirstNameEng + ' ' + result.FatherNameEng + ' ' + result.GrandNameEng;
+          this.BussinessN = result.FirstName + ' ' + result.FatherName + ' ' + result.GrandName;
+        } else {
+          this.BussinessN = result.FirstName;
+          this.BussinessNeng = result.FirstNameEng;
+        }
         this.bussinessForm.patchValue({
-         cBussinessName: result.BusinessNameAmh,
-          cBussinessNameEng: result.BusinessName,
-          cCapital: result.PaidUpCapital});
+
+          cBussinessName: this.BussinessN,
+          cBussinessNameEng: this.BussinessNeng,
+          cCapital: result.PaidCapital});
         this.loadingIndicator = false;
       }
     );
@@ -100,7 +121,7 @@ export class BussinessComponent implements OnInit {
       this.bussinessStatus.push(Bussinessta);
       console.log(pair);
     });
-    this.catagoryservice.getMajorDivisionByTin(this.Tin).subscribe(result => {
+    this.bussinessService.getMajorDivisionByInvestorId(this.InvestorId).subscribe(result => {
         this.MajorDivisionList = result;
       }
       );
@@ -168,7 +189,7 @@ export class BussinessComponent implements OnInit {
     }
     this.loadingIndicator = true;
      this.bussinessService.saveBussiness(this.getEditedbussiness()).subscribe((bussiness: BussinessModel) => {
-       localStorage.setItem('BussinesGuid', bussiness.MainGuid.toString());
+       localStorage.setItem('BussinesId', bussiness.ID.toString());
        this.SaveCatagory();
        this.saveComplete();
        });
@@ -181,11 +202,12 @@ export class BussinessComponent implements OnInit {
   }
   private getEditedbussiness(): BussinessModel {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    this.Tin = localStorage.getItem('Tin');
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
     const formModel = this.bussinessForm.value;
     return {
       OwnerTIN: this.Tin,
       ServiceApplicationId: this.ServiceApplicationId,
+      InvestorId: this.InvestorId,
       MainGuid: '00000000-0000-0000-0000-000000000000',
       TradeNameAmh: formModel.cBussinessName,
       TradesName: formModel.cBussinessNameEng,
@@ -197,7 +219,7 @@ export class BussinessComponent implements OnInit {
 
   private getCatagory(): BussinessCatagory {
     this.bussinessCatagory = this.bussinessForm.get('Catagory').value;
-    this.bussinessCatagory.BusinessMainGuid = localStorage.getItem('BussinesGuid');
+    this.bussinessCatagory.BusinessId = localStorage.getItem('BussinesId');
     return this.bussinessCatagory;
   }
 

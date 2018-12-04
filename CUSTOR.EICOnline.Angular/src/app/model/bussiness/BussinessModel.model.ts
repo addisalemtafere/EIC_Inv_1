@@ -1,7 +1,8 @@
 export class BussinessModel {
   public ID?: number;
   public  OwnerTIN: string;
-  public ServiceApplicationId: number
+  public InvestorId: number;
+  public ServiceApplicationId: number;
   public MainGuid: string;
   public TradeNameAmh: string;
   public TradesName: string;

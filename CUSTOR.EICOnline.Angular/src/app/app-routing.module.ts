@@ -63,12 +63,12 @@ import {RegistrationModule} from './components/registration/registration.module'
         canActivate: [AuthGuard]
       },
       {
-        path: 'business-tab/:ServiceId/:id',
+        path: 'business-tab/:ServiceId/:ServiceApplicationId/:InvestorId',
         loadChildren: 'app/components/business/business-tab/business-tab.module#BusinessTabModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'registration-tab/:ServiceId/:tin/:serviceApplicationId',
+        path: 'registration-tab/:ServiceId/:tin/:ServiceApplicationId',
         loadChildren: 'app/components/registration/Registration-tab/registration-tab.module#RegistrationTabModule',
         canActivate: [AuthGuard]
       },
@@ -291,6 +291,12 @@ import {RegistrationModule} from './components/registration/registration.module'
         loadChildren: 'app/components/setting/lookup-tabs/lookuptypes/lookuptypes.module#LookupTypesModule',
         canActivate: [AuthGuard]
       },
+     /* {
+        path: 'bussiness',
+        loadChildren: 'app/components/bussiness/bussiness.module#BussinessModule',
+        canActivate: [AuthGuard]
+      },*/
+
       {
         path: 'lookup-tab',
         loadChildren: 'app/components/setting/lookup-tabs/lookup.module#LookupModule',

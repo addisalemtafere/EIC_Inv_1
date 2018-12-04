@@ -1,6 +1,6 @@
 import {Component, OnInit, ɵbypassSanitizationTrustHtml} from '@angular/core';
 import {CatagoryService} from '../../../Services/Catagory/Catagory.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {BussinessModel} from '../../../model/bussiness/BussinessModel.model';
@@ -12,6 +12,7 @@ import {Utilities} from '@custor/helpers/utilities';
 import {BussinessBranchModel} from '../../../model/bussiness/BussinessBranch.model';
 import {FormControl} from '@angular/forms';
 import {exitCodeFromResult} from '@angular/compiler-cli';
+import {AddressModel} from '../../../model/address/Address.model';
 
 @Component({
   selector: 'app-bussiness-branch',
@@ -24,13 +25,16 @@ export class BussinessBranchComponent implements OnInit {
   selectedBussinessBranchList: BussinessBranchModel;
   dataSource: MatTableDataSource<BussinessBranchModel>;
   dataSourceBranch: MatTableDataSource<BussinessBranchModel>;
+  addressModel: AddressModel;
   loadingIndicator = false;
   displayedColumns = ['RegionID', 'Zone', 'WoredaID', 'HouseNo', 'actions'];
   displayedColumnsBranch = ['RegionID', 'Zone', 'WoredaID', 'HouseNo', 'actions'];
+  private InvestorId: number;
   constructor(
     private http: HttpClient,
     public toastr: ToastrService,
     private bussinessServ: BussinessService,
+    public route: ActivatedRoute,
     private router: Router
   ) {
     this.dataSource = new MatTableDataSource();
@@ -39,7 +43,8 @@ export class BussinessBranchComponent implements OnInit {
 
   ngOnInit() {
     this.loadingIndicator = true;
-    this.bussinessServ.getRegistrationBranchByTin('0016233161').subscribe(
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.bussinessServ.getRegistrationBranchByInvestorId(this.InvestorId).subscribe(
       result => {
         this.RegistrationBranchList = result;
         this.dataSource.data = this.RegistrationBranchList;
@@ -49,7 +54,8 @@ export class BussinessBranchComponent implements OnInit {
     this.loadBussinessBranch();
   }
  loadBussinessBranch() {
-   this.bussinessServ.getBussinessBranchByTin('0016233161').subscribe(
+   this.InvestorId = this.route.snapshot.params['InvestorId'];
+   this.bussinessServ.getBussinessBranchByInvestorId(this.InvestorId).subscribe(
      result => {
        this.selectedBranchList = result;
        this.dataSourceBranch.data = this.selectedBranchList;
@@ -62,7 +68,7 @@ export class BussinessBranchComponent implements OnInit {
     console.log(data);
     const id = $event.source.value;
     this.selectedBussinessBranchList = {
-      MainGuid: id };
+      AddressId: id };
     if ($event.checked) {
       this.bussinessServ.saveBussinessBranch(this.selectedBussinessBranchList)
         .subscribe(
@@ -92,10 +98,10 @@ export class BussinessBranchComponent implements OnInit {
     //console.log(this.associateIdList);
   }
 
-  DeleteBussinessBranch(MainGuid: string) {
+  DeleteBussinessBranch(AddressId: number) {
     this.selectedBussinessBranchList = {
-      MainGuid: MainGuid };
-    this.bussinessServ.DeleteBussinessBranchByMainGuid(this.selectedBussinessBranchList).subscribe(
+      AddressId: AddressId };
+    this.bussinessServ.DeleteBussinessBranchByAddresId(this.selectedBussinessBranchList).subscribe(
       result => { console.log(result);
         this.loadBussinessBranch();
         this.toastr.success('Record Deleted successfully!');

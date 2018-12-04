@@ -10,6 +10,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public Guid MainGuid { get; set; }
         public int ServiceApplicationId { get; set; }
+        public int InvestorId { get; set; }
 
         public string TradeNameAmh { get; set; }
         public string TradesName { get; set; }

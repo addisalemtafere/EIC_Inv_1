@@ -51,8 +51,8 @@ export class BussinessService {
       }), catchError(this.errMsg.parseObservableResponseError));
   }
 
-  getRegistrationBranchByTin(Tin: string) {
-    return this.httpClient.get(this.config.urls.url('RegistrationBranchByTin', Tin)).pipe(
+  getRegistrationBranchByInvestorId(InvestorId: number) {
+    return this.httpClient.get(this.config.urls.url('RegistrationBranchByInvestorId', InvestorId)).pipe(
       map(result => {
         return result;
       }), catchError(this.errMsg.parseObservableResponseError));
@@ -65,15 +65,36 @@ export class BussinessService {
     );
   }
 
-  getBussinessBranchByTin(Tin: string) {
-    return this.httpClient.get(this.config.urls.url('BussinessBranchByTin', Tin)).pipe(
+  getBussinessBranchByInvestorId(InvestorId: number) {
+    return this.httpClient.get(this.config.urls.url('BussinessBranchByInvestorId', InvestorId)).pipe(
       map(result => {
         return result;
       }), catchError(this.errMsg.parseObservableResponseError));
   }
 
-  DeleteBussinessBranchByMainGuid(bussinessbranch: BussinessBranchModel) {
+  DeleteBussinessBranchByAddresId(bussinessbranch: BussinessBranchModel) {
     return this.httpClient.post<BussinessModel>(this.config.urls.url('DeleteBussinessBranch'), bussinessbranch).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getMajorDivisionByInvestorId(InvestorId: string) {
+    return this.httpClient.get(this.config.urls.url('GetMajorDivisionsByInvestorID', InvestorId)).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getRegistrationByInvestorId(InvestorId: string) {
+    return this.httpClient.get(this.config.urls.url('investor', InvestorId)).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getRegistrationCatagory(InvestorId: string) {
+    return this.httpClient.get('api/Business/GetRegistrationCatagory/' + InvestorId).pipe(
       map(result => {
         return result;
       }), catchError(this.errMsg.parseObservableResponseError));

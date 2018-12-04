@@ -20,24 +20,24 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
         {
             context = ctx;
         }
-        [HttpGet("RegistrationBranchByTin/{Tin:int}")]
-        public async Task<List<BussinessBranchVM>> GetRegistrationBranch(string Tin)
+        [HttpGet("RegistrationBranchByInvestorId/{InvestorId:int}")]
+        public async Task<List<BussinessBranchVM>> GetRegistrationBranch(int InvestorId)
         {
            BusinessBranchRepository
             businessBranRepo = new BusinessBranchRepository(context);
-            return await businessBranRepo.GetRecordsByTin(Tin);
+            return await businessBranRepo.GetRecordsByinvestorId(InvestorId);
         }
 
-        [HttpGet("BussinessBranchByTin/{Tin:int}")]
-        public async Task<List<BussinessBranchVM>> GetBusinessBranch(string Tin)
+        [HttpGet("BussinessBranchByInvestorId/{InvestorId:int}")]
+        public async Task<List<BussinessBranchVM>> GetBusinessBranch(int InvestorId)
         {
             BusinessBranchRepository
              businessBranRepo = new BusinessBranchRepository(context);
-            return await businessBranRepo.GetBussinessBranchByTin(Tin);
+            return await businessBranRepo.GetBussinessBranchById(InvestorId);
         }
 
         [HttpPost("Save")]
-        public async Task<IActionResult> SaveBussiness([FromBody] tblBusinessBranch BusinessBranch)
+        public async Task<IActionResult> SaveBussiness([FromBody] CUSTOR.EICOnline.DAL.EntityLayer.Address BusinessBranch)
         {
             if (!ModelState.IsValid)
             {
@@ -53,11 +53,11 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             {
 
             }
-            return CreatedAtAction("SaveBussiness", new { id = BusinessBranch.ID }, BusinessBranch);
+            return CreatedAtAction("SaveBussiness", new { id = BusinessBranch.AddressId }, BusinessBranch);
         }
 
         [HttpPost("Delete")]
-        public async Task<IActionResult> DeleteBussinessBranch([FromBody] tblBusinessBranch BusinessBranch)
+        public async Task<IActionResult> DeleteBussinessBranch([FromBody] CUSTOR.EICOnline.DAL.EntityLayer.Address BusinessBranch)
         {
             if (!ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             {
                 BusinessBranchRepository
            businessRepo = new BusinessBranchRepository(context);
-                await businessRepo.DeleteRecord(BusinessBranch.MainGuid.ToString());
+                await businessRepo.DeleteRecord(BusinessBranch.AddressId);
             }
             catch (Exception ex)
             {

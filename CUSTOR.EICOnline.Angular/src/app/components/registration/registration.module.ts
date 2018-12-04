@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from '@custor/modules/shared.module';
 import {RegistrationComponent} from './registration.component';
 import {RegistrationRoutingModule} from './registration-routing.module';
+import { RegistrationCertificateComponent } from './registration-certificate/registration-certificate.component';
 
 
 @NgModule({
@@ -12,10 +13,12 @@ import {RegistrationRoutingModule} from './registration-routing.module';
     RegistrationRoutingModule
   ],
   declarations: [
-    RegistrationComponent
+    RegistrationComponent,
+    RegistrationCertificateComponent
     ],
   exports: [
-    RegistrationComponent
+    RegistrationComponent,
+    RegistrationCertificateComponent
   ]
 })
 export class RegistrationModule {

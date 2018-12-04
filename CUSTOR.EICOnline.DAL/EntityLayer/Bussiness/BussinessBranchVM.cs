@@ -7,7 +7,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
     public class BussinessBranchVM
     {
-        public string MainGuid { get; set; }
+        public int AddressId { get; set; }
+        public string ParentId { get; set; }
 
         public string RegionName { get; set; }
 

@@ -5,6 +5,8 @@ import {Validators} from '@angular/forms';
 export class Investor {
   InvestorName?: string = null;
   InvestorNameEng?: string = null;
+  TradeName?: string;
+  TradeNameEnglish?: string;
   InvestorId = 0;
   LegalStatus? = 0;
   Title: number;

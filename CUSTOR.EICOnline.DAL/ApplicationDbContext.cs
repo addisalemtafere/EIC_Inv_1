@@ -127,6 +127,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public DbSet<Business> Businesses { get; set; }
         public DbSet<BusinessLicensingGroup> BusinessLicensingGroup { get; set; }
+        public DbSet<tblBusinessBranch> tblBusinessBranch { get; set; }
 
         public override int SaveChanges()
         {
@@ -2060,12 +2061,12 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
             modelBuilder.Entity<Business>(entity =>
             {
-                entity.ToTable("tblBusiness", "dbo");
+                entity.ToTable("Business", "dbo");
 
             });
             modelBuilder.Entity<BusinessLicensingGroup>(entity =>
             {
-                entity.ToTable("tblBusinessLicensingGroup", "dbo");
+                entity.ToTable("BusinessLicensingGroup", "dbo");
 
             });
 

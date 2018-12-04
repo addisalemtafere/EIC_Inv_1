@@ -47,7 +47,7 @@
 
         <mat-cell *matCellDef="let RegistrationBranchList">
 
-          <mat-checkbox [value]="RegistrationBranchList?.MainGuid"
+          <mat-checkbox [value]="RegistrationBranchList?.AddressId"
                         [checked]="RegistrationBranchList.selected"
                         (change)="onBussinessBranchControlChanged($event,selectedBranchList)">
           </mat-checkbox>
@@ -62,8 +62,12 @@
       </mat-row>
     </mat-table>
     </mat-card>
+<mat-card class="border" style="margin-top: 20px;" *ngIf="selectedBranchList.length">
+<mat-card-subtitle class="sub-title">Bussiness Registration Branch
+  <mat-divider></mat-divider>
+</mat-card-subtitle>
 
-    <mat-table #table [dataSource]="dataSourceBranch" *ngIf="selectedBranchList.length">
+    <mat-table #table [dataSource]="dataSourceBranch" >
 
       <ng-container matColumnDef="RegionID">
         <mat-header-cell *matHeaderCellDef>ክልል  </mat-header-cell>
@@ -99,8 +103,9 @@
 
         <mat-cell *matCellDef="let selectedBranchList">
             <a class="margin-10 a-link pointer" matTooltip="Delete Bussiness Branch"
-             (click)="DeleteBussinessBranch(selectedBranchList.MainGuid)">
-            <mat-icon color="primary"></mat-icon>
+             (click)="DeleteBussinessBranch(selectedBranchList.AddressId)">
+              <mat-icon color="warn"></mat-icon>
+            <!--<mat-icon color="primary"></mat-icon>-->
           <span>Delete</span>
           </a>
           <!--<mat-checkbox [value]="selectedBranchList?.MainGuid"
@@ -117,6 +122,7 @@
       <mat-row *matRowDef="let row; columns: displayedColumnsBranch;">
       </mat-row>
     </mat-table>
+</mat-card>
 
 
 

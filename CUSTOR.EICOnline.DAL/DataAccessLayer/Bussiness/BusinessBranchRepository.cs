@@ -16,24 +16,24 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
         {
         }
 
-        public async Task<List<BussinessBranchVM>> GetRecordsByTin(object Tin)
+        public async Task<List<BussinessBranchVM>> GetRecordsByinvestorId(int investorId)
         {
-            List<tblBusinessBranch> tblBusinessBranch = null;
+            List<CUSTOR.EICOnline.DAL.EntityLayer.Address> BusinessBranch = null;
             List<BussinessBranchVM> objBussinessBranchVMList = new List<BussinessBranchVM>();
             try
             {
-                string tin = Tin.ToString();
-                tblBusinessBranch = await Context.tblBusinessBranch.Include("Region").Include("Woreda").Include("Zones")
-                  .Where(Branch => Branch.OwnerTIN == tin && Branch.IsReg == true)
+                BusinessBranch = await Context.Address.Include("Region").Include("Woreda").Include("Zone")
+                  .Where(Branch => Branch.ParentId == investorId && Branch.AddressType == 1)
                                 .ToListAsync();
-                foreach (tblBusinessBranch bussinessBranch in tblBusinessBranch)
+                foreach (CUSTOR.EICOnline.DAL.EntityLayer.Address bussinessBranch in BusinessBranch)
                 {
                     BussinessBranchVM objBussinessBranchVM = new BussinessBranchVM();
+                    objBussinessBranchVM.AddressId = bussinessBranch.AddressId;
                     objBussinessBranchVM.HouseNo = bussinessBranch.HouseNo;
-                    objBussinessBranchVM.MainGuid = bussinessBranch.MainGuid.ToString();
+                    objBussinessBranchVM.ParentId = bussinessBranch.ParentId.ToString();
                     objBussinessBranchVM.RegionName = bussinessBranch.Region.Description;
                     objBussinessBranchVM.WoredaName = bussinessBranch.Woreda.Description;
-                    objBussinessBranchVM.ZoneName = bussinessBranch.Zones.Description;
+                    objBussinessBranchVM.ZoneName = bussinessBranch.Zone.Description;
                     objBussinessBranchVMList.Add(objBussinessBranchVM);
                 }
             }
@@ -49,9 +49,10 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
             return objBussinessBranchVMList;
         }
 
-        public async Task<tblBusinessBranch> DeleteRecord(string MainGuid)
+        public async Task<CUSTOR.EICOnline.DAL.EntityLayer.Address> DeleteRecord(int AddressId)
         {
-            var data = Context.tblBusinessBranch.SingleOrDefault(para => para.MainGuid == new Guid(MainGuid));
+            var data = Context.Address
+                .SingleOrDefault(para => para.AddressId == AddressId);
             try
             {
               
@@ -73,24 +74,24 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
 
 
 
-        public async Task<List<BussinessBranchVM>> GetBussinessBranchByTin(object Tin)
+        public async Task<List<BussinessBranchVM>> GetBussinessBranchById(int BussinessId)
         {
-            List<tblBusinessBranch> tblBusinessBranch = null;
+            List<CUSTOR.EICOnline.DAL.EntityLayer.Address> BusinessBranch = null;
             List<BussinessBranchVM> objBussinessBranchVMList = new List<BussinessBranchVM>();
             try
             {
-                string tin = Tin.ToString();
-                tblBusinessBranch = await Context.tblBusinessBranch.Include("Region").Include("Woreda").Include("Zones")
-                  .Where(Branch => Branch.OwnerTIN == tin && Branch.IsReg == false)
+                BusinessBranch = await Context.Address.Include("Region").Include("Woreda").Include("Zone")
+                  .Where(Branch => Branch.ParentId == BussinessId && Branch.AddressType == 4)
                                 .ToListAsync();
-                foreach (tblBusinessBranch bussinessBranch in tblBusinessBranch)
+                foreach (CUSTOR.EICOnline.DAL.EntityLayer.Address bussinessBranch in BusinessBranch)
                 {
                     BussinessBranchVM objBussinessBranchVM = new BussinessBranchVM();
+                    objBussinessBranchVM.AddressId = bussinessBranch.AddressId;
                     objBussinessBranchVM.HouseNo = bussinessBranch.HouseNo;
-                    objBussinessBranchVM.MainGuid = bussinessBranch.MainGuid.ToString();
+                    objBussinessBranchVM.ParentId = bussinessBranch.ParentId.ToString();
                     objBussinessBranchVM.RegionName = bussinessBranch.Region.Description;
                     objBussinessBranchVM.WoredaName = bussinessBranch.Woreda.Description;
-                    objBussinessBranchVM.ZoneName = bussinessBranch.Zones.Description;
+                    objBussinessBranchVM.ZoneName = bussinessBranch.Zone.Description;
                     objBussinessBranchVMList.Add(objBussinessBranchVM);
                 }
             }
@@ -108,36 +109,32 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
 
 
 
-        public async Task<tblBusinessBranch> SaveBussinessBranch(tblBusinessBranch BusinessBranch)
+        public async Task<CUSTOR.EICOnline.DAL.EntityLayer.Address> SaveBussinessBranch(CUSTOR.EICOnline.DAL.EntityLayer.Address BusinessBranch)
         {
             try
             {
-                 tblBusinessBranch registrationBranch = Context.tblBusinessBranch.SingleOrDefault(param => param.MainGuid == BusinessBranch.MainGuid);
+                CUSTOR.EICOnline.DAL.EntityLayer.Address registrationBranch = Context.Address.SingleOrDefault(param => param.AddressId == BusinessBranch.AddressId);
                 //BusinessBranch = registrationBranch;
-                BusinessBranch.BranchName = registrationBranch.BranchName;
-                BusinessBranch.City = registrationBranch.City;
+                BusinessBranch.AddressId = 0;
+                BusinessBranch.Town = registrationBranch.Town;
                 BusinessBranch.Email = registrationBranch.Email;
                 BusinessBranch.Fax = registrationBranch.Fax;
                 BusinessBranch.HouseNo = registrationBranch.HouseNo;
-                BusinessBranch.HouseNoSort = registrationBranch.HouseNoSort;
-                BusinessBranch.IsAddisAbaba = registrationBranch.IsAddisAbaba;
                 BusinessBranch.IsMainOffice = registrationBranch.IsMainOffice;
-                BusinessBranch.KebeleID = registrationBranch.KebeleID;
-                BusinessBranch.Location = registrationBranch.Location;
-                BusinessBranch.MobileNo = registrationBranch.MobileNo;
-                BusinessBranch.OwnerTIN = registrationBranch.OwnerTIN;
+                BusinessBranch.KebeleId = registrationBranch.KebeleId;
+                BusinessBranch.CellPhoneNo = registrationBranch.CellPhoneNo;
                 BusinessBranch.Pobox = registrationBranch.Pobox;
-                BusinessBranch.RegionID = registrationBranch.RegionID;
-                BusinessBranch.Tel = registrationBranch.Tel;
-                BusinessBranch.Username = "";
-                BusinessBranch.WoredaID = registrationBranch.WoredaID;
-                BusinessBranch.Zone = registrationBranch.Zone;
-                BusinessBranch.MainGuid = Guid.NewGuid();
-                BusinessBranch.IsReg = false;
+                BusinessBranch.RegionId = registrationBranch.RegionId;
+                BusinessBranch.TeleNo = registrationBranch.TeleNo;
+                BusinessBranch.CreatedUserName = "";
+                BusinessBranch.WoredaId = registrationBranch.WoredaId;
+                BusinessBranch.ZoneId = registrationBranch.ZoneId;
+                BusinessBranch.ObjectId = Guid.NewGuid();
                 BusinessBranch.UpdatedEventDatetime = null;
-                BusinessBranch.EventDateTime = DateTime.Now;
-                BusinessBranch.ParentGuid = registrationBranch.MainGuid;
-                Context.tblBusinessBranch.Add(BusinessBranch);
+                BusinessBranch.EventDatetime = DateTime.Now;
+                BusinessBranch.ParentId = registrationBranch.ParentId;
+                BusinessBranch.AddressType = 4;
+                Context.Address.Add(BusinessBranch);
                 await Context.SaveChangesAsync();
             }
 

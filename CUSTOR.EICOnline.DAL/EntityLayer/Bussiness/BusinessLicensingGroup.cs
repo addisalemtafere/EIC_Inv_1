@@ -11,9 +11,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid MainGuid { get; set; }
+        public int BusinessLicensingId { get; set; }
 
-        public Guid BusinessMainGuid { get; set; }
+        public int BusinessId { get; set; }
 
         public int MajorDivision { get; set; }
 
@@ -25,10 +25,5 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public int SubGroup { get; set; }
 
-        public int LicensingCategoryCode { get; set; }
-
-        public int Location { get; set; }
-
-        public bool IsAddisAbaba { get; set; }
     }
 }
