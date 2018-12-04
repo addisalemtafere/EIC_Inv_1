@@ -105,10 +105,14 @@ namespace CUSTOR.EICOnline.DAL
                     if (isUpdate)
                     {
                         Context.Associate.Update(ass);
+                        Context.SaveChanges();
+
                     }
                     else
                     {
                         Context.Associate.Add(ass);
+                        Context.SaveChanges();
+
                     }
                     //Context.SaveChanges();
 
@@ -120,12 +124,15 @@ namespace CUSTOR.EICOnline.DAL
                     {
                         address.AddressId = postedAssociate.AddressId;
                         Context.Address.Update(address);
+                        Context.SaveChanges();
+
                     }
                     else
                     {
                         Context.Address.Add(address);
-                    }                  
-                    Context.SaveChanges();
+                        Context.SaveChanges();
+
+                    }
                 }
                 catch (Exception ex)
                 {
