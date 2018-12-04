@@ -24,8 +24,7 @@ export class CustomerServiceStarterComponent implements OnInit {
   loadingIndicator: boolean;
 
 
-  constructor(private custService: CustomerServicesService,
-              public router: Router,
+  constructor(              public router: Router,
               public dialog: MatDialog,
               public dataSharing: DataSharingService,
               public serviceService: ServiceService,
