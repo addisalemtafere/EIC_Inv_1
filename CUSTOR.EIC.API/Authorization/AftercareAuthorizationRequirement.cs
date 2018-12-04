@@ -1,29 +1,30 @@
-﻿using System.Threading.Tasks;
-using CUSTOR.Security;
+﻿using CUSTOR.Security;
 using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CUSTOR.EICOnline.API.Authorization
 {
-    public class AftercareAuthorizationRequirement : IAuthorizationRequirement
+  public class AftercareAuthorizationRequirement : IAuthorizationRequirement
+  {
+    public AftercareAuthorizationRequirement(string operationName)
     {
-        public AftercareAuthorizationRequirement(string operationName)
-        {
-            OperationName = operationName;
-        }
 
-        public string OperationName { get; }
+      this.OperationName = operationName;
     }
 
-    public class
-        ManageAftercareDataAuthorizationHandler : AuthorizationHandler<AftercareAuthorizationRequirement, string>
+    public string OperationName { get; private set; }
+  }
+
+  public class ManageAftercareDataAuthorizationHandler : AuthorizationHandler<AftercareAuthorizationRequirement, string>
+  {
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AftercareAuthorizationRequirement requirement, string targetUserId)
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-            AftercareAuthorizationRequirement requirement, string targetUserId)
-        {
-            if (context.User.IsInRole("Aftercare Officer") && context.User.HasClaim(ClaimConstants.Permission,
-                    ApplicationPermissions.ManageAftercareData))
-                context.Succeed(requirement);
-            return Task.CompletedTask;
-        }
+      if ((context.User.IsInRole("Aftercare Officer")) && context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ManageAftercareData))
+        context.Succeed(requirement);
+      return Task.CompletedTask;
     }
+  }
 }

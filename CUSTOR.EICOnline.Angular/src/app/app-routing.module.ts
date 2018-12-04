@@ -59,7 +59,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-tab/:ServiceId/:id',
+        path: 'investor-tab/:ServiceId/:id/:InvestorId',
         loadChildren: 'app/components/investor/investor-tab/investor-tab.module#InvestorTabModule',
         canActivate: [AuthGuard]
       },
@@ -68,6 +68,12 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         loadChildren: 'app/components/business/business-tab/business-tab.module#BusinessTabModule',
         canActivate: [AuthGuard]
       },
+      {
+        path: 'registration-tab/:ServiceId/:tin/:serviceApplicationId',
+        loadChildren: 'app/components/registration/Registration-tab/registration-tab.module#RegistrationTabModule',
+        canActivate: [AuthGuard]
+      },
+
       {
         path: 'service-detail/:id',
         loadChildren: 'app/components/project-profile/project-profile-detail/project-detail.module#ProjectDetailModule',
@@ -270,7 +276,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'search-browser',
+        path: 'search-browser/:ServiceId/:InvestorId/:ProjectId',
         loadChildren: 'app/components/search-browser/search-browser.module#SearchBrowserModule',
         canActivate: [AuthGuard]
       },

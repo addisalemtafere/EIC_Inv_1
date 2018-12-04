@@ -45,7 +45,7 @@ export class AddressService implements OnInit {
   }
 
   updateAddress(resource, id) {
-    console.log(resource);
+
     return this.httpClient.put(this.config.urls.url('address') + '/' + id, resource).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
@@ -62,17 +62,26 @@ export class AddressService implements OnInit {
       catchError(this.errMsg.parseObservableResponseError));
   }
 
-  getAllTowns(): Observable<TownModel[]> {
-    return this.httpClient.get<TownModel[]>(this.config.urls.url('towns' + '/en')).pipe(
-      map(result => this.allTownList = result),
-      catchError(this.errMsg.parseObservableResponseError));
-  }
 
   getZones(id: string): Observable<ZoneModel[]> {
     return this.httpClient.get<ZoneModel[]>(this.config.urls.url('zones' + '/en', id)).pipe(
       map(zoneList => this.zoneList = zoneList),
       catchError(this.errMsg.parseObservableResponseError));
   }
+
+
+  getAllTowns(): Observable<TownModel[]> {
+    return this.httpClient.get<TownModel[]>(this.config.urls.url('towns')  + '/en').pipe(
+      map(result => this.allTownList = result),
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getTowns(id: string): Observable<TownModel[]> {
+    return this.httpClient.get<TownModel[]>(this.config.urls.url('towns' + '/en', id)).pipe(
+      map(townList => this.townList = townList),
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
 
   getWoredas(id: string): Observable<WoredaModel[]> {
     return this.httpClient.get<WoredaModel[]>(this.config.urls.url('woredas' + '/en', id)).pipe(

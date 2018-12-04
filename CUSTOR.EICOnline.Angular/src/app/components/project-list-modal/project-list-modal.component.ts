@@ -62,7 +62,6 @@ export class ProjectListModalComponent implements OnInit {
     this.projetServices.getProjectByInvestorId(InvestorId)
       .subscribe(result => {
           this.projectList = result;
-          console.log(result);
           this.title = 'ProjectDetail';
           if (!this.projectList) {
             this.loadingIndicator = false;
@@ -86,7 +85,7 @@ export class ProjectListModalComponent implements OnInit {
 
   go(projectId: any, applicationId: any, ServiceId: any, InvestorId: any) {
 
-    if (+localStorage.getItem('ServiceId') === 1023) {
+    if (+this.ServiceId == 1023) {
       this.router.navigate(['pro/' + projectId + '/' + applicationId + '/' + ServiceId + '/' + 0 + '/' + InvestorId]);
       localStorage.setItem('ParentProjectId', projectId);
     } else {

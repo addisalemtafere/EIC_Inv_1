@@ -4,7 +4,6 @@ import {ProjectAssociateModel} from './ProjectAssociate.model';
 export class AssociateDTO {
   constructor() {
   }
-
   public AssociateId: number;
   public Tin?: string;
   public Title?: number;
@@ -19,13 +18,11 @@ export class AssociateDTO {
   public Gender?: number;
   public Nationality?: number;
   public Origin?: number;
-  public Photo?: number[];
   public Remark?: string;
-  public AddressId?: number;
   public IsActive?: boolean;
-  public selected?: boolean;
+  // public selected?: boolean;
   public IsDeleted?: boolean;
-  public Address?: AddressModel;
+  // public Address?: AddressModel;
   public PhotoData?: string;
   RegionId: string = null;
   ZoneId: string = null;
@@ -38,8 +35,8 @@ export class AssociateDTO {
   CellPhoneNo: string = null;
   Email: string = null;
   OtherAddress: string = null;
- 
-
+  AddressId = 0;
+  UserName: string = null;
 }
 
 export class AssociateModel {
@@ -68,7 +65,7 @@ export class AssociateModel {
   public Origin?: number;
   public Photo?: number[];
   public Remark?: string;
-  public AddressId?: number;
+  public AddressId = 0;
   public IsActive?: boolean;
   public selected?: boolean;
   public IsDeleted?: boolean;
@@ -78,7 +75,7 @@ export class AssociateModel {
   public UpdatedEventDatetime?: Date;
   public UpdatedUserId?: number;
   public UpdatedUserName?: string;
-  public Address?: AddressModel;
+  // public Address?: AddressModel;
   public projectAssociate?: ProjectAssociateModel;
   RegionId: string = null;
   ZoneId: string = null;
@@ -91,4 +88,6 @@ export class AssociateModel {
   CellPhoneNo: string = null;
   Email: string = null;
   OtherAddress: string = null;
+  PhotoData?: string;
+  UserName: string = null;
 }

@@ -17,4 +17,6 @@ export class CompanyClearanceService extends BaseService<CompanyClearanceModel> 
     protected errMsg: ErrorMessage) {
     super(http, appConfig.urls.url('CompanyClearances'), errMsg);
   }
+
+
 }

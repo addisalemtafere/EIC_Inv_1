@@ -57,8 +57,7 @@ namespace EIC.Investment.API.Controllers
             editedAddress.AddressId = id;
             editedAddress.IsActive = true;
             editedAddress.IsDeleted = false;
-            editedAddress.EventDatetime = DateTime.Now;
-            editedAddress.CreatedUserId = 1;
+            editedAddress.CreatedUserId = "22";
             editedAddress.SpecificAreaName = "1";
 
             if (id != address.AddressId) return BadRequest();

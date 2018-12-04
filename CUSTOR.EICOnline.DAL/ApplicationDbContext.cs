@@ -18,11 +18,12 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            CurrentUserId = "5926fc5c-7c25-48d5-878d-79e35ba2f8d1"; //for now
+           
         }
 
         public string CurrentUserId { get; set; }
-
+        public string CurrentUserName { get; set; }
+        
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Investor> Investors { get; set; }
         public DbSet<CompanyClearance> CompanyClearances { get; set; }
@@ -76,7 +77,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public virtual DbSet<ServiceWorkflowInputDocument> ServiceWorkflowInputDocument { get; set; }
         public virtual DbSet<ServiceWorkflowOutputDocument> ServiceWorkflowOutputDocument { get; set; }
         public virtual DbSet<Site> Site { get; set; }
-        public virtual DbSet<Town> Town { get; set; }
+        //public virtual DbSet<Town> Town { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserClaim> UserClaim { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
@@ -86,7 +87,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbSet<ServicePrerequisite> ServicePrerequisite { get; set; }
         public DbSet<Lookup> Lookups { get; set; }
         public DbSet<Region> Regions { get; set; }
-
+        public DbSet<Town> Towns { get; set; }
         public DbSet<Zone> Zones { get; set; }
         public DbSet<Woreda> Woredas { get; set; }
         public DbSet<Kebele> Kebeles { get; set; }
@@ -130,63 +131,61 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public override int SaveChanges()
         {
-            UpdateAuditEntities();
+            //await UpdateAuditEntitiesAsync();
             return base.SaveChanges();
         }
 
-        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            UpdateAuditEntities();
-            return base.SaveChanges(acceptAllChangesOnSuccess);
+            await UpdateAuditEntitiesAsync();
+            return await base.SaveChangesAsync(cancellationToken);
         }
+ 
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        private async Task UpdateAuditEntitiesAsync()
         {
-            UpdateAuditEntities();
-            return base.SaveChangesAsync(cancellationToken);
-        }
-
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            UpdateAuditEntities();
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        private void UpdateAuditEntities()
-        {
-            var modifiedEntries = ChangeTracker.Entries()
-                .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
-
-            foreach (var entry in modifiedEntries)
+            try
             {
-                var entity = (IAuditableEntity)entry.Entity;
-                DateTime now = DateTime.UtcNow;
-
-                if (entry.State == EntityState.Added)
+                var modifiedEntries = ChangeTracker.Entries()
+                    .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+                foreach (var entry in modifiedEntries)
                 {
-                    entity.CreatedDate = now;
-                    entity.CreatedBy = CurrentUserId;
-                }
-                else
-                {
-                    base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
-                    base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
-                }
 
-                entity.UpdatedDate = now;
-                entity.UpdatedBy = CurrentUserId;
+                    var entity = (IAuditableEntity)entry.Entity;
+                    DateTime now = DateTime.UtcNow;
+
+                    if (entry.State == EntityState.Added)
+                    {
+                        entity.CreatedDate = now;
+                        entity.CreatedBy = CurrentUserName;
+                        entity.CreatedUserId = CurrentUserId;
+                        entity.UpdatedDate = null;
+                        entity.UpdatedBy = null;
+                        entity.UpdatedUserId = null;
+                    }
+                    else
+                    {
+                        base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
+                        base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
+                        entity.UpdatedDate = now;
+                        entity.UpdatedBy = CurrentUserName;
+                        entity.UpdatedUserId = CurrentUserId;
+                    }
+
+                   
+                }
             }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.Message);
+            }
+           
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //  if (!optionsBuilder.IsConfigured)
-        //  {
-        //    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-        //    optionsBuilder.UseSqlServer(@"server=LAPTOP-ANIV3T71;Initial Catalog=EIC;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-        //  }
-        //}
 
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -214,7 +213,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                   entity.Property(e => e.Email).HasMaxLength(50);
 
-                  entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                 
 
                   entity.Property(e => e.Fax).HasMaxLength(50);
 
@@ -333,11 +332,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             {
                 entity.ToTable("Associate", "dbo");
 
-                entity.HasIndex(e => e.AddressId);
-
-                entity.HasIndex(e => e.InvestorId);
-
-                entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+              
 
                 entity.Property(e => e.FatherName).HasMaxLength(50);
 
@@ -370,15 +365,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 entity.Property(e => e.Remark).HasMaxLength(100);
 
                 entity.Property(e => e.Tin).HasMaxLength(100);
-
-                entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Associate)
-                    .HasForeignKey(d => d.AddressId);
-
-                entity.HasOne(d => d.Investor)
-                    .WithMany(p => p.Associate)
-                    .HasForeignKey(d => d.InvestorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+//
+//                entity.HasOne(d => d.Address)
+//                    .WithMany(p => p.Associate)
+//                    .HasForeignKey(d => d.AddressId);
+//
+//                entity.HasOne(d => d.Investor)
+//                    .WithMany(p => p.Associate)
+//                    .HasForeignKey(d => d.InvestorId)
+//                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Caption>(entity =>
@@ -575,11 +570,6 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                           .WithMany(p => p.IncentiveRequest)
                           .HasForeignKey(d => d.ServiceApplicationId)
                           .OnDelete(DeleteBehavior.ClientSetNull);
-
-                //entity.HasOne(d => d.IncentiveRequest)
-                //          .WithMany(p => p.IncentiveRequestItem)
-                //          .HasForeignKey(d => d.IncentiveRequestId)
-                //          .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<IncentiveRequestDocument>(entity =>
@@ -612,17 +602,17 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 //          .HasForeignKey(d => d.DocumentTypeId)
                 //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-                
+                //entity.HasOne(d => d.IncentiveRequest)
+                //          .WithMany(p => p.IncentiveRequestDocument)
+                //          .HasForeignKey(d => d.IncentiveRequestId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<IncentiveRequestItem>(entity =>
             {
                 entity.ToTable("Incentive_RequestItem", "dbo");
 
-                //entity.HasOne(d => d.IncentiveRequest)
-                //          .WithMany(p => p.IncentiveRequestItem)
-                //          .HasForeignKey(d => d.IncentiveRequestId)
-                //          .OnDelete(DeleteBehavior.ClientSetNull);
+
 
                 //entity.HasOne(d => d.Unit)
                 //          .WithMany(p => p.IncentiveRequestItemUnit)
@@ -660,60 +650,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             {
                 entity.ToTable("Investor", "dbo");
 
-                ////entity.HasIndex(e => e.AddressId);
-
-                //entity.HasIndex(e => e.SiteId);
-
-                ////entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
-
-                //entity.Property(e => e.FatherName).HasMaxLength(50);
-
-                //entity.Property(e => e.FatherNameEng).HasMaxLength(50);
-
-                //entity.Property(e => e.FatherNameSort).HasMaxLength(100);
-
-                //entity.Property(e => e.FatherNameSoundx).HasMaxLength(100);
-
-                //entity.Property(e => e.FirstName).HasMaxLength(50);
-
-                //entity.Property(e => e.FirstNameEng).HasMaxLength(50);
-
-                //entity.Property(e => e.FirstNameSort).HasMaxLength(100);
-
-                //entity.Property(e => e.FirstNameSoundx).HasMaxLength(100);
-
-                //entity.Property(e => e.GrandName).HasMaxLength(50);
-
-                //entity.Property(e => e.GrandNameEng).HasMaxLength(50);
-
-                //entity.Property(e => e.GrandNameSort).HasMaxLength(100);
-
-                //entity.Property(e => e.GrandNameSoundx).HasMaxLength(100);
-
-                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
-
-                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
-
-                //entity.Property(e => e.RegistrationNumber).HasMaxLength(250);
-
-                ////entity.Property(e => e.Remark).HasMaxLength(1000);
-
-                //entity.Property(e => e.TradeName).HasMaxLength(250);
-
-                //entity.Property(e => e.TradeNameEnglish).HasMaxLength(250);
-
-                //entity.Property(e => e.TradeNameSort).HasMaxLength(250);
-
-                //entity.Property(e => e.TradeNameSoundX).HasMaxLength(250);
-
-                //entity.HasOne(d => d.Address)
-                //          .WithMany(p => p.Investor)
-                //          .HasForeignKey(d => d.AddressId);
-
-                //entity.HasOne(d => d.Site)
-                //          .WithMany(p => p.Investor)
-                //          .HasForeignKey(d => d.SiteId)
-                //          .OnDelete(DeleteBehavior.ClientSetNull);
+                
             });
 
             modelBuilder.Entity<Kebele>(entity =>
@@ -1847,39 +1784,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 //          .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
-            modelBuilder.Entity<Town>(entity =>
-            {
-                entity.ToTable("Town", "dbo");
 
-                entity.HasIndex(e => e.RegionId);
-
-                entity.Property(e => e.TownId)
-                    .HasMaxLength(50)
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.DescriptionEnglish)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
-
-                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
-
-                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.RegionId)
-                          .IsRequired()
-                          .HasMaxLength(50);
-
-                entity.HasOne(d => d.Region)
-                    .WithMany(p => p.Towns)
-                    .HasForeignKey(d => d.RegionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-            });
 
             modelBuilder.Entity<User>(entity =>
             {
@@ -2097,9 +2002,42 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
+
+
+            modelBuilder.Entity<Town>(entity =>
+            {
+                entity.ToTable("Town", "dbo");
+
+                entity.HasIndex(e => e.RegionId);
+
+                entity.Property(e => e.TownId)
+                    .HasMaxLength(50)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.DescriptionEnglish)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+
+
+                entity.Property(e => e.RegionId)
+                          .IsRequired()
+                          .HasMaxLength(50);
+
+                entity.HasOne(d => d.Region)
+                    .WithMany(p => p.Towns)
+                    .HasForeignKey(d => d.RegionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+
             modelBuilder.Entity<BudgetYearType>(entity =>
             {
-                entity.ToTable("BudgetYearType", "dbo");
+                entity.ToTable("tblBudgetYear", "dbo");
                 entity.HasIndex(e => e.Code);
                 entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
                 entity.Property(e => e.Description).HasMaxLength(50);
@@ -2111,7 +2049,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             });
             modelBuilder.Entity<RegistrationCatagory>(entity =>
             {
-                entity.ToTable("tblCatagoryRegistration", "dbo");
+                entity.ToTable("RegistrationCatagory", "dbo");
 
             });
 

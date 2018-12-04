@@ -22,62 +22,62 @@ namespace EIC.Investment.API.Controllers
         }
 
         
-        [HttpGet]
-        [Route("api/GetRegistrationCatagory/{Tin}")]
-        public async Task<IActionResult> GetRegistrationCatagoryController([FromRoute] string Tin)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpGet]
+        //[Route("api/GetRegistrationCatagory/{Tin}")]
+        //public async Task<IActionResult> GetRegistrationCatagoryController([FromRoute] string Tin)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var registrationcatagory = await _context.RegistrationCatagorys.
-              Include(a => a.Tin).
-              Include(a => a.MainGuid).
-              Include(a => a.MajorCatagoryCode).
-            FirstAsync(m => m.Tin == Tin);
+        //    var registrationcatagory = await _context.RegistrationCatagorys.
+        //      Include(a => a.Tin).
+        //      Include(a => a.MainGuid).
+        //      Include(a => a.MajorCatagoryCode).
+        //    FirstAsync(m => m.Tin == Tin);
 
-            if (registrationcatagory == null)
-            {
-                return NotFound();
-            }
-            return Ok(registrationcatagory);
-        }
+        //    if (registrationcatagory == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return Ok(registrationcatagory);
+        //}
 
        
-        [HttpPost("api/registrationcatagory")]
-        public async Task<IActionResult> PostRegistraionCatagory([FromBody] RegistrationCatagory registrationCatagory)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            _context.RegistrationCatagorys.Add(registrationCatagory);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("PostRegistraionCatagory", new { Tin = registrationCatagory.Tin }, registrationCatagory);
-        }
+        //[HttpPost("api/registrationcatagory")]
+        //public async Task<IActionResult> PostRegistraionCatagory([FromBody] RegistrationCatagory registrationCatagory)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    _context.RegistrationCatagorys.Add(registrationCatagory);
+        //    await _context.SaveChangesAsync();
+        //    return CreatedAtAction("PostRegistrationCatagory", new { Tin = registrationCatagory.Tin }, registrationCatagory);
+        //}
 
 
-        // DELETE: api/RegistrationCatagory/5
-        [HttpDelete("api/DeleteRegistrationCatagory/{Tin}")]
-        public async Task<IActionResult> DeleteRegistration([FromRoute] string Tin)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// DELETE: api/RegistrationCatagory/5
+        //[HttpDelete("api/DeleteRegistrationCatagory/{Tin}")]
+        //public async Task<IActionResult> DeleteRegistration([FromRoute] string Tin)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var registration = await _context.RegistrationCatagorys.SingleOrDefaultAsync(m => m.Tin == Tin);
-            if (registration == null)
-            {
-                return NotFound();
-            }
+        //    var registration = await _context.RegistrationCatagorys.SingleOrDefaultAsync(m => m.Tin == Tin);
+        //    if (registration == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.RegistrationCatagorys.Remove(registration);
-            await _context.SaveChangesAsync();
+        //    _context.RegistrationCatagorys.Remove(registration);
+        //    await _context.SaveChangesAsync();
 
-            return Ok(registration);
-        }
+        //    return Ok(registration);
+        //}
 
 
     }

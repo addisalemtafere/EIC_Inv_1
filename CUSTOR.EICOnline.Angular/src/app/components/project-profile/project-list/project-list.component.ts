@@ -93,8 +93,8 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
 
   editProject(projectId: number, serviceApplicationId: any, serviceId: any, title: string) {
-    localStorage.setItem('ServiceApplicationId', serviceApplicationId);
-    localStorage.setItem('ServiceId', serviceId);
+    // localStorage.setItem('ServiceApplicationId', serviceApplicationId);
+    // localStorage.setItem('ServiceId', serviceId);
     localStorage.setItem('title', title);
 
     setTimeout(() => this.dataSharing.isNew.next(true), 0);

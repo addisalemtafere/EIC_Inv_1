@@ -87,9 +87,11 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isCommercialRepresentative = true;
+    if(localStorage.getItem('LegalStatus') != "999")
+      this.isCommercialRepresentative = false;
+
     this.getMajorDivisions();
-    console.log(localStorage.getItem('LegalStatus'));
+
     if(localStorage.getItem('LegalStatus') == null || localStorage.getItem('LegalStatus') == "4") {
       this.ClearCommercialRepresentativeValidators();
     }
@@ -275,6 +277,7 @@ export class RegistrationComponent implements OnInit {
       MajorCatagoryCode: formModel.cMajorDivision
     };
   }*/
+
 
   onBack() {
     window.history.back();

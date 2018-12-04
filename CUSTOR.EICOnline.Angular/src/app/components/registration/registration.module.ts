@@ -4,6 +4,7 @@ import {SharedModule} from '@custor/modules/shared.module';
 import {RegistrationComponent} from './registration.component';
 import {RegistrationRoutingModule} from './registration-routing.module';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -14,7 +15,8 @@ import {RegistrationRoutingModule} from './registration-routing.module';
     RegistrationComponent
     ],
   exports: [
-    RegistrationComponent]
+    RegistrationComponent
+  ]
 })
 export class RegistrationModule {
 }

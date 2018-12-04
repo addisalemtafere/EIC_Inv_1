@@ -11,7 +11,6 @@ import {ZoneModel} from '../../../model/address/Zone.model';
 import {WoredaModel} from '../../../model/address/Woreda.model';
 import {KebeleModel} from '../../../model/address/Kebele.model';
 import {ToastrService} from 'ngx-toastr';
-import {TownModel} from '../../../model/address/Town.model';
 import {SectorService} from '../../../Services/Sector.service';
 import {SectorModel} from '../../../model/Sector.model';
 import {SiteService} from '../../../Services/site.service';
@@ -54,7 +53,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   regions: RegionModel[] = [];
   zones: ZoneModel[] = [];
   filteredZones: ZoneModel[] = [];
-  towns: TownModel[] = [];
   woredas: WoredaModel[] = [];
   filteredWoredas: WoredaModel[] = [];
   kebeles: KebeleModel[] = [];

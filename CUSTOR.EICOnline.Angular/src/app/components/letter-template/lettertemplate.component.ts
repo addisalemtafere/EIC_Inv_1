@@ -101,7 +101,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
       LetterContent: ['', Validators.required],
       IsActive: ['0', Validators.required]
 
-    });
+    })
   }
 
   compareIds(id1: any, id2: any): boolean {

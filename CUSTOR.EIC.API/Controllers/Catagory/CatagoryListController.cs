@@ -45,14 +45,24 @@ namespace CUSTOR.EICOnline.API.Controllers
             return await DivisionRepo.GetRecords();
         }
 
+        //[HttpGet]
+        //[Route("api/MajorDivisions/{Tin:int}")]
+        ////[Authorize(Authorization.Policies.ViewAllInvestorsPolicy)]
+        //public async Task<IEnumerable<tblMajorDivision>> GetMajorDivisions(string Tin)
+        //{
+        //    MajorDivisionRepo = new tblMajorDivisionRepository(context);
+        //    return await MajorDivisionRepo.GetRecordsByTin(Tin);
+        //}
+
         [HttpGet]
-        [Route("api/MajorDivisions/{Tin:int}")]
+        [Route("api/GetMajorDivisionsByInvestorID/{InvestorId:int}")]
         //[Authorize(Authorization.Policies.ViewAllInvestorsPolicy)]
-        public async Task<IEnumerable<tblMajorDivision>> GetMajorDivisions(string Tin)
+        public async Task<IEnumerable<tblMajorDivision>> GetMajorDivisionsByInvestorID(int InvestorId)
         {
             MajorDivisionRepo = new tblMajorDivisionRepository(context);
-            return await MajorDivisionRepo.GetRecordsByTin(Tin);
+            return await MajorDivisionRepo.GetMajorDivisionsByInvestorID(InvestorId);
         }
+
 
         [HttpGet("api/MajorGroup")]
         public async Task<IEnumerable<tblMajorGroup>> GetMajorGroups()

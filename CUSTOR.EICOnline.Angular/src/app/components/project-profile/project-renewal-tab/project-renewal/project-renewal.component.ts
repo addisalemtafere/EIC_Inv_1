@@ -42,6 +42,7 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.ProjectId = this.route.snapshot.params['ProjectId'];
+
     this.initForm();
     this.getAllProjects();
     this.isInvestor = !this.accountService.getUserType();

@@ -1,64 +1,63 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
+﻿
 using CUSTOR.Security;
 using EICOnline.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace EICOnline.Authorization
 {
-    public class ProjectAuthorizationRequirement : IAuthorizationRequirement
+  public class ProjectAuthorizationRequirement : IAuthorizationRequirement
+  {
+    public ProjectAuthorizationRequirement(string operationName)
     {
-        public ProjectAuthorizationRequirement(string operationName)
-        {
-            OperationName = operationName;
-        }
-
-        public string OperationName { get; }
+      this.OperationName = operationName;
     }
 
-    public class ViewProjectAuthorizationHandler : AuthorizationHandler<ProjectAuthorizationRequirement, string>
+    public string OperationName { get; private set; }
+  }
+
+  public class ViewProjectAuthorizationHandler : AuthorizationHandler<ProjectAuthorizationRequirement, string>
+  {
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ProjectAuthorizationRequirement requirement, string targetUserId)
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-            ProjectAuthorizationRequirement requirement, string targetUserId)
-        {
-            if (context.User == null)
-                return Task.CompletedTask;
+      if (context.User == null)
+        return Task.CompletedTask;
 
-            if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ViewProjects))
-                context.Succeed(requirement);
+      if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ViewProjects))
+        context.Succeed(requirement);
 
-            return Task.CompletedTask;
-        }
-
-        private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
-        {
-            if (string.IsNullOrWhiteSpace(targetUserId))
-                return false;
-
-            return Utilities.GetUserId(user) == targetUserId;
-        }
+      return Task.CompletedTask;
     }
 
-    public class ManageProjectAuthorizationHandler : AuthorizationHandler<ProjectAuthorizationRequirement, string>
+    private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-            ProjectAuthorizationRequirement requirement, string targetUserId)
-        {
-            if (context.User == null)
-                return Task.CompletedTask;
+      if (string.IsNullOrWhiteSpace(targetUserId))
+        return false;
 
-            if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ManageProjects))
-                context.Succeed(requirement);
-
-            return Task.CompletedTask;
-        }
-
-        private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
-        {
-            if (string.IsNullOrWhiteSpace(targetUserId))
-                return false;
-
-            return Utilities.GetUserId(user) == targetUserId;
-        }
+      return Utilities.GetUserId(user) == targetUserId;
     }
+  }
+
+  public class ManageProjectAuthorizationHandler : AuthorizationHandler<ProjectAuthorizationRequirement, string>
+  {
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ProjectAuthorizationRequirement requirement, string targetUserId)
+    {
+      if (context.User == null)
+        return Task.CompletedTask;
+
+      if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ManageProjects))
+        context.Succeed(requirement);
+
+      return Task.CompletedTask;
+    }
+
+    private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
+    {
+      if (string.IsNullOrWhiteSpace(targetUserId))
+        return false;
+
+      return Utilities.GetUserId(user) == targetUserId;
+    }
+  }
 }
