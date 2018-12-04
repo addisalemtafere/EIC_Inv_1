@@ -75,7 +75,6 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   generateCertification() {
-    //console.log(this.ServiceApplicationId);
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.getInvestorDetail(this.ServiceApplicationId);
     this.viewCertificate = true;
@@ -101,7 +100,7 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
     window.print();
   }
 
-  getInvestorDetail(id: any){
+  getInvestorDetail(id: any) {
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.bussnesServ.getRegistrationCatagory('2').subscribe(result => {
         this.MajorDivisionList = result;
@@ -172,7 +171,6 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
     this.invactivityService.getInvActivity(id)
       .subscribe(result => {
         this.investmentActivity = result;
-        console.log(result);
       });
   }
 
@@ -185,6 +183,5 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   ngAfterViewChecked() {
-   // this.ServiceApplicationId = localStorage.getItem('ServiceApplicationId');
   }
 }

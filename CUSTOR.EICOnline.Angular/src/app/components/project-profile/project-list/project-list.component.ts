@@ -158,7 +158,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
       case 1235:
-        this.router.navigate(['investor-tab/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
+        this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId]);
         break;
       case 1236:
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);

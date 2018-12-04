@@ -111,9 +111,27 @@ namespace EICOnline.Controllers
                 ProjectNameEnglish = "",
                 ProjectNameAmharic = ""
             };
+            var serviceWorkflow = new ServiceWorkflow
+            {
+                StepId = 9,
+                ActionId = 3,
+                FromStatusId = 3,
+                ToStatusId = 5,
+                PerformedByRoleId = 1,
+                NextStepId = 1015,
+                GenerateEmail = true,
+                GenerateLetter = true,
+                IsDocumentRequired = true,
+                ServiceId = serviceApplication.ServiceId,
+                LegalStatusId = 3,
+                CreatedUserId = 1,
+                IsActive = false
+            };
 
+            serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
             context.ServiceApplication.Add(serviceApplication);
             await context.SaveChangesAsync();
+            
             return serviceApplication;
         }
 

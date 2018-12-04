@@ -59,7 +59,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-tab/:ServiceId/:id/:InvestorId',
+        path: 'investor-tab/:ServiceId/:ServiceApplicationId/:InvestorId',
         loadChildren: 'app/components/investor/investor-tab/investor-tab.module#InvestorTabModule',
         canActivate: [AuthGuard]
       },
@@ -299,11 +299,11 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         loadChildren: 'app/components/setting/lookup-tabs/lookuptypes/lookuptypes.module#LookupTypesModule',
         canActivate: [AuthGuard]
       },
-     /* {
-        path: 'bussiness',
-        loadChildren: 'app/components/bussiness/bussiness.module#BussinessModule',
-        canActivate: [AuthGuard]
-      },*/
+      /* {
+         path: 'bussiness',
+         loadChildren: 'app/components/bussiness/bussiness.module#BussinessModule',
+         canActivate: [AuthGuard]
+       },*/
 
       {
         path: 'lookup-tab',

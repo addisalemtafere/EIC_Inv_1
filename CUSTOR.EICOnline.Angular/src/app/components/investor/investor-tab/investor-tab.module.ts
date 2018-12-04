@@ -9,7 +9,7 @@ import {ServiceInfoModule} from "../../project-profile/service-info/serviceInfo.
 import {OfficerModule} from "../../officer-Task/officer.module";
 import {ServiceConfirmationModule} from "../../project-profile/service-confirmation/ServiceConfirmation.module";
 import {CompanyClearanceFormComponent} from "../company-clearance-form/company-clearance-form.component";
-
+import {RegistrationCertificateComponent} from "../../registration/registration-certificate/registration-certificate.component";
 
 
 @NgModule({
@@ -24,10 +24,12 @@ import {CompanyClearanceFormComponent} from "../company-clearance-form/company-c
     ServiceInfoModule,
 
 
+
   ],
   declarations: [
     InvestorTabComponent,
-    CompanyClearanceFormComponent
+    CompanyClearanceFormComponent,
+    RegistrationCertificateComponent
   ],
   exports: [InvestorTabComponent]
 })

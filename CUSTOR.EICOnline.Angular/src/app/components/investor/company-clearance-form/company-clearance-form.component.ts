@@ -15,6 +15,8 @@ import {Subscription} from 'rxjs';
 import {fadeInOut} from '@custor/services/animations';
 import {AssociateDTO} from '../../../model/associate.model';
 import {InvestorService} from '../investor.service';
+import {Permission} from "../../../model/security/permission.model";
+import {AccountService} from "@custor/services/security/account.service";
 
 @Component({
   selector: 'app-company-clearance-form',
@@ -29,10 +31,12 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
   public editMode: boolean;
   private InvestorId: any;
   companyClearanceSub: Subscription;
-  companyClearance : CompanyClearanceModel;
+  companyClearance: CompanyClearanceModel;
+
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private errMsg: ErrorMessage,
+              public accountService: AccountService,
               private formService: FormService,
               public dataSharing: DataSharingService,
               public companyClearanceService: CompanyClearanceService,
@@ -79,7 +83,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
           this.companyClearance = result;
 
 
-          if(result == null){
+          if (result == null) {
             this.editMode = false;
           }
           else {
@@ -102,7 +106,6 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
       CompanyNameThreeAmharic: this.companyClearance.CompanyNameThreeAmharic || ''
     });
   }
-
 
 
   get companyNameOneEnglish() {
@@ -182,7 +185,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
       return;
     }
 
-    this.companyClearance  = this.getEditedCompanyNames();
+    this.companyClearance = this.getEditedCompanyNames();
     this.companyClearance.IsCompanyNameOneApproved = true;
     this.companyClearance.IsCompanyNameTwoApproved = false;
     this.companyClearance.IsCompanyNameThreeApproved = false;
@@ -202,7 +205,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
       return;
     }
 
-    this.companyClearance  = this.getEditedCompanyNames();
+    this.companyClearance = this.getEditedCompanyNames();
     this.companyClearance.IsCompanyNameOneApproved = false;
     this.companyClearance.IsCompanyNameTwoApproved = true;
     this.companyClearance.IsCompanyNameThreeApproved = false;
@@ -222,7 +225,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
       return;
     }
 
-    this.companyClearance  = this.getEditedCompanyNames();
+    this.companyClearance = this.getEditedCompanyNames();
     this.companyClearance.IsCompanyNameThreeApproved = false;
     this.companyClearance.IsCompanyNameThreeApproved = false;
     this.companyClearance.IsCompanyNameThreeApproved = true;
@@ -245,6 +248,9 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
   ngOnDestroy(): void {
   }
 
+  get canViewTasks() {
+    return this.accountService.userHasPermission(Permission.viewServiceList);
+  }
 
   // /*  onSubmit() {
   //     const InvestorId = this.activatedRoute.snapshot.params['InvestorId'];

@@ -13,12 +13,12 @@ import { RegistrationCertificateComponent } from './registration-certificate/reg
     RegistrationRoutingModule
   ],
   declarations: [
-    RegistrationComponent,
-    RegistrationCertificateComponent
+    // RegistrationComponent,
+   // RegistrationCertificateComponent
     ],
   exports: [
-    RegistrationComponent,
-    RegistrationCertificateComponent
+    // RegistrationComponent,
+   // RegistrationCertificateComponent
   ]
 })
 export class RegistrationModule {
