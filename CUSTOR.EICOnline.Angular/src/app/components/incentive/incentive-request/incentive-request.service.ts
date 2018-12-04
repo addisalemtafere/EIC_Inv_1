@@ -38,14 +38,12 @@ export class IncentiveRequestService {
     );
   }
 
-
-
-  // getIncentiveRequestslist(id: any): Observable<IncentiveRequestModel[]> {
-  //   return this.httpClient.get<IncentiveRequestModel>(`${this.appConfig.urls.url('incentiveRequests')}/${id}`).pipe(
-  //     map((data: any) => data as IncentiveRequestModel),
-  //     catchError(this.errMsg.parseObservableResponseError)
-  //   );
-  // }
+  getIncentiveRequestslistByProjectId(id: any): Observable<IncentiveRequestModel[]> {
+    return this.httpClient.get<IncentiveRequestModel>(`${this.appConfig.urls.url('incentiveRequestsByProjectId')}/${id}`).pipe(
+      map((data: any) => data as IncentiveRequestModel),
+      catchError(this.errMsg.parseObservableResponseError)
+    );
+  }
 
   getIncentiveRequestByServiceApplicationId(id): Observable<IncentiveRequestModel[]> {
     return this.httpClient.get<IncentiveRequestModel[]>(this.config.urls.url('incentiveRequestByServiceAppId', id)).pipe(

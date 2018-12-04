@@ -5,7 +5,7 @@ import {AccountService} from '@custor/services/security/account.service';
 import {IncentiveLogModel} from '../../model/IncentiveLog.model';
 import {IncentiveLogService} from '../../Services/incentive-log.service';
 import {ToastrService} from 'ngx-toastr';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Utilities} from '@custor/helpers/utilities';
 import {Investor} from '../../model/investor';
@@ -29,12 +29,14 @@ export class ProjectListModalComponent implements OnInit {
   @ViewChild(MatPaginator) paginator2: MatPaginator;
   sourceInvestor: Investor;
   loadingIndicator: boolean;
+  private ServiceId: any;
 
   constructor(private projetServices: ProjectProfileService,
               private accountService: AccountService,
               private serviceapplicationService: ServiceapplicationService,
               private toastr: ToastrService,
               private router: Router,
+              private route: ActivatedRoute,
               private incentiveLogService: IncentiveLogService) {
     this.m = new IncentiveLogModel();
     this.serviceApplication = new ServiceApplicationModel();
@@ -43,6 +45,8 @@ export class ProjectListModalComponent implements OnInit {
   ngOnInit() {
     this.getAllProjects();
     this.select(localStorage.getItem('InvestorId'));
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+
   }
 
   getAllProjects() {
@@ -58,9 +62,7 @@ export class ProjectListModalComponent implements OnInit {
     this.projetServices.getProjectByInvestorId(InvestorId)
       .subscribe(result => {
           this.projectList = result;
-          console.log(result);
           this.title = 'ProjectDetail';
-          // this.investorShow = false;
           if (!this.projectList) {
             this.loadingIndicator = false;
             this.toastr.error('No records were found to list', 'Error', {
@@ -80,22 +82,17 @@ export class ProjectListModalComponent implements OnInit {
 
   }
 
-  setProjectId(projectId: any) {
-    this.ProjectId = projectId;
-    // this.IncentiveRouting();
-    console.log(projectId);
-  }
 
   go(projectId: any, applicationId: any, ServiceId: any, InvestorId: any) {
 
-    if (+localStorage.getItem('ServiceId') === 1023) {
-      this.router.navigate(['pro/', projectId]);
+    if (+this.ServiceId == 1023) {
+      this.router.navigate(['pro/' + projectId + '/' + applicationId + '/' + ServiceId + '/' + 0 + '/' + InvestorId]);
       localStorage.setItem('ParentProjectId', projectId);
     } else {
       localStorage.removeItem('ServiceApplicationId');
       localStorage.setItem('ProjectId', projectId);
       this.serviceApplication.ProjectId = projectId;
-      this.serviceApplication.ServiceId = localStorage.getItem('ServiceId');
+      this.serviceApplication.ServiceId = this.ServiceId;
       this.serviceApplication.InvestorId = InvestorId;
       this.serviceApplication.CaseNumber = '1';
       this.serviceApplication.CurrentStatusId = 44450;
@@ -105,37 +102,33 @@ export class ProjectListModalComponent implements OnInit {
       this.serviceApplication.IsActive = false;
       this.serviceapplicationService.create(this.serviceApplication)
         .subscribe(result => {
-          localStorage.setItem('ServiceApplicationId', result.ServiceApplicationId);
-          localStorage.setItem('workFlowId', result.ServiceWorkflow[0].ServiceWorkflowId);
-
-          this.view(localStorage.getItem('ServiceId'), 'Incentive');
+          this.view(this.ServiceId, 'Incentive', result.ServiceApplicationId, result.ServiceWorkflow[0].ServiceWorkflowId, projectId);
         });
 
-      // this.router.navigate(['/incentive-services']);
     }
 
 
   }
 
-  view(serviceId: any, name: any) {
+  view(serviceId: any, name: any, applicationId: any, workflowId: any, projectId: any) {
     this.title = name;
-    console.log(serviceId);
+    const investorId = localStorage.getItem('InvestorId')
     switch (serviceId) {
 
       case '1047':
-        this.router.navigate(['bill-of-material/1', 0]);
+        this.router.navigate(['bill-of-material/1/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
       case '1054':
-        this.router.navigate(['/bill-of-material/2', 0]);
+        this.router.navigate(['bill-of-material/2/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
       case '1046':
-        this.router.navigate(['incentive-request-item/', 0]);
+        this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
       case '1045':
-        this.router.navigate(['tax-exemption/', 0]);
+        this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
       case '1236':
-        this.router.navigate(['business-tab/0/', 0]);
+        this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
 
     }

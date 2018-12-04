@@ -14,14 +14,14 @@ namespace CUSTOR.EICOnline.DAL
         {
         }
 
-        public async Task<List<RegistrationCatagory>> GetRegistrationCatagoryRecordsByTIN(object Tin)
+
+        public async Task<List<RegistrationCatagory>> GetRegistrationCatagoryRecordsByInvestorId(int InvestorID)
         {
             List<RegistrationCatagory> registrationCatagory = null;
             try
-            {
-                string id = (string)Tin;
+            {               
                 registrationCatagory = await Context.RegistrationCatagorys
-                  .Where(reg => reg.Tin == id)
+                  .Where(reg => reg.InvestorId == InvestorID)
                                 .ToListAsync();
             }
             catch (InvalidOperationException)
@@ -37,19 +37,56 @@ namespace CUSTOR.EICOnline.DAL
         }
 
 
+        //public async Task<List<RegistrationCatagory>> GetRegistrationCatagoryRecordsByTIN(object Tin)
+        //{
+        //    List<RegistrationCatagory> registrationCatagory = null;
+        //    try
+        //    {
+        //        string id = (string)Tin;
+        //        registrationCatagory = await Context.RegistrationCatagorys
+        //          .Where(reg => reg.Tin == id)
+        //                        .ToListAsync();
+        //    }
+        //    catch (InvalidOperationException)
+        //    {
+        //        SetError("Couldn't load Registration - invalid Registration id specified.");
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        SetError(ex);
+        //    }
+        //    return registrationCatagory;
+        //}
 
-        public async Task<bool> DeleteRegistrationCatagory(string Tin)
+
+
+
+        public async Task<bool> DeleteRegistrationCatagoryByInvestorId(int InvestorID)
         {
             var registrationCatagory = await Context.RegistrationCatagorys
-                .FirstOrDefaultAsync(reg => reg.Tin == Tin);
+                .FirstOrDefaultAsync(reg => reg.InvestorId == InvestorID);
             if (registrationCatagory == null)
             {
-                SetError("Registration does not exist");
+                //SetError("Registration does not exist");
                 return false;
             }
             Context.RegistrationCatagorys.Remove(registrationCatagory);
             return await SaveAsync();
         }
+
+        //public async Task<bool> DeleteRegistrationCatagory(string Tin)
+        //{
+        //    var registrationCatagory = await Context.RegistrationCatagorys
+        //        .FirstOrDefaultAsync(reg => reg.Tin == Tin);
+        //    if (registrationCatagory == null)
+        //    {
+        //        SetError("Registration does not exist");
+        //        return false;
+        //    }
+        //    Context.RegistrationCatagorys.Remove(registrationCatagory);
+        //    return await SaveAsync();
+        //}
 
 
 

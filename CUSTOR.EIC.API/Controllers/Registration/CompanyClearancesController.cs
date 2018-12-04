@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL.EntityLayer;
@@ -16,8 +17,6 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
     public class CompanyClearancesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-
         public CompanyClearancesController(ApplicationDbContext context)
         {
             _context = context;
@@ -45,6 +44,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             return Ok(capitalRegistration);
         }
 
+
         // POST: api/CompanyClearances
         [HttpPost]
         public async Task<IActionResult> PostCompanyClearance([FromBody] CompanyClearance companyClearance)
@@ -52,11 +52,17 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var editedCompanyClearance = companyClearance;
             editedCompanyClearance.IsActive = true;
+            companyClearance.IsDeleted = false;
+            companyClearance.ObjectId = new System.Guid();
+            companyClearance.CreatedBy = "Aklile";
+            companyClearance.CreatedDate = DateTime.Today;
+            companyClearance.UpdatedBy = "Aklile";
+            companyClearance.UpdatedDate = DateTime.Today;
 
             _context.CompanyClearances.Add(editedCompanyClearance);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCapitalRegistrations", new {id = editedCompanyClearance.CompanyClearanceId},
+            return CreatedAtAction("GetCapitalRegistrations", new { id = editedCompanyClearance.CompanyClearanceId },
                 editedCompanyClearance);
         }
 
@@ -66,17 +72,17 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
         public async Task<IActionResult> PutCompanyClearance([FromRoute] int id,
             [FromBody] CompanyClearance companyClearance)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (id != companyClearance.CompanyClearanceId) return BadRequest();
-
+            if (id != companyClearance.CompanyClearanceId)
+                return BadRequest();
             _context.Entry(companyClearance).State = EntityState.Modified;
-
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetCapitalRegistrations", companyClearance);
 
-            return NoContent();
+            return CreatedAtAction("GetCapitalRegistrations", companyClearance);
         }
+
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]

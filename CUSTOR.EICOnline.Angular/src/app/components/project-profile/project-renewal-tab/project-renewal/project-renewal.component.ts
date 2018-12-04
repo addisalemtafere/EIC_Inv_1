@@ -22,9 +22,10 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
   public isInvestor: boolean;
   private ServiceApplicationId: number;
   public editMode = false;
-  private projectId: any;
   private InvestorId: any;
   private approval = false;
+  private ServiceId: any;
+  private ProjectId: any;
 
   constructor(public fb: FormBuilder,
               public snackbar: MatSnackBar,
@@ -38,15 +39,17 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.ProjectId = this.route.snapshot.params['ProjectId'];
+
     this.initForm();
     this.getAllProjects();
     this.isInvestor = !this.accountService.getUserType();
     this.route.params
       .subscribe((params: Params) => {
         this.ServiceApplicationId = +params['id'];
-        // this.projectId = this.route.snapshot.params['id'];
         if (this.ServiceApplicationId > 1) {
-          // console.log(this.ServiceApplicationId);
           this.getServiceApplicationRenewal();
           this.approval = true;
         }
@@ -56,57 +59,50 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
   initForm() {
     this.projectRenewalForm = this.fb.group({
       RenewalDate: new FormControl(),
-      // ExpectedStartDate: new FormControl(),
-      // ApprovedDate: new FormControl(),
       RenewedTo: new FormControl(),
       RenewedFrom: new FormControl(),
-      ProjectId: '',
-      InvestorId: '',
-      ServiceId: ''
+      ProjectId: this.ProjectId,
+      InvestorId: this.InvestorId,
+      ServiceId: this.ServiceId
     });
   }
 
   getAllProjects() {
-    this.projetServices.getProjectOnlyByInvestorId(+localStorage.getItem('InvestorId'))
+    this.projetServices
+      .getProjectOnlyByInvestorId(this.InvestorId)
       .subscribe(result => {
         this.projectList = result;
       });
   }
 
   onSubmit() {
-    this.projectRenewalService.create(this.projectRenewalForm.value)
+    this.projectRenewalService
+      .create(this.projectRenewalForm.value)
       .subscribe(response => {
-        console.log(response);
-        this.notification('Project renewal saved');
-        localStorage.setItem('ServiceApplicationId', response.ServiceApplicationId.toString());
-        localStorage.setItem('workFlowId', response.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
-
         this.dataSharing.renewalIndex.next(2);
-
       });
   }
 
   ngAfterContentChecked() {
-    this.projectRenewalForm.patchValue({
-      ServiceId: localStorage.getItem('ServiceId'),
-      InvestorId: localStorage.getItem('InvestorId'),
-      // ProjectId: localStorage.getItem('ProjectId'),
-    });
-    if (this.isInvestor) {
-      this.projectRenewalForm.patchValue({
-        ProjectId: localStorage.getItem('ProjectId'),
-      });
-    }
+    // this.projectRenewalForm.patchValue({
+    //   ServiceId: localStorage.getItem('ServiceId'),
+    //   InvestorId: localStorage.getItem('InvestorId'),
+    //   // ProjectId: localStorage.getItem('ProjectId'),
+    // });
+    // if (this.isInvestor) {
+    //   this.projectRenewalForm.patchValue({
+    //     ProjectId: localStorage.getItem('ProjectId'),
+    //   });
+    // }
   }
 
   private getServiceApplicationRenewal() {
-    this.projectRenewalService.getRenewalByServiceApplicationId(this.ServiceApplicationId).subscribe(result => {
-      console.log(result.ProjectRenewal[0]);
-      this.editMode = true;
-      this.projectRenewalForm.patchValue(result.ProjectRenewal[0]);
-      this.projectId = result.ProjectId;
-      this.InvestorId = result.InvestorId;
-    }, error => this.errMsg.getError(error));
+    this.projectRenewalService
+      .getRenewalByServiceApplicationId(this.ServiceApplicationId)
+      .subscribe(result => {
+        this.editMode = true;
+        this.projectRenewalForm.patchValue(result.ProjectRenewal[0]);
+      }, error => this.errMsg.getError(error));
   }
 
   notification(message: string) {
@@ -120,18 +116,10 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
 
 
   approve() {
-    if (this.approval) {
-      this.projectRenewalForm.patchValue({
-        ProjectId: this.projectId
+    this.projectRenewalService
+      .create(this.projectRenewalForm.value)
+      .subscribe(result => {
+        this.toastr.success('Renewal  successfully approved', 'Success');
       });
-      this.projectRenewalForm.patchValue({
-        InvestorId: this.InvestorId
-      });
-
-
-    }
-    this.projectRenewalService.create(this.projectRenewalForm.value).subscribe(result => {
-      this.toastr.success('Renewal  successfully approved', 'Success');
-    });
   }
 }

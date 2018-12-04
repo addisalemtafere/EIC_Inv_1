@@ -32,6 +32,9 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
   public isInvestor: boolean;
   private ServiceApplicationId: number;
   public editMode: boolean;
+  private InvestorId: any;
+  private ServiceId: any;
+  private ProjectId: any;
 
   constructor(public fb: FormBuilder,
               public projetServices: ProjectProfileService,
@@ -45,16 +48,18 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.ProjectId = this.route.snapshot.params['ProjectId'];
+
     this.initForm();
     this.editMode = false;
     this.getAllProjects();
     this.isInvestor = !this.accountService.getUserType();
     this.route.params
       .subscribe((params: Params) => {
-        this.ServiceApplicationId = +params['id'];
-        // this.projectId = this.route.snapshot.params['id'];
+        this.ServiceApplicationId = +params['ServiceApplicationId'];
         if (this.ServiceApplicationId > 1) {
-          // console.log(this.ServiceApplicationId);
           this.getServiceApplicationSubstitute();
         }
       });
@@ -62,28 +67,22 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
 
   initForm() {
     this.projectsubstituteForm = this.fb.group({
-      ProjectId: new FormControl(),
-      ServiceId: '',
-      // CancellationType: new FormControl(),
+      ProjectId: new FormControl(this.ProjectId),
+      ServiceId: this.ServiceId,
       Reason: new FormControl(),
-      // ApprovedBy: new FormControl(),
-      // CancellationDate: new FormControl(),
       SubstituteRemark: new FormControl(),
-      InvestorId: localStorage.getItem('InvestorId'),
-
-
+      InvestorId: this.InvestorId
     });
   }
 
   onSubmit() {
-    // localStorage.removeItem('ServiceApplicationId');
-    // localStorage.removeItem('workFlowId');
+
     this.substituteService.create(this.projectsubstituteForm.value)
       .subscribe(result => {
         console.log(result);
         this.dataSharing.renewalIndex.next(2);
-        localStorage.setItem('ServiceApplicationId', result.ServiceApplicationId.toString());
-        localStorage.setItem('workFlowId', result.ServiceApplication.ServiceWorkflow[0].ServiceWorkflowId);
+        // localStorage.setItem('ServiceApplicationId', result.ServiceApplicationId.toString());
+        // localStorage.setItem('workFlowId', result.ServiceApplication.ServiceWorkflow[0].ServiceWorkflowId);
 
 
         this.toast.success('Request for substitute  has been sent', 'success!!');
@@ -107,21 +106,14 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    this.projectsubstituteForm.patchValue({
-      ServiceId: localStorage.getItem('ServiceId'),
-    });
-    if (this.isInvestor) {
-      this.projectsubstituteForm.patchValue({
-        ProjectId: localStorage.getItem('ProjectId'),
-      });
-    }
+
   }
 
   private getServiceApplicationSubstitute() {
-    this.substituteService.getSubstituteByServiceApplicationId(this.ServiceApplicationId).subscribe(result => {
-      console.log(result.ProjectSubstitute[0]);
-      this.editMode = true;
-      this.projectsubstituteForm.patchValue(result.ProjectSubstitute[0]);
-    }, error => this.errMsg.getError(error));
+    this.substituteService.getSubstituteByServiceApplicationId(this.ServiceApplicationId)
+      .subscribe(result => {
+        this.editMode = true;
+        this.projectsubstituteForm.patchValue(result.ProjectSubstitute[0]);
+      }, error => this.errMsg.getError(error));
   }
 }

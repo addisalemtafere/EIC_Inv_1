@@ -1,3 +1,5 @@
+import {IncentiveRequestItemModel} from './incentive/IncentiveRequestItem.model';
+
 export class IncentiveRequestModel {
   public IncentiveRequestId: number;
   public ProjectId?: any;
@@ -13,5 +15,6 @@ export class IncentiveRequestModel {
   public RequestDate?: Date;
   public InvoiceNo: string;
   public Phase: number;
+  public IncentiveItemRequest?: IncentiveRequestItemModel[];
 
 }

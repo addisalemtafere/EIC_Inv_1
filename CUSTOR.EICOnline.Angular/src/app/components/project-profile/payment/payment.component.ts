@@ -52,7 +52,6 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
       CheckNo: new FormControl('', Validators.required),
       TotalAmount: [''],
       CashierUserName: [''],
-      // CashierUserId: [''],
       PaymentDate: ['']
     });
   }
@@ -75,7 +74,6 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
   }
 
   getServiceApplication(id: any) {
-    // console.log(localStorage.getItem('serviceApplicationId'));
     console.log(id);
     this.serviceApplicationService.getOneById(id)
       .subscribe((result: ServiceApplicationModel) => {
@@ -83,8 +81,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
         this.TotalAmount = result.Service.ServiceTariff[0].Tariff.Fee;
         this.serviceTariff = result.Service.ServiceTariff;
         this.getTotalAmount(this.serviceTariff);
-        this.investorName = result.Investor.InvestorName;
-        // console.log(result.Investor.InvestorName);
+        this.investorName = result.InvestorNameAmharic;
       });
   }
 
@@ -97,7 +94,6 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
   }
 
   ngAfterViewInit(): void {
-    // console.log(this.accountService.currentUser);
   }
 
   ngAfterViewChecked() {
@@ -105,7 +101,6 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
       ServiceApplicationId: localStorage.getItem('ServiceApplicationId'),
       TotalAmount: this.TotalAmount,
       CashierUserName: this.accountService.currentUser.FullName,
-      // CashierUserId: this.accountService.currentUser.id,
       PaymentDate: new Date(),
     });
   }
@@ -115,7 +110,6 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
     if (this.orderForm.valid) {
       this.orderService.create(this.orderForm.value)
         .subscribe(result => {
-          // console.log(result);
           this.payment = result;
           this.paid = true;
         });

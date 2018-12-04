@@ -7,7 +7,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
   {
     public Site()
     {
-      Investor = new HashSet<Investor>();
+      //Investor = new HashSet<Investor>();
       Project = new HashSet<Project>();
       ProjectInjunction = new HashSet<ProjectInjunction>();
       ProjectRenewal = new HashSet<ProjectRenewal>();
@@ -28,7 +28,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public string UpdatedUserName { get; set; }
     public Guid? ObjectId { get; set; }
 
-    public ICollection<Investor> Investor { get; set; }
+    //public ICollection<Investor> Investor { get; set; }
     public ICollection<Project> Project { get; set; }
     public ICollection<ProjectInjunction> ProjectInjunction { get; set; }
     public ICollection<ProjectRenewal> ProjectRenewal { get; set; }

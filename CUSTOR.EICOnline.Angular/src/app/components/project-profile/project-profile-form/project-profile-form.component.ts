@@ -11,7 +11,6 @@ import {ZoneModel} from '../../../model/address/Zone.model';
 import {WoredaModel} from '../../../model/address/Woreda.model';
 import {KebeleModel} from '../../../model/address/Kebele.model';
 import {ToastrService} from 'ngx-toastr';
-import {TownModel} from '../../../model/address/Town.model';
 import {SectorService} from '../../../Services/Sector.service';
 import {SectorModel} from '../../../model/Sector.model';
 import {SiteService} from '../../../Services/site.service';
@@ -37,12 +36,11 @@ import {SiteModel} from '../../../model/Site.model';
   templateUrl: './project-profile-form.component.html',
   styleUrls: ['./project-profile-form.component.css']
 })
-export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterContentChecked {
+export class ProjectProfileFormComponent implements OnInit, AfterContentChecked {
   @ViewChild('costF') costForm: NgForm;
   formOfOwnershipList: FormOfOwnershipModel[] = [];
   subscription: Subscription;
   serviceIdSubscription: Subscription;
-  // serviceId: any;
   editMode = false;
   loading = false;
   project: ProjectModel;
@@ -55,7 +53,6 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
   regions: RegionModel[] = [];
   zones: ZoneModel[] = [];
   filteredZones: ZoneModel[] = [];
-  towns: TownModel[] = [];
   woredas: WoredaModel[] = [];
   filteredWoredas: WoredaModel[] = [];
   kebeles: KebeleModel[] = [];
@@ -68,8 +65,6 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
     EndingDate: '',
     Sector: '',
     SubSector: '',
-    // FormOfInvestment: '',
-    // FormOfOwnership: '',
     Region: '',
     Zone: '',
     Woreda: '',
@@ -92,6 +87,10 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
   public filterInvestmentActivityList: InvActivityModel[];
   public filterSubSectorList: SubSectorModel[];
   public allSiteList: SiteModel[] = [];
+  private ServiceId: any;
+  private InvestorId: any;
+  private workFlowId: any;
+  private ServiceApplicationId: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -143,16 +142,13 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
   }
 
   ngOnInit() {
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+
     this.fillAddressLookups();
-    console.log('project form lazly loaded');
     this.formBuild();
-    this.serviceIdSubscription = this.dataSharing.serviceId
-      .subscribe(result => {
-        this.projectForm.patchValue({
-          ServiceId: result,
-        });
-        console.log(result);
-      });
     this.updateDateRange();
     this.initStaticData('en');
 
@@ -165,46 +161,43 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
           this.getProjectDetail();
         }
       });
+
+
   }
 
   getProjectDetail() {
-    this.projectProfileService.getOneById(this.projectId).subscribe(project => {
-      console.log(project);
-      if (localStorage.getItem('ParentProjectId') === null) {
-        this.editMode = true;
-        this.projectIdEditing = project.ProjectId;
-        this.projectId = project.ProjectId;
-        localStorage.setItem('ProjectId', this.projectId);
-        localStorage.setItem('workFlowId', project.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
-        localStorage.setItem('ServiceId', project.ServiceApplication[0].ServiceId);
-      }
-      this.projectForm.patchValue(project);
-      this.getAddressData(project.ProjectId);
-    }, error => this.errMsg.getError(error));
+    this.projectProfileService
+      .getOneById(this.projectId)
+      .subscribe(project => {
+        if (localStorage.getItem('ParentProjectId') === null) {
+          this.editMode = true;
+          this.projectIdEditing = project.ProjectId;
+          this.projectId = project.ProjectId;
+          // localStorage.setItem('ProjectId', this.projectId);
+          // localStorage.setItem('workFlowId', project.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
+          // localStorage.setItem('ServiceId', project.ServiceApplication[0].ServiceId);
+        }
+        this.projectForm.patchValue(project);
+        this.getAddressData(project.ProjectId);
+      }, error => this.errMsg.getError(error));
   }
 
   getAddressData(parent: number) {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        // console.log(result)
         this.getKebeleByWoredaId(result.WoredaId);
         this.addressId = result.AddressId;
         this.projectForm.get('address').patchValue(result);
       }, error => this.errMsg.getError(error));
   }
 
-  ngOnDestroy(): void {
-    // this.subscription.unsubscribe();
-  }
 
   fillAddressLookups() {
-    // To-do bring all in one go caching
     this.loading = true;
     this.getRegions();
     this.getAllZones();
     this.getAllWoredas();
-    // this.getAllKebeles();
     this.getAllSector();
     this.getAllSubSector();
     this.getAllActivityService();
@@ -235,7 +228,6 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
     this.activityService.getActivitys()
       .subscribe(result => {
         this.activity = result;
-
         this.filterActivityLIst = result;
       }, error => this.toastr.error(this.errMsg.getError(error)));
   }
@@ -244,7 +236,6 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
     this.invactivityService.getInActivitys()
       .subscribe(result => {
         this.investmentActivity = result;
-
         this.filterInvestmentActivityList = result;
       }, error => this.toastr.error(this.errMsg.getError(error)));
   }
@@ -279,14 +270,12 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
     this.addressService.getKebelesByWoreda(wordaId)
       .subscribe(result => {
         this.kebeles = result;
-        // console.log(result);
         this.loading = false;
         this.filteredKebeles = result;
       });
   }
 
   filterRegion(regionCode: string) {
-    console.log(regionCode);
     if (!regionCode) {
       return;
     }
@@ -357,13 +346,14 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
       if (!this.editMode) {
         this.projectProfileService.create(this.projectForm.value)
           .subscribe(result => {
-            // console.log(result);
-            console.log(result.ServiceApplication[0].ServiceApplicationId);
             this.projectId = result.ProjectId;
-            localStorage.setItem('ProjectId', this.projectId);
-            this.router.navigate(['pro/', this.projectId]);
-            localStorage.setItem('workFlowId', result.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
-            localStorage.setItem('ServiceApplicationId', result.ServiceApplication[0].ServiceApplicationId);
+            // localStorage.setItem('ProjectId', this.projectId);
+            // this.router.navigate(['pro/', this.projectId]);
+            // localStorage.setItem('workFlowId', result.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
+            // localStorage.setItem('ServiceApplicationId', result.ServiceApplication[0].ServiceApplicationId);
+
+            this.router.navigate(['pro/' + this.projectId + '/' + result.ServiceApplication[0].ServiceApplicationId + '/' + this.ServiceId + '/' + result.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId + '/' + this.InvestorId]);
+
             this.notification('project  saved');
             this.saveAddress();
           });
@@ -371,7 +361,7 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
         this.projectProfileService.update(this.projectForm.value, this.projectIdEditing)
           .subscribe(result => {
             this.projectId = result.ProjectId;
-            localStorage.setItem('ProjectId', this.projectId);
+
             this.notification('project updated');
             this.saveAddress();
           });
@@ -384,20 +374,18 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
 
   saveAddress() {
     this.projectForm.get('address').patchValue({
-      ParentId: localStorage.getItem('ProjectId')
+      ParentId: this.projectId
     });
     if (this.editMode && typeof (this.addressId) !== 'undefined') {
       this.addressService.updateAddress(this.projectForm.get('address').value, this.addressId)
         .subscribe(result => {
           this.notification('address updated');
-          // this.onClear();
         });
     } else {
       this.addressService.saveAddress(this.projectForm.get('address').value)
         .subscribe(result => {
           setTimeout(() => this.dataSharing.projectId.next(this.projectId), 0);
           this.notification('address saved');
-          // this.onClear();
           setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
           setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
         });
@@ -408,13 +396,13 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
     this.projectForm = this.formBuilder.group({
       ProjectName: [this.project.ProjectName, [Validators.required,
         CustomValidators.validateCharacters, Validators.minLength(2)]],
-      InvestorId: '',
+      InvestorId: [this.InvestorId],
       ParentProjectId: '0',
       CreatedUserName: this.accountServices.currentUser.UserName,
       ProjectDescription: [this.project.ProjectDescription, [Validators.required, Validators.minLength(2)]],
       StartDate: [this.project.StartDate, [Validators.required]],
       OperationDate: [this.project.OperationDate, Validators.required],
-      ServiceId: [''],
+      ServiceId: [this.ServiceId],
       SectorId: [this.project.SectorId],
       SubSectorId: [this.project.SubSectorId],
       ActivityId: [this.project.ActivityId],
@@ -463,13 +451,11 @@ export class ProjectProfileFormComponent implements OnInit, OnDestroy, AfterCont
   }
 
   ngAfterContentChecked(): void {
-    this.projectForm.patchValue({
-      ServiceId: localStorage.getItem('ServiceId'),
-      InvestorId: localStorage.getItem('InvestorId'),
-      ParentProjectId: localStorage.getItem('ParentProjectId')
-    });
+    // this.projectForm.patchValue({
+    //   ParentProjectId: localStorage.getItem('ParentProjectId')
+    // });
 
-    if (+localStorage.getItem('ServiceId') === 1023 && !this.editMode) {
+    if (this.ServiceId === 1023 && !this.editMode) {
       this.projectForm.patchValue({
         ParentProjectId: localStorage.getItem('ParentProjectId')
       });

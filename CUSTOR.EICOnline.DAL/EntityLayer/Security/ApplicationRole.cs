@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using CUSTOR.EICOnline.DAL.EntityLayer;
+﻿using CUSTOR.EICOnline.DAL.EntityLayer;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 
 namespace CUSTOR.Security
 {
@@ -46,15 +46,17 @@ namespace CUSTOR.Security
     /// </summary>
     public string Description { get; set; }
 
+    public string CreatedUserId { get; set; }
+    public string UpdatedUserId { get; set; }
+    public DateTime? CreatedDate { get; set; }
     public string CreatedBy { get; set; }
+    public DateTime? UpdatedDate { get; set; }
     public string UpdatedBy { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public DateTime UpdatedDate { get; set; }
 
-    /// <summary>
-    /// Navigation property for the users in this role.
-    /// </summary>
-    public virtual ICollection<IdentityUserRole<string>> Users { get; set; }
+        /// <summary>
+        /// Navigation property for the users in this role.
+        /// </summary>
+        public virtual ICollection<IdentityUserRole<string>> Users { get; set; }
 
     /// <summary>
     /// Navigation property for claims in this role.

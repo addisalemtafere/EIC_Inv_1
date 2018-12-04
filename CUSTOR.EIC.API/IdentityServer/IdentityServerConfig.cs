@@ -1,40 +1,38 @@
-﻿using System.Collections.Generic;
-using CUSTOR.Security;
+﻿using CUSTOR.Security;
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
+using System.Collections.Generic;
 
 namespace EICOnline.IdentityServer
 {
-    public class IdentityServerConfig
-    {
-        public const string ApiName = "einvest_api";
-        public const string ApiFriendlyName = "eInvest API";
-        public const string eInvestClientID = "einvest_spa";
-        public const string SwaggerClientID = "swaggerui";
+  public class IdentityServerConfig
+  {
+    public const string ApiName = "einvest_api";
+    public const string ApiFriendlyName = "eInvest API";
+    public const string eInvestClientID = "einvest_spa";
+    public const string SwaggerClientID = "swaggerui";
 
-        // Identity resources (used by UserInfo endpoint).
-        public static IEnumerable<IdentityResource> GetIdentityResources()
-        {
-            return new List<IdentityResource>
+    // Identity resources (used by UserInfo endpoint).
+    public static IEnumerable<IdentityResource> GetIdentityResources()
+    {
+      return new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Phone(),
                 new IdentityResources.Email(),
-                new IdentityResource(ScopeConstants.Roles, new List<string> {JwtClaimTypes.Role})
+                new IdentityResource(ScopeConstants.Roles, new List<string> { JwtClaimTypes.Role })
             };
-        }
+    }
 
-        // Api resources.
-        public static IEnumerable<ApiResource> GetApiResources()
-        {
-            return new List<ApiResource>
+    // Api resources.
+    public static IEnumerable<ApiResource> GetApiResources()
+    {
+      return new List<ApiResource>
             {
-                new ApiResource(ApiName)
-                {
-                    UserClaims =
-                    {
+                new ApiResource(ApiName) {
+                    UserClaims = {
                         JwtClaimTypes.Name,
                         JwtClaimTypes.Email,
                         JwtClaimTypes.PhoneNumber,
@@ -43,25 +41,23 @@ namespace EICOnline.IdentityServer
                     }
                 }
             };
-        }
+    }
 
-        // Clients want to access resources.
-        public static IEnumerable<Client> GetClients()
-        {
-            // Clients credentials.
-            return new List<Client>
+    // Clients want to access resources.
+    public static IEnumerable<Client> GetClients()
+    {
+      // Clients credentials.
+      return new List<Client>
             {
                 // http://docs.identityserver.io/en/release/reference/client.html.
                 new Client
                 {
-                    ClientId = eInvestClientID,
+                    ClientId = IdentityServerConfig.eInvestClientID,
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, // Resource Owner Password Credential grant.
                     AllowAccessTokensViaBrowser = true,
-                    RequireClientSecret =
-                        false, // This client does not need a secret to request tokens from the token endpoint.
+                    RequireClientSecret = false, // This client does not need a secret to request tokens from the token endpoint.
 
-                    AllowedScopes =
-                    {
+                    AllowedScopes = {
                         IdentityServerConstants.StandardScopes.OpenId, // For UserInfo endpoint.
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Phone,
@@ -71,7 +67,7 @@ namespace EICOnline.IdentityServer
                     },
                     AllowOfflineAccess = true, // For refresh token.
                     RefreshTokenExpiration = TokenExpiration.Sliding,
-                    RefreshTokenUsage = TokenUsage.OneTimeOnly
+                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
                     //AccessTokenLifetime = 900, // Lifetime of access token in seconds.
                     //AbsoluteRefreshTokenLifetime = 7200,
                     //SlidingRefreshTokenLifetime = 900,
@@ -85,12 +81,11 @@ namespace EICOnline.IdentityServer
                     AllowAccessTokensViaBrowser = true,
                     RequireClientSecret = false,
 
-                    AllowedScopes =
-                    {
+                    AllowedScopes = {
                         ApiName
                     }
                 }
             };
-        }
     }
+  }
 }

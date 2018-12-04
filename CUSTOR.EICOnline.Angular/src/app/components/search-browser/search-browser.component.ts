@@ -41,7 +41,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumnsProject = [
-    'ProjectName', 'startDate', 'InvActivity', 'ProjectStage', 'ProjectStatus', 'Action'
+    'ProjectName', 'InvActivity', 'ProjectStage', 'ProjectStatus', 'Action'
   ];
   @ViewChild(MatPaginator) paginator2: MatPaginator;
   dialogRef: any;
@@ -54,6 +54,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   public investorName: string | null;
   private investors: Investor[];
   private projectList: ProjectModel[];
+  private ServiceId: any;
 
   constructor(public fb: FormBuilder,
               private http: HttpClient,
@@ -83,9 +84,9 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.initForm();
     this.getInvestors();
-    // this.serviceTitle = localStorage.getItem('title');
     this.title = localStorage.getItem('title');
     this.projectName = localStorage.getItem('projectName');
     this.investorName = localStorage.getItem('investorName');
@@ -150,15 +151,16 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   select(InvestorId: any, investorName: any) {
-    localStorage.setItem('InvestorId', InvestorId);
+    // localStorage.setItem('InvestorId', InvestorId);
     this.invName = investorName;
     this.loadingIndicator = true;
     this.projectService.getProjectByInvestorId(InvestorId)
       .subscribe(result => {
+
+          this.investorShow = false;
           this.projectList = result;
           this.title = 'ProjectDetail';
-          this.investorShow = false;
-          if (!this.projectList) {
+          if (this.projectList.length == 0) {
             this.loadingIndicator = false;
             this.toastr.error('No records were found to list', 'Error', {
               closeButton: true,
@@ -201,7 +203,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
               this.dataSource.data = this.dataSource.data.filter(item => item !== investor);
             },
             error => {
-              // tslint:disable-next-line:max-line-length
               this.toastr.error(
                 `An error occured whilst deleting the investor.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
                 'Delete Error');
@@ -219,12 +220,10 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   deleteProject(id: number) {
-    console.log(id);
     const response = confirm('Do you want to Delete this Project ?');
     if (response === true) {
       this.projectService.delete(id)
         .subscribe(() => {
-          // this.getAllServiceApplication();
         });
       return true;
     } else {
@@ -233,14 +232,11 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   editProject(projectId: number, serviceApplicationId: any, serviceId: any) {
-    localStorage.setItem('ServiceApplicationId', serviceApplicationId);
-    localStorage.setItem('ServiceId', serviceId);
-    // localStorage.setItem('title', title);
-    console.log(serviceId);
+
     setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
 
     setTimeout(() => this.dataSharing.isNew.next(true), 0);
-    this.router.navigate(['pro/', projectId]);
+    this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
   }
 
   projectDetail(id: number) {
@@ -251,40 +247,40 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 // Todo Application must be Intiated
   goToService(InvestorId: any, investorName: any) {
     localStorage.setItem('investorName', investorName);
-    const serviceId = +localStorage.getItem('ServiceId');
+    const serviceId = this.ServiceId;
     if (serviceId === 13) {
       setTimeout(() => this.dataSharing.currentIndex.next(0), 0);
 
       localStorage.setItem('currentIndex', '0');
-      this.router.navigate(['/pro', 0]);
-      localStorage.setItem('InvestorId', InvestorId);
+      this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + InvestorId]);
     } else {
       this.select(InvestorId, investorName);
+      this.router.navigate(['/search-browser/' + serviceId + '/' + InvestorId + '/' + 0]);
+
 
     }
 
   }
 
-  nextService(projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any) {
+  nextService(projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
 
     const serviceId = +localStorage.getItem('ServiceId');
+    const investorId = localStorage.getItem('InvestorId');
 
-    localStorage.setItem('ProjectId', projectId);
     switch (serviceId) {
       case 13:
         this.router.navigate(['/pro', 0]);
         break;
       case 18:
         if (projectStatus !== 4) {
-          this.router.navigate(['/project-renewal', 0]);
-          localStorage.setItem('ProjectId', projectId);
+          this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         } else {
           this.toastr.error('you can not renew this project it already cancelled', 'Not Allowed');
         }
         break;
       case 19:
         if (projectStatus !== 4) {
-          this.router.navigate(['/project-cancellation', 0], {relativeTo: this.route});
+          this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ProjectId', projectId);
         } else {
           this.toastr.error('you can not Cancelled  this project it already cancelled', 'Not Allowed');
@@ -292,7 +288,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
         break;
       case 1023:
         if (projectStatus !== 4) {
-          this.router.navigate(['pro/', projectId]);
+          this.router.navigate(['pro/' + projectId + '/' + ServiceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
           localStorage.setItem('ParentProjectId', projectId);
         } else {
           this.toastr.error('you can not Expand  this project it already cancelled', 'Not Allowed');
@@ -306,25 +302,27 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
         this.editProject(projectId, ServiceApplicationId, 13);
         break;
       case 1027:
-        localStorage.setItem('ServiceApplicationId', ServiceApplicationId);
-        localStorage.setItem('ServiceId', serviceId.toString());
-        this.router.navigate(['/project-substitute', 0], {relativeTo: this.route});
+        this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+
         break;
       case 1045:
-        this.router.navigate(['/tax-exemption/', 0]);
+        this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1046:
-        this.router.navigate(['/incentive-request-item/', 0]);
+        this.router.navigate(['/incentive-request-item/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
 
       case 1047:
-        this.router.navigate(['bill-of-material/1', 0]);
+        this.router.navigate(['bill-of-material/1/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1054:
-        this.router.navigate(['bill-of-material/2', 0]);
+        this.router.navigate(['bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1001:
         this.router.navigate(['capital-registration/', projectId]);
+        break;
+      case 1236:
+        this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       default:
         this.router.navigate(['/notfound'], {relativeTo: this.route});
@@ -333,19 +331,26 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   }
 
-  startApplication(projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, projectName?: any) {
+  startApplication(projectList: ProjectModel) {
+
+    const projectName = projectList.ProjectName;
+    const projectId = projectList.ProjectId;
+    const projectStatus = projectList.ProjectStatus;
+    const ServiceId = this.ServiceId;
+    const InvestorId = this.route.snapshot.params['InvestorId'];
+
     if (projectStatus !== 9) {
       this.toastr.warning('Project Is Not Active');
     } else {
-      console.log(projectName);
+
       this.todoTask.AssignedUserId = this.accountService.currentUser.Id;
       this.todoTask.CreatedUserId = this.accountService.currentUser.Id;
       this.todoTask.CreatedUserName = this.accountService.currentUser.UserName;
       this.todoTask.IsActive = false;
 
       this.serviceApplication.ProjectId = projectId;
-      this.serviceApplication.ServiceId = localStorage.getItem('ServiceId');
-      this.serviceApplication.InvestorId = localStorage.getItem('InvestorId');
+      this.serviceApplication.ServiceId = this.ServiceId;
+      this.serviceApplication.InvestorId = InvestorId;
       this.serviceApplication.CaseNumber = '1';
       this.serviceApplication.CurrentStatusId = 44450;
       this.serviceApplication.IsSelfService = true;
@@ -354,13 +359,14 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.serviceApplication.IsActive = false;
       this.serviceApplication.todoTask = this.todoTask;
 
-      this.serviceApplicationService.applicationStart(this.serviceApplication)
+      this.serviceApplicationService
+        .applicationStart(this.serviceApplication)
         .subscribe(result => {
-          localStorage.setItem('ServiceApplicationId', result.ServiceApplicationId);
-          localStorage.setItem('workFlowId', result.ServiceWorkflow[0].ServiceWorkflowId);
-          this.nextService(projectId, result.ServiceApplicationId, ServiceId, projectStatus);
+          this.nextService(projectId, result.ServiceApplicationId, ServiceId, projectStatus, result.ServiceWorkflow[0].ServiceWorkflowId);
         });
+
       localStorage.setItem('projectName', projectName);
+
     }
   }
 
@@ -368,11 +374,21 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     if (projectStatus !== 9) {
       this.toastr.warning('Project Is Not Active');
     } else {
+      console.log(projectId);
       localStorage.setItem('projectName', projectName);
       localStorage.setItem('ServiceApplicationId', ServiceApplicationId);
+      this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + ServiceId]);
     }
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue.replace(/[\W_]/g, '');
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
   ngAfterContentChecked(): void {
     this.serviceTitle = localStorage.getItem('title');

@@ -38,6 +38,12 @@ namespace CUSTOR.EICOnline.API.Controllers
         {
             return await _LetterRepo.GetLetters(id, letterType, letterType1, page, pageSize);
         }
+        [HttpGet]
+        [Route("api/letters/ByProjectId/{id:int}")]
+        public async Task<IEnumerable<Letter>> GetLettersByProjectId(int id,  int page = -1, int pageSize = 10)
+        {
+            return await _LetterRepo.GetLettersByProjectId(id, page, pageSize);
+        }
 
 
         //[HttpGet]

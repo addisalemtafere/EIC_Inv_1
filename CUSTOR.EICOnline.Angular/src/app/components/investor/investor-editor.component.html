@@ -4,11 +4,18 @@
   <form #form="ngForm" [formGroup]="investorForm" novalidate (ngSubmit)="onSubmit()"
         fxLayout="column"
         autocomplete="off">
+        <div class="error-bar" style="width:100%; " *ngIf="errors.length > 0">
+          <ul>
+              <li *ngFor="let error of errors">
+                  {{ error }}
+              </li>
+          </ul>
+        </div>
     <div style="margin-top: 10px" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
       <mat-form-field fxLayoutGap="4em" [fxFlex]="30">
         <mat-label>{{'investors.editor.LegalStatus' | translate}}</mat-label>
         <mat-select formControlName="cLegalStatus" [compareWith]="compareIds"
-                    (selectionChange)="statusChanged($event.value)">
+                    (selectionChange)="statusChanged($event.value)" required> 
           <mat-option *ngFor="let lstatus of legalStatuses" [value]="lstatus.Id">
             <span>{{lstatus.Desc}}</span>
           </mat-option>
@@ -21,14 +28,16 @@
         <mat-form-field fxLayoutGap="4em" [fxFlex]="30">
           <mat-label>{{'investors.editor.FormOfOwnership' | translate}}</mat-label>
           <mat-select  (selectionChange)="onFormOfOwnershipChanged($event.value)"
-                      formControlName="FormOfOwnership">
-                      <mat-option value="0">--</mat-option>
+                      formControlName="FormOfOwnership" required>
+                      <!-- <mat-option value="0">--</mat-option> -->
             <mat-option *ngFor="let item of formOfOwnershipList;" [value]="item.Id">
               {{item.Desc}}
             </mat-option>
           </mat-select>
-          <!--<mat-error align="start" *ngIf="formErrors.FormOfOwnership">{{ formErrors.FormOfOwnership }}-->
-          <!--</mat-error>-->
+          <mat-error *ngIf="FormOfOwnershipV.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+        
         </mat-form-field>
       <!-- </div> -->
       <!-- <span  *ngIf="branch"> -->
@@ -165,7 +174,7 @@
         <mat-form-field fxLayoutGap="4em">
           <mat-label>{{'investors.editor.Nationality' | translate}}</mat-label>
           <mat-select #contry (selectionChange)="checkCountry($event.value)"
-                      formControlName="cNationality" [compareWith]="compareIds">
+                      formControlName="cNationality" [compareWith]="compareIds" >
             <mat-option *ngFor="let country of nationList" [value]="country.id">
               <span>{{country.descriptionEnglish}}</span>
             </mat-option>
@@ -203,7 +212,7 @@
       </mat-form-field>
       <mat-form-field [fxFlex]="32">
         <mat-label>{{'investors.editor.CompanyName' | translate}}</mat-label>
-        <input matInput formControlName="cCompanyName" required/>
+        <input matInput formControlName="cCompanyName"/>
         <mat-error *ngIf="companyName.hasError('required')">
           {{'common.validation.Required' | translate}}
         </mat-error>
@@ -239,7 +248,7 @@
           <mat-form-field fxLayoutGap="4em">
             <mat-label>{{'investors.editor.Zone' | translate}}</mat-label>
             <mat-select formControlName="ZoneId" (selectionChange)="filterZone($event.value)" [compareWith]="compareIds"
-                        required>
+                        >
               <!-- <option value="0">--Select--</option> -->
               <mat-option value="0">--</mat-option>
               <mat-option *ngFor="let zone of filteredZones" [value]="zone.ZoneId">
@@ -254,7 +263,7 @@
           <mat-form-field fxLayoutGap="4em">
             <mat-label>{{'investors.editor.Woreda' | translate}}</mat-label>
             <mat-select formControlName="WoredaId" (selectionChange)="filterWoreda($event.value)"
-                        [compareWith]="compareIds" required>
+                        [compareWith]="compareIds" >
               <!-- <option value="0">--Select--</option> -->
               <mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">
                 <span>{{w.Description}}</span>
@@ -267,7 +276,7 @@
           </mat-form-field>
           <mat-form-field fxLayoutGap="4em">
             <mat-label>{{'investors.editor.Kebele' | translate}}</mat-label>
-            <mat-select formControlName="KebeleId" required [compareWith]="compareIds">
+            <mat-select formControlName="KebeleId"  [compareWith]="compareIds">
               <!-- <option value="0">--Select--</option> -->
               <mat-option value="0">--</mat-option>
               <mat-option *ngFor="let keb of filteredKebeles" [value]="keb.KebeleId">
@@ -281,7 +290,7 @@
           </mat-form-field>
           <mat-form-field fxLayoutGap="4em">
             <mat-label>{{'investors.editor.HouseNo' | translate}}</mat-label>
-            <input matInput formControlName="HouseNo" required/>
+            <input matInput formControlName="HouseNo"/>
 
             <!--<mat-error *ngIf="houseNo.hasError('required')">-->
             <!--{{'common.validation.Required' | translate}}-->
@@ -291,7 +300,7 @@
         <div id="divAddress2" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
           <mat-form-field fxLayoutGap="4em">
             <mat-label>{{'investors.editor.Email' | translate}}</mat-label>
-            <input matInput formControlName="Email" required/>
+            <input matInput formControlName="Email" />
             <!--<mat-error *ngIf="email.hasError('required')">-->
             <!--{{'common.validation.Required' | translate}}-->
             <!--</mat-error>-->
@@ -346,17 +355,22 @@
           <mat-datepicker-toggle matSuffix [for]="cRegDate"></mat-datepicker-toggle>
           <mat-datepicker #cRegDate></mat-datepicker>
         </mat-form-field>
-      </div>
-      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
-        <mat-form-field fxFlex="64">
-          <mat-label name="lblTradeNameEng">{{'investors.editor.TradeNameEng' | translate}}</mat-label>
-          <input matInput formControlName="cTradeNameEng"/>
+        <mat-form-field fxFlex fxFlex="14">
+          <mat-label name="lblPaidCapital">{{'investors.editor.PaidCapital' | translate}}</mat-label>
+          <input matInput formControlName="cPaidCapital"/>
         </mat-form-field>
-        <mat-form-field fxFlex="64">
-          <mat-label name="lblTradeName">{{'investors.editor.TradeName' | translate}}</mat-label>
-          <input matInput formControlName="cTradeName"/>
+        <mat-form-field fxFlex fxFlex="15">
+          <mat-label name="lblSighnedCapital">{{'investors.editor.SighnedCapital' | translate}}</mat-label>
+          <input matInput formControlName="cSighnedCapital" />
         </mat-form-field>
       </div>
+        <div  fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em">
+          <mat-form-field fxFlex fxFlex="100">
+            <mat-select placeholder="ዘርፍ *" formControlName="cMajorDivision" multiple>
+              <mat-option *ngFor="let MajorDivision of majorDivisions" [value]="MajorDivision.Id">{{MajorDivision.Description}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
     </div>
     <div mat-dialog-actions style="margin: 15px; text-align: center">
       <button mat-raised-button type="submit" color="primary" style="margin-right: 10px">

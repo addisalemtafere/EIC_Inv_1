@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {LettertepmlateService} from '../../letter/lettertepmlate.service';
+import {LettertepmlateService} from '../../letter-template/lettertepmlate.service';
 import {LetterTemplateModel} from '../../../model/letter-template.model';
 import {AppConfiguration} from '../../../config/appconfig';
 import {HttpClient} from '@angular/common/http';
@@ -53,7 +53,7 @@ export class LetterComponent implements OnInit {
   dataSource: any;
   loading = false;
   ShowSave = false;
-
+  isForDetails = true;
   revenueBranchu = false;
   RequestedDate = false;
   attachment = false;
@@ -63,6 +63,9 @@ export class LetterComponent implements OnInit {
   enableButtonGenerate = false;
   InoviceNo: string;
   RequestDate: any;
+  public ServiceId: any;
+  public ProjectId: any;
+  public ServiceApplicationId: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
 
   displayedColumns = ['LetterType', 'RequestDate', 'Action'];
@@ -94,37 +97,52 @@ export class LetterComponent implements OnInit {
     return this.letterForm.get('Attachment');
   }
 
-  getCategoryCode() {
-    return this.letterForm.get('CategoryCode');
-  }
-
   ngOnInit() {
     this.initForm();
-    this.getProjectDetails();
-    this.getIncentiveDetails();
-    this.getLetterTempalte();
-    if (localStorage.getItem('ServiceId') === '1045') {
-      this.getItemLookup(2846, 100);
-      this.getLetters(2846, 100);
-    }
-    else if (localStorage.getItem('ServiceId') === '1046' || localStorage.getItem('ServiceId') === '1047' || localStorage.getItem('ServiceId') === '1054') {
-      this.getItemLookup(2845, 2847);
-      this.getLetters(2845, 2847);
-    } else if (localStorage.getItem('ServiceId') === '13') {
-      this.getItemLookup(2851, 2854);
-      this.getLetters(2851, 2854);
-    }
-    this.getReveuneLookup();
+    this.ServiceId = this.activatedRoute.snapshot.params['ServiceId'];
+    this.ProjectId = this.activatedRoute.snapshot.params['ProjectId'];
+    this.ServiceApplicationId = this.activatedRoute.snapshot.params['ServiceApplicationId'];
 
-    this.getAddressData(localStorage.getItem('ProjectId'));
-    if (localStorage.getItem('ServiceId') === '1045') {
+    if (this.activatedRoute.snapshot.params['isForDetail'] == 1) {
+      this.getLetter();
+      this.getLookups();
+      this.isForDetails = false;
+    } else {
+      this.getProjectDetails();
+      this.getIncentiveDetails();
+      this.getLetterTempalte();
       this.getTaxExemptionDetails();
+      if (this.ServiceId == '1045') {
+        this.getItemLookup(2846, 100);
+        this.getLetters(2846, 100);
+      }
+      else if (this.ServiceId == '1046' || this.ServiceId == '1047' || this.ServiceId == '1054') {
+        this.getItemLookup(2845, 2847);
+        this.getLetters(2845, 2847);
+      } else if (this.ServiceId == '13') {
+        this.getItemLookup(2851, 2854);
+        this.getLetters(2851, 2854);
+      }
+      this.getReveuneLookup();
+      this.getAddressData(this.ProjectId);
     }
-    // else if (localStorage.getItem('ServiceId') === '1046') {
+    // else if (this.ServiceId === '1046') {
     //
-    // }else if (localStorage.getItem('ServiceId') === '1047') {
+    // }else if (this.ServiceId === '1047') {
     //
     // }
+  }
+
+  getLetter() {
+    this.letterService.getLetterLists(this.ProjectId)
+      .subscribe(result => {
+          if (result) {
+            this.letterModelList = result;
+            console.log(this.letterModelList);
+            this.dataSource = new MatTableDataSource<LetterModel>(this.letterModelList);
+          }
+        },
+        error => this.errMsg.getError(error));
   }
 
   getTaxExemptionDetails() {
@@ -158,8 +176,18 @@ export class LetterComponent implements OnInit {
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
-  getLetters(LetterType: any, LetterType1:any) {
-    this.letterService.getLetterList(localStorage.getItem('ProjectId'), LetterType, LetterType1)
+  getLookups() {
+    this.loadingIndicator = true;
+    this.lookupSub = this.lookUpsService
+      .getLookupByParentId(707)
+      .subscribe(result => {
+          this.Lookups = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+
+  getLetters(LetterType: any, LetterType1: any) {
+    this.letterService.getLetterList(this.ProjectId, LetterType, LetterType1)
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
@@ -171,7 +199,7 @@ export class LetterComponent implements OnInit {
   }
 
   getIncentiveDetails() {
-    this.incentiveRequestService.getIncentiveRequestByServiceApplicationId(localStorage.getItem('ServiceApplicationId'))//34517
+    this.incentiveRequestService.getIncentiveRequestByServiceApplicationId(this.ServiceApplicationId)//34517
       .subscribe(result => {
           if (result) {
             console.log(this.incentiveRequestModelList);
@@ -191,7 +219,7 @@ export class LetterComponent implements OnInit {
   }
 
   getProjectDetails() {
-    this.projectProfileService.projectsDetailForLetter(localStorage.getItem('ProjectId'))
+    this.projectProfileService.projectsDetailForLetter(this.ProjectId)
       .subscribe(result => {
           if (result) {
             this.projectModel = result;
@@ -224,7 +252,7 @@ export class LetterComponent implements OnInit {
       this.categoryCode = false;
       this.chassisNo = false;
     }
-    console.log(localStorage.getItem('ServiceId'));
+    console.log(this.ServiceId);
     this.enableButtonGenerate = true;
     this.getLetterTempalte();
   }
@@ -248,8 +276,6 @@ export class LetterComponent implements OnInit {
       Attachment: ['', Validators.compose([Validators.required, Validators.maxLength(2), Validators.pattern('^[0-9 .]+$')])],
       CategoryCode: ['', Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9 .]+$')])],
       RequestDate: new FormControl(),
-
-
     });
   }
 
@@ -311,11 +337,14 @@ export class LetterComponent implements OnInit {
     this.LetterContent = this.LetterContent.replace(/{{Capital}}/g,
       (this.projectModel.ProjectCost.OtherCapitalCost + this.projectModel.ProjectCost.EquityFinance + this.projectModel.ProjectCost.LoanFinance).toString());
 
-    if (localStorage.getItem('ServiceId') === '1045') {
-      this.LetterContent = this.LetterContent.replace(/{{OrgName}}/g,
-        this.taxExemptionModel.RevenueBranchDescription
-      );
-    } else if (localStorage.getItem('ServiceId') === '1046') {
+    if (this.ServiceId == '1045') {
+      console.log(this.taxExemptionModel.RevenueBranchDescription);
+      if (this.taxExemptionModel.RevenueBranchDescription != undefined) {
+        this.LetterContent = this.LetterContent.replace(/{{OrgName}}/g,
+          this.taxExemptionModel.RevenueBranchDescription
+        );
+      }
+    } else if (this.ServiceId == '1046') {
       // this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo;
     } else {
       // this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo;
@@ -323,10 +352,13 @@ export class LetterComponent implements OnInit {
     this.LetterContent = this.LetterContent.replace(/{{ReqDate}}/g,
       new Date().toDateString());
     // this.RequestDate);
-    this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
-      //this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
-      'n343en7'
-    );
+
+    if (this.ServiceId !== '1045') {
+      this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
+        this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
+        //'n343en7'
+      );
+    }
     this.LetterContent = this.LetterContent.replace(/{{Region}}/g,
       this.addressList.Region.Description);
 
@@ -360,7 +392,6 @@ export class LetterComponent implements OnInit {
     });
   }
 
-
   notification(message: string) {
     this.loading = false;
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
@@ -378,15 +409,19 @@ export class LetterComponent implements OnInit {
     }
   }
 
+  getCategoryCode() {
+    return this.letterForm.get('CategoryCode');
+  }
+
   private saveCompleted(letter?: LetterModel) {
     if (letter) {
       this.letterModel = letter;
-      if (localStorage.getItem('ServiceId') === '1045') {
+      if (this.ServiceId === '1045') {
         this.getLetters(2846, 100);
       }
-      else if (localStorage.getItem('ServiceId') === '1046' || localStorage.getItem('ServiceId') === '1047' || localStorage.getItem('ServiceId') === '1054') {
+      else if (this.ServiceId === '1046' || this.ServiceId === '1047' || this.ServiceId === '1054') {
         this.getLetters(2845, 2847);
-      } else if (localStorage.getItem('ServiceId') === '13') {
+      } else if (this.ServiceId === '13') {
         this.getLetters(2851, 2854);
       }
     }
@@ -403,7 +438,7 @@ export class LetterComponent implements OnInit {
       LetterContent: formModel.LetterContent,
       // Attachment: formModel.Attachment,
       RequestDate: new Date(),
-      ProjectId: localStorage.getItem('ProjectId')
+      ProjectId: this.ProjectId
     };
   }
 

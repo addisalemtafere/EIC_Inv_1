@@ -118,6 +118,59 @@ namespace CUSTOR.EICOnline.DAL
   }
 }
 
+
+
+namespace CUSTOR.EICOnline.DAL
+{
+    public class TownRepository : EFRepository<ApplicationDbContext, Zone>
+    {
+        public TownRepository(ApplicationDbContext context) : base(context)
+        { }
+
+        public async Task<List<Town>> GetZones(object rId)
+        {
+            try
+            {
+                string id = rId.ToString();
+                IQueryable<Town> towns = Context.Towns;
+                int i = towns.Where(x => x.RegionId == id).Count();
+                return await towns.Where(x => x.RegionId == id).ToListAsync();               
+            }
+            catch (Exception ex)
+            {
+                SetError(ex);
+                return null;
+            }
+        }
+
+        public async Task<List<TownViewModel>> GetAllTowns(string lang)
+        {
+            try
+            {
+                //IQueryable<Zone> zones = Context.Zones;
+                //int i = zones.Where(x => x.RegionId == id).Count();
+                //return await zones.Where(x => x.RegionId == id).ToListAsync();
+                ////string id = rId.ToString();
+                return await Context.Towns
+                    .Select(t => new TownViewModel
+
+                    {
+                        TownId = t.TownId,
+                        RegionId = t.RegionId,
+                //DescriptionEnglish = z.DescriptionEnglish,
+                Description = (lang == "et") ? t.Description : t.DescriptionEnglish
+                    })
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                SetError(ex);
+                return null;
+            }
+        }
+    }
+}
+
 namespace CUSTOR.EICOnline.DAL
 {
   public class WoredaRepository : EFRepository<ApplicationDbContext, Woreda>

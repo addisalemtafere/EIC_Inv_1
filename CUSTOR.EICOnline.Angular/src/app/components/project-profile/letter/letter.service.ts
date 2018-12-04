@@ -23,7 +23,11 @@ export class LetterService {
       map(letterModelList => this.letterModelList = letterModelList),
       catchError(this.errMsg.parseObservableResponseError));
   }
-
+  getLetterLists(projectId: any): Observable<LetterModel[]> {
+    return this.httpClient.get<LetterModel[]>(this.config.urls.url('lettersByProjectId',projectId)).pipe(
+      map(letterModelList => this.letterModelList = letterModelList),
+      catchError(this.errMsg.parseObservableResponseError));
+  }
   getletter(id: any): Observable<LetterModel> {
     return this.httpClient.get<LetterModel>(this.config.urls.url('letter', id)).pipe(
       map(letterModeldata => {

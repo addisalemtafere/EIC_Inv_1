@@ -18,6 +18,7 @@ export class ServiceInfoComponent implements OnInit {
   serviceId: any;
   public serviceDetail: ProjectModel;
   public checkLists: ServicePrerequisite[];
+  private ServiceId: any;
 
   constructor(public  servicePrerequisiteService: ServicePrerequisiteService,
               public router: Router,
@@ -29,6 +30,8 @@ export class ServiceInfoComponent implements OnInit {
 
   ngOnInit() {
     this.title = localStorage.getItem('title');
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    console.log(this.ServiceId)
     this.route.params
       .subscribe((params: Params) => {
         this.serviceId = +params['id'];
@@ -37,26 +40,26 @@ export class ServiceInfoComponent implements OnInit {
           this.title = localStorage.getItem('title');
         }
       });
-    this.getPrerequisiteByServiceId(localStorage.getItem('ServiceId'));
+    this.getPrerequisiteByServiceId(this.ServiceId);
 
   }
 
   getPrerequisiteByServiceId(serviceId: any) {
-    this.servicePrerequisiteService.servicePrerequisiteByServiceId(serviceId)
+    console.log(serviceId)
+    this.servicePrerequisiteService
+      .servicePrerequisiteByServiceId(serviceId)
       .subscribe(result => {
         this.checkLists = result;
       });
   }
 
   continue() {
-    const ch = +localStorage.getItem('ServiceId');
     this.dataSharing.renewalIndex.next(1);
     this.dataSharing.steeperIndex.next(1);
   }
 
   info() {
-    const ch = +localStorage.getItem('ServiceId');
-    this.router.navigate(['/requirement', ch]);
+    this.router.navigate(['/requirement', this.ServiceId]);
   }
 
   back() {

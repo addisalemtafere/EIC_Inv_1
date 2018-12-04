@@ -98,10 +98,10 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
       LetterType: ['0', Validators.required],
       // Title: ['0', Validators.required],
       // ToOrg: ['', Validators.compose([Validators.required, Validators.maxLength(4), Validators.pattern('^[0-9]+$')])],
-      LetterContent: ['0', Validators.required],
+      LetterContent: ['', Validators.required],
       IsActive: ['0', Validators.required]
 
-    });
+    })
   }
 
   compareIds(id1: any, id2: any): boolean {

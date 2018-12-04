@@ -8,7 +8,10 @@ import {BussinessModel} from '../../model/bussiness/BussinessModel.model';
 import {BussinessCatagory} from '../../model/bussiness/BussinessCatagory.model';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
+
 export class CatagoryService {
    constructor(private httpClient: HttpClient,
               private config: AppConfiguration,

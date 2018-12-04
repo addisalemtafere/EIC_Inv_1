@@ -95,11 +95,7 @@ export class InvestorService extends EndpointFactory {
     return this.httpClient.get<Investor[]>(this.investorsUrl, this.getRequestHeaders())
       .pipe(
         map(investorList => this.investorList = investorList),
-        catchError(error => {
-          console.log('gIns ' + error);
-          return this.handleError(error, () => this.getInvestors());
-        })
-      );
+        catchError(err => Observable.throw(err || 'Server error')));
   }
 
   getLookupsByLang(lang: string): Observable<any> {
@@ -107,10 +103,7 @@ export class InvestorService extends EndpointFactory {
     return this.httpClient.get<Lookup[]>(endpointUrl, this.getRequestHeaders())
       .pipe(
         map(lList => this.lookupList = lList),
-        catchError(error => {
-          return this.handleError(error, () => this.getLookupsByLang(lang));
-        })
-      );
+        catchError(err => Observable.throw(err || 'Server error')));
   }
 
   getInvestor(id): Observable<any> {
@@ -120,10 +113,7 @@ export class InvestorService extends EndpointFactory {
         this.investor = cust;
         return this.investor;
       }),
-      catchError(error => {
-        return this.handleError(error, () => this.getInvestor(id));
-      })
-    );
+      catchError(err => Observable.throw(err || 'Server error')));
   }
 
   getInvestorByUserId(id): Observable<any> {
@@ -133,10 +123,8 @@ export class InvestorService extends EndpointFactory {
         this.investor = cust;
         return this.investor;
       }),
-      catchError(error => {
-        return this.handleError(error, () => this.getInvestor(id));
-      })
-    );
+      catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getInvestorByTIN(id): Observable<any> {
@@ -146,10 +134,8 @@ export class InvestorService extends EndpointFactory {
         this.investor = cust;
         return this.investor;
       }),
-      catchError(error => {
-        return this.handleError(error, () => this.getInvestor(id));
-      })
-    );
+      catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   saveInvestor(investor: Investor): Observable<any> {
@@ -171,10 +157,8 @@ export class InvestorService extends EndpointFactory {
         map(inv => {
           return inv;
         }),
-        catchError(error => {
-          return this.handleError(error, () => this.searchInvestor(search));
-        })
-      );
+        catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   deleteInvestor(id): Observable<any> {
@@ -184,26 +168,23 @@ export class InvestorService extends EndpointFactory {
         console.log(result);
         return result;
       }),
-      catchError(error => {
-        return this.handleError(error, () => this.deleteInvestor(id));
-      }));
+      catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getRegions(): Observable<any> {
     return this.httpClient.get<Region[]>(this.regionsUrl, this.getRequestHeaders()).pipe(
       map(regionList => this.regionList = regionList),
-      catchError(error => {
-        return this.handleError(error, () => this.getRegions());
-      }));
+      catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getRegionsByLang(lang: string): Observable<any> {
     const endpointUrl = `${this.regionsUrl}/${lang}`;
     return this.httpClient.get<Region[]>(endpointUrl, this.getRequestHeaders()).pipe(
       map(regionList => this.regionList = regionList),
-      catchError(error => {
-        return this.handleError(error, () => this.getRegionsByLang(lang));
-      }));
+      catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getAllZonesByLang(lang): Observable<any> {
@@ -211,27 +192,25 @@ export class InvestorService extends EndpointFactory {
     return this.httpClient.get<Zone[]>(endpointUrl)
       .pipe(
         map(zList => this.allZoneList = zList),
-        catchError(error => {
-          return this.handleError(error, () => this.getAllZonesByLang(lang));
-        }));
+        catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getAllWoredasByLang(lang): Observable<any> {
     const endpointUrl = `${this.woredasUrl}/${lang}`;
+    // alert (endpointUrl);
     return this.httpClient.get<Woreda[]>(endpointUrl, this.getRequestHeaders())
       .pipe(
         map(wList => this.allWoredaList = wList),
-        catchError(error => {
-          return this.handleError(error, () => this.getAllWoredasByLang(lang));
-        }));
+        catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getAllZones(): Observable<any> {
     return this.httpClient.get<Zone[]>(this.zonesUrl, this.getRequestHeaders()).pipe(
       map(zoneList => this.allZoneList = zoneList),
-      catchError(error => {
-        return this.handleError(error, () => this.getAllZones());
-      }));
+      catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getZones(id: string): Observable<any> {
@@ -241,26 +220,23 @@ export class InvestorService extends EndpointFactory {
           this.zoneList = zoneList;
         }
       ),
-      catchError(error => {
-        return this.handleError(error, () => this.getZones(id));
-      }));
+      catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getWoredas(id: string): Observable<any> {
     const endpointUrl = `${this.woredasUrl}/${id}`;
     return this.httpClient.get<Woreda[]>(endpointUrl, this.getRequestHeaders()).pipe(
       map(woredaList => this.woredaList = woredaList),
-      catchError(error => {
-        return this.handleError(error, () => this.getWoredas(id));
-      }));
+      catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getAllWoredas(): Observable<any> {
     return this.httpClient.get<Woreda[]>(this.woredasUrl, this.getRequestHeaders()).pipe(
       map(woredaList => this.allWoredaList = woredaList),
-      catchError(error => {
-        return this.handleError(error, () => this.getAllWoredas());
-      }));
+      catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getKebeles(id: string): Observable<any> {
@@ -268,19 +244,18 @@ export class InvestorService extends EndpointFactory {
     return this.httpClient.get<Kebele[]>(endpointUrl, this.getRequestHeaders())
       .pipe(
         map(kebeleList => this.kebeleList = kebeleList),
-        catchError(error => {
-          return this.handleError(error, () => this.getKebeles(id));
-        }));
+        catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   getAllKebelesByLang(lang): Observable<any> {
     const endpointUrl = `${this.kebelesUrl}/${lang}`;
+
     return this.httpClient.get<Kebele[]>(endpointUrl, this.getRequestHeaders())
       .pipe(
         map(kList => this.allKebeleList = kList),
-        catchError(error => {
-          return this.handleError(error, () => this.getAllKebelesByLang(lang));
-        }));
+        catchError(err => Observable.throw(err || 'Server error')));
+
   }
 
   //   private handleError(error: any) {
