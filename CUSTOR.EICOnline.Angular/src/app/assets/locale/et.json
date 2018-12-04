@@ -93,7 +93,9 @@
     "capitalRegistration": "Capital Registration",
     "customerRegistration": "Customer Registration",
     "changePassword": "Change Password",
-    "commericalRegistration": "Commercial Registration"
+    "lettertemplate": "Letter Tempalte",
+   "commericalRegistration": "Commercial Registration"
+
   },
   "pageHeader": {
     "Dashboard": "Dashboard",

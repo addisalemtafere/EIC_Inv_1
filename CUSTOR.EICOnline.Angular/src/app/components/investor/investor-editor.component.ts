@@ -122,8 +122,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   ngOnInit() {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.ServiceApplicationId = this.route.snapshot.params['id'];
-
-
     this.loadingIndicator = true;
     this.currentLang = this.configService.language;
     this.initStaticData('this.currentLang');

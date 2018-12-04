@@ -187,7 +187,7 @@ export class AppConfiguration {
     ApplicationSettings: 'api/ApplicationSettings',
     ProjectStatusHistory: 'api/ProjectStatusHistories',
 
-    projectsDetailForLetter: 'api/Projects/ProjectDetail',
+    projectsDetailForLetters: 'api/Projects/ProjectDetail',
     letter: 'api/letter',
     letters: 'api/letters',
 

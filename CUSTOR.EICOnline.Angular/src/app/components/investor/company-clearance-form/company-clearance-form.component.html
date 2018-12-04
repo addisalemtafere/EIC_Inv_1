@@ -55,7 +55,7 @@
         </div>
         <div class="block full-width">
           <div mat-dialog-actions>
-            <button mat-raised-button (click)="onApproveNameOptionTwo()" color="green" type="button">
+            <button mat-raised-button (click)="onApproveNameOptionTwo()" color="primary" type="button">
               {{'common.commands.Approve' | translate}}
             </button>
           </div>
@@ -72,7 +72,7 @@
           </mat-form-field>
         </div>
         <div class="block full-width">
-          <mat-form-field  fxFlex="100" class="full-width">
+          <mat-form-field fxFlex="100" class="full-width">
             <mat-label>Company Name Amharic Option Three</mat-label>
             <input required matInput="" formControlName="CompanyNameThreeAmharic">
             <mat-error *ngIf="companyNameThreeAmharic.hasError('required')">
@@ -81,9 +81,9 @@
           </mat-form-field>
         </div>
         <div class="block full-width">
-            <button mat-raised-button (click)="onApproveNameOptionThree()" color="green" type="button">
-              {{'common.commands.Approve' | translate}}
-            </button>
+          <button mat-raised-button (click)="onApproveNameOptionThree()" color="primary" type="button">
+            {{'common.commands.Approve' | translate}}
+          </button>
         </div>
       </div>
     </div>

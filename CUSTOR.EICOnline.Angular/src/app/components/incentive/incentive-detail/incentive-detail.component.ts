@@ -60,6 +60,8 @@ export class IncentiveDetailComponent implements OnInit {
   public isInvestor: boolean;
   incentiveDetailForm: FormGroup;
   projectId: any;
+  serviceId: any;
+  serviceApplicationId: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -85,6 +87,8 @@ export class IncentiveDetailComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.serviceId = this.activatedRoute.snapshot.params['serviceId'];
+    this.serviceApplicationId = this.activatedRoute.snapshot.params['serviceApplicationId'];
     this.projectId = this.activatedRoute.snapshot.params['projectId'];
     this.route.params
       .subscribe((params: Params) => {
@@ -102,7 +106,7 @@ export class IncentiveDetailComponent implements OnInit {
   }
 
   getLetters() {
-    this.letterService.getLetterLists(localStorage.getItem('ProjectId'))
+    this.letterService.getLetterLists(this.projectId)
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
@@ -153,7 +157,7 @@ export class IncentiveDetailComponent implements OnInit {
     } else {
       this.isVisibleShowBalance = false;
     }
-    this.getIncentiveRequestItemsBytCategoryCode(localStorage.getItem('ProjectId'), categoryCode);
+    this.getIncentiveRequestItemsBytCategoryCode(this.projectId, categoryCode);
   }
 
   getIncentiveCategory() {
@@ -165,15 +169,15 @@ export class IncentiveDetailComponent implements OnInit {
   showBalance() {
     console.log(this.currentCategoryId);
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {
-     // this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
-      this.router.navigate(['bom-balance']);
+      // this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
+      this.router.navigate(['bom-balance/' + this.projectId + '/' + this.serviceApplicationId + '/' + this.serviceId]);
     } else if (this.currentCategoryId == 10777) {
-      this.router.navigate(['sparepart-balance']);
+      this.router.navigate(['sparepart-balance/' + this.projectId + '/' + this.serviceApplicationId]);
     }
   }
 
   showLetter() {
-    this.router.navigate(['letter/' + this.projectId + '/' + this.isForDetail]);
+    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.isForDetail]);
   }
 
   compareIds(id1: any, id2: any): boolean {
