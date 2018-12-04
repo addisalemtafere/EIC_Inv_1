@@ -62,27 +62,32 @@ export class CustomerServiceStarterComponent implements OnInit {
         case 13:
           this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
           break;
-        case 18:
-          this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
-          break;
-        case 19:
-          this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
-          break;
-        case 1023:
-          this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
-          break;
-        case 1027:
-          this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
-          break;
-        case 1028:
-          this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
-          break;
+        // case 18:
+        //   this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
+        //   break;
+        // case 19:
+        //   this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
+        //   break;
+        // case 1023:
+        //   this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
+        //   break;
+        // case 1027:
+        //   this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
+        //   break;
+        // case 1028:
+        //   this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
+        //   break;
         case 1045:
         case 1054:
         case 1046:
         case 1047:
         case 1023:
         case 1236:
+        case 18:
+        case 19:
+        case 1023:
+        case 1027:
+        case 1028:
 
           this.router.navigate(['/investor-project-list/' + serviceId]);
           break;
