@@ -21,6 +21,7 @@ import {ProjectAssociateModel} from '../../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
 import {BussinessService} from '../../../Services/bussiness/bussiness.service';
 import {MajorDivision} from '../../../model/catagory/MajorDivision.model';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-registration-certificate',
@@ -73,7 +74,6 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   generateCertification() {
-    //console.log(this.ServiceApplicationId);
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.getInvestorDetail(this.ServiceApplicationId);
     this.viewCertificate = true;
@@ -99,9 +99,9 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
     window.print();
   }
 
-  getInvestorDetail(id: any){
+  getInvestorDetail(id: any) {
     this.InvestorId = this.route.snapshot.params['InvestorId'];
-    this.bussnesServ.getRegistrationCatagory('2').subscribe(result => {
+    this.bussnesServ.getRegistrationCatagory(this.InvestorId).subscribe(result => {
         this.MajorDivisionList = result;
       }
     );
@@ -183,6 +183,6 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   ngAfterViewChecked() {
-   // this.ServiceApplicationId = localStorage.getItem('ServiceApplicationId');
+    // this.ServiceApplicationId = localStorage.getItem('ServiceApplicationId');
   }
 }

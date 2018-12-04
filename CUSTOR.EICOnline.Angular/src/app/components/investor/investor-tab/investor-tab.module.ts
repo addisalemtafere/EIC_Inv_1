@@ -23,8 +23,8 @@ import {RegistrationModule} from "../../registration/registration.module";
     OfficerModule,
     ServiceConfirmationModule,
     ServiceInfoModule,
-    RegistrationModule
-
+    // RegistrationModule
+  //
 
   ],
   declarations: [
