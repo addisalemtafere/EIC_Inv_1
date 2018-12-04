@@ -264,9 +264,9 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   nextService(projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
 
-    const serviceId = +localStorage.getItem('ServiceId');
-    const investorId = localStorage.getItem('InvestorId');
-
+    const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
+    const investorId = this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
+    console.log(serviceId);
     switch (serviceId) {
       case 13:
         this.router.navigate(['/pro', 0]);

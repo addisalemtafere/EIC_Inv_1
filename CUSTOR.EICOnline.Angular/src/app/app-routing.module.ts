@@ -334,7 +334,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'tax-exemption/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
+        path: 'tax-exemption/:serviceId/:investorId/:ServiceApplicationId/:projectId/:workFlowId',
         loadChildren: 'app/components/incentive/tax-exemption/tax-exemption.module#TaxExemptionModule',
         canActivate: [AuthGuard]
       },
