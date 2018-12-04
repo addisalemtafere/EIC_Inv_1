@@ -34,11 +34,13 @@ export class IncentiveRequestHistoryComponent implements OnInit, OnDestroy, Afte
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
 
   displayedColumns = [
-    'CustomsSiteId','IncentiveCategory', 'Quantity', 'Amount', 'InvoiceNo', 'RequestDate'
+    'CustomsSiteId', 'IncentiveCategory', 'Quantity', 'Amount', 'InvoiceNo', 'RequestDate'
   ];
   subscription: Subscription;
   loadingIndicator: boolean;
   Lookups: LookupsModel[];
+  serviceApplicationId: any;
+  serviceId: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -59,7 +61,11 @@ export class IncentiveRequestHistoryComponent implements OnInit, OnDestroy, Afte
   }
 
   ngOnInit() {
-    this.getIncentiveReaquestItmes(localStorage.getItem('ProjectId'), localStorage.getItem('ServiceApplicationId'));
+    this.serviceId = this.route.snapshot.params['serviceId'];
+    this.projectId = this.route.snapshot.params['projectId'];
+    this.serviceApplicationId = this.route.snapshot.params['serviceApplicationId'];
+
+    this.getIncentiveReaquestItmes(this.projectId, this.serviceApplicationId);
   }
 
   getIncentiveReaquestItmes(projectId, serviceApplicationId) {
@@ -75,7 +81,7 @@ export class IncentiveRequestHistoryComponent implements OnInit, OnDestroy, Afte
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter= filterValue.replace(/[\W_]/g, '');
+    this.dataSource.filter = filterValue.replace(/[\W_]/g, '');
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

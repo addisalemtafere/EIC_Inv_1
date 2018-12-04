@@ -66,6 +66,8 @@ export class BalanceComponent implements OnInit, AfterViewInit {
   showDetail = false;
   private currentCategoryId: any;
   private ServiceApplicationId: any;
+  private ServiceId: any;
+  private ProjectId: any;
   private currentLang: string;
 
   constructor(private billOfMaterilService: BillOfMaterialService,
@@ -89,15 +91,14 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.getUserType();
     this.initForm();
     this.addForm();
-    this.currentCategoryId = this.route.snapshot.params['type'];
-    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    if (this.currentCategoryId === '10778') {
+    // this.currentCategoryId = this.route.snapshot.params['type'];
+     this.ServiceId = this.route.snapshot.params['serviceId'];
+     this.ServiceApplicationId = this.route.snapshot.params['serviceApplicationId'];
+     this.ProjectId = this.route.snapshot.params['projectId'];
+    // if (this.currentCategoryId === '10778') {
       // this.getBillOfMaterial(this.ServiceApplicationId);
-      this.getBillOfMaterial(localStorage.getItem('ProjectId'));
-    }
-    else if (this.currentCategoryId === '10782') {
-
-    }
+      this.getBillOfMaterial(this.ProjectId);
+    // }
     this.initStaticData(this.currentLang);
 
   }
@@ -250,9 +251,9 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     const formData = new FormData();
     console.log(formModel.workFlowId);
     formData.append('Name', formModel.Name);
-    formData.append('ServiceApplicationId', localStorage.getItem('ServiceApplicationId'));
+    formData.append('ServiceApplicationId', this.ServiceApplicationId);
     formData.append('KeyWords', formModel.KeyWords);
-    formData.append('ProjectId', localStorage.getItem('ProjectId'));
+    formData.append('ProjectId', this.ProjectId);
     formData.append('IncentiveCategoryId', this.currentCategoryId);
     return formData;
   }
@@ -279,7 +280,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
 
   UpdateServiceApplication() {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
-      localStorage.getItem('ServiceApplicationId'))
+      this.ServiceApplicationId)
       .subscribe(result => {
         console.log(result);
         this.toast.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
@@ -378,8 +379,8 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.billOfMaterialForm = this.formBuilder.group({
       IncentiveBoMRequestItemId: new FormControl(),
       IncentiveRequestId: 1,
-      ProjectId: localStorage.getItem('ProjectId'),
-      ServiceApplicationId: localStorage.getItem('ServiceApplicationId'),
+      ProjectId: this.ProjectId,
+      ServiceApplicationId: this.ServiceApplicationId,
       Description: new FormControl(),
       HsCode: new FormControl(),
       Quantity: new FormControl(),

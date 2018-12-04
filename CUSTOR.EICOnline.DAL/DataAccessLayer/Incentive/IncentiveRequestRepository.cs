@@ -89,6 +89,7 @@ namespace CUSTOR.EICOnline.DAL
         public Task<List<IncentiveRequest>> GetIncentiveRequestsByServiceAppId(int id, int page = 0, int pageSize = 15)
         {
             IQueryable<IncentiveRequest> IncentiveRequests = Context.IncentiveRequest
+              //  .Include(In => In.IncentiveRequestItem)
                 .Where(Ince => Ince.ServiceApplicationId == id);
             if (page > 0)
             {

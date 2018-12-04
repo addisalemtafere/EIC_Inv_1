@@ -47,13 +47,16 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   IncentiveItemtEditIndex: number;
   // showCategoryDropdown = false;
   currentCategoryId: number;
+  serviceId: any;
+  serviceApplicationId: any;
+  phaseId: any;
   parentRequestId: number;
   isBOMRequired: boolean;
   isVisibleShowBalance: boolean;
   currentBOMTableId: number;
   preEditApprovedBalance = 0;
   displayedColumns = [
-    'IncentiveItem', 'Quantity', 'Amount','RequestDate', 'Action'
+    'IncentiveItem', 'Quantity', 'Amount', 'RequestDate', 'Action'
   ];
   subscription: Subscription;
   formErrors = {
@@ -98,7 +101,8 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
               public settingService: ApplicationSettingService,
               private lookUpsService: LookUpService,
               private config: AppConfiguration,
-              private IncentiveRequestItemService: IncentiveRequestDetailService, private errMsg: ErrorMessage,
+              private IncentiveRequestItemService: IncentiveRequestDetailService,
+              private errMsg: ErrorMessage,
               private toastr: ToastrService,
               public dialog: MatDialog,
               private fb: FormBuilder) {
@@ -108,7 +112,57 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     this.initStaticData('en');
   }
 
+  get bOMIncentiveItemId() {
+    return this.incentiveRequestItemForm.get('BOMIncentiveItemId');
+  }
 
+  get incentiveItemId() {
+    return this.incentiveRequestItemForm.get('IncentiveItemId');
+  }
+
+  get quantity() {
+    return this.incentiveRequestItemForm.get('Quantity');
+  }
+
+  get approvedQty() {
+    return this.incentiveRequestItemForm.get('ApprovedQty');
+  }
+
+  get amount() {
+    return this.incentiveRequestItemForm.get('Amount');
+  }
+
+  get currencyType() {
+    return this.incentiveRequestItemForm.get('CurrencyType');
+  }
+
+  get requestDate() {
+    return this.incentiveRequestItemForm.get('RequestDate');
+  }
+
+  get exRate() {
+    return this.incentiveRequestItemForm.get('ExRate');
+  }
+
+  get chassisNo() {
+    return this.incentiveRequestItemForm.get('ChassisNo');
+  }
+
+  get motorNo() {
+    return this.incentiveRequestItemForm.get('MotorNo');
+  }
+
+  get description() {
+    return this.incentiveRequestItemForm.get('Description');
+  }
+
+  get balance() {
+    return this.incentiveRequestItemForm.get('Balance');
+  }
+
+  get measurementUnit() {
+    return this.incentiveRequestItemForm.get('MeasurementUnit');
+  }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -127,6 +181,9 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     //  Protected one BoM item to be added in the same installmnet
     // to-do get Currency Deatils from the parent record
     this.currentCategoryId = this.activatedRoute.snapshot.params['categoryId'];
+    this.serviceApplicationId = this.activatedRoute.snapshot.params['serviceApplicationId'];
+    this.serviceId = this.activatedRoute.snapshot.params['serviceId'];
+    this.phaseId = this.activatedRoute.snapshot.params['Phase'];
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782 || this.currentCategoryId == 10777) {
       this.isVisibleShowBalance = true;
     }
@@ -135,7 +192,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
 
     if (this.isBOMRequired) { // get items from BOM table
       this.projectId = this.activatedRoute.snapshot.params['projectId'];
-      this.getBOMItems(this.projectId, this.currentCategoryId);
+      this.getBOMItems(this.projectId, this.currentCategoryId, this.phaseId);
     } else { // get items from lookup table
       this.filterIncentiveCategory(this.currentCategoryId);
     }
@@ -193,9 +250,9 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     }
   }
 
-  getBOMItems(pId: any, categoryId: any) {
+  getBOMItems(pId: any, categoryId: any, Phase: any) {
     // to-do remove the hard coded value
-    this.IncentiveRequestItemService.getIncentiveBoMRequestDetails(pId, categoryId)
+    this.IncentiveRequestItemService.getIncentiveBoMRequestDetails(pId, categoryId, Phase)
       .subscribe((items) => {
         this.BOMItems = items;
         console.log(items);
@@ -262,7 +319,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   }
 
   getIncentiveRequestItems(parentRequestId) {
-    this.IncentiveRequestItemService.getIncentiveRequestDetails(parentRequestId).subscribe(result => {
+    this.IncentiveRequestItemService.getIncentiveRequestItemslist(parentRequestId).subscribe(result => {
       if (result.length > 0) {
         this.items = result;
         console.log(this.items);
@@ -307,7 +364,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       IncentiveItemId: this.itemDetail.IncentiveItemId,
       MeasurementUnit: this.itemDetail.MeasurementUnit || '',
       Amount: this.itemDetail.Amount,
-      CurrencyType: this.itemDetail.CurrencyType,
+      //CurrencyType: this.itemDetail.CurrencyType,
       RequestDate: this.itemDetail.RequestDate,
       ChassisNo: this.itemDetail.ChassisNo,
       MotorNo: this.itemDetail.MotorNo,
@@ -315,7 +372,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       Quantity: this.itemDetail.Quantity == null ? 0 : this.itemDetail.Quantity,
       ApprovedQty: this.itemDetail.ApprovedQty == null ? 0 : this.itemDetail.ApprovedQty,
       Balance: this.itemDetail.Balance,
-      ExRate: this.itemDetail.CurrencyRate,
+      // ExRate: this.itemDetail.CurrencyRate,
       BOMIncentiveItemId: this.itemDetail.IncentiveItemId,
     });
     // console.log(this.IncentiveRequestDetailModel);
@@ -519,9 +576,9 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   showBalance() {
     console.log(this.currentCategoryId);
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {
-      this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
+      this.router.navigate(['bom-balance/'+ this.projectId +  '/' + this.serviceApplicationId + '/' + this.serviceId ]);
     } else if (this.currentCategoryId == 10777) {
-      this.router.navigate(['sparepart-balance']);
+      this.router.navigate(['sparepart-balance/' + this.projectId + '/' + this.serviceApplicationId]);
     }
   }
 
@@ -535,6 +592,11 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
 
     // window.history.back();
   }
+
+  // getIncentiveCategory() {
+  //   this.lookUpTypeService.getLookupByParentId().subscribe(result => {
+  //     this.IncentiveCategoryLookup = result;
+  //   });
 
   private handleError(err) {
     this.loadingIndicator = false;
@@ -562,61 +624,5 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       Balance: this.getNewBalance(formModel.Balance, formModel.ApprovedQty),
       MeasurementUnit: formModel.MeasurementUnit
     };
-  }
-
-  get bOMIncentiveItemId() {
-    return this.incentiveRequestItemForm.get('BOMIncentiveItemId');
-  }
-
-  get incentiveItemId() {
-    return this.incentiveRequestItemForm.get('IncentiveItemId');
-  }
-
-  get quantity() {
-    return this.incentiveRequestItemForm.get('Quantity');
-  }
-
-  get approvedQty() {
-    return this.incentiveRequestItemForm.get('ApprovedQty');
-  }
-
-  get amount() {
-    return this.incentiveRequestItemForm.get('Amount');
-  }
-
-  get currencyType() {
-    return this.incentiveRequestItemForm.get('CurrencyType');
-  }
-  get requestDate() {
-    return this.incentiveRequestItemForm.get('RequestDate');
-  }
-
-  get exRate() {
-    return this.incentiveRequestItemForm.get('ExRate');
-  }
-
-  get chassisNo() {
-    return this.incentiveRequestItemForm.get('ChassisNo');
-  }
-
-  get motorNo() {
-    return this.incentiveRequestItemForm.get('MotorNo');
-  }
-
-  get description() {
-    return this.incentiveRequestItemForm.get('Description');
-  }
-
-  // getIncentiveCategory() {
-  //   this.lookUpTypeService.getLookupByParentId().subscribe(result => {
-  //     this.IncentiveCategoryLookup = result;
-  //   });
-
-  get balance() {
-    return this.incentiveRequestItemForm.get('Balance');
-  }
-
-  get measurementUnit() {
-    return this.incentiveRequestItemForm.get('MeasurementUnit');
   }
 }

@@ -1,0 +1,86 @@
+<form formGroup="incentiveDetailForm">
+  <div fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em">
+    <!--<div class="block" fxLayoutGap="2em">-->
+    <div style="padding: 10px">
+      <mat-form-field style="width: 150px">
+        <mat-label>{{'incentiverequest.IncentiveCategory' | translate}}</mat-label>
+        <mat-select formControlName="IncentiveCategoryId" style="font-family: Calibri" type="text"
+                    (selectionChange)="filterIncentiveCategory($event.value)"
+                    [compareWith]="compareIds" required>
+          <option value="0">--Select--</option>
+          <mat-option *ngFor="let IncentiveCate of IncentiveCategoryLookup" [value]="IncentiveCate.LookUpTypeId">
+            <span>{{IncentiveCate.Description}}</span>
+          </mat-option>
+        </mat-select>
+        <!--<mat-error *ngIf="IncentiveCategoryId.hasError('required')">-->
+        <!--{{'common.validation.Required' | translate}}-->
+        <!--</mat-error>-->
+      </mat-form-field>
+    </div>
+    <div style="padding: 10px">
+      <button color="primary" mat-raised-button="" (click)="showLetter()">
+        Show Letter
+      </button>
+    </div>
+    <div style="padding: 10px">
+        <span *ngIf="isVisibleShowBalance">
+        <button color="primary" mat-raised-button="" (click)="showBalance()">
+          Show Balance
+        </button>
+          <!--</div>-->
+          </span>
+    </div>
+  </div>
+
+  <!--<span ngif="ShowItemDetails">-->
+</form>
+<mat-card class="margin-2 padding-0">
+  <div class="search-box" style="width: 500px">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search requested item">
+    </mat-form-field>
+  </div>
+  <!-- <mat-card-header>
+    <mat-card-subtitle class="sub-title">List of Requested Items
+    </mat-card-subtitle>
+  </mat-card-header> -->
+  <mat-card-content>
+    <div class="spinner-container" *ngIf="loading ">
+      <mat-progress-bar mode="query"></mat-progress-bar>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="No">
+        <mat-header-cell [fxFlex]="6" *matHeaderCellDef>No</mat-header-cell>
+        <mat-cell [fxFlex]="6" *matCellDef="let itemList;let i=index;">
+          {{i+1}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="IncentiveItem">
+        <mat-header-cell *matHeaderCellDef fxFlex="28">Incentive Item</mat-header-cell>
+        <mat-cell *matCellDef="let items" fxFlex="28"> {{items.Description}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Quantity">
+        <mat-header-cell *matHeaderCellDef fxFlex="14">Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let items" fxFlex="14">{{items.Quantity }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Amount">
+        <mat-header-cell *matHeaderCellDef fxFlex="14"> Amount</mat-header-cell>
+        <mat-cell *matCellDef="let items" fxFlex="14"> {{items.Amount }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="RequestDate">
+        <mat-header-cell *matHeaderCellDef fxFlex="14"> Request Date</mat-header-cell>
+        <mat-cell *matCellDef="let items" fxFlex="14"> {{items.RequestDate | date:'MM/dd/yyyy' }}
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns">
+      </mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5,10, 25, 100]"></mat-paginator>
+  </mat-card-content>
+</mat-card>

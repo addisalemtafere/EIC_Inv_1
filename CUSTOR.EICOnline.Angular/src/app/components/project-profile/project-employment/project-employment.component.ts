@@ -41,6 +41,9 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   public ServiceId: string;
   public projectStatus: ProjectStatusModel[] = [];
   public Quarter: QuarterModel[] = [];
+  private InvestorId: any;
+  private workFlowId: any;
+  private ServiceApplicationId: any;
 
   constructor(private formBuilder: FormBuilder,
               public formService: FormService,
@@ -56,22 +59,25 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    this.ServiceId = localStorage.getItem('ServiceId');
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
-    this.formBuild();
+
     if (this.ServiceId === '1234') {
-      this.getProjectStatus(+localStorage.getItem('ProjectId'));
+      this.getProjectStatus(this.route.snapshot.params['ProjectId']);
     }
     this.initStaticData('en');
 
     this.route.params
       .subscribe((params: Params) => {
         this.projectId = +params['id'];
-        console.log(this.projectId);
         if (this.projectId > 1) {
           this.getEmployment();
         }
       });
+    this.formBuild();
   }
 
   getEmployment() {
@@ -107,8 +113,8 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
 
   formBuild() {
     this.employmetForm = this.formBuilder.group({
-      ProjectId: [''],
-      workFlowId: [''],
+      ProjectId: [this.projectId],
+      workFlowId: [this.workFlowId],
       PermanentFemale: ['', [Validators.required, Validators.min(0)]],
       PermanentMale: ['', [Validators.required, Validators.min(0)]],
       TemporaryFemale: ['', [Validators.required, Validators.min(0)]],
@@ -145,10 +151,10 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    this.employmetForm.patchValue({
-      ProjectId: localStorage.getItem('ProjectId'),
-      workFlowId: localStorage.getItem('workFlowId')
-    });
+    // this.employmetForm.patchValue({
+    //   ProjectId: localStorage.getItem('ProjectId'),
+    //   workFlowId: localStorage.getItem('workFlowId')
+    // });
   }
 
   next() {
@@ -164,13 +170,21 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
 
     let projectStatus1: ProjectStatusModel = new ProjectStatusModel();
     ProjectStatus.forEach(pair => {
-      projectStatus1 = {'Id': pair.Id.toString(), 'DescriptionEnglish': pair.DescriptionEnglish, 'Description': pair.Description};
+      projectStatus1 = {
+        'Id': pair.Id.toString(),
+        'DescriptionEnglish': pair.DescriptionEnglish,
+        'Description': pair.Description
+      };
       this.projectStatus.push(projectStatus1);
     });
 
     let Quarter1: QuarterModel = new QuarterModel();
     Quarter.forEach(pair => {
-      Quarter1 = {'Id': pair.Id.toString(), 'DescriptionEnglish': pair.DescriptionEnglish, 'Description': pair.Description};
+      Quarter1 = {
+        'Id': pair.Id.toString(),
+        'DescriptionEnglish': pair.DescriptionEnglish,
+        'Description': pair.Description
+      };
       this.Quarter.push(Quarter1);
     });
 

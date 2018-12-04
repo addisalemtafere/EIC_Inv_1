@@ -40,6 +40,10 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   private ProjectAssociateId: number;
   public associate: ProjectAssociateModel;
   public associateIdList: number[] = [];
+  private ServiceId: any;
+  private InvestorId: any;
+  private workFlowId: any;
+  private ServiceApplicationId: any;
 
   constructor(private formBuilder: FormBuilder,
               public route: ActivatedRoute,
@@ -56,7 +60,12 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    this.formBuild();
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+
+
     this.getAllAssociate();
     // this.getAssociateByProject();
 
@@ -67,6 +76,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
           this.getAssociateByProject();
         }
       });
+    this.formBuild();
   }
 
   getAssociateByProject() {
@@ -112,10 +122,11 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   }
 
   formBuild() {
+    console.log(this.projectId);
     this.projectAssForm = this.formBuilder.group({
-      ProjectId: new FormControl(['']),
+      ProjectId: new FormControl(this.projectId),
       ProjectAssociateId: new FormControl(['']),
-      workFlowId: new FormControl(['']),
+      workFlowId: new FormControl(this.workFlowId),
       AssociateId: new FormControl(null),
       // Postion: new FormControl('', [Validators.required]),
 
@@ -167,12 +178,12 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
 
 
   ngAfterContentChecked(): void {
-    this.projectAssForm.patchValue({
-      ProjectId: localStorage.getItem('ProjectId')
-    });
-    this.projectAssForm.patchValue({
-      workFlowId: localStorage.getItem('workFlowId')
-    });
+    // this.projectAssForm.patchValue({
+    //   ProjectId: localStorage.getItem('ProjectId')
+    // });
+    // this.projectAssForm.patchValue({
+    //   workFlowId: localStorage.getItem('workFlowId')
+    // });
   }
 
   onMangerControlChanged($event, data?: AssociateModel) {
@@ -206,11 +217,11 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   }
 
   newAssociate() {
-    this.router.navigate(['associate/form/0']);
+    this.router.navigate(['associate/form/0/2']);
   }
   UpdateServiceApplication() {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
-      localStorage.getItem('ServiceApplicationId'))
+      this.ServiceApplicationId)
       .subscribe(result => {
         console.log(result);
         this.toastr.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');

@@ -11,7 +11,7 @@ import {TodoTaskModel} from './TodoTask.model';
 
 export class ServiceApplicationModel {
   public ServiceApplicationId: string;
-  public ProjectId: string;
+  public ProjectId: any;
   public InvestorId: string;
   public ServiceId: any;
   public TodoTaskId: string;

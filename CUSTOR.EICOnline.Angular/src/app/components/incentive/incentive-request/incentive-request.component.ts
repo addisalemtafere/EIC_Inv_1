@@ -19,6 +19,8 @@ import {IncentiveRequestModel} from '../../../model/IncentiveRequest.model';
 import {ApplicationSettingService} from '../../../Services/application-setting.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
 import {AccountService} from '@custor/services/security/account.service';
+import {IncentiveRequestDetailService} from './requested-items-list/requested-items-list.service';
+import {IncentiveBoMRequestItemModel} from '../../../model/incentive/IncentiveBoMRequestItem.model';
 
 @Component({
   selector: 'app-incentive-request',
@@ -28,7 +30,7 @@ import {AccountService} from '@custor/services/security/account.service';
 export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterContentChecked {
   @ViewChild('form')
 
-  incentiveRequestItemSub: Subscription;
+  incentiveRequestSub: Subscription;
   lookupSub: Subscription;
   title: string;
   isNewIncentiveRequestItem = false;
@@ -66,9 +68,13 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   hasManyDetial = false;
   showPhase = false;
   PhaseLookups: LookupsModel[];
+  public isInvestor: boolean;
+  BOMItems: IncentiveBoMRequestItemModel[] = [];
   private form: NgForm;
   private ExchangeRate: string;
-  public isInvestor: boolean;
+  private ProjectId: any;
+  private ServiceApplicationId: any;
+  private ServiceId: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -81,7 +87,8 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
               public dialog: MatDialog,
               public accountService: AccountService,
               public settingService: ApplicationSettingService,
-              private IncentiveRequestItemService: IncentiveRequestService, private errMsg: ErrorMessage,
+              private IncentiveRequestItemService: IncentiveRequestDetailService,
+              private IncentiveRequestService: IncentiveRequestService, private errMsg: ErrorMessage,
               private toastr: ToastrService,
               private fb: FormBuilder) {
     this.IncentiveRequestModel = <IncentiveRequestModel>{};
@@ -90,20 +97,50 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.initStaticData('en');
   }
 
+
+  get quantity() {
+    return this.incentiveRequestItemForm.get('Quantity');
+  }
+
+  get CustomsSiteId() {
+    return this.incentiveRequestItemForm.get('CustomsSiteId');
+  }
+
+  get amount() {
+    return this.incentiveRequestItemForm.get('Amount');
+  }
+
+  get currencyType() {
+    return this.incentiveRequestItemForm.get('CurrencyType');
+  }
+
+  get RequestDate() {
+    return this.incentiveRequestItemForm.get('RequestDate');
+  }
+
+  get Quantity() {
+    return this.incentiveRequestItemForm.get('Quantity');
+  }
+
+  get Amount() {
+    return this.incentiveRequestItemForm.get('Amount');
+  }
+
+  get CurrencyType() {
+    return this.incentiveRequestItemForm.get('CurrencyType');
+  }
+
+  get InvoiceNo() {
+    return this.incentiveRequestItemForm.get('InvoiceNo');
+  }
+
+  get Phase() {
+    return this.incentiveRequestItemForm.get('Phase');
+  }
+
   get IncentiveCategoryId() {
     return this.incentiveRequestItemForm.get('IncentiveCategoryId');
   }
-
-  // getItemLookup(categoryCode: any) {
-  //   this.loadingIndicator = true;
-  //   this.lookupSub = this.lookUpsService
-  //     .getLookupByParentId(categoryCode)
-  //     .subscribe(result => {
-  //         this.filterLookups = result;
-  //         // this.filterIncentiveCategory(this.IncentiveRequestModel.IncentiveCategoryId);
-  //       },
-  //       error => this.toastr.error(this.errMsg.getError(error)));
-  // }
 
   ngOnInit() {
     this.initForm();
@@ -113,12 +150,16 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.getLookup();
     this.getUserType();
     const id = this.activatedRoute.snapshot.params['id'];
+    this.ServiceApplicationId = this.activatedRoute.snapshot.params['ServiceApplicationId'];
+    this.ServiceId = this.activatedRoute.snapshot.params['ServiceId'];
+    this.ProjectId = this.activatedRoute.snapshot.params['ProjectId'];
+
     this.route.params
       .subscribe((params: Params) => {
         // this.projectId = +params['id'];
         // if (16107 > 1) {
-        this.getIncentiveReaquestItmes(localStorage.getItem('ProjectId'), localStorage.getItem('ServiceApplicationId'));
-        this.getIncentiveReaquestItmesByServiceAppId(localStorage.getItem('ServiceApplicationId'));
+        this.getIncentiveReaquestItmes(this.ProjectId, this.ServiceApplicationId);
+        this.getIncentiveReaquestItmesByServiceAppId(this.ServiceApplicationId);
         // }
       });
   }
@@ -145,7 +186,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.incentiveRequestItemForm.reset();
     this.incentiveRequestItemForm.patchValue({
       ExchangeRate: this.ExchangeRate,
-      RequestDate:new Date()
+      RequestDate: new Date()
     });
     this.isNewIncentiveRequestItem = true;
   }
@@ -167,7 +208,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   getIncentiveReaquestItmesByServiceAppId(ServiceApplicationId) {
-    this.IncentiveRequestItemService.getIncentiveRequestByServiceApplicationId(ServiceApplicationId).subscribe(result => {
+    this.IncentiveRequestService.getIncentiveRequestByServiceApplicationId(ServiceApplicationId).subscribe(result => {
       if (result.length > 0) {
         this.IncentiveRequestModels = result;
         this.dataSource = new MatTableDataSource<IncentiveRequestModel>(this.IncentiveRequestModels);
@@ -177,7 +218,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   getIncentiveReaquestItmes(projectId, serviceApplicationId) {
-    this.IncentiveRequestItemService.getIncentiveRequestslist(projectId, serviceApplicationId).subscribe(result => {
+    this.IncentiveRequestService.getIncentiveRequestslist(projectId, serviceApplicationId).subscribe(result => {
       if (result.length > 1) {
         this.hasManyDetial = true;
       }
@@ -200,7 +241,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   getIncentiveRequestItem(id) {
     this.isNewIncentiveRequestItem = false;
     this.loadingIndicator = true;
-    this.incentiveRequestItemSub = this.IncentiveRequestItemService
+    this.incentiveRequestSub = this.IncentiveRequestService
       .getIncentiveRequest(id)
       .subscribe(result => {
           this.IncentiveRequestModel = result;
@@ -261,7 +302,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       return;
     } else {
       this.loadingIndicator = true;
-      return this.IncentiveRequestItemService.saveIncentiveRequest(
+      return this.IncentiveRequestService.saveIncentiveRequest(
         this.getEditedIncentiveItem()).subscribe((incentiveRequestModel: IncentiveRequestModel) => {
           this.saveCompleted(incentiveRequestModel);
         },
@@ -282,7 +323,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       this.toastr.error(' Requested quantity can not be 0');
       return true;
     }
-    if (this.CustomsSiteId.value === 0 || this.CustomsSiteId.value === null) {
+    if (this.CustomsSiteId.value === 0 || this.CustomsSiteId.value === null || this.CustomsSiteId.value === undefined) {
       this.toastr.error('Please Select Customs Site');
       return true;
     }
@@ -302,10 +343,23 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       this.toastr.error('Please Enter Amount');
       return true;
     }
-    if (this.incentiveRequestItemForm.get('IncentiveCategoryId').toString() === '10778' || this.incentiveRequestItemForm.get('IncentiveCategoryId').toString() === '10782') {
-      if (this.Phase.value === 0 || this.Phase.value === null) {
-        this.toastr.error('Please Enter Incentive Request Phase Number');
+
+    if (this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10778' || this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10782') {
+
+      if (this.Phase.value == 0 || this.Phase.value == null) {
+        this.toastr.error('Please Enter Incentive Request Batch Number');
         return true;
+      }
+      if (this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10778') {
+        this.IncentiveRequestItemService
+          .getIncentiveBoMRequestDetails(this.ProjectId, this.incentiveRequestItemForm.get('IncentiveCategoryId').value, this.incentiveRequestItemForm.get('Phase').value)
+          .subscribe((items) => {
+            this.BOMItems = items;
+            if (this.BOMItems.length == 0) {
+              this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
+              return true;
+            }
+          });//TODO Validation Jump
       }
     }
   }
@@ -321,7 +375,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.confirmDialogRef.afterClosed().subscribe(result => {
       this.loadingIndicator = true;
       if (result) {
-        this.IncentiveRequestItemService.deleteIncentiveRequest(id)
+        this.IncentiveRequestService.deleteIncentiveRequest(id)
           .subscribe(() => {
             this.notification('Deleted');
             this.IncentiveRequestModels.splice(index, 1);
@@ -331,6 +385,17 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       this.loadingIndicator = false;
     });
   }
+
+  // getItemLookup(categoryCode: any) {
+  //   this.loadingIndicator = true;
+  //   this.lookupSub = this.lookUpsService
+  //     .getLookupByParentId(categoryCode)
+  //     .subscribe(result => {
+  //         this.filterLookups = result;
+  //         // this.filterIncentiveCategory(this.IncentiveRequestModel.IncentiveCategoryId);
+  //       },
+  //       error => this.toastr.error(this.errMsg.getError(error)));
+  // }
 
   notification(message: string) {
     this.loading = false;
@@ -360,19 +425,34 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     console.log(inRequest);
     this.router.navigate(['/requested-items-list/' +
     inRequest.IncentiveCategoryId + '/' + inRequest.ProjectId + '/' +
-    inRequest.IncentiveRequestId + '/' + inRequest.Quantity + '/' + inRequest.CurrencyType + '/' + inRequest.CurrencyRate + '/' + inRequest.Phase]);
+    inRequest.IncentiveRequestId + '/' + inRequest.Quantity + '/' + inRequest.CurrencyType + '/' + inRequest.CurrencyRate + '/' + inRequest.Phase + '/' + this.ServiceApplicationId + '/' + this.ServiceId]);
 
   }
 
   viewDetail() {
-    this.router.navigate(['/incentive-request-history']);
+    this.router.navigate(['/incentive-request-history/' + this.ProjectId + '/' + this.ServiceApplicationId + '/' + this.ServiceId]);
+  }
+
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
+
+  filterIncentiveCategory(categoryCode: number) {
+    if (!categoryCode) {
+      return;
+    }
+    if (categoryCode === 10778 || categoryCode === 10782) {
+      this.showPhase = true;
+    } else {
+      this.showPhase = false;
+    }
   }
 
   private saveCompleted(incentiveRequestModel?: IncentiveRequestModel) {
     if (incentiveRequestModel) {
       this.IncentiveRequestModel = incentiveRequestModel;
-      // this.getIncentiveReaquestItmes(localStorage.getItem('ProjectId'));
-      this.getIncentiveReaquestItmesByServiceAppId(localStorage.getItem('ServiceApplicationId'));
+      // this.getIncentiveReaquestItmes(this.ProjectId);
+      this.getIncentiveReaquestItmesByServiceAppId(this.ServiceApplicationId);
     }
     this.onClear();
     this.loadingIndicator = false;
@@ -398,62 +478,8 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       RequestDate: formModel.RequestDate,
       InvoiceNo: formModel.InvoiceNo,
       Phase: formModel.Phase,
-      ProjectId: localStorage.getItem('ProjectId'),
-      ServiceApplicationId: localStorage.getItem('ServiceApplicationId')
+      ProjectId: this.ProjectId,
+      ServiceApplicationId: this.ServiceApplicationId
     };
   }
-  getUserType() {
-    this.isInvestor = this.accountService.getUserType();
-  }
-  get quantity() {
-    return this.incentiveRequestItemForm.get('Quantity');
-  }
-
-  get CustomsSiteId() {
-    return this.incentiveRequestItemForm.get('CustomsSiteId');
-  }
-
-  get amount() {
-    return this.incentiveRequestItemForm.get('Amount');
-  }
-
-  get currencyType() {
-    return this.incentiveRequestItemForm.get('CurrencyType');
-  }
-
-  get RequestDate() {
-    return this.incentiveRequestItemForm.get('RequestDate');
-  }
-
-  get Quantity() {
-    return this.incentiveRequestItemForm.get('Quantity');
-  }
-
-  get Amount() {
-    return this.incentiveRequestItemForm.get('Amount');
-  }
-
-  get CurrencyType() {
-    return this.incentiveRequestItemForm.get('CurrencyType');
-  }
-
-  get InvoiceNo() {
-    return this.incentiveRequestItemForm.get('InvoiceNo');
-  }
-
-  get Phase() {
-    return this.incentiveRequestItemForm.get('Phase');
-  }
-
-  filterIncentiveCategory(categoryCode: number) {
-    if (!categoryCode) {
-      return;
-    }
-    if (categoryCode === 10778 || categoryCode === 10782) {
-      this.showPhase = true;
-    } else {
-      this.showPhase = false;
-    }
-  }
-
 }

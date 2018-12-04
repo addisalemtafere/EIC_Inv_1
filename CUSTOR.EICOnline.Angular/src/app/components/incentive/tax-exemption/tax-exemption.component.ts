@@ -49,6 +49,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   private form: NgForm;
   private ServiceApplicationId: number;
   private setSelectedValue: string;
+  private ProjectId: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -96,8 +97,10 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   // }
 
   ngOnInit() {
-    this.getTaxExemptionList(localStorage.getItem('ProjectId'));
-    this.getTaxExemptionYear(localStorage.getItem('ProjectId'));
+    this.ProjectId = this.route.snapshot.params['projectId'];
+
+    this.getTaxExemptionList(this.ProjectId);
+    this.getTaxExemptionYear(this.ProjectId);
     this.initForm();
     this.getItemLookup();
     this.isNewTaxExemption = true;
@@ -183,11 +186,11 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   hasValidationErrors() {
-    if (this.RevenueBranch.value === 0 || this.RevenueBranch.value === null) {
+    if (this.RevenueBranch.value == 0 || this.RevenueBranch.value == null || this.RevenueBranch.value == undefined) {
       this.toastr.error('Please Select Revenue Branch');
       return true;
     }
-    if (this.RequestDate.value === 0 || this.RequestDate.value === null) {
+    if (this.RequestDate.value == 0 || this.RequestDate.value == null || this.RequestDate.value == undefined) {
       this.toastr.error('Please Select Request Date');
       return true;
     }
@@ -199,36 +202,37 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
     }
     else {
       if (this.editMode === false) {
-        this.projectProfileService.ProjectsDetail(+localStorage.getItem('ProjectId')).subscribe(result => {
-          if (result.BusinessLicenseNo === null) {
+        this.projectProfileService.ProjectsDetail(+this.ProjectId).subscribe(result => {
+          if (result.BusinessLicenseNo == null) {
             this.existanceNotification('The Project Does not Have Business License');
             return;
           }
+          else if (this.TaxExemptionModels.length > 0 && this.isNewTaxExemption) {
+            this.existanceNotification('Tax Exemption Incentive Already Given');
+            return;
+          }
+          else {
+            this.doSaveExemption();
+          }
         }, error => this.errMsg.getError(error));
 
-        if (this.TaxExemptionModels.length > 0 && this.isNewTaxExemption) {
-          this.existanceNotification('Tax Exemption Incentive Already Given');
-          return;
-        }
+
+      } else {
+        this.doSaveExemption();
       }
+      //TODO  Jumped Validators
       this.loadingIndicator = true;
-      return this.taxExemptionService.saveTaxExemption(
-        this.getEditedTaxExemption()).subscribe((taxExemptionModel: TaxExemptionModel) => {
-          this.saveCompleted(taxExemptionModel);
-        },
-        err => this.handleError(err));
+
     }
   }
-
 
   onEditTaxExemption(index: number) {
     this.editMode = true;
     this.TaxexemptiontEditIndex = index;
     this.TaxExemptionModel = this.TaxExemptionModels[index];
     this.taxexemptionForm.patchValue(this.TaxExemptionModel);
-    this.isNewTaxExemption=false;
+    this.isNewTaxExemption = false;
   }
-
 
   deleteTaxExemption(index: number, id: number) {
     this.confirmDialogRef = this.dialog.open(AngConfirmDialogComponent,
@@ -259,7 +263,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
     this.taxexemptionForm.patchValue({
       ServiceId: localStorage.getItem('ServiceId'),
       InvestorId: localStorage.getItem('InvestorId'),
-      ProjectId: localStorage.getItem('ProjectId'),
+      ProjectId: this.ProjectId,
     });
   }
 
@@ -290,11 +294,19 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
     window.history.back();
   }
 
+  private doSaveExemption() {
+    this.taxExemptionService.saveTaxExemption(
+      this.getEditedTaxExemption()).subscribe((taxExemptionModel: TaxExemptionModel) => {
+        this.saveCompleted(taxExemptionModel);
+      },
+      err => this.handleError(err));
+  }
+
   private saveCompleted(taxExemptionModel?: TaxExemptionModel) {
     if (taxExemptionModel) {
       this.TaxExemptionModel = taxExemptionModel;
       localStorage.setItem('IncentiveTaxExemptionRequestID', this.TaxExemptionModel.IncentiveTaxExemptionRequestID.toString());
-      this.getTaxExemptionList(localStorage.getItem('ProjectId'));
+      this.getTaxExemptionList(this.ProjectId);
     }
     this.onClear();
     this.loadingIndicator = false;
@@ -315,7 +327,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
       RevenueBranchDescription: this.setSelectedValue,
       RequestDate: formModel.RequestDate,
       ExemptionYearRequested: this.ExemptionYear,
-      ProjectId: +localStorage.getItem('ProjectId')
+      ProjectId: +this.ProjectId
     };
   }
 }

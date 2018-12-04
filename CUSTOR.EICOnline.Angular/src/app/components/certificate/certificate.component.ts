@@ -19,13 +19,14 @@ import {ServiceApplicationService} from '../../Services/service-application.serv
 import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-certificate',
   templateUrl: './certificate.component.html',
   styleUrls: ['./certificate.component.scss']
 })
-export class CertificateComponent implements OnInit, AfterViewChecked {
+export class CertificateComponent implements OnInit {
   date: any;
   investorDetailList: ServiceApplicationModel;
   investorAddressList: any;
@@ -38,10 +39,14 @@ export class CertificateComponent implements OnInit, AfterViewChecked {
   lookup: Lookup;
   projectCostTotal: number;
   public manager: ProjectAssociateModel[];
+  private ServiceId: any;
+  private InvestorId: any;
+  private workFlowId: any;
 
   constructor(public certificateService: CertificateService,
               private projecAssService: ProjectAssociateService,
               public errMsg: ErrorMessage,
+              public route: ActivatedRoute,
               public projectService: ProjectProfileService,
               public serviceApplication: ServiceApplicationService,
               public dialog: MatDialog,
@@ -54,7 +59,11 @@ export class CertificateComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    console.log('lazy or eager');
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+
     this.getDate();
   }
 
@@ -173,7 +182,4 @@ export class CertificateComponent implements OnInit, AfterViewChecked {
       });
   }
 
-  ngAfterViewChecked() {
-    this.ServiceApplicationId = localStorage.getItem('ServiceApplicationId');
-  }
 }

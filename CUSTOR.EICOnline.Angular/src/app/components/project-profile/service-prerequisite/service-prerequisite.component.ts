@@ -1,4 +1,13 @@
-import {AfterContentChecked, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+﻿import {
+  AfterContentChecked,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {PreRequisiteDocumentService} from '../../../Services/pre-requisite-document.service';
@@ -14,6 +23,7 @@ import {ErrorMessage} from '@custor/services/errMessageService';
 import {InvestorService} from '../../investor/investor.service';
 import {Investor} from '../../../model/investor';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-service-prerequisite',
@@ -51,12 +61,17 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   legalStatus: any;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  private ServiceId: any;
+  private InvestorId: any;
+  private workFlowId: any;
+  private ServiceApplicationId: any;
 
   constructor(public snackbar: MatSnackBar,
               public dialog: MatDialog,
               private investorService: InvestorService,
               public toast: ToastrService,
               public errMsg: ErrorMessage,
+              public route: ActivatedRoute,
               public userActivityDataServices: UserActivityDataServices,
               public dataSharing: DataSharingService,
               public serviceApplicationsServices: ServiceapplicationService,
@@ -67,21 +82,22 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
   ngOnInit(): void {
     this.servicePreList = [];
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+
     this.createForm();
-    this.documentForm.patchValue({
-      ServiceApplicationId: localStorage.getItem('ServiceApplicationId')
-    });
-    console.log(this.userActivityDataServices.getAllActivityData().ServiceId);
-    this.getServicePrerequisite(this.userActivityDataServices.getAllActivityData().ServiceId);
+
+    this.getServicePrerequisite(this.ServiceId);
   }
 
   createForm() {
-    this.documentForm = new FormGroup(
-      {
+    this.documentForm = new FormGroup({
         Name: new FormControl(),
-        WorkFlowId: new FormControl(),
+        WorkFlowId: new FormControl(this.workFlowId),
         ServicePrerequisiteId: new FormControl(),
-        ServiceApplicationId: new FormControl(''),
+        ServiceApplicationId: new FormControl(this.ServiceApplicationId),
         KeyWords: new FormControl(null)
       },
       {updateOn: 'submit'}
@@ -110,24 +126,20 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   }
 
   upload(i: number, files: FileList) {
-    // this.loading = true;
     this.errors = []; // Clear error
-    // Validate file size and allowed extensions
     console.log((!this.isValidFiles(files)));
     if (files && files[0].size > 0 && (this.isValidFiles(files))) {
       this.documentForm.patchValue({
         Name: 'Eic_file',
         ServicePrerequisiteId: this.servicePreList[i].ServicePrerequisiteId,
         KeyWords: files[0],
-        WorkFlowId: localStorage.getItem('workFlowId')
+        WorkFlowId: this.workFlowId
       });
       this.documentServices
         .uploadDocument(this.prepareSaveUser())
         .subscribe(result => {
-          //   this.servicePreList[i].upload = true;
-          this.getServicePrerequisite(localStorage.getItem('ServiceId'));
+          this.getServicePrerequisite(this.ServiceId);
           this.loading = false;
-          // setTimeout(() => this.dataSharing.steeperIndex.next(9), 0);
           setTimeout(() => this.dataSharing.currentIndex.next(9), 0);
         }, error => this.toast.error(this.errMsg.getError(error)));
       // this.getServicePrerequisite(localStorage.getItem('ServiceId'));
@@ -137,11 +149,12 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   }
 
   getServicePrerequisite(id: any) {
-    this.servicePrerequisiteService.servicePrerequisiteByServiceId(id)
+    this.servicePrerequisiteService
+      .servicePrerequisiteByServiceId(id)
       .subscribe(result => {
         this.filterPrerequisite(result);
 
-        // console.log(this.servicePreList);
+        console.log(this.servicePreList);
       });
   }
 
@@ -166,7 +179,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     this.documentServices.delete(index)
       .subscribe(result => {
         this.notification('file Deleted');
-        this.getServicePrerequisite(this.userActivityDataServices.getAllActivityData().ServiceId);
+        this.getServicePrerequisite(this.ServiceId);
       });
 
   }
@@ -214,22 +227,21 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   }
 
   UpdateServiceApplication() {
-    this.serviceApplicationsServices.finalForApprovalServiceApplications(
-      localStorage.getItem('ServiceApplicationId'))
+    this.serviceApplicationsServices
+      .finalForApprovalServiceApplications(this.ServiceApplicationId)
       .subscribe(result => {
-        console.log(result);
         this.toast.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
       });
   }
 
   ngAfterContentChecked(): void {
 
-    this.documentForm.patchValue({
-      WorkFlowId: localStorage.getItem('workFlowId')
-    });
-
-    console.log(localStorage.getItem('workFlowId'));
-    console.log(this.documentForm.get('WorkFlowId').value);
+    // this.documentForm.patchValue({
+    //   WorkFlowId: localStorage.getItem('workFlowId')
+    // });
+    //
+    // console.log(localStorage.getItem('workFlowId'));
+    // console.log(this.documentForm.get('WorkFlowId').value);
   }
 
   next() {
@@ -238,7 +250,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   }
 
   private filterPrerequisite(prerequeste: ServicePrerequisite[]) {
-    this.investorService.getInvestor(localStorage.getItem('InvestorId'))
+    this.investorService.getInvestor(this.InvestorId)
       .subscribe((result: Investor) => {
         this.getPreReqService(prerequeste, result);
       });
@@ -252,6 +264,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
       }
     }
+    console.log(this.servicePreList);
     console.log(this.servicePreList);
     this.getDocument(this.documentForm.get('ServiceApplicationId').value);
   }

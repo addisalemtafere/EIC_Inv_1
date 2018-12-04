@@ -40,7 +40,7 @@ export class Investor {
   SighnedCapital= null;
 
   UserId: string = null;
-  SiteId: string = null;
+  // SiteCode: string = null;
   IsActive = true;
   IsDeleted = false;
   RegionId: string = null;
@@ -54,6 +54,8 @@ export class Investor {
   CellPhoneNo: string = null;
   Email: string = null;
   OtherAddress: string = null;
+  UserName: string = null;
+  AddressId = 0;
   // createdDate: Date = null;
   // createdBy: string = null;
   // updatedDateDate = null;
