@@ -23,9 +23,13 @@ export class CompanyClearanceService extends BaseService<CompanyClearanceModel> 
 
 
   getCompanyClearanceByInvestorId(id: number): Observable<CompanyClearanceModel> {
-    return this.httpClient.get<CompanyClearanceModel>(this.appConfig.urls.url('getCompanyClearanceByInvestorId') + '/' + id).pipe(
+    return this.httpClient.get<CompanyClearanceModel>(this.appConfig.urls.url('CompanyClearanceByInvestorId') + '/' + id).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
 
+  saveFinalApprovedName(resource: CompanyClearanceModel): Observable<CompanyClearanceModel> {
+    return this.httpClient.put(this.appConfig.urls.url('SaveFinalApprovedName'), resource).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
 
 }

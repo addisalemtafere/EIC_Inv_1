@@ -151,6 +151,8 @@ export class InvestorService extends EndpointFactory {
       );
   }
 
+
+
   searchInvestor(search: SearchInvestorModel): Observable<any> {
     return this.httpClient.post<SearchInvestorModel[]>(this.SearchInvestorUrl, search, this.getRequestHeaders())
       .pipe(

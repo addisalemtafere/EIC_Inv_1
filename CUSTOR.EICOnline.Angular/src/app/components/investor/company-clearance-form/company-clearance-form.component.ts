@@ -12,11 +12,15 @@ import {FormService} from '@custor/validation/custom/form';
 import {CompanyClearanceModel} from './CompanyClearance.Model';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {Subscription} from 'rxjs';
+import {fadeInOut} from '@custor/services/animations';
+import {AssociateDTO} from '../../../model/associate.model';
+import {InvestorService} from '../investor.service';
 
 @Component({
   selector: 'app-company-clearance-form',
   templateUrl: './company-clearance-form.component.html',
-  styleUrls: ['./company-clearance-form.component.scss']
+  styleUrls: ['./company-clearance-form.component.scss'],
+  animations: [fadeInOut]
 })
 export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnDestroy, AfterContentChecked {
 
@@ -32,6 +36,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
               private formService: FormService,
               public dataSharing: DataSharingService,
               public companyClearanceService: CompanyClearanceService,
+              private investorService: InvestorService,
               private configService: ConfigurationService,
               private toastr: ToastrService,
               private appConfig: AppConfiguration,
@@ -48,8 +53,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
       return;
     }
     if (this.InvestorId) {
-
-    //  this.getCompanyClearance(InvestorId);
+      this.getCompanyClearance(this.InvestorId);
     }
   }
 
@@ -145,6 +149,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
 
         }, error => this.toastr.error(this.errMsg.getError(error)));
     }
+    this.editMode = true;
   }
 
 
@@ -172,14 +177,64 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
   }
 
   onApproveNameOptionOne() {
+    if (this.companyNameOneAmharic.value == "" && this.companyNameOneEnglish.value == "") {
+      this.toastr.error('Name must be inserted');
+      return;
+    }
 
-}
+    this.companyClearance  = this.getEditedCompanyNames();
+    this.companyClearance.IsCompanyNameOneApproved = true;
+    this.companyClearance.IsCompanyNameTwoApproved = false;
+    this.companyClearance.IsCompanyNameThreeApproved = false;
+
+    this.loadingIndicator = true;
+    return this.companyClearanceService.saveFinalApprovedName(this.companyClearance)
+      .subscribe((comp: CompanyClearanceModel) => {
+          //this.saveCompleted();
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+
+
   onApproveNameOptionTwo() {
+    if (this.companyNameTwoAmharic.value == "" && this.companyNameTwoEnglish.value == "") {
+      this.toastr.error('Name must be inserted');
+      return;
+    }
 
-}
+    this.companyClearance  = this.getEditedCompanyNames();
+    this.companyClearance.IsCompanyNameOneApproved = false;
+    this.companyClearance.IsCompanyNameTwoApproved = true;
+    this.companyClearance.IsCompanyNameThreeApproved = false;
+
+    this.loadingIndicator = true;
+    return this.companyClearanceService.saveFinalApprovedName(this.companyClearance)
+      .subscribe((comp: CompanyClearanceModel) => {
+          //this.saveCompleted();
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+
   onApproveNameOptionThree() {
 
-}
+    if (this.companyNameThreeAmharic.value == "" && this.companyNameThreeEnglish.value == "") {
+      this.toastr.error('Name must be inserted');
+      return;
+    }
+
+    this.companyClearance  = this.getEditedCompanyNames();
+    this.companyClearance.IsCompanyNameThreeApproved = false;
+    this.companyClearance.IsCompanyNameThreeApproved = false;
+    this.companyClearance.IsCompanyNameThreeApproved = true;
+
+    this.loadingIndicator = true;
+    return this.companyClearanceService.saveFinalApprovedName(this.companyClearance)
+      .subscribe((comp: CompanyClearanceModel) => {
+          //this.saveCompleted();
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+
 
   ngAfterContentChecked(): void {
   }
