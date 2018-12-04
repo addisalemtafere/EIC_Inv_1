@@ -126,12 +126,12 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
                 BusinessBranch.Pobox = registrationBranch.Pobox;
                 BusinessBranch.RegionId = registrationBranch.RegionId;
                 BusinessBranch.TeleNo = registrationBranch.TeleNo;
-                BusinessBranch.CreatedUserName = "";
+                BusinessBranch.CreatedBy = "";
                 BusinessBranch.WoredaId = registrationBranch.WoredaId;
                 BusinessBranch.ZoneId = registrationBranch.ZoneId;
                 BusinessBranch.ObjectId = Guid.NewGuid();
-                BusinessBranch.UpdatedEventDatetime = null;
-                BusinessBranch.EventDatetime = DateTime.Now;
+                BusinessBranch.UpdatedBy = null;
+                BusinessBranch.CreatedDate = DateTime.Now;
                 BusinessBranch.ParentId = registrationBranch.ParentId;
                 BusinessBranch.AddressType = 4;
                 Context.Address.Add(BusinessBranch);
