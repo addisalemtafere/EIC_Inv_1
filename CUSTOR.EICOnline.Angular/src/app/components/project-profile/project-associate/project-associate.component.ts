@@ -217,7 +217,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   }
 
   newAssociate() {
-    this.router.navigate(['associate/form/0']);
+    this.router.navigate(['associate/form/0/2']);
   }
   UpdateServiceApplication() {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(

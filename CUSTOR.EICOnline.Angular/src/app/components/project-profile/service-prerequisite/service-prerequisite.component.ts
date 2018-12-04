@@ -149,11 +149,12 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   }
 
   getServicePrerequisite(id: any) {
-    this.servicePrerequisiteService.servicePrerequisiteByServiceId(id)
+    this.servicePrerequisiteService
+      .servicePrerequisiteByServiceId(id)
       .subscribe(result => {
         this.filterPrerequisite(result);
 
-        // console.log(this.servicePreList);
+        console.log(this.servicePreList);
       });
   }
 
@@ -178,7 +179,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     this.documentServices.delete(index)
       .subscribe(result => {
         this.notification('file Deleted');
-        this.getServicePrerequisite(this.userActivityDataServices.getAllActivityData().ServiceId);
+        this.getServicePrerequisite(this.ServiceId);
       });
 
   }
@@ -263,6 +264,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
       }
     }
+    console.log(this.servicePreList);
     console.log(this.servicePreList);
     this.getDocument(this.documentForm.get('ServiceApplicationId').value);
   }
