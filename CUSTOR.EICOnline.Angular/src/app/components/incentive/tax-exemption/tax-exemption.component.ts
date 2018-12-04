@@ -97,7 +97,8 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   // }
 
   ngOnInit() {
-    this.ProjectId = this.route.snapshot.params['ProjectId'];
+    this.ProjectId = this.route.snapshot.params['projectId'];
+
     this.getTaxExemptionList(this.ProjectId);
     this.getTaxExemptionYear(this.ProjectId);
     this.initForm();
@@ -206,22 +207,24 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
             this.existanceNotification('The Project Does not Have Business License');
             return;
           }
+          else if (this.TaxExemptionModels.length > 0 && this.isNewTaxExemption) {
+            this.existanceNotification('Tax Exemption Incentive Already Given');
+            return;
+          }
+          else {
+            this.doSaveExemption();
+          }
         }, error => this.errMsg.getError(error));
 
-        if (this.TaxExemptionModels.length > 0 && this.isNewTaxExemption) {
-          this.existanceNotification('Tax Exemption Incentive Already Given');
-          return;
-        }
+
+      } else {
+        this.doSaveExemption();
       }
+      //TODO  Jumped Validators
       this.loadingIndicator = true;
-      return this.taxExemptionService.saveTaxExemption(
-        this.getEditedTaxExemption()).subscribe((taxExemptionModel: TaxExemptionModel) => {
-          this.saveCompleted(taxExemptionModel);
-        },
-        err => this.handleError(err));
+
     }
   }
-
 
   onEditTaxExemption(index: number) {
     this.editMode = true;
@@ -230,7 +233,6 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
     this.taxexemptionForm.patchValue(this.TaxExemptionModel);
     this.isNewTaxExemption = false;
   }
-
 
   deleteTaxExemption(index: number, id: number) {
     this.confirmDialogRef = this.dialog.open(AngConfirmDialogComponent,
@@ -290,6 +292,14 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   onBack() {
     // this.router.navigate(['TaxExemptions/list']);
     window.history.back();
+  }
+
+  private doSaveExemption() {
+    this.taxExemptionService.saveTaxExemption(
+      this.getEditedTaxExemption()).subscribe((taxExemptionModel: TaxExemptionModel) => {
+        this.saveCompleted(taxExemptionModel);
+      },
+      err => this.handleError(err));
   }
 
   private saveCompleted(taxExemptionModel?: TaxExemptionModel) {
