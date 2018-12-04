@@ -62,7 +62,7 @@
     <mat-form-field fxFlex>
       <mat-label>ያለበት ሁኔታ  </mat-label>
       <mat-select formControlName="cStatus">
-        <mat-option value="0">unknown</mat-option>
+        <!--<mat-option value="0">unknown</mat-option>-->
         <mat-option *ngFor="let status of bussinessStatus" [value]="status.Id">
           {{status.Desc}}
         </mat-option>

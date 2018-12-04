@@ -24,8 +24,7 @@ export class CustomerServiceStarterComponent implements OnInit {
   loadingIndicator: boolean;
 
 
-  constructor(private custService: CustomerServicesService,
-              public router: Router,
+  constructor(              public router: Router,
               public dialog: MatDialog,
               public dataSharing: DataSharingService,
               public serviceService: ServiceService,
@@ -88,6 +87,7 @@ export class CustomerServiceStarterComponent implements OnInit {
         case 1023:
         case 1027:
         case 1028:
+
 
           this.router.navigate(['/investor-project-list/' + serviceId]);
           break;

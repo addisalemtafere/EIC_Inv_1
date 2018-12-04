@@ -7,7 +7,7 @@ namespace CUSTOR.EICOnline.API.ViewModels.Bussiness
 {
     public class BussinessLicenseVM
     {
-        public Guid BusinessMainGuid { get; set; }
+        public int BusinessId { get; set; }
         public string MajorDivision { get; set; }
         public string Division { get; set; }
         public string MajorGroup { get; set; }

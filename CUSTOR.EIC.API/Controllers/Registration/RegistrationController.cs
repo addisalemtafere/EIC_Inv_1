@@ -49,7 +49,7 @@ namespace EICOnline.Controllers
         }
 
         [HttpGet("api/RegistrationByTin/{Tin}")]
-        public async Task<IEnumerable<Registration>> GetRegistrationByTIN(string Tin)
+        public async Task<Registration> GetRegistrationByTIN(string Tin)
         {
             return await RegistrationRepo.GetRecordByTIN(Tin);
         }

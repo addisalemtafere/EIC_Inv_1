@@ -11,6 +11,7 @@ import {MatTableDataSource} from '@angular/material';
 import {FormService} from '@custor/validation/custom/form';
 import {CompanyClearanceModel} from './CompanyClearance.Model';
 import {ErrorMessage} from '@custor/services/errMessageService';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-company-clearance-form',
@@ -23,8 +24,8 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
   companyClearanceForm: FormGroup;
   public editMode: boolean;
   private InvestorId: any;
-
-
+  companyClearanceSub: Subscription;
+  companyClearance : CompanyClearanceModel;
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private errMsg: ErrorMessage,
@@ -68,23 +69,36 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
 
   getCompanyClearance(id) {
     this.loadingIndicator = true;
-    // this.com = this.companyClearanceService
-    //   .getOneAssociateByInvestorId(id)
-    //   .subscribe(result => {
-    //       this.associate = result;
-    //
-    //
-    //       if(result == null){
-    //         this.editMode = false;
-    //       }
-    //       else {
-    //         this.editMode = true;
-    //         this.updateForm();
-    //       }
-    //     },
-    //     error => this.toastr.error(error));
+    this.companyClearanceSub = this.companyClearanceService
+      .getCompanyClearanceByInvestorId(id)
+      .subscribe(result => {
+          this.companyClearance = result;
+
+
+          if(result == null){
+            this.editMode = false;
+          }
+          else {
+            this.editMode = true;
+            this.updateForm();
+          }
+        },
+        error => this.toastr.error(error));
     this.loadingIndicator = false;
   }
+
+
+  updateForm() {
+    this.companyClearanceForm.patchValue({
+      CompanyNameOneEnglish: this.companyClearance.CompanyNameOneEnglish || '',
+      CompanyNameOneAmharic: this.companyClearance.CompanyNameOneAmharic || '',
+      CompanyNameTwoEnglish: this.companyClearance.CompanyNameTwoEnglish || '',
+      CompanyNameTwoAmharic: this.companyClearance.CompanyNameTwoAmharic || '',
+      CompanyNameThreeEnglish: this.companyClearance.CompanyNameThreeEnglish || '',
+      CompanyNameThreeAmharic: this.companyClearance.CompanyNameThreeAmharic || ''
+    });
+  }
+
 
 
   get companyNameOneEnglish() {
@@ -156,6 +170,16 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
   onBack() {
     window.history.back();
   }
+
+  onApproveNameOptionOne() {
+
+}
+  onApproveNameOptionTwo() {
+
+}
+  onApproveNameOptionThree() {
+
+}
 
   ngAfterContentChecked(): void {
   }
