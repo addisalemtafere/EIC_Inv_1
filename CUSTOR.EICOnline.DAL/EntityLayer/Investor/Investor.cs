@@ -65,10 +65,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public string RegistrationNumber { get; set; }
         public DateTime? RegistrationDate { get; set; }
-        public string TradeName { get; set; }
-        public string TradeNameSort { get; set; }
-        public string TradeNameSoundX { get; set; }
-        public string TradeNameEnglish { get; set; }
+       
         public string UserId { get; set; }
         //public string SiteCode { get; set; }
         public bool? IsActive { get; set; }

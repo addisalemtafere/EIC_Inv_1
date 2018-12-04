@@ -173,7 +173,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
       OwnLand: this.pIOform.get('OwnLand').value,
       LeaseLand: this.pIOform.get('LeaseLand').value,
       Remark: this.pIOform.get('Remark').value,
-      workFlowId: this.pIOform.get('workFlowId').value,
+      workFlowId: this.workFlowId,
     };
   }
 
