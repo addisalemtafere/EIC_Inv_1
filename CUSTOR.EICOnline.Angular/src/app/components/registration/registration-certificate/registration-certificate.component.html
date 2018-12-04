@@ -209,9 +209,16 @@
             <table class="full-width">
               <caption class="caption">7. የተስማራባቸው የንግድ ሥራዎች</caption>
               <tbody>
-              <tr>
+              <!--<tr>
                 <td class="data value">
                   {{investmentActivity?.Description}}</td>
+              </tr>-->
+              <tr>
+                <td >
+                  <div *ngFor="let vv of MajorDivisionList">
+                    {{vv.Description}}
+                  </div>
+                </td>
               </tr>
               </tbody>
             </table>
@@ -359,8 +366,15 @@
             <table class="full-width">
               <caption class="caption">7. Type of activities engaged</caption>
               <tbody>
-              <tr>
+             <!-- <tr>
                 <td class="data value">{{investmentActivity?.DescriptionEnglish}}</td>
+              </tr>-->
+              <tr>
+                <td >
+                  <div *ngFor="let vv of MajorDivisionList">
+                  {{vv.EnglishDescription}}
+                  </div>
+                </td>
               </tr>
               </tbody>
             </table>

@@ -42,7 +42,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             for (int i = 0; i < catdatalist.Count; i++)
             {
                 tblMajorDivision description=new tblMajorDivision();
-                int code=Convert.ToInt16(catdatalist[0].MajorCatagoryCode);
+                int code=Convert.ToInt16(catdatalist[i].MajorCatagoryCode);
                 var catdata = context.tblMajorDivision.SingleOrDefault(param => param.Code == code);
                 if (catdata != null)
                 {
