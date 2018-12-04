@@ -72,6 +72,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   BOMItems: IncentiveBoMRequestItemModel[] = [];
   private form: NgForm;
   private ExchangeRate: string;
+  private ProjectId: any;
+  private ServiceApplicationId: any;
+  private ServiceId: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -94,20 +97,6 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.initStaticData('en');
   }
 
-  get IncentiveCategoryId() {
-    return this.incentiveRequestItemForm.get('IncentiveCategoryId');
-  }
-
-  // getItemLookup(categoryCode: any) {
-  //   this.loadingIndicator = true;
-  //   this.lookupSub = this.lookUpsService
-  //     .getLookupByParentId(categoryCode)
-  //     .subscribe(result => {
-  //         this.filterLookups = result;
-  //         // this.filterIncentiveCategory(this.IncentiveRequestModel.IncentiveCategoryId);
-  //       },
-  //       error => this.toastr.error(this.errMsg.getError(error)));
-  // }
 
   get quantity() {
     return this.incentiveRequestItemForm.get('Quantity');
@@ -149,6 +138,10 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     return this.incentiveRequestItemForm.get('Phase');
   }
 
+  get IncentiveCategoryId() {
+    return this.incentiveRequestItemForm.get('IncentiveCategoryId');
+  }
+
   ngOnInit() {
     this.initForm();
     this.getIncentiveCategory();
@@ -157,12 +150,16 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.getLookup();
     this.getUserType();
     const id = this.activatedRoute.snapshot.params['id'];
+    this.ServiceApplicationId = this.activatedRoute.snapshot.params['ServiceApplicationId'];
+    this.ServiceId = this.activatedRoute.snapshot.params['ServiceId'];
+    this.ProjectId = this.activatedRoute.snapshot.params['ProjectId'];
+
     this.route.params
       .subscribe((params: Params) => {
         // this.projectId = +params['id'];
         // if (16107 > 1) {
-        this.getIncentiveReaquestItmes(localStorage.getItem('ProjectId'), localStorage.getItem('ServiceApplicationId'));
-        this.getIncentiveReaquestItmesByServiceAppId(localStorage.getItem('ServiceApplicationId'));
+        this.getIncentiveReaquestItmes(this.ProjectId, this.ServiceApplicationId);
+        this.getIncentiveReaquestItmesByServiceAppId(this.ServiceApplicationId);
         // }
       });
   }
@@ -355,14 +352,14 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       }
       if (this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10778') {
         this.IncentiveRequestItemService
-          .getIncentiveBoMRequestDetails(localStorage.getItem('ProjectId'), this.incentiveRequestItemForm.get('IncentiveCategoryId').value, this.incentiveRequestItemForm.get('Phase').value)
+          .getIncentiveBoMRequestDetails(this.ProjectId, this.incentiveRequestItemForm.get('IncentiveCategoryId').value, this.incentiveRequestItemForm.get('Phase').value)
           .subscribe((items) => {
             this.BOMItems = items;
-          });
-        if (this.BOMItems.length == 0) {
-          this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
-          return true;
-        }
+            if (this.BOMItems.length == 0) {
+              this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
+              return true;
+            }
+          });//TODO Validation Jump
       }
     }
   }
@@ -388,6 +385,17 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       this.loadingIndicator = false;
     });
   }
+
+  // getItemLookup(categoryCode: any) {
+  //   this.loadingIndicator = true;
+  //   this.lookupSub = this.lookUpsService
+  //     .getLookupByParentId(categoryCode)
+  //     .subscribe(result => {
+  //         this.filterLookups = result;
+  //         // this.filterIncentiveCategory(this.IncentiveRequestModel.IncentiveCategoryId);
+  //       },
+  //       error => this.toastr.error(this.errMsg.getError(error)));
+  // }
 
   notification(message: string) {
     this.loading = false;
@@ -417,12 +425,12 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     console.log(inRequest);
     this.router.navigate(['/requested-items-list/' +
     inRequest.IncentiveCategoryId + '/' + inRequest.ProjectId + '/' +
-    inRequest.IncentiveRequestId + '/' + inRequest.Quantity + '/' + inRequest.CurrencyType + '/' + inRequest.CurrencyRate + '/' + inRequest.Phase]);
+    inRequest.IncentiveRequestId + '/' + inRequest.Quantity + '/' + inRequest.CurrencyType + '/' + inRequest.CurrencyRate + '/' + inRequest.Phase + '/' + this.ServiceApplicationId + '/' + this.ServiceId]);
 
   }
 
   viewDetail() {
-    this.router.navigate(['/incentive-request-history']);
+    this.router.navigate(['/incentive-request-history/' + this.ProjectId + '/' + this.ServiceApplicationId + '/' + this.ServiceId]);
   }
 
   getUserType() {
@@ -443,8 +451,8 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   private saveCompleted(incentiveRequestModel?: IncentiveRequestModel) {
     if (incentiveRequestModel) {
       this.IncentiveRequestModel = incentiveRequestModel;
-      // this.getIncentiveReaquestItmes(localStorage.getItem('ProjectId'));
-      this.getIncentiveReaquestItmesByServiceAppId(localStorage.getItem('ServiceApplicationId'));
+      // this.getIncentiveReaquestItmes(this.ProjectId);
+      this.getIncentiveReaquestItmesByServiceAppId(this.ServiceApplicationId);
     }
     this.onClear();
     this.loadingIndicator = false;
@@ -470,9 +478,8 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       RequestDate: formModel.RequestDate,
       InvoiceNo: formModel.InvoiceNo,
       Phase: formModel.Phase,
-      ProjectId: localStorage.getItem('ProjectId'),
-      ServiceApplicationId: localStorage.getItem('ServiceApplicationId')
+      ProjectId: this.ProjectId,
+      ServiceApplicationId: this.ServiceApplicationId
     };
   }
-
 }

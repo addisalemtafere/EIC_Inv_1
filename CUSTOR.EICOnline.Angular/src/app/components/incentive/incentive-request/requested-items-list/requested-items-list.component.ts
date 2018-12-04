@@ -47,6 +47,8 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   IncentiveItemtEditIndex: number;
   // showCategoryDropdown = false;
   currentCategoryId: number;
+  serviceId: any;
+  serviceApplicationId: any;
   phaseId: any;
   parentRequestId: number;
   isBOMRequired: boolean;
@@ -179,7 +181,9 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     //  Protected one BoM item to be added in the same installmnet
     // to-do get Currency Deatils from the parent record
     this.currentCategoryId = this.activatedRoute.snapshot.params['categoryId'];
-    this.phaseId = this.activatedRoute.snapshot.params['phase'];
+    this.serviceApplicationId = this.activatedRoute.snapshot.params['serviceApplicationId'];
+    this.serviceId = this.activatedRoute.snapshot.params['serviceId'];
+    this.phaseId = this.activatedRoute.snapshot.params['Phase'];
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782 || this.currentCategoryId == 10777) {
       this.isVisibleShowBalance = true;
     }
@@ -248,7 +252,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
 
   getBOMItems(pId: any, categoryId: any, Phase: any) {
     // to-do remove the hard coded value
-    this.IncentiveRequestItemService.getIncentiveBoMRequestDetails(pId, categoryId,Phase)
+    this.IncentiveRequestItemService.getIncentiveBoMRequestDetails(pId, categoryId, Phase)
       .subscribe((items) => {
         this.BOMItems = items;
         console.log(items);
@@ -572,9 +576,9 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   showBalance() {
     console.log(this.currentCategoryId);
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {
-      this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
+      this.router.navigate(['bom-balance/'+ this.projectId +  '/' + this.serviceApplicationId + '/' + this.serviceId ]);
     } else if (this.currentCategoryId == 10777) {
-      this.router.navigate(['sparepart-balance']);
+      this.router.navigate(['sparepart-balance/' + this.projectId + '/' + this.serviceApplicationId]);
     }
   }
 

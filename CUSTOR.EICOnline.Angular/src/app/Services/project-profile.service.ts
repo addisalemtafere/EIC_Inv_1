@@ -54,7 +54,7 @@ export class ProjectProfileService extends BaseService<ProjectModel> {
   }
 
   projectsDetailForLetter(id: any): Observable<ProjectModel> {
-    return this.httpClient.get<ProjectModel>(this.appConfig.urls.url('projectsDetailForLetter') + '/' + id).pipe(
+    return this.httpClient.get<ProjectModel>(this.appConfig.urls.url('projectsDetailForLetters') + '/' + id).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
 

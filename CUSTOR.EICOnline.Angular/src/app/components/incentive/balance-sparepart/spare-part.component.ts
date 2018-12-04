@@ -36,6 +36,7 @@ export class SparePartComponent implements OnInit, OnDestroy, AfterContentChecke
   editMode = false;
   loading = false;
   projectId: number;
+  serviceApplicationId: number;
   dataSource: any;
   sparePartDataSource: any;
   ShowDetail = false;
@@ -88,7 +89,9 @@ export class SparePartComponent implements OnInit, OnDestroy, AfterContentChecke
   }
 
   ngOnInit() {
-    this.getIncentiveReaquestItmes(localStorage.getItem('ProjectId'));
+    this.projectId = this.route.snapshot.params['projectId'];
+    this.serviceApplicationId = this.route.snapshot.params['serviceApplicationId'];
+    this.getIncentiveReaquestItmes(this.projectId);
   }
 
 

@@ -67,7 +67,7 @@
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
-        <a *ngIf="!isInvestor" mat-list-item routerLinkActive="active"
+        <a *ngIf="!isInvestor && !canManageManageIncentiveAssignedServices" mat-list-item routerLinkActive="active"
            [routerLinkActiveOptions]="{ exact: true }"
            routerLink="/management-dashboard">
           <mat-icon class="mat-18">collections</mat-icon>
@@ -175,11 +175,13 @@
             <a mat-list-item routerLinkActive="active" routerLink="services-tab">
               <mat-icon color="primary" class="mat-18">room_service</mat-icon>
               {{'mainMenu.Service' | translate}}
-
             </a>
             <a mat-list-item routerLinkActive="active" routerLink="other">
               <mat-icon color="primary" class="mat-18">settings</mat-icon>
               {{'mainMenu.site' | translate}}</a>
+          <a mat-list-item routerLinkActive="active" routerLink="lettertempalte">
+              <mat-icon color="primary" class="mat-18">settings</mat-icon>
+              {{'mainMenu.lettertemplate' | translate}}</a>
           </mat-list>
         </mat-expansion-panel>
 

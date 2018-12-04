@@ -372,7 +372,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       console.log(projectId);
       localStorage.setItem('projectName', projectName);
       localStorage.setItem('ServiceApplicationId', ServiceApplicationId);
-      this.router.navigate(['incentive-detail/' + projectId]);
+      this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + ServiceId]);
     }
   }
 
@@ -384,6 +384,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.dataSource.paginator.firstPage();
     }
   }
+
   ngAfterContentChecked(): void {
     this.serviceTitle = localStorage.getItem('title');
     this.title = localStorage.getItem('title');

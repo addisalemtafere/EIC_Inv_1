@@ -93,7 +93,9 @@
     "InvestorProfile": "My Profile",
     "capitalRegistration": "Capital Registration",
     "customerRegistration": "Customer Registration",
-    "changePassword": "Change Password"
+    "changePassword": "Change Password",
+    "lettertemplate": "Letter Tempalte"
+
   },
   "pageHeader": {
     "Dashboard": "Dashboard",

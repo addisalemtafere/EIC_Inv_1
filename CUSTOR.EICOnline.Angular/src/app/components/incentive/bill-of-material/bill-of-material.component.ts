@@ -71,6 +71,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   BOMItems: IncentiveBoMRequestItemModel[] = [];
   private currentCategoryId: any;
   private ServiceApplicationId: any;
+  private ProjectId: any;
   private currentLang: string;
   private IncentiveCategoryId: number;
 
@@ -116,8 +117,9 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       this.IncentiveCategoryId = 10779;
     }
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.ProjectId = this.route.snapshot.params['ProjectId'];
     this.getBillOfMaterial(this.ServiceApplicationId);
-    // this.getBillOfMaterial(localStorage.getItem('ProjectId'));
+    // this.getBillOfMaterial(this.ProjectId);
     this.initStaticData(this.currentLang);
 
   }
@@ -240,16 +242,14 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       return true;
     }
     this.IncentiveRequestItemService
-      .getIncentiveBoMRequestDetails(localStorage.getItem('ProjectId'), 10778, this.phaseId)
+      .getIncentiveBoMRequestDetails(this.ProjectId, 10778, this.phaseId)
       .subscribe((items) => {
         this.BOMItems = items;
+        if (this.BOMItems.length > 0) {
+          this.toastr.error('You Cannot Import Construction Materials, Because there is Uploaded data in this Batch');
+          return true;
+        }
       });
-    console.log(this.BOMItems.length);
-
-    if (this.BOMItems.length > 0) {
-      this.toastr.error('You Cannot Import Construction Materials, Because there is Uploaded data in this Batch');
-      return true;
-    }
     // this.loading = true;
     this.errors = []; // Clear error
     // Validate file size and allowed extensions
@@ -275,7 +275,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       // this.getServicePrerequisite(localStorage.getItem('ServiceId'));
     } else {
       this.toast.error('Error Occurred Please ', 'Error');
-    }
+    }//TODO BillofQuantity
   }
 
   prepareSaveUser(): FormData {
@@ -284,9 +284,9 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     console.log(formModel.workFlowId);
     // console.log(this.documentForm.value);
     formData.append('Name', formModel.Name);
-    formData.append('ServiceApplicationId', localStorage.getItem('ServiceApplicationId'));
+    formData.append('ServiceApplicationId', this.ServiceApplicationId);
     formData.append('KeyWords', formModel.KeyWords);
-    formData.append('ProjectId', localStorage.getItem('ProjectId'));
+    formData.append('ProjectId', this.ProjectId);
     formData.append('IncentiveCategoryId', this.IncentiveCategoryId.toString());
     formData.append('PhaseId', this.phaseId.toString());//formModel.Phase
     console.log(this.phaseId);
@@ -315,7 +315,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   UpdateServiceApplication() {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
-      localStorage.getItem('ServiceApplicationId'))
+      this.ServiceApplicationId)
       .subscribe(result => {
         console.log(result);
         this.toast.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
@@ -418,8 +418,8 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     this.billOfMaterialForm = this.formBuilder.group({
       IncentiveBoMRequestItemId: new FormControl(),
       IncentiveRequestId: 1,
-      ProjectId: localStorage.getItem('ProjectId'),
-      ServiceApplicationId: localStorage.getItem('ServiceApplicationId'),
+      ProjectId: this.ProjectId,
+      ServiceApplicationId: this.ServiceApplicationId,
       Description: new FormControl(),
       RejectionReason: new FormControl(),
       HsCode: new FormControl(),
