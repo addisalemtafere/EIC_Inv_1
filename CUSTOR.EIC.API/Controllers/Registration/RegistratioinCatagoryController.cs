@@ -21,28 +21,21 @@ namespace EIC.Investment.API.Controllers
             _context = context;
         }
 
-        
-        [HttpGet]
-        [Route("api/GetRegistrationCatagory/{Tin}")]
-        public async Task<IActionResult> GetRegistrationCatagoryController([FromRoute] string Tin)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            var registrationcatagory = await _context.RegistrationCatagorys.
-              Include(a => a.Tin).
-              Include(a => a.MainGuid).
-              Include(a => a.MajorCatagoryCode).
-            FirstAsync(m => m.Tin == Tin);
+        //[HttpGet]
+        //[Route("api/GetRegistrationCatagory/{Tin}")]
+        //public async Task<IActionResult> GetRegistrationCatagoryController([FromRoute] string Tin)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (registrationcatagory == null)
-            {
-                return NotFound();
-            }
-            return Ok(registrationcatagory);
-        }
+        //    var registrationcatagory = await _context.RegistrationCatagorys.
+        //      Include(a => a.Tin).
+        //      Include(a => a.MainGuid).
+        //      Include(a => a.MajorCatagoryCode).
+        //    FirstAsync(m => m.Tin == Tin);
 
        
         [HttpPost("api/registrationcatagory")]
@@ -58,26 +51,40 @@ namespace EIC.Investment.API.Controllers
         }
 
 
-        // DELETE: api/RegistrationCatagory/5
-        [HttpDelete("api/DeleteRegistrationCatagory/{Tin}")]
-        public async Task<IActionResult> DeleteRegistration([FromRoute] string Tin)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            var registration = await _context.RegistrationCatagorys.SingleOrDefaultAsync(m => m.Tin == Tin);
-            if (registration == null)
-            {
-                return NotFound();
-            }
+        //[HttpPost("api/registrationcatagory")]
+        //public async Task<IActionResult> PostRegistraionCatagory([FromBody] RegistrationCatagory registrationCatagory)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    _context.RegistrationCatagorys.Add(registrationCatagory);
+        //    await _context.SaveChangesAsync();
+        //    return CreatedAtAction("PostRegistrationCatagory", new { Tin = registrationCatagory.Tin }, registrationCatagory);
+        //}
 
-            _context.RegistrationCatagorys.Remove(registration);
-            await _context.SaveChangesAsync();
 
-            return Ok(registration);
-        }
+        //// DELETE: api/RegistrationCatagory/5
+        //[HttpDelete("api/DeleteRegistrationCatagory/{Tin}")]
+        //public async Task<IActionResult> DeleteRegistration([FromRoute] string Tin)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var registration = await _context.RegistrationCatagorys.SingleOrDefaultAsync(m => m.Tin == Tin);
+        //    if (registration == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    _context.RegistrationCatagorys.Remove(registration);
+        //    await _context.SaveChangesAsync();
+
+        //    return Ok(registration);
+        //}
 
 
     }

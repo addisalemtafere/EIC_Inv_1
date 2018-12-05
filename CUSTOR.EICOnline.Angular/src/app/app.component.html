@@ -67,7 +67,7 @@
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
-        <a *ngIf="!isInvestor" mat-list-item routerLinkActive="active"
+        <a *ngIf="!isInvestor && !canManageManageIncentiveAssignedServices" mat-list-item routerLinkActive="active"
            [routerLinkActiveOptions]="{ exact: true }"
            routerLink="/management-dashboard">
           <mat-icon class="mat-18">collections</mat-icon>
@@ -83,7 +83,8 @@
           </mat-expansion-panel-header>
 
           <mat-list dense class="mat-expansion-panel-body">
-            <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" (click)="Investor()">
+            <a *ngIf="isInvestor" mat-list-item routerLinkActive="active"
+               (click)="Investor()">
               <mat-icon color="primary" class="mat-18">account_circle</mat-icon>
               {{'mainMenu.InvestorProfile' | translate}}</a>
             <a *ngIf="isInvestor" (click)="toMangerList()" mat-list-item routerLinkActive="active">
@@ -106,10 +107,6 @@
           <mat-icon>people</mat-icon>
           {{'mainMenu.customerRegistration' | translate}}
         </a>
-
-        <!--<a *ngIf="!isInvestor" mat-list-item routerLinkActive="active" (click)="gotoCustomerRegistration()">-->
-        <!--<mat-icon>people</mat-icon>-->
-        <!--{{'mainMenu.customerRegistration' | translate}}</a>-->
 
 
         <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLink="/appointment">
@@ -179,16 +176,18 @@
             <a mat-list-item routerLinkActive="active" routerLink="services-tab">
               <mat-icon color="primary" class="mat-18">room_service</mat-icon>
               {{'mainMenu.Service' | translate}}
-
             </a>
             <a mat-list-item routerLinkActive="active" routerLink="other">
               <mat-icon color="primary" class="mat-18">settings</mat-icon>
               {{'mainMenu.site' | translate}}</a>
+          <a mat-list-item routerLinkActive="active" routerLink="lettertempalte">
+              <mat-icon color="primary" class="mat-18">settings</mat-icon>
+              {{'mainMenu.lettertemplate' | translate}}</a>
           </mat-list>
         </mat-expansion-panel>
 
         <mat-expansion-panel
-          *ngIf="canManageRoles || canManageUsers || canManageAdmins" #admin
+          *ngIf="(canManageRoles || canManageUsers || canManageAdmins) && !isInvestor" #admin
           [class.mat-elevation-z0]="!admin.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>

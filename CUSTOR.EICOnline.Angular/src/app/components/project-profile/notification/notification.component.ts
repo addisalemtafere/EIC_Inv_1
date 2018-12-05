@@ -1,4 +1,4 @@
-import {AfterContentChecked, Component, OnInit} from '@angular/core';
+import {AfterContentChecked, AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
 import {AccountService} from '../../../../@custor/services/security/account.service';
 import {ServiceApplicationModel} from '../../../model/ServiceApplication.model';
 import {ServiceApplicationService} from '../../../Services/service-application.service';
@@ -7,19 +7,21 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {ServiceService} from '../../../Services/service.service';
 import {ServiceModel} from '../../../model/Service.model';
+import {ActivatedRoute} from "@angular/router";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss']
 })
-export class NotificationComponent implements OnInit {
+export class NotificationComponent implements OnInit, AfterContentChecked {
   userName: string;
   investorName: string;
   UserId: string;
   notificationForm: FormGroup;
   InvestorId: any;
-  private ServiceApplicationId: string;
+  private ServiceApplicationId: any;
   templateMessage = 'Message';
   private allServices: ServiceModel[];
 
@@ -28,13 +30,22 @@ export class NotificationComponent implements OnInit {
     public notificationService: NotificationService,
     public fb: FormBuilder,
     public toast: ToastrService,
+    public route: ActivatedRoute,
     private serviceService: ServiceService,
+    private dialogRef: MatDialogRef<NotificationComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
     public serviceApplicationService: ServiceApplicationService) {
+    this.ServiceApplicationId = data.ServiceApplicationId;
   }
 
   ngOnInit() {
+
+    // this.ServiceId = this.route.snapshot.params['ServiceId'];
+    // this.InvestorId = this.route.snapshot.params['InvestorId'];
+    // this.workFlowId = this.route.snapshot.params['workFlowId'];
+    // this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.userName = this.accountService.currentUser.FullName;
-    this.getServiceApplication(localStorage.getItem('ServiceApplicationId'));
+    this.getServiceApplication(this.ServiceApplicationId);
     this.initForm();
     this.getAllService();
   }
@@ -42,9 +53,8 @@ export class NotificationComponent implements OnInit {
   getServiceApplication(id: any) {
     this.serviceApplicationService.getServiceApplicationWithInvestor(id)
       .subscribe((result: ServiceApplicationModel) => {
-        console.log(result);
         this.investorName = result.Investor.InvestorNameEng;
-        this.ServiceApplicationId = result.ServiceApplicationId;
+        // this.ServiceApplicationId = result.ServiceApplicationId;
         this.UserId = result.Investor.UserId;
         this.InvestorId = result.InvestorId;
         this.templateMessage = 'Dear ' +
@@ -66,7 +76,7 @@ export class NotificationComponent implements OnInit {
     this.notificationForm = this.fb.group({
       Subject: 'EIC Notification',
       UserId: '',
-      ServiceApplicationId: '',
+      ServiceApplicationId: this.ServiceApplicationId,
       CurrentStatus: '',
       Message: '',
       ToUserId: '',
@@ -98,6 +108,15 @@ export class NotificationComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  ngAfterViewChecked(): void {
+
+  }
+
+  ngAfterContentChecked(): void {
+    console.log("notifications")
+
   }
 
 

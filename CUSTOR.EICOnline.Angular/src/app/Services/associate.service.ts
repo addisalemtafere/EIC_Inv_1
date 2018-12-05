@@ -24,6 +24,11 @@ export class AssociateService extends BaseService<AssociateModel> {
       catchError(this.errMsg.parseObservableResponseError));
   }
 
+  getOneAssociateByInvestorId(id: number): Observable<AssociateModel> {
+    return this.httpClient.get<AssociateModel>(this.appConfig.urls.url('GetOneAssociateByInvestorID') + '/' + id).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
   uploadDocument(resource: FormData): Observable<any[]> {
     return this.httpClient.post(this.appConfig.urls.url('document'), resource).pipe(
       catchError(this.errMsg.parseObservableResponseError));

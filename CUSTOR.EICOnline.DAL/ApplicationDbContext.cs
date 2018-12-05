@@ -18,11 +18,12 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            CurrentUserId = "5926fc5c-7c25-48d5-878d-79e35ba2f8d1"; //for now
+           
         }
 
         public string CurrentUserId { get; set; }
-
+        public string CurrentUserName { get; set; }
+        
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Investor> Investors { get; set; }
 		//by gebre
@@ -31,7 +32,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 		
 		public DbSet<CompanyClearance> CompanyClearances { get; set; }
         public DbSet<Lookups> Lookup { get; set; }
-       
+
         public virtual DbSet<Address> Address { get; set; }
 
         public virtual DbSet<Associate> Associate { get; set; }
@@ -80,7 +81,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public virtual DbSet<ServiceWorkflowInputDocument> ServiceWorkflowInputDocument { get; set; }
         public virtual DbSet<ServiceWorkflowOutputDocument> ServiceWorkflowOutputDocument { get; set; }
         public virtual DbSet<Site> Site { get; set; }
-        public virtual DbSet<Town> Town { get; set; }
+        //public virtual DbSet<Town> Town { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserClaim> UserClaim { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
@@ -90,7 +91,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbSet<ServicePrerequisite> ServicePrerequisite { get; set; }
         public DbSet<Lookup> Lookups { get; set; }
         public DbSet<Region> Regions { get; set; }
-
+        public DbSet<Town> Towns { get; set; }
         public DbSet<Zone> Zones { get; set; }
         public DbSet<Woreda> Woredas { get; set; }
         public DbSet<Kebele> Kebeles { get; set; }
@@ -118,8 +119,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbQuery<series> series { get; set; }
         public DbQuery<IncentiveDetailDto> IncentiveDetailDto { get; set; }
         public DbQuery<IncentiveBomDto> IncentiveBomDto { get; set; }
-        
-        
+
+
         public DbSet<tblDivision> tblDivision { get; set; }
         public DbSet<tblGroup> tblGroup { get; set; }
         public DbSet<tblMajorDivision> tblMajorDivision { get; set; }
@@ -131,66 +132,65 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public DbSet<Business> Businesses { get; set; }
         public DbSet<BusinessLicensingGroup> BusinessLicensingGroup { get; set; }
+        public DbSet<tblBusinessBranch> tblBusinessBranch { get; set; }
 
         public override int SaveChanges()
         {
-            UpdateAuditEntities();
+            //await UpdateAuditEntitiesAsync();
             return base.SaveChanges();
         }
 
-        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            UpdateAuditEntities();
-            return base.SaveChanges(acceptAllChangesOnSuccess);
+            await UpdateAuditEntitiesAsync();
+            return await base.SaveChangesAsync(cancellationToken);
         }
+ 
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        private async Task UpdateAuditEntitiesAsync()
         {
-            UpdateAuditEntities();
-            return base.SaveChangesAsync(cancellationToken);
-        }
-
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            UpdateAuditEntities();
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        private void UpdateAuditEntities()
-        {
-            var modifiedEntries = ChangeTracker.Entries()
-                .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
-
-            foreach (var entry in modifiedEntries)
+            try
             {
-                var entity = (IAuditableEntity)entry.Entity;
-                DateTime now = DateTime.UtcNow;
-
-                if (entry.State == EntityState.Added)
+                var modifiedEntries = ChangeTracker.Entries()
+                    .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+                foreach (var entry in modifiedEntries)
                 {
-                    entity.CreatedDate = now;
-                    entity.CreatedBy = CurrentUserId;
-                }
-                else
-                {
-                    base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
-                    base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
-                }
 
-                entity.UpdatedDate = now;
-                entity.UpdatedBy = CurrentUserId;
+                    var entity = (IAuditableEntity)entry.Entity;
+                    DateTime now = DateTime.UtcNow;
+
+                    if (entry.State == EntityState.Added)
+                    {
+                        entity.CreatedDate = now;
+                        entity.CreatedBy = CurrentUserName;
+                        entity.CreatedUserId = CurrentUserId;
+                        entity.UpdatedDate = null;
+                        entity.UpdatedBy = null;
+                        entity.UpdatedUserId = null;
+                    }
+                    else
+                    {
+                        base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
+                        base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
+                        entity.UpdatedDate = now;
+                        entity.UpdatedBy = CurrentUserName;
+                        entity.UpdatedUserId = CurrentUserId;
+                    }
+
+                   
+                }
             }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.Message);
+            }
+           
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //  if (!optionsBuilder.IsConfigured)
-        //  {
-        //    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-        //    optionsBuilder.UseSqlServer(@"server=LAPTOP-ANIV3T71;Initial Catalog=EIC;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-        //  }
-        //}
 
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -218,7 +218,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                   entity.Property(e => e.Email).HasMaxLength(50);
 
-                  entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                 
 
                   entity.Property(e => e.Fax).HasMaxLength(50);
 
@@ -248,26 +248,26 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                   entity.Property(e => e.ZoneId).HasMaxLength(50);
 
-            //entity.HasOne(d => d.Kebele)
-            //          .WithMany(p => p.Address)
-            //          .HasForeignKey(d => d.KebeleId);
+                  //entity.HasOne(d => d.Kebele)
+                  //          .WithMany(p => p.Address)
+                  //          .HasForeignKey(d => d.KebeleId);
 
-            //entity.HasOne(d => d.Region)
-            //          .WithMany(p => p.Address)
-            //          .HasForeignKey(d => d.RegionId);
+                  //entity.HasOne(d => d.Region)
+                  //          .WithMany(p => p.Address)
+                  //          .HasForeignKey(d => d.RegionId);
 
-            //entity.HasOne(d => d.Town)
-            //          .WithMany(p => p.Address)
-            //          .HasForeignKey(d => d.TownId);
+                  //entity.HasOne(d => d.Town)
+                  //          .WithMany(p => p.Address)
+                  //          .HasForeignKey(d => d.TownId);
 
-            //entity.HasOne(d => d.Woreda)
-            //          .WithMany(p => p.Address)
-            //          .HasForeignKey(d => d.WoredaId);
+                  //entity.HasOne(d => d.Woreda)
+                  //          .WithMany(p => p.Address)
+                  //          .HasForeignKey(d => d.WoredaId);
 
-            //entity.HasOne(d => d.Zone)
-            //          .WithMany(p => p.Address)
-            //          .HasForeignKey(d => d.ZoneId);
-        });
+                  //entity.HasOne(d => d.Zone)
+                  //          .WithMany(p => p.Address)
+                  //          .HasForeignKey(d => d.ZoneId);
+              });
             modelBuilder.Entity<Test>(entity =>
             {
                 entity.ToTable("Test", "dbo");
@@ -280,7 +280,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             modelBuilder.Entity<CapitalRegistration>(entity =>
             {
                 entity.ToTable("CapitalRegistration", "dbo");
-            }); 
+            });
 
             modelBuilder.Entity<Letter>(entity =>
             {
@@ -294,7 +294,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             {
                 entity.ToTable("IncentiveRequestDetail", "dbo");
             });
-            
+
             modelBuilder.Entity<ProjectStatusHistory>(entity =>
             {
                 entity.ToTable("ProjectStatusHistory", "dbo");
@@ -341,11 +341,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             {
                 entity.ToTable("Associate", "dbo");
 
-                entity.HasIndex(e => e.AddressId);
-
-                entity.HasIndex(e => e.InvestorId);
-
-                entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+              
 
                 entity.Property(e => e.FatherName).HasMaxLength(50);
 
@@ -378,15 +374,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 entity.Property(e => e.Remark).HasMaxLength(100);
 
                 entity.Property(e => e.Tin).HasMaxLength(100);
-
-                entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Associate)
-                    .HasForeignKey(d => d.AddressId);
-
-                entity.HasOne(d => d.Investor)
-                    .WithMany(p => p.Associate)
-                    .HasForeignKey(d => d.InvestorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+//
+//                entity.HasOne(d => d.Address)
+//                    .WithMany(p => p.Associate)
+//                    .HasForeignKey(d => d.AddressId);
+//
+//                entity.HasOne(d => d.Investor)
+//                    .WithMany(p => p.Associate)
+//                    .HasForeignKey(d => d.InvestorId)
+//                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Caption>(entity =>
@@ -446,15 +442,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.ChangeType)
-          //          .WithMany(p => p.DataChangeRequest)
-          //          .HasForeignKey(d => d.ChangeTypeId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.ChangeType)
+                //          .WithMany(p => p.DataChangeRequest)
+                //          .HasForeignKey(d => d.ChangeTypeId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          entity.HasOne(d => d.ServiceApplication)
-                    .WithMany(p => p.DataChangeRequest)
-                    .HasForeignKey(d => d.ServiceApplicationId)
-                     .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(d => d.ServiceApplication)
+                          .WithMany(p => p.DataChangeRequest)
+                          .HasForeignKey(d => d.ServiceApplicationId)
+                           .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<DataChangeRequestDocument>(entity =>
@@ -486,18 +482,18 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             {
                 entity.ToTable("Document", "dbo");
 
-          //entity.HasIndex(e => e.DocumentTypeId);
+                //entity.HasIndex(e => e.DocumentTypeId);
 
-          //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.KeyWords).HasMaxLength(1000);
+                //entity.Property(e => e.KeyWords).HasMaxLength(1000);
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.Property(e => e.Title).HasMaxLength(250);
-      });
+                //entity.Property(e => e.Title).HasMaxLength(250);
+            });
 
             modelBuilder.Entity<DocumentVersion>(entity =>
             {
@@ -538,16 +534,16 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.ItemCategory)
-          //          .WithMany(p => p.IncentiveItemItemCategory)
-          //          .HasForeignKey(d => d.ItemCategoryId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.ItemCategory)
+                //          .WithMany(p => p.IncentiveItemItemCategory)
+                //          .HasForeignKey(d => d.ItemCategoryId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.Unit)
-          //          .WithMany(p => p.IncentiveItemUnit)
-          //          .HasForeignKey(d => d.UnitId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.Unit)
+                //          .WithMany(p => p.IncentiveItemUnit)
+                //          .HasForeignKey(d => d.UnitId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<IncentiveRequest>(entity =>
             {
@@ -569,20 +565,20 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.RequestDate).HasColumnType("date");
 
-          //entity.HasOne(d => d.CustomsSite)
-          //          .WithMany(p => p.IncentiveRequestCustomsSite)
-          //          .HasForeignKey(d => d.CustomsSiteId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.CustomsSite)
+                //          .WithMany(p => p.IncentiveRequestCustomsSite)
+                //          .HasForeignKey(d => d.CustomsSiteId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.RequestType)
-          //          .WithMany(p => p.IncentiveRequestRequestType)
-          //          .HasForeignKey(d => d.RequestTypeId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.RequestType)
+                //          .WithMany(p => p.IncentiveRequestRequestType)
+                //          .HasForeignKey(d => d.RequestTypeId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          entity.HasOne(d => d.ServiceApplication)
-                    .WithMany(p => p.IncentiveRequest)
-                    .HasForeignKey(d => d.ServiceApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(d => d.ServiceApplication)
+                          .WithMany(p => p.IncentiveRequest)
+                          .HasForeignKey(d => d.ServiceApplicationId)
+                          .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<IncentiveRequestDocument>(entity =>
@@ -610,16 +606,16 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .HasForeignKey(d => d.DocumentId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.DocumentType)
-          //          .WithMany(p => p.IncentiveRequestDocument)
-          //          .HasForeignKey(d => d.DocumentTypeId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.DocumentType)
+                //          .WithMany(p => p.IncentiveRequestDocument)
+                //          .HasForeignKey(d => d.DocumentTypeId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.IncentiveRequest)
-          //          .WithMany(p => p.IncentiveRequestDocument)
-          //          .HasForeignKey(d => d.IncentiveRequestId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.IncentiveRequest)
+                //          .WithMany(p => p.IncentiveRequestDocument)
+                //          .HasForeignKey(d => d.IncentiveRequestId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<IncentiveRequestItem>(entity =>
             {
@@ -627,11 +623,11 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
 
 
-          //entity.HasOne(d => d.Unit)
-          //          .WithMany(p => p.IncentiveRequestItemUnit)
-          //          .HasForeignKey(d => d.UnitId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.Unit)
+                //          .WithMany(p => p.IncentiveRequestItemUnit)
+                //          .HasForeignKey(d => d.UnitId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<IncentiveRequestItemReconciliation>(entity =>
             {
@@ -654,70 +650,17 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 entity.Property(e => e.Remark).HasMaxLength(1000);
 
 
-          //entity.HasOne(d => d.Unit)
-          //          .WithMany(p => p.IncentiveRequestItemReconciliation)
-          //          .HasForeignKey(d => d.UnitId);
-      });
+                //entity.HasOne(d => d.Unit)
+                //          .WithMany(p => p.IncentiveRequestItemReconciliation)
+                //          .HasForeignKey(d => d.UnitId);
+            });
 
             modelBuilder.Entity<Investor>(entity =>
             {
                 entity.ToTable("Investor", "dbo");
 
-          ////entity.HasIndex(e => e.AddressId);
-
-          //entity.HasIndex(e => e.SiteId);
-
-          ////entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
-
-          //entity.Property(e => e.FatherName).HasMaxLength(50);
-
-          //entity.Property(e => e.FatherNameEng).HasMaxLength(50);
-
-          //entity.Property(e => e.FatherNameSort).HasMaxLength(100);
-
-          //entity.Property(e => e.FatherNameSoundx).HasMaxLength(100);
-
-          //entity.Property(e => e.FirstName).HasMaxLength(50);
-
-          //entity.Property(e => e.FirstNameEng).HasMaxLength(50);
-
-          //entity.Property(e => e.FirstNameSort).HasMaxLength(100);
-
-          //entity.Property(e => e.FirstNameSoundx).HasMaxLength(100);
-
-          //entity.Property(e => e.GrandName).HasMaxLength(50);
-
-          //entity.Property(e => e.GrandNameEng).HasMaxLength(50);
-
-          //entity.Property(e => e.GrandNameSort).HasMaxLength(100);
-
-          //entity.Property(e => e.GrandNameSoundx).HasMaxLength(100);
-
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
-
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
-
-          //entity.Property(e => e.RegistrationNumber).HasMaxLength(250);
-
-          ////entity.Property(e => e.Remark).HasMaxLength(1000);
-
-          //entity.Property(e => e.TradeName).HasMaxLength(250);
-
-          //entity.Property(e => e.TradeNameEnglish).HasMaxLength(250);
-
-          //entity.Property(e => e.TradeNameSort).HasMaxLength(250);
-
-          //entity.Property(e => e.TradeNameSoundX).HasMaxLength(250);
-
-          //entity.HasOne(d => d.Address)
-          //          .WithMany(p => p.Investor)
-          //          .HasForeignKey(d => d.AddressId);
-
-          //entity.HasOne(d => d.Site)
-          //          .WithMany(p => p.Investor)
-          //          .HasForeignKey(d => d.SiteId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                
+            });
 
             modelBuilder.Entity<Kebele>(entity =>
             {
@@ -739,13 +682,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          entity.Property(e => e.WoredaId)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.WoredaId)
+                          .IsRequired()
+                          .HasMaxLength(50);
 
                 entity.HasOne(d => d.Woreda)
                     .WithMany(p => p.Kebeles)
@@ -858,93 +801,93 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             {
                 entity.ToTable("Order", "dbo");
 
-          //entity.HasIndex(e => e.PaymentTypeId);
+                //entity.HasIndex(e => e.PaymentTypeId);
 
-          //entity.HasIndex(e => e.ServiceApplicationId);
+                //entity.HasIndex(e => e.ServiceApplicationId);
 
-          //entity.Property(e => e.CashierUserName).HasMaxLength(100);
+                //entity.Property(e => e.CashierUserName).HasMaxLength(100);
 
-          //entity.Property(e => e.CheckNo).HasMaxLength(50);
+                //entity.Property(e => e.CheckNo).HasMaxLength(50);
 
-          //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.Property(e => e.OrderDate).HasColumnType("date");
+                //entity.Property(e => e.OrderDate).HasColumnType("date");
 
-          //entity.Property(e => e.PaymentDate).HasColumnType("date");
+                //entity.Property(e => e.PaymentDate).HasColumnType("date");
 
-          //entity.Property(e => e.PreparedByUserName).HasMaxLength(100);
+                //entity.Property(e => e.PreparedByUserName).HasMaxLength(100);
 
-          //entity.Property(e => e.ReceiptNumber)
-          //          .IsRequired()
-          //          .HasMaxLength(50);
+                //entity.Property(e => e.ReceiptNumber)
+                //          .IsRequired()
+                //          .HasMaxLength(50);
 
-          //entity.Property(e => e.Remark).HasMaxLength(1000);
+                //entity.Property(e => e.Remark).HasMaxLength(1000);
 
-          //entity.Property(e => e.VoidByUserName).HasMaxLength(100);
+                //entity.Property(e => e.VoidByUserName).HasMaxLength(100);
 
-          //entity.Property(e => e.VoidDate).HasColumnType("date");
+                //entity.Property(e => e.VoidDate).HasColumnType("date");
 
-          //entity.Property(e => e.VoidReason).HasMaxLength(1000);
+                //entity.Property(e => e.VoidReason).HasMaxLength(1000);
 
-          //entity.HasOne(d => d.PaymentType)
+                //entity.HasOne(d => d.PaymentType)
 
-          //          .WithMany(p => p.OrderNavigation)
-          //          .HasForeignKey(d => d.PaymentTypeId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //          .WithMany(p => p.OrderNavigation)
+                //          .HasForeignKey(d => d.PaymentTypeId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.ServiceApplication)
-          //          .WithMany(p => p.Order)
-          //          .HasForeignKey(d => d.ServiceApplicationId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.ServiceApplication)
+                //          .WithMany(p => p.Order)
+                //          .HasForeignKey(d => d.ServiceApplicationId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.ToTable("OrderDetail", "dbo");
 
-          //entity.HasIndex(e => e.OrderId);
+                //entity.HasIndex(e => e.OrderId);
 
-          //entity.HasIndex(e => e.TariffId);
+                //entity.HasIndex(e => e.TariffId);
 
-          ////entity.Property(e => e.AccCode)
-          //          .IsRequired()
-          //          .HasMaxLength(50);
+                ////entity.Property(e => e.AccCode)
+                //          .IsRequired()
+                //          .HasMaxLength(50);
 
-          entity.Property(e => e.Description).HasMaxLength(1000);
+                entity.Property(e => e.Description).HasMaxLength(1000);
 
                 entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.Order)
-          //          .WithMany(p => p.OrderDetail)
-          //          .HasForeignKey(d => d.OrderId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.Order)
+                //          .WithMany(p => p.OrderDetail)
+                //          .HasForeignKey(d => d.OrderId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.Tariff)
-          //          .WithMany(p => p.OrderDet)
-          //          .HasForeignKey(d => d.TariffId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.Tariff)
+                //          .WithMany(p => p.OrderDet)
+                //          .HasForeignKey(d => d.TariffId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<Activity>(entity =>
             {
                 entity.ToTable("Activity", "dbo");
 
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
             modelBuilder.Entity<InvestmentActivity>(entity =>
             {
                 entity.ToTable("InvestmentActivity", "dbo");
 
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<Project>(entity =>
             {
@@ -952,13 +895,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.HasIndex(e => e.InvestorId);
 
-          //entity.HasIndex(e => e.ActivityId);
+                //entity.HasIndex(e => e.ActivityId);
 
-          entity.HasIndex(e => e.SiteId);
+                entity.HasIndex(e => e.SiteId);
 
-          //entity.HasIndex(e => e.InvestmentActivity);
+                //entity.HasIndex(e => e.InvestmentActivity);
 
-          entity.Property(e => e.BusinessLicenseNo).HasMaxLength(50);
+                entity.Property(e => e.BusinessLicenseNo).HasMaxLength(50);
 
                 entity.Property(e => e.EnvironmentalImpact).HasMaxLength(4000);
 
@@ -990,28 +933,28 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .IsRequired()
                     .HasMaxLength(500);
 
-          //entity.Property(e => e.ActivityId).HasMaxLength(50);
+                //entity.Property(e => e.ActivityId).HasMaxLength(50);
 
-          //entity.Property(e => e.InvestmentActivityId).HasMaxLength(50);
+                //entity.Property(e => e.InvestmentActivityId).HasMaxLength(50);
 
-          //entity.HasOne(d => d.Investor)
-          //          .WithMany(p => p.Project)
-          //          .HasForeignKey(d => d.InvestorId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.Investor)
+                //          .WithMany(p => p.Project)
+                //          .HasForeignKey(d => d.InvestorId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.activity)
-          //          .WithMany(p => p.Project)
-          //          .HasForeignKey(d => d.ActivityId);
+                //entity.HasOne(d => d.activity)
+                //          .WithMany(p => p.Project)
+                //          .HasForeignKey(d => d.ActivityId);
 
-          entity.HasOne(d => d.Site)
-                    .WithMany(p => p.Project)
-                    .HasForeignKey(d => d.SiteId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(d => d.Site)
+                          .WithMany(p => p.Project)
+                          .HasForeignKey(d => d.SiteId)
+                          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.InvestmentActivity)
-          //          .WithMany(p => p.Project)
-          //          .HasForeignKey(d => d.InvestmentActivityId);
-      });
+                //entity.HasOne(d => d.InvestmentActivity)
+                //          .WithMany(p => p.Project)
+                //          .HasForeignKey(d => d.InvestmentActivityId);
+            });
 
             modelBuilder.Entity<ProjectAssociate>(entity =>
             {
@@ -1289,10 +1232,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
-      });
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+            });
 
             modelBuilder.Entity<Role>(entity =>
             {
@@ -1331,13 +1274,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             {
                 entity.ToTable("Sector", "dbo");
 
-          //entity.Property(e => e.SectorId)
-          //          .HasMaxLength(50)
-          //          .ValueGeneratedNever();
+                //entity.Property(e => e.SectorId)
+                //          .HasMaxLength(50)
+                //          .ValueGeneratedNever();
 
-          entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(250);
+                entity.Property(e => e.Description)
+                          .IsRequired()
+                          .HasMaxLength(250);
 
                 entity.Property(e => e.DescriptionAlias)
                     .IsRequired()
@@ -1351,99 +1294,99 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .IsRequired()
                     .HasMaxLength(500);
 
-          //entity.Property(e => e.DescriptionSort)
-          //          .IsRequired()
-          //          .HasMaxLength(500);
+                //entity.Property(e => e.DescriptionSort)
+                //          .IsRequired()
+                //          .HasMaxLength(500);
 
-          //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
-      });
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+            });
 
             modelBuilder.Entity<Service>(entity =>
             {
                 entity.ToTable("Service", "dbo");
 
-          //entity.HasIndex(e => e.DurationUnitId);
+                //entity.HasIndex(e => e.DurationUnitId);
 
-          //entity.Property(e => e.Abbreviation)
-          //          .IsRequired()
-          //          .HasMaxLength(50);
+                //entity.Property(e => e.Abbreviation)
+                //          .IsRequired()
+                //          .HasMaxLength(50);
 
-          //entity.Property(e => e.DisplayName)
-          //          .IsRequired()
-          //          .HasMaxLength(100);
+                //entity.Property(e => e.DisplayName)
+                //          .IsRequired()
+                //          .HasMaxLength(100);
 
-          //entity.Property(e => e.DisplayNameEnglish)
-          //          .IsRequired()
-          //          .HasMaxLength(100);
+                //entity.Property(e => e.DisplayNameEnglish)
+                //          .IsRequired()
+                //          .HasMaxLength(100);
 
-          //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.Icon)
-          //          .IsRequired()
-          //          .HasMaxLength(50);
+                //entity.Property(e => e.Icon)
+                //          .IsRequired()
+                //          .HasMaxLength(50);
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.Name)
-          //          .IsRequired()
-          //          .HasMaxLength(100);
+                //entity.Property(e => e.Name)
+                //          .IsRequired()
+                //          .HasMaxLength(100);
 
-          //entity.Property(e => e.NameEnglish)
-          //          .IsRequired()
-          //          .HasMaxLength(100);
+                //entity.Property(e => e.NameEnglish)
+                //          .IsRequired()
+                //          .HasMaxLength(100);
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.DurationUnit)
-          //          .WithMany(p => p.Service)
-          //          .HasForeignKey(d => d.DurationUnitId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.DurationUnit)
+                //          .WithMany(p => p.Service)
+                //          .HasForeignKey(d => d.DurationUnitId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
             modelBuilder.Entity<ServicePrerequisite>(entity =>
             {
                 entity.ToTable("ServicePrerequisite", "dbo");
 
-          //entity.HasIndex(e => e.DurationUnitId);
+                //entity.HasIndex(e => e.DurationUnitId);
 
-          //entity.Property(e => e.Abbreviation)
-          //          .IsRequired()
-          //          .HasMaxLength(50);
+                //entity.Property(e => e.Abbreviation)
+                //          .IsRequired()
+                //          .HasMaxLength(50);
 
-          //entity.Property(e => e.DisplayName)
-          //          .IsRequired()
-          //          .HasMaxLength(100);
+                //entity.Property(e => e.DisplayName)
+                //          .IsRequired()
+                //          .HasMaxLength(100);
 
-          //entity.Property(e => e.DisplayNameEnglish)
-          //          .IsRequired()
-          //          .HasMaxLength(100);
+                //entity.Property(e => e.DisplayNameEnglish)
+                //          .IsRequired()
+                //          .HasMaxLength(100);
 
-          //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.Icon)
-          //          .IsRequired()
-          //          .HasMaxLength(50);
+                //entity.Property(e => e.Icon)
+                //          .IsRequired()
+                //          .HasMaxLength(50);
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.Name)
-          //          .IsRequired()
-          //          .HasMaxLength(100);
+                //entity.Property(e => e.Name)
+                //          .IsRequired()
+                //          .HasMaxLength(100);
 
-          //entity.Property(e => e.NameEnglish)
-          //          .IsRequired()
-          //          .HasMaxLength(100);
+                //entity.Property(e => e.NameEnglish)
+                //          .IsRequired()
+                //          .HasMaxLength(100);
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.DurationUnit)
-          //          .WithMany(p => p.Service)
-          //          .HasForeignKey(d => d.DurationUnitId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.DurationUnit)
+                //          .WithMany(p => p.Service)
+                //          .HasForeignKey(d => d.DurationUnitId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<ServiceApplication>(entity =>
             {
@@ -1475,25 +1418,25 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.WindowNumber).HasMaxLength(50);
 
-          //entity.HasOne(d => d.CurrentStatus)
-          //          .WithMany(p => p.ServiceApplication)
-          //          .HasForeignKey(d => d.CurrentStatusId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.CurrentStatus)
+                //          .WithMany(p => p.ServiceApplication)
+                //          .HasForeignKey(d => d.CurrentStatusId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.Investor)
-          //          .WithMany(p => p.ServiceApplication)
-          //          .HasForeignKey(d => d.InvestorId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.Investor)
+                //          .WithMany(p => p.ServiceApplication)
+                //          .HasForeignKey(d => d.InvestorId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          entity.HasOne(d => d.Project)
-                    .WithMany(p => p.ServiceApplication)
-                    .HasForeignKey(d => d.ProjectId);
+                entity.HasOne(d => d.Project)
+                          .WithMany(p => p.ServiceApplication)
+                          .HasForeignKey(d => d.ProjectId);
 
-          //entity.HasOne(d => d.Service)
-          //          .WithMany(p => p.ServiceApplication)
-          //          .HasForeignKey(d => d.ServiceId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.Service)
+                //          .WithMany(p => p.ServiceApplication)
+                //          .HasForeignKey(d => d.ServiceId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<ServiceApplicationWorkflow>(entity =>
             {
@@ -1521,16 +1464,16 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.StartDate).HasColumnType("date");
 
-          //entity.HasOne(d => d.ServiceApplication)
-          //          .WithMany(p => p.ServiceApplicationWorkflow)
-          //          .HasForeignKey(d => d.ServiceApplicationId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.ServiceApplication)
+                //          .WithMany(p => p.ServiceApplicationWorkflow)
+                //          .HasForeignKey(d => d.ServiceApplicationId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.ServiceWorkflow)
-          //          .WithMany(p => p.ServiceApplicationWorkflow)
-          //          .HasForeignKey(d => d.ServiceWorkflowId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.ServiceWorkflow)
+                //          .WithMany(p => p.ServiceApplicationWorkflow)
+                //          .HasForeignKey(d => d.ServiceWorkflowId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<ServiceOutput>(entity =>
             {
@@ -1554,11 +1497,11 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.To).HasMaxLength(1000);
 
-          //entity.HasOne(d => d.ServiceApplicationWorkflow)
-          //          .WithMany(p => p.ServiceOutput)
-          //          .HasForeignKey(d => d.ServiceApplicationWorkflowId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.ServiceApplicationWorkflow)
+                //          .WithMany(p => p.ServiceOutput)
+                //          .HasForeignKey(d => d.ServiceApplicationWorkflowId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<ServiceSite>(entity =>
             {
@@ -1605,15 +1548,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.LegalStatus)
-          //          .WithMany(p => p.ServiceStep)
-          //          .HasForeignKey(d => d.LegalStatusId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.LegalStatus)
+                //          .WithMany(p => p.ServiceStep)
+                //          .HasForeignKey(d => d.LegalStatusId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          entity.HasOne(d => d.Service)
-                    .WithMany(p => p.ServiceStep)
-                    .HasForeignKey(d => d.ServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(d => d.Service)
+                          .WithMany(p => p.ServiceStep)
+                          .HasForeignKey(d => d.ServiceId)
+                          .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<ServiceTariff>(entity =>
@@ -1624,22 +1567,22 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.HasIndex(e => e.TariffId);
 
-          //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.Service)
-          //          .WithMany(p => p.ServiceTariff)
-          //          .HasForeignKey(d => d.ServiceId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.Service)
+                //          .WithMany(p => p.ServiceTariff)
+                //          .HasForeignKey(d => d.ServiceId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.Tariff)
-          //          .WithMany(p => p.ServiceTariff)
-          //          .HasForeignKey(d => d.TariffId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.Tariff)
+                //          .WithMany(p => p.ServiceTariff)
+                //          .HasForeignKey(d => d.TariffId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             modelBuilder.Entity<ServiceWorkflow>(entity =>
             {
@@ -1665,25 +1608,25 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.Action)
-          //          .WithMany(p => p.ServiceWorkflowAction)
-          //          .HasForeignKey(d => d.ActionId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.Action)
+                //          .WithMany(p => p.ServiceWorkflowAction)
+                //          .HasForeignKey(d => d.ActionId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.FromStatus)
-          //          .WithMany(p => p.ServiceWorkflowFromStatus)
-          //          .HasForeignKey(d => d.FromStatusId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.FromStatus)
+                //          .WithMany(p => p.ServiceWorkflowFromStatus)
+                //          .HasForeignKey(d => d.FromStatusId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.LegalStatus)
-          //          .WithMany(p => p.ServiceWorkflowLegalStatus)
-          //          .HasForeignKey(d => d.LegalStatusId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.LegalStatus)
+                //          .WithMany(p => p.ServiceWorkflowLegalStatus)
+                //          .HasForeignKey(d => d.LegalStatusId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          entity.HasOne(d => d.NextStep)
-                    .WithMany(p => p.ServiceWorkflowNextStep)
-                    .HasForeignKey(d => d.NextStepId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(d => d.NextStep)
+                          .WithMany(p => p.ServiceWorkflowNextStep)
+                          .HasForeignKey(d => d.NextStepId)
+                          .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(d => d.Service)
                     .WithMany(p => p.ServiceWorkflow)
@@ -1695,11 +1638,11 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .HasForeignKey(d => d.StepId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-          //entity.HasOne(d => d.ToStatus)
-          //          .WithMany(p => p.ServiceWorkflowToStatus)
-          //          .HasForeignKey(d => d.ToStatusId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
+                //entity.HasOne(d => d.ToStatus)
+                //          .WithMany(p => p.ServiceWorkflowToStatus)
+                //          .HasForeignKey(d => d.ToStatusId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
+            });
             modelBuilder.Entity<ServiceWorkflowHistory>(entity =>
             {
                 entity.ToTable("ServiceWorkflowHistory", "dbo");
@@ -1723,15 +1666,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.DocumentType)
-          //          .WithMany(p => p.ServiceWorkflowInputDocument)
-          //          .HasForeignKey(d => d.DocumentTypeId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.DocumentType)
+                //          .WithMany(p => p.ServiceWorkflowInputDocument)
+                //          .HasForeignKey(d => d.DocumentTypeId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          entity.HasOne(d => d.ServiceWorkflow)
-                    .WithMany(p => p.ServiceWorkflowInputDocument)
-                    .HasForeignKey(d => d.ServiceWorkflowId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(d => d.ServiceWorkflow)
+                          .WithMany(p => p.ServiceWorkflowInputDocument)
+                          .HasForeignKey(d => d.ServiceWorkflowId)
+                          .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<ServiceWorkflowOutputDocument>(entity =>
@@ -1748,15 +1691,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.LetterTemplate)
-          //          .WithMany(p => p.ServiceWorkflowOutputDocument)
-          //          .HasForeignKey(d => d.LetterTemplateId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.LetterTemplate)
+                //          .WithMany(p => p.ServiceWorkflowOutputDocument)
+                //          .HasForeignKey(d => d.LetterTemplateId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
 
-          entity.HasOne(d => d.ServiceWorkflow)
-                    .WithMany(p => p.ServiceWorkflowOutputDocument)
-                    .HasForeignKey(d => d.ServiceWorkflowId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(d => d.ServiceWorkflow)
+                          .WithMany(p => p.ServiceWorkflowOutputDocument)
+                          .HasForeignKey(d => d.ServiceWorkflowId)
+                          .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Site>(entity =>
@@ -1782,13 +1725,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.HasIndex(e => e.SectorId);
 
-          //entity.Property(e => e.SubSectorId)
-          //          .HasMaxLength(50)
-          //          .ValueGeneratedNever();
+                //entity.Property(e => e.SubSectorId)
+                //          .HasMaxLength(50)
+                //          .ValueGeneratedNever();
 
-          entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(250);
+                entity.Property(e => e.Description)
+                          .IsRequired()
+                          .HasMaxLength(250);
 
                 entity.Property(e => e.DescriptionAlias)
                     .IsRequired()
@@ -1806,15 +1749,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .IsRequired()
                     .HasMaxLength(500);
 
-          //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          entity.Property(e => e.SectorId)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.SectorId)
+                          .IsRequired()
+                          .HasMaxLength(50);
 
                 entity.HasOne(d => d.Sector)
                     .WithMany(p => p.SubSector)
@@ -1832,57 +1775,25 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .IsRequired()
                     .HasMaxLength(100);
 
-          //entity.Property(e => e.Description).HasMaxLength(1000);
+                //entity.Property(e => e.Description).HasMaxLength(1000);
 
-          //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                entity.Property(e => e.Name)
+                          .IsRequired()
+                          .HasMaxLength(100);
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          //entity.HasOne(d => d.TariffMode)
-          //          .WithMany(p => p.Tariff)
-          //          .HasForeignKey(d => d.TariffModeId)
-          //          .OnDelete(DeleteBehavior.ClientSetNull);
-      });
-
-            modelBuilder.Entity<Town>(entity =>
-            {
-                entity.ToTable("Town", "dbo");
-
-                entity.HasIndex(e => e.RegionId);
-
-                entity.Property(e => e.TownId)
-                    .HasMaxLength(50)
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.DescriptionEnglish)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
-
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
-
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
-
-          entity.Property(e => e.RegionId)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.HasOne(d => d.Region)
-                    .WithMany(p => p.Towns)
-                    .HasForeignKey(d => d.RegionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.TariffMode)
+                //          .WithMany(p => p.Tariff)
+                //          .HasForeignKey(d => d.TariffModeId)
+                //          .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
+
 
             modelBuilder.Entity<User>(entity =>
             {
@@ -2038,27 +1949,27 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.HasIndex(e => e.ZoneId);
 
-          //entity.Property(e => e.WoredaId)
-          //          .HasMaxLength(50)
-          //          .ValueGeneratedNever();
+                //entity.Property(e => e.WoredaId)
+                //          .HasMaxLength(50)
+                //          .ValueGeneratedNever();
 
-          entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(250);
+                entity.Property(e => e.Description)
+                          .IsRequired()
+                          .HasMaxLength(250);
 
                 entity.Property(e => e.DescriptionEnglish)
                     .IsRequired()
                     .HasMaxLength(250);
 
-          //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          entity.Property(e => e.ZoneId)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.ZoneId)
+                          .IsRequired()
+                          .HasMaxLength(50);
 
                 entity.HasOne(d => d.Zone)
                     .WithMany(p => p.Woredas)
@@ -2084,25 +1995,58 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .IsRequired()
                     .HasMaxLength(250);
 
-          //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
-          //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-          //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-          entity.Property(e => e.RegionId)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.RegionId)
+                          .IsRequired()
+                          .HasMaxLength(50);
 
                 entity.HasOne(d => d.Region)
                     .WithMany(p => p.Zones)
                     .HasForeignKey(d => d.RegionId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
-       
+
+
+
+            modelBuilder.Entity<Town>(entity =>
+            {
+                entity.ToTable("Town", "dbo");
+
+                entity.HasIndex(e => e.RegionId);
+
+                entity.Property(e => e.TownId)
+                    .HasMaxLength(50)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.DescriptionEnglish)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+
+
+                entity.Property(e => e.RegionId)
+                          .IsRequired()
+                          .HasMaxLength(50);
+
+                entity.HasOne(d => d.Region)
+                    .WithMany(p => p.Towns)
+                    .HasForeignKey(d => d.RegionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+
             modelBuilder.Entity<BudgetYearType>(entity =>
             {
-                entity.ToTable("BudgetYearType", "dbo");
+                entity.ToTable("tblBudgetYear", "dbo");
                 entity.HasIndex(e => e.Code);
                 entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
                 entity.Property(e => e.Description).HasMaxLength(50);
@@ -2114,18 +2058,18 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             });
             modelBuilder.Entity<RegistrationCatagory>(entity =>
             {
-                entity.ToTable("tblCatagoryRegistration", "dbo");
+                entity.ToTable("RegistrationCatagory", "dbo");
 
             });
 
             modelBuilder.Entity<Business>(entity =>
             {
-                entity.ToTable("tblBusiness", "dbo");
+                entity.ToTable("Business", "dbo");
 
             });
             modelBuilder.Entity<BusinessLicensingGroup>(entity =>
             {
-                entity.ToTable("tblBusinessLicensingGroup", "dbo");
+                entity.ToTable("BusinessLicensingGroup", "dbo");
 
             });
 

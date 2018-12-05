@@ -19,8 +19,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         private ApplicationDbContext context;
 
         //, IncentiveRequestItemRepository IncentiveRequestItemRepo
-        public IncentiveRequestItemController(ApplicationDbContext ctx,
-            IncentiveRequestItemRepository IncentiveRequestItemRepo)
+        public IncentiveRequestItemController(ApplicationDbContext ctx,IncentiveRequestItemRepository IncentiveRequestItemRepo)
         {
             context = ctx;
             _IncentiveRequestItemRepoo = IncentiveRequestItemRepo;
@@ -42,8 +41,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
 
         [HttpGet]
         [Route("api/incentiveRequestItems/ByProjectId/{id:int}")]
-        public async Task<IEnumerable<IncentiveRequestItem>> GetIncentiveRequestItems(int id, int page = -1,
-            int pageSize = 10)
+        public async Task<IEnumerable<IncentiveRequestItem>> GetIncentiveRequestItems(int id, int page = -1,int pageSize = 10)
         {
             return await _IncentiveRequestItemRepoo.GetIncentiveRequestItems(id, page, pageSize);
         }

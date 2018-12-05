@@ -9,6 +9,7 @@ import {AccountService} from '../../../../@custor/services/security/account.serv
 import {OrderModel} from '../../../model/Order.model';
 import {FormService} from '../../../../@custor/validation/custom/form';
 import {ServiceTariffModel} from '../../../model/servicetariff';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-payment',
@@ -27,10 +28,15 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
     ReceiptNumber: '',
     CheckNo: '',
   };
+  private ServiceId: any;
+  private InvestorId: any;
+  private workFlowId: any;
+  private ServiceApplicationId: any;
 
   constructor(
     public serviceApplicationService: ServiceApplicationService,
     public fb: FormBuilder,
+    public route: ActivatedRoute,
     public formService: FormService,
     public accountService: AccountService,
     public orderService: OrderService) {
@@ -39,20 +45,24 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
 
   ngOnInit() {
     // this.getServiceApplication();
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+
     this.initForm();
-    this.getServiceApplication(localStorage.getItem('ServiceApplicationId'));
+    this.getServiceApplication(this.ServiceApplicationId);
 
     // console.log(localStorage.getItem('ServiceApplicationId'));
   }
 
   initForm() {
     this.orderForm = this.fb.group({
-      ServiceApplicationId: new FormControl(),
+      ServiceApplicationId: new FormControl(this.ServiceApplicationId),
       ReceiptNumber: new FormControl('', Validators.required),
       CheckNo: new FormControl('', Validators.required),
       TotalAmount: [''],
       CashierUserName: [''],
-      // CashierUserId: [''],
       PaymentDate: ['']
     });
   }
@@ -75,7 +85,6 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
   }
 
   getServiceApplication(id: any) {
-    // console.log(localStorage.getItem('serviceApplicationId'));
     console.log(id);
     this.serviceApplicationService.getOneById(id)
       .subscribe((result: ServiceApplicationModel) => {
@@ -83,8 +92,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
         this.TotalAmount = result.Service.ServiceTariff[0].Tariff.Fee;
         this.serviceTariff = result.Service.ServiceTariff;
         this.getTotalAmount(this.serviceTariff);
-        this.investorName = result.Investor.InvestorName;
-        // console.log(result.Investor.InvestorName);
+        this.investorName = result.InvestorNameAmharic;
       });
   }
 
@@ -97,15 +105,13 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
   }
 
   ngAfterViewInit(): void {
-    // console.log(this.accountService.currentUser);
   }
 
   ngAfterViewChecked() {
     this.orderForm.patchValue({
-      ServiceApplicationId: localStorage.getItem('ServiceApplicationId'),
+      ServiceApplicationId: this.ServiceApplicationId,
       TotalAmount: this.TotalAmount,
       CashierUserName: this.accountService.currentUser.FullName,
-      // CashierUserId: this.accountService.currentUser.id,
       PaymentDate: new Date(),
     });
   }
@@ -115,7 +121,6 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
     if (this.orderForm.valid) {
       this.orderService.create(this.orderForm.value)
         .subscribe(result => {
-          // console.log(result);
           this.payment = result;
           this.paid = true;
         });

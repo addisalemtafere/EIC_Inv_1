@@ -92,6 +92,11 @@ export class AppConfiguration {
     region: 'api/region',
     zones: 'api/Zones',
     zone: 'api/zone',
+
+    towns: 'api/Towns',
+    town: 'api/town',
+
+
     woredas: 'api/Woredas',
     woreda: 'api/woreda',
     kebeles: 'api/Kebeles',
@@ -99,7 +104,7 @@ export class AppConfiguration {
     servicePrerequisiteByServiceId: 'api/servicePrerequisiteByServiceId',
     // order: 'api/Order',
     ServiceApplications: 'api/ServiceApplications',
-    certificate: '/api/certificate',
+    certificate: 'api/certificate',
     Notification: 'api/Notifications',
     ChangeStatus: 'api/Notifications/ChangeStatus',
     CountNotification: 'api/Notifications/CountNotification',
@@ -127,7 +132,7 @@ export class AppConfiguration {
     ServiceApplicationBillOfMaterial: 'api/ServiceApplications/ServiceApplicationBillOfMaterial',
 
     ProjectsByInvestorId: 'api/Projects/ByInvestorId',
-    SearchInvestor: '/api/SearchInvestor',
+    SearchInvestor: 'api/SearchInvestor',
 
     TodoTasks: 'api/TodoTasks',
     CompletedTask: 'api/TodoTasks/CompletedTask',
@@ -151,12 +156,14 @@ export class AppConfiguration {
     kebeleById: 'api/Kebele/ById',
     regionsById: 'api/Regions/ById',
     zoneById: 'api/Zones/ById',
+    townById: 'api/Towns/ById',
     requirementByProject: 'api/ProjectRequirements/ByProject',
     ProjectsDetail: 'api/Projects/Detail',
     IncentiveLogs: 'api/IncentiveLogs',
 
     associates: 'api/Associates',
     byInvestorId: 'api/Associates/ByInvestorId',
+    GetOneAssociateByInvestorID: 'api/Associates/GetOneAssociateByInvestorID',
     ProjectAssociates: 'api/ProjectAssociates',
     ProjectAssociatesByProject: 'api/ProjectAssociates/ByProject',
 
@@ -180,9 +187,10 @@ export class AppConfiguration {
     ApplicationSettings: 'api/ApplicationSettings',
     ProjectStatusHistory: 'api/ProjectStatusHistories',
 
-    projectsDetailForLetter: 'api/Projects/ProjectDetail',
+    projectsDetailForLetters: 'api/Projects/ProjectDetail',
     letter: 'api/letter',
     letters: 'api/letters',
+
 
     incentiveRequests: 'api/incentiveRequests/ByIds',
     incentiveRequest: 'api/incentiveRequest',
@@ -201,29 +209,43 @@ export class AppConfiguration {
     incentiveRequestsDetailByProjectId: 'api/IncentiveRequestDetail/DetailByProjectId',
 
     CompanyClearances: 'api/CompanyClearances',
+    CompanyClearanceByInvestorId: 'api/CompanyClearances/getCompanyClearanceByInvestorId',
+    SaveFinalApprovedName: 'api/CompanyClearances/SaveFinalApprovedName',
+
+
     ServiceApplicationWithInvestor: 'api/ServiceApplications/ServiceApplicationWithInvestor',
 
 
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
     IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/GetByProjectId',
 
+
+    lettersByProjectId: 'api/letters/ByProjectId',
+    IncentiveRequestDetailsByProjectId: 'api/IncentiveRequestDetail/ByProjectId',
+    IncentiveRequestDetailsByCategoryId: 'api/IncentiveRequestDetail/ByCategoryId',
+
     GetAllBudgetYearTypes: 'api/GetAllBudgetYearTypes',
     Divisions: 'api/Divisions/',
     MajorDivisions: 'api/MajorDivisions/',
+    GetMajorDivisionsByInvestorID: 'api/GetMajorDivisionsByInvestorID',
     MajorGroup: 'api/MajorGroup/',
     Groups: 'api/Groups/',
     SubGroups: 'api/SubGroups',
-
+    BussinessBranchByInvestorId: 'api/BusinessBranch/BussinessBranchByInvestorId',
+    RegistrationBranchByInvestorId: 'api/BusinessBranch/RegistrationBranchByInvestorId',
+    SaveBussinessBranch: 'api/BusinessBranch/Save',
+    DeleteBussinessBranch: 'api/BusinessBranch/Delete',
     Bussiness: 'api/Business/Save',
     SaveBussinessLicense: 'api/SaveBussinessLicense',
+    GetRegistrationCatagory: 'api/Business/GetRegistrationCatagory',
     Registrations: 'api/registration/GetRegistrations',
-    /*GetRegistration: 'api/Business/GetRegistration',*/
-    GetRegistrationByTin: 'api/RegistrationByTin',
+    RegistrationByTin: 'api/RegistrationByTin',
     SaveRegistration: 'api/saveregistration',
     UpdateRegistration: 'api/UpdateRegistration',
     SaveRegistrationCatagory: 'api/registrationcatagory',
     followup: 'api/followup',
     followupedit: 'delete/followup',
+
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];

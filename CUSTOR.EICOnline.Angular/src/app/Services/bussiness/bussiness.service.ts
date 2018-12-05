@@ -6,17 +6,20 @@ import {BussinessModel} from '../../model/bussiness/BussinessModel.model';
 import {BussinessCatagory} from '../../model/bussiness/BussinessCatagory.model';
 import {AppConfiguration} from '../../config/appconfig';
 import {ErrorMessage} from '@custor/services/errMessageService';
+import {BussinessBranchModel} from '../../model/bussiness/BussinessBranch.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class BussinessService {
-  public  bussinessdata: BussinessModel;
-  public  bussinesslicenceData: BussinessCatagory;
+  public bussinessdata: BussinessModel;
+  public bussinessBranchdata: BussinessModel;
+  public bussinesslicenceData: BussinessCatagory;
+
   constructor(private httpClient: HttpClient,
-  private config: AppConfiguration,
-  private errMsg: ErrorMessage) {
+              private config: AppConfiguration,
+              private errMsg: ErrorMessage) {
   }
 
 
@@ -40,8 +43,58 @@ export class BussinessService {
         return result;
       }), catchError(this.errMsg.parseObservableResponseError));
   }
+
   getRegistrationByTin(Tin: string) {
-    return this.httpClient.get(this.config.urls.url('GetRegistrationByTin', Tin)).pipe(
+    return this.httpClient.get(this.config.urls.url('RegistrationByTin', Tin)).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getRegistrationBranchByInvestorId(InvestorId: number) {
+    return this.httpClient.get(this.config.urls.url('RegistrationBranchByInvestorId', InvestorId)).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  saveBussinessBranch(bussinessbranch: BussinessBranchModel): Observable<BussinessBranchModel> {
+    return this.httpClient.post<BussinessModel>(this.config.urls.url('SaveBussinessBranch'), bussinessbranch).pipe(
+      map(bussinessBranchdata => this.bussinessBranchdata = bussinessBranchdata),
+      catchError(this.errMsg.parseObservableResponseError)
+    );
+  }
+
+  getBussinessBranchByInvestorId(InvestorId: number) {
+    return this.httpClient.get(this.config.urls.url('BussinessBranchByInvestorId', InvestorId)).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  DeleteBussinessBranchByAddresId(bussinessbranch: BussinessBranchModel) {
+    return this.httpClient.post<BussinessModel>(this.config.urls.url('DeleteBussinessBranch'), bussinessbranch).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getMajorDivisionByInvestorId(InvestorId: string) {
+    return this.httpClient.get(this.config.urls.url('GetMajorDivisionsByInvestorID', InvestorId)).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getRegistrationByInvestorId(InvestorId: string) {
+    return this.httpClient.get(this.config.urls.url('investor', InvestorId)).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getRegistrationCatagory(InvestorId: string) {
+    return this.httpClient.get(this.config.urls.url('GetRegistrationCatagory', InvestorId)).pipe(
       map(result => {
         return result;
       }), catchError(this.errMsg.parseObservableResponseError));

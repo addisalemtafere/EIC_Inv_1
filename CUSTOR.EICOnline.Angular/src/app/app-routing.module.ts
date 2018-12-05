@@ -11,9 +11,13 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
 import {ErrorComponent} from './components/error/error.component';
 import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {AddressComponent} from './components/project-profile/address/address.component';
+
 import {FollowComponent} from './follow/follow.component';
 import {FollowupModule} from "./components/followup/followup.module";
 import {FollowupComponent} from "./components/followup/followup.component";
+
+import {LettertemplateModule} from './components/letter-template/lettertemplate.module';
+
 
 @NgModule({
   imports: [
@@ -55,7 +59,7 @@ import {FollowupComponent} from "./components/followup/followup.component";
         loadChildren: 'app/components/auth/register/register.module#RegisterModule'
       },
       {
-        path: 'officer',
+        path: 'officer/:ServiceId/:InvestorId/:ServiceApplicationId/:workFlowId/:projectId',
         loadChildren: 'app/components/officer-Task/officer.module#OfficerModule',
         canActivate: [AuthGuard]
       },
@@ -65,15 +69,23 @@ import {FollowupComponent} from "./components/followup/followup.component";
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-tab/:ServiceId/:id',
+        path: 'investor-tab/:ServiceId/:ServiceApplicationId/:InvestorId',
         loadChildren: 'app/components/investor/investor-tab/investor-tab.module#InvestorTabModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'business-tab/:ServiceId/:id',
+
+        path: 'business-tab/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
+
         loadChildren: 'app/components/business/business-tab/business-tab.module#BusinessTabModule',
         canActivate: [AuthGuard]
       },
+      {
+        path: 'registration-tab/:ServiceId/:tin/:ServiceApplicationId',
+        loadChildren: 'app/components/registration/Registration-tab/registration-tab.module#RegistrationTabModule',
+        canActivate: [AuthGuard]
+      },
+
       {
         path: 'service-detail/:id',
         loadChildren: 'app/components/project-profile/project-profile-detail/project-detail.module#ProjectDetailModule',
@@ -120,12 +132,12 @@ import {FollowupComponent} from "./components/followup/followup.component";
         canActivate: [AuthGuard]
       },
       {
-        path: 'pro/:id',
+        path: 'pro/:id/:ServiceApplicationId/:ServiceId/:workFlowId/:InvestorId',
         loadChildren: './components/project-profile/project.module#ProjectModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'project-substitute/:id',
+        path: 'project-substitute/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: './components/project-profile/project-substitute/ProjectSubstitute.module#ProjectSubstituteModule',
         canActivate: [AuthGuard]
       },
@@ -150,7 +162,7 @@ import {FollowupComponent} from "./components/followup/followup.component";
         canActivate: [AuthGuard]
       },
       {
-        path: 'letter',
+        path: 'letter/:projectId/:serviceId/:serviceApplicationId/:isForDetail',
         loadChildren: './components/project-profile/letter/letter.module#LetterModule',
         canActivate: [AuthGuard]
       },
@@ -218,17 +230,22 @@ import {FollowupComponent} from "./components/followup/followup.component";
         canActivate: [AuthGuard]
       },
       {
+        path: 'lettertempalte',
+        loadChildren: 'app/components/letter-template/lettertemplate.module#LettertemplateModule',
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'project/list',
         component: ProjectListComponent,
         canActivate: [AuthGuard]
       },
       {
-        path: 'project-renewal/:id',
+        path: 'project-renewal/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/project-profile/project-renewal-tab/projectRenewal.module#ProjectRenewalModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'project-cancellation/:id',
+        path: 'project-cancellation/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/project-profile/project-cancellation-tab/project-cancellation-tab.module#ProjectCancellationTabModule',
         canActivate: [AuthGuard]
       },
@@ -271,12 +288,12 @@ import {FollowupComponent} from "./components/followup/followup.component";
         canActivate: [AuthGuard]
       },
       {
-        path: 'search-browser',
+        path: 'search-browser/:ServiceId/:InvestorId/:ProjectId',
         loadChildren: 'app/components/search-browser/search-browser.module#SearchBrowserModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-project-list',
+        path: 'investor-project-list/:ServiceId',
         loadChildren: 'app/components/project-list-modal/InvestorProjectList.module#InvestorProjectListModule',
         canActivate: [AuthGuard]
       },
@@ -292,18 +309,25 @@ import {FollowupComponent} from "./components/followup/followup.component";
         loadChildren: 'app/components/setting/lookup-tabs/lookuptypes/lookuptypes.module#LookupTypesModule',
         canActivate: [AuthGuard]
       },
+      /* {
+         path: 'bussiness',
+         loadChildren: 'app/components/bussiness/bussiness.module#BussinessModule',
+         canActivate: [AuthGuard]
+       },*/
+
       {
         path: 'lookup-tab',
         loadChildren: 'app/components/setting/lookup-tabs/lookup.module#LookupModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'bill-of-material/:type/:ServiceApplicationId',
+        path: 'bill-of-material/:type/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/incentive/bill-of-material/billOfMaterial.module#BillOfMaterialModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'bom-balance/:type/:ServiceApplicationId',
+        //path: 'bom-balance/:type/:ServiceApplicationId',
+        path: 'bom-balance/:projectId/:serviceApplicationId/:serviceId',
         loadChildren: 'app/components/incentive/balance/balance.module#BalanceModule',
         canActivate: [AuthGuard]
       },
@@ -312,27 +336,23 @@ import {FollowupComponent} from "./components/followup/followup.component";
         loadChildren: 'app/components/incentive/incentive-services/incentiveService.module#IncentiveServiceModule',
         canActivate: [AuthGuard]
       },
-      // {
-      //   path: 'incentive-tab',
-      //   loadChildren: 'app/components/incentive/incentive-tab/incentive-tab.module#IncentiveTabModule',
-      //   canActivate: [AuthGuard]
-      // },
+
       {
         path: 'denied',
         component: AccessDeniedComponent
       },
       {
-        path: 'incentive-request-item/:id',
+        path: 'incentive-request-item/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/incentive/incentive-request/incentive-request.module#IncentiveRequestModule',
         canActivate: [AuthGuard]
       },
       {
         path: 'letter-template',
-        loadChildren: 'app/components/letter/lettertemplate.module#LettertemplateModule',
+        loadChildren: 'app/components/letter-template/lettertemplate.module#LettertemplateModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'tax-exemption/:id',
+        path: 'tax-exemption/:serviceId/:investorId/:ServiceApplicationId/:projectId/:workFlowId',
         loadChildren: 'app/components/incentive/tax-exemption/tax-exemption.module#TaxExemptionModule',
         canActivate: [AuthGuard]
       },
@@ -352,32 +372,25 @@ import {FollowupComponent} from "./components/followup/followup.component";
         path: 'address/:id', component: AddressComponent
       },
       {
-        path: 'requested-items-list/:categoryId/:projectId/:requestId/:Quantity/:CurrencyType/:CurrencyRate/:Phase',
+        path: 'requested-items-list/:categoryId/:projectId/:requestId/:Quantity/:CurrencyType/:CurrencyRate/:Phase/:ServiceApplicationId/:ServiceId',
         loadChildren: 'app/components/incentive/incentive-request/requested-items-list/requested-items-list.module#RequestedItemsListModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'incentive-request-history',
+        path: 'incentive-request-history/:projectId/:serviceApplicationId/:serviceId',
         loadChildren: 'app/components/incentive/incentive-request/incentive-request-history/incentive-request-history.module#IncentiveRequestHistoryModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'sparepart-balance',
+        path: 'sparepart-balance/:projectId/:serviceApplicationId',
         loadChildren: 'app/components/incentive/balance-sparepart/spare-part.module#SparePartModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'registration',
-        loadChildren: 'app/components/registration/registration.module#RegistrationModule',
+        path: 'incentive-detail/:projectId/:serviceApplicationId/:serviceId',
+        loadChildren: 'app/components/incentive/incentive-detail/incentive-detail.module#IncentiveDetailModule',
         canActivate: [AuthGuard]
       },
-      {
-        path: 'bussiness',
-        loadChildren: 'app/components/bussiness/bussiness.module#BussinessModule',
-        canActivate: [AuthGuard]
-      },
-
-
       {path: '', component: HomeComponent},
       {path: '**', component: NotFoundComponent},
     ])

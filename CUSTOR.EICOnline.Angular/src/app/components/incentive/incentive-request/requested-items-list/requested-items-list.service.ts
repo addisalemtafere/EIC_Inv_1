@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AppConfiguration} from '../../../../config/appconfig';
 import {ErrorMessage} from '@custor/services/errMessageService';
@@ -6,29 +6,29 @@ import {IncentiveBoMRequestItemModel} from '../../../../model/incentive/Incentiv
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/internal/operators';
 import {IncentiveRequestDetailModel} from '../../../../model/IncentiveRequestDetail.Model';
-import {IncentiveRequestModel} from '../../../../model/IncentiveRequest.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class IncentiveRequestDetailService {
+  incentiveRequestItemList: IncentiveRequestDetailModel[] = [];
+  incentiveRequestDetailModel: IncentiveRequestDetailModel;
+  incentiveBoMRequestItemList: IncentiveBoMRequestItemModel[] = [];
+  incentiveBoMRequestDetailModel: IncentiveBoMRequestItemModel;
+
   constructor(private httpClient: HttpClient,
               public appConfig: AppConfiguration,
               private config: AppConfiguration,
               private errMsg: ErrorMessage) {
   }
 
-  incentiveRequestItemList: IncentiveRequestDetailModel[] = [];
-  incentiveRequestDetailModel: IncentiveRequestDetailModel;
-  incentiveBoMRequestItemList: IncentiveBoMRequestItemModel[] = [];
-  incentiveBoMRequestDetailModel: IncentiveBoMRequestItemModel;
-
   getIncentiveRequestItems(): Observable<IncentiveRequestDetailModel[]> {
     return this.httpClient.get<IncentiveRequestDetailModel[]>(this.config.urls.url('IncentiveRequestDetail')).pipe(
       map(incentiveRequestItemList => this.incentiveRequestItemList = incentiveRequestItemList),
       catchError(this.errMsg.parseObservableResponseError));
   }
+
   getIncentiveRequestItemslist(id: any): Observable<IncentiveRequestDetailModel[]> {
     return this.httpClient.get<IncentiveRequestDetailModel>(`${this.appConfig.urls.url('IncentiveRequestDetail')}/${id}`).pipe(
       map((data: any) => data as IncentiveRequestDetailModel),
@@ -37,13 +37,20 @@ export class IncentiveRequestDetailService {
   }
 
   getIncentiveRequestDetails(projectId: any): Observable<IncentiveRequestDetailModel[]> {
-    return this.httpClient.get<IncentiveRequestDetailModel[]>(this.config.urls.url('IncentiveRequestDetail', projectId)).pipe(
+    return this.httpClient.get<IncentiveRequestDetailModel[]>(this.config.urls.url('IncentiveRequestDetails', projectId)).pipe(
+      map(incentiveRequestItemList => this.incentiveRequestItemList = incentiveRequestItemList),
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
+
+  getIncentiveRequestDetailsBytCategoryCode(projectId: any, categoryId: any): Observable<IncentiveRequestDetailModel[]> {
+    return this.httpClient.get<IncentiveRequestDetailModel[]>(this.config.urls.url('IncentiveRequestDetailsByCategoryId', projectId, categoryId)).pipe(
       map(incentiveRequestItemList => this.incentiveRequestItemList = incentiveRequestItemList),
       catchError(this.errMsg.parseObservableResponseError));
   }
 
   getIncentiveRequestDetailsByProjectId(id: any): Observable<IncentiveRequestDetailModel[]> {
-    return this.httpClient.get<IncentiveRequestDetailModel[]>(this.config.urls.url('IncentiveRequestDetail', id)).pipe(
+    return this.httpClient.get<IncentiveRequestDetailModel[]>(this.config.urls.url('IncentiveRequestDetailsByProjectId', id)).pipe(
       map(incentiveRequestItemList => this.incentiveRequestItemList = incentiveRequestItemList),
       catchError(this.errMsg.parseObservableResponseError));
   }
@@ -70,48 +77,54 @@ export class IncentiveRequestDetailService {
       }),
       catchError(this.errMsg.parseObservableResponseError));
   }
-  getIncentiveBoMRequestDetails(projectId: any, incentiveCategoryId: any): Observable<IncentiveBoMRequestItemModel[]> {
+
+  getIncentiveBoMRequestDetails(projectId: any, incentiveCategoryId: any, Phase: any): Observable<IncentiveBoMRequestItemModel[]> {
     // tslint:disable-next-line:max-line-length
-    return this.httpClient.get<IncentiveBoMRequestItemModel[]>(this.config.urls.url('IncentiveBoMRequestItems', projectId, incentiveCategoryId)).pipe(
+    return this.httpClient.get<IncentiveBoMRequestItemModel[]>(this.config.urls.url('IncentiveBoMRequestItems', projectId, incentiveCategoryId,Phase)).pipe(
       map(incentiveBoMRequestItemList => this.incentiveBoMRequestItemList = incentiveBoMRequestItemList),
       catchError(this.errMsg.parseObservableResponseError));
   }
+
   getIncentiveBoMRequestDetail(id: number): Observable<IncentiveBoMRequestItemModel> {
     // tslint:disable-next-line:max-line-length
     return this.httpClient.get<IncentiveBoMRequestItemModel>(this.config.urls.url('IncentiveBoMRequestItems', id)).pipe(
       map(incentiveBoMRequestItem => this.incentiveBoMRequestDetailModel = incentiveBoMRequestItem),
       catchError(this.errMsg.parseObservableResponseError));
   }
+
   saveIncentiveRequestItem(incentiveRequestItem: IncentiveRequestDetailModel): Observable<IncentiveRequestDetailModel> {
-     return this.httpClient.post<IncentiveRequestDetailModel>(this.config.urls.url('IncentiveRequestDetail'), incentiveRequestItem).pipe(
+    return this.httpClient.post<IncentiveRequestDetailModel>(this.config.urls.url('IncentiveRequestDetail'), incentiveRequestItem).pipe(
       map(IncentiveRequestItem => {
         this.incentiveRequestDetailModel = IncentiveRequestItem;
         return this.incentiveRequestDetailModel;
       }),
       catchError(this.errMsg.parseObservableResponseError));
   }
+
   addIncentiveRequestItem(incentiveRequestItem: IncentiveRequestDetailModel, bOMTableId: number): Observable<IncentiveRequestDetailModel> {
     return this.httpClient.post<IncentiveRequestDetailModel>(this.config.urls.url('IncentiveRequestDetail'), incentiveRequestItem).pipe(
-     map(IncentiveRequestItem => {
-       this.incentiveRequestDetailModel = IncentiveRequestItem;
-       return this.incentiveRequestDetailModel;
-     }),
-     catchError(this.errMsg.parseObservableResponseError));
- }
+      map(IncentiveRequestItem => {
+        this.incentiveRequestDetailModel = IncentiveRequestItem;
+        return this.incentiveRequestDetailModel;
+      }),
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
   updateIncentiveRequestItem(incentiveRequestItem: IncentiveRequestDetailModel): Observable<IncentiveRequestDetailModel> {
     return this.httpClient.put<IncentiveRequestDetailModel>(this.config.urls.url('IncentiveRequestDetail'), incentiveRequestItem).pipe(
-     map(IncentiveRequestItem => {
-       this.incentiveRequestDetailModel = IncentiveRequestItem;
-       return this.incentiveRequestDetailModel;
-     }),
-     catchError(this.errMsg.parseObservableResponseError));
- }
+      map(IncentiveRequestItem => {
+        this.incentiveRequestDetailModel = IncentiveRequestItem;
+        return this.incentiveRequestDetailModel;
+      }),
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
   deleteIncentiveRequestItem(id): Observable<any> {
     return this.httpClient.delete<boolean>(this.config.urls.url('IncentiveRequestDetail', id)).pipe(
       map(result => {
         return result;
       }),
-      catchError(this.errMsg.parsePromiseResponseError), );
+      catchError(this.errMsg.parsePromiseResponseError),);
   }
 
 }

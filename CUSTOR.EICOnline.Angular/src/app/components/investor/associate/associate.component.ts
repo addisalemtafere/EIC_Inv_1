@@ -96,12 +96,12 @@ export class AssociateComponent implements OnInit, AfterViewInit {
   }
 
   editInvestor(investor: AssociateModel) {
-    console.log(localStorage.getItem('InvestorId'));
+    const invId = localStorage.getItem('InvestorId');
     if (localStorage.getItem('InvestorId') !== null) {
       if (investor) {
-        this.router.navigate(['/associate/form/', investor.AssociateId], {relativeTo: this.route});
+        this.router.navigate(['/associate/form/', investor.AssociateId, investor.InvestorId], {relativeTo: this.route});
       } else {
-        this.router.navigate(['/associate/form', 0]);
+        this.router.navigate(['/associate/form', 0, invId]);
       }
     } else {
       this.toastr.warning('Please Add Investor Profile ', 'Info');

@@ -130,9 +130,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   gotoCustomerRegistration() {
-    this.router.navigate(['investor-tab/1235/0']);
+    this.router.navigate(['investor-tab/1235/0/0']);
     localStorage.setItem('ServiceId', '1235');
   }
+
 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
@@ -188,10 +189,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   public startService(serviceId: any, title: string) {
-    localStorage.setItem('ServiceId', serviceId);
     localStorage.setItem('title', title);
-    localStorage.removeItem('ServiceApplicationId');
-    this.router.navigate(['/search-browser']);
+    this.router.navigate(['/search-browser/' + serviceId + '/' + 0 + '/' + 0]);
 
 
   }
@@ -242,7 +241,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   Investor() {
     if (localStorage.getItem('InvestorId') === 'null') {
-      this.router.navigate(['investor-tab/1235/0']);
+      this.router.navigate(['investor-tab/1235/0/0']);
     } else {
       this.router.navigate(['/investor/edit', localStorage.getItem('InvestorId')]);
 
@@ -260,7 +259,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     } else {
 
       this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-      this.router.navigate(['investor-tab/0/', 0]);
+      this.router.navigate(['investor-tab/0/0']);
     }
 
   }

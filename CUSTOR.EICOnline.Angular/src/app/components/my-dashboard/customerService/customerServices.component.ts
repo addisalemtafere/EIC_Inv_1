@@ -19,96 +19,77 @@ import {ProjectListModalComponent} from '../../project-list-modal/project-list-m
   animations: [fadeInOut]
 })
 export class CustomerServiceStarterComponent implements OnInit {
-  selectedCustomerService: ServiceModel;
   customerServices: ServiceModel[];
   m: IncentiveLogModel;
   loadingIndicator: boolean;
-  public inId: number;
 
-  // public hasInvestorDetail: boolean;
 
-  constructor(private custService: CustomerServicesService,
-              public router: Router,
+  constructor(              public router: Router,
               public dialog: MatDialog,
               public dataSharing: DataSharingService,
               public serviceService: ServiceService,
               public accountService: AccountService,
               public snackbar: MatSnackBar,
               public route: ActivatedRoute,
-              private toastr: ToastrService,
-              private incentiveLogService: IncentiveLogService) {
+              private toastr: ToastrService) {
     this.m = new IncentiveLogModel();
   }
 
   ngOnInit() {
     this.getServices();
-    // this.hasInvestorDetail = localStorage.getItem('InvestorId') !== null ? true : false;
   }
 
   getServices() {
     this.serviceService.getAll()
       .subscribe(result => {
         this.customerServices = result;
-        console.log(result);
       });
   }
 
-  // getServices() {
-  //   this.loadingIndicator = true;
-  //   this.custService.getServices2()
-  //     .subscribe(result => {
-  //         this.customerServices = result;
-  //       },
-  //       error => {
-  //         this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
-  //       });
-  //   this.loadingIndicator = false;
-  // }
 
   public startService(serviceId: any, title: string) {
     if (localStorage.getItem('InvestorId') !== null) {
-      localStorage.setItem('ServiceId', serviceId);
-      localStorage.setItem('title', title);
-      localStorage.removeItem('ServiceApplicationId');
-      localStorage.removeItem('ProjectId');
-      localStorage.removeItem('ParentProjectId');
 
+      localStorage.setItem('title', title);
       setTimeout(() => this.dataSharing.currentIndex.next(0), 0);
 
       localStorage.setItem('currentIndex', '0');
-      // this.router.navigate(['/service-info', serviceId]);
 
-      // this.openDialog();
-      const ch = +localStorage.getItem('ServiceId');
-      // this.dialogRef.close();
+      const investorId = +localStorage.getItem('InvestorId');
 
       switch (serviceId) {
         case 13:
-          this.router.navigate(['/pro', 0]);
+          this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
           break;
-        case 18:
-          this.router.navigate(['/project-renewal', 0]);
-          break;
-        case 19:
-          this.router.navigate(['/project-cancellation', 0]);
-          break;
-        // case 1023:
-        //   this.router.navigate(['/pro', 0], {relativeTo: this.route});
+        // case 18:
+        //   this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
         //   break;
-        case 1027:
-          this.router.navigate(['/project-substitute', 0], {relativeTo: this.route});
-          break;
-        case 1028:
-          this.router.navigate(['/pro', 0], {relativeTo: this.route});
-          break;
+        // case 19:
+        //   this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
+        //   break;
+        // case 1023:
+        //   this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
+        //   break;
+        // case 1027:
+        //   this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
+        //   break;
+        // case 1028:
+        //   this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
+        //   break;
         case 1045:
         case 1054:
         case 1046:
         case 1047:
         case 1023:
         case 1236:
+        case 18:
+        case 19:
+        case 1023:
+        case 1027:
+        case 1028:
 
-          this.router.navigate(['/investor-project-list'], {relativeTo: this.route});
+
+          this.router.navigate(['/investor-project-list/' + serviceId]);
           break;
         default:
           this.router.navigate(['/notfound'], {relativeTo: this.route});
@@ -119,12 +100,11 @@ export class CustomerServiceStarterComponent implements OnInit {
 
     } else {
       this.notification('Your Profile Must be completed');
-      this.router.navigate(['/investor-tab']);
+      this.router.navigate(['/investor-tab/1235/0/0']);
     }
   }
 
   notification(message: string) {
-    // this.loading = false;
     this.snackbar.open(`  ${message} .!`, 'Close', {
       duration: 3000,
     });
@@ -133,30 +113,11 @@ export class CustomerServiceStarterComponent implements OnInit {
 
   selectProject(serviceId: any) {
     this.dialog.open(ProjectListModalComponent);
-    // this.IncentiveRouting(serviceId);
 
   }
 
-  // private IncentiveRouting() {
-  //   const InvestorId = localStorage.getItem('InvestorId');
-  //   const serviceId = localStorage.getItem('ServiceId');
-  //   const ProjectId = localStorage.getItem('ProjectId');
-  //   this.m.InvestorId = InvestorId;
-  //   this.m.UserId = this.accountService.currentUser.Id;
-  //   this.m.SiteId = this.accountService.currentUser.SiteCode;
-  //   this.m.ServiceId = serviceId;
-  //   this.m.ProjectId = ProjectId;
-  //   this.incentiveLogService.create(this.m)
-  //     .subscribe(result => {
-  //       this.inId = result.IncentiveLogId;
-  //       this.toastr.success('Incentive Request Sent');
-  //       window.location.href = 'http://localhost:37072/pages/BillOfMaterialRequest.aspx?InsentiveLog=' + this.inId;
-  //
-  //     });
-  // }
 
   close() {
-    // this.dialog.closeAll();
     window.history.back();
   }
 

@@ -59,6 +59,10 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
               private serviceApplication: ServiceapplicationService) {
   }
 
+  get canManageTask() {
+    return this.accountService.userHasPermission(Permission.manageTasks);
+  }
+
   ngOnInit() {
 
     this.checkAuthorization();
@@ -85,19 +89,20 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   nextStep(step: number, projectId: any, serviceApplicationId: any, serviceId: any, title: string, workFlowId: any,
            investorName: string, projectName: string) {
     let stepIndex;
-    console.log(projectId);
+
     localStorage.setItem('title', 'New Ip');
+    const investorId = localStorage.getItem('InvestorId');
 
     if (serviceId === 1045) {
-      this.router.navigate(['/tax-exemption/', 0]);
+      this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
     } else if (serviceId === 1046) {
-      this.router.navigate(['/incentive-request-item/', 0]);
+      this.router.navigate(['/incentive-request-item/' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
     }
     if (serviceId === 1047) {
-      this.router.navigate(['/bill-of-material/', 1]);
+      this.router.navigate(['/bill-of-material/1/' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
     }
     if (serviceId === 1054) {
-      this.router.navigate(['/bill-of-material/', 2]);
+      this.router.navigate(['/bill-of-material/2' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
     } else {
       switch (step) {
         case 8:
@@ -125,13 +130,9 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           stepIndex = 8;
           break;
       }
-      console.log(stepIndex);
-      this.router.navigate(['pro/', projectId]);
+      this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + 0]);
     }
-    localStorage.setItem('ServiceId', serviceId);
-    localStorage.setItem('ProjectId', projectId);
-    localStorage.setItem('ServiceApplicationId', serviceApplicationId);
-    localStorage.setItem('workFlowId', workFlowId);
+
     localStorage.setItem('investorName', investorName);
     localStorage.setItem('projectName', projectName);
 
@@ -181,48 +182,53 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   editProject(projectId: number, serviceApplicationId: any, serviceId: any) {
-    localStorage.setItem('ServiceApplicationId', serviceApplicationId);
-    localStorage.setItem('ServiceId', serviceId);
+
     setTimeout(() => this.dataSharing.isNew.next(true), 0);
-    this.router.navigate(['pro/', projectId]);
+    this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
   }
 
-  projectDetail(id: any, ServiceApplicationId: any, serviceId: any) {
-    console.log(id);
-    localStorage.setItem('ServiceApplicationId', ServiceApplicationId);
-    localStorage.setItem('ProjectId', id);
+  projectDetail(serviceApplication: ServiceApplicationModel) {
+    console.log(serviceApplication)
+
+    const projectId = serviceApplication.ProjectId;
+    const ServiceApplicationId = serviceApplication.ServiceApplicationId;
+    const serviceId = serviceApplication.ServiceId;
+
+    const workFlowId = serviceApplication.ServiceWorkflow[0].ServiceWorkflowId;
+    const investorId = localStorage.getItem('InvestorId');
+    console.log(workFlowId)
+
     switch (serviceId) {
       case 13 || 1023:
-        // this.router.navigate(['/officer']);
-        this.router.navigate(['/service-detail', id]);
-
+        this.router.navigate(['/service-detail', projectId]);
         break;
       case 18:
-        this.router.navigate(['/project-renewal', ServiceApplicationId]);
+        this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 19:
         this.router.navigate(['/project-cancellation', ServiceApplicationId], {relativeTo: this.route});
         break;
       case 1027:
-        this.router.navigate(['/project-substitute', ServiceApplicationId], {relativeTo: this.route});
+        this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1045:
-        this.router.navigate(['tax-exemption/', ServiceApplicationId]);
+        this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1046:
-        this.router.navigate(['incentive-request-item/', ServiceApplicationId]);
+        this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1047:
-        this.router.navigate(['/bill-of-material/1/', ServiceApplicationId]);
+        this.router.navigate(['/bill-of-material/1/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1054:
-        this.router.navigate(['/bill-of-material/2/', ServiceApplicationId]);
+        this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1235:
-        this.router.navigate(['investor-tab/' + serviceId + '/' + ServiceApplicationId]);
+        this.router.navigate(['investor-tab/' + serviceId + '/'+ ServiceApplicationId +'/'+  investorId]);
+
         break;
       case 1236:
-        this.router.navigate(['business-tab/' + serviceId + '/' + ServiceApplicationId]);
+        this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       default:
         this.router.navigate(['/notfound'], {relativeTo: this.route});
@@ -276,7 +282,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           this.investors = result;
           console.log(result);
           if (this.investors.length === 0) {
-            this.router.navigate(['investor-tab/1235/', 0]);
+            this.router.navigate(['investor-tab/1235/0/0']);
             localStorage.setItem('ServiceId', '1235');
             this.toastr.success('Dear customer Please complete your Profile', 'Well Come !!!', {
               closeButton: true,
@@ -294,9 +300,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   getInvestorsByTin() {
-    // if (!this.canViewInvestors) {
-    //     this.router.navigate(['denied']);
-    // }
+
 
     this.invService.getInvestorByUserId(this.accountService.currentUser.Tin)
       .subscribe(result => {
@@ -323,10 +327,6 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
 
-  }
-
-  get canManageTask() {
-    return this.accountService.userHasPermission(Permission.manageTasks);
   }
 
   checkAuthorization() {

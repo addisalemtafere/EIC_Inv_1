@@ -232,6 +232,7 @@ namespace EICOnline.API
                 services.AddScoped<InvestorRepository>();
                 services.AddScoped<LookupRepository>();
                 services.AddScoped<RegionRepository>();
+                services.AddScoped<TownRepository>();
                 services.AddScoped<ZoneRepository>();
                 services.AddScoped<WoredaRepository>();
                 services.AddScoped<KebeleRepository>();
@@ -273,10 +274,22 @@ namespace EICOnline.API
 
                 services.AddScoped<RegionRepo>();
                 services.AddScoped<ZoneRepo>();
+                services.AddScoped<TownRepo>();
+
                 services.AddScoped<WoredaRepo>();
                 services.AddScoped<KebeleRepo>();
                 services.AddScoped<AssociateRepository>();
                 services.AddScoped<IncentiveBoMRequestItemsRepository>();
+
+
+                services.AddScoped<BudgetYearTypeRepository>();
+                services.AddScoped<tblDivisionRepository>();
+                services.AddScoped<tblMajorDivisionRepository>();
+                services.AddScoped<tblGroupRepository>();
+                services.AddScoped<tblSubGroupRepository>();
+                services.AddScoped<RegistrationRepository>();
+                services.AddScoped<RegistrationCatagoryRepository>();
+
 
 
                 // Repositories

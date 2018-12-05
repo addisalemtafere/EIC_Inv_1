@@ -1,11 +1,11 @@
 <mat-card class="margin-2 simple-card">
   <mat-card-header>
     <mat-card-subtitle class="sub-title"></mat-card-subtitle>
-    <button class="custom-button" (click)="generateCertification()">
+    <button mat-raised-button="" color="primary" (click)="generateCertification()">
       Generate
       Certificate
     </button>
-    <button class="custom-button" (click)="addMessage()">
+    <button style="margin-left: 20px;" mat-raised-button="" color="primary" (click)="addMessage()">
       Send Message
     </button>
   </mat-card-header>
@@ -203,7 +203,7 @@
               </tr>
               <tr>
                 <td class="t-header">10. የታቀደው የኤክስፖርት በመቶኛ</td>
-                <td class="data value">{{exportMarketShare | percent}}</td>
+                <td class="data value">{{exportMarketShare}}</td>
               </tr>
               </tbody>
             </table>
@@ -344,7 +344,7 @@
               </tr>
               <tr>
                 <td class="t-header">10. Planned Export in Percent</td>
-                <td class="data value">{{exportMarketShare | percent}}</td>
+                <td class="data value">{{exportMarketShare }}</td>
               </tr>
               </tbody>
             </table>

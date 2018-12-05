@@ -19,6 +19,7 @@ import {LookupsModel} from '../../../model/lookups';
 import {Subscription} from 'rxjs';
 import {LookUpService} from '../../../Services/look-up.service';
 import {determineId} from '@custor/helpers/compare';
+import {IncentiveRequestDetailService} from '../incentive-request/requested-items-list/requested-items-list.service';
 
 @Component({
   selector: 'app-bill-of-material',
@@ -67,10 +68,13 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   public unitTypes: UnitType[] = [];
   PhaseLookups: LookupsModel[];
   public phaseId: number;
+  BOMItems: IncentiveBoMRequestItemModel[] = [];
   private currentCategoryId: any;
   private ServiceApplicationId: any;
+  private ProjectId: any;
   private currentLang: string;
   private IncentiveCategoryId: number;
+  private bool;
 
   constructor(private billOfMaterilService: BillOfMaterialService,
               private errMsg: ErrorMessage,
@@ -85,6 +89,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
               private lookUpsService: LookUpService,
               private toast: ToastrService,
               private configService: ConfigurationService,
+              private IncentiveRequestItemService: IncentiveRequestDetailService,
               private toastr: ToastrService,
               private formBuilder: FormBuilder,
               private formService: FormService) {
@@ -113,14 +118,17 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       this.IncentiveCategoryId = 10779;
     }
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.ProjectId = this.route.snapshot.params['ProjectId'];
     this.getBillOfMaterial(this.ServiceApplicationId);
-    // this.getBillOfMaterial(localStorage.getItem('ProjectId'));
+    // this.getBillOfMaterial(this.ProjectId);
     this.initStaticData(this.currentLang);
 
   }
+
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
   }
+
   getItemLookup() {
     this.lookupSub = this.lookUpsService
       .getLookupByParentId(10780)
@@ -223,43 +231,59 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result.IncentiveBoMRequestItem);
         this.loading = false;
         this.dataSource.paginator = this.paginator;
-
-
       }, error => this.errMsg.getError(error));
   }
 
   upload(i: number, files: FileList) {
     console.log(this.phaseId);
-    if (this.phaseId === 0 || this.phaseId === null || this.phaseId === undefined) {
+    if (this.phaseId == 0 || this.phaseId == null || this.phaseId == undefined) {
       this.toastr.error('Please Select Construction Materials Incentive Batch');
       return true;
     }
-    // this.loading = true;
-    this.errors = []; // Clear error
-    // Validate file size and allowed extensions
-    console.log((!this.isValidFiles(files)));
-    if (files && files[0].size > 0 && (this.isValidFiles(files))) {
-      const formModel = this.documentForm.value;
-      this.documentForm.patchValue({
-        Name: files[0].name,
-        KeyWords: files[0],
+    else if (this.CheckExistance()) {
+      return true;
+    }
+    else {
+      // this.loading = true;
+      this.errors = []; // Clear error
+      // Validate file size and allowed extensions
+      console.log((!this.isValidFiles(files)));
+      if (files && files[0].size > 0 && (this.isValidFiles(files))) {
+        const formModel = this.documentForm.value;
+        this.documentForm.patchValue({
+          Name: files[0].name,
+          KeyWords: files[0],
+        });
+
+        this.billOfMaterilService
+          .uploadDocument(this.prepareSaveUser())
+          .subscribe(result => {
+            this.itemList = result;
+            this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result);
+            this.loading = false;
+            // this.dataSource.paginator = this.paginator;
+
+            this.itemList = result;
+            this.loading = false;
+          }, error => this.toast.error(this.errMsg.getError(error)));
+        // this.getServicePrerequisite(localStorage.getItem('ServiceId'));
+      } else {
+        this.toast.error('Error Occurred Please ', 'Error');
+      }//TODO BillofQuantity
+    }
+  }
+
+  CheckExistance() {
+    this.IncentiveRequestItemService
+      .getIncentiveBoMRequestDetails(this.ProjectId, 10778, this.phaseId)
+      .subscribe((items) => {
+        this.BOMItems = items;
+        if (this.BOMItems.length > 0) {
+          this.toastr.error('You Cannot Import Construction Materials, Because there is Uploaded data in this Batch');
+          return true;
+        }
       });
 
-      this.billOfMaterilService
-        .uploadDocument(this.prepareSaveUser())
-        .subscribe(result => {
-          this.itemList = result;
-          this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result);
-          this.loading = false;
-          // this.dataSource.paginator = this.paginator;
-
-          this.itemList = result;
-          this.loading = false;
-        }, error => this.toast.error(this.errMsg.getError(error)));
-      // this.getServicePrerequisite(localStorage.getItem('ServiceId'));
-    } else {
-      this.toast.error('Error Occurred Please ', 'Error');
-    }
   }
 
   prepareSaveUser(): FormData {
@@ -268,11 +292,11 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     console.log(formModel.workFlowId);
     // console.log(this.documentForm.value);
     formData.append('Name', formModel.Name);
-    formData.append('ServiceApplicationId', localStorage.getItem('ServiceApplicationId'));
+    formData.append('ServiceApplicationId', this.ServiceApplicationId);
     formData.append('KeyWords', formModel.KeyWords);
-    formData.append('ProjectId', localStorage.getItem('ProjectId'));
+    formData.append('ProjectId', this.ProjectId);
     formData.append('IncentiveCategoryId', this.IncentiveCategoryId.toString());
-    formData.append('PhaseId',this.phaseId.toString() );//formModel.Phase
+    formData.append('PhaseId', this.phaseId.toString());//formModel.Phase
     console.log(this.phaseId);
     return formData;
   }
@@ -299,7 +323,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   UpdateServiceApplication() {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
-      localStorage.getItem('ServiceApplicationId'))
+      this.ServiceApplicationId)
       .subscribe(result => {
         console.log(result);
         this.toast.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
@@ -402,8 +426,8 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     this.billOfMaterialForm = this.formBuilder.group({
       IncentiveBoMRequestItemId: new FormControl(),
       IncentiveRequestId: 1,
-      ProjectId: localStorage.getItem('ProjectId'),
-      ServiceApplicationId: localStorage.getItem('ServiceApplicationId'),
+      ProjectId: this.ProjectId,
+      ServiceApplicationId: this.ServiceApplicationId,
       Description: new FormControl(),
       RejectionReason: new FormControl(),
       HsCode: new FormControl(),

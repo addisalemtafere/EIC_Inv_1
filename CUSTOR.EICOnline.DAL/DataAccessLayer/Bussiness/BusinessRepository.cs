@@ -61,15 +61,58 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
         {
             try
             {
-                
+
+                var investor = Context.Investors.FirstOrDefault(inv => inv.InvestorId == bussiness.InvestorId);
+
+                var service = Context.Service.FirstOrDefault(inv => inv.ServiceId == 1236);
+                var serviceApplication = new ServiceApplication
+                {
+                    InvestorId = bussiness.InvestorId,
+                    CaseNumber = "6755",
+                    ServiceId = 1236,
+                    CurrentStatusId = 44450,
+                    IsSelfService = true,
+                    IsPaid = true,
+                    StartDate = DateTime.Now,
+                    CreatedUserId = 1,
+                    IsActive = false,
+                    CreatedUserName = "",
+                    InvestorNameAmharic = investor.InvestorName,
+                    InvestorNameEnglish = investor.InvestorNameEng,
+                    ServiceNameAmharic = service.DisplayName,
+                    ServiceNameEnglish = service.DisplayNameEnglish,
+                };
+
+                var serviceWorkflow = new ServiceWorkflow
+                {
+                    StepId = 9,
+                    ActionId = 3,
+                    FromStatusId = 3,
+                    ToStatusId = 5,
+                    PerformedByRoleId = 1,
+                    NextStepId = 13,
+                    GenerateEmail = true,
+                    GenerateLetter = true,
+                    IsDocumentRequired = true,
+                    ServiceId = 1236,
+                    LegalStatusId = 3,
+                    CreatedUserId = 1,
+                    IsActive = false
+                };
+
                 bussiness.DateRegistered = DateTime.Now;
-                bussiness.EventDateTime = DateTime.Now;
+                bussiness.CreatedDate = DateTime.Now;
                 bussiness.IsPrivouslyRegistered = false;
                 bussiness.MainGuid = Guid.NewGuid();
                 bussiness.SiteID = "";
                 bussiness.Status = "0";
                 bussiness.TradeNameDate = DateTime.Now;
-                bussiness.Username = "";
+                bussiness.CreatedBy = "";
+                Context.ServiceApplication.Add(serviceApplication);
+                Context.SaveChanges();
+                serviceWorkflow.ServiceApplicationId = serviceApplication.ServiceApplicationId;
+                Context.ServiceWorkflow.Add(serviceWorkflow);
+                Context.SaveChanges();
                 Context.Businesses.Add(bussiness);
                 await Context.SaveChangesAsync();
             }
@@ -85,5 +128,6 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
             }
             return bussiness;
         }
+
     }
 }

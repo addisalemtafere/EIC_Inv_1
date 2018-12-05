@@ -1,6 +1,6 @@
 <app-page-header title="Mangers" icon="people"></app-page-header>
 
-<mat-card style="margin: 20px;" class="dashboard-card">
+<mat-card style="margin: 20px; width: 70%" class="dashboard-card">
 
   <mat-card-content class="dashboard-card-content">
 
@@ -37,20 +37,21 @@
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef fxFlex="25%">
           <button mat-button color="primary" (click)="editInvestor()">
-            <mat-icon class="mat-button-icon">add</mat-icon>
-            {{'common.commands.Add' | translate}}
+            <mat-icon style="margin-top: -5px" class="mat-8">person</mat-icon>
+           {{'common.commands.Add' | translate}}  
           </button>
         </mat-header-cell>
         <mat-header-cell *matHeaderCellDef fxFlex="28%">
         </mat-header-cell>
         <mat-cell mat-dialog-actions *matCellDef="let investor" fxFlex="38%">
           <button mat-icon-button matTooltip = "Edit"  (click)="editInvestor(investor)">
-            <mat-icon color="primary">edit</mat-icon>
-            <!-- <span >Edit</span> -->
+            <mat-icon class="mat-12" color="primary">edit</mat-icon>
+            <span >Edit</span>
           </button>
+          <span style="width: 20px"></span>
           <button mat-icon-button matTooltip="Delete" (click)="confirmDelete(investor)">
-            <mat-icon color="warn">delete</mat-icon>
-            <!-- <span>Delete</span> -->
+            <mat-icon class="mat-12" color="warn">delete</mat-icon>
+            <span>Delete</span>
           </button>
           
         </mat-cell>

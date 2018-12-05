@@ -98,15 +98,13 @@ export class DraftedApplicationComponent implements OnInit {
         stepIndex = 7;
         break;
     }
-    console.log(stepIndex);
-    localStorage.setItem('ServiceApplicationId', serviceApplicationId);
+
     setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
-    this.router.navigate(['pro/', projectId]);
+    this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + 0 + '/' + 0 + '/' + 0]);
   }
 
 
   deleteProject(id: number) {
-    console.log(id);
     const response = confirm('Do you want to Delete this Project ?');
     if (response === true) {
       this.projectProfileService.delete(id)
@@ -123,7 +121,7 @@ export class DraftedApplicationComponent implements OnInit {
     localStorage.setItem('ServiceApplicationId', serviceApplicationId);
     localStorage.setItem('ServiceId', serviceId);
     setTimeout(() => this.dataSharing.isNew.next(true), 0);
-    this.router.navigate(['pro/', projectId]);
+    this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + 0 + '/' + 0 + '/' + 0]);
     this.dataSharing.steeperIndex.next(10);
 
   }

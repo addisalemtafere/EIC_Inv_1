@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using CUSTOR.API.ExceptionFilter;
+﻿using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.dto;
 using CUSTOR.EICOnline.DAL.EntityLayer;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using CUSTOR.Security;
+using CUSTOR.EICOnline.DAL.Enum;
 
 namespace EICOnline.Controllers
 {
@@ -15,14 +20,19 @@ namespace EICOnline.Controllers
     [EnableCors("CorsPolicy")]
     public class InvestorController : Controller
     {
+
         private readonly ApplicationDbContext context;
         private readonly InvestorRepository InvestorRepo;
+        private RegistrationCatagoryRepository regCatagoryRepo;
+        private IAccountManager accountManager;
 
-        public InvestorController(ApplicationDbContext ctx, InvestorRepository investorRepo)
+        public InvestorController(ApplicationDbContext ctx, IAccountManager accManager, InvestorRepository investorRepo , RegistrationCatagoryRepository RegCatagoryRepo)
         {
             context = ctx;
             InvestorRepo = investorRepo;
-        }
+            regCatagoryRepo = RegCatagoryRepo;
+            accountManager = accManager;
+        } 
 
         [HttpGet]
         [Route("api/throw")]
@@ -41,17 +51,18 @@ namespace EICOnline.Controllers
         }
 
         [HttpGet("api/investor/{id:int}")]
-        public async Task<Investor> GetInvestor(int id)
+        public async Task<InvestorDTO> GetInvestor(int id)
         {
-            return await InvestorRepo.GetRecord(id);
+            return await InvestorRepo.GetInvestor(id);
         }
+
+
 
         [HttpGet("api/InvestorByUserId/{id}")]
         public async Task<IEnumerable<Investor>> GetInvestorByUserId(string id)
         {
             return await InvestorRepo.GetRecordByUserId(id);
         }
-
 
         [HttpGet("api/InvestorByTIN/{id}")]
         public async Task<IEnumerable<Investor>> GetInvestorByTIN(string id)
@@ -65,56 +76,74 @@ namespace EICOnline.Controllers
             return await InvestorRepo.FindInvestor(searchInvestorDto);
         }
 
+
         [HttpPost("api/investor")]
-        public async Task<ServiceApplication> SaveInvestor([FromBody] Investor postedInvestor)
+        public async Task<ServiceApplication> SaveInvestor([FromBody] InvestorDTO postedInvestor)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    throw new ApiException("Model binding failed.", 500);
 
-                context.Investors.Add(postedInvestor);
-                await context.SaveChangesAsync();
-                var serviceApplication = new ServiceApplication
-                {
-                    InvestorId = postedInvestor.InvestorId,
-                    CaseNumber = "12",
-                    ServiceId = 1235,
-                    CurrentStatusId = 44450,
-                    IsSelfService = true,
-                    IsPaid = true,
-                    StartDate = DateTime.Now,
-                    CreatedUserId = 1,
-                    IsActive = false,
-                    CreatedUserName = "Investor",
-                    InvestorNameAmharic = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
-                                          postedInvestor.FirstNameEng,
-                    InvestorNameEnglish = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
-                                          postedInvestor.FirstNameEng,
-                    ServiceNameAmharic = "Customer Registration",
-                    ServiceNameEnglish = "Customer Registration",
-                    ProjectNameEnglish = "",
-                    ProjectNameAmharic = ""
-                };
 
-                context.ServiceApplication.Add(serviceApplication);
-                await context.SaveChangesAsync();
-                return serviceApplication;
-            }
-            catch (Exception ex)
+            
+
+            if (!ModelState.IsValid)
+                throw new ApiException("Model binding failed.", 500);
+
+            ApplicationUser appUser = await accountManager.GetUserByUserNameAsync(postedInvestor.UserName);
+            // to-do check if appUser is valid
+            InvestorDTO inv =  InvestorRepo.SaveInvestor(postedInvestor, appUser);
+            
+            var serviceApplication = new ServiceApplication
             {
-                var s = ex.Message;
-                throw new Exception(ex.Message);
-            }
+                InvestorId = inv.InvestorId,
+                CaseNumber = "12",
+                ServiceId = 1235,
+                CurrentStatusId = 44450,
+                IsSelfService = true, 
+                IsPaid = true,
+                StartDate = DateTime.Now,
+                CreatedUserId = 1,
+                IsActive = false,
+                CreatedUserName = "Investor",
+                InvestorNameAmharic = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
+                                      postedInvestor.FirstNameEng,
+                InvestorNameEnglish = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
+                                      postedInvestor.FirstNameEng,
+                ServiceNameAmharic = "Customer Registration",
+                ServiceNameEnglish = "Customer Registration",
+                ProjectNameEnglish = "",
+                ProjectNameAmharic = ""
+            };
+            var serviceWorkflow = new ServiceWorkflow
+            {
+                StepId = 9,
+                ActionId = 3,
+                FromStatusId = 3,
+                ToStatusId = 5,
+                PerformedByRoleId = 1,
+                NextStepId = 1015,
+                GenerateEmail = true,
+                GenerateLetter = true,
+                IsDocumentRequired = true,
+                ServiceId = serviceApplication.ServiceId,
+                LegalStatusId = 3,
+                CreatedUserId = 1,
+                IsActive = false
+            };
+
+            serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
+            context.ServiceApplication.Add(serviceApplication);
+            await context.SaveChangesAsync();
+            
+            return serviceApplication;
         }
 
-        [HttpDelete("api/investor/{id:int}")]
-        public async Task<bool> DeleteInvestor(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteInvestor(int id)
         {
             //if (!HttpContext.User.Identity.IsAuthenticated)
             //    throw new ApiException("You have to be logged in first", 401);
-
-            return await InvestorRepo.DeleteInvestor(id);
+            if (!await InvestorRepo.DeleteInvestor(id))
+                throw new ApiException("Record could not be deleted");
+            return Ok();
         }
     }
 }

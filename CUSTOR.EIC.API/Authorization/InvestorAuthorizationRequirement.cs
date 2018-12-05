@@ -1,64 +1,62 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using CUSTOR.Security;
+﻿using CUSTOR.Security;
 using EICOnline.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace EICOnline.Authorization
 {
-    public class InvestorAuthorizationRequirement : IAuthorizationRequirement
+  public class InvestorAuthorizationRequirement : IAuthorizationRequirement
+  {
+    public InvestorAuthorizationRequirement(string operationName)
     {
-        public InvestorAuthorizationRequirement(string operationName)
-        {
-            OperationName = operationName;
-        }
-
-        public string OperationName { get; }
+      this.OperationName = operationName;
     }
 
-    public class ViewInvestorAuthorizationHandler : AuthorizationHandler<InvestorAuthorizationRequirement, string>
+    public string OperationName { get; private set; }
+  }
+
+  public class ViewInvestorAuthorizationHandler : AuthorizationHandler<InvestorAuthorizationRequirement, string>
+  {
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, InvestorAuthorizationRequirement requirement, string targetUserId)
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-            InvestorAuthorizationRequirement requirement, string targetUserId)
-        {
-            if (context.User == null)
-                return Task.CompletedTask;
+      if (context.User == null)
+        return Task.CompletedTask;
 
-            if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ViewInvestors))
-                context.Succeed(requirement);
+      if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ViewInvestors))
+        context.Succeed(requirement);
 
-            return Task.CompletedTask;
-        }
-
-        private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
-        {
-            if (string.IsNullOrWhiteSpace(targetUserId))
-                return false;
-
-            return Utilities.GetUserId(user) == targetUserId;
-        }
+      return Task.CompletedTask;
     }
 
-    public class ManageInvestorAuthorizationHandler : AuthorizationHandler<InvestorAuthorizationRequirement, string>
+    private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-            InvestorAuthorizationRequirement requirement, string targetUserId)
-        {
-            if (context.User == null)
-                return Task.CompletedTask;
+      if (string.IsNullOrWhiteSpace(targetUserId))
+        return false;
 
-            if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ManageInvestors))
-                context.Succeed(requirement);
-
-            return Task.CompletedTask;
-        }
-
-        private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
-        {
-            if (string.IsNullOrWhiteSpace(targetUserId))
-                return false;
-
-            return Utilities.GetUserId(user) == targetUserId;
-        }
+      return Utilities.GetUserId(user) == targetUserId;
     }
+  }
+
+  public class ManageInvestorAuthorizationHandler : AuthorizationHandler<InvestorAuthorizationRequirement, string>
+  {
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, InvestorAuthorizationRequirement requirement, string targetUserId)
+    {
+      if (context.User == null)
+        return Task.CompletedTask;
+
+      if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ManageInvestors))
+        context.Succeed(requirement);
+
+      return Task.CompletedTask;
+    }
+
+    private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
+    {
+      if (string.IsNullOrWhiteSpace(targetUserId))
+        return false;
+
+      return Utilities.GetUserId(user) == targetUserId;
+    }
+  }
 }
