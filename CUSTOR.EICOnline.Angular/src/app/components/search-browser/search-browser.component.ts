@@ -155,7 +155,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   select(InvestorId: any, investorName: any) {
     if (this.ServiceId == 13) {
       console.log(this.ServiceId);
-      this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
+      this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
     }
     else {
       // localStorage.setItem('InvestorId', InvestorId);
