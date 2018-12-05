@@ -139,6 +139,7 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
   editInvestor(investor: Investor) {
     console.log(this.investors);
     if (investor) {
+
       this.router.navigate(['/investor-tab/1235/' + investor.InvestorId + '/' + 0], {relativeTo: this.route});
     } else {
       this.router.navigate(['/investor-tab/1235/0/0']);

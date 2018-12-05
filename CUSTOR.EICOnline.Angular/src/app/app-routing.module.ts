@@ -49,7 +49,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         loadChildren: 'app/components/auth/register/register.module#RegisterModule'
       },
       {
-        path: 'officer/:ServiceId/:InvestorId/:ServiceApplicationId/:workFlowId',
+        path: 'officer/:ServiceId/:InvestorId/:ServiceApplicationId/:workFlowId/:projectId',
         loadChildren: 'app/components/officer-Task/officer.module#OfficerModule',
         canActivate: [AuthGuard]
       },

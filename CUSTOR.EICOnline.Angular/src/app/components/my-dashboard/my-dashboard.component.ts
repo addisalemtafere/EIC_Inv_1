@@ -59,6 +59,10 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
               private serviceApplication: ServiceapplicationService) {
   }
 
+  get canManageTask() {
+    return this.accountService.userHasPermission(Permission.manageTasks);
+  }
+
   ngOnInit() {
 
     this.checkAuthorization();
@@ -87,7 +91,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     let stepIndex;
 
     localStorage.setItem('title', 'New Ip');
-    const investorId = localStorage.getItem('InvestorId')
+    const investorId = localStorage.getItem('InvestorId');
 
     if (serviceId === 1045) {
       this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
@@ -221,6 +225,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         break;
       case 1235:
         this.router.navigate(['investor-tab/' + serviceId + '/'+ ServiceApplicationId +'/'+  investorId]);
+
         break;
       case 1236:
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
@@ -322,10 +327,6 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
 
-  }
-
-  get canManageTask() {
-    return this.accountService.userHasPermission(Permission.manageTasks);
   }
 
   checkAuthorization() {

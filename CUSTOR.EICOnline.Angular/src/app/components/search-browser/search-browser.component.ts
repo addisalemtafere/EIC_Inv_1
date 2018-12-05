@@ -55,6 +55,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   private investors: Investor[];
   private projectList: ProjectModel[];
   private ServiceId: any;
+  private isForDetail: any;
 
   constructor(public fb: FormBuilder,
               private http: HttpClient,
@@ -377,7 +378,8 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       console.log(projectId);
       localStorage.setItem('projectName', projectName);
       localStorage.setItem('ServiceApplicationId', ServiceApplicationId);
-      this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + ServiceId]);
+      this.isForDetail = 0;
+      this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + ServiceId + '/' + this.isForDetail]);
     }
   }
 
