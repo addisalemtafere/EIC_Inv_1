@@ -20,7 +20,7 @@ import {Lookup} from '../../../model/lookupData';
 import {ProjectAssociateModel} from '../../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
 import {BussinessService} from '../../../Services/bussiness/bussiness.service';
-import {MajorDivision} from '../../../model/catagory/MajorDivision.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-registration-certificate',
@@ -69,6 +69,7 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   addMessage() {
+
     this.dialog.open(NotificationComponent);
   }
 
