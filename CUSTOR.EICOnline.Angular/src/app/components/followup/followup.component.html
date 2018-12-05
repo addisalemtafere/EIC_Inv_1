@@ -1,0 +1,35 @@
+
+<mat-card>
+
+    <mat-form-field>
+      <mat-label>After Care Date:</mat-label>
+    <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+   </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Investor Name/ Legal Representative:</mat-label>
+    <input matInput placeholder="Input">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>After Care Decision:</mat-label>
+    <input matInput placeholder="Input">
+  </mat-form-field>
+
+
+  <mat-form-field>
+    <mat-label>After Care Findings:</mat-label>
+    <textarea matInput placeholder="Textarea"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Officer Remak:</mat-label>
+    <textarea matInput placeholder="Textarea"></textarea>
+  </mat-form-field>
+
+</mat-card>
+
+
+

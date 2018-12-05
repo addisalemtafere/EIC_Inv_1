@@ -1,0 +1,3 @@
+interface followup_model {
+  
+}
