@@ -2,7 +2,6 @@ import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import * as html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import {MatDialog} from '@angular/material';
-import {ToastrService} from 'ngx-toastr';
 import {ServiceApplicationModel} from '../../../model/ServiceApplication.model';
 import {AddressModel} from '../../../model/address/Address.model';
 import {InvActivityModel} from '../../../model/invactivity';
@@ -22,6 +21,7 @@ import {ProjectAssociateModel} from '../../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
 import {BussinessService} from '../../../Services/bussiness/bussiness.service';
 import {MajorDivision} from '../../../model/catagory/MajorDivision.model';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-registration-certificate',
@@ -61,7 +61,6 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   ngOnInit() {
-    console.log('lazy or eager');
     this.getDate();
   }
 
@@ -102,7 +101,7 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
 
   getInvestorDetail(id: any) {
     this.InvestorId = this.route.snapshot.params['InvestorId'];
-    this.bussnesServ.getRegistrationCatagory('2').subscribe(result => {
+    this.bussnesServ.getRegistrationCatagory(this.InvestorId).subscribe(result => {
         this.MajorDivisionList = result;
       }
     );
@@ -183,5 +182,6 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   ngAfterViewChecked() {
+
   }
 }

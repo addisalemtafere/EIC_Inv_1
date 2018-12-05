@@ -18,6 +18,7 @@ import { RegistrationCertificateComponent } from './registration-certificate/reg
     ],
   exports: [
 
+
   ]
 })
 export class RegistrationModule {

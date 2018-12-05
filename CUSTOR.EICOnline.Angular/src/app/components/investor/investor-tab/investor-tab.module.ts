@@ -12,6 +12,7 @@ import {CompanyClearanceFormComponent} from "../company-clearance-form/company-c
 import {RegistrationCertificateComponent} from "../../registration/registration-certificate/registration-certificate.component";
 
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +23,8 @@ import {RegistrationCertificateComponent} from "../../registration/registration-
     OfficerModule,
     ServiceConfirmationModule,
     ServiceInfoModule,
-
+    // RegistrationModule
+  //
 
 
   ],
