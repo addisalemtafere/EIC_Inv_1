@@ -44,7 +44,6 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
     // this.InvestorId = this.route.snapshot.params['InvestorId'];
     // this.workFlowId = this.route.snapshot.params['workFlowId'];
     // this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    alert(this.ServiceApplicationId)
     this.userName = this.accountService.currentUser.FullName;
     this.getServiceApplication(this.ServiceApplicationId);
     this.initForm();
