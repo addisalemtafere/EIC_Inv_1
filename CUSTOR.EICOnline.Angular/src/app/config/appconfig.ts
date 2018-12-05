@@ -222,6 +222,8 @@ export class AppConfiguration {
     SaveRegistration: 'api/saveregistration',
     UpdateRegistration: 'api/UpdateRegistration',
     SaveRegistrationCatagory: 'api/registrationcatagory',
+    followup: 'api/followup',
+    followupedit: 'delete/followup',
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];

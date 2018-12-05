@@ -12,8 +12,8 @@ import {ErrorComponent} from './components/error/error.component';
 import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {AddressComponent} from './components/project-profile/address/address.component';
 import {FollowComponent} from './follow/follow.component';
-import {FollowupComponent} from './followup/followup.component';
-import {FollowupModule} from './followup/followup.module';
+import {FollowupModule} from "./components/followup/followup.module";
+import {FollowupComponent} from "./components/followup/followup.component";
 
 @NgModule({
   imports: [
@@ -25,8 +25,7 @@ import {FollowupModule} from './followup/followup.module';
       },
       {
         path: 'followup',
-        loadChildren: 'app/followup/followup.module#FollowupModule'
-        // canActivate: [AuthGuard]
+        component: FollowupComponent
       },
       {
         path: 'dashboard',

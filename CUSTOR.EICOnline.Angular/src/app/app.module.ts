@@ -70,9 +70,8 @@ import {AppComponent} from './app.component';
 
 import {BusinessTabComponent} from './components/business/business-tab/business-tab.component';
 import {ManagementDashboardComponent} from './components/management-dashboard/management-dashboard.component';
-import { FollowupComponent } from './followup/followup.component';
 import { FollowComponent } from './follow/follow.component';
-
+import {FollowupComponent} from './components/followup/followup.component';
 
 
 @NgModule({

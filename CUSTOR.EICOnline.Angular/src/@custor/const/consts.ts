@@ -128,3 +128,7 @@ export const ApplicationStatus: any[] =
     {'Id': '44448', 'Description': 'Pending', 'DescriptionEnglish': 'Pending'},
     {'Id': '44449', 'Description': 'Completed', 'DescriptionEnglish': 'Completed'}
   ];
+export const Decision: any[]=[
+  {'Id':'1','Description': 'Permitted', 'DescriptionEnglish': 'ተፈቅዷል'},
+  {'Id':'2','Description': 'Not Permitted', 'DescriptionEnglish': 'ውድቅ ተደርጓል'}
+];

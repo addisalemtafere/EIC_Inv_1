@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CUSTOR.EICOnline.API", "CUS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CUSTOR.EICOnline.DAL", "CUSTOR.EICOnline.DAL\CUSTOR.EICOnline.DAL.csproj", "{63667743-DE73-4FE5-9AD8-7AC2697FC891}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CUSTOR.EICOnline.Angular(1)", "CUSTOR.EICOnline.Angular\", "{5962126F-2F8F-4051-8F90-8A000E4F653A}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CUSTOR.EICOnline.Angular", "CUSTOR.EICOnline.Angular\", "{5962126F-2F8F-4051-8F90-8A000E4F653A}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_51424"
@@ -25,6 +25,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CUSTOR.EICOnline.Angular(1)
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "51424"
+		SlnRelativePath = "CUSTOR.EICOnline.Angular\"
 	EndProjectSection
 EndProject
 Global

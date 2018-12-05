@@ -25,7 +25,11 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Investor> Investors { get; set; }
-        public DbSet<CompanyClearance> CompanyClearances { get; set; }
+		//by gebre
+
+		public DbSet<Followup> Followups { get; set; }
+		
+		public DbSet<CompanyClearance> CompanyClearances { get; set; }
         public DbSet<Lookups> Lookup { get; set; }
        
         public virtual DbSet<Address> Address { get; set; }
@@ -267,6 +271,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             modelBuilder.Entity<Test>(entity =>
             {
                 entity.ToTable("Test", "dbo");
+            });
+            modelBuilder.Entity<Followup>(entity =>
+            {
+                entity.ToTable("Followup", "dbo");
             });
 
             modelBuilder.Entity<CapitalRegistration>(entity =>
