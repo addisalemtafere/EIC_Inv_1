@@ -89,14 +89,15 @@ namespace EICOnline.Controllers
 
             ApplicationUser appUser = await accountManager.GetUserByUserNameAsync(postedInvestor.UserName);
             // to-do check if appUser is valid
-            InvestorRepo.SaveInvestor(postedInvestor, appUser);
+            InvestorDTO inv =  InvestorRepo.SaveInvestor(postedInvestor, appUser);
+            
             var serviceApplication = new ServiceApplication
             {
-                InvestorId = postedInvestor.InvestorId,
+                InvestorId = inv.InvestorId,
                 CaseNumber = "12",
                 ServiceId = 1235,
                 CurrentStatusId = 44450,
-                IsSelfService = true,
+                IsSelfService = true, 
                 IsPaid = true,
                 StartDate = DateTime.Now,
                 CreatedUserId = 1,

@@ -152,6 +152,7 @@ export class IncentiveDetailComponent implements OnInit {
       return;
     }
     this.currentCategoryId = categoryCode;
+    console.log(this.currentCategoryId);
     if (categoryCode === 10778 || categoryCode === 10782) {
       this.isVisibleShowBalance = true;
 

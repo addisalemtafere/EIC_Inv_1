@@ -21,7 +21,7 @@ namespace EIC.Investment.API.Controllers
             _context = context;
         }
 
-        
+
         //[HttpGet]
         //[Route("api/GetRegistrationCatagory/{Tin}")]
         //public async Task<IActionResult> GetRegistrationCatagoryController([FromRoute] string Tin)
@@ -44,7 +44,7 @@ namespace EIC.Investment.API.Controllers
         //    return Ok(registrationcatagory);
         //}
 
-       
+
         //[HttpPost("api/registrationcatagory")]
         //public async Task<IActionResult> PostRegistraionCatagory([FromBody] RegistrationCatagory registrationCatagory)
         //{

@@ -209,6 +209,10 @@ export class AppConfiguration {
     incentiveRequestsDetailByProjectId: 'api/IncentiveRequestDetail/DetailByProjectId',
 
     CompanyClearances: 'api/CompanyClearances',
+    CompanyClearanceByInvestorId: 'api/CompanyClearances/getCompanyClearanceByInvestorId',
+    SaveFinalApprovedName: 'api/CompanyClearances/SaveFinalApprovedName',
+
+
     ServiceApplicationWithInvestor: 'api/ServiceApplications/ServiceApplicationWithInvestor',
 
 
@@ -233,6 +237,7 @@ export class AppConfiguration {
     DeleteBussinessBranch: 'api/BusinessBranch/Delete',
     Bussiness: 'api/Business/Save',
     SaveBussinessLicense: 'api/SaveBussinessLicense',
+    GetRegistrationCatagory: 'api/Business/GetRegistrationCatagory',
     Registrations: 'api/registration/GetRegistrations',
     RegistrationByTin: 'api/RegistrationByTin',
     SaveRegistration: 'api/saveregistration',
