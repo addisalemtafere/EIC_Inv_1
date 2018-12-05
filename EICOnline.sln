@@ -7,24 +7,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CUSTOR.EICOnline.API", "CUS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CUSTOR.EICOnline.DAL", "CUSTOR.EICOnline.DAL\CUSTOR.EICOnline.DAL.csproj", "{63667743-DE73-4FE5-9AD8-7AC2697FC891}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CUSTOR.EICOnline.Angular", "CUSTOR.EICOnline.Angular\", "{A29D3EC3-0309-418E-8F05-62CCE81EEA07}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CUSTOR.EICOnline.Angular", "CUSTOR.EICOnline.Angular\", "{AA7DD659-5173-493D-AA75-518186941A53}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_51424"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_56013"
 		Debug.AspNetCompiler.PhysicalPath = "CUSTOR.EICOnline.Angular\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51424\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_56013\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_51424"
+		Release.AspNetCompiler.VirtualPath = "/localhost_56013"
 		Release.AspNetCompiler.PhysicalPath = "CUSTOR.EICOnline.Angular\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51424\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_56013\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "51424"
+		VWDPort = "56013"
 		SlnRelativePath = "CUSTOR.EICOnline.Angular\"
 	EndProjectSection
 EndProject
@@ -42,9 +42,9 @@ Global
 		{63667743-DE73-4FE5-9AD8-7AC2697FC891}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63667743-DE73-4FE5-9AD8-7AC2697FC891}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63667743-DE73-4FE5-9AD8-7AC2697FC891}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A29D3EC3-0309-418E-8F05-62CCE81EEA07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A29D3EC3-0309-418E-8F05-62CCE81EEA07}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{A29D3EC3-0309-418E-8F05-62CCE81EEA07}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{AA7DD659-5173-493D-AA75-518186941A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA7DD659-5173-493D-AA75-518186941A53}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA7DD659-5173-493D-AA75-518186941A53}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
