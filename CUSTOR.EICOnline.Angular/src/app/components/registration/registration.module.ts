@@ -13,7 +13,7 @@ import { RegistrationCertificateComponent } from './registration-certificate/reg
     RegistrationRoutingModule
   ],
   declarations: [
-    // RegistrationComponent,
+    RegistrationComponent,
    // RegistrationCertificateComponent
     ],
   exports: [

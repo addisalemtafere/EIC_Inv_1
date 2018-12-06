@@ -1,13 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormGroup} from "@angular/forms";
-import {Subscription} from "rxjs";
 import {AccountService} from "@custor/services/security/account.service";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material";
 import {DataSharingService} from "../../../Services/data-sharing.service";
 import {NotificationComponent} from "../../project-profile/notification/notification.component";
-import {RegistrationComponent} from "../registration.component";
-import {ServicePrerequisite} from '../../../model/service-prerequisite';
 import {Investor} from '../../../model/investor';
 import {InvestorService} from '../../investor/investor.service';
 import {ToastrService} from 'ngx-toastr';
