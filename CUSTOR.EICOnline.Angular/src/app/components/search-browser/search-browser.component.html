@@ -117,7 +117,7 @@
             <div>
 
               <a class="margin-10 pointer" matTooltip="Click her to for detail"
-                 (click)="select(investors.InvestorId,investors.InvestorNameEng)">
+                 (click)="goToService(investors.InvestorId,investors.InvestorNameEng)">
                 <mat-icon color="primary">visibility</mat-icon>
                 View
               </a>
@@ -125,7 +125,7 @@
 
               <button color="primary" mat-raised-button class="margin-10 pointer"
                       matTooltip="Click her to add project"
-                      (click)="goToService(investors.InvestorId,investors.InvestorNameEng)">
+                      (click)="select(investors.InvestorId,investors.InvestorNameEng)">
                 <span style="font-weight: bolder;">Select </span>
               </button>
             </div>

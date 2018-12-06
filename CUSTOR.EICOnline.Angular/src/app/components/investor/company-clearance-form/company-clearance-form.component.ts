@@ -1,22 +1,19 @@
 import {AfterContentChecked, AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DataSharingService} from '../../../Services/data-sharing.service';
 import {ConfigurationService} from '@custor/services/configuration.service';
 import {ToastrService} from 'ngx-toastr';
 import {AppConfiguration} from '../../../config/appconfig';
 import {CompanyClearanceService} from './company-clearance.service';
-import {CapitalRegistrationModel} from '../../../model/CapitalRegistration.model';
-import {MatTableDataSource} from '@angular/material';
 import {FormService} from '@custor/validation/custom/form';
 import {CompanyClearanceModel} from './CompanyClearance.Model';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {Subscription} from 'rxjs';
 import {fadeInOut} from '@custor/services/animations';
-import {AssociateDTO} from '../../../model/associate.model';
 import {InvestorService} from '../investor.service';
-import {Permission} from "../../../model/security/permission.model";
-import {AccountService} from "@custor/services/security/account.service";
+import {Permission} from '../../../model/security/permission.model';
+import {AccountService} from '@custor/services/security/account.service';
 
 @Component({
   selector: 'app-company-clearance-form',
@@ -29,9 +26,9 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
   loadingIndicator: boolean;
   companyClearanceForm: FormGroup;
   public editMode: boolean;
-  private InvestorId: any;
   companyClearanceSub: Subscription;
   companyClearance: CompanyClearanceModel;
+  private InvestorId: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -46,6 +43,34 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
               private appConfig: AppConfiguration,
               private fb: FormBuilder) {
 
+  }
+
+  get companyNameOneEnglish() {
+    return this.companyClearanceForm.get('CompanyNameOneEnglish');
+  }
+
+  get companyNameOneAmharic() {
+    return this.companyClearanceForm.get('CompanyNameOneAmharic');
+  }
+
+  get companyNameTwoEnglish() {
+    return this.companyClearanceForm.get('CompanyNameTwoEnglish');
+  }
+
+  get companyNameTwoAmharic() {
+    return this.companyClearanceForm.get('CompanyNameTwoAmharic');
+  }
+
+  get companyNameThreeEnglish() {
+    return this.companyClearanceForm.get('CompanyNameThreeEnglish');
+  }
+
+  get companyNameThreeAmharic() {
+    return this.companyClearanceForm.get('CompanyNameThreeAmharic');
+  }
+
+  get canViewTasks() {
+    return this.accountService.userHasPermission(Permission.viewServiceList);
   }
 
   ngOnInit(): void {
@@ -95,7 +120,6 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
     this.loadingIndicator = false;
   }
 
-
   updateForm() {
     this.companyClearanceForm.patchValue({
       CompanyNameOneEnglish: this.companyClearance.CompanyNameOneEnglish || '',
@@ -105,31 +129,6 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
       CompanyNameThreeEnglish: this.companyClearance.CompanyNameThreeEnglish || '',
       CompanyNameThreeAmharic: this.companyClearance.CompanyNameThreeAmharic || ''
     });
-  }
-
-
-  get companyNameOneEnglish() {
-    return this.companyClearanceForm.get('CompanyNameOneEnglish');
-  }
-
-  get companyNameOneAmharic() {
-    return this.companyClearanceForm.get('CompanyNameOneAmharic');
-  }
-
-  get companyNameTwoEnglish() {
-    return this.companyClearanceForm.get('CompanyNameTwoEnglish');
-  }
-
-  get companyNameTwoAmharic() {
-    return this.companyClearanceForm.get('CompanyNameTwoAmharic');
-  }
-
-  get companyNameThreeEnglish() {
-    return this.companyClearanceForm.get('CompanyNameThreeEnglish');
-  }
-
-  get companyNameThreeAmharic() {
-    return this.companyClearanceForm.get('CompanyNameThreeAmharic');
   }
 
   public onSubmit() {
@@ -155,32 +154,12 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
     this.editMode = true;
   }
 
-
-  private getEditedCompanyNames(): CompanyClearanceModel {
-    const formModel = this.companyClearanceForm.value;
-    return {
-      CompanyClearanceId: 0,
-      InvestorId: this.activatedRoute.snapshot.params['InvestorId'],
-      CompanyNameOneAmharic: formModel.CompanyNameOneAmharic,
-      CompanyNameOneEnglish: formModel.CompanyNameOneEnglish,
-      CompanyNameTwoEnglish: formModel.CompanyNameOneEnglish,
-      CompanyNameTwoAmharic: formModel.CompanyNameTwoAmharic,
-      CompanyNameThreeEnglish: formModel.CompanyNameThreeEnglish,
-      CompanyNameThreeAmharic: formModel.CompanyNameThreeAmharic,
-      IsCompanyNameOneApproved: false,
-      IsCompanyNameTwoApproved: false,
-      IsCompanyNameThreeApproved: false,
-      IsActive: true
-    };
-  }
-
-
   onBack() {
     window.history.back();
   }
 
   onApproveNameOptionOne() {
-    if (this.companyNameOneAmharic.value == "" && this.companyNameOneEnglish.value == "") {
+    if (this.companyNameOneAmharic.value == '' && this.companyNameOneEnglish.value == '') {
       this.toastr.error('Name must be inserted');
       return;
     }
@@ -200,7 +179,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
 
 
   onApproveNameOptionTwo() {
-    if (this.companyNameTwoAmharic.value == "" && this.companyNameTwoEnglish.value == "") {
+    if (this.companyNameTwoAmharic.value == '' && this.companyNameTwoEnglish.value == '') {
       this.toastr.error('Name must be inserted');
       return;
     }
@@ -220,7 +199,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
 
   onApproveNameOptionThree() {
 
-    if (this.companyNameThreeAmharic.value == "" && this.companyNameThreeEnglish.value == "") {
+    if (this.companyNameThreeAmharic.value == '' && this.companyNameThreeEnglish.value == '') {
       this.toastr.error('Name must be inserted');
       return;
     }
@@ -248,8 +227,22 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
   ngOnDestroy(): void {
   }
 
-  get canViewTasks() {
-    return this.accountService.userHasPermission(Permission.viewServiceList);
+  private getEditedCompanyNames(): CompanyClearanceModel {
+    const formModel = this.companyClearanceForm.value;
+    return {
+      CompanyClearanceId: 0,
+      InvestorId: this.activatedRoute.snapshot.params['InvestorId'],
+      CompanyNameOneAmharic: formModel.CompanyNameOneAmharic,
+      CompanyNameOneEnglish: formModel.CompanyNameOneEnglish,
+      CompanyNameTwoEnglish: formModel.CompanyNameOneEnglish,
+      CompanyNameTwoAmharic: formModel.CompanyNameTwoAmharic,
+      CompanyNameThreeEnglish: formModel.CompanyNameThreeEnglish,
+      CompanyNameThreeAmharic: formModel.CompanyNameThreeAmharic,
+      IsCompanyNameOneApproved: false,
+      IsCompanyNameTwoApproved: false,
+      IsCompanyNameThreeApproved: false,
+      IsActive: true
+    };
   }
 
   // /*  onSubmit() {

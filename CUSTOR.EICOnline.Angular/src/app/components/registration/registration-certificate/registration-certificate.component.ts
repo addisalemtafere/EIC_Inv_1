@@ -20,8 +20,13 @@ import {Lookup} from '../../../model/lookupData';
 import {ProjectAssociateModel} from '../../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
 import {BussinessService} from '../../../Services/bussiness/bussiness.service';
+
 import {MajorDivision} from '../../../model/catagory/MajorDivision.model';
 import {ToastrService} from "ngx-toastr";
+import {Investor} from '../../../model/investor';
+import {AssociateService} from '../../../Services/associate.service';
+import {AssociateModel} from '../../../model/associate.model';
+
 
 @Component({
   selector: 'app-registration-certificate',
@@ -35,6 +40,7 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   investmentAddressList: AddressModel;
   projectCost: ProjectCostModel;
   investmentActivity: InvActivityModel;
+
   exportMarketShare: number;
   ServiceApplicationId: any;
   viewCertificate = false;
@@ -42,11 +48,14 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   InvestorId: any;
   projectCostTotal: number;
   MajorDivisionList: any;
-  public manager: ProjectAssociateModel[];
+  //public manager: ProjectAssociateModel[];
+  public manager: AssociateModel[];
+  investor: Investor;
 
   constructor(public certificateService: CertificateService,
               private projecAssService: ProjectAssociateService,
               public errMsg: ErrorMessage,
+              private associateService: AssociateService,
               public projectService: ProjectProfileService,
               public serviceApplication: ServiceApplicationService,
               public bussnesServ: BussinessService,
@@ -70,6 +79,7 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   addMessage() {
+
     this.dialog.open(NotificationComponent);
   }
 
@@ -105,18 +115,26 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
         this.MajorDivisionList = result;
       }
     );
-    this.certificateService.getOneById(id)
-      .subscribe((result: ServiceApplicationModel) => {
-        this.investorDetailList = result;
-        this.getInvestmentLocation(this.investorDetailList.ProjectId);
-        this.getProjectCost(this.investorDetailList.ProjectId);
-        this.getExportPercent(this.investorDetailList.ProjectId);
-        console.log(result);
-        this.getInvestorAddress(this.investorDetailList.InvestorId);
-        this.getManager(this.investorDetailList.ProjectId);
-        this.getInvactivity(this.investorDetailList.Project.InvActivityId);
-        this.approve();
-      });
+    this.bussnesServ.getRegistrationByInvestorId(this.InvestorId).subscribe(
+      result => {
+        this.investor = result;
+        this.getInvestorAddress(this.InvestorId);
+        this.getManager();
+      }
+    );
+
+    //this.certificateService.getOneById(id)
+      // .subscribe((result: ServiceApplicationModel) => {
+       // this.investorDetailList = result;
+        //this.getInvestmentLocation(this.investorDetailList.ProjectId);
+        //this.getProjectCost(this.investorDetailList.ProjectId);
+        //this.getExportPercent(this.investorDetailList.ProjectId);
+        //console.log(result);
+        //this.getInvestorAddress(this.investorDetailList.InvestorId);
+        //this.getManager(this.investorDetailList.ProjectId);
+        //this.getInvactivity(this.investorDetailList.Project.InvActivityId);
+       // this.approve();
+      //});
   }
 
   getInvestmentLocation(parent: any) {
@@ -149,8 +167,9 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
       });
   }
 
-  getManager(ProjectId: any) {
-    this.projecAssService.associateProject(ProjectId)
+  getManager() {
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.associateService.getAssociateByInvestorId(this.InvestorId)
       .subscribe(result => {
         this.manager = result;
       });
