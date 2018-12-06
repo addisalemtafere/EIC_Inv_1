@@ -20,8 +20,8 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
   loading = false;
   public projectList: ProjectModel[];
   public isInvestor: boolean;
-  private ServiceApplicationId: number;
   public editMode = false;
+  private ServiceApplicationId: number;
   private InvestorId: any;
   private approval = false;
   private ServiceId: any;
@@ -39,16 +39,17 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    this.ServiceId = this.route.snapshot.params['ServiceId'];
-    this.InvestorId = this.route.snapshot.params['InvestorId'];
-    this.ProjectId = this.route.snapshot.params['ProjectId'];
+    this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
+    this.ProjectId = this.route.snapshot.params['ProjectId'] || this.route.snapshot.params['projectId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'] || this.route.snapshot.params['serviceApplicationId'];
 
     this.initForm();
     this.getAllProjects();
     this.isInvestor = !this.accountService.getUserType();
     this.route.params
       .subscribe((params: Params) => {
-        this.ServiceApplicationId = +params['id'];
+        console.log(this.ServiceApplicationId);
         if (this.ServiceApplicationId > 1) {
           this.getServiceApplicationRenewal();
           this.approval = true;
@@ -96,15 +97,6 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
     // }
   }
 
-  private getServiceApplicationRenewal() {
-    this.projectRenewalService
-      .getRenewalByServiceApplicationId(this.ServiceApplicationId)
-      .subscribe(result => {
-        this.editMode = true;
-        this.projectRenewalForm.patchValue(result.ProjectRenewal[0]);
-      }, error => this.errMsg.getError(error));
-  }
-
   notification(message: string) {
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
 
@@ -114,12 +106,20 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
     });
   }
 
-
   approve() {
     this.projectRenewalService
       .create(this.projectRenewalForm.value)
       .subscribe(result => {
         this.toastr.success('Renewal  successfully approved', 'Success');
       });
+  }
+
+  private getServiceApplicationRenewal() {
+    this.projectRenewalService
+      .getRenewalByServiceApplicationId(this.ServiceApplicationId)
+      .subscribe(result => {
+        this.editMode = true;
+        this.projectRenewalForm.patchValue(result.ProjectRenewal[0]);
+      }, error => this.errMsg.getError(error));
   }
 }

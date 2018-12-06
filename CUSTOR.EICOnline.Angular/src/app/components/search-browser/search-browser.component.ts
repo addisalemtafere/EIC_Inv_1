@@ -55,6 +55,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   private investors: Investor[];
   private projectList: ProjectModel[];
   private ServiceId: any;
+  private isForDetail: any;
 
   constructor(public fb: FormBuilder,
               private http: HttpClient,
@@ -133,6 +134,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           this.investors = result;
           if (!this.investors) {
             this.loadingIndicator = false;
+
             this.toastr.error('No records were found to list', 'Error', {
               closeButton: true,
             });
@@ -151,32 +153,38 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   select(InvestorId: any, investorName: any) {
-    // localStorage.setItem('InvestorId', InvestorId);
-    this.invName = investorName;
-    this.loadingIndicator = true;
-    this.projectService.getProjectByInvestorId(InvestorId)
-      .subscribe(result => {
+    if (this.ServiceId == 13) {
+      console.log(this.ServiceId);
+      this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
+    }
+    else {
+      // localStorage.setItem('InvestorId', InvestorId);
+      this.invName = investorName;
+      this.loadingIndicator = true;
+      this.projectService.getProjectByInvestorId(InvestorId)
+        .subscribe(result => {
 
-          this.investorShow = false;
-          this.projectList = result;
-          this.title = 'ProjectDetail';
-          if (this.projectList.length == 0) {
-            this.loadingIndicator = false;
-            this.toastr.error('No records were found to list', 'Error', {
-              closeButton: true,
-            });
-          } else {
-            this.loadingIndicator = false;
-            this.dataSource = new MatTableDataSource<ProjectModel>(result);
-            console.log(result);
-            this.dataSource.paginator = this.paginator;
-          }
-        },
-        error => {
-          this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
-        });
-    this.loadingIndicator = false;
+            this.investorShow = false;
+            this.projectList = result;
+            this.title = 'ProjectDetail';
+            if (this.projectList.length == 0) {
+              this.loadingIndicator = false;
 
+              this.toastr.error('No records were found to list', 'Error', {
+                closeButton: true,
+              });
+            } else {
+              this.loadingIndicator = false;
+              this.dataSource = new MatTableDataSource<ProjectModel>(result);
+              console.log(result);
+              this.dataSource.paginator = this.paginator;
+            }
+          },
+          error => {
+            this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
+          });
+      this.loadingIndicator = false;
+    }
   }
 
   editInvestor(investor: Investor) {
@@ -269,7 +277,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     console.log(serviceId);
     switch (serviceId) {
       case 13:
-        this.router.navigate(['/pro', 0]);
+        this.router.navigate(['/pro/0/0/0/0/0']);//Fire
         break;
       case 18:
         if (projectStatus !== 4) {
@@ -377,7 +385,8 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       console.log(projectId);
       localStorage.setItem('projectName', projectName);
       localStorage.setItem('ServiceApplicationId', ServiceApplicationId);
-      this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + ServiceId]);
+      this.isForDetail = 0;
+      this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + ServiceId + '/' + this.isForDetail]);
     }
   }
 

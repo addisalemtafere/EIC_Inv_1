@@ -22,12 +22,10 @@ export class ServiceConfirmationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ServiceApplicationId = this.route.snapshot.params['id'];
-
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
   }
 
   submitApplication() {
-
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
       this.ServiceApplicationId)
       .subscribe(result => {

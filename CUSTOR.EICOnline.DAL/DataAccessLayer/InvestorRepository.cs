@@ -47,7 +47,7 @@ namespace CUSTOR.EICOnline.DAL
             return InvestorHelper.GetInvestorDTO(investor, add);
         }
 
-        public async Task<InvestorDTO> SaveInvestor(InvestorDTO postedInvestor, ApplicationUser appUser)
+        public  InvestorDTO SaveInvestor(InvestorDTO postedInvestor, ApplicationUser appUser)
         {
             bool isUpdate = (postedInvestor.InvestorId > 0);
             Investor inv = InvestorHelper.GetInvestor(postedInvestor);

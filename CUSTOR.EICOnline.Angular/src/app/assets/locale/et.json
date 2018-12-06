@@ -154,7 +154,9 @@
       "Email": "ኢሜል",
       "InvestorProfileCaption": "የግል/የድርጅት መረጃ",
       "AddressCaption": "አድራሻ",
-      "BusinessDataCaption": "የንግድ ምዝገባ መረጃ"
+      "BusinessDataCaption": "የንግድ ምዝገባ መረጃ",
+      "PaidCapital": "የተከፈለ ካፒታል",
+      "SighnedCapital": "የተፈረመ ካፒታል"
     }
   },
   "form": {

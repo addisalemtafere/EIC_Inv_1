@@ -95,8 +95,7 @@
     "capitalRegistration": "Capital Registration",
     "customerRegistration": "Customer Registration",
     "changePassword": "Change Password",
-    "lettertemplate": "Letter Tempalte",
-    "changePassword": "Commercial Registration"
+    "lettertemplate": "Letter Tempalte"
   },
   "pageHeader": {
     "Dashboard": "Dashboard",
@@ -183,7 +182,9 @@
       "Responsibility ": "Responsibility",
       "MangerProfile": "Manager Profile",
       "Photo": "Photo",
-      "MangerAddress": "Manager Address"
+      "MangerAddress": "Manager Address",
+      "PaidCapital": "Paid Capital",
+      "SighnedCapital": "Signed Capital"
     }
   },
   "form": {
