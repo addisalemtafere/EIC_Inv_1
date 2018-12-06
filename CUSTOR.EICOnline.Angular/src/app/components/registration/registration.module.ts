@@ -14,11 +14,11 @@ import { RegistrationCertificateComponent } from './registration-certificate/reg
   ],
   declarations: [
     // RegistrationComponent,
-    RegistrationCertificateComponent
+   // RegistrationCertificateComponent
     ],
   exports: [
-    // RegistrationComponent,
-    RegistrationCertificateComponent
+
+
   ]
 })
 export class RegistrationModule {

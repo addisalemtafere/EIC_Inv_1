@@ -8,15 +8,16 @@
   <mat-divider></mat-divider>
 
   <mat-card-content>
-    <div fxLayout="row" fxLayoutAlign="start " fxLayoutGap="2em">
+
+    <div *ngIf="confirm" fxLayout="row" fxLayoutAlign="start " fxLayoutGap="2em">
       <div class="  block" fxFlex="60%">
         <div class="hdr-brk sub-title">Confirmation</div>
-        <div style="padding: 20px">
-          <strong>Dear customer; Thank you for Applying. <br>
+        <!--<div style="padding: 20px">-->
+        <!--&lt;!&ndash;<strong>Dear customer; Thank you for Applying. <br>&ndash;&gt;-->
 
-            Your application will be review soon and we get back for any feed back:</strong>
+        <!--&lt;!&ndash;Your application will be review soon and we get back for any feed back:</strong>&ndash;&gt;-->
 
-        </div>
+        <!--</div>-->
         <div class="border header-description">
           Your application Please use the Ticket Number:
 
@@ -32,13 +33,13 @@
         </div>
 
         <div fxLayoutAlign=" center" class="footerButton block" fxFlex="">
-          <button (click)="back()" style="margin: 10px;" color="primary" mat-raised-button>
+          <button (click)="submitApplication()" style="margin: 10px;" color="primary" mat-raised-button>
             <mat-icon class="mat-18">done</mat-icon>
             <span class="agree">New</span>
           </button>
           <button (click)="back()" style="margin: 10px;" color="warn" mat-raised-button>
             <mat-icon class="mat-18">close</mat-icon>
-            <span class="agree">Finish</span>
+            <span class="agree">Submit</span>
           </button>
 
           <!--<button (click)="back()" style="margin: 10px;" color="warn" mat-raised-button>-->
@@ -49,11 +50,14 @@
       </div>
       <div class="appGuid block" fxFlex="40%">
         <div class="hdr-brk sub-title">Application Service Detail</div>
+        <h2 style="color: #f17117!important;">Dear customer,<br>
+          Thank you for Applying.<br>
+
+          Your application will be review soon and we get back for any feed back:
+        </h2>
+        <mat-icon style="color: #f17117" class="mat-48">done</mat-icon>
       </div>
     </div>
   </mat-card-content>
-  <mat-card-actions align="start center">
-    <div fxLayout="row" fxLayoutGap="2em">
-    </div>
-  </mat-card-actions>
+
 </mat-card>

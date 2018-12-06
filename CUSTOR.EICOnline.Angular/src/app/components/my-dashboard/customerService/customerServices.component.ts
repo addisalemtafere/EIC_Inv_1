@@ -100,7 +100,7 @@ export class CustomerServiceStarterComponent implements OnInit {
 
     } else {
       this.notification('Your Profile Must be completed');
-      this.router.navigate(['/investor-tab']);
+      this.router.navigate(['/investor-tab/1235/0/0']);
     }
   }
 

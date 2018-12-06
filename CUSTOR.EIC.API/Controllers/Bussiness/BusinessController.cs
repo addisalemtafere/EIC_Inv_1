@@ -37,21 +37,28 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
         [HttpGet("GetRegistrationCatagory/{InvestorId:int}")]
         public List<tblMajorDivision> GetRegistrationcata(int InvestorId)
         {
-            var catdatalist = context.RegistrationCatagorys.Where(param => param.InvestorId == InvestorId).ToList();
-            List<tblMajorDivision> descriptionList = new List<tblMajorDivision>() ;
-            for (int i = 0; i < catdatalist.Count; i++)
+            try
             {
-                tblMajorDivision description=new tblMajorDivision();
-                int code=Convert.ToInt16(catdatalist[i].MajorCatagoryCode);
-                var catdata = context.tblMajorDivision.SingleOrDefault(param => param.Code == code);
-                if (catdata != null)
+                var catdatalist = context.RegistrationCatagorys.Where(param => param.InvestorId == InvestorId).ToList();
+                List<tblMajorDivision> descriptionList = new List<tblMajorDivision>();
+                for (int i = 0; i < catdatalist.Count; i++)
                 {
-                    description.EnglishDescription = catdata.EnglishDescription;
-                    description.Description = catdata.Description;
-                    descriptionList.Add(description);
+                    tblMajorDivision description = new tblMajorDivision();
+                    int code = Convert.ToInt16(catdatalist[i].MajorCatagoryCode);
+                    var catdata = context.tblMajorDivision.SingleOrDefault(param => param.Code == code);
+                    if (catdata != null)
+                    {
+                        description.EnglishDescription = catdata.EnglishDescription;
+                        description.Description = catdata.Description;
+                        descriptionList.Add(description);
+                    }
                 }
+                return descriptionList;
             }
-            return descriptionList;
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         [HttpPost("Save")]
