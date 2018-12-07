@@ -103,7 +103,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.investor = <Investor>{};
     // initialize the form
     this.initForm();
-    console.log(this.accountService.currentUser.Roles);
+    // console.log(this.accountService.currentUser.Roles);
   }
 
   checkAuthoriation() {
@@ -162,7 +162,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.legalStatus.valueChanges.subscribe(
       (intLegal: number) => {
         if (intLegal === 1) { // Sole
-          console.log(intLegal);
+          // console.log(intLegal);
           this.ClearCompanyValidators();
           this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
@@ -211,7 +211,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         'Id': pair.Id.toString(),
         'Desc': (currentLang === 'et' ? pair.Description : pair.DescriptionEng)
       };
-      console.log(formOfOwnership);
+      // console.log(formOfOwnership);
 
       this.formOfOwnershipList.push(formOfOwnership);
     });
@@ -222,7 +222,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     GENDERS.forEach(pair => {
       gender = {'Id': pair.Id.toString(), 'Desc': (currentLang === 'et' ? pair.Description : pair.DescriptionEnglish)};
       this.genders.push(gender);
-      console.log(pair);
+      // console.log(pair);
     });
     let legalS: LegalStatus = new LegalStatus();
     LEGAL_STATUS.forEach(pair => {
@@ -282,7 +282,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        console.log(result);
+        // console.log(result);
         this.getKebeleByWoredaId(result.WoredaId);
         this.addressId = result.AddressId;
         this.investorForm.get('address').patchValue(result);
@@ -317,7 +317,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.custService.getLookupsByLang(this.currentLang)
       .subscribe(result => {
           this.countries = result;
-          console.log(result);
+          // console.log(result);
           // console.log (this.lookups.length + ' countries');
           // if (this.lookups) {
           //   this.countries = this.lookups.filter((item) => item.LookupTypeId === this.countryLookupType);
@@ -341,7 +341,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       .subscribe(z => {
           this.zones = z;
           if (this.zones) {
-            console.log('Region ' + this.investor.RegionId);
+            // console.log('Region ' + this.investor.RegionId);
             // this.filterRegion(this.investor.RegionId);
           }
         },
@@ -500,7 +500,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.investorForm.get('cNationalityCompany').patchValue('0');
     }
     if (!this.investorForm.valid) {
-      console.log('error!!');
+      // console.log('error!!');
       return;
     }
     const lStatus: number = this.legalStatus.value;
@@ -589,7 +589,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   private getEditedInvestor(): Investor {
     const formModel = this.investorForm.value;
     const add = this.investorForm.get('address').value;
-    console.log(add);
+    // console.log(add);
     return {
       InvestorId: this.isNewInvestor ? 0 : this.investor.InvestorId,
       FirstName: this.isCompany ? formModel.cCompanyName : formModel.cFirstName,
@@ -677,7 +677,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   getInvestorTitle(id: any) {
     this.lookUpService.getLookupByParentId(id).subscribe(result => {
-      console.log(result);
+      // console.log(result);
       this.TitleLookup = result;
     });
 
@@ -686,7 +686,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   getCountryTitle(id: any) {
     this.lookUpService.getLookupByParentId(id)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.countryListWithOutEthipia = result.filter((item) =>
           item.English !== 'ETHIOPIA'
         );
@@ -702,7 +702,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     } else {
       this.isCompany = false;
       this.formOfOwnershipList.splice(3, 1);
-      console.log(this.formOfOwnershipList);
+      // console.log(this.formOfOwnershipList);
     }
   }
 
