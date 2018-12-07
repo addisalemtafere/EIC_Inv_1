@@ -64,14 +64,12 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-
-        path: 'business-tab/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
-
+        path: 'business-tab/:ServiceId/:InvestorId/:ServiceApplicationId/:BusinessId/:workFlowId',
         loadChildren: 'app/components/business/business-tab/business-tab.module#BusinessTabModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'registration-tab/:ServiceId/:tin/:ServiceApplicationId',
+        path: 'registration-tab/:ServiceId/:tin/:serviceApplicationId',
         loadChildren: 'app/components/registration/Registration-tab/registration-tab.module#RegistrationTabModule',
         canActivate: [AuthGuard]
       },
@@ -299,12 +297,6 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         loadChildren: 'app/components/setting/lookup-tabs/lookuptypes/lookuptypes.module#LookupTypesModule',
         canActivate: [AuthGuard]
       },
-     /* {
-        path: 'bussiness',
-        loadChildren: 'app/components/bussiness/bussiness.module#BussinessModule',
-        canActivate: [AuthGuard]
-      },*/
-
       {
         path: 'lookup-tab',
         loadChildren: 'app/components/setting/lookup-tabs/lookup.module#LookupModule',

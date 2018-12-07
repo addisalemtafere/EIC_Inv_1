@@ -23,7 +23,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
             try
             {
                 BusinessBranch = await Context.Address.Include("Region").Include("Woreda").Include("Zone")
-                  .Where(Branch => Branch.ParentId == investorId && Branch.AddressType == 1)
+                  .Where(Branch => Branch.ParentId == investorId && Branch.AddressType == 2)
                                 .ToListAsync();
                 foreach (CUSTOR.EICOnline.DAL.EntityLayer.Address bussinessBranch in BusinessBranch)
                 {

@@ -81,16 +81,19 @@ export class CustomerServiceStarterComponent implements OnInit {
         case 1046:
         case 1047:
         case 1023:
-        case 1236:
+
         case 18:
         case 19:
         case 1023:
         case 1027:
         case 1028:
-
-
           this.router.navigate(['/investor-project-list/' + serviceId]);
           break;
+
+        case 1236:
+          this.router.navigate(['/business-tab/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0+ '/' + 0]);
+          break;
+
         default:
           this.router.navigate(['/notfound'], {relativeTo: this.route});
           break;
@@ -100,7 +103,7 @@ export class CustomerServiceStarterComponent implements OnInit {
 
     } else {
       this.notification('Your Profile Must be completed');
-      this.router.navigate(['/investor-tab']);
+      this.router.navigate(['/investor-tab/1235/0/0']);
     }
   }
 

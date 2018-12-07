@@ -1,17 +1,11 @@
-import {Component, OnInit, ɵbypassSanitizationTrustHtml} from '@angular/core';
-import {CatagoryService} from '../../../Services/Catagory/Catagory.service';
+import {Component, OnInit} from '@angular/core';
+
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
-import {BussinessModel} from '../../../model/bussiness/BussinessModel.model';
 import {MatTableDataSource} from '@angular/material';
 import {BussinessService} from '../../../Services/bussiness/bussiness.service';
-import {AssociateModel} from '../../../model/associate.model';
-import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
-import {Utilities} from '@custor/helpers/utilities';
 import {BussinessBranchModel} from '../../../model/bussiness/BussinessBranch.model';
-import {FormControl} from '@angular/forms';
-import {exitCodeFromResult} from '@angular/compiler-cli';
 import {AddressModel} from '../../../model/address/Address.model';
 
 @Component({

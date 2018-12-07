@@ -237,11 +237,16 @@ export class AppConfiguration {
     DeleteBussinessBranch: 'api/BusinessBranch/Delete',
     Bussiness: 'api/Business/Save',
     SaveBussinessLicense: 'api/SaveBussinessLicense',
+    GetRegistrationCatagory: 'api/Business/GetRegistrationCatagory',
+    GetBusiness: 'api/Business/GetBussiness',
+
     Registrations: 'api/registration/GetRegistrations',
     RegistrationByTin: 'api/RegistrationByTin',
     SaveRegistration: 'api/saveregistration',
     UpdateRegistration: 'api/UpdateRegistration',
     SaveRegistrationCatagory: 'api/registrationcatagory',
+    GetBussinessMajorCatagory: 'api/Business/GetBussinessMajorcata',
+    GetBussinessCatagory: 'api/Business/GetBussinessCatagory',
 
 
     url: (name, parm1?, parm2?, parm3?) => {

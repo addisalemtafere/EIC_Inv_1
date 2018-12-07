@@ -99,18 +99,17 @@ export class LetterComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.ServiceId = this.activatedRoute.snapshot.params['serviceId'];
-    this.ProjectId = this.activatedRoute.snapshot.params['projectId'];
-    this.ServiceApplicationId = this.activatedRoute.snapshot.params['ServiceApplicationId'];
-
-    if (this.activatedRoute.snapshot.params['isForDetail'] == 1) {
+    this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
+    this.ProjectId = this.route.snapshot.params['projectId'] || this.route.snapshot.params['ProjectId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'] || this.route.snapshot.params['serviceApplicationId'];
+    if (this.route.snapshot.params['isForDetail'] == 1) {
       this.getLetter();
       this.getLookups();
       this.isForDetails = false;
     } else {
       this.getProjectDetails();
       this.getIncentiveDetails();
-      this.getLetterTempalte();
+      //this.getLetterTempalte();
       this.getTaxExemptionDetails();
       if (this.ServiceId == '1045') {
         this.getItemLookup(2846, 100);
@@ -223,6 +222,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.projectModel = result;
+            console.log(this.projectModel);
           }
         },
         error => this.errMsg.getError(error));
@@ -254,12 +254,12 @@ export class LetterComponent implements OnInit {
     }
     console.log(this.ServiceId);
     this.enableButtonGenerate = true;
-    this.getLetterTempalte();
+    this.getLetterTempalte(letterType);
   }
 
-  getLetterTempalte() {
-    const formModel = this.letterForm.value;
-    this.lettertepmlateService.getletterTemplate(formModel.LetterType).subscribe(result => {
+  getLetterTempalte(letterType: any) {
+
+    this.lettertepmlateService.getletterTemplate(letterType).subscribe(result => {
         if (result) {
           this.letterTempalteModel = result;
         }
@@ -314,6 +314,7 @@ export class LetterComponent implements OnInit {
   generatePDF() {
     this.ShowSave = true;
     console.log(this.projectModel);
+    console.log(this.letterTempalteModel);
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g,
       this.projectModel.Investor.FirstNameEng.toUpperCase() +
       ' ' + this.projectModel.Investor.FatherNameEng.toUpperCase() +
@@ -321,6 +322,7 @@ export class LetterComponent implements OnInit {
     this.LetterContent = this.LetterContent.replace(/{{StartDate}}/g,
       new Date(this.projectModel.StartDate).getMonth() +
       '/' + new Date(this.projectModel.StartDate).getDay() + '/' + new Date(this.projectModel.StartDate).getFullYear());
+
     this.LetterContent = this.LetterContent.replace(/{{InvActivity}}/g,
       this.projectModel.InvestmentActivity.DescriptionEnglish.toUpperCase());
     this.LetterContent = this.LetterContent.replace(/{{InvestmentPermitNo}}/g,
@@ -353,16 +355,20 @@ export class LetterComponent implements OnInit {
       new Date().toDateString());
     // this.RequestDate);
 
-    if (this.ServiceId !== '1045') {
+    if (this.ServiceId !== '1045' && this.ServiceId !== '13') {
       this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
         this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
         //'n343en7'
       );
     }
+    this.LetterContent = this.LetterContent.replace(/{{TeleNo}}/g,
+      this.addressList.TeleNo);
+
     this.LetterContent = this.LetterContent.replace(/{{Region}}/g,
       this.addressList.Region.Description);
 
-
+    this.LetterContent = this.LetterContent.replace(/{{RegionEng}}/g,
+      this.addressList.Region.DescriptionEnglish);
     this.letterTempalteModel.LetterContent = this.LetterContent;
     this.letterForm.patchValue({
       LetterContent: this.LetterContent

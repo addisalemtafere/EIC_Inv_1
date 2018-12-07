@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
@@ -24,10 +25,16 @@ namespace CUSTOR.EICOnline.API.Controllers
         [HttpGet("{id}")]
         public ServiceApplication GetServiceApplication([FromRoute] int id)
         {
-            return _context.ServiceApplication
-                .Include(s => s.Investor)
-                .Include(s => s.Project)
-                .SingleOrDefault(m => m.ServiceApplicationId == id);
+            try
+            {
+                return _context.ServiceApplication
+                    .Include(s => s.Investor)
+                    .Include(s => s.Project)
+                    .SingleOrDefault(m => m.ServiceApplicationId == id);
+            }catch(Exception ex)
+            {
+                return null;
+            }
             //.Include(In => In.Investor);
         }
 

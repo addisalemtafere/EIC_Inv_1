@@ -54,6 +54,42 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
               private formService: FormService) {
   }
 
+  get canManageTask() {
+    return this.accountService.userHasPermission(Permission.manageTasks);
+  }
+
+  get canManageServiceApplication() {
+    return this.accountService.userHasPermission(Permission.manageServiceApplication);
+  }
+
+  get canManageManageAftercareData() {
+    return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
+  }
+
+  get canManageDispatchIncentivesServices() {
+    return this.accountService.userHasPermission(Permission.DispatchIncentivesServicesPermission);
+  }
+
+  get canManageApproveIncentiveUploadedItems() {
+    return this.accountService.userHasPermission(Permission.ApproveIncentiveUploadedItemsPermission);
+  }
+
+  get canManageManageIncentiveAssignedServices() {
+    return this.accountService.userHasPermission(Permission.ManageIncentiveAssignedServicesPermission);
+  }
+
+  get canViewReadOnlyData() {
+    return this.accountService.userHasPermission(Permission.ViewReadOnlyDataPermission);
+  }
+
+  get canViewServiceApplication() {
+    return this.accountService.userHasPermission(Permission.viewServiceApplication);
+  }
+
+  get canViewTasks() {
+    return this.accountService.userHasPermission(Permission.viewServiceList);
+  }
+
   ngOnInit() {
 
     this.formBuild();
@@ -91,7 +127,6 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     }
   }
 
-
   editProject(projectId: number, serviceApplicationId: any, serviceId: any, title: string) {
     // localStorage.setItem('ServiceApplicationId', serviceApplicationId);
     // localStorage.setItem('ServiceId', serviceId);
@@ -123,7 +158,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   projectApprove(serviceApplication: ServiceApplicationModel) {
-    console.log(serviceApplication)
+    console.log(serviceApplication);
     const id = serviceApplication.ServiceApplicationId;
     const projectId = serviceApplication.ProjectId;
     const serviceId = serviceApplication.ServiceId;
@@ -133,7 +168,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     switch (serviceId) {
       case 13:
       case 1023:
-        this.router.navigate(['/officer/' + serviceId + '/' + investorId + '/' + id + '/' + workFlowId]);
+        this.router.navigate(['/officer/' + serviceId + '/' + investorId + '/' + id + '/' + workFlowId + '/' + projectId]);
 
         break;
       case 18:
@@ -158,7 +193,9 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
       case 1235:
-        this.router.navigate(['investor-tab/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
+
+        this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId]);
+
         break;
       case 1236:
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
@@ -292,42 +329,6 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     this.loading = false;
     console.log(this.serviceApplicationList);
     // this.dataSource.paginator = this.paginator;
-  }
-
-  get canManageTask() {
-    return this.accountService.userHasPermission(Permission.manageTasks);
-  }
-
-  get canManageServiceApplication() {
-    return this.accountService.userHasPermission(Permission.manageServiceApplication);
-  }
-
-  get canManageManageAftercareData() {
-    return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
-  }
-
-  get canManageDispatchIncentivesServices() {
-    return this.accountService.userHasPermission(Permission.DispatchIncentivesServicesPermission);
-  }
-
-  get canManageApproveIncentiveUploadedItems() {
-    return this.accountService.userHasPermission(Permission.ApproveIncentiveUploadedItemsPermission);
-  }
-
-  get canManageManageIncentiveAssignedServices() {
-    return this.accountService.userHasPermission(Permission.ManageIncentiveAssignedServicesPermission);
-  }
-
-  get canViewReadOnlyData() {
-    return this.accountService.userHasPermission(Permission.ViewReadOnlyDataPermission);
-  }
-
-  get canViewServiceApplication() {
-    return this.accountService.userHasPermission(Permission.viewServiceApplication);
-  }
-
-  get canViewTasks() {
-    return this.accountService.userHasPermission(Permission.viewServiceList);
   }
 
   assignUser(serviceApplicationId: any) {

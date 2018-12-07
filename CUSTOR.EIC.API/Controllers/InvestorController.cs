@@ -89,14 +89,15 @@ namespace EICOnline.Controllers
 
             ApplicationUser appUser = await accountManager.GetUserByUserNameAsync(postedInvestor.UserName);
             // to-do check if appUser is valid
-            InvestorRepo.SaveInvestor(postedInvestor, appUser);
+            InvestorDTO inv =  InvestorRepo.SaveInvestor(postedInvestor, appUser);
+            
             var serviceApplication = new ServiceApplication
             {
-                InvestorId = postedInvestor.InvestorId,
+                InvestorId = inv.InvestorId,
                 CaseNumber = "12",
                 ServiceId = 1235,
                 CurrentStatusId = 44450,
-                IsSelfService = true,
+                IsSelfService = true, 
                 IsPaid = true,
                 StartDate = DateTime.Now,
                 CreatedUserId = 1,
@@ -111,9 +112,27 @@ namespace EICOnline.Controllers
                 ProjectNameEnglish = "",
                 ProjectNameAmharic = ""
             };
+            var serviceWorkflow = new ServiceWorkflow
+            {
+                StepId = 9,
+                ActionId = 3,
+                FromStatusId = 3,
+                ToStatusId = 5,
+                PerformedByRoleId = 1,
+                NextStepId = 1015,
+                GenerateEmail = true,
+                GenerateLetter = true,
+                IsDocumentRequired = true,
+                ServiceId = serviceApplication.ServiceId,
+                LegalStatusId = 3,
+                CreatedUserId = 1,
+                IsActive = false
+            };
 
+            serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
             context.ServiceApplication.Add(serviceApplication);
             await context.SaveChangesAsync();
+            
             return serviceApplication;
         }
 

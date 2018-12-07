@@ -84,7 +84,8 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     this.servicePreList = [];
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
-    this.workFlowId = this.route.snapshot.params['workFlowId'];
+    const ServiceWorkflowId = this.route.snapshot.params['workFlowId'];
+    this.workFlowId = (ServiceWorkflowId == undefined) ? '' : ServiceWorkflowId;
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
     this.createForm();

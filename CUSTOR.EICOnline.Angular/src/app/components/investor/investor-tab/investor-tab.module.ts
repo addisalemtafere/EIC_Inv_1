@@ -9,6 +9,7 @@ import {ServiceInfoModule} from "../../project-profile/service-info/serviceInfo.
 import {OfficerModule} from "../../officer-Task/officer.module";
 import {ServiceConfirmationModule} from "../../project-profile/service-confirmation/ServiceConfirmation.module";
 import {CompanyClearanceFormComponent} from "../company-clearance-form/company-clearance-form.component";
+import {RegistrationCertificateComponent} from "../../registration/registration-certificate/registration-certificate.component";
 
 
 
@@ -22,12 +23,15 @@ import {CompanyClearanceFormComponent} from "../company-clearance-form/company-c
     OfficerModule,
     ServiceConfirmationModule,
     ServiceInfoModule,
+    // RegistrationModule
+  //
 
 
   ],
   declarations: [
     InvestorTabComponent,
-    CompanyClearanceFormComponent
+    CompanyClearanceFormComponent,
+    RegistrationCertificateComponent
   ],
   exports: [InvestorTabComponent]
 })

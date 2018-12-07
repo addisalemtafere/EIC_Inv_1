@@ -19,7 +19,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             context = ctx;
         }
         [HttpGet("GetBussiness/{id:int}")]
-        public async Task<IEnumerable<DAL.EntityLayer.Business>> GetBussiness(int id)
+        public async Task<DAL.EntityLayer.Business> GetBussiness(int id)
         {
             BusinessRepository
             businessRepo = new BusinessRepository(context);
@@ -34,24 +34,80 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             return await businessRepo.GetRegistrationByTin(Tin);
         }
 
+
         [HttpGet("GetRegistrationCatagory/{InvestorId:int}")]
         public List<tblMajorDivision> GetRegistrationcata(int InvestorId)
         {
-            var catdatalist = context.RegistrationCatagorys.Where(param => param.InvestorId == InvestorId).ToList();
-            List<tblMajorDivision> descriptionList = new List<tblMajorDivision>() ;
-            for (int i = 0; i < catdatalist.Count; i++)
+            try
             {
-                tblMajorDivision description=new tblMajorDivision();
-                int code=Convert.ToInt16(catdatalist[0].MajorCatagoryCode);
-                var catdata = context.tblMajorDivision.SingleOrDefault(param => param.Code == code);
-                if (catdata != null)
+                var catdatalist = context.RegistrationCatagorys.Where(param => param.InvestorId == InvestorId).ToList();
+                List<tblMajorDivision> descriptionList = new List<tblMajorDivision>();
+                for (int i = 0; i < catdatalist.Count; i++)
                 {
-                    description.EnglishDescription = catdata.EnglishDescription;
-                    description.Description = catdata.Description;
-                    descriptionList.Add(description);
+                    tblMajorDivision description = new tblMajorDivision();
+                    int code = Convert.ToInt16(catdatalist[i].MajorCatagoryCode);
+                    var catdata = context.tblMajorDivision.SingleOrDefault(param => param.Code == code);
+                    if (catdata != null)
+                    {
+                        description.EnglishDescription = catdata.EnglishDescription;
+                        description.Description = catdata.Description;
+                        descriptionList.Add(description);
+                    }
                 }
+                return descriptionList;
             }
-            return descriptionList;
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
+        [HttpGet("GetBussinessCatagory/{BussinessId:int}")]
+        public List<tblSubGroup> GetBussinesscata(int BussinessId)
+        {
+            try
+            {
+                var Bussinesslist = context.BusinessLicensingGroup.Where(param => param.BusinessId == BussinessId).ToList();
+                List<tblSubGroup> descriptionList = new List<tblSubGroup>();
+                for (int i = 0; i < Bussinesslist.Count; i++)
+                {
+                    tblSubGroup description = new tblSubGroup();
+                    int code = Convert.ToInt16(Bussinesslist[i].SubGroup);
+                    var catdata = context.tblSubGroup.SingleOrDefault(param => param.Id == code);
+                    if (catdata != null)
+                    {
+                        description.EnglishDescription = catdata.EnglishDescription;
+                        description.Description = catdata.Description;
+                        descriptionList.Add(description);
+                    }
+                }
+                return descriptionList;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        [HttpGet("GetBussinessMajorcata/{BussinessId:int}")]
+        public tblGroup GetBussinessMajorcata(int BussinessId)
+        {
+            try
+            {
+                var Bussinesslist = context.BusinessLicensingGroup.SingleOrDefault(param => param.BusinessId == BussinessId);
+                    tblGroup description = new tblGroup();
+                    int code = Convert.ToInt16(Bussinesslist.BGroup);
+                    var catdata = context.tblGroup.SingleOrDefault(param => param.Id == code);
+                    if (catdata != null)
+                    {
+                        description.EnglishDescription = catdata.EnglishDescription;
+                        description.Description = catdata.Description;
+                    }
+                
+                return description;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         [HttpPost("Save")]
