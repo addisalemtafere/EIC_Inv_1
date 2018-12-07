@@ -52,19 +52,19 @@
                 <td class="s-head">
                   የመዝገብ ቁጥር/File No.
                 </td>
-                <td class="dta-head">{{investorDetailList?.Investor.RegistrationNumber}}</td>
+                <td class="dta-head">{{investor?.RegistrationNumber}}</td>
               </tr>
               <tr>
                 <td class="s-head">
                   የግብር ከፋይ መለያ ቁጥር/TIN
                 </td>
-                <td class="dta-head">{{investorDetailList?.Investor.Tin}}</td>
+                <td class="dta-head">{{investor?.Tin}}</td>
               </tr>
               <tr>
                 <td class="s-head">
                   የንግድ ምዝገባ ቁጥር
                 </td>
-                <td class="dta-head">EIC-IP/{{investorDetailList?.Project?.InvestmentPermitNo | number : '4.0-0' }}/10
+                <td class="dta-head">MOT/{{investor.RegistrationNumber }}/10
                 </td>
 
               </tr>
@@ -105,11 +105,14 @@
               <tbody>
               <tr>
                 <td class="t-header" style="width: 100px">1. የግለሰቡ/የድርጅቱ ስም</td>
-                <td class="data value" style="width: 100px">{{investorDetailList?.Investor.InvestorName}}</td>
+                <td class="data value" style="width: 100px">
+                  {{investor.FirstName}}
+                  {{investor.FatherName}}
+                  {{investor.GrandName}}</td>
               </tr>
               <tr>
                 <td class="t-header">2. ዜግነት</td>
-                <td class="data value">{{investorDetailList?.Investor.Nationality | countryPipe : 0}}</td>
+               <td class="data value">{{investor.Nationality | countryPipe : 0 }}</td>
               </tr>
              <!-- <tr>
                 <td class="t-header">3.የንግድ ስም</td>
@@ -118,9 +121,12 @@
               <tr>
                 <td class="t-header">3. የሥራ አስክያጅ ስም</td>
                 <td class="data value">
+                  {{manager[0].FirstName}}
+                  {{manager[0].FatherName}}
+                  {{manager[0].FatherName}}
+                 <!-- {{manager[0].Associate?.FatherName}}
                   {{manager[0].Associate?.FatherName}}
-                  {{manager[0].Associate?.FatherName}}
-                  {{manager[0].Associate?.GrandName}}
+                  {{manager[0].Associate?.GrandName}}-->
                 </td>
               </tr>
               </tbody>
@@ -133,7 +139,7 @@
                 <td class="a-header">ክልል</td>
                 <td class="data value">{{investorAddressList?.Region.Description}}</td>
                 <td class="a-header">ዞን</td>
-                <td class="data value">{{investorAddressList?.Region.Zones[0].DescriptionEnglish }}</td>
+               <td class="data value">{{investorAddressList?.Region.Zones[0].DescriptionEnglish }}</td>
               </tr>
               <tr>
                 <td class="a-header">ከተማ</td>
@@ -197,11 +203,7 @@
               <tbody>
               <tr>
                 <td class="t-header">5. ካፒታል በኢት ብር</td>
-                <td class="data value">{{projectCostTotal}}</td>
-              </tr>
-              <tr>
-                <td class="t-header">6. ካፒታል (USD)</td>
-                <td class="data value">{{projectCostTotal*27}}</td>
+                <td class="data value">{{investor?.PaidCapital}}</td>
               </tr>
               </tbody>
             </table>
@@ -225,7 +227,7 @@
 
             <table class="full-width">
               <tr>
-                <td style="font-size: 14px"> በግብር ከፋይ መለያ ቁጥር {{ investorDetailList?.Investor.Tin }} የተመዘገበ መሆኑን እናረጋግጣለን ::
+                <td style="font-size: 14px"> በግብር ከፋይ መለያ ቁጥር {{investor?.Tin}} የተመዘገበ መሆኑን እናረጋግጣለን ::
                 </td>
               </tr>
             </table>
@@ -256,11 +258,13 @@
               <tbody>
               <tr>
                 <td class="t-header" style="width: 80px">1. Owner/ Company Name </td>
-                <td class="data value">{{investorDetailList?.Investor.InvestorNameEng}}</td>
+                <td class="data value"> {{investor.FirstNameEng}}
+                  {{investor.FatherNameEng}}
+                  {{investor.GrandNameEng}}</td>
               </tr>
               <tr>
                 <td class="t-header">2. Nationality</td>
-                <td class="data value">{{investorDetailList?.Investor.Nationality | countryPipe : 1}}</td>
+                <td class="data value">{{investor.Nationality | countryPipe : 1}}</td>
               </tr>
              <!-- <tr>
                 <td class="t-header">3. Trade Name</td>
@@ -268,9 +272,13 @@
               </tr>-->
               <tr>
                 <td class="t-header">3. Name of General Manager</td>
-                <td class="data value">{{manager[0].Associate?.FatherNameEng}}
+               <td class="data value">
+                 {{manager[0].FatherNameEng}}
+                 {{manager[0].FatherNameEng}}
+                 {{manager[0].GrandNameEng}}
+                 <!-- {{manager[0].Associate?.FatherNameEng}}
                   {{manager[0].Associate?.FatherNameEng}}
-                  {{manager[0].Associate?.GrandNameEng}}
+                  {{manager[0].Associate?.GrandNameEng}}-->
                 </td>
               </tr>
               </tbody>
@@ -320,13 +328,10 @@
             <table id="investmentCapitalEn" class="full-width">
               <tbody>
               <tr>
-                <td class="t-header">5. Amount of Capital in ETB</td>
-                <td class="data value">{{projectCostTotal}}</td>
+                <td class="t-header">5. Amount of Capital </td>
+                <td class="data value">{{investor?.PaidCapital}}</td>
               </tr>
-              <tr>
-                <td class="t-header">6. Amount of Capital（USD）</td>
-                <td class="data value">{{projectCostTotal*27}}</td>
-              </tr>
+
               <!--<tr>
                 <td class="t-header">10. Planned Export in Percent</td>
                 <td class="data value">{{exportMarketShare | percent}}</td>
@@ -382,7 +387,7 @@
 
             <table class="full-width">
               <tr>
-                <td> has duly been registered under TIN	{{ investorDetailList?.Investor.Tin }} <br>
+                <td> has duly been registered under TIN	{{investor?.Tin}} <br>
                   This Registration Certification is issued in	{{date | date}}  <br>
                   on	Addis Ababa
                 </td>

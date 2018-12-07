@@ -15,7 +15,7 @@
       <mat-form-field fxLayoutGap="4em" [fxFlex]="30">
         <mat-label>{{'investors.editor.LegalStatus' | translate}}</mat-label>
         <mat-select formControlName="cLegalStatus" [compareWith]="compareIds"
-                    (selectionChange)="statusChanged($event.value)" required> 
+                    (selectionChange)="statusChanged($event.value)" required>
           <mat-option *ngFor="let lstatus of legalStatuses" [value]="lstatus.Id">
             <span>{{lstatus.Desc}}</span>
           </mat-option>
@@ -37,7 +37,7 @@
           <mat-error *ngIf="FormOfOwnershipV.hasError('required')">
             {{'common.validation.Required' | translate}}
           </mat-error>
-        
+
         </mat-form-field>
       <!-- </div> -->
       <!-- <span  *ngIf="branch"> -->
@@ -339,7 +339,7 @@
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
         <mat-form-field fxFlex>
           <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
-          <input matInput formControlName="cTin" number/>
+          <input matInput formControlName="cTin" number maxlength="10"/>
           <mat-error *ngIf="tin.hasError('maxlength')">
             {{'common.validation.MaxLengthChar' | translate: {'max':'10'} }}
           </mat-error>
