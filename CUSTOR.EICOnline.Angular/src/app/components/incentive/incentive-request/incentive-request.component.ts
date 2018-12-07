@@ -268,7 +268,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       Phase: this.IncentiveRequestModel.Phase == null ? 0 : this.IncentiveRequestModel.Phase,
       // IsApproved: this.IncentiveRequestModel.IsApproved
     });
-    // console.log(this.IncentiveRequestModel);
+    // // console.log(this.IncentiveRequestModel);
     // },4000);
     this.isNewIncentiveRequestItem = false;
   }
@@ -320,7 +320,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       this.IncentiveRequestItemService
         .getIncentiveBoMRequestDetails(this.ProjectId, this.incentiveRequestItemForm.get('IncentiveCategoryId').value, this.incentiveRequestItemForm.get('Phase').value)
         .subscribe((items) => {
-          console.log(this.BOMItems);
+          // console.log(this.BOMItems);
           this.BOMItems = items;
           if (this.BOMItems.length === 0) {
             this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
@@ -437,7 +437,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   addDetail(inRequest: IncentiveRequestModel) {
-    console.log(inRequest);
+    // console.log(inRequest);
     this.router.navigate(['/requested-items-list/' +
     inRequest.IncentiveCategoryId + '/' + inRequest.ProjectId + '/' +
     inRequest.IncentiveRequestId + '/' + inRequest.Quantity + '/' + inRequest.CurrencyType + '/' + inRequest.CurrencyRate + '/' + inRequest.Phase + '/' + this.ServiceApplicationId + '/' + this.ServiceId]);

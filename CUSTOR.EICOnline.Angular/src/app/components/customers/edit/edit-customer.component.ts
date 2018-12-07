@@ -244,7 +244,7 @@ export class EditCustomerComponent implements OnInit, OnDestroy {
     this.loadingIndicator = false;
     this.toastr.error(this.errMsg.getError(err));
     this.loadingIndicator = false;
-    // console.log(err.message);
+    // // console.log(err.message);
   }
 
   private getEditedCustomer(): Customer {

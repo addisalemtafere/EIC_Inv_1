@@ -157,7 +157,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         this.projectId = +params['id'];
         // this.projectId = this.route.snapshot.params['id'];
         if (this.projectId > 1) {
-          console.log(this.projectId);
+          // console.log(this.projectId);
           this.getProjectDetail();
         }
       });
@@ -304,7 +304,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     if (!woredaCode) {
       return;
     }
-    console.log(woredaCode);
+    // console.log(woredaCode);
 
   }
 
@@ -333,7 +333,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     if (!InvActivityId) {
       return;
     }
-    console.log(this.investmentActivity);
+    // console.log(this.investmentActivity);
     this.filterInvestmentActivityList = this.investmentActivity.filter((item) => {
       return item.ActivityId === InvActivityId;
     });
@@ -476,7 +476,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getIsChecked() {
-    console.log(this.projectForm.get('address').get('IsIndustrialPark').value);
+    // console.log(this.projectForm.get('address').get('IsIndustrialPark').value);
     return this.projectForm.get('address').get('IsIndustrialPark').value;
 
   }

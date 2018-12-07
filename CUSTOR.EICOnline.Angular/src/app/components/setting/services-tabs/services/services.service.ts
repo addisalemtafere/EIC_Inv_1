@@ -36,19 +36,13 @@ export class ServicesService {
   getServices(): Observable<ServicePrerequisiteModel[]> {
     return this.httpClient.get<ServicePrerequisiteModel[]>(this.config.urls.url('services')).pipe(
       map(serviceList => this.serviceList = serviceList,
-        //console.log(this.serviceList)
+        //// console.log(this.serviceList)
       ),
       catchError(this.errMsg.parseObservableResponseError),);
   }
 
   saveService(servicePrerequisiteModel: ServicePrerequisiteModel): Observable<ServicePrerequisiteModel> {
-    console.log(servicePrerequisiteModel.ServiceId,
-      servicePrerequisiteModel.Name,
-      servicePrerequisiteModel.DisplayName,
-      servicePrerequisiteModel.NameEnglish,
-      servicePrerequisiteModel.DisplayNameEnglish,
-      servicePrerequisiteModel.IsActive
-    );
+
     return this.httpClient.post<ServicePrerequisiteModel>(this.config.urls.url('service'), servicePrerequisiteModel).pipe(
       map(ServicePrereq => {
         this.servicePrerequisiteModel = ServicePrereq;

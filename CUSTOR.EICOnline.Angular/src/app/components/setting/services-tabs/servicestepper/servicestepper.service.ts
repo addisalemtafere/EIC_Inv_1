@@ -42,12 +42,7 @@ export class ServicestepperService {
   }
 
   saveServiceStep(serviceStepModel: ServiceStepModel): Observable<ServiceStepModel> {
-    console.log(serviceStepModel.ServiceStepId,
-      serviceStepModel.NameEnglish,
-      serviceStepModel.Name,
-      serviceStepModel.ServiceId,
-      serviceStepModel.IsActive
-    );
+
     return this.httpClient.post<ServiceStepModel>(this.config.urls.url('servicestepper'), serviceStepModel).pipe(
       map(ServicePrereq => {
         this.serviceStepModel = ServicePrereq;

@@ -43,7 +43,7 @@ export class RequirementComponent implements OnInit {
     this.custService.getPrerequisites(id)
       .subscribe(result => {
           this.checkLists = result;
-          console.log(result);
+          // console.log(result);
         },
         error => {
           this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);

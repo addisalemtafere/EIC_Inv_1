@@ -115,7 +115,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     const formModel = this.documentForm.value;
 
     const formData = new FormData();
-    console.log(formModel.workFlowId);
+    // console.log(formModel.workFlowId);
     formData.append('Name', formModel.Name);
     formData.append('ServicePrerequisiteId', formModel.ServicePrerequisiteId);
     formData.append('ServiceApplicationId', formModel.ServiceApplicationId);
@@ -128,7 +128,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
   upload(i: number, files: FileList) {
     this.errors = []; // Clear error
-    console.log((!this.isValidFiles(files)));
+    // console.log((!this.isValidFiles(files)));
     if (files && files[0].size > 0 && (this.isValidFiles(files))) {
       this.documentForm.patchValue({
         Name: 'Eic_file',
@@ -155,7 +155,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
       .subscribe(result => {
         this.filterPrerequisite(result);
 
-        console.log(this.servicePreList);
+        // console.log(this.servicePreList);
       });
   }
 
@@ -241,8 +241,8 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     //   WorkFlowId: localStorage.getItem('workFlowId')
     // });
     //
-    // console.log(localStorage.getItem('workFlowId'));
-    // console.log(this.documentForm.get('WorkFlowId').value);
+    // // console.log(localStorage.getItem('workFlowId'));
+    // // console.log(this.documentForm.get('WorkFlowId').value);
   }
 
   next() {
@@ -265,8 +265,8 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
       }
     }
-    console.log(this.servicePreList);
-    console.log(this.servicePreList);
+    // console.log(this.servicePreList);
+    // console.log(this.servicePreList);
     this.getDocument(this.documentForm.get('ServiceApplicationId').value);
   }
 

@@ -49,7 +49,7 @@ export class RegistratioinTabComponent implements OnInit {
     this.investorService.getInvestor(localStorage.getItem('InvestorId'))
       .subscribe(result => {
           this.investor = result;
-          console.log(this.investor.Tin);
+          // console.log(this.investor.Tin);
           if(this.investor.Tin.trim() == "")
           {
             this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');

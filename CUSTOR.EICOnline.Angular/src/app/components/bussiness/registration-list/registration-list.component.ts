@@ -33,7 +33,7 @@ export class RegistrationListComponent implements OnInit {
       result => {
         this.selectedRegistrationList = result;
         this.dataSource.data = this.selectedRegistrationList;
-        console.log(this.selectedRegistrationList);
+        // // console.log(this.selectedRegistrationList);
         this.loadingIndicator = false;
       }
     );

@@ -122,7 +122,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   }
 
   formBuild() {
-    console.log(this.projectId);
+    // console.log(this.projectId);
     this.projectAssForm = this.formBuilder.group({
       ProjectId: new FormControl(this.projectId),
       ProjectAssociateId: new FormControl(['']),
@@ -159,7 +159,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
         }
       }
     }
-    console.log(this.associateList);
+    // console.log(this.associateList);
     this.dataSource = new MatTableDataSource<AssociateModel>(this.associateList);
 
   }
@@ -187,7 +187,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   }
 
   onMangerControlChanged($event, data?: AssociateModel) {
-    console.log(data);
+    // console.log(data);
     const id = $event.source.value;
     this.projectAssForm.patchValue({
       AssociateId: id
@@ -210,10 +210,10 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
           this.onClear();
         });
     }
-    console.log($event.target);
-    console.log($event);
+    // console.log($event.target);
+    // console.log($event);
     this.associateIdList.push($event.source.value);
-    console.log(this.associateIdList);
+    // console.log(this.associateIdList);
   }
 
   newAssociate() {
@@ -223,7 +223,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
       this.ServiceApplicationId)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.toastr.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
       });
   }

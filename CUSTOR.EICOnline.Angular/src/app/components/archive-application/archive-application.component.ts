@@ -47,7 +47,7 @@ export class ArchiveApplicationComponent implements OnInit {
 
 
   getServiceApplication() {
-    console.log(localStorage.getItem('InvestorId'));
+    // console.log(localStorage.getItem('InvestorId'));
     this.serviceApplication.getServiceApplicationsByInvestorId(localStorage.getItem('InvestorId'))
       .subscribe(result => {
         this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result);
@@ -59,7 +59,7 @@ export class ArchiveApplicationComponent implements OnInit {
 
 
   deleteProject(id: number) {
-    console.log(id);
+    // console.log(id);
     const response = confirm('Do you want to Delete this Project ?');
     if (response === true) {
       this.projectProfileService.delete(id)
@@ -74,7 +74,7 @@ export class ArchiveApplicationComponent implements OnInit {
 
 
   projectDetail(id: number) {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['/service-detail', id]);
     // this.router.navigate(['../detail'], {relativeTo: this.route});
   }

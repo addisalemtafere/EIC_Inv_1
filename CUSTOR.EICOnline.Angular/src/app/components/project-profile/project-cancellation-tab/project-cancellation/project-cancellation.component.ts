@@ -69,7 +69,7 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
         this.ServiceApplicationId = +params['id'];
         // this.projectId = this.route.snapshot.params['id'];
         if (this.ServiceApplicationId > 1) {
-          // console.log(this.ServiceApplicationId);
+          // // console.log(this.ServiceApplicationId);
           this.approval = true;
           this.getServiceApplicationCancellation();
         }
@@ -89,7 +89,7 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
 
       this.projectCancellationReasonList.push(cancellationReason);
     });
-    // console.log(this.formOfOwnershipList);
+    // // console.log(this.formOfOwnershipList);
   }
 
   initForm() {
@@ -110,7 +110,7 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
   onSubmit() {
     this.projectCancellationServices.create(this.projectCancellationForm.value)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.dataSharing.renewalIndex.next(2);
         localStorage.setItem('ServiceApplicationId', result.ServiceApplicationId.toString());
         this.notification('Project cancellation saved');
@@ -121,7 +121,7 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
     this.projetServices.getProjectOnlyByInvestorId(+localStorage.getItem('InvestorId'))
       .subscribe(result => {
         this.projectList = result;
-        console.log(this.projectList);
+        // console.log(this.projectList);
       });
   }
 
@@ -149,7 +149,7 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
   private getServiceApplicationCancellation() {
     this.projectCancellationServices.getCancellationByServiceApplicationId(this.ServiceApplicationId)
       .subscribe(result => {
-        console.log(result.ProjectCancellation[0]);
+        // console.log(result.ProjectCancellation[0]);
         this.editMode = true;
 
         this.projectCancellationForm.patchValue(result.ProjectCancellation[0]);
@@ -157,7 +157,7 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
         this.projectId = result.ProjectId;
         this.InvestorId = result.InvestorId;
 
-        console.log(this.projectId);
+        // console.log(this.projectId);
       }, error => this.errMsg.getError(error));
   }
 

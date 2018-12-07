@@ -49,7 +49,7 @@ export class AftercareComponent extends BaseComponent implements OnInit {
   getSteps() {
     this.servicestepperService.getServiceSteps()
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.serviceSteps = result;
       });
   }

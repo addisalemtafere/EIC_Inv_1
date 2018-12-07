@@ -52,7 +52,7 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
     this.subSectorService.getSubSectors()
       .subscribe(result => {
         this.subSectorModels = result;
-        console.log(this.subSectorModels);
+        // console.log(this.subSectorModels);
         if (!this.subSectorModels) {
           this.toastr.error('No records were found to list', 'Error', {
             closeButton: true,

@@ -46,7 +46,7 @@ export class AppointmentComponent implements OnInit {
         this.dataSourceNotitification = new MatTableDataSource<NotificationModel>(result);
         this.loading = false;
         this.notitficationList = result;
-        console.log(this.notitficationList);
+        // console.log(this.notitficationList);
         this.dataSourceNotitification.paginator = this.paginator2;
       }, error => this.errMsg.getError(error));
   }

@@ -53,7 +53,7 @@ export class ListServiceapplicationComponent implements OnInit, AfterViewInit {
     this.serviceApplicationService.getServiceAppliactions()
       .subscribe(result => {
           this.serviceApplicationModels = result;
-          console.log(this.serviceApplicationModels);
+          // console.log(this.serviceApplicationModels);
           if (!this.serviceApplicationModels) {
             this.toastr.error('No records were found to list', 'Error', {
               closeButton: true,

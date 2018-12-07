@@ -89,7 +89,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.associate = <AssociateDTO>{};
     // initialize the form
     this.initForm();
-    console.log(this.accountService.currentUser.Roles);
+    // console.log(this.accountService.currentUser.Roles);
   }
 
 
@@ -172,7 +172,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
             this.associateId = id;
             this.imgPhoto = this.appConfig.urls.baseUrl + 'photo/Mgr' + this.associate.AssociateId + '.jpg'; // to-do put the path in config
           }
-          console.log(this.imgPhoto);
+          // console.log(this.imgPhoto);
             // this.updateForm();
 
           // this.getAddressData(this.associate.AssociateId);
@@ -187,7 +187,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        // console.log(result)
+        // // console.log(result)
         this.getKebeleByWoredaId(result.WoredaId);
         this.addressId = result.AddressId;
         this.associateForm.get('address').patchValue(result);
@@ -196,7 +196,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
   getInvestorTitle(id: any) {
     this.lookUpService.getLookupByParentId(id).subscribe(result => {
-      console.log(result);
+      // console.log(result);
       this.TitleLookup = result;
     });
 
@@ -236,7 +236,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       .subscribe(z => {
           this.zones = z;
           if (this.zones) {
-            console.log('Region ' + this.associate.RegionId);
+            // console.log('Region ' + this.associate.RegionId);
             this.filterRegion(this.associate.RegionId);
           }
         },
@@ -358,16 +358,16 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
   public onSubmit() {
     if (!this.associateForm.valid) {
-      // console.log('error!!');
+      // // console.log('error!!');
       return;
     }
-    console.log(this.imgBase64);
+    // console.log(this.imgBase64);
     if (this.imgBase64 === '' && this.associateId === 0) {
       this.toastr.error('Please add photograph of the Manager');
       return;
     }
     this.loadingIndicator = true;
-    console.log(this.getEditedInvestor());
+    // console.log(this.getEditedInvestor());
     return this.associateService.create(this.getEditedInvestor())
       .subscribe((associate: AssociateDTO) => {
           this.saveCompleted(associate);
@@ -439,7 +439,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     GENDERS.forEach(pair => {
       gender = {'Id': pair.Id.toString(), 'Desc': (currentLang === 'et' ? pair.Description : pair.DescriptionEnglish)};
       this.genders.push(gender);
-      console.log(pair);
+      // console.log(pair);
     });
     let legalS: LegalStatus = new LegalStatus();
     LEGAL_STATUS.forEach(pair => {
@@ -453,7 +453,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.addressService.getKebelesByWoreda(wordaId)
       .subscribe(result => {
         // this.kebeles = result;
-        // console.log(result);
+        // // console.log(result);
         this.filteredKebeles = result;
       });
   }
@@ -688,7 +688,7 @@ resizeImage(img, maxWidth: number, maxHeight: number, callback) {
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
       const dataUrl = canvas.toDataURL('image/jpeg');
-      // console.log(dataUrl);
+      // // console.log(dataUrl);
       this.imgBase64 = dataUrl.split(',')[1];
       callback(dataUrl, img.src.length, dataUrl.length);
   };

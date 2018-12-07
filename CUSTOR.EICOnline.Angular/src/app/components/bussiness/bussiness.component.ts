@@ -119,7 +119,7 @@ export class BussinessComponent implements OnInit {
     STATUS.forEach(pair => {
       Bussinessta = {'Id': pair.Id.toString(), 'Desc': pair.Description};
       this.bussinessStatus.push(Bussinessta);
-      console.log(pair);
+      // console.log(pair);
     });
     this.bussinessService.getMajorDivisionByInvestorId(this.InvestorId).subscribe(result => {
         this.MajorDivisionList = result;

@@ -32,7 +32,7 @@ export class ProjectCostListComponent implements OnInit {
   getPlannedCostByProjectId() {
     this.projectCostService.getCostByProjectId(localStorage.getItem('ProjectId'))
       .subscribe(cost => {
-        console.log(cost);
+        // console.log(cost);
         this.plannedCost = cost;
       });
 

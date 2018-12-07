@@ -38,7 +38,7 @@ export class RegistrationService {
   saveRegistration(registrationInfo: RegistrationModel): Observable<RegistrationModel> {
     return this.httpClient.post<RegistrationModel>(this.config.urls.url('SaveRegistration'), registrationInfo).pipe(
       map(Reg => {
-        console.log(this.registrationMoedl);
+        // console.log(this.registrationMoedl);
         this.registrationMoedl = registrationInfo;
         return this.registrationMoedl;
       }),
@@ -49,7 +49,7 @@ export class RegistrationService {
   UpdateRegistration(registrationInfo: RegistrationModel): Observable<RegistrationModel> {
     return this.httpClient.post<RegistrationModel>(this.config.urls.url('UpdateRegistration'), registrationInfo).pipe(
       map(Reg => {
-        console.log(this.registrationMoedl);
+        // console.log(this.registrationMoedl);
         this.registrationMoedl = registrationInfo;
         return this.registrationMoedl;
       }),

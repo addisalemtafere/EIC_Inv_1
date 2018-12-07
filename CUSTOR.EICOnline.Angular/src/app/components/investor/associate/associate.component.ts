@@ -48,7 +48,7 @@ export class AssociateComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.accountService.getUserType()) {
-      console.log(this.accountService.currentUser.Tin);
+      // console.log(this.accountService.currentUser.Tin);
       this.isInvestor = this.accountService.getUserType();
       if (this.accountService.currentUser.Tin !== 'null' && this.accountService.currentUser.Tin !== '') {
         this.getInvestorsByUserId();
@@ -69,7 +69,7 @@ export class AssociateComponent implements OnInit, AfterViewInit {
     this.loadingIndicator = true;
     this.associateService.getAssociateByInvestorId(+localStorage.getItem('InvestorId'))
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.investors = result;
           if (!this.investors) {
             this.toastr.error('No records were found to list', 'Error', {
@@ -139,7 +139,7 @@ export class AssociateComponent implements OnInit, AfterViewInit {
 
 
   deleteProject(id: number) {
-    console.log(id);
+    // console.log(id);
     const response = confirm('Do you want to Delete this Project ?');
     if (response === true) {
       this.projectService.delete(id)

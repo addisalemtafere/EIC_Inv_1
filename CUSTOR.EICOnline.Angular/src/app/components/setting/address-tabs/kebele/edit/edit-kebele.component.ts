@@ -112,8 +112,8 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    console.log(this.kebele.Woreda.Zone);
-    console.log(this.kebele.Woreda.Zone.RegionId);
+    // console.log(this.kebele.Woreda.Zone);
+    // console.log(this.kebele.Woreda.Zone.RegionId);
     this.kebeleForm.patchValue({
       cDescription: this.kebele.Description == null ? '' : this.kebele.Description.toString(),
       cDescriptionEnglish: this.kebele.DescriptionEnglish == null ? '' : this.kebele.DescriptionEnglish.toString(),
@@ -186,7 +186,7 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
           const formModel = this.kebeleForm.value;
           this.filterRegion(formModel.cRegion);
         } else {
-          //console.log(this.kebele.Woreda.Zone.RegionId);
+          //// console.log(this.kebele.Woreda.Zone.RegionId);
           this.filterRegion(this.kebele.Woreda.Zone.RegionId);
         }
       },
@@ -222,10 +222,10 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
     if (!ZoneId) {
       return;
     }
-    console.log(this.woredaModels);
+    // console.log(this.woredaModels);
     this.filltersWoredaModels = null;
     this.filltersWoredaModels = this.woredaModels.filter((item) => {
-      // console.log(SubSecId + "item" + item.ZoneId)
+      // // console.log(SubSecId + "item" + item.ZoneId)
       return item.ZoneId === ZoneId;
     });
   }
@@ -253,7 +253,7 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
 
   private getEditedKebele(): Kebele {
     const formModel = this.kebeleForm.value;
-    // console.log(this.kebele.InvKebeleId);
+    // // console.log(this.kebele.InvKebeleId);
     return {
       KebeleId: formModel.cKebele,
       WoredaId: formModel.cWoreda,

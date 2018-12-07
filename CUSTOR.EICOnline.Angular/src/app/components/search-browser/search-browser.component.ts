@@ -97,7 +97,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.loadingIndicator = true;
     this.invService.searchInvestor(this.searchForm.value)
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.investors = result;
           if (!this.investors) {
             this.loadingIndicator = false;
@@ -107,7 +107,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           } else {
             this.loadingIndicator = false;
             this.dataSource = new MatTableDataSource<Investor>(result);
-            console.log(result);
+            // console.log(result);
             this.dataSource.paginator = this.paginator;
           }
         },
@@ -130,7 +130,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.loadingIndicator = true;
     this.invService.getInvestors()
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.investors = result;
           if (!this.investors) {
             this.loadingIndicator = false;
@@ -142,7 +142,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
             this.loadingIndicator = false;
 
             this.dataSource = new MatTableDataSource<Investor>(result);
-            console.log(result);
+            // console.log(result);
             this.dataSource.paginator = this.paginator;
           }
         },
@@ -154,7 +154,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   select(InvestorId: any, investorName: any) {
     if (this.ServiceId == 13) {
-      console.log(this.ServiceId);
+      // console.log(this.ServiceId);
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
     }
     else {
@@ -176,7 +176,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
             } else {
               this.loadingIndicator = false;
               this.dataSource = new MatTableDataSource<ProjectModel>(result);
-              console.log(result);
+              // console.log(result);
               this.dataSource.paginator = this.paginator;
             }
           },
@@ -248,7 +248,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   projectDetail(id: number) {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['/service-detail', id]);
   }
 
@@ -274,7 +274,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
     const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
     const investorId = this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
-    console.log(serviceId);
+    // console.log(serviceId);
     switch (serviceId) {
       case 13:
         this.router.navigate(['/pro/0/0/0/0/0']);//Fire
@@ -382,7 +382,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     if (projectStatus !== 9) {
       this.toastr.warning('Project Is Not Active');
     } else {
-      console.log(projectId);
+      // console.log(projectId);
       localStorage.setItem('projectName', projectName);
       localStorage.setItem('ServiceApplicationId', ServiceApplicationId);
       this.isForDetail = 0;

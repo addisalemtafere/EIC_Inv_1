@@ -44,7 +44,7 @@ export class WoredaService {
   }
 
   saveWoreda(woredaModel: Woreda): Observable<Woreda> {
-    console.log(woredaModel.WoredaId,
+    // console.log(woredaModel.WoredaId,
       woredaModel.ZoneId,
       woredaModel.Description,
       woredaModel.DescriptionEnglish

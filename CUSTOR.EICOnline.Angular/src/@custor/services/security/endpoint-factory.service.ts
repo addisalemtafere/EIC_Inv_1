@@ -63,7 +63,7 @@ export class EndpointFactory {
       'Accept': `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`,
       'App-Version': ConfigurationService.appVersion
     });
-    console.log('Headers ' + headers);
+    // console.log('Headers ' + headers);
     return { headers: headers };
   }
 

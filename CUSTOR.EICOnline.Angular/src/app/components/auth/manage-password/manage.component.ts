@@ -112,7 +112,7 @@ export class ManagePasswordComponent implements OnDestroy, OnInit {
     }
 
     const editedUser = this.getEditedUser();
-    console.log(editedUser);
+    // console.log(editedUser);
     this.accountService.resetAccount(editedUser).subscribe(
       response => this.saveCompleted(),
       error => this.saveFailed(error));

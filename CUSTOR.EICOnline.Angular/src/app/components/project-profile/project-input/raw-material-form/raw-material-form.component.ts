@@ -148,12 +148,12 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
   onEditInput(index: number) {
     this.editModeInput = true;
     this.inputEditIndex = index;
-    console.log(this.projectInputData[index]);
+    // console.log(this.projectInputData[index]);
     this.pRawMaterialForm.patchValue(this.projectInputData[index]);
     this.pRawMaterialForm.patchValue({
       IsForeign: this.projectInputData[index].IsForeign.toString()
     });
-    console.log(this.projectInputData[index].IsForeign);
+    // console.log(this.projectInputData[index].IsForeign);
   }
 
 

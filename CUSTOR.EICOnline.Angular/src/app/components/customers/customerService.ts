@@ -49,7 +49,7 @@ export class CustomerService {
   }
 
   saveCustomer(customer: Customer): Observable<Customer> {
-    console.log(customer.CustomerId,
+    // console.log(customer.CustomerId,
       customer.FirstName,
       customer.FatherName,
       customer.GrandName,

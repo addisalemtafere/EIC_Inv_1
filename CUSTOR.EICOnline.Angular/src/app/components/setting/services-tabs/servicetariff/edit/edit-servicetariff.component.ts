@@ -52,7 +52,7 @@ export class EditServicetariffComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getService();
     const id = this.activatedRoute.snapshot.params['id'];
-    console.log(id);
+    // console.log(id);
     if (id < 1) {
       this.isNewServiceTariff = true;
       /*this.title = 'Create a new Service';
@@ -79,16 +79,16 @@ export class EditServicetariffComponent implements OnInit, OnDestroy {
   // }
 
   getServiceTariff(id) {
-   // console.log(id);
+   // // console.log(id);
     this.isNewServiceTariff = false;
     this.loadingIndicator = true;
     this.serviceTariffsSub =
       this.servicetariffService
         .getServiceTariff(id)
         .subscribe((result: any) => {
-          //console.log(result);
+          //// console.log(result);
           this.serviceTariffLists = result;
-          //console.log(this.serviceTariffLists);
+          //// console.log(this.serviceTariffLists);
           // this.onSelectedTariff();
           this.updateForm();
           this.getTariff();
@@ -98,7 +98,7 @@ export class EditServicetariffComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    //console.log('i ma here');
+    //// console.log('i ma here');
     this.serviceTariffForm.patchValue({
       cServiceType: this.serviceTariffLists[0].ServiceId,
       // cTariffType:  this.serviceTariffLists.TariffId
@@ -129,7 +129,7 @@ export class EditServicetariffComponent implements OnInit, OnDestroy {
       for (let j = 0; j < this.tariffModel.length; j++) {
         if (this.tariffModel[j].TariffId === this.serviceTariffLists[i].TariffId) {
           this.tariffModel[j].selected = true;
-          // console.log(this.tariffModel[j]);
+          // // console.log(this.tariffModel[j]);
         } else {
           if (this.tariffModel[j].selected !== true) {
             this.tariffModel[j].selected = false;
@@ -137,7 +137,7 @@ export class EditServicetariffComponent implements OnInit, OnDestroy {
         }
       }
     }
-    //console.log(this.tariffModel);
+    //// console.log(this.tariffModel);
   }
 
   initForm() {
@@ -182,7 +182,7 @@ export class EditServicetariffComponent implements OnInit, OnDestroy {
     }
     return this.servicetariffService.saveServiceTariff(
       this.getEditedServiceTariff()).subscribe((servicetariffs: ServiceTariffModel) => {
-        //console.log(servicetariffs);
+        //// console.log(servicetariffs);
         this.saveCompleted(servicetariffs);
       },
         err => this.handleError(err));

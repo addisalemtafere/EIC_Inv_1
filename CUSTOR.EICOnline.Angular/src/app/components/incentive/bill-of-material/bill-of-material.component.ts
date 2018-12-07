@@ -139,12 +139,12 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   }
 
   onMangerControlChanged($event, data?: IncentiveBoMRequestItemModel) {
-    console.log(data);
+    // console.log(data);
     const id = $event.source.value;
 
     this.billOfMaterilService.finalForApprovalBillOfMaterial(data.IncentiveBoMRequestItemId)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
       });
     if ($event.checked) {
       this.toast.success('Item approved  successfully');
@@ -171,7 +171,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
         this.billOfMaterialForm.addControl('IncentiveBoMRequestItemId', new FormControl(''));
         this.onClear();
       } else {
-        console.log(this.billOfMaterialForm.value);
+        // console.log(this.billOfMaterialForm.value);
         this.billOfMaterilService.update(this.billOfMaterialForm.value, this.itemList[this.productEditIndex].IncentiveBoMRequestItemId)
           .subscribe(result => {
             this.notification('updated');
@@ -201,7 +201,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   onEdit(index: number) {
     this.editMode = true;
-    console.log(index);
+    // console.log(index);
 
     this.productEditIndex = index;
     this.productEdit = this.itemList[index];
@@ -227,7 +227,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId)
       .subscribe(result => {
         this.itemList = result.IncentiveBoMRequestItem;
-        console.log(result);
+        // console.log(result);
         this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result.IncentiveBoMRequestItem);
         this.loading = false;
         this.dataSource.paginator = this.paginator;
@@ -235,7 +235,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   }
 
   upload(i: number, files: FileList) {
-    console.log(this.phaseId);
+    // console.log(this.phaseId);
     if (this.phaseId == 0 || this.phaseId == null || this.phaseId == undefined) {
       this.toastr.error('Please Select Construction Materials Incentive Batch');
       return true;
@@ -247,7 +247,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       // this.loading = true;
       this.errors = []; // Clear error
       // Validate file size and allowed extensions
-      console.log((!this.isValidFiles(files)));
+      // console.log((!this.isValidFiles(files)));
       if (files && files[0].size > 0 && (this.isValidFiles(files))) {
         const formModel = this.documentForm.value;
         this.documentForm.patchValue({
@@ -289,15 +289,15 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   prepareSaveUser(): FormData {
     const formModel = this.documentForm.value;
     const formData = new FormData();
-    console.log(formModel.workFlowId);
-    // console.log(this.documentForm.value);
+    // console.log(formModel.workFlowId);
+    // // console.log(this.documentForm.value);
     formData.append('Name', formModel.Name);
     formData.append('ServiceApplicationId', this.ServiceApplicationId);
     formData.append('KeyWords', formModel.KeyWords);
     formData.append('ProjectId', this.ProjectId);
     formData.append('IncentiveCategoryId', this.IncentiveCategoryId.toString());
     formData.append('PhaseId', this.phaseId.toString());//formModel.Phase
-    console.log(this.phaseId);
+    // console.log(this.phaseId);
     return formData;
   }
 
@@ -325,7 +325,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
       this.ServiceApplicationId)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.toast.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
       });
   }
