@@ -65,7 +65,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             try
             {
                 var catagory = await Context.RegistrationCatagorys
-                    .SingleOrDefaultAsync(param => param.InvestorId == InvstorId);
+                    .FirstOrDefaultAsync(param => param.InvestorId == InvstorId);
 
                 tblMajorDivisions = await Context.tblMajorDivision
                     .Where(param => param.Code.ToString() == catagory.MajorCatagoryCode)

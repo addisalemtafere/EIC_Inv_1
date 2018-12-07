@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 
 namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
 {
-   public class BusinessRepository : EFRepository<ApplicationDbContext, Business>
+    public class BusinessRepository : EFRepository<ApplicationDbContext, Business>
     {
         public BusinessRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public async Task<List<Business>> GetRecordsById(object Id)
+        public async Task<Business> GetRecordsById(object Id)
         {
-            List<Business> Business = null;
+            Business Business = null;
             try
             {
                 int id = (int)Id;
                 Business = await Context.Businesses
-                  .Where(business => business.ID == id)
-                                .ToListAsync();
+                  .SingleOrDefaultAsync(business => business.ID == id);
+                                
             }
             catch (InvalidOperationException ex1)
             {
@@ -61,10 +61,20 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
         {
             try
             {
-
+              
                 var investor = Context.Investors.FirstOrDefault(inv => inv.InvestorId == bussiness.InvestorId);
 
                 var service = Context.Service.FirstOrDefault(inv => inv.ServiceId == 1236);
+
+                bussiness.DateRegistered = DateTime.Now;
+                bussiness.CreatedDate = DateTime.Now;
+                bussiness.IsPrivouslyRegistered = false;
+                bussiness.MainGuid = Guid.NewGuid();
+                bussiness.SiteID = "";
+                bussiness.Status = "0";
+                bussiness.TradeNameDate = DateTime.Now;
+                bussiness.CreatedBy = "";
+
                 var serviceApplication = new ServiceApplication
                 {
                     InvestorId = bussiness.InvestorId,
@@ -100,23 +110,20 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
                     IsActive = false
                 };
 
-                bussiness.DateRegistered = DateTime.Now;
-                bussiness.CreatedDate = DateTime.Now;
-                bussiness.IsPrivouslyRegistered = false;
-                bussiness.MainGuid = Guid.NewGuid();
-                bussiness.SiteID = "";
-                bussiness.Status = "0";
-                bussiness.TradeNameDate = DateTime.Now;
-                bussiness.CreatedBy = "";
+                Context.Businesses.Add(bussiness);
+                Context.SaveChanges();
+
+                serviceApplication.ProjectId = bussiness.ID;
                 Context.ServiceApplication.Add(serviceApplication);
                 Context.SaveChanges();
+                bussiness.ServiceApplicationId = serviceApplication.ServiceApplicationId;
                 serviceWorkflow.ServiceApplicationId = serviceApplication.ServiceApplicationId;
                 Context.ServiceWorkflow.Add(serviceWorkflow);
                 Context.SaveChanges();
                 Context.Businesses.Add(bussiness);
                 await Context.SaveChangesAsync();
             }
-           
+
             catch (InvalidOperationException ex1)
             {
                 SetError("Couldn't load Business - invalid Business id specified.");
@@ -129,5 +136,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
             return bussiness;
         }
 
+
     }
 }
+

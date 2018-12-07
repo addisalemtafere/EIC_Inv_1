@@ -12,8 +12,6 @@ import {CompanyClearanceFormComponent} from '../../investor/company-clearance-fo
 import {BusinessRoutingModule} from './business-routing.module';
 import {BussinessModule} from '../../bussiness/bussiness.module';
 import {BusinessTabComponent} from './business-tab.component';
-import {RegistrationModule} from '../../registration/registration.module';
-import {RegistrationRoutingModule} from '../../registration/registration-routing.module';
 
 
 @NgModule({
@@ -26,9 +24,7 @@ import {RegistrationRoutingModule} from '../../registration/registration-routing
     OfficerModule,
     ServiceConfirmationModule,
     ServiceInfoModule,
-    BussinessModule,
-    RegistrationModule,
-    RegistrationRoutingModule
+    BussinessModule
 
   ],
   declarations: [

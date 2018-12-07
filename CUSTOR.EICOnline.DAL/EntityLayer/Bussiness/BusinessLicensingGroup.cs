@@ -25,5 +25,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public int SubGroup { get; set; }
 
+        public Business Business { get; set; }
+
     }
 }

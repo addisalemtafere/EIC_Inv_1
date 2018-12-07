@@ -7,6 +7,7 @@ import {SharedModule} from '@custor/modules/shared.module';
 import { BussinessTabComponent } from './bussiness-tab/bussiness-tab.component';
 import { RegistrationListComponent } from './registration-list/registration-list.component';
 import { BussinessBranchComponent } from './bussiness-branch/bussiness-branch.component';
+import { BussinessCertificateComponent } from './bussiness-certificate/bussiness-certificate.component';
 
 
 @NgModule({
@@ -17,10 +18,12 @@ import { BussinessBranchComponent } from './bussiness-branch/bussiness-branch.co
   ],
   declarations: [ BussinessComponent, BussinessTabComponent,
     RegistrationListComponent,
-    BussinessBranchComponent],
+    BussinessBranchComponent,
+    BussinessCertificateComponent],
   exports: [
     BussinessComponent,
-    BussinessBranchComponent
+    BussinessBranchComponent,
+    BussinessCertificateComponent
   ]
 })
 export class BussinessModule {

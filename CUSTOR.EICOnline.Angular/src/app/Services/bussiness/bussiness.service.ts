@@ -99,4 +99,25 @@ export class BussinessService {
         return result;
       }), catchError(this.errMsg.parseObservableResponseError));
   }
+
+  getBusiness(BusinessId: number) {
+    return this.httpClient.get(this.config.urls.url('GetBusiness', BusinessId)).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getBussinessMajorCatagory(BussinessId: number) {
+    return this.httpClient.get(this.config.urls.url('GetBussinessMajorCatagory', BussinessId)).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getBussinessCatagory(BussinessId: number) {
+    return this.httpClient.get(this.config.urls.url('GetBussinessCatagory', BussinessId)).pipe(
+      map(result => {
+        return result;
+      }), catchError(this.errMsg.parseObservableResponseError));
+  }
 }

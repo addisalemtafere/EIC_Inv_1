@@ -60,5 +60,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
 
+        public ICollection<BusinessLicensingGroup> BusinessLicensingGroup { get; set; }
+
     }
 }

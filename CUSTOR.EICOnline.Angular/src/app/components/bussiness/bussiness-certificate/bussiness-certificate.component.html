@@ -11,7 +11,7 @@
   </mat-card-header>
 </mat-card>
 
-<mat-card class="margin-2 margin-top-20" *ngIf="viewCertificate">
+<mat-card class="margin-2 margin-top-20;" *ngIf="viewCertificate">
   <mat-card-header>
     <div fxFlex="70"></div>
     <div fxFlex="25" style="float: right;">
@@ -35,8 +35,8 @@
             <div id="logo" class="full-width">
               <div class="certificate-title">ንግድ ሚኒስቴር</div>
               <div class="certificate-titlet">Ministry of Trade</div>
-              <div style="margin-top: 5px" class="c-subtitle">የንግድ ምዝገባ </div>
-              <div class="c-subtitle">Commertial Registration</div>
+              <div style="margin-top: 5px" class="c-subtitle">የንግድ ፍቃድ  </div>
+              <div class="c-subtitle">Bussines License </div>
             </div>
           </div>
           <div class="block" fxFlex="20%">
@@ -49,7 +49,7 @@
           <div id="sub-header" class="block" style="font-size: 13px">
             <table>
               <tr>
-                <td class="s-head">
+                <td class="s-head" width="140px">
                   የመዝገብ ቁጥር/File No.
                 </td>
                 <td class="dta-head">{{investor?.RegistrationNumber}}</td>
@@ -58,11 +58,11 @@
                 <td class="s-head">
                   የግብር ከፋይ መለያ ቁጥር/TIN
                 </td>
-                <td class="dta-head">{{investor?.Tin}}</td>
+                <td class="dta-head">{{bussinessData?.OwnerTIN}}</td>
               </tr>
               <tr>
                 <td class="s-head">
-                  የንግድ ምዝገባ ቁጥር
+                  የንግድ ምዝገባ ቁጥር  <br>  Principal Registration No
                 </td>
 
                 <td class="dta-head">MOT/{{investor?.RegistrationNumber }}/10
@@ -72,13 +72,13 @@
               </tr>
               <tr>
                 <td class="s-head">
-                  Principal Registration No
+                  የቀድሞው ፈቃድ ቁጥር <br> 		Previous  License  No.
                 </td>
                 <td class="dta-head"></td>
               </tr>
               <tr>
                 <td class="s-head">
-                  የቀድሞው የምዝገባ ቁጥር <br>
+                  የንግድ ሥራ ፈቃድ ቁጥር <br> Business License  No
                 </td>
                 <td class="dta-head"></td>
               </tr>
@@ -90,9 +90,15 @@
               </tr>
               <tr>
                 <td class="s-head">
-                  የቀድሞው  መጀመሪያ የተመዘገበበት ቀን <br> First Registration Date
+                  ቀድሞ ተሰጠበት ቀን <br>	Previous  Date of issuance
                 </td>
                 <td class="dta-head"></td>
+              </tr>
+              <tr>
+                <td class="s-head">
+                  የተሰጠበት ቀን <br>	Date of issuance
+                </td>
+                <td class="dta-head">{{date | date}}</td>
               </tr>
             </table>
           </div>
@@ -108,40 +114,37 @@
               <tr>
                 <td class="t-header" style="width: 100px">1. የግለሰቡ/የድርጅቱ ስም</td>
                 <td class="data value" style="width: 100px">
-                  {{investor.FirstName}}
-                  {{investor.FatherName}}
-                  {{investor.GrandName}}</td>
+                  {{bussinessData.TradeNameAmh}}
+
+                </td>
               </tr>
               <tr>
                 <td class="t-header">2. ዜግነት</td>
-               <td class="data value">{{investor.Nationality | countryPipe : 0 }}</td>
+                <td class="data value">{{investor.Nationality | countryPipe : 0 }}</td>
               </tr>
-             <!-- <tr>
-                <td class="t-header">3.የንግድ ስም</td>
-                <td class="data value">{{investorDetailList?.Investor.TradeName}}</td>
-              </tr>-->
               <tr>
-                <td class="t-header">3. የሥራ አስክያጅ ስም</td>
+                 <td class="t-header">3.የንግድ ስም</td>
+                 <td class="data value">{{investorDetailList?.Investor.TradeName}}</td>
+               </tr>
+              <tr>
+                <td class="t-header">4. የሥራ አስክያጅ ስም</td>
                 <td class="data value">
                   {{manager[0].FirstName}}
                   {{manager[0].FatherName}}
                   {{manager[0].FatherName}}
-                 <!-- {{manager[0].Associate?.FatherName}}
-                  {{manager[0].Associate?.FatherName}}
-                  {{manager[0].Associate?.GrandName}}-->
                 </td>
               </tr>
               </tbody>
             </table>
 
             <table class="full-width">
-              <caption class="caption">4. የንግድ ድርጅቱ አድራሻ</caption>
+              <caption class="caption">5. የንግድ ድርጅቱ አድራሻ</caption>
               <tbody>
               <tr>
                 <td class="a-header">ክልል</td>
                 <td class="data value">{{investorAddressList?.Region.Description}}</td>
                 <td class="a-header">ዞን</td>
-               <td class="data value">{{investorAddressList?.Region.Zones[0].DescriptionEnglish }}</td>
+                <td class="data value">{{investorAddressList?.Region.Zones[0].DescriptionEnglish }}</td>
               </tr>
               <tr>
                 <td class="a-header">ከተማ</td>
@@ -174,44 +177,23 @@
               </tbody>
             </table>
 
-            <!--<table class="full-width">
-              <caption class="caption">6.የኢንቨስትመንቱ አድራሻ</caption>
+
+            <table class="full-width">
+              <caption class="caption">6. የንግድ ስር ዘርፍ </caption>
               <tbody>
-              <tr>
-                <td class="a-header">ክልል</td>
-                <td class="data value">{{investmentAddressList?.Region.Description}}</td>
-                <td class="a-header">ዞን</td>
-                <td class="data value">{{investmentAddressList?.Region.Zones[0].Description}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">ከተማ</td>
-                <td class="data value">---</td>
-                <td class="a-header">ክፍለ ከተማ</td>
-                <td class="data value">---</td>
-              </tr>
-              <tr>
-                <td class="a-header">ቀበሌ/ወረዳ</td>
+              <!--<tr>
                 <td class="data value">
-                  {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
-                  /
-                  {{investmentAddressList?.Region.Zones[0].Woredas[0].Description}}
-                </td>
-                <td class="a-header">የቤት ቁጥር</td>
-                <td class="data value">---</td>
-              </tr>
-              </tbody>
-            </table>-->
-            <table id="investmentCapital" class="full-width">
-              <tbody>
+                  {{investmentActivity?.Description}}</td>
+              </tr>-->
               <tr>
-                <td class="t-header">5. ካፒታል በኢት ብር</td>
-                <td class="data value">{{investor?.PaidCapital}}</td>
+                <td class="data value">
+                  {{MajorDivision.Description}}
+                </td>
               </tr>
               </tbody>
             </table>
-
             <table class="full-width">
-              <caption class="caption">7. የተስማራባቸው የንግድ ሥራዎች</caption>
+              <caption class="caption">7. የንግድ ሥራ መስክ </caption>
               <tbody>
               <!--<tr>
                 <td class="data value">
@@ -226,6 +208,16 @@
               </tr>
               </tbody>
             </table>
+            <table id="investmentCapital" class="full-width">
+              <tbody>
+              <tr>
+                <td class="t-header">8. የተመዘገበ ካፒታል በኢት ብር</td>
+                <td class="data value">{{investor?.PaidCapital}}</td>
+              </tr>
+              </tbody>
+            </table>
+
+
 
             <table class="full-width">
               <tr>
@@ -236,7 +228,7 @@
 
             <table class="full-width">
               <tr>
-                <td> ይህ የምዝገባ የምስክር ወረቀት ዛሬ {{date | date}} አዲስ አበባ
+                <td> 	ይህ የንግድ ፈቃድ ዛሬ {{date | date}} በ አዲስ አበባ
                   ተሰጠ ።
                 </td>
               </tr>
@@ -259,7 +251,7 @@
             <table id="basicEn" class="full-width">
               <tbody>
               <tr>
-                <td class="t-header" style="width: 80px">1. Owner/ Company Name </td>
+                <td class="t-header" style="width: 80px">1. Manager/ Company Name </td>
                 <td class="data value"> {{investor.FirstNameEng}}
                   {{investor.FatherNameEng}}
                   {{investor.GrandNameEng}}</td>
@@ -268,26 +260,26 @@
                 <td class="t-header">2. Nationality</td>
                 <td class="data value">{{investor.Nationality | countryPipe : 1}}</td>
               </tr>
-             <!-- <tr>
-                <td class="t-header">3. Trade Name</td>
-                <td class="data value">{{investorDetailList?.Investor.TradeName}}</td>
-              </tr>-->
+               <tr>
+                 <td class="t-header">3. Trade Name</td>
+                 <td class="data value">{{investorDetailList?.Investor.TradeName}}</td>
+               </tr>
               <tr>
-                <td class="t-header">3. Name of General Manager</td>
-               <td class="data value">
-                 {{manager[0].FatherNameEng}}
-                 {{manager[0].FatherNameEng}}
-                 {{manager[0].GrandNameEng}}
-                 <!-- {{manager[0].Associate?.FatherNameEng}}
-                  {{manager[0].Associate?.FatherNameEng}}
-                  {{manager[0].Associate?.GrandNameEng}}-->
+                <td class="t-header">4. Name of General Manager</td>
+                <td class="data value">
+                  {{manager[0].FatherNameEng}}
+                  {{manager[0].FatherNameEng}}
+                  {{manager[0].GrandNameEng}}
+                  <!-- {{manager[0].Associate?.FatherNameEng}}
+                   {{manager[0].Associate?.FatherNameEng}}
+                   {{manager[0].Associate?.GrandNameEng}}-->
                 </td>
               </tr>
               </tbody>
             </table>
 
             <table class="full-width">
-              <caption class="caption">4. Business Address</caption>
+              <caption class="caption">5. Business Address</caption>
               <tbody>
               <tr>
                 <td class="a-header">Region</td>
@@ -327,10 +319,39 @@
               </tbody>
             </table>
 
+            <table class="full-width">
+              <caption class="caption">6. Sector of Business</caption>
+              <tbody>
+              <!-- <tr>
+                 <td class="data value">{{investmentActivity?.DescriptionEnglish}}</td>
+               </tr>-->
+              <tr>
+                <td class="data value">
+                  {{MajorDivision.EnglishDescription}}
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <table class="full-width">
+              <caption class="caption">7. Field of Business</caption>
+              <tbody>
+              <!-- <tr>
+                 <td class="data value">{{investmentActivity?.DescriptionEnglish}}</td>
+               </tr>-->
+              <tr>
+                <td >
+
+                  <div *ngFor="let vv of MajorDivisionList">
+                    {{vv.EnglishDescription}}
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
             <table id="investmentCapitalEn" class="full-width">
               <tbody>
               <tr>
-                <td class="t-header">5. Amount of Capital </td>
+                <td class="t-header"  style="width: 80px">8. Registered Capital in ETB </td>
                 <td class="data value">{{investor?.PaidCapital}}</td>
               </tr>
 
@@ -341,56 +362,9 @@
               </tbody>
             </table>
 
-
-            <!-- <table class="full-width">
-               <caption class="caption">6. Investment Location</caption>
-               <tbody>
-               <tr>
-                 <td class="a-header">Region</td>
-                 <td class="data value">{{investmentAddressList?.Region.DescriptionEnglish}}</td>
-                 <td class="a-header">Zone</td>
-                 <td class="data value">{{investmentAddressList?.Region.Zones[0].DescriptionEnglish}}</td>
-               </tr>
-               <tr>
-                 <td class="a-header">City</td>
-                 <td class="data value">--</td>
-                 <td class="a-header">sub city</td>
-                 <td class="data value">--</td>
-               </tr>
-               <tr>
-                 <td class="a-header">Kebele/Woreda</td>
-                 <td class="data value">
-                   {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
-                   /
-                   {{investmentAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}
-                 </td>
-                 <td class="a-header">House No.</td>
-                 <td class="data value">{{investmentAddressList?.HouseNo}}</td>
-               </tr>
-               </tbody>
-             </table>-->
-
-            <table class="full-width">
-              <caption class="caption">7. Type of activities engaged</caption>
-              <tbody>
-             <!-- <tr>
-                <td class="data value">{{investmentActivity?.DescriptionEnglish}}</td>
-              </tr>-->
-              <tr>
-                <td >
-                  <div *ngFor="let vv of MajorDivisionList">
-                  {{vv.EnglishDescription}}
-                  </div>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-
-
             <table class="full-width">
               <tr>
-                <td> has duly been registered under TIN	{{investor?.Tin}} <br>
-                  This Registration Certification is issued in	{{date | date}}  <br>
+                <td> This Business License is issued in	{{date | date}}  <br>
                   on	Addis Ababa
                 </td>
               </tr>
@@ -415,11 +389,11 @@
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em" style="font-size: 12px;">
           <div id="notices">
             <div>ማሳሰቢያ/Notice:</div>
-            <div>1. ይህ የንግድ ምዝገባ በአዋጅ ቁጥር 686/2002 መሠረት በየበጀት ዓመቱ ከሐምሌ 1 ቀን እስከ ታህሳስ 30 ቀን ድረስ ያለቅጣት የሚታደስ ሲሆን፤ ከጥር 1 ቀን እስከ ሰኔ 30 ቀን ድረስ በአዋጅ በተቀመጠው የሚታደስ ይሆናል።<br>
+            <div>1. ይህ የንግድ ፍቃድ ፍቃድ በአዋጅ ቁጥር 686/2002 መሠረት በየበጀት ዓመቱ ከሐምሌ 1 ቀን እስከ ታህሳስ 30 ቀን ድረስ ያለቅጣት የሚታደስ ሲሆን፤ ከጥር 1 ቀን እስከ ሰኔ 30 ቀን ድረስ በአዋጅ በተቀመጠው የሚታደስ ይሆናል።<br>
               This License Shall be renewed annually in accordance with Regulation no 686/2002 from 1 July to December 30 E.C with out penalty and with penalty from first January to June 30 E.C
             </div>
             <div style="margin-top: 10px !important;">
-              2. ይህ የንግድ ምዝገባ የምስክር ወረቀት በዋስትና ወይም በእዳ ሊያዝ አይችልም።<br>
+              2. ይህ የንግድ ፍቃድ የምስክር ወረቀት በዋስትና ወይም በእዳ ሊያዝ አይችልም።<br>
               The holder of this License is forbidden for surety ship or debt.
             </div>
           </div>
