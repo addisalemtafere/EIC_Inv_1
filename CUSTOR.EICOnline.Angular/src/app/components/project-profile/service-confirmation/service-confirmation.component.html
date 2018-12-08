@@ -21,7 +21,7 @@
       </div>
       <div fxFlex="30" class="thankYou" fxLayoutAlign="center center ">You</div>
     </div>
-    <div *ngIf="confirm" fxLayout="row" fxLayoutAlign="center left " fxLayoutGap="2em">
+    <div style="font-weight: bold;" *ngIf="confirm" fxLayout="row" fxLayoutAlign="center left " fxLayoutGap="2em">
       <div class="  block" fxFlex="90%">
         <!--<div class="hdr-brk sub-title">Confirmation</div>-->
         <!--<div style="padding: 20px">-->
@@ -31,17 +31,18 @@
 
         <!--</div>-->
         <div class="border header-description">
-          Your application Please use the Case Number: 12212
+          Your application Case Number is: <span class="strongText">12212</span>
 
           <br>
-          <strong>Submit</strong> :
-          Click Submit if you are done with your requests.
-          If your application is not submitted the application may
-          not reviewed by our staff so you to otherwise it remains visible to you only.
-          <br>
-          Track your application by the <strong>case number</strong> status, receive notifications, reserve time slot
-          for
-          visits, and provide additional inputs when requested.
+          Click <strong class="strongText">Submit</strong>
+          if you are done with your requests.
+          If your application is not submitted, the application may
+          not reviewed by our staff.
+          <!--so you to have submit otherwise it remains visible to you only.-->
+          <!--<br>-->
+          <!--Track your application by the <strong class="strongText">case number</strong>.-->
+          <!--you can track status, receive notifications, reserve time slot-->
+          <!--for visits, and provide additional inputs when requested.-->
         </div>
 
         <div fxLayoutAlign="center center" class="footerButton block" fxFlex="">

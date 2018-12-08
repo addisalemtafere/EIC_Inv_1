@@ -59,9 +59,9 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
         this.InvestorId = result.InvestorId;
         this.templateMessage = 'Dear ' +
           this.investorName +
-          ', We already  received  your ' +
+          ', We have already  received  your application request for ' +
           this.getServiceName(result.ServiceId) + ' ' +
-          ' application Request case number ' + result.CaseNumber + '' +
+          '(case number ' + result.CaseNumber + ').' +
           ' Your Application has been reviewed by our officer ';
         this.notificationForm.patchValue({
           ToUserId: this.UserId,

@@ -102,7 +102,6 @@ export class LoginControlComponent implements OnInit, OnDestroy {
 
   login() {
     this.isLoading = true;
-
     this.authService.login(this.getUserLogin())
       .subscribe(
         user => {

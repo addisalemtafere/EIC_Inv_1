@@ -6,16 +6,16 @@
   </div>
 
 
-        </div>
+</div>
 
 <form class="margin-2 " [formGroup]="documentForm">
   <mat-card #content class="padding-0" id="content">
     <!--<mat-card-header>-->
-      <!--<mat-card-subtitle class="sub-title">-->
+    <!--<mat-card-subtitle class="sub-title">-->
 
-        <!--Attach Below listed PreRequisite document accordingly-->
-        <!--&lt;!&ndash;<mat-divider></mat-divider>&ndash;&gt;-->
-      <!--</mat-card-subtitle>-->
+    <!--Attach Below listed PreRequisite document accordingly-->
+    <!--&lt;!&ndash;<mat-divider></mat-divider>&ndash;&gt;-->
+    <!--</mat-card-subtitle>-->
     <!--</mat-card-header>-->
 
     <mat-card-content id="container">
@@ -32,8 +32,8 @@
           </ng-container>
 
           <ng-container matColumnDef="PreRequisite">
-            <mat-header-cell *matHeaderCellDef>PreRequisite</mat-header-cell>
-            <mat-cell *matCellDef="let servicePreList;">
+            <mat-header-cell fxFlex="50" *matHeaderCellDef>PreRequisite</mat-header-cell>
+            <mat-cell fxFlex="50" class="attachDocument" *matCellDef="let servicePreList;">
               <div *ngIf="servicePreList.IsDocument">{{(servicePreList.DescriptionEnglish==null)?
                 '':(servicePreList.DescriptionEnglish )}}
               </div>
@@ -51,8 +51,8 @@
           </ng-container>
 
           <ng-container matColumnDef="Action">
-            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-            <mat-cell *matCellDef="let servicePreList;let i=index;">
+            <mat-header-cell fxFlex="25" *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell fxFlex="25" *matCellDef="let servicePreList;let i=index;">
               <div *ngIf="servicePreList.IsDocument">
                 <a class="pointer"
 
@@ -88,34 +88,34 @@
     </mat-card-content>
 
     <!--<div fxLayoutGap="3em" align="center">-->
-      <!--<div style="padding: 20px" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">-->
+    <!--<div style="padding: 20px" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">-->
 
-        <!--<div fxFlex="15">-->
+    <!--<div fxFlex="15">-->
 
-          <!--&lt;!&ndash;<button class="custom-button" (click)="next()" color="warn" type="button">&ndash;&gt;-->
-          <!--&lt;!&ndash;Back&ndash;&gt;-->
-          <!--&lt;!&ndash;</button>&ndash;&gt;-->
-        <!--</div>-->
-        <!--<div style="text-align: center" fxFlex="67" fxFlexAlign="center">-->
-          <!--&lt;!&ndash;<button mat-raised-button="" color="primary">&ndash;&gt;-->
-          <!--&lt;!&ndash;<mat-icon class="mat-18">done</mat-icon>&ndash;&gt;-->
-          <!--&lt;!&ndash;<span>Save as Draft</span>&ndash;&gt;-->
-          <!--&lt;!&ndash;</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;<button class="custom-button" (click)="next()" color="warn" type="button">&ndash;&gt;-->
+    <!--&lt;!&ndash;Back&ndash;&gt;-->
+    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div style="text-align: center" fxFlex="67" fxFlexAlign="center">-->
+    <!--&lt;!&ndash;<button mat-raised-button="" color="primary">&ndash;&gt;-->
+    <!--&lt;!&ndash;<mat-icon class="mat-18">done</mat-icon>&ndash;&gt;-->
+    <!--&lt;!&ndash;<span>Save as Draft</span>&ndash;&gt;-->
+    <!--&lt;!&ndash;</button>&ndash;&gt;-->
 
-          <!--<button style="margin-left: 10px" (click)="UpdateServiceApplication()" mat-raised-button="" class="mr-16"-->
-                  <!--color="primary">-->
-            <!--<mat-icon color="primary">done</mat-icon>-->
-            <!--<span>Submit </span>-->
-          <!--</button>-->
-        <!--</div>-->
-        <!--<div fxFlex="15">-->
+    <!--<button style="margin-left: 10px" (click)="UpdateServiceApplication()" mat-raised-button="" class="mr-16"-->
+    <!--color="primary">-->
+    <!--<mat-icon color="primary">done</mat-icon>-->
+    <!--<span>Submit </span>-->
+    <!--</button>-->
+    <!--</div>-->
+    <!--<div fxFlex="15">-->
 
-          <!--&lt;!&ndash;<button class="custom-button" (click)="next()" color="warn" type="button">&ndash;&gt;-->
-          <!--&lt;!&ndash;Next&ndash;&gt;-->
-          <!--&lt;!&ndash;</button>&ndash;&gt;-->
-        <!--</div>-->
+    <!--&lt;!&ndash;<button class="custom-button" (click)="next()" color="warn" type="button">&ndash;&gt;-->
+    <!--&lt;!&ndash;Next&ndash;&gt;-->
+    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+    <!--</div>-->
 
-      <!--</div>-->
+    <!--</div>-->
 
     <!--</div>-->
   </mat-card>
