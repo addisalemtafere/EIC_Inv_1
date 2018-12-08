@@ -20,14 +20,14 @@ export class WoredaPipePipe implements PipeTransform {
 //         this.woredas = data;
 //         for (const wereda of this.woredas) {
 //           if (wereda.WoredaId === code) {
-//             // console.log(wereda);
+//             // // console.log(wereda);
 //             return wereda.DescriptionEnglish;
 //           }
 //         }
 //         return null;
 //       },
 //       error => {
-//         console.log('Error');
+//         // console.log('Error');
 //       });
 //   }
 //
@@ -42,12 +42,12 @@ export class WoredaPipePipe implements PipeTransform {
   }
 
   transform(code: any, args?: any): any {
-    console.log(code);
+    // console.log(code);
     for (const woreda of this.allWoredas) {
       if (woreda.WoredaId === code) {
-        console.log(code);
-        console.log(woreda.Description);
-        console.log(woreda.DescriptionEnglish);
+        // console.log(code);
+        // console.log(woreda.Description);
+        // console.log(woreda.DescriptionEnglish);
         return woreda.DescriptionEnglish;
       }
     }

@@ -153,7 +153,7 @@ export class AlertService {
   }
 
   logMessage(msg) {
-    console.log(msg);
+    // console.log(msg);
   }
 
   logTrace(msg) {

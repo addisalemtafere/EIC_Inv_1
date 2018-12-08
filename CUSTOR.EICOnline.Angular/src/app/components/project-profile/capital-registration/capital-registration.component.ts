@@ -192,7 +192,7 @@ export class CapitalRegistrationComponent implements OnInit, AfterContentChecked
   private getProjectStatus(projectId: any) {
     this.projectProfileService.getProjectStatus(projectId)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.projectSta = result.toString();
       });
   }

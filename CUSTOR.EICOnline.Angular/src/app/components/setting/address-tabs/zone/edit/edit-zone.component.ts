@@ -111,7 +111,7 @@ export class EditZoneComponent implements OnInit, OnDestroy {
       .getZone(id)
       .subscribe(result => {
           this.zones = result;
-          console.log(this.zones);
+          // console.log(this.zones);
           this.updateForm();
         },
         error => this.toastr.error(this.errMsg.getError(error)));
@@ -119,7 +119,7 @@ export class EditZoneComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    console.log(this.zones);
+    // console.log(this.zones);
     this.zoneForm.patchValue({
       cDescription: this.zones.Description == null ? '' : this.zones.Description.toString(),
       cDescriptionEnglish: this.zones.DescriptionEnglish == null ? '' : this.zones.DescriptionEnglish.toString(),

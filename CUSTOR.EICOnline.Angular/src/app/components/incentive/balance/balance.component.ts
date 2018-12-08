@@ -104,12 +104,12 @@ export class BalanceComponent implements OnInit, AfterViewInit {
   }
 
   onMangerControlChanged($event, data?: IncentiveBoMRequestItemModel) {
-    console.log(data);
+    // console.log(data);
     const id = $event.source.value;
 
     this.billOfMaterilService.finalForApprovalBillOfMaterial(data.IncentiveBoMRequestItemId)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
       });
     if ($event.checked) {
       this.toast.success('Item approved  successfully');
@@ -154,7 +154,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
 
   onEdit(index: number) {
     this.editMode = true;
-    console.log(index);
+    // console.log(index);
 
     this.productEditIndex = index;
     this.productEdit = this.itemList[index];
@@ -221,7 +221,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     // this.loading = true;
     this.errors = []; // Clear error
     // Validate file size and allowed extensions
-    console.log((!this.isValidFiles(files)));
+    // console.log((!this.isValidFiles(files)));
     if (files && files[0].size > 0 && (this.isValidFiles(files))) {
       this.documentForm.patchValue({
         Name: files[0].name,
@@ -249,7 +249,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     const formModel = this.documentForm.value;
 
     const formData = new FormData();
-    console.log(formModel.workFlowId);
+    // console.log(formModel.workFlowId);
     formData.append('Name', formModel.Name);
     formData.append('ServiceApplicationId', this.ServiceApplicationId);
     formData.append('KeyWords', formModel.KeyWords);
@@ -282,7 +282,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
       this.ServiceApplicationId)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.toast.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
       });
   }

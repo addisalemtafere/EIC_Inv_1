@@ -22,7 +22,7 @@ export class ServiceInitComponent implements OnInit {
 
   ngOnInit() {
     this.getServicePrerequisite(localStorage.getItem('ServiceId'));
-    console.log(localStorage.getItem('ServiceId'));
+    // console.log(localStorage.getItem('ServiceId'));
   }
 
   getServicePrerequisite(ServiceId: any) {

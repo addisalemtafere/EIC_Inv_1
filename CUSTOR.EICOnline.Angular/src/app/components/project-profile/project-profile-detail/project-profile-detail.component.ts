@@ -115,7 +115,7 @@ export class ProjectProfileDetailComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        console.log(this.addressList);
+        // console.log(this.addressList);
       }, error => this.errMsg.getError(error));
   }
 
@@ -135,12 +135,12 @@ export class ProjectProfileDetailComponent implements OnInit {
   }
 
   onProjectList() {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['../../list'], {relativeTo: this.route});
   }
 
   onNewProject() {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['../../new'], {relativeTo: this.route});
   }
 

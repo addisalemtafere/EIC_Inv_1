@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProjectCostService} from '../../../../Services/project-cost.service';
 import {ProjectCostModel} from '../../../../model/ProjectCost.model';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-project-cost-list',
@@ -11,18 +11,28 @@ import {Router} from '@angular/router';
 export class ProjectCostListComponent implements OnInit {
   public costList: ProjectCostModel[];
   public plannedCost: ProjectCostModel;
+  private ProjectId: any;
+  private ServiceId: any;
+  private InvestorId: any;
 
   constructor(public projectCostService: ProjectCostService,
+              private route: ActivatedRoute,
               private router: Router) {
   }
 
   ngOnInit() {
+    this.ProjectId = this.route.snapshot.params['ProjectId'];
+    // this.ProjectId1 = this.route.snapshot.params['projectId'];
+    // this.ServiceId = this.route.snapshot.params['ServiceId'];
+    // this.InvestorId = this.route.snapshot.params['InvestorId'];
+    console.log(this.ProjectId)
+    // console.log(this.ProjectId1)
     this.getAllCostByProjectId();
     this.getPlannedCostByProjectId();
   }
 
   getAllCostByProjectId() {
-    this.projectCostService.getAllActualCost(localStorage.getItem('ProjectId'))
+    this.projectCostService.getAllActualCost(this.ProjectId)
       .subscribe(cost => {
         this.costList = cost;
       });
@@ -30,9 +40,9 @@ export class ProjectCostListComponent implements OnInit {
   }
 
   getPlannedCostByProjectId() {
-    this.projectCostService.getCostByProjectId(localStorage.getItem('ProjectId'))
+    this.projectCostService.getCostByProjectId(this.ProjectId)
       .subscribe(cost => {
-        console.log(cost);
+        // console.log(cost);
         this.plannedCost = cost;
       });
 

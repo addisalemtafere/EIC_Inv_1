@@ -88,7 +88,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
   sendMessage() {
     this.notificationService.create(this.notificationForm.value)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.toast.success('message has been sent', 'Message');
       });
   }
@@ -115,7 +115,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    console.log("notifications")
+    // console.log("notifications")
 
   }
 

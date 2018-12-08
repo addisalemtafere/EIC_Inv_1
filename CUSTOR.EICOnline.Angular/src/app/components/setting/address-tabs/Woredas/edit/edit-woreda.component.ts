@@ -108,7 +108,7 @@ export class EditWoredaComponent implements OnInit, OnDestroy {
     }
     this.fillterZoneModels = null;
     this.fillterZoneModels = this.zoneModels.filter((item) => {
-      // console.log(RegionCode + '==' + item.RegionId);
+      // // console.log(RegionCode + '==' + item.RegionId);
       return item.RegionId === RegionCode;
     });
   }
@@ -141,7 +141,7 @@ export class EditWoredaComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    console.log(this.woreda);
+    // console.log(this.woreda);
     this.woredaForm.patchValue({
       cDescription: this.woreda.Description == null ? '' : this.woreda.Description.toString(),
       cDescriptionEnglish: this.woreda.DescriptionEnglish == null ? '' : this.woreda.DescriptionEnglish.toString(),

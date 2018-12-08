@@ -22,7 +22,7 @@ export class OfficerStepperComponent implements OnInit {
     this.subscription = this.dataSharing.renewalIndex
       .subscribe(index => {
         this.renewalIndex = index;
-        // console.log(index)
+        // // console.log(index)
         // this.move(this.steeperIndex);
       });
   }

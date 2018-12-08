@@ -39,12 +39,7 @@ export class TariffService {
   }
 
   saveTariff(tariff: TariffModel): Observable<TariffModel> {
-    console.log(tariff.TariffId,
-      //  tariff.Description,
-      //  tariff.DescriptionEnglish,
-      //  tariff.ServiceId,
-      tariff.IsActive
-    );
+
     return this.httpClient.post<TariffModel>(this.config.urls.url('tariff'), tariff).pipe(
       map(Taruff => {
         this.tariffModel = Taruff;

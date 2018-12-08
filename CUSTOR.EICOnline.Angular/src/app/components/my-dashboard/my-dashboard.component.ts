@@ -103,7 +103,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     }
     if (serviceId === 1054) {
       this.router.navigate(['/bill-of-material/2' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
-    } else {
+    } else if (serviceId === 13) {
       switch (step) {
         case 8:
           stepIndex = 1;
@@ -147,17 +147,17 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.dataSourceNotitification = new MatTableDataSource<NotificationModel>(result);
         this.loading = false;
         this.notitficationList = result;
-        console.log(this.notitficationList);
+        // console.log(this.notitficationList);
         // this.dataSourceNotitification.paginator = this.paginator2;
       }, error => this.errMsg.getError(error));
   }
 
   deleteServiceApplication(id: any) {
-    console.log(id);
+    // console.log(id);
     const response = confirm('Do you want to Delete this ServiceApplication ?');
     if (response === true) {
       this.serviceApplication.delete(id).subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.getServiceApplication();
       });
       return true;
@@ -168,7 +168,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   deleteProject(id: number) {
-    console.log(id);
+    // console.log(id);
     const response = confirm('Do you want to Delete this Project ?');
     if (response === true) {
       this.projectProfileService.delete(id)
@@ -188,7 +188,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   projectDetail(serviceApplication: ServiceApplicationModel) {
-    console.log(serviceApplication)
+    // console.log(serviceApplication)
 
     const projectId = serviceApplication.ProjectId;
     const ServiceApplicationId = serviceApplication.ServiceApplicationId;
@@ -196,7 +196,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
 
     const workFlowId = serviceApplication.ServiceWorkflow[0].ServiceWorkflowId;
     const investorId = localStorage.getItem('InvestorId');
-    console.log(workFlowId)
+    // console.log(workFlowId)
 
     switch (serviceId) {
       case 13 || 1023:
@@ -224,7 +224,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1235:
-        this.router.navigate(['investor-tab/' + serviceId + '/'+ ServiceApplicationId +'/'+  investorId]);
+        this.router.navigate(['investor-tab/' + serviceId + '/' + ServiceApplicationId + '/' + investorId]);
 
         break;
       case 1236:
@@ -248,7 +248,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   filterData(data: any) {
-    console.log(data);
+    // console.log(data);
     this.serviceApplicationList = [];
     for (let i = 0; i < data.length; i++) {
       if (data[i].IsActive === false) {
@@ -257,12 +257,12 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     }
     this.dataSource = new MatTableDataSource<ServiceApplicationModel>(this.serviceApplicationList);
     this.loading = false;
-    console.log(this.serviceApplicationList);
+    // console.log(this.serviceApplicationList);
     // this.dataSource.paginator = this.paginator;
   }
 
   checkInvestor() {
-    // console.log(this.accountService.currentUser.Tin);
+    // // console.log(this.accountService.currentUser.Tin);
     if (this.accountService.currentUser.Tin !== null) {
       this.getInvestorsByUserId();
 
@@ -275,12 +275,12 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     // if (!this.canViewInvestors) {
     //     this.router.navigate(['denied']);
     // }
-    console.log(this.accountService.currentUser.Id);
+    // console.log(this.accountService.currentUser.Id);
     this.invService.getInvestorByUserId(this.accountService.currentUser.Id)
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.investors = result;
-          console.log(result);
+          // console.log(result);
           if (this.investors.length === 0) {
             this.router.navigate(['investor-tab/1235/0/0']);
             localStorage.setItem('ServiceId', '1235');
@@ -304,9 +304,9 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
 
     this.invService.getInvestorByUserId(this.accountService.currentUser.Tin)
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.investors = result;
-          console.log(result);
+          // console.log(result);
           if (!this.investors) {
             this.toastr.error('No records were found to list', 'Error', {
               closeButton: true,

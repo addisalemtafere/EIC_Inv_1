@@ -45,13 +45,7 @@ export class ActivityService {
   }
 
   saveAcitivity(activityModel: ActivityModel): Observable<ActivityModel> {
-    console.log(activityModel.ActivityId,
-      activityModel.Description,
-      activityModel.DescriptionAlias,
-      activityModel.DescriptionEnglish,
-      activityModel.DescriptionEnglishAlias,
-      activityModel.SubSectorId
-    );
+
     return this.httpClient.post<ActivityModel>(this.config.urls.url('activity'), activityModel).pipe(
       map(SubSectorData => {
         this.activityModel = SubSectorData;

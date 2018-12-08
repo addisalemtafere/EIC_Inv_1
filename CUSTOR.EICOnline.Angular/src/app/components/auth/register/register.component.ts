@@ -307,7 +307,7 @@ export class RegisterComponent implements OnDestroy, OnInit {
     const q = new Promise((resolve, reject) => {
         setTimeout(() => {
           this.accountService.isEmailRegisterd(control.value).subscribe((response) => {
-            console.log(response);
+            // console.log(response);
 
             if (response === true) {
               resolve({'isEmailUnique': true});
@@ -323,7 +323,7 @@ export class RegisterComponent implements OnDestroy, OnInit {
         }, 1000);
       }
     );
-    // console.log(this.userProfileForm.get('email').hasError('isEmailUnique'));
+    // // console.log(this.userProfileForm.get('email').hasError('isEmailUnique'));
     return q;
   }
 
@@ -331,10 +331,10 @@ export class RegisterComponent implements OnDestroy, OnInit {
     const q = new Promise((resolve, reject) => {
         setTimeout(() => {
           this.accountService.isTinUnique(control.value).subscribe((response) => {
-            console.log(response);
+            // console.log(response);
 
             if (response === true) {
-              console.log(response);
+              // console.log(response);
               resolve({'isTinUnique': false});
             } else {
               // resolve({'isTinUnique': true});
@@ -349,7 +349,7 @@ export class RegisterComponent implements OnDestroy, OnInit {
         }, 1000);
       }
     );
-    console.log(this.userProfileForm.get('tin').hasError('isTinUnique'));
+    // console.log(this.userProfileForm.get('tin').hasError('isTinUnique'));
 
     return q;
   }

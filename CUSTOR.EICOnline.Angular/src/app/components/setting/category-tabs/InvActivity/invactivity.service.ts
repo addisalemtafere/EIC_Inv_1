@@ -48,16 +48,7 @@ export class InvactivityService {
   }
 
   saveInvAcitivity(invActivityModel: InvActivityModel): Observable<InvActivityModel> {
-    console.log(invActivityModel.InvActivityId,
-      invActivityModel.ActivityId,
-      invActivityModel.SubSectorId,
-      invActivityModel.Description,
-      invActivityModel.DescriptionAlias,
-      invActivityModel.DescriptionEnglish,
-      invActivityModel.DescriptionEnglishAlias,
-      invActivityModel.InAddisOromiaAreas,
-      invActivityModel.InOtherAreas
-    );
+
     return this.httpClient.post<InvActivityModel>(this.config.urls.url('invactivity'), invActivityModel).pipe(
       map(invActi => {
         this.invActivityModel = invActi;

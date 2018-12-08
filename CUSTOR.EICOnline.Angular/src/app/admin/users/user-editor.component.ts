@@ -354,7 +354,7 @@ export class UserEditorComponent implements OnChanges, OnDestroy, OnInit {
     const errList = Utilities.getHttpResponseMessage(error);
     if (error.status === 400) { // bad request (validation)
       this.errors = errList.toString().split(',');
-      console.log(errList.length);
+      // console.log(errList.length);
       // this.alertService.error('Please fix the listed errors', 'Error');
     } else {
       this.errors = [];

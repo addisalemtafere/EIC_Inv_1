@@ -24,7 +24,7 @@ export class DocumentPipePipe implements PipeTransform, AfterViewChecked {
   getDocument(workFlowId: any) {
     this.documentServices.getAllById(workFlowId).subscribe(result => {
       this.documentList = result;
-      console.log(result);
+      // console.log(result);
     });
   }
 

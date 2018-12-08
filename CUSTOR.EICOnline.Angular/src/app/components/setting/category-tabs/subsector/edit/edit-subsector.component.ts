@@ -91,7 +91,7 @@ export class EditSubsectorComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    console.log(this.subsectors);
+    // console.log(this.subsectors);
     this.subSectorsForm.patchValue({
       cDescription: this.subsectors.Description == null ? '' : this.subsectors.Description.toString(),
       cDescriptionAlias: this.subsectors.DescriptionAlias == null ? '' : this.subsectors.DescriptionAlias.toString(),

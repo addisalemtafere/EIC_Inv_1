@@ -45,7 +45,7 @@ export class RegistrationCatagoryService extends BaseService<RegistrationCatagor
   /*saveRegistrationCatagory(registrationCatagory: RegistrationCatagory): Observable<RegistrationCatagory> {
     return this.httpClient.post<RegistrationModel>(this.config.urls.url('SaveRegistration'), registrationInfo).pipe(
       map(Reg => {
-        console.log(this.registrationMoedl);
+        // console.log(this.registrationMoedl);
         this.registrationMoedl = registrationInfo;
         return this.registrationMoedl;
       }),

@@ -15,7 +15,7 @@ export class CountryPipe implements PipeTransform {
   transform(code: any, en: number, args?: any): any {
     for (const country of this.allCountry) {
       if (country.id === code) {
-        // console.log(country.descriptionEnglish);
+        // // console.log(country.descriptionEnglish);
         if (en === 1) {
           return country.descriptionEnglish;
         } else {
@@ -29,7 +29,7 @@ export class CountryPipe implements PipeTransform {
   getNations() {
     this.addressService.getNationality().subscribe(country => {
       this.allCountry = country;
-      // console.log(country);
+      // // console.log(country);
     });
   }
 }

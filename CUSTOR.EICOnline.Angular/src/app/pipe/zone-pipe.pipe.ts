@@ -13,13 +13,13 @@ export class ZonePipePipe implements PipeTransform {
   }
 
   transform(code: any, args?: any): any {
-    console.log(code);
+    // console.log(code);
     return this.addressService.getAllZones()
       .subscribe(data => {
         this.zones = data;
         for (const zone of this.zones) {
           if (zone.ZoneId === code) {
-            console.log(zone.DescriptionEnglish);
+            // console.log(zone.DescriptionEnglish);
             return 'zana';
 
             // return zone.DescriptionEnglish;
@@ -28,7 +28,7 @@ export class ZonePipePipe implements PipeTransform {
         return null;
       },
         error => {
-          console.log('Error');
+          // console.log('Error');
         });
   }
 

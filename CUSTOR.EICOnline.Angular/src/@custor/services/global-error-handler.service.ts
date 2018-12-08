@@ -14,12 +14,12 @@ export class GlobalErrorHandlerService extends ErrorHandler {
 
   handleError(error: any) {
     const router = this.injector.get(Router);
-    console.log(`request url:${router.url}`);
+    // console.log(`request url:${router.url}`);
     if (error instanceof HttpErrorResponse) {
-      console.log('back end   returned status code', error.status);
-      console.log('error message', error.message);
+      // console.log('back end   returned status code', error.status);
+      // console.log('error message', error.message);
     } else {
-      console.log('an error occured', error.message);
+      // console.log('an error occured', error.message);
     }
     // router.navigate(['error']);
   }

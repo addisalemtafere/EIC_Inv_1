@@ -133,13 +133,15 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
 
   public onSubmit() {
     if (!this.companyClearanceForm.valid) {
-      console.log('error!!');
+      // console.log('error!!');
       return;
     }
     this.loadingIndicator = true;
     if (!this.editMode) {
       return this.companyClearanceService.create(this.getEditedCompanyNames())
         .subscribe((result: CompanyClearanceModel) => {
+            this.toastr.success("successfully saved");
+
           },
           error => this.toastr.error(this.errMsg.getError(error)));
     }

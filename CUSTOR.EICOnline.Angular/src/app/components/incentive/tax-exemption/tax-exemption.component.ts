@@ -85,7 +85,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
 
   // private getServiceApplicationRenewal() {
   //   this.projectRenewalService.getRenewalByServiceApplicationId(this.ServiceApplicationId).subscribe(result => {
-  //     console.log(result.ProjectRenewal[0]);
+  //     // console.log(result.ProjectRenewal[0]);
   //     this.editMode = true;
   //     this.projectRenewalForm.patchValue(result.ProjectRenewal[0]);
   //     this.projectId = result.ProjectId;
@@ -109,7 +109,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
         this.ServiceApplicationId = +params['id'];
         // this.projectId = this.route.snapshot.params['id'];
         if (this.ServiceApplicationId > 1) {
-          // console.log(this.ServiceApplicationId);
+          // // console.log(this.ServiceApplicationId);
           // this.getServiceApplicationRenewal();
           // this.approval = true;
         }
@@ -121,7 +121,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
     this.lookupSub = this.lookUpsService
       .getLookup(id)
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.setSelectedValue = result.Amharic;
         },
         error => this.toastr.error(this.errMsg.getError(error)));
@@ -151,7 +151,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
     this.taxExemptionService.getTaxExemptionList(ProjectId).subscribe(result => {
       if (result.length > 0) {
         this.TaxExemptionModels = result;
-        console.log(this.TaxExemptionModels);
+        // console.log(this.TaxExemptionModels);
         this.dataSource = new MatTableDataSource<TaxExemptionModel>(this.TaxExemptionModels);
         this.loading = false;
       }
@@ -245,7 +245,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
       if (result) {
         this.TaxexemptiontEditIndex = index;
         this.TaxExemptionModel = this.TaxExemptionModels[index];
-        console.log(this.TaxExemptionModel);
+        // console.log(this.TaxExemptionModel);
         this.taxExemptionService.deleteTaxExemption(this.TaxExemptionModel.IncentiveTaxExemptionRequestID)
           .subscribe(() => {
             this.notification('Deleted');

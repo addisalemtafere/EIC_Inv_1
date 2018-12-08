@@ -32,7 +32,7 @@ export class TestComponent implements OnInit {
     this.testService.getTest()
       .subscribe(result => {
         this.testList = result;
-        console.log(result);
+        // console.log(result);
       });
   }
 
@@ -40,7 +40,7 @@ export class TestComponent implements OnInit {
     this.testService.getTestById(id)
       .subscribe(result => {
         // this.testList = result;
-        console.log(result);
+        // console.log(result);
       });
   }
 
@@ -55,7 +55,7 @@ export class TestComponent implements OnInit {
   submit() {
     this.testService.create(this.testGroup.value)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.getAllTest();
       });
   }

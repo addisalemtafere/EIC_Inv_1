@@ -258,12 +258,12 @@ export class RegistrationComponent implements OnInit {
     this.registrationForm.patchValue({
       cTin: localStorage.getItem('Tin')
     });
-    // console.log(this.registrationForm.get('cMajorDivisions').value);
+    // // console.log(this.registrationForm.get('cMajorDivisions').value);
 
     return this.registrationCatagoryService.saveRegistrationCatagory(
       this.getEditedRegistrationCatagory()).subscribe(
       (registrationcatagory: RegistrationCatagory) => {
-        console.log(registrationcatagory);
+        // console.log(registrationcatagory);
       },
       error => this.toastr.error(error));
   }*/

@@ -47,13 +47,13 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
 
   getAllOfficer() {
     this.accountService.getUsers().subscribe(result => {
-      console.log(result);
+      // console.log(result);
       this.userList = result;
     });
   }
 
   getUserDetail(userId: any, userName?: any) {
-    console.log(userId);
+    // console.log(userId);
     this.assignedUserId = userId;
     this.getCompleted(userId);
     this.getPending(userId);
@@ -85,10 +85,10 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
   }
 
   assignTask() {
-    console.log(this.todoTaskForm.value);
+    // console.log(this.todoTaskForm.value);
     this.todoTask.create(this.todoTaskForm.value)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.dataSharingService.assignTask.next(true);
         setTimeout(() => {
           this.dataSharingService.assignTask.next(false);

@@ -42,7 +42,7 @@ export class RoleEditorComponent implements OnChanges {
     this.buildForm();
     this.selectedPermissions = new SelectionModel<Permission>(true, []);
     // alert ( this.selectedPermissions.hasValue);
-    // console.log ("has-" + this.selectedPermissions.hasValue);
+    // // console.log ("has-" + this.selectedPermissions.hasValue);
   }
 
   ngOnChanges() {

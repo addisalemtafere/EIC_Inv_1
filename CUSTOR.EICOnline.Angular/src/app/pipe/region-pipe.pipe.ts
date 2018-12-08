@@ -15,9 +15,9 @@ export class RegionPipePipe implements PipeTransform {
   transform(code: any, args?: any): any {
     for (const region of this.allRegion) {
       if (region.RegionId === code) {
-        console.log(code);
-        console.log(region.RegionId);
-        console.log(region.DescriptionEnglish);
+        // console.log(code);
+        // console.log(region.RegionId);
+        // console.log(region.DescriptionEnglish);
         return region.DescriptionEnglish;
       }
     }

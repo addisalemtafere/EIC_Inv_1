@@ -15,12 +15,12 @@ export class ProjectProfileComponent implements OnInit {
   }
 
   onProjectList() {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['../list'], { relativeTo: this.route });
   }
 
   onNewProject() {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['../new'], { relativeTo: this.route });
   }
 }

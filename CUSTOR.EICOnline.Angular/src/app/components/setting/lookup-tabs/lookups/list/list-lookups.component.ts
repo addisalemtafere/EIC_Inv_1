@@ -52,7 +52,7 @@ export class ListLookupsComponent implements OnInit, AfterViewInit {
     this.subLookupsService.getLookups()
       .subscribe(result => {
           this.subLookupsModels = result;
-          console.log(this.subLookupsModels);
+          // console.log(this.subLookupsModels);
           if (!this.subLookupsModels) {
             this.toastr.error('No records were found to list', 'Error', {
               closeButton: true,

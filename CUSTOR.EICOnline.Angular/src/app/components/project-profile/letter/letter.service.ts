@@ -41,7 +41,7 @@ export class LetterService {
     return this.httpClient.post<LetterModel>(this.config.urls.url('letter'), data).pipe(
       map(letterModel => {
         this.letterModel = letterModel;
-        // console.log(this.letterModel);
+        // // console.log(this.letterModel);
         return this.letterModel;
       }),
       catchError(this.errMsg.parseObservableResponseError));

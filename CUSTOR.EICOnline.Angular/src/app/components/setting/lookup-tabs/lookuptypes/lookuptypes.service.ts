@@ -38,10 +38,7 @@ export class LookuptypesService {
       catchError(this.errMsg.parseObservableResponseError), );
   }
   savelookuptypes(lookuptypesModel: LookuptypesModel): Observable<LookuptypesModel> {
-    console.log(lookuptypesModel.LookUpTypeId,
-      lookuptypesModel.Description,
-      lookuptypesModel.DescriptionEnglish
-    );
+
     return this.httpClient.post<LookuptypesModel>(this.config.urls.url('lookuptype'), lookuptypesModel).pipe(
       map(lookuptypesData => {
         this.lookuptypesModel = lookuptypesData;

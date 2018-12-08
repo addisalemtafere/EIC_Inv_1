@@ -40,13 +40,7 @@ export class SubsectorService {
       catchError(this.errMsg.parseObservableResponseError), );
   }
   saveSubSector(subSectorModel: SubSectorModel): Observable<SubSectorModel> {
-    console.log(subSectorModel.SectorId,
-      subSectorModel.Description,
-      subSectorModel.DescriptionAlias,
-      subSectorModel.DescriptionEnglish,
-      subSectorModel.DescriptionEnglishAlias,
-      subSectorModel.SectorId
-    );
+
     return this.httpClient.post<SubSectorModel>(this.config.urls.url('subsector'), subSectorModel).pipe(
       map(SubSectorData => {
         this.subSectorModel = SubSectorData;

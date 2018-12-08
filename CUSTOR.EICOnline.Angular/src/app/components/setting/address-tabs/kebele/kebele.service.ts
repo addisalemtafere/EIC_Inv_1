@@ -44,12 +44,7 @@ export class KebeleService {
   }
 
   saveKebele(kebeleModel: Kebele): Observable<Kebele> {
-    console.log(kebeleModel.KebeleId,
-      kebeleModel.WoredaId,
-      kebeleModel.ZoneId,
-      kebeleModel.Description,
-      kebeleModel.DescriptionEnglish
-    );
+
     return this.httpClient.post<Kebele>(this.config.urls.url('kebele'), kebeleModel).pipe(
       map(keb => {
         this.kebeleModel = keb;

@@ -167,7 +167,7 @@ export class InvestorService extends EndpointFactory {
     const endpointUrl = `${this.investorUrl}/${id}`;
     return this.httpClient.delete<boolean>(this.investorUrl, this.getRequestHeaders()).pipe(
       map(result => {
-        console.log(result);
+        // console.log(result);
         return result;
       }),
       catchError(err => Observable.throw(err || 'Server error')));
@@ -266,7 +266,7 @@ export class InvestorService extends EndpointFactory {
   //     let modelStateErrors = '';
 
   //     if (!serverError.type) {
-  //         console.log(serverError);
+  //         // console.log(serverError);
   //         for (const key in serverError) {
   //             if (serverError[key]) {
   //                 modelStateErrors += serverError[key] + '\n';
