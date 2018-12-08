@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProjectNationalityCompositionService} from '../../../../Services/project-nationality-composition.service';
 import {ProjectNationalityCompositionModel} from '../../../../model/ProjectNationalityComposition.model.';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-project-share-list',
@@ -10,11 +11,15 @@ import {ProjectNationalityCompositionModel} from '../../../../model/ProjectNatio
 export class ProjectShareListComponent implements OnInit {
   public shareList: ProjectNationalityCompositionModel[];
   public plannedShareList: ProjectNationalityCompositionModel;
+  private ProjectId: any;
 
-  constructor(public shareService: ProjectNationalityCompositionService) {
+  constructor(public shareService: ProjectNationalityCompositionService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.ProjectId = this.route.snapshot.params['ProjectId'];
+
     this.getShareAfterCare();
     this.getPlannedShareAfterCare();
   }

@@ -79,3 +79,11 @@
   border-bottom: 1px solid #ccc;
   line-height: 1;
 }
+
+.thankyou {
+  background-image: url('../../../../assets/images/thankyoupage.png');
+  background-size: cover; /* <------ */
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: inherit;
+}

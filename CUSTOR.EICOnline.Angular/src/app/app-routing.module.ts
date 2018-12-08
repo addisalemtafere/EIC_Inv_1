@@ -132,7 +132,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'project-cost',
+        path: 'project-cost/:ProjectId/:ServiceId',
         loadChildren: './components/project-profile/project-cost/ProjectCost.module#ProjectCostModule',
         canActivate: [AuthGuard]
       },
@@ -142,12 +142,12 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'product',
+        path: 'product/:ProjectId/:ServiceId',
         loadChildren: './components/project-profile/project-product/product.module#ProductModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'employment',
+        path: 'employment/:ProjectId/:ServiceId',
         loadChildren: './components/project-profile/project-employment/employment.module#EmploymentModule',
         canActivate: [AuthGuard]
       },
@@ -273,7 +273,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
       //   loadChildren: 'app/components/project-profile/project-cost/ProjectCost.module#ProjectCostModule'
       // },
       {
-        path: 'after-care',
+        path: 'after-care/:ProjectId',
         loadChildren: 'app/components/project-profile/aftercare/aftercare.module#AftercareModule',
         canActivate: [AuthGuard]
       },

@@ -24,6 +24,7 @@ import {InvestorService} from '../../investor/investor.service';
 import {Investor} from '../../../model/investor';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
 import {ActivatedRoute} from "@angular/router";
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-service-prerequisite',
@@ -65,6 +66,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
+  public baseUrl: string;
 
   constructor(public snackbar: MatSnackBar,
               public dialog: MatDialog,
@@ -73,6 +75,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
               public errMsg: ErrorMessage,
               public route: ActivatedRoute,
               public userActivityDataServices: UserActivityDataServices,
+              public config: ConfigurationService,
               public dataSharing: DataSharingService,
               public serviceApplicationsServices: ServiceapplicationService,
               public servicePrerequisiteService: ServicePrerequisiteService,
@@ -87,7 +90,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     const ServiceWorkflowId = this.route.snapshot.params['workFlowId'];
     this.workFlowId = (ServiceWorkflowId == undefined) ? '' : ServiceWorkflowId;
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-
+    this.baseUrl = this.config.baseUrl;
     this.createForm();
 
     this.getServicePrerequisite(this.ServiceId);

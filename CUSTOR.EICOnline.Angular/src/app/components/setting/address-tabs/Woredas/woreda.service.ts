@@ -44,11 +44,7 @@ export class WoredaService {
   }
 
   saveWoreda(woredaModel: Woreda): Observable<Woreda> {
-    // console.log(woredaModel.WoredaId,
-      woredaModel.ZoneId,
-      woredaModel.Description,
-      woredaModel.DescriptionEnglish
-    );
+
     return this.httpClient.post<Woreda>(this.config.urls.url('woreda'), woredaModel).pipe(
       map(woredaData => {
         this.woredaModel = woredaData;

@@ -153,12 +153,14 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   select(InvestorId: any, investorName: any) {
+
     if (this.ServiceId == 13) {
-      // console.log(this.ServiceId);
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
     }
     else {
       // localStorage.setItem('InvestorId', InvestorId);
+      this.router.navigate(['/search-browser/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
+
       this.invName = investorName;
       this.loadingIndicator = true;
       this.projectService.getProjectByInvestorId(InvestorId)
@@ -304,7 +306,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
         break;
       case 1234:
-        this.router.navigate(['/after-care']);
+        this.router.navigate(['/after-care/'+projectId]);
         break;
       case 1028:
         this.editProject(projectId, ServiceApplicationId, 13);

@@ -4,36 +4,36 @@ import {AftercareComponent} from './aftercare.component';
 import {ProjectStatusComponent} from './project-status/project-status.component';
 
 const route: Routes = [
-  {path: '', redirectTo: '/after-care', pathMatch: 'full'},
+  // {path: '', redirectTo: '/after-care/0'},
   {
     path: '', component: AftercareComponent, children: [
-      // {path: '', component: AftercareComponent},
+      {path: '/:ProjectId', component: AftercareComponent},
       {
-        path: 'cost-list',
+        path: 'cost-list/:ProjectId',
         loadChildren: 'app/components/project-profile/project-cost/ProjectCost.module#ProjectCostModule'
       },
       {
-        path: 'employment',
+        path: 'employment/:ProjectId',
         loadChildren: 'app/components/project-profile/project-employment/employment.module#EmploymentModule'
       },
       {
-        path: 'share',
+        path: 'share/:ProjectId',
         loadChildren: 'app/components/project-profile/project-share/Share.module#ShareModule'
       },
       {
-        path: 'product',
+        path: 'product/:ProjectId',
         loadChildren: 'app/components/project-profile/project-product/product.module#ProductModule'
       },
       {
-        path: 'utility',
+        path: 'utility/:ProjectId',
         loadChildren: 'app/components/project-profile/project-input/utility.module#UtilityModule'
       },
       {
-        path: 'raw-material',
+        path: 'raw-material/:ProjectId',
         loadChildren: 'app/components/project-profile/project-input/raw-material-list/rawMaterial.Module#RawMaterialModule'
       },
       {
-        path: 'project-status', component: ProjectStatusComponent
+        path: 'project-status/:ProjectId', component: ProjectStatusComponent
       },
 
     ]

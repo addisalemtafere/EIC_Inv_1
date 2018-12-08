@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {ProjectProfileService} from '../../../../Services/project-profile.service';
 import {ToastrService} from 'ngx-toastr';
 import {ProjectStatusHistoryService} from '../../../../Services/project-status-history.service';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-project-status',
@@ -17,21 +18,24 @@ export class ProjectStatusComponent implements OnInit, AfterContentChecked {
   projectStage: ProjectStageModel[] = [];
   projectStatusForm: FormGroup;
   public Quarter: QuarterModel[] = [];
+  private projectId: any;
 
   constructor(public fb: FormBuilder,
               private toast: ToastrService,
+              private route: ActivatedRoute,
               private projectStatusHistoryService: ProjectStatusHistoryService,
               private projectService: ProjectProfileService) {
   }
 
   ngOnInit() {
+    this.projectId = this.route.snapshot.params['ProjectId']
     this.formBuild();
     this.initStaticData('en');
   }
 
   private formBuild() {
     this.projectStatusForm = this.fb.group({
-      ProjectId: '',
+      ProjectId: this.projectId,
       ProjectStatus: '',
       ProjectStage: '',
       RegistrationYear: '',
@@ -82,9 +86,9 @@ export class ProjectStatusComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    this.projectStatusForm.patchValue({
-      ProjectId: localStorage.getItem('ProjectId')
-    });
+    // this.projectStatusForm.patchValue({
+    //   ProjectId: localStorage.getItem('ProjectId')
+    // });
   }
 
 
