@@ -4,6 +4,7 @@ import {DataSharingService} from '../../../Services/data-sharing.service';
 import {Subscription} from 'rxjs';
 import {NotificationComponent} from '../notification/notification.component';
 import {MatDialog, MatDialogConfig} from '@angular/material';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-project-renewal-tab',
@@ -18,9 +19,11 @@ export class ProjectRenewalTabComponent implements OnInit {
   public projectName: string | null;
   public investorName: string | null;
   private ServiceApplicationId: any;
+  private userName: string;
 
   constructor(public accountService: AccountService,
               public dialog: MatDialog,
+              public route: ActivatedRoute,
               private dataSharing: DataSharingService) {
   }
 

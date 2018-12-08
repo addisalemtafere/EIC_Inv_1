@@ -51,18 +51,16 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.ProjectId = this.route.snapshot.params['ProjectId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
     this.initForm();
     this.editMode = false;
     this.getAllProjects();
     this.isInvestor = !this.accountService.getUserType();
-    this.route.params
-      .subscribe((params: Params) => {
-        this.ServiceApplicationId = +params['ServiceApplicationId'];
-        if (this.ServiceApplicationId > 1) {
-          this.getServiceApplicationSubstitute();
-        }
-      });
+    if (this.ServiceApplicationId > 1) {
+      this.getServiceApplicationSubstitute();
+    }
+
   }
 
   initForm() {
@@ -71,7 +69,8 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
       ServiceId: this.ServiceId,
       Reason: new FormControl(),
       SubstituteRemark: new FormControl(),
-      InvestorId: this.InvestorId
+      InvestorId: this.InvestorId,
+      ServiceApplicationId: this.ServiceApplicationId
     });
   }
 
@@ -79,18 +78,14 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
 
     this.substituteService.create(this.projectsubstituteForm.value)
       .subscribe(result => {
-        // console.log(result);
         this.dataSharing.renewalIndex.next(2);
-        // localStorage.setItem('ServiceApplicationId', result.ServiceApplicationId.toString());
-        // localStorage.setItem('workFlowId', result.ServiceApplication.ServiceWorkflow[0].ServiceWorkflowId);
-
 
         this.toast.success('Request for substitute  has been sent', 'success!!');
       });
   }
 
   getAllProjects() {
-    this.projetServices.getProjectOnlyByInvestorId(+localStorage.getItem('InvestorId'))
+    this.projetServices.getProjectOnlyByInvestorId(this.InvestorId)
       .subscribe(result => {
         this.projectList = result;
       });

@@ -206,7 +206,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 19:
-        this.router.navigate(['/project-cancellation', ServiceApplicationId], {relativeTo: this.route});
+        this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1027:
         this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);

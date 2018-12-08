@@ -92,7 +92,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.baseUrl = this.config.baseUrl;
     this.createForm();
-
+    console.log(this.ServiceApplicationId)
     this.getServicePrerequisite(this.ServiceId);
   }
 
@@ -240,12 +240,6 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
   ngAfterContentChecked(): void {
 
-    // this.documentForm.patchValue({
-    //   WorkFlowId: localStorage.getItem('workFlowId')
-    // });
-    //
-    // // console.log(localStorage.getItem('workFlowId'));
-    // // console.log(this.documentForm.get('WorkFlowId').value);
   }
 
   next() {
@@ -268,8 +262,6 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
       }
     }
-    // console.log(this.servicePreList);
-    // console.log(this.servicePreList);
     this.getDocument(this.documentForm.get('ServiceApplicationId').value);
   }
 

@@ -24,10 +24,12 @@
       <div fxLayout="row wrap" fxLayoutAlign="center ">
         <mat-progress-bar color="accent" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
         <mat-table class="full-width" #table [dataSource]="dataSource">
-          <ng-container style="width: 10px !important;" matColumnDef="No">
-            <mat-header-cell style="width: 10px !important;" *matHeaderCellDef>No</mat-header-cell>
-            <mat-cell style="width: 10px !important;" *matCellDef="let servicePreList; let i=index;">
-              <div *ngIf="servicePreList.IsDocument">{{i+1}}</div>
+          <ng-container matColumnDef="No">
+            <mat-header-cell fxFlex="4" *matHeaderCellDef>No</mat-header-cell>
+            <mat-cell fxFlex="4" *matCellDef="let servicePreList; let i=index;">
+              <div style="color: #0c97a8;font-weight: bolder;font-size: 16px;" *ngIf="servicePreList.IsDocument">
+                {{i+1}}).
+              </div>
             </mat-cell>
           </ng-container>
 
@@ -45,8 +47,9 @@
               <!--{{servicePreList.ServicePrerequisiteId | documentPipe: 9074 }}-->
               <!--<a target="_blank" href="http://www.google.component">viebw</a>-->
 
-              <a style="padding-left: 50px;" *ngIf="servicePreList.upload" target="_blank"
-                 href="{{baseUrl}}//Upload/{{servicePreList.URL}}">view</a>
+              <a style="padding-left: 50px;font-weight:bolder;color: #0c97a8;font-size: 16px;text-decoration: none;"
+                 *ngIf="servicePreList.upload" target="_blank"
+                 href="{{baseUrl}}//Upload/{{servicePreList.URL}}">Show File</a>
             </mat-cell>
           </ng-container>
 

@@ -86,7 +86,7 @@ export class ProjectListModalComponent implements OnInit {
   go(projectId: any, applicationId: any, ServiceId: any, InvestorId: any) {
 
     if (+this.ServiceId == 1023) {
-      this.router.navigate(['pro/' + projectId + '/' + applicationId + '/' + ServiceId + '/' + 0 + '/' + InvestorId]);
+      this.router.navigate(['pro/' + projectId + '/' + 0 + '/' + 1023 + '/' + 0 + '/' + InvestorId]);
       localStorage.setItem('ParentProjectId', projectId);
     } else {
       localStorage.removeItem('ServiceApplicationId');

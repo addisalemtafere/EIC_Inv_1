@@ -12,16 +12,7 @@
            class="content"
            fxLayout.lt-sm="column"
            fxLayoutGap="2em">
-        <div class="block" fxFlex="" *ngIf="!isInvestor">
-          <mat-form-field class="full-width">
-            <mat-label>Project Name</mat-label>
-            <mat-select formControlName="ProjectId">
-              <mat-option *ngFor="let project of projectList" [value]="project.ProjectId">
-                {{project.ProjectName}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+
 
         <div class="block" fxFlex="">
           <mat-form-field>
@@ -33,20 +24,9 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <!--<div class="block" fxFlex>-->
-          <!--<mat-form-field>-->
-            <!--<input placeholder="Cancellation Date * :"-->
-                   <!--matInput-->
-                   <!--formControlName="CancellationDate"-->
-                   <!--[matDatepicker]="CancellationDate">-->
-            <!--<mat-datepicker-toggle matSuffix [for]="CancellationDate">-->
-            <!--</mat-datepicker-toggle>-->
-            <!--<mat-datepicker #CancellationDate></mat-datepicker>-->
-            <!--&lt;!&ndash;<mat-error align="start" *ngIf="formErrors.terminationDate">{{ formErrors.terminationDate }}</mat-error>&ndash;&gt;-->
-          <!--</mat-form-field>-->
-        <!--</div>-->
 
-        <div class="blocks" fxFlex="80%">
+
+        <div class="blocks" fxFlex="50">
           <mat-form-field class="full-width">
             <input matInput
                    placeholder="Remark"
@@ -54,10 +34,7 @@
             <!--<mat-error align="start" *ngIf="formErrors.StartDate">{{ formErrors.StartDate }}</mat-error>-->
           </mat-form-field>
         </div>
-      </div>
-
-      <div fxLayout="row" fxLayoutAlign="center">
-        <div mat-dialog-actions fxLayoutGap="3em">
+        <div class="blocks">
           <button
             [disabled]="!projectsubstituteForm.valid"
             mat-raised-button=""
@@ -67,12 +44,10 @@
             <!--<span class="agree">Save</span>-->
             {{editMode ? 'Approve' : 'Save'}}
           </button>
-          <!--<button *ngIf="!isInvestor" mat-raised-button (click)="onClear()" color="primary" type="button">-->
-            <!--<mat-icon class="mat-18">done_all</mat-icon>-->
-            <!--<span>Approve</span>-->
-          <!--</button>-->
         </div>
       </div>
+
+
     </mat-card-content>
   </mat-card>
 </form>

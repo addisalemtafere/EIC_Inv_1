@@ -10,7 +10,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./service-confirmation.component.scss']
 })
 export class ServiceConfirmationComponent implements OnInit {
-  private ServiceApplicationId: any;
+  public ServiceApplicationId: any;
   public confirm = true;
 
   constructor(public serviceApplicationsServices: ServiceapplicationService,

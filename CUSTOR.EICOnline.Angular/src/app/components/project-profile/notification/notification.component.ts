@@ -62,7 +62,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
           ', We have already  received  your application request for ' +
           this.getServiceName(result.ServiceId) + ' ' +
           '(case number ' + result.CaseNumber + ').' +
-          ' Your Application has been reviewed by our officer ';
+          ' Your Application has been reviewed by our officer  ';
         this.notificationForm.patchValue({
           ToUserId: this.UserId,
           UserId: this.UserId,
