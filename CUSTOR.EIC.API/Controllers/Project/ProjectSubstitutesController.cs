@@ -77,48 +77,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
             postProjectSubstitute.CreatedUserId = 1;
             postProjectSubstitute.IsActive = false;
 
-            var serviceApplication = new ServiceApplication();
 
-            serviceApplication.InvestorId = projectSubstitute.InvestorId;
-            serviceApplication.ProjectId = projectSubstitute.ProjectId;
-            serviceApplication.CaseNumber = "1";
-            serviceApplication.ServiceId = projectSubstitute.ServiceId;
-            serviceApplication.CurrentStatusId = 44446;
-            serviceApplication.IsSelfService = true;
-            serviceApplication.IsPaid = true;
-            serviceApplication.StartDate = DateTime.Now;
-            serviceApplication.CreatedUserId = 1;
-            serviceApplication.IsActive = false;
-
-            var serviceWorkflow = new ServiceWorkflow
-            {
-                StepId = 9,
-                ActionId = 3,
-                FromStatusId = 3,
-                ToStatusId = 5,
-                PerformedByRoleId = 1,
-                NextStepId = 1015,
-                GenerateEmail = true,
-                GenerateLetter = true,
-                IsDocumentRequired = true,
-                ServiceId = projectSubstitute.ServiceId,
-                LegalStatusId = 3,
-                CreatedUserId = 1,
-                IsActive = false
-            };
-
-            serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
-            _context.ServiceApplication.Add(serviceApplication);
             await _context.SaveChangesAsync();
-            postProjectSubstitute.ServiceApplicationId = serviceApplication.ServiceApplicationId;
 
             _context.ProjectSubstitute.Add(postProjectSubstitute);
-
-            //ServiceApplication.Add(serviceApplication);
-            //postProjectSubstitute.ServiceApplication = serviceApplication;
-            //_context.Project.Add(editedProject);
-
-            //_context.ProjectSubstitute.Add(postProjectSubstitute);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProjectSubstitute", new {id = postProjectSubstitute.ProjectSubstituteId},

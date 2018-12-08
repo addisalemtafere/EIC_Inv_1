@@ -92,7 +92,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.baseUrl = this.config.baseUrl;
     this.createForm();
-    console.log(this.ServiceApplicationId)
+    console.log(this.workFlowId)
     this.getServicePrerequisite(this.ServiceId);
   }
 
