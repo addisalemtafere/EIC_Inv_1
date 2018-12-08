@@ -11,7 +11,8 @@
   </mat-card-header>
 </mat-card>
 
-<mat-card class="margin-2 margin-top-20;" *ngIf="viewCertificate">
+
+<mat-card class="margin-2 margin-top-20" *ngIf="viewCertificate">
   <mat-card-header>
     <div fxFlex="70"></div>
     <div fxFlex="25" style="float: right;">
@@ -58,7 +59,7 @@
                 <td class="s-head">
                   የግብር ከፋይ መለያ ቁጥር/TIN
                 </td>
-                <td class="dta-head">{{bussinessData?.OwnerTIN}}</td>
+                <td class="dta-head">{{investor?.Tin}}</td>
               </tr>
               <tr>
                 <td class="s-head">
@@ -187,7 +188,7 @@
               </tr>-->
               <tr>
                 <td class="data value">
-                  {{MajorDivision.Description}}
+                  {{MajorDivision?.Description}}
                 </td>
               </tr>
               </tbody>
@@ -202,7 +203,7 @@
               <tr>
                 <td >
                   <div *ngFor="let vv of MajorDivisionList">
-                    {{vv.Description}}
+                    {{vv?.Description}}
                   </div>
                 </td>
               </tr>
@@ -327,7 +328,7 @@
                </tr>-->
               <tr>
                 <td class="data value">
-                  {{MajorDivision.EnglishDescription}}
+                  {{MajorDivision?.EnglishDescription}}
                 </td>
               </tr>
               </tbody>
@@ -342,7 +343,7 @@
                 <td >
 
                   <div *ngFor="let vv of MajorDivisionList">
-                    {{vv.EnglishDescription}}
+                    {{vv?.EnglishDescription}}
                   </div>
                 </td>
               </tr>

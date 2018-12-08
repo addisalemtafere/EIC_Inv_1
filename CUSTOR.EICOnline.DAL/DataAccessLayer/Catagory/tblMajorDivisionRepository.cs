@@ -65,11 +65,15 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             try
             {
                 var catagory = await Context.RegistrationCatagorys
-                    .FirstOrDefaultAsync(param => param.InvestorId == InvstorId);
-
-                tblMajorDivisions = await Context.tblMajorDivision
-                    .Where(param => param.Code.ToString() == catagory.MajorCatagoryCode)
-                    .ToListAsync();
+                    .Where(param => param.InvestorId == InvstorId).ToListAsync();
+                foreach(var catagory1 in catagory)
+                {
+                    var majorDivisions = await Context.tblMajorDivision
+                   .Where(param => param.Code == Convert.ToInt16(catagory1.MajorCatagoryCode))
+                   .ToListAsync();
+                    tblMajorDivisions.Add(majorDivisions[0]);
+                }
+               
             }
             catch (InvalidOperationException exc)
             {
@@ -80,7 +84,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             {
                 SetError(ex);
             }
-            return tblMajorDivisions;
+            return tblMajorDivisions.OrderBy(p=>p.Code).ToList();
         }
 
 

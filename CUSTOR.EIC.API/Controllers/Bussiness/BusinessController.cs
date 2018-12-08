@@ -18,12 +18,20 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
         {
             context = ctx;
         }
-        [HttpGet("GetBussiness/{id:int}")]
+        [HttpGet("GetBussinessLicence/{id:int}")]
         public async Task<DAL.EntityLayer.Business> GetBussiness(int id)
         {
             BusinessRepository
             businessRepo = new BusinessRepository(context);
             return await businessRepo.GetRecordsById(id);
+        }
+
+        [HttpGet("GetBussiness/{id:int}")]
+        public async Task<DAL.EntityLayer.Business> GetBussinessLicence(int id)
+        {
+                BusinessRepository
+                businessRepo = new BusinessRepository(context);
+                return await businessRepo.GetBussinessById(id);
         }
 
         [HttpGet("GetRegistration/{Tin:int}")]
@@ -92,7 +100,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
         {
             try
             {
-                var Bussinesslist = context.BusinessLicensingGroup.SingleOrDefault(param => param.BusinessId == BussinessId);
+                var Bussinesslist = context.BusinessLicensingGroup.LastOrDefault(param => param.BusinessId == BussinessId);
                     tblGroup description = new tblGroup();
                     int code = Convert.ToInt16(Bussinesslist.BGroup);
                     var catdata = context.tblGroup.SingleOrDefault(param => param.Id == code);
@@ -117,19 +125,26 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             {
                 return BadRequest(ModelState);
             }
-            
-                try
-                {
-        
 
+            try
+            {
+                if (bussiness.ID == 0)
+                {
                     BusinessRepository
                businessRepo = new BusinessRepository(context);
                     await businessRepo.SaveBussiness(bussiness);
                 }
-                catch (Exception ex)
+                else
                 {
-
+                    BusinessRepository
+              businessRepo = new BusinessRepository(context);
+                    await businessRepo.UpdateBussiness(bussiness);
                 }
+            }
+            catch (Exception ex)
+            {
+
+            }
             return CreatedAtAction("SaveBussiness", new { id = bussiness.ID }, bussiness);
         }
 

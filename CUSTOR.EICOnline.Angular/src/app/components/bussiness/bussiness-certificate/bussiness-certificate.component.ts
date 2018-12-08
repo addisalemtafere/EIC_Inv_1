@@ -36,6 +36,7 @@ import {BussinessModel} from '../../../model/bussiness/BussinessModel.model';
 export class BussinessCertificateComponent implements OnInit , AfterViewChecked {
 
   bussinessData: BussinessModel;
+  BussinessId: any;
   date: any;
   investorDetailList: ServiceApplicationModel;
   investorAddressList: any;
@@ -87,8 +88,8 @@ export class BussinessCertificateComponent implements OnInit , AfterViewChecked 
   }
 
   generateCertification() {
-    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    this.getBussinessDetail(2);
+    this.BussinessId  = this.route.snapshot.params['BusinessId'];
+    this.getBussinessDetail(this.BussinessId);
     this.viewCertificate = true;
 
   }
@@ -113,16 +114,17 @@ export class BussinessCertificateComponent implements OnInit , AfterViewChecked 
   }
 
   getBussinessDetail(id: any) {
+    this.BussinessId  = this.route.snapshot.params['BusinessId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
-    this.bussnesServ.getBussinessMajorCatagory(2).subscribe(result => {
+    this.bussnesServ.getBussinessMajorCatagory(this.BussinessId).subscribe(result => {
         this.MajorDivision = result;
       }
     );
-    this.bussnesServ.getBussinessCatagory(2).subscribe(result => {
+    this.bussnesServ.getBussinessCatagory(this.BussinessId ).subscribe(result => {
         this.MajorDivisionList = result;
       }
     );
-    this.bussnesServ.getBusiness(3).subscribe(result => {
+    this.bussnesServ.getBusiness(this.BussinessId ).subscribe(result => {
         this.bussinessData = result;
      }
     );

@@ -239,6 +239,7 @@ export class AppConfiguration {
     SaveBussinessLicense: 'api/SaveBussinessLicense',
     GetRegistrationCatagory: 'api/Business/GetRegistrationCatagory',
     GetBusiness: 'api/Business/GetBussiness',
+
     Registrations: 'api/registration/GetRegistrations',
     RegistrationByTin: 'api/RegistrationByTin',
     SaveRegistration: 'api/saveregistration',

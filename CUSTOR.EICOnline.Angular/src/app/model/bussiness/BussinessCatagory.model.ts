@@ -1,6 +1,6 @@
 export class BussinessCatagory {
   public BusinessId: string;
-  public MajorDivision: string;
+  public MajorDivision: number;
   public Division: string;
   public MajorGroup: string;
   public Group: string;

@@ -17,13 +17,11 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
 
         public async Task<Business> GetRecordsById(object Id)
         {
-            Business Business = null;
             try
             {
                 int id = (int)Id;
-                Business = await Context.Businesses
+                return await Context.Businesses
                   .SingleOrDefaultAsync(business => business.ID == id);
-                                
             }
             catch (InvalidOperationException ex1)
             {
@@ -34,7 +32,28 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
             {
                 SetError(ex);
             }
-            return Business;
+            return null;
+        }
+
+        public async Task<Business> GetBussinessById(object Id)
+        {
+            try
+            {
+                int id = (int)Id;
+                 
+                return await Context.Businesses.Include(p=>p.BusinessLicensingGroup)
+                  .SingleOrDefaultAsync(business => business.ID == id);
+            }
+            catch (InvalidOperationException ex1)
+            {
+                SetError("Couldn't load Business - invalid Business id specified.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                SetError(ex);
+            }
+            return null;
         }
 
         public async Task<Registration> GetRegistrationByTin(string Tin)
@@ -121,6 +140,36 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
                 Context.ServiceWorkflow.Add(serviceWorkflow);
                 Context.SaveChanges();
                 Context.Businesses.Add(bussiness);
+                await Context.SaveChangesAsync();
+            }
+
+            catch (InvalidOperationException ex1)
+            {
+                SetError("Couldn't load Business - invalid Business id specified.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                SetError(ex);
+            }
+            return bussiness;
+        }
+
+        public async Task<Business> UpdateBussiness(Business bussiness)
+        {
+            try
+            {
+                Business objBusiness = new Business();
+                objBusiness = Context.Businesses.SingleOrDefault(p=>p.ID== bussiness.ID);
+                objBusiness.TradesName = bussiness.TradesName;
+                objBusiness.TradeNameAmh = bussiness.TradeNameAmh;
+                objBusiness.LicenceNumber = bussiness.LicenceNumber;
+                objBusiness.Status = bussiness.Status;
+                // bussiness.DateRegistered = DateTime.Now;
+                objBusiness.UpdatedDate = DateTime.Now;
+                objBusiness.IsPrivouslyRegistered = false;
+                objBusiness.UpdatedBy = "";
+                objBusiness.CreatedBy = "";
                 await Context.SaveChangesAsync();
             }
 
