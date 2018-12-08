@@ -26,8 +26,10 @@
             </mat-error>
           </mat-form-field>
         </div>
+
         <div class="block full-width" *ngIf="canViewTasks">
           <div mat-dialog-actions>
+
             <button mat-raised-button (click)="onApproveNameOptionOne()" color="primary" type="button">
               {{'common.commands.Approve' | translate}}
             </button>
@@ -53,7 +55,9 @@
             </mat-error>
           </mat-form-field>
         </div>
+
         <div class="block full-width" *ngIf="canViewTasks">
+
           <div mat-dialog-actions>
             <button mat-raised-button (click)="onApproveNameOptionTwo()" color="primary" type="button">
               {{'common.commands.Approve' | translate}}
@@ -80,7 +84,9 @@
             </mat-error>
           </mat-form-field>
         </div>
+
         <div class="block full-width" *ngIf="canViewTasks">
+
           <button mat-raised-button (click)="onApproveNameOptionThree()" color="primary" type="button">
             {{'common.commands.Approve' | translate}}
           </button>
