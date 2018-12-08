@@ -1,21 +1,28 @@
 <mat-card class="margin-2 ">
-  <mat-card-header>
-    <button mat-icon-button class="mr-16" (click)="back()" color="primary">
-      <mat-icon>arrow_back</mat-icon>
-      <span>Back</span>
-    </button>
-  </mat-card-header>
-  <mat-divider></mat-divider>
+  <!--<mat-card-header>-->
+  <!--<button mat-icon-button class="mr-16" (click)="back()" color="primary">-->
+  <!--<mat-icon>arrow_back</mat-icon>-->
+  <!--<span>Back</span>-->
+  <!--</button>-->
+  <!--</mat-card-header>-->
+  <!--<mat-divider></mat-divider>-->
 
   <mat-card-content>
 
-    <div class="thankyou" style="height: 200px;" *ngIf="confirm" fxLayout="row" fxLayoutAlign="center center "
+    <div style="height: 110px;" *ngIf="confirm" fxLayout="row" fxLayoutAlign="center center "
          fxLayoutGap="2em">
-      <!--<strong>Success</strong>-->
-      <!--<img src="../../../../assets/images/thankyoupage.png"/>-->
+      <div fxFlex="30" class="thankYou" fxLayoutAlign="center right ">Thank</div>
+      <div fxFlex="10">
+        <span fxLayoutAlign="center center " class="circleBase type1">
+                  <mat-icon style="font-size: 30px !important;" color="primary" class="mat-48">thumb_up</mat-icon>
+
+        </span>
+
+      </div>
+      <div fxFlex="30" class="thankYou" fxLayoutAlign="center center ">You</div>
     </div>
-    <div *ngIf="confirm" fxLayout="row" fxLayoutAlign="start " fxLayoutGap="2em">
-      <div class="  block" fxFlex="60%">
+    <div *ngIf="confirm" fxLayout="row" fxLayoutAlign="center left " fxLayoutGap="2em">
+      <div class="  block" fxFlex="90%">
         <!--<div class="hdr-brk sub-title">Confirmation</div>-->
         <!--<div style="padding: 20px">-->
         <!--&lt;!&ndash;<strong>Dear customer; Thank you for Applying. <br>&ndash;&gt;-->
@@ -37,7 +44,7 @@
           visits, and provide additional inputs when requested.
         </div>
 
-        <div fxLayoutAlign=" center" class="footerButton block" fxFlex="">
+        <div fxLayoutAlign="center center" class="footerButton block" fxFlex="">
           <button (click)="submitApplication()" style="margin: 10px;" color="primary" mat-raised-button>
             <mat-icon class="mat-18">done</mat-icon>
             <span class="agree">Submit</span>
@@ -53,15 +60,15 @@
           <!--</button>-->
         </div>
       </div>
-      <div class="appGuid block" fxFlex="40%">
-        <!--<div class="hdr-brk sub-title">Application Service Detail</div>-->
-        <h3 style="color: #f17117!important;">Dear customer,<br>
-          Thank you for Applying.<br>
+      <!--<div class="appGuid block" fxFlex="40%">-->
+      <!--&lt;!&ndash;<div class="hdr-brk sub-title">Application Service Detail</div>&ndash;&gt;-->
+      <!--<h3 style="color: #f17117!important;">Dear customer,<br>-->
+      <!--Thank you for Applying.<br>-->
 
-          Your application will be review soon and we get back for any feed back:
-        </h3>
-        <mat-icon style="color: #f17117" class="mat-48">done</mat-icon>
-      </div>
+      <!--Your application will be review soon and we get back for any feed back:-->
+      <!--</h3>-->
+      <!--<mat-icon style="color: #f17117" class="mat-48">done</mat-icon>-->
+      <!--</div>-->
     </div>
   </mat-card-content>
 

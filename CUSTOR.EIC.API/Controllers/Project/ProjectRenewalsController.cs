@@ -42,41 +42,10 @@ namespace CUSTOR.EICOnline.API.Controllers
             editProjectRenewal.SiteId = 3;
             editProjectRenewal.CreatedUserId = 1;
             editProjectRenewal.ApprovedDate = DateTime.Now;
-
-            var serviceApplication = new ServiceApplication();
-
-            serviceApplication.InvestorId = editProjectRenewal.InvestorId;
-            serviceApplication.ProjectId = editProjectRenewal.ProjectId;
-            serviceApplication.CaseNumber = "1";
-            serviceApplication.ServiceId = editProjectRenewal.ServiceId;
-            serviceApplication.CurrentStatusId = 44446;
-            serviceApplication.IsSelfService = true;
-            serviceApplication.IsPaid = true;
-            serviceApplication.StartDate = DateTime.Now;
-            serviceApplication.CreatedUserId = 1;
-            serviceApplication.IsActive = false;
-
-            var serviceWorkflow = new ServiceWorkflow
-            {
-                StepId = 9,
-                ActionId = 3,
-                FromStatusId = 3,
-                ToStatusId = 5,
-                PerformedByRoleId = 1,
-                NextStepId = 1015,
-                GenerateEmail = true,
-                GenerateLetter = true,
-                IsDocumentRequired = true,
-                ServiceId = editProjectRenewal.ServiceId,
-                LegalStatusId = 3,
-                CreatedUserId = 1,
-                IsActive = false
-            };
-
-            serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
-            context.ServiceApplication.Add(serviceApplication);
+            
+  
             await context.SaveChangesAsync();
-            editProjectRenewal.ServiceApplicationId = serviceApplication.ServiceApplicationId;
+            
 
             context.ProjectRenewal.Add(editProjectRenewal);
 

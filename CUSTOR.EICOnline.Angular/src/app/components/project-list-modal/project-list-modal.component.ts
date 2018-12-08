@@ -25,7 +25,7 @@ export class ProjectListModalComponent implements OnInit {
   public title: string;
   dataSource2: any;
   public serviceApplication: ServiceApplicationModel;
-  displayedColumnsProject = ['No', 'ProjectName', 'startDate', 'InvestmentActivity', 'status', 'Action'];
+  displayedColumnsProject = ['ProjectName', 'startDate', 'InvestmentActivity', 'status', 'Action'];
   @ViewChild(MatPaginator) paginator2: MatPaginator;
   sourceInvestor: Investor;
   loadingIndicator: boolean;

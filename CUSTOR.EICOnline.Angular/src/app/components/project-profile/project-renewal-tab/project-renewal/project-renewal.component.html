@@ -12,16 +12,16 @@
            fxLayout.lt-sm="column"
            fxLayoutGap="2em">
 
-        <div class="block" fxFlex="" *ngIf="!isInvestor">
-          <mat-form-field class="full-width">
-            <mat-label>Project Name</mat-label>
-            <mat-select formControlName="ProjectId">
-              <mat-option *ngFor="let project of projectList" [value]="project.ProjectId">
-                {{project.ProjectName}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <!--<div class="block" fxFlex="" *ngIf="!isInvestor">-->
+        <!--<mat-form-field class="full-width">-->
+        <!--<mat-label>Project Name</mat-label>-->
+        <!--<mat-select formControlName="ProjectId">-->
+        <!--<mat-option *ngFor="let project of projectList" [value]="project.ProjectId">-->
+        <!--{{project.ProjectName}}-->
+        <!--</mat-option>-->
+        <!--</mat-select>-->
+        <!--</mat-form-field>-->
+        <!--</div>-->
 
         <div class="blocks" fxFlex>
           <mat-form-field>
@@ -118,18 +118,18 @@
             <mat-icon class="mat-18">done</mat-icon>
             <!--<span class="agree">Save</span>-->
 
-            {{editMode ? 'Approve' : 'Save'}}
+            {{editMode ? 'Update' : 'Save'}}
           </button>
           <button *ngIf="isInvestor" mat-raised-button (click)="approve()" color="primary" type="button">
             <mat-icon class="mat-18">done_all</mat-icon>
-            <span>Approve</span>
+            <span>Save</span>
           </button>
         </div>
       </div>
     </mat-card-content>
   </mat-card>
   <!--<pre>-->
-    <!--{{projectRenewalForm.value | json}}-->
+  <!--{{projectRenewalForm.value | json}}-->
   <!--</pre>-->
 </form>
 
