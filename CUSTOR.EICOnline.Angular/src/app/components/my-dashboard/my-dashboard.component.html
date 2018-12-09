@@ -130,7 +130,7 @@
                     <mat-cell *matCellDef="let serviceApplicationList; let i=index">
 
 
-                      <button style="margin: 2px;" mat-raised-button="" class="pointer" color="primary"
+                      <button style="margin: 4px;" mat-raised-button="" class="pointer" color="primary"
                               matTooltip="Click here for detail of the project"
                               (click)="projectDetail(serviceApplicationList)">
                         <mat-icon>visibility</mat-icon>
@@ -194,7 +194,11 @@
                   </ng-container>
                   <ng-container matColumnDef="message">
                     <mat-header-cell fxFlex="60" *matHeaderCellDef>Message</mat-header-cell>
-                    <mat-cell class="mess-body" fxFlex="60" *matCellDef="let notitficationList">
+                    <mat-cell style="font-size: 15px !important;
+  color: black !important;
+  text-align: justify !important;
+  font-weight: bolder !important;
+}" class="mess-body" fxFlex="60" *matCellDef="let notitficationList">
                       {{notitficationList.Message | filterPipe : 70}}
                     </mat-cell>
                   </ng-container>

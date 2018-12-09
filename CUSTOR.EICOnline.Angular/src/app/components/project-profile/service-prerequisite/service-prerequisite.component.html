@@ -25,8 +25,8 @@
         <mat-progress-bar color="accent" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
         <mat-table class="full-width" #table [dataSource]="dataSource">
           <ng-container matColumnDef="No">
-            <mat-header-cell fxFlex="4" *matHeaderCellDef>No</mat-header-cell>
-            <mat-cell fxFlex="4" *matCellDef="let servicePreList; let i=index;">
+            <mat-header-cell fxFlex="6" *matHeaderCellDef>No</mat-header-cell>
+            <mat-cell fxFlex="6" *matCellDef="let servicePreList; let i=index;">
               <div style="color: #0c97a8;font-weight: bolder;font-size: 16px;" *ngIf="servicePreList.IsDocument">
                 {{i+1}}).
               </div>
@@ -34,8 +34,8 @@
           </ng-container>
 
           <ng-container matColumnDef="PreRequisite">
-            <mat-header-cell fxFlex="50" *matHeaderCellDef>PreRequisite</mat-header-cell>
-            <mat-cell fxFlex="50" class="attachDocument" *matCellDef="let servicePreList;">
+            <mat-header-cell fxFlex="40" *matHeaderCellDef>PreRequisite</mat-header-cell>
+            <mat-cell fxFlex="40" class="attachDocument" *matCellDef="let servicePreList;">
               <div *ngIf="servicePreList.IsDocument">{{(servicePreList.DescriptionEnglish==null)?
                 '':(servicePreList.DescriptionEnglish )}}
               </div>

@@ -16,7 +16,6 @@ import {ShareModule} from './project-share/Share.module';
 import {AssociateModule} from '../investor/associate/associate.module';
 import {ProjectAssociateComponent} from './project-associate/project-associate.component';
 import {UtilityModule} from './project-input/utility.module';
-import {ShowErrorsComponent} from '../show-errors/show-errors.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +26,6 @@ import {ShowErrorsComponent} from '../show-errors/show-errors.component';
     ProjectStepperComponent,
     ProjectStepperComponent,
     ProjectAssociateComponent
-
   ],
   imports: [
     CommonModule,

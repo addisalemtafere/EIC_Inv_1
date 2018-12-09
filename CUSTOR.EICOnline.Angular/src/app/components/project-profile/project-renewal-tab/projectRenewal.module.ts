@@ -8,7 +8,7 @@ import {ProjectRenewalTabComponent} from './project-renewal-tab.component';
 import {ServiceConfirmationModule} from '../service-confirmation/ServiceConfirmation.module';
 import {ServiceInfoModule} from '../service-info/serviceInfo.module';
 import {LetterModule} from '../letter/letter.module';
-import {ServicePrerequisiteModule} from '../service-prerequisite/ServicePrerequisiteModule';
+import {AftercareModule} from "../aftercare/aftercare.module";
 
 @NgModule({
   imports: [
@@ -18,7 +18,8 @@ import {ServicePrerequisiteModule} from '../service-prerequisite/ServicePrerequi
     OfficerModule,
     ServiceConfirmationModule,
     ServiceInfoModule,
-    LetterModule
+    LetterModule,
+    AftercareModule
   ],
   declarations: [
     ProjectRenewalComponent,

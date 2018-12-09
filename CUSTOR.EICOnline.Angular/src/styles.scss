@@ -690,8 +690,26 @@ mat-footer-row, mat-row {
   font-size: 13px !important;
   //line-height: 32px !important;
   color: #333 !important;
-  padding: 5px !important;
+  //padding: 5px !important;
   text-align: justify !important;
   font-weight: bold !important;
-  line-height: 30px;
+  line-height: 20px;
+}
+
+.message-body {
+  height: 200px !important;
+  font-size: 15px !important;
+  color: black !important;
+  line-height: 23px !important;
+  text-align: justify !important;
+  font-weight: bolder !important;
+}
+
+.message-subject {
+  font-size: 16px !important;
+  text-decoration: underline;
+  color: black !important;
+  line-height: 23px !important;
+  text-align: justify !important;
+  font-weight: bolder !important;
 }
