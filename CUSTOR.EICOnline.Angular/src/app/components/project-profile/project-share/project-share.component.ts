@@ -66,16 +66,14 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.projectId = this.route.snapshot.params['ProjectId']
 
     this.getAllNation();
     this.getInvestorType();
-    this.route.params
-      .subscribe((params: Params) => {
-        this.projectId = +params['id'];
+
         if (this.projectId > 1) {
           this.getNationalityCompositionsByProject();
         }
-      });
     this.formBuild();
 
   }

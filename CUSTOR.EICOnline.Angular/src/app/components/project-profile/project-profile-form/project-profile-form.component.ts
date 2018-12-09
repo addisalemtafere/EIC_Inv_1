@@ -110,8 +110,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
               public activityService: ActivityService,
               public invactivityService: InvactivityService,
               private dataSharing: DataSharingService) {
-    this.project = <ProjectModel>{};
-    this.address = <AddressModel>{};
+    // this.project = <ProjectModel>{};
+    // this.address = <AddressModel>{};
   }
 
   setMinDate(minD: Date) {
@@ -391,22 +391,22 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   formBuild() {
     console.log(this.ServiceId)
     this.projectForm = this.formBuilder.group({
-      ProjectName: [this.project.ProjectName, [Validators.required,
+      ProjectName: ['', [Validators.required,
         CustomValidators.validateCharacters, Validators.minLength(2)]],
       InvestorId: [this.InvestorId],
-      ServiceId: this.ServiceId,
-      ParentProjectId: '0',
+      ServiceId: [this.ServiceId],
+      ParentProjectId: ['0'],
       CreatedUserName: this.accountServices.currentUser.UserName,
-      ProjectDescription: [this.project.ProjectDescription, [Validators.required, Validators.minLength(2)]],
-      StartDate: [this.project.StartDate, [Validators.required]],
-      OperationDate: [this.project.OperationDate, Validators.required],
-      SectorId: [this.project.SectorId],
-      SubSectorId: [this.project.SubSectorId],
-      ActivityId: [this.project.ActivityId],
-      IsOromiaSpecialZone: [this.project.IsOromiaSpecialZone],
-      InvActivityId: [this.project.InvActivityId],
-      EndingDate: [this.project.EndingDate, Validators.required],
-      EnvironmentalImpact: [this.project.EnvironmentalImpact, [Validators.required, Validators.minLength(2)
+      ProjectDescription: ['', [Validators.required, Validators.minLength(2)]],
+      StartDate: ['', [Validators.required]],
+      OperationDate: ['', Validators.required],
+      SectorId: [''],
+      SubSectorId: [''],
+      ActivityId: [''],
+      IsOromiaSpecialZone: [''],
+      InvActivityId: [''],
+      EndingDate: ['', Validators.required],
+      EnvironmentalImpact: ['', [Validators.required, Validators.minLength(2)
       ]],
 
       'address': new FormGroup({
@@ -445,7 +445,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   ngAfterContentChecked(): void {
-
+    this.projectForm.patchValue({
+      ServiceId: this.ServiceId
+    });
     if (this.ServiceId == 1023 && !this.editMode) {
       this.projectForm.patchValue({
         ParentProjectId: localStorage.getItem('ParentProjectId')
