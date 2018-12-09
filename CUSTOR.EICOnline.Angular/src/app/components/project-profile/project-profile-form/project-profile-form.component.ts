@@ -146,22 +146,15 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    console.log(this.ServiceId);
+    this.projectId = this.route.snapshot.params['ProjectId'];
 
     this.fillAddressLookups();
     this.formBuild();
     this.updateDateRange();
     this.initStaticData('en');
-
-    this.route.params
-      .subscribe((params: Params) => {
-        this.projectId = +params['id'];
-        // this.projectId = this.route.snapshot.params['id'];
-        if (this.projectId > 1) {
-          // console.log(this.projectId);
-          this.getProjectDetail();
-        }
-      });
+    if (this.projectId > 1) {
+      this.getProjectDetail();
+    }
 
 
   }
