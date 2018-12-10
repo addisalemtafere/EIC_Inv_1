@@ -18,7 +18,7 @@ export class ConfigurationService {
     public static readonly appVersion: string = '1.0';
 
     // public baseUrl = environment.baseUrl || Utilities.baseUrl();
-    public baseUrl = 'http://localhost:5050/';
+    public baseUrl = 'http://172.17.33.132/';
     // public tokenUrl = environment.tokenUrl || environment.baseUrl || Utilities.baseUrl();
     public tokenUrl = 'http://localhost:5050';
     public loginUrl = environment.loginUrl;
