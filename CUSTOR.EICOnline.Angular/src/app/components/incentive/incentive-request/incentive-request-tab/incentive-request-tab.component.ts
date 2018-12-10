@@ -3,7 +3,8 @@ import {ToastrService} from 'ngx-toastr';
 import {ServiceapplicationService} from '../../../setting/services-tabs/serviceApplication/serviceapplication.service';
 import {AccountService} from '@custor/services/security/account.service';
 import {NotificationComponent} from '../../../project-profile/notification/notification.component';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-incentive-request-tab',
@@ -12,25 +13,28 @@ import {MatDialog} from '@angular/material';
 })
 export class IncentiveRequestTabComponent implements OnInit {
   public isInvestor: boolean;
+  private title: string;
+  private projectName: string;
+  private investorName: string;
+  private ServiceApplicationId: any;
+  private userName: string;
 
   constructor(private serviceApplicationsServices: ServiceapplicationService,
               public accountService: AccountService,
               private dialog: MatDialog,
+              private route: ActivatedRoute,
               private toastr: ToastrService) {
   }
 
   ngOnInit() {
     this.getUserType();
 
-  }
+    this.title = localStorage.getItem('title');
+    this.projectName = localStorage.getItem('projectName');
+    this.investorName = localStorage.getItem('investorName');
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
-  UpdateServiceApplication() {
-    this.serviceApplicationsServices.finalForApprovalServiceApplications(
-      localStorage.getItem('ServiceApplicationId'))
-      .subscribe(result => {
-        // console.log(result);
-        this.toastr.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
-      });
+    this.userName = this.accountService.currentUser.FullName;
   }
 
   getUserType() {
@@ -38,7 +42,14 @@ export class IncentiveRequestTabComponent implements OnInit {
   }
 
   addMessage() {
-    this.dialog.open(NotificationComponent);
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data = {
+      ServiceApplicationId: this.ServiceApplicationId
+    };
+    // this.dialog.open(NotificationComponent);
+    this.dialog.open(NotificationComponent, dialogConfig);
+
 
   }
 }

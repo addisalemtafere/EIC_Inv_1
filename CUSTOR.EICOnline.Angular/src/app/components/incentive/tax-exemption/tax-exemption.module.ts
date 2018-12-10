@@ -6,13 +6,16 @@ import {SharedModule} from '@custor/modules/shared.module';
 import {TaxExemptionComponent} from './tax-exemption.component';
 import {TaxExemptionTabComponent} from './tax-exemption-tab/tax-exemption-tab.component';
 import {LetterModule} from '../../project-profile/letter/letter.module';
+import {ServiceConfirmationModule} from "../../project-profile/service-confirmation/ServiceConfirmation.module";
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     TaxExemptionRoutingModule,
-    LetterModule
+    LetterModule,
+    ServiceConfirmationModule,
+
   ],
   declarations: [TaxExemptionComponent, TaxExemptionTabComponent],
   exports: [TaxExemptionComponent, TaxExemptionTabComponent]
