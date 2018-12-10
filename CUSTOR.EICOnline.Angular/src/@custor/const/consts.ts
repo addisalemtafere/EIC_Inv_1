@@ -128,7 +128,22 @@ export const ApplicationStatus: any[] =
     {'Id': '44448', 'Description': 'Pending', 'DescriptionEnglish': 'Pending'},
     {'Id': '44449', 'Description': 'Completed', 'DescriptionEnglish': 'Completed'}
   ];
+// by gebre
 export const Decision: any[]=[
-  {'Id':'1','Description': 'Permitted', 'DescriptionEnglish': 'ተፈቅዷል'},
-  {'Id':'2','Description': 'Not Permitted', 'DescriptionEnglish': 'ውድቅ ተደርጓል'}
+  {'Id':'1','Description': 'ተፈቅዷል', 'DescriptionEnglish': 'Permitted'},
+  {'Id':'2','Description': 'ውድቅ ተደርጓል', 'DescriptionEnglish': 'Not Permitted'}
 ];
+export const Service: any[]=[
+  {'Id':'1','Description': 'አዲስ የኢንቨስትመንት ፈቃድ', 'DescriptionEnglish': 'New Investment Permit'},
+  {'Id':'2','Description': 'የኢንቨስትመንት ፈቃድ እድሳት', 'DescriptionEnglish': 'Renewal of IP'},
+  {'Id':'2','Description': 'የኢንቨስትመንት ፈቃድ ስረዛ', 'DescriptionEnglish': 'Cancellation of IP'},
+  {'Id':'2','Description': 'የኢንቨስትመንት ፈቃድ ማስፋፊያ', 'DescriptionEnglish': 'IP Expansion'},
+  {'Id':'2','Description': 'የኢንቨስትመንት ፈቃድ ምትክ', 'DescriptionEnglish': 'Substitute IP'},
+  {'Id':'2','Description': 'የፕሮጀክት ለውጥ', 'DescriptionEnglish': 'Amendment of IP'},
+  {'Id':'2','Description': 'Incentive Tax holiday', 'DescriptionEnglish': 'Tax Holiday '},
+  {'Id':'2','Description': 'Incentive Duty Free', 'DescriptionEnglish': 'Duty Free'},
+  {'Id':'2','Description': 'Incentive Construction Material', 'DescriptionEnglish': 'Construction Material'},
+  {'Id':'2','Description': 'Raw Material', 'DescriptionEnglish': 'Raw Material'},
+  {'Id':'2','Description': 'Business License', 'DescriptionEnglish': 'Business License'}
+
+  ];

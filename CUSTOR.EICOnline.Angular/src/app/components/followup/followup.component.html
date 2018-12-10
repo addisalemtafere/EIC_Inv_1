@@ -1,4 +1,4 @@
-<app-page-header title="Followup" icon="people"></app-page-header>
+<!--<app-page-header title="Followup" icon="people"></app-page-header>-->
 
 <div [@fadeInOut] class="page-content margin-2 mat-elevation-z8">
   <form #form="ngForm" [formGroup] = "followUpForm" novalidate (ngSubmit)="onSubmit()"
@@ -8,7 +8,7 @@
     <div style="margin-top: 10px" fxLayout="row" fxLayoutGap="2em" class="row">
       <mat-label>Follow Up</mat-label>
     </div>
-    <!--<pre>{{followUpForm.value | json }}</pre>-->
+    <pre>{{followUpForm.value | json }}</pre>
     <div style="margin-top: 10px" fxLayout="row" fxLayoutGap="2em" class="row">
       <mat-form-field fxFlex>
         <mat-label name="lblRegDate">Followup Date</mat-label>
@@ -19,24 +19,44 @@
       <mat-form-field fxFlex>
         <mat-label>Investor Name/ Legal Representative</mat-label>
         <input matInput formControlName="investorName"  required/>
+        <mat-error align="start" *ngIf="errorMsg.investorName">{{errorMsg.investorName}}</mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <mat-label>Decision Made</mat-label>
-        <mat-select formControlName="afterCareDecision">
-          <mat-option>Select </mat-option>
-          <mat-option value="1">Permitted</mat-option>
-          <mat-option value="2">Not Permitted</mat-option>
+      <mat-form-field fxFlex>
+        <mat-label>Services</mat-label>
+
+
+        <mat-select formControlName="serviceName" required>
+          <option value="0">--Select--</option>
+          <mat-option *ngFor="let ser of service" [value]="ser.Id">
+            <span>{{ser.DescriptionEnglish}}</span>
+          </mat-option>
         </mat-select>
+        <!--<mat-error align="start" *ngIf="formErrors.ProductUnit">{{ formErrors.ProductUnit }}</mat-error>-->
       </mat-form-field>
+
+
     </div>
     <div style="margin-top: 10px" fxLayout="row" fxLayoutGap="2em" class="row">
+
       <mat-form-field fxFlex>
         <mat-label>Followup Finding</mat-label>
-        <textarea matInput formControlName="findings" required></textarea>
+        <textarea  aria-multiline="true" matInput="multiline" formControlName="findings" required></textarea>
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Officer Remark</mat-label>
-        <textarea matInput formControlName="officerRemark" required></textarea>
+        <textarea matInput formControlName="officerRemark"></textarea>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Decision Made:</mat-label>
+
+
+        <mat-select formControlName="afterCareDecision" required>
+          <option value="0">--Select--</option>
+          <mat-option *ngFor="let dec of decision" [value]="dec.Id">
+            <span>{{dec.DescriptionEnglish}}</span>
+          </mat-option>
+        </mat-select>
+        <!--<mat-error align="start" *ngIf="formErrors.ProductUnit">{{ formErrors.ProductUnit }}</mat-error>-->
       </mat-form-field>
     </div>
 
@@ -46,38 +66,7 @@
         {{'common.commands.Save' | translate}}
       </button>
     </div>
-
   </form>
-  <mat-table #table [dataSource]="dataSource">
-    <ng-container matColumnDef="InvestorName">
-        <mat-header-cell *matHeaderCellDef>Investor Name</mat-header-cell>
-        <mat-cell *matCellDef="let followups">{{followups.InvestorName}}</mat-cell>
-    </ng-container>
-    <!--<ng-container matColumnDef="AfterCarefinding">-->
-      <!--<mat-header-cell *matHeaderCellDef>Findings</mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let followups">{{followups.AfterCarefinding}}</mat-cell>-->
-    <!--</ng-container>-->
-    <ng-container matColumnDef="AfterCareDecision">
-      <mat-header-cell *matHeaderCellDef>Decision Made</mat-header-cell>
-      <mat-cell *matCellDef="let followups">{{followups.AfterCareDecision}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="OfficerRemark">
-      <mat-header-cell *matHeaderCellDef>Officer Remark</mat-header-cell>
-      <mat-cell *matCellDef="let followups">{{followups.OfficerRemark}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef> Action</mat-header-cell>
-      <mat-cell *matCellDef="let followups">
-       <!--<button mat-icon-button matTooltip = "Edit" > <mat-icon color="primary" (click)="editFollowup(followups)">edit</mat-icon></button>-->
-       <button  mat-icon-button  (click)="delete(followups)" matTooltip="Delete"><mat-icon color="warn">delete</mat-icon></button>
-      </mat-cell>
-      <!--(click)="editContact(followups.FollowUpId)"
-      (click)="deleteContact(followups.FollowUpId)"-->
-       </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns">
-    </mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;">
-    </mat-row>
-  </mat-table>
+
 </div>
 

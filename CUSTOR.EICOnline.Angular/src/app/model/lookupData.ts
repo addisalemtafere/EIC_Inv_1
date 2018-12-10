@@ -112,3 +112,15 @@ export class RegistrationStatus {
   public Id: number;
   public Desc: string;
 }
+@Injectable()
+export class Decisions {
+  public Id: number;
+  public Description: string;
+  public DescriptionEnglish: string;
+}
+@Injectable()
+export class Services {
+  public Id: number;
+  public Description: string;
+  public DescriptionEnglish: string;
+}

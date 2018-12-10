@@ -245,13 +245,10 @@ export class AppConfiguration {
     SaveRegistration: 'api/saveregistration',
     UpdateRegistration: 'api/UpdateRegistration',
     SaveRegistrationCatagory: 'api/registrationcatagory',
-<<<<<<< HEAD
     followup: 'api/followup',
     followupedit: 'delete/followup',
-=======
     GetBussinessMajorCatagory: 'api/Business/GetBussinessMajorcata',
     GetBussinessCatagory: 'api/Business/GetBussinessCatagory',
->>>>>>> 9f7e715d33f3f7d2a63a2f9eb3a08a94d5363d62
 
 
     url: (name, parm1?, parm2?, parm3?) => {

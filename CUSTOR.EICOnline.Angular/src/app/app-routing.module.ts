@@ -29,7 +29,10 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
       },
       {
         path: 'followup',
-        component: FollowupComponent
+        // loadChildren: 'app/components/followup/followup.module#FollowupModule',
+        // canActivate: [AuthGuard]
+
+         component: FollowupComponent
       },
       {
         path: 'dashboard',

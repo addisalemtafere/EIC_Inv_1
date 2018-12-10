@@ -15,6 +15,9 @@ import {Investor} from "../../model/investor";
 import {Subscription} from "rxjs";
 import {AngConfirmDialogComponent} from "@custor/components/confirm-dialog/confirm-dialog.component";
 import {Utilities} from "@custor/helpers/utilities";
+import {Decision, Service} from '@custor/const/consts';
+import {Decisions, Services, UnitType} from "../../model/lookupData";
+import {UnitTypes} from "@custor/const/consts";
 
 @Component({
   selector: 'app-followup',
@@ -34,6 +37,8 @@ export class FollowupComponent implements OnInit {
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
 
+  public decision: Decisions[] = [];
+  public service: Services[] = [];
   constructor(
     private fb: FormBuilder,
     private followupService: FollowupService,
@@ -52,6 +57,7 @@ export class FollowupComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadFollowups();
+    this.initStaticData('en');
     // this.dataSource.sort = this.sort;
   }
 
@@ -63,8 +69,15 @@ export class FollowupComponent implements OnInit {
       cAfterCareDate: ['', Validators.required],
       afterCareDecision: ['', Validators.required],
       findings: ['', Validators.required],
-      officerRemark: ['', Validators.required]
+      serviceName: ['', Validators.required]
     });
+  }
+  errorMsg={
+    investorName: 'Investor Name is required!',
+    cAfterCareDate: 'Please select date!',
+    afterCareDecision: 'Please select the decision!',
+    findings: 'Please fill out the findings!',
+    serviceName: 'Please select the service name!'
   }
 
 
@@ -129,5 +142,26 @@ export class FollowupComponent implements OnInit {
     });
 
 }
+
+initStaticData(en) {
+    let desc: Decisions= new Decisions();
+  Decision.forEach(pair => {
+    desc = {
+        'Id': pair.Id.toString(),
+        'DescriptionEnglish': pair.DescriptionEnglish,
+        'Description': pair.Description
+      };
+      this.decision.push(desc);
+    });
+  let ser: Services= new Services();
+  Service.forEach(pair => {
+    ser = {
+      'Id': pair.Id.toString(),
+      'DescriptionEnglish': pair.DescriptionEnglish,
+      'Description': pair.Description
+    };
+    this.service.push(ser);
+  });
+  }
 }
 
