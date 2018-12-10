@@ -20,13 +20,13 @@
       <app-service-info></app-service-info>
     </ng-template>
   </mat-tab>
-  <mat-tab label="After Care Recommendation">
+  <mat-tab *ngIf="!isInvestor" label="After Care Recommendation">
     <ng-template matTabContent>
       <app-aftercare-recommendation></app-aftercare-recommendation>
     </ng-template>
   </mat-tab>
 
-  <mat-tab *ngIf="!isInvestor" label="Project Substitute">
+  <mat-tab label="Project Substitute">
     <ng-template matTabContent>
       <app-project-substitute></app-project-substitute>
     </ng-template>
