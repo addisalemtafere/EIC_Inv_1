@@ -36,11 +36,7 @@ export class SitesService {
   }
 
   saveSite(siteModel: SiteModel): Observable<SiteModel> {
-    console.log(siteModel.SiteId,
-      siteModel.Name,
-      siteModel.NameEnglish,
-      siteModel.IsActive
-    );
+
     return this.httpClient.post<SiteModel>(this.config.urls.url('site'), siteModel).pipe(
       map(SitePrereq => {
         this.siteModel = SitePrereq;

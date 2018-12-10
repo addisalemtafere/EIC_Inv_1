@@ -94,8 +94,7 @@
     "customerRegistration": "Customer Registration",
     "changePassword": "Change Password",
     "lettertemplate": "Letter Tempalte",
-   "commericalRegistration": "Commercial Registration"
-
+    "commericalRegistration": "Commercial Registration"
   },
   "pageHeader": {
     "Dashboard": "Dashboard",
@@ -156,7 +155,8 @@
       "AddressCaption": "አድራሻ",
       "BusinessDataCaption": "የንግድ ምዝገባ መረጃ",
       "PaidCapital": "የተከፈለ ካፒታል",
-      "SighnedCapital": "የተፈረመ ካፒታል"
+      "SighnedCapital": "የተፈረመ ካፒታል",
+      "FormOfOwnership": "Form Of Ownership"
     }
   },
   "form": {
@@ -373,13 +373,11 @@
       "MainOfficeCountryNameRegional": "የተቋቋመበት አገር(በክልል ቋንቋ)"
     }
   },
-
   "registrationAddress": {
     "management": {
       "RegistrationAddressName": "Address"
     },
     "editor": {
-
       "Region": "ክልል",
       "Zone": "ዞን/ከተማ",
       "Town": "ከተማ",
@@ -395,6 +393,5 @@
       "IsMainOffice": "ዋና መስሪያ ቤት"
     }
   }
-
 }
 

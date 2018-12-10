@@ -30,7 +30,7 @@ export class SubstituteTabComponent implements OnInit {
     this.subscription = this.dataSharing.renewalIndex
       .subscribe(index => {
         this.renewalIndex = index;
-        // console.log(index)
+        // // console.log(index)
         // this.move(this.steeperIndex);
       });
     this.title = localStorage.getItem('title');

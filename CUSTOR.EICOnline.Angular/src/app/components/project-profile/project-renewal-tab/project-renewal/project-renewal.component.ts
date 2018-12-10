@@ -49,7 +49,7 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
     this.isInvestor = !this.accountService.getUserType();
     this.route.params
       .subscribe((params: Params) => {
-        console.log(this.ServiceApplicationId);
+        // console.log(this.ServiceApplicationId);
         if (this.ServiceApplicationId > 1) {
           this.getServiceApplicationRenewal();
           this.approval = true;

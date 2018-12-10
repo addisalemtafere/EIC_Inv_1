@@ -60,7 +60,7 @@ export class DraftedApplicationComponent implements OnInit {
     for (let i = 0; i < serviceApplication.length; i++) {
       if (serviceApplication[i].IsActive === false) {
         this.serviceApplicationList.push(serviceApplication[i]);
-        console.log(serviceApplication[i]);
+        // console.log(serviceApplication[i]);
       }
     }
     this.dataSource = new MatTableDataSource<ServiceApplicationModel>(this.serviceApplicationList);
@@ -127,7 +127,7 @@ export class DraftedApplicationComponent implements OnInit {
   }
 
   projectDetail(id: number) {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['/service-detail', id]);
     // this.router.navigate(['../detail'], {relativeTo: this.route});
   }

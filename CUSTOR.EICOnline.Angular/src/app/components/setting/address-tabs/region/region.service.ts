@@ -41,10 +41,7 @@ export class RegionService {
   }
 
   saveRegion(regionModel: Region): Observable<Region> {
-    console.log(regionModel.RegionId,
-      regionModel.Description,
-      regionModel.DescriptionEnglish,
-    );
+
     return this.httpClient.post<Region>(this.config.urls.url('region'), regionModel).pipe(
       map(RegionData => {
         this.regionModel = RegionData;

@@ -27,6 +27,7 @@ export class AftercareComponent extends BaseComponent implements OnInit {
   public title: any;
   public projectName: string | null;
   public investorName: string | null;
+  private ProjectId: any;
 
   constructor(public servicestepperService: ServicestepperService,
               public router: Router,
@@ -39,6 +40,8 @@ export class AftercareComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ProjectId = this.route.snapshot.params['ProjectId'];
+    console.log(this.ProjectId)
     this.getSteps();
     this.getAllProject();
     this.title = localStorage.getItem('title');
@@ -49,7 +52,7 @@ export class AftercareComponent extends BaseComponent implements OnInit {
   getSteps() {
     this.servicestepperService.getServiceSteps()
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.serviceSteps = result;
       });
   }
@@ -68,12 +71,12 @@ export class AftercareComponent extends BaseComponent implements OnInit {
           break;
         case 9:
           stepIndex = 3;
-          this.router.navigate(['/project-cost', 0]);
+          this.router.navigate(['/project-cost/' + this.ProjectId + '/' + 1234 + '/' + 0]);
 
           break;
         case 10:
           stepIndex = 4;
-          this.router.navigate(['/employment', 0]);
+          this.router.navigate(['/employment/' + this.ProjectId + '/' + 1234 + '/' + 0]);
 
           break;
         case 11:
@@ -83,7 +86,7 @@ export class AftercareComponent extends BaseComponent implements OnInit {
           break;
         case 12:
           stepIndex = 6;
-          this.router.navigate(['/product', 0]);
+          this.router.navigate(['/product/' + this.ProjectId + '/' + 1234 + '/' + 0]);
 
           break;
         case 13:
@@ -93,7 +96,7 @@ export class AftercareComponent extends BaseComponent implements OnInit {
           break;
         case 14:
           stepIndex = 5;
-          this.router.navigate(['/share', 0]);
+          this.router.navigate(['/share/' + this.ProjectId + '/' + 1234 + '/' + 0]);
 
           break;
         case 18:
@@ -122,30 +125,30 @@ export class AftercareComponent extends BaseComponent implements OnInit {
     localStorage.setItem('afterCareStep', step);
     switch (name) {
       case 'Project cost':
-        this.router.navigate(['cost-list'], {relativeTo: this.route});
+        this.router.navigate(['cost-list/' + this.ProjectId], {relativeTo: this.route});
         break;
       case 'Project Employment':
-        this.router.navigate(['employment'], {relativeTo: this.route});
+        this.router.navigate(['employment/' + this.ProjectId], {relativeTo: this.route});
         break;
       case 'project Utility':
-        this.router.navigate(['utility'], {relativeTo: this.route});
+        this.router.navigate(['utility/' + this.ProjectId], {relativeTo: this.route});
         break;
       case 'Project OutPut':
-        this.router.navigate(['product'], {relativeTo: this.route});
+        this.router.navigate(['product/' + this.ProjectId], {relativeTo: this.route});
         break;
       case 'Projec Input':
-        this.router.navigate(['raw-material'], {relativeTo: this.route});
+        this.router.navigate(['raw-material/' + this.ProjectId], {relativeTo: this.route});
         break;
 
       case 'Project Share':
-        this.router.navigate(['share'], {relativeTo: this.route});
+        this.router.navigate(['share/' + this.ProjectId], {relativeTo: this.route});
         break;
 
       case 'projectStatus':
-        this.router.navigate(['project-status'], {relativeTo: this.route});
+        this.router.navigate(['project-status/' + this.ProjectId], {relativeTo: this.route});
         break;
       case 'ProjectAddress':
-        this.router.navigate(['address/', localStorage.getItem('ProjectId')]);
+        this.router.navigate(['address/', this.ProjectId]);
 
         break;
       default:
@@ -153,7 +156,6 @@ export class AftercareComponent extends BaseComponent implements OnInit {
         break;
     }
 
-    // this.router.navigate(['employment'], {relativeTo: this.route});
   }
 
   back() {

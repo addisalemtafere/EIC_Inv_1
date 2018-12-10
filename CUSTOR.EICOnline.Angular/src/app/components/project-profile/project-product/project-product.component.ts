@@ -75,23 +75,21 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
   }
 
   ngOnInit() {
+    this.initStaticData('en');
+
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
+    this.projectId = this.route.snapshot.params['ProjectId'];
+    if (this.ServiceId === '1234') {
+      this.getProjectStatus(this.projectId);
+    }
 
-    this.initStaticData('en');
-    this.route.params
-      .subscribe((params: Params) => {
-        this.projectId = +params['id'];
-        if (this.projectId > 1) {
-          if (this.ServiceId === '1234') {
-            this.getProjectStatus(this.projectId);
-          }
-          this.getProjectOutPut();
-        }
-      });
+    if (this.projectId > 1 && this.ServiceId == '13') {
+      this.getProjectOutPut();
+    }
     this.initForm();
 
     this.autoSum();

@@ -99,7 +99,7 @@ export class SparePartComponent implements OnInit, OnDestroy, AfterContentChecke
     this.incentiveRequestDetailService.getIncentiveRequestslistByProjectId(projectId).subscribe(result => {
       if (result.length > 0) {
         this.incentiveRequestDetailModels = result;
-        console.log(this.incentiveRequestDetailModels);
+        // console.log(this.incentiveRequestDetailModels);
         this.sparePartDataSource = new MatTableDataSource<IncentiveRequestDetailModel>(this.incentiveRequestDetailModels);
         this.loading = false;
       }

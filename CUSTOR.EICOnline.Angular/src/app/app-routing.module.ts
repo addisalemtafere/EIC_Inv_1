@@ -59,7 +59,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         loadChildren: 'app/components/auth/register/register.module#RegisterModule'
       },
       {
-        path: 'officer/:ServiceId/:InvestorId/:ServiceApplicationId/:workFlowId/:projectId',
+        path: 'officer/:ServiceId/:InvestorId/:ServiceApplicationId/:workFlowId',
         loadChildren: 'app/components/officer-Task/officer.module#OfficerModule',
         canActivate: [AuthGuard]
       },
@@ -69,19 +69,17 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-tab/:ServiceId/:ServiceApplicationId/:InvestorId',
+        path: 'investor-tab/:ServiceId/:id/:InvestorId',
         loadChildren: 'app/components/investor/investor-tab/investor-tab.module#InvestorTabModule',
         canActivate: [AuthGuard]
       },
       {
-
-        path: 'business-tab/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
-
+        path: 'business-tab/:ServiceId/:InvestorId/:ServiceApplicationId/:BusinessId/:workFlowId',
         loadChildren: 'app/components/business/business-tab/business-tab.module#BusinessTabModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'registration-tab/:ServiceId/:tin/:ServiceApplicationId',
+        path: 'registration-tab/:ServiceId/:tin/:serviceApplicationId',
         loadChildren: 'app/components/registration/Registration-tab/registration-tab.module#RegistrationTabModule',
         canActivate: [AuthGuard]
       },
@@ -142,7 +140,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'project-cost',
+        path: 'project-cost/:ProjectId/:ServiceId',
         loadChildren: './components/project-profile/project-cost/ProjectCost.module#ProjectCostModule',
         canActivate: [AuthGuard]
       },
@@ -152,12 +150,12 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'product',
+        path: 'product/:ProjectId/:ServiceId',
         loadChildren: './components/project-profile/project-product/product.module#ProductModule',
         canActivate: [AuthGuard]
       },
       {
-        path: 'employment',
+        path: 'employment/:ProjectId/:ServiceId',
         loadChildren: './components/project-profile/project-employment/employment.module#EmploymentModule',
         canActivate: [AuthGuard]
       },
@@ -283,7 +281,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
       //   loadChildren: 'app/components/project-profile/project-cost/ProjectCost.module#ProjectCostModule'
       // },
       {
-        path: 'after-care',
+        path: 'after-care/:ProjectId',
         loadChildren: 'app/components/project-profile/aftercare/aftercare.module#AftercareModule',
         canActivate: [AuthGuard]
       },
@@ -309,12 +307,6 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         loadChildren: 'app/components/setting/lookup-tabs/lookuptypes/lookuptypes.module#LookupTypesModule',
         canActivate: [AuthGuard]
       },
-      /* {
-         path: 'bussiness',
-         loadChildren: 'app/components/bussiness/bussiness.module#BussinessModule',
-         canActivate: [AuthGuard]
-       },*/
-
       {
         path: 'lookup-tab',
         loadChildren: 'app/components/setting/lookup-tabs/lookup.module#LookupModule',

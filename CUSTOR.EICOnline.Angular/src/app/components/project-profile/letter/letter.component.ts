@@ -137,7 +137,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
-            console.log(this.letterModelList);
+            // console.log(this.letterModelList);
             this.dataSource = new MatTableDataSource<LetterModel>(this.letterModelList);
           }
         },
@@ -148,7 +148,7 @@ export class LetterComponent implements OnInit {
     this.taxExemptionService.getTaxExemption(localStorage.getItem('IncentiveTaxExemptionRequestID'))
       .subscribe(result => {
           if (result) {
-            console.log(result);
+            // console.log(result);
             this.taxExemptionModel = result;
           }
         },
@@ -190,7 +190,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
-            console.log(this.letterModelList);
+            // console.log(this.letterModelList);
             this.dataSource = new MatTableDataSource<LetterModel>(this.letterModelList);
           }
         },
@@ -201,9 +201,9 @@ export class LetterComponent implements OnInit {
     this.incentiveRequestService.getIncentiveRequestByServiceApplicationId(this.ServiceApplicationId)//34517
       .subscribe(result => {
           if (result) {
-            console.log(this.incentiveRequestModelList);
+            // console.log(this.incentiveRequestModelList);
             this.incentiveRequestModelList = result;
-            console.log(result);
+            // console.log(result);
           }
         },
         error => this.errMsg.getError(error));
@@ -213,7 +213,7 @@ export class LetterComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        console.log(result);
+        // console.log(result);
       }, error => this.errMsg.getError(error));
   }
 
@@ -222,7 +222,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.projectModel = result;
-            console.log(this.projectModel);
+            // console.log(this.projectModel);
           }
         },
         error => this.errMsg.getError(error));
@@ -252,7 +252,7 @@ export class LetterComponent implements OnInit {
       this.categoryCode = false;
       this.chassisNo = false;
     }
-    console.log(this.ServiceId);
+    // console.log(this.ServiceId);
     this.enableButtonGenerate = true;
     this.getLetterTempalte(letterType);
   }
@@ -313,8 +313,8 @@ export class LetterComponent implements OnInit {
 
   generatePDF() {
     this.ShowSave = true;
-    console.log(this.projectModel);
-    console.log(this.letterTempalteModel);
+    // console.log(this.projectModel);
+    // console.log(this.letterTempalteModel);
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g,
       this.projectModel.Investor.FirstNameEng.toUpperCase() +
       ' ' + this.projectModel.Investor.FatherNameEng.toUpperCase() +
@@ -340,7 +340,7 @@ export class LetterComponent implements OnInit {
       (this.projectModel.ProjectCost.OtherCapitalCost + this.projectModel.ProjectCost.EquityFinance + this.projectModel.ProjectCost.LoanFinance).toString());
 
     if (this.ServiceId == '1045') {
-      console.log(this.taxExemptionModel.RevenueBranchDescription);
+      // console.log(this.taxExemptionModel.RevenueBranchDescription);
       if (this.taxExemptionModel.RevenueBranchDescription != undefined) {
         this.LetterContent = this.LetterContent.replace(/{{OrgName}}/g,
           this.taxExemptionModel.RevenueBranchDescription

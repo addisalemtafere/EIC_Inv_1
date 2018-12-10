@@ -114,7 +114,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   deleteProject(id: number) {
-    console.log(id);
+    // console.log(id);
     const response = confirm('Do you want to Delete this Project ?');
     if (response === true) {
       this.projectProfileService.delete(id)
@@ -153,7 +153,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   projectDetail(id: number) {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['/service-detail', id]);
   }
 
@@ -206,23 +206,23 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   onRowClicked(row) {
-    console.log('Row clicked: ', row);
+    // console.log('Row clicked: ', row);
   }
 
   onProjectList() {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['../list'], {relativeTo: this.route});
   }
 
   onNewProject() {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['../new'], {relativeTo: this.route});
   }
 
   nextStep(step: number, projectId: any, serviceApplicationId: any, serviceId: any, title: string, workFlowId: any, InvestorId: any, investorName: string, projectName: string) {
-    console.log(investorName);
+    // console.log(investorName);
     let stepIndex;
-    console.log(workFlowId);
+    // console.log(workFlowId);
     switch (step) {
       case 8:
         stepIndex = 1;
@@ -302,7 +302,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result);
         this.loading = false;
         this.serviceApplicationList = result;
-        console.log(result);
+        // console.log(result);
         this.dataSource.paginator = this.paginator;
 
       }, error => this.errMsg.getError(error));
@@ -313,7 +313,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     this.dataSource = [];
     this.projectProfileService.search(this.searchForm.value)
       .subscribe((result) => {
-        console.log(result);
+        // console.log(result);
         this.filterData(result);
         this.searchForm.reset();
       }, error => this.errMsg.getError(error));
@@ -326,7 +326,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     }
     this.dataSource = new MatTableDataSource<ServiceApplicationModel>(this.serviceApplicationList);
     this.loading = false;
-    console.log(this.serviceApplicationList);
+    // console.log(this.serviceApplicationList);
     // this.dataSource.paginator = this.paginator;
   }
 

@@ -49,21 +49,7 @@ export class CustomerService {
   }
 
   saveCustomer(customer: Customer): Observable<Customer> {
-    console.log(customer.CustomerId,
-      customer.FirstName,
-      customer.FatherName,
-      customer.GrandName,
-      customer.Gender,
-      customer.IsCompany,
-      customer.Region,
-      customer.Zone,
-      customer.Woreda,
-      customer.Kebele,
-      customer.MaritalStatus,
-      customer.Nationality,
-      customer.Title,
-      customer.BirthDate
-    );
+
     return this.httpClient.post<Customer>(this.config.urls.url('customer'), customer).pipe(
       map(cust => {
         this.customer = cust;

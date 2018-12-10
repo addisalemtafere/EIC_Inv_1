@@ -100,7 +100,7 @@ export class EditTariffComponent implements OnInit, OnDestroy {
       cQuantity: this.tariffModel.Quantity == null ? '' : this.tariffModel.Quantity,
       cFee: this.tariffModel.Fee == null ? '' : this.tariffModel.Fee
     });
-    console.log(this.tariffModel);
+    // console.log(this.tariffModel);
     // },4000);
     this.isNewTariff = false;
   }

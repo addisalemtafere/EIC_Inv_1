@@ -15,8 +15,8 @@ export class LetterLookupPipe implements PipeTransform {
   transform(code: any, en: number, args?: any): any {
     for (const lookup of this.allLookup) {
       if (lookup.LookupId === code) {
-        // console.log(code);
-        // console.log(en);
+        // // console.log(code);
+        // // console.log(en);
         if (en === 1) {
           return lookup.English;
         } else {
@@ -30,7 +30,7 @@ export class LetterLookupPipe implements PipeTransform {
   getLookups() {
 
     this.lookUpService.getLookupByParentId(22).subscribe(result => {
-      console.log(result);
+      // console.log(result);
       this.allLookup = result;
     });
   }

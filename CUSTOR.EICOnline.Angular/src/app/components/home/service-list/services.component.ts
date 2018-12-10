@@ -32,9 +32,9 @@ export class ServiceListComponent implements OnInit {
     this.loadingIndicator = true;
     this.custService.getServices2()
       .subscribe(result => {
-          // console.log (result);
+          // // console.log (result);
           this.customerServices = result;
-          console.log(this.customerServices);
+          // console.log(this.customerServices);
         },
         error => {
           this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);

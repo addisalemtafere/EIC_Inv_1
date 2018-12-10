@@ -132,7 +132,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     this.letterTemplateForm.patchValue(
       this.LetterTemplateModel
     );
-    console.log(this.LetterTemplateModel);
+    // console.log(this.LetterTemplateModel);
   }
 
   deleteLetterTemplate(index: number, id: number) {

@@ -55,7 +55,7 @@ export class ListServicetariffComponent implements OnInit, AfterViewInit {
     this.loadingIndicator = true;
     this.servicesService.getService()
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.service = result;
           if (!this.service) {
             this.toastr.error('No records were found to list', 'Error', {
@@ -81,7 +81,7 @@ export class ListServicetariffComponent implements OnInit, AfterViewInit {
   }
 
   editServiceTariff(serviceTariffModel: ServiceTariffModel) {
-    console.log(serviceTariffModel);
+    // console.log(serviceTariffModel);
     if (serviceTariffModel) {
       this.router.navigate(['/servicetariffs/edit', serviceTariffModel.ServiceId], {relativeTo: this.route});
     } else {

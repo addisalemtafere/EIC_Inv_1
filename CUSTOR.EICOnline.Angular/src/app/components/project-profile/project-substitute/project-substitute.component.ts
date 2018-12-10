@@ -79,7 +79,7 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
 
     this.substituteService.create(this.projectsubstituteForm.value)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.dataSharing.renewalIndex.next(2);
         // localStorage.setItem('ServiceApplicationId', result.ServiceApplicationId.toString());
         // localStorage.setItem('workFlowId', result.ServiceApplication.ServiceWorkflow[0].ServiceWorkflowId);

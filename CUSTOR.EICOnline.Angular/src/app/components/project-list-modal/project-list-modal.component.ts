@@ -71,7 +71,7 @@ export class ProjectListModalComponent implements OnInit {
           } else {
             this.loadingIndicator = false;
             this.dataSource2 = new MatTableDataSource<ProjectModel>(result);
-            console.log(result);
+            // console.log(result);
             this.dataSource2.paginator = this.paginator2;
           }
         },

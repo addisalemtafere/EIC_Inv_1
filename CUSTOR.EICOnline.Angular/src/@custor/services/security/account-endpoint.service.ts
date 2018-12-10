@@ -91,23 +91,23 @@ export class AccountEndpoint extends EndpointFactory {
   }
 
   getNewUserEndpoint<T>(userObject: any): Observable<T> {
-    console.log(this.usersAddUrl);
+    // console.log(this.usersAddUrl);
     return this.http.post<T>(this.usersUrl, JSON.stringify(userObject), this.getRequestHeaders()).pipe(
       catchError(err => Observable.throw(err || 'Server error'))
     );
   }
 
   getAddNewUserEndpoint<T>(userObject: any): Observable<T> {
-    console.log(this.usersAddUrl);
-    console.log(JSON.stringify(userObject));
+    // console.log(this.usersAddUrl);
+    // console.log(JSON.stringify(userObject));
     return this.http.post<T>(this.usersAddUrl, JSON.stringify(userObject), this.getRequestHeaders()).pipe(
       catchError(err => Observable.throw(err || 'Server error'))
     );
   }
 
   getSelfRegisterAddNewUserEndpoint<T>(userObject: any): Observable<T> {
-    console.log(this.selfRegisterUsersAddUrl);
-    console.log(JSON.stringify(userObject));
+    // console.log(this.selfRegisterUsersAddUrl);
+    // console.log(JSON.stringify(userObject));
     return this.http.post<T>(this.selfRegisterUsersAddUrl, JSON.stringify(userObject), this.getRequestHeaders()).pipe(
       catchError(err => Observable.throw(err || 'Server error'))
     );

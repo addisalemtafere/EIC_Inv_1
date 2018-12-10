@@ -77,7 +77,7 @@ export class CertificateComponent implements OnInit {
   }
 
   generateCertification() {
-    console.log(this.ServiceApplicationId);
+    // console.log(this.ServiceApplicationId);
     this.getInvestorDetail(this.ServiceApplicationId);
     this.viewCertificate = true;
 
@@ -109,8 +109,8 @@ export class CertificateComponent implements OnInit {
         this.getInvestmentLocation(this.investorDetailList.ProjectId);
         this.getProjectCost(this.investorDetailList.ProjectId);
         this.getExportPercent(this.investorDetailList.ProjectId);
-        console.log(result);
-        // console.log(this.investorDetailList.Investor.RegionId);
+        // console.log(result);
+        // // console.log(this.investorDetailList.Investor.RegionId);
         this.getInvestorAddress(this.investorDetailList.InvestorId);
         this.getManager(this.investorDetailList.ProjectId);
         this.getInvactivity(this.investorDetailList.Project.InvActivityId);
@@ -129,7 +129,7 @@ export class CertificateComponent implements OnInit {
   getProjectCost(projectId: any) {
     this.projectCostService.getCostByProjectId(projectId)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.projectCost = result;
         this.projectCostTotal = result.LandCost + result.BuildingCost + result.MachineryCost + result.TransportCost +
           result.OfficeEquipmentCost + result.OtherCapitalCost + result.InitialWorkingCapitalCost;
@@ -139,7 +139,7 @@ export class CertificateComponent implements OnInit {
   getExportPercent(projectId: any) {
     this.projectOutputService.getPOutPutByProject(projectId)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         if (result == null) {
           this.exportMarketShare = 0.00;
         } else {
@@ -161,7 +161,7 @@ export class CertificateComponent implements OnInit {
     this.addressService.getAddress(InvestorId)
       .subscribe((result: AddressModel) => {
         this.investorAddressList = result;
-        console.log(result);
+        // console.log(result);
       }, error => this.errMsg.getError(error));
 
   }
@@ -170,7 +170,7 @@ export class CertificateComponent implements OnInit {
     this.invactivityService.getInvActivity(id)
       .subscribe(result => {
         this.investmentActivity = result;
-        console.log(result);
+        // console.log(result);
       });
   }
 

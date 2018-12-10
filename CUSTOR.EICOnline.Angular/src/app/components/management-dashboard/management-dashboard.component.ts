@@ -74,14 +74,14 @@ export class ManagementDashboardComponent implements OnInit {
   }
 
   onSelect(event) {
-    console.log(event);
+    // console.log(event);
   }
 
   getAllService() {
     this.serviceApplicationService.getApplicationGroupByServiceId()
       .subscribe(result => {
         this.multi = result;
-        console.log(result);
+        // console.log(result);
       });
     this.serviceApplicationService.getProjectsGroupBySectorId()
       .subscribe(result => {

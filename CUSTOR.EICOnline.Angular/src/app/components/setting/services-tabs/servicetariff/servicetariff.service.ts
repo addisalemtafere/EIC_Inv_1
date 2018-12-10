@@ -69,9 +69,7 @@ export class ServicetariffService {
   }
 
   saveServiceTariff(serviceTariffModel: ServiceTariffModel): Observable<ServiceTariffModel> {
-    console.log(serviceTariffModel.ServiceId,
-      serviceTariffModel.TariffId
-    );
+
     return this.httpClient.post<ServiceTariffModel>(this.config.urls.url('servicetariff'), serviceTariffModel).pipe(
       map(ServicePrereq => {
         this.serviceTariffModel = ServicePrereq;

@@ -129,7 +129,7 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
         //this.getInvestmentLocation(this.investorDetailList.ProjectId);
         //this.getProjectCost(this.investorDetailList.ProjectId);
         //this.getExportPercent(this.investorDetailList.ProjectId);
-        //console.log(result);
+        //// console.log(result);
         //this.getInvestorAddress(this.investorDetailList.InvestorId);
         //this.getManager(this.investorDetailList.ProjectId);
         //this.getInvactivity(this.investorDetailList.Project.InvActivityId);
@@ -147,7 +147,7 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   getProjectCost(projectId: any) {
     this.projectCostService.getCostByProjectId(projectId)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.projectCost = result;
         this.projectCostTotal = result.LandCost + result.BuildingCost + result.MachineryCost + result.TransportCost +
           result.OfficeEquipmentCost + result.OtherCapitalCost + result.InitialWorkingCapitalCost;
@@ -157,7 +157,7 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   getExportPercent(projectId: any) {
     this.projectOutputService.getPOutPutByProject(projectId)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         if (result == null) {
           this.exportMarketShare = 0.00;
         } else {
@@ -180,7 +180,7 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
     this.addressService.getAddress(InvestorId)
       .subscribe((result: AddressModel) => {
         this.investorAddressList = result;
-        console.log(result);
+        // console.log(result);
       }, error => this.errMsg.getError(error));
 
   }

@@ -38,7 +38,7 @@ export abstract class BaseService<T> {
   }
 
   update(resource, id) {
-    console.log(resource);
+    // console.log(resource);
     return this.httpClient.put(this.url + '/' + id, resource).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }

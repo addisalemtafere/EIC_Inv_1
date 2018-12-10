@@ -27,14 +27,14 @@ export class TaxExemptionTabComponent implements OnInit {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
       localStorage.getItem('ServiceApplicationId'))
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.toastr.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
       });
   }
 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
-    console.log(this.isInvestor);
+    // console.log(this.isInvestor);
   }
 
   addMessage() {

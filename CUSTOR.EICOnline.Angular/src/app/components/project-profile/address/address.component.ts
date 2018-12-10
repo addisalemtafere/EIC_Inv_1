@@ -75,7 +75,7 @@ export class AddressComponent implements OnInit, OnDestroy, AfterContentChecked 
         this.projectId = +params['id'];
         // this.projectId = this.route.snapshot.params['id'];
         if (this.projectId > 1) {
-          console.log(this.projectId);
+          // console.log(this.projectId);
           this.getAddressData(this.projectId);
           this.editMode = true;
         }
@@ -87,7 +87,7 @@ export class AddressComponent implements OnInit, OnDestroy, AfterContentChecked 
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        // console.log(result)
+        // // console.log(result)
         this.getKebeleByWoredaId(result.WoredaId);
         this.addressId = result.AddressId;
         this.addressForm.patchValue(result);
@@ -140,14 +140,14 @@ export class AddressComponent implements OnInit, OnDestroy, AfterContentChecked 
     this.addressService.getKebelesByWoreda(wordaId)
       .subscribe(result => {
         this.kebeles = result;
-        // console.log(result);
+        // // console.log(result);
         this.loading = false;
         this.filteredKebeles = result;
       });
   }
 
   filterRegion(regionCode: string) {
-    console.log(regionCode);
+    // console.log(regionCode);
     if (!regionCode) {
       return;
     }
@@ -185,7 +185,7 @@ export class AddressComponent implements OnInit, OnDestroy, AfterContentChecked 
     if (!woredaCode) {
       return;
     }
-    console.log(woredaCode);
+    // console.log(woredaCode);
 
   }
 

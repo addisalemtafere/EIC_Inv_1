@@ -37,7 +37,7 @@ export class LettertepmlateService {
     return this.httpClient.post<LetterTemplateModel>(this.config.urls.url('letterTemplate'), data).pipe(
       map(letterTemplate => {
         this.LetterTemplateModel = letterTemplate;
-        console.log(this.LetterTemplateModel);
+        // console.log(this.LetterTemplateModel);
         return this.LetterTemplateModel;
       }),
       catchError(this.errMsg.parseObservableResponseError));

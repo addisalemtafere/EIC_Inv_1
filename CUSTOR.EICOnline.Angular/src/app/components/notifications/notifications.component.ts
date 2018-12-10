@@ -46,7 +46,7 @@ export class NotificationsComponent implements OnInit {
   }
 
   filterNotification(notification: NotificationModel[]) {
-    console.log(notification);
+    // // console.log(notification);
     this.notitficationList = [];
     for (let i = 0; i < notification.length; i++) {
       if (notification[i].isActive === true) {
@@ -61,7 +61,7 @@ export class NotificationsComponent implements OnInit {
 
     this.notifificationService.ChangeStatus(NotificationId)
       .subscribe(result => {
-        console.log(result);
+        // // console.log(result);
       });
   }
 
