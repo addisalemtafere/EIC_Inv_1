@@ -120,7 +120,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'pro/:ProjectIdofficer/:ServiceApplicationId/:ServiceId/:workFlowId/:InvestorId',
+        path: 'pro/:ProjectId/:ServiceApplicationId/:ServiceId/:workFlowId/:InvestorId',
         loadChildren: './components/project-profile/project.module#ProjectModule',
         canActivate: [AuthGuard]
       },

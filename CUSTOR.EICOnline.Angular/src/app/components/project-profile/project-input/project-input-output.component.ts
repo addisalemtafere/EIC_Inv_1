@@ -29,7 +29,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
   rawInputId: number;
   loading = false;
   subscription: Subscription;
-  projectId: number;
+  projectId: any;
   formErrors = {
     ElectricPower: 'Minimum 0 Maximum 1000 kwh!',
     Water: '',
@@ -121,7 +121,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
 
   initForm() {
     this.pIOform = this.formBuilder.group({
-      ProjectId: [this.projectId],
+      ProjectId: [],
       ElectricPower: [0, [Validators.min(0)]],
       Water: [0, [Validators.min(0)]],
       OtherUtility: [0, [Validators.min(0)]],

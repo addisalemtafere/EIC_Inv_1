@@ -268,6 +268,6 @@ export class AppConfiguration {
   // put config variables here
 
   constructor() {
-    this.urls.baseUrl = 'http://172.17.33.132/';
+    this.urls.baseUrl = 'http://http://localhost:5050/';
   }
 }

@@ -243,7 +243,7 @@ export class Utilities {
   }
 
   public static baseUrl() {
-    const base = 'http://172.17.33.132/';
+    const base = 'http://http://localhost:5050/';
 
     // if (window.location.origin) {
     //     base = window.location.origin;

@@ -8,7 +8,7 @@ import {ProjectRenewalTabComponent} from './project-renewal-tab.component';
 import {ServiceConfirmationModule} from '../service-confirmation/ServiceConfirmation.module';
 import {ServiceInfoModule} from '../service-info/serviceInfo.module';
 import {LetterModule} from '../letter/letter.module';
-import {AftercareModule} from "../aftercare/aftercare.module";
+import {AftercareRecommModule} from "../aftercare-recomendation/AftercareRecommModule";
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import {AftercareModule} from "../aftercare/aftercare.module";
     ServiceConfirmationModule,
     ServiceInfoModule,
     LetterModule,
-    AftercareModule
+    AftercareRecommModule
   ],
   declarations: [
     ProjectRenewalComponent,
