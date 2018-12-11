@@ -85,8 +85,8 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
   ngOnInit(): void {
     this.servicePreList = [];
-    this.ServiceId = this.route.snapshot.params['ServiceId'];
-    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
     const ServiceWorkflowId = this.route.snapshot.params['workFlowId'];
     this.workFlowId = (ServiceWorkflowId == undefined) ? '' : ServiceWorkflowId;
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
