@@ -9,6 +9,7 @@ import {ProjectCancellationTabComponent} from './project-cancellation-tab.compon
 import {ProjectCancellationComponent} from './project-cancellation/project-cancellation.component';
 import {LetterModule} from '../letter/letter.module';
 import {ServicePrerequisiteModule} from '../service-prerequisite/ServicePrerequisiteModule';
+import {AftercareRecommModule} from "../aftercare-recomendation/AftercareRecommModule";
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import {ServicePrerequisiteModule} from '../service-prerequisite/ServicePrerequi
     ServiceConfirmationModule,
     ServiceInfoModule,
     LetterModule,
+    AftercareRecommModule
     // ServicePrerequisiteModule
   ],
   declarations: [

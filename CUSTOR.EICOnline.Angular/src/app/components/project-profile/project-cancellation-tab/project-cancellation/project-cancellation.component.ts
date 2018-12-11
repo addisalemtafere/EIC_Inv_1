@@ -6,7 +6,7 @@ import {ProjectModel} from '../../../../model/project.model';
 import {DataSharingService} from '../../../../Services/data-sharing.service';
 import {MatSnackBar} from '@angular/material';
 import {AccountService} from '@custor/services/security/account.service';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {ToastrService} from 'ngx-toastr';
 import {CancellationReason} from '@custor/const/consts';
@@ -20,7 +20,7 @@ import {ServiceApplicationService} from '../../../../Services/service-applicatio
   templateUrl: './project-cancellation.component.html',
   styleUrls: ['./project-cancellation.component.scss']
 })
-export class ProjectCancellationComponent implements OnInit, AfterContentChecked {
+export class ProjectCancellationComponent implements OnInit {
   projectCancellationForm: FormGroup;
   loading = false;
 
@@ -29,14 +29,13 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
   public isInvestor: boolean;
   private ServiceApplicationId: number;
   public editMode: boolean;
-  private projectId: any;
-  private InvestorId: string;
+  private InvestorId: any;
   private approval = false;
   public projectCancellationReasonList: any[];
   private currentLang: any;
   lookup: Lookup;
-  // private ServiceId: any;
-  private serviceId: any;
+  private ServiceId: any;
+  private ProjectId: any;
 
   constructor(public fb: FormBuilder,
               public projetServices: ProjectProfileService,
@@ -55,25 +54,19 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
   ngOnInit() {
     this.currentLang = this.configService.language;
     this.initStaticDataOwnerShip(this.currentLang);
-    this.serviceId = this.route.snapshot.params['ServiceId'];
-    this.InvestorId = this.route.snapshot.params['InvestorId'];
-    // this.workFlowId = this.route.snapshot.params['workFlowId'];
-    // this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
+    this.ProjectId = this.route.snapshot.params['ProjectId'] || this.route.snapshot.params['projectId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'] || this.route.snapshot.params['serviceApplicationId'];
 
     this.initForm();
     this.editMode = false;
     this.getAllProjects();
     this.isInvestor = !this.accountService.getUserType();
-    this.route.params
-      .subscribe((params: Params) => {
-        this.ServiceApplicationId = +params['id'];
-        // this.projectId = this.route.snapshot.params['id'];
-        if (this.ServiceApplicationId > 1) {
-          // // console.log(this.ServiceApplicationId);
-          this.approval = true;
-          this.getServiceApplicationCancellation();
-        }
-      });
+    if (this.ServiceApplicationId > 1) {
+      this.approval = true;
+      this.getServiceApplicationCancellation();
+    }
   }
 
   initStaticDataOwnerShip(currentLang) {
@@ -94,14 +87,13 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
 
   initForm() {
     this.projectCancellationForm = this.fb.group({
-      ProjectId: new FormControl(),
-      ServiceId: this.serviceId,
-      // CancellationType: new FormControl(),
+      ProjectId: new FormControl(this.ProjectId),
+      ServiceId: this.ServiceId,
       CancellationReason: new FormControl(),
-      // ApprovedBy: new FormControl(),
       CancellationDate: new FormControl(),
       CancellationRemark: new FormControl(),
-      InvestorId: localStorage.getItem('InvestorId'),
+      InvestorId: new FormControl(this.InvestorId),
+      ServiceApplicationId: new FormControl(this.ServiceApplicationId)
 
 
     });
@@ -112,13 +104,12 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
       .subscribe(result => {
         // console.log(result);
         this.dataSharing.renewalIndex.next(2);
-        localStorage.setItem('ServiceApplicationId', result.ServiceApplicationId.toString());
         this.notification('Project cancellation saved');
       });
   }
 
   getAllProjects() {
-    this.projetServices.getProjectOnlyByInvestorId(+localStorage.getItem('InvestorId'))
+    this.projetServices.getProjectOnlyByInvestorId(this.InvestorId)
       .subscribe(result => {
         this.projectList = result;
         // console.log(this.projectList);
@@ -134,43 +125,23 @@ export class ProjectCancellationComponent implements OnInit, AfterContentChecked
     });
   }
 
-  ngAfterContentChecked(): void {
-    // this.projectCancellationForm.patchValue({
-    //   ServiceId: localStorage.getItem('ServiceId'),
-    // });
-    if (this.isInvestor) {
-      this.projectCancellationForm.patchValue({
-        ProjectId: localStorage.getItem('ProjectId'),
-      });
-
-    }
-  }
 
   private getServiceApplicationCancellation() {
     this.projectCancellationServices.getCancellationByServiceApplicationId(this.ServiceApplicationId)
       .subscribe(result => {
-        // console.log(result.ProjectCancellation[0]);
+        // console.log(result.ProjectCancellation);
         this.editMode = true;
 
         this.projectCancellationForm.patchValue(result.ProjectCancellation[0]);
 
-        this.projectId = result.ProjectId;
-        this.InvestorId = result.InvestorId;
-
-        // console.log(this.projectId);
       }, error => this.errMsg.getError(error));
   }
 
   approve() {
     if (this.approval) {
-      this.projectCancellationForm.patchValue({
-        ProjectId: this.projectId
-      });
-      this.projectCancellationForm.patchValue({
-        InvestorId: this.InvestorId
-      });
+
       // this.approveApplication(this.ServiceApplicationId);
-      this.projectCancellationServices.update(this.projectCancellationForm.value, this.projectId)
+      this.projectCancellationServices.update(this.projectCancellationForm.value, this.ProjectId)
         .subscribe(result => {
           this.toastr.success('cancellation successfully approved', 'Success');
           this.approveApplication(this.ServiceApplicationId);

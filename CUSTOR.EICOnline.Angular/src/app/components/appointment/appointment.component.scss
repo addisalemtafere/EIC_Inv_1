@@ -1,9 +1,14 @@
-.mess-body{
-  padding: 20px;    line-height: 1.428571429;
+.mess-body {
+  padding: 20px;
+  line-height: 1.428571429;
   color: #333;
+  font-size: 15px;
   padding: 10px;
+  line-height: 20px !important;
   text-align: justify !important;
+  font-weight: bolder !important;
 }
+
 mat-card {
   transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
   display: block;

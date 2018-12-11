@@ -103,19 +103,19 @@
                         <!--<mat-icon color="primary" class="mat-18">navigate_next</mat-icon>-->
                       </a>
                       <!--<a class="pointer" style="color: #00bcd4;"-->
-                         <!--(click)="nextStep(18,-->
-            <!--serviceApplicationList.ProjectId,-->
-            <!--serviceApplicationList.ServiceApplicationId,-->
-            <!--serviceApplicationList.ServiceId,-->
-            <!--serviceApplicationList?.ServiceNameEnglish,-->
-             <!--serviceApplicationList?.ServiceWorkflow[0]?.ServiceWorkflowId,-->
-             <!--serviceApplicationList.InvestorNameEnglish,-->
-             <!--serviceApplicationList.ProjectNameEnglish)"-->
-                         <!--*ngIf="serviceApplicationList?.CurrentStatusId!==44450 ||-->
-                          <!--serviceApplicationList.ServiceId===1045 ||-->
-                          <!--serviceApplicationList.ServiceId===1046 ||-->
-                          <!--serviceApplicationList.ServiceId===1047">-->
-                        <!--Next-->
+                      <!--(click)="nextStep(18,-->
+                      <!--serviceApplicationList.ProjectId,-->
+                      <!--serviceApplicationList.ServiceApplicationId,-->
+                      <!--serviceApplicationList.ServiceId,-->
+                      <!--serviceApplicationList?.ServiceNameEnglish,-->
+                      <!--serviceApplicationList?.ServiceWorkflow[0]?.ServiceWorkflowId,-->
+                      <!--serviceApplicationList.InvestorNameEnglish,-->
+                      <!--serviceApplicationList.ProjectNameEnglish)"-->
+                      <!--*ngIf="serviceApplicationList?.CurrentStatusId!==44450 ||-->
+                      <!--serviceApplicationList.ServiceId===1045 ||-->
+                      <!--serviceApplicationList.ServiceId===1046 ||-->
+                      <!--serviceApplicationList.ServiceId===1047">-->
+                      <!--Next-->
                       <!--</a>-->
 
 
@@ -128,16 +128,15 @@
                     </mat-header-cell>
                     <!--<mat-header-cell *matHeaderCellDef> </mat-header-cell>-->
                     <mat-cell *matCellDef="let serviceApplicationList; let i=index">
-                      <div>
 
-                        <a class=" a-link margin-10 pointer" mat--mini-fab color="accent"
-                           matTooltip="Click here for detail of the project"
-                           (click)="projectDetail(serviceApplicationList)">
-                          <mat-icon color="primary">visibility</mat-icon>
-                          <span>View</span>
-                        </a>
 
-                      </div>
+                      <button style="margin: 4px;" mat-raised-button="" class="pointer" color="primary"
+                              matTooltip="Click here for detail of the project"
+                              (click)="projectDetail(serviceApplicationList)">
+                        <mat-icon>visibility</mat-icon>
+                        <span>View</span>
+                      </button>
+
                     </mat-cell>
                   </ng-container>
                   <mat-header-row *matHeaderRowDef="displayedColumns">
@@ -195,7 +194,11 @@
                   </ng-container>
                   <ng-container matColumnDef="message">
                     <mat-header-cell fxFlex="60" *matHeaderCellDef>Message</mat-header-cell>
-                    <mat-cell class="mess-body" fxFlex="60" *matCellDef="let notitficationList">
+                    <mat-cell style="font-size: 15px !important;
+  color: black !important;
+  text-align: justify !important;
+  font-weight: bolder !important;
+}" class="mess-body" fxFlex="60" *matCellDef="let notitficationList">
                       {{notitficationList.Message | filterPipe : 70}}
                     </mat-cell>
                   </ng-container>

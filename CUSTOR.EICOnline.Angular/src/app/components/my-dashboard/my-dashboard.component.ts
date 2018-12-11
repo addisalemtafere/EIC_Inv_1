@@ -103,7 +103,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     }
     if (serviceId === 1054) {
       this.router.navigate(['/bill-of-material/2' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
-    } else if (serviceId === 13) {
+    } else if (serviceId === 13 || serviceId==1023) {
       switch (step) {
         case 8:
           stepIndex = 1;
@@ -130,7 +130,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           stepIndex = 8;
           break;
       }
-      this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + 0]);
+      this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + investorId]);
     }
 
     localStorage.setItem('investorName', investorName);
@@ -188,7 +188,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   projectDetail(serviceApplication: ServiceApplicationModel) {
-    // console.log(serviceApplication)
+    console.log(serviceApplication)
 
     const projectId = serviceApplication.ProjectId;
     const ServiceApplicationId = serviceApplication.ServiceApplicationId;
@@ -199,14 +199,15 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     // console.log(workFlowId)
 
     switch (serviceId) {
-      case 13 || 1023:
+      case 13 :
+      case 1023:
         this.router.navigate(['/service-detail', projectId]);
         break;
       case 18:
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 19:
-        this.router.navigate(['/project-cancellation', ServiceApplicationId], {relativeTo: this.route});
+        this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1027:
         this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);

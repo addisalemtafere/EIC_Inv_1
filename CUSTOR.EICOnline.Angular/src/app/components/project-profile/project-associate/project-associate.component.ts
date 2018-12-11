@@ -64,18 +64,15 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.projectId = this.route.snapshot.params['ProjectId'];
 
 
     this.getAllAssociate();
     // this.getAssociateByProject();
+    if (this.projectId > 1) {
+      this.getAssociateByProject();
+    }
 
-    this.route.params
-      .subscribe((params: Params) => {
-        this.projectId = +params['id'];
-        if (this.projectId > 1) {
-          this.getAssociateByProject();
-        }
-      });
     this.formBuild();
   }
 
@@ -219,6 +216,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   newAssociate() {
     this.router.navigate(['associate/form/0/2']);
   }
+
   UpdateServiceApplication() {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
       this.ServiceApplicationId)
@@ -227,6 +225,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
         this.toastr.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
       });
   }
+
   next() {
     this.dataSharing.steeperIndex.next(8);
 

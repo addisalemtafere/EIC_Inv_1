@@ -72,33 +72,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
             postProjectCancellation.CreatedUserId = 1;
             postProjectCancellation.ApprovedBy = 1;
             postProjectCancellation.CancellationType = 12;
-
-            var serviceApplication = new ServiceApplication();
-
-            serviceApplication.InvestorId = postProjectCancellation.InvestorId;
-            serviceApplication.ProjectId = postProjectCancellation.ProjectId;
-            serviceApplication.CaseNumber = "1";
-            serviceApplication.ServiceId = postProjectCancellation.ServiceId;
-            serviceApplication.CurrentStatusId = 44446;
-            serviceApplication.IsSelfService = true;
-            serviceApplication.IsPaid = true;
-            serviceApplication.StartDate = DateTime.Now;
-            serviceApplication.CreatedUserId = 1;
-            serviceApplication.IsActive = false;
-
-            //ServiceApplication.Add(serviceApplication);
-            _context.ServiceApplication.Add(serviceApplication);
-            await _context.SaveChangesAsync();
-            postProjectCancellation.ServiceApplicationId = serviceApplication.ServiceApplicationId;
-
             _context.ProjectCancellation.Add(postProjectCancellation);
-
-            //ServiceApplication.Add(serviceApplication);
-            postProjectCancellation.ServiceApplication = serviceApplication;
-            //_context.Project.Add(editedProject);
-
-            _context.ProjectCancellation.Add(postProjectCancellation);
-            int? ProjectId = projectCancellation.ProjectId;
 
 
             await _context.SaveChangesAsync();

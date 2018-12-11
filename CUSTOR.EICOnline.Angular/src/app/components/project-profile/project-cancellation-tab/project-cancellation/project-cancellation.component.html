@@ -12,16 +12,16 @@
            class="content"
            fxLayout.lt-sm="column"
            fxLayoutGap="2em">
-        <div class="block" fxFlex="" *ngIf="!isInvestor">
-          <mat-form-field class="full-width">
-            <mat-label>Project Name</mat-label>
-            <mat-select formControlName="ProjectId">
-              <mat-option *ngFor="let project of projectList" [value]="project.ProjectId">
-                {{project.ProjectName}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <!--<div class="block" fxFlex="" *ngIf="!isInvestor">-->
+          <!--<mat-form-field class="full-width">-->
+            <!--<mat-label>Project Name</mat-label>-->
+            <!--<mat-select formControlName="ProjectId">-->
+              <!--<mat-option *ngFor="let project of projectList" [value]="project.ProjectId">-->
+                <!--{{project.ProjectName}}-->
+              <!--</mat-option>-->
+            <!--</mat-select>-->
+          <!--</mat-form-field>-->
+        <!--</div>-->
 
         <div class="block" fxFlex="">
           <mat-form-field>
@@ -58,7 +58,7 @@
 
       <div fxLayout="row" fxLayoutAlign="center">
         <div mat-dialog-actions fxLayoutGap="3em">
-          <button *ngIf="!editMode"
+          <button
                   [disabled]="!projectCancellationForm.valid"
                   mat-raised-button=""
                   type="submit"
@@ -67,10 +67,10 @@
             <span class="agree">Save</span>
             <!--{{editMode ? 'Update' : 'Save'}}-->
           </button>
-          <button *ngIf="editMode" mat-raised-button (click)="approve()" color="primary" type="button">
-            <mat-icon class="mat-18">done</mat-icon>
-            <span>Approve</span>
-          </button>
+          <!--<button *ngIf="editMode" mat-raised-button (click)="approve()" color="primary" type="button">-->
+          <!--<mat-icon class="mat-18">done</mat-icon>-->
+          <!--<span>Approve</span>-->
+          <!--</button>-->
         </div>
       </div>
     </mat-card-content>

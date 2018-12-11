@@ -21,11 +21,18 @@
     </ng-template>
   </mat-tab>
 
+  <mat-tab *ngIf="!isInvestor" label="After Care Recommendation">
+    <ng-template matTabContent>
+      <app-aftercare-recommendation></app-aftercare-recommendation>
+    </ng-template>
+  </mat-tab>
+
   <mat-tab label="Project Cancellation">
     <ng-template matTabContent>
       <app-project-cancellation></app-project-cancellation>
     </ng-template>
   </mat-tab>
+
   <mat-tab *ngIf="!isInvestor" label="Message">
     <ng-template matTabContent>
       <mat-card class="margin-2 simple-card">
@@ -40,16 +47,18 @@
       <!--<app-service-prerequisite></app-service-prerequisite>-->
     </ng-template>
   </mat-tab>
+
   <!--<mat-tab *ngIf="!isInvestor" label="Payment">-->
-    <!--<ng-template matTabContent>-->
-      <!--<app-payment></app-payment>-->
-    <!--</ng-template>-->
+  <!--<ng-template matTabContent>-->
+  <!--<app-payment></app-payment>-->
+  <!--</ng-template>-->
   <!--</mat-tab>-->
   <!--<mat-tab *ngIf="!isInvestor" label="Certificate">-->
-    <!--<ng-template matTabContent>-->
-      <!--<app-certificate></app-certificate>-->
-    <!--</ng-template>-->
+  <!--<ng-template matTabContent>-->
+  <!--<app-certificate></app-certificate>-->
+  <!--</ng-template>-->
   <!--</mat-tab>-->
+
   <mat-tab *ngIf="isInvestor" label="Confirmation">
     <ng-template matTabContent>
       <app-service-confirmation></app-service-confirmation>

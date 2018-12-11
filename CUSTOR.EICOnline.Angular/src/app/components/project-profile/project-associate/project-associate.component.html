@@ -117,7 +117,7 @@
         <ng-container matColumnDef="Action">
           <mat-header-cell *matHeaderCellDef>
             Action
-            <button mat-raised-button="" color="primary"
+            <button style="margin-left: 20px;" mat-raised-button="" color="primary"
                     (click)="newAssociate()"
                     matTooltip="Add Manger">
               <mat-icon class="mat-18">add</mat-icon>
@@ -142,59 +142,5 @@
       </mat-table>
     </div>
   </mat-card-content>
-  <mat-card-actions align="center">
-    <!--<button mat-raised-button="" color="primary" (click)="onSubmit()">Save</button>-->
-    <div fxLayoutGap="3em" align="center">
-      <div style="padding: 20px" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">
 
-        <div fxFlex="15">
-
-          <!--<button class="custom-button" (click)="next()" color="warn" type="button">-->
-          <!--Back-->
-          <!--</button>-->
-        </div>
-        <div style="text-align: center" fxFlex="67" fxFlexAlign="center">
-          <!--<button mat-raised-button="" color="primary">-->
-          <!--<mat-icon class="mat-18">done</mat-icon>-->
-          <!--<span>Save as Draft</span>-->
-          <!--</button>-->
-
-          <button style="margin-left: 10px" (click)="UpdateServiceApplication()" mat-raised-button="" class="mr-16"
-                  color="primary">
-            <mat-icon color="primary">done</mat-icon>
-            <span>Submit </span>
-          </button>
-        </div>
-        <div fxFlex="15">
-
-          <!--<button class="custom-button" (click)="next()" color="warn" type="button">-->
-          <!--Next-->
-          <!--</button>-->
-        </div>
-
-      </div>
-
-    </div>
-  </mat-card-actions>
-  <div align="center">
-    <div style="padding: 20px" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">
-
-      <div fxFlex="15">
-
-        <!--<button class="custom-button" (click)="next()" color="warn" type="button">-->
-        <!--Back-->
-        <!--</button>-->
-      </div>
-      <div style="text-align: center" fxFlex="67" fxFlexAlign="center">
-
-      </div>
-      <div fxFlex="15">
-
-        <!--<button class="custom-button" (click)="next()" color="warn" type="button">-->
-        <!--Next-->
-        <!--</button>-->
-      </div>
-
-    </div>
-  </div>
 </mat-card>

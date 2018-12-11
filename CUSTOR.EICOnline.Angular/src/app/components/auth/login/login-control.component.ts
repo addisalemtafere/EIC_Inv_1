@@ -102,40 +102,39 @@ export class LoginControlComponent implements OnInit, OnDestroy {
 
   login() {
     this.isLoading = true;
-
     this.authService.login(this.getUserLogin())
       .subscribe(
         user => {
-          setTimeout(() => {
-            this.isLoading = false;
 
-            this.reset();
-            if (!this.isModal) {
-              localStorage.setItem('loggIn', 'true');
-              // this.toastr.info( `Welcome ${user.userName}!`, 'Login');
-              if (this.accountService.getUserType()) {
-                this.router.navigate(['/dashboard']);
+
+          this.isLoading = false;
+
+          this.reset();
+          if (!this.isModal) {
+            localStorage.setItem('loggIn', 'true');
+            if (this.accountService.getUserType()) {
+              this.router.navigate(['/dashboard']);
+
+            } else {
+              if (this.canViewReadOnlyData) {
+                this.router.navigate(['/management-dashboard']);
 
               } else {
-                if (this.canViewReadOnlyData) {
-                  this.router.navigate(['/management-dashboard']);
-
-                } else {
-                  this.router.navigate(['/officer-dashboard']);
-
-                }
-
+                this.router.navigate(['/officer-dashboard']);
 
               }
-            } else {
-              this.toastr.info(`Session for ${user.UserName} restored!`, 'Login');
-              setTimeout(() => {
-                this.toastr.info('Please try your last operation again', 'Session Restored');
-              }, 500);
 
-              this.closeModal();
+
             }
-          }, 500);
+          } else {
+            this.toastr.info(`Session for ${user.UserName} restored!`, 'Login');
+            setTimeout(() => {
+              this.toastr.info('Please try your last operation again', 'Session Restored');
+            }, 500);
+
+            this.closeModal();
+          }
+
 
         },
         error => {
