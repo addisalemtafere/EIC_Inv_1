@@ -6,6 +6,7 @@ import {AppConfiguration} from '../config/appconfig';
 import {ErrorMessage} from '../../@custor/services/errMessageService';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError} from 'rxjs/operators';
+import {ProjectCostModel} from "../model/ProjectCost.model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,15 @@ export class ProjectRequirementService extends BaseService<ProjectRequirementMod
   RequirementByProject(projectId: any): Observable<ProjectRequirementModel> {
     return this.httpClient.get(this.appConfig.urls.url('requirementByProject') + '/' + projectId).pipe(
       catchError(this.errMsg.parseObservableResponseError));
+  }
+  getRequirementByProject(projectId: any): Observable<ProjectRequirementModel[]> {
+    return this.httpClient.get<ProjectRequirementModel[]>(this.appConfig.urls.url('requirementByProject') + '/' + projectId).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getAllRequirementByProject(id: any): Observable<ProjectRequirementModel> {
+    return this.httpClient.get<ProjectRequirementModel>(this.appConfig.urls.url('ActualCost') + '/' + id).pipe(
+      catchError(this.errMsg.parseObservableResponseError)
+    );
   }
 }

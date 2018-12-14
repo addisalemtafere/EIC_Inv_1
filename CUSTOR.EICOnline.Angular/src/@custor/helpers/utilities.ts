@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpResponseBase, HttpResponse, HttpErrorResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpResponse, HttpResponseBase} from '@angular/common/http';
 
 @Injectable()
 export class Utilities {

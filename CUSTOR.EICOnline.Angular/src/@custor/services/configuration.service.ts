@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { AppTranslationService } from './translation.service';
-import { LocalStoreManager } from './storeManager.service';
-import { settingKeys } from '../helpers/settingKeys';
-import { Utilities } from '../helpers/utilities';
-import { environment } from '../../environments/environment';
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
+import {AppTranslationService} from './translation.service';
+import {LocalStoreManager} from './storeManager.service';
+import {settingKeys} from '../helpers/settingKeys';
+import {Utilities} from '../helpers/utilities';
+import {environment} from '../../environments/environment';
 
 // tslint:disable-next-line:interface-over-type-literal
 type UserConfiguration = {
@@ -18,11 +18,11 @@ export class ConfigurationService {
     public static readonly appVersion: string = '1.0';
 
     // public baseUrl = environment.baseUrl || Utilities.baseUrl();
-    public baseUrl = 'http://localhost:5050/';
+  public baseUrl = 'http://localhost:5050/';
     // public tokenUrl = environment.tokenUrl || environment.baseUrl || Utilities.baseUrl();
-    public tokenUrl = 'http://localhost:5050';
+  public tokenUrl = 'http://localhost:5050';
     public loginUrl = environment.loginUrl;
-    public fallbackBaseUrl = 'http://localhost:5050';
+  public fallbackBaseUrl = 'http://localhost:5050';
 
     public static readonly defaultLanguage: string = 'et';
     public static readonly defaultHomeUrl: string = '/';

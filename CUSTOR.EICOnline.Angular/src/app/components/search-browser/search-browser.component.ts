@@ -153,7 +153,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   select(InvestorId: any, investorName: any) {
-
+    this.projectList = [];
     if (this.ServiceId == 13) {
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
     }
@@ -166,17 +166,18 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.projectService.getProjectByInvestorId(InvestorId)
         .subscribe(result => {
 
-            this.investorShow = false;
             this.projectList = result;
             this.title = 'ProjectDetail';
             if (this.projectList.length == 0) {
               this.loadingIndicator = false;
 
-              this.toastr.error('No records were found to list', 'Error', {
+              this.toastr.error('No project records were found to list', 'Error', {
                 closeButton: true,
               });
             } else {
               this.loadingIndicator = false;
+              this.investorShow = false;
+
               this.dataSource = new MatTableDataSource<ProjectModel>(result);
               // console.log(result);
               this.dataSource.paginator = this.paginator;
@@ -306,7 +307,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
         break;
       case 1234:
-        this.router.navigate(['/after-care/'+projectId]);
+        this.router.navigate(['/after-care/' + projectId]);
         break;
       case 1028:
         this.editProject(projectId, ServiceApplicationId, 13);

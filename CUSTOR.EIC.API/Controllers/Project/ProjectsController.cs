@@ -52,7 +52,9 @@ namespace EIC.Investment.API.Controllers
         [HttpGet("GetProjectStatus/{id}")]
         public int GetProjectStatus([FromRoute] int id)
         {
-            var projectStatus = _context.Project.Where(p => p.ProjectId == id).Select(p => p.ProjectStatus)
+            var projectStatus = _context.
+                Project.Where(p => p.ProjectId == id)
+                .Select(p => p.ProjectStatus)
                 .FirstOrDefault();
             return projectStatus;
         }

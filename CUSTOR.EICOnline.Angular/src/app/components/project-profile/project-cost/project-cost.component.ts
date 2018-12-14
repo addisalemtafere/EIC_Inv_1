@@ -90,7 +90,7 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
 
     if (this.ServiceId == '1234') {
       // this.projectId = this.route.snapshot.params['ProjectId']
-      this.getProjectStatus(this.route.snapshot.params['ProjectId']);
+      this.getProjectStatus(this.projectId);
     }
     if (this.projectId > 1 && this.ServiceId == '13') {
       this.getProjectCost();

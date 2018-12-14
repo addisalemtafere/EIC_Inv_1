@@ -67,7 +67,9 @@ export class AftercareComponent extends BaseComponent implements OnInit {
         case 8:
           stepIndex = 1;
           setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
-          this.router.navigate(['/pro', 0]);
+          // this.router.navigate(['/pro', 0]);
+          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + 1234 + '/' + 0 + '/' + 0]);
+
           break;
         case 9:
           stepIndex = 3;
@@ -82,7 +84,9 @@ export class AftercareComponent extends BaseComponent implements OnInit {
         case 11:
           stepIndex = 2;
           setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
-          this.router.navigate(['/pro', 0]);
+          // this.router.navigate(['/pro', 0]);
+          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + 1234 + '/' + 0 + '/' + 0]);
+
           break;
         case 12:
           stepIndex = 6;
@@ -92,7 +96,9 @@ export class AftercareComponent extends BaseComponent implements OnInit {
         case 13:
           stepIndex = 3;
           setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
-          this.router.navigate(['/pro', 0]);
+          // this.router.navigate(['/pro', 0]);
+          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + 1234 + '/' + 0 + '/' + 0]);
+
           break;
         case 14:
           stepIndex = 5;
@@ -102,7 +108,9 @@ export class AftercareComponent extends BaseComponent implements OnInit {
         case 18:
           stepIndex = 7;
           setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
-          this.router.navigate(['/pro', 0]);
+          // this.router.navigate(['/pro', 0]);
+          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + 1234 + '/' + 0 + '/' + 0]);
+
           break;
       }
 
