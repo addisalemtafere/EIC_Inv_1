@@ -71,9 +71,9 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
     this.getAllNation();
     this.getInvestorType();
 
-        if (this.projectId > 1) {
-          this.getNationalityCompositionsByProject();
-        }
+    if (this.projectId > 1) {
+      this.getNationalityCompositionsByProject();
+    }
     this.formBuild();
 
   }
@@ -154,6 +154,12 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   onClear() {
     this.editMode = false;
     this.projectShareForm.reset();
+    this.projectShareForm.patchValue({
+      ProjectId: this.projectId
+    });
+    this.projectShareForm.patchValue({
+      workFlowId: this.workFlowId
+    });
   }
 
   ngOnDestroy(): void {

@@ -43,7 +43,7 @@ export class AftercareComponent extends BaseComponent implements OnInit {
     this.ProjectId = this.route.snapshot.params['ProjectId'];
     console.log(this.ProjectId)
     this.getSteps();
-    this.getAllProject();
+    // this.getAllProject();
     this.title = localStorage.getItem('title');
     this.projectName = localStorage.getItem('projectName');
     this.investorName = localStorage.getItem('investorName');
@@ -117,15 +117,7 @@ export class AftercareComponent extends BaseComponent implements OnInit {
     }
   }
 
-  getAllProject() {
-    this.projectProfileService.getAll()
-      .subscribe((result: ProjectModel[]) => {
-        this.dataSource = new MatTableDataSource<ProjectModel>(result);
-        this.loading = false;
-        this.projectList = result;
-        this.dataSource.paginator = this.paginator;
-      }, error => this.errMsg.getError(error));
-  }
+
 
   view(name: any, step: any) {
     this.title = name;
