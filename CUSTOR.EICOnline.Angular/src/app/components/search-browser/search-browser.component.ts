@@ -19,6 +19,7 @@ import {ServiceapplicationService} from '../setting/services-tabs/serviceApplica
 import {TodoTaskModel} from '../../model/TodoTask.model';
 import {ServiceModel} from '../../model/Service.model';
 import {Permission} from '../../model/security/permission.model';
+import {ErrorMessage} from '@custor/services/errMessageService';
 
 @Component({
   selector: 'app-search-browser',
@@ -52,10 +53,13 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   public serviceApplication: ServiceApplicationModel;
   public projectName: string | null;
   public investorName: string | null;
+  projectModel: ProjectModel;
   private investors: Investor[];
   private projectList: ProjectModel[];
   private ServiceId: any;
   private isForDetail: any;
+  private ServiceApplicationId: any;
+  private InvestorId: any;
 
   constructor(public fb: FormBuilder,
               private http: HttpClient,
@@ -64,6 +68,8 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
               private dataSharing: DataSharingService,
               private accountService: AccountService,
               private authService: AuthService,
+              private errMsg: ErrorMessage,
+              private projectProfileService: ProjectProfileService,
               private serviceApplicationService: ServiceapplicationService,
               private incentiveLogService: IncentiveLogService,
               private toastr: ToastrService, public dialog: MatDialog,
@@ -154,7 +160,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   select(InvestorId: any, investorName: any) {
     if (this.ServiceId == 13) {
-      console.log(this.ServiceId);
+      this.InvestorId = InvestorId;
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
     }
     else {
@@ -264,17 +270,13 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     } else {
       this.select(InvestorId, investorName);
       this.router.navigate(['/search-browser/' + serviceId + '/' + InvestorId + '/' + 0]);
-
-
     }
 
   }
 
-  nextService(projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
-
+  nextService(InvestorId: any, projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
     const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
-    const investorId = this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
-    console.log(serviceId);
+    const investorId = InvestorId; //this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
     switch (serviceId) {
       case 13:
         this.router.navigate(['/pro/0/0/0/0/0']);//Fire
@@ -301,7 +303,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
         } else {
           this.toastr.error('you can not Expand  this project it already cancelled', 'Not Allowed');
         }
-
         break;
       case 1234:
         this.router.navigate(['/after-care']);
@@ -310,33 +311,65 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
         this.editProject(projectId, ServiceApplicationId, 13);
         break;
       case 1027:
-        this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
-
+        if (projectStatus !== 4) {
+          this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+          localStorage.setItem('ProjectId', projectId);
+        } else {
+          this.toastr.error('you can not Cancelled  this project it already cancelled', 'Not Allowed');
+        }
         break;
       case 1045:
-        this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+        if (projectStatus !== 4) {
+          this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+          localStorage.setItem('ParentProjectId', projectId);
+        } else {
+          this.toastr.error('Project it already cancelled', 'Not Allowed');
+        }
         break;
       case 1046:
-        this.router.navigate(['/incentive-request-item/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+        if (projectStatus !== 4) {
+          this.router.navigate(['/incentive-request-item/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+          localStorage.setItem('ParentProjectId', projectId);
+        } else {
+          this.toastr.error('Project it already cancelled', 'Not Allowed');
+        }
         break;
-
       case 1047:
-        this.router.navigate(['bill-of-material/1/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+        if (projectStatus !== 4) {
+          this.router.navigate(['bill-of-material/1/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+          localStorage.setItem('ParentProjectId', projectId);
+        } else {
+          this.toastr.error('Project it already cancelled', 'Not Allowed');
+        }
         break;
       case 1054:
-        this.router.navigate(['bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+        if (projectStatus !== 4) {
+          this.router.navigate(['bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+          localStorage.setItem('ParentProjectId', projectId);
+        } else {
+          this.toastr.error('Project it already cancelled', 'Not Allowed');
+        }
         break;
       case 1001:
-        this.router.navigate(['capital-registration/', projectId]);
+        if (projectStatus !== 4) {
+          this.router.navigate(['capital-registration/', projectId]);
+          localStorage.setItem('ParentProjectId', projectId);
+        } else {
+          this.toastr.error('Project it already cancelled', 'Not Allowed');
+        }
         break;
       case 1236:
-        this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+        if (projectStatus !== 4) {
+          this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+          localStorage.setItem('ParentProjectId', projectId);
+        } else {
+          this.toastr.error('Project it already cancelled', 'Not Allowed');
+        }
         break;
       default:
         this.router.navigate(['/notfound'], {relativeTo: this.route});
         break;
     }
-
   }
 
   startApplication(projectList: ProjectModel) {
@@ -345,7 +378,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     const projectId = projectList.ProjectId;
     const projectStatus = projectList.ProjectStatus;
     const ServiceId = this.ServiceId;
-    const InvestorId = this.route.snapshot.params['InvestorId'];
+    this.InvestorId = projectList.InvestorId;
 
     if (projectStatus !== 9) {
       this.toastr.warning('Project Is Not Active');
@@ -358,7 +391,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
       this.serviceApplication.ProjectId = projectId;
       this.serviceApplication.ServiceId = this.ServiceId;
-      this.serviceApplication.InvestorId = InvestorId;
+      this.serviceApplication.InvestorId = this.InvestorId;
       this.serviceApplication.CaseNumber = '1';
       this.serviceApplication.CurrentStatusId = 44450;
       this.serviceApplication.IsSelfService = true;
@@ -366,13 +399,16 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.serviceApplication.CreatedUserId = 1;
       this.serviceApplication.IsActive = false;
       this.serviceApplication.todoTask = this.todoTask;
-
-      this.serviceApplicationService
-        .applicationStart(this.serviceApplication)
-        .subscribe(result => {
-          this.nextService(projectId, result.ServiceApplicationId, ServiceId, projectStatus, result.ServiceWorkflow[0].ServiceWorkflowId);
-        });
-
+      console.log(this.ServiceId);
+      if (this.ServiceId != 1237) {
+        this.serviceApplicationService
+          .applicationStart(this.serviceApplication)
+          .subscribe(result => {
+            this.nextService(this.InvestorId, projectId, result.ServiceApplicationId, ServiceId, projectStatus, result.ServiceWorkflow[0].ServiceWorkflowId);
+          });
+      } else {
+        this.router.navigate(['incentive-detail/' + projectId + '/' + 0 + '/' + 0 + '/' + 1]);
+      }
       localStorage.setItem('projectName', projectName);
 
     }
@@ -382,11 +418,8 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     if (projectStatus !== 9) {
       this.toastr.warning('Project Is Not Active');
     } else {
-      console.log(projectId);
       localStorage.setItem('projectName', projectName);
-      localStorage.setItem('ServiceApplicationId', ServiceApplicationId);
-      this.isForDetail = 0;
-      this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + ServiceId + '/' + this.isForDetail]);
+      this.router.navigate(['incentive-detail/' + projectId + '/' + 0 + '/' + 0 + '/' + 1]);
     }
   }
 

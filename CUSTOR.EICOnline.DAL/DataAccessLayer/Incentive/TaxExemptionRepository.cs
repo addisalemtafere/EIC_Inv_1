@@ -35,7 +35,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             {
                 int id = (int)IncentiveRequestIteId;
                 taxExemptions = Context.IncentiveTaxExemptionRequest
-                                       .Where(subss => subss.IncentiveTaxExemptionRequestID == id).FirstOrDefault();
+                                       .Where(subss => subss.ProjectId == id).FirstOrDefault();
             }
             catch (InvalidOperationException)
             {

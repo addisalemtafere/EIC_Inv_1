@@ -17,6 +17,7 @@ import {InvActivityModel} from '../../../model/invactivity';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
 import {LookupsService} from '../../setting/lookup-tabs/lookups/lookups.service';
+import {ProjectModel} from '../../../model/project.model';
 
 @Component({
   selector: 'app-tax-exemption',
@@ -38,6 +39,8 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   dataSource: any;
   TaxexemptiontEditIndex: number;
   ExemptionYear: number;
+  projectModel: ProjectModel;
+
   displayedColumns = [
     'RevenueBranch', 'RequestDate', 'ExemptionYearRequested', 'Action'
   ];
@@ -100,7 +103,8 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
     this.ProjectId = this.route.snapshot.params['projectId'];
 
     this.getTaxExemptionList(this.ProjectId);
-    this.getTaxExemptionYear(this.ProjectId);
+    //this.getTaxExemptionYear(this.ProjectId);
+    this.getProjectDetails(this.ProjectId);
     this.initForm();
     this.getItemLookup();
     this.isNewTaxExemption = true;
@@ -133,6 +137,19 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
     this.editMode = false;
     this.taxexemptionForm.reset();
     this.isNewTaxExemption = true;
+  }
+
+  getProjectDetails(ProjectId: any) {
+    this.projectProfileService.projectsDetailForLetter(ProjectId)
+      .subscribe(result => {
+          if (result) {
+            this.projectModel = result;
+            this.taxexemptionForm.patchValue({
+              ExemptionYearRequested: this.projectModel.IsOromiaSpecialZone ? this.projectModel.InvestmentActivity.InAddisOromiaAreas.toString() : this.projectModel.InvestmentActivity.InOtherAreas.toString()
+            });
+          }
+        },
+        error => this.errMsg.getError(error));
   }
 
   getTaxExemptionYear(ProjectId) {

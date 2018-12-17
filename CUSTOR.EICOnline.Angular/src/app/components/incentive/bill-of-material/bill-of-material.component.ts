@@ -237,7 +237,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   upload(i: number, files: FileList) {
     console.log(this.phaseId);
     if (this.phaseId == 0 || this.phaseId == null || this.phaseId == undefined) {
-      this.toastr.error('Please Select Construction Materials Incentive Batch');
+      this.toastr.error('Please Select Batch of Construction Materials Incentive');
       return true;
     }
     else if (this.CheckExistance()) {
@@ -325,7 +325,6 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
       this.ServiceApplicationId)
       .subscribe(result => {
-        console.log(result);
         this.toast.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
       });
   }

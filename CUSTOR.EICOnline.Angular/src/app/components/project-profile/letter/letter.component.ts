@@ -99,14 +99,14 @@ export class LetterComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
     this.ProjectId = this.route.snapshot.params['projectId'] || this.route.snapshot.params['ProjectId'];
-    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'] || this.route.snapshot.params['serviceApplicationId'];
     if (this.route.snapshot.params['isForDetail'] == 1) {
       this.getLetter();
       this.getLookups();
       this.isForDetails = false;
     } else {
+      this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
+      this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'] || this.route.snapshot.params['serviceApplicationId'];
       this.getProjectDetails();
       this.getIncentiveDetails();
       //this.getLetterTempalte();
@@ -145,7 +145,7 @@ export class LetterComponent implements OnInit {
   }
 
   getTaxExemptionDetails() {
-    this.taxExemptionService.getTaxExemption(localStorage.getItem('IncentiveTaxExemptionRequestID'))
+    this.taxExemptionService.getTaxExemption(this.ProjectId)
       .subscribe(result => {
           if (result) {
             console.log(result);
@@ -222,7 +222,6 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.projectModel = result;
-            console.log(this.projectModel);
           }
         },
         error => this.errMsg.getError(error));
@@ -252,7 +251,6 @@ export class LetterComponent implements OnInit {
       this.categoryCode = false;
       this.chassisNo = false;
     }
-    console.log(this.ServiceId);
     this.enableButtonGenerate = true;
     this.getLetterTempalte(letterType);
   }
@@ -313,8 +311,6 @@ export class LetterComponent implements OnInit {
 
   generatePDF() {
     this.ShowSave = true;
-    console.log(this.projectModel);
-    console.log(this.letterTempalteModel);
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g,
       this.projectModel.Investor.FirstNameEng.toUpperCase() +
       ' ' + this.projectModel.Investor.FatherNameEng.toUpperCase() +
@@ -328,7 +324,7 @@ export class LetterComponent implements OnInit {
     this.LetterContent = this.LetterContent.replace(/{{InvestmentPermitNo}}/g,
       this.projectModel.InvestmentPermitNo);
     this.LetterContent = this.LetterContent.replace(/{{ExemptionYear}}/g,
-      this.projectModel.InvestmentActivity.InAddisOromiaAreas.toString());
+      this.projectModel.IsOromiaSpecialZone ? this.projectModel.InvestmentActivity.InAddisOromiaAreas.toString() : this.projectModel.InvestmentActivity.InOtherAreas.toString());
     const formModel = this.letterForm.value;
     this.LetterContent = this.LetterContent.replace(/{{Num}}/g,
       formModel.Attachment);
@@ -340,12 +336,9 @@ export class LetterComponent implements OnInit {
       (this.projectModel.ProjectCost.OtherCapitalCost + this.projectModel.ProjectCost.EquityFinance + this.projectModel.ProjectCost.LoanFinance).toString());
 
     if (this.ServiceId == '1045') {
-      console.log(this.taxExemptionModel.RevenueBranchDescription);
-      if (this.taxExemptionModel.RevenueBranchDescription != undefined) {
-        this.LetterContent = this.LetterContent.replace(/{{OrgName}}/g,
-          this.taxExemptionModel.RevenueBranchDescription
-        );
-      }
+      this.LetterContent = this.LetterContent.replace(/{{OrgName}}/g,
+        this.taxExemptionModel.RevenueBranchDescription);
+
     } else if (this.ServiceId == '1046') {
       // this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo;
     } else {

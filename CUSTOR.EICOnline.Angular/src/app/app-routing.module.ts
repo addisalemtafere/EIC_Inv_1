@@ -377,7 +377,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'incentive-detail/:projectId/:serviceApplicationId/:serviceId',
+        path: 'incentive-detail/:projectId/:serviceApplicationId/:serviceId/:isForDetail',
         loadChildren: 'app/components/incentive/incentive-detail/incentive-detail.module#IncentiveDetailModule',
         canActivate: [AuthGuard]
       },

@@ -4,6 +4,7 @@ import {ToastrService} from 'ngx-toastr';
 import {ServiceapplicationService} from '../../../setting/services-tabs/serviceApplication/serviceapplication.service';
 import {AccountService} from '@custor/services/security/account.service';
 import {MatDialog} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-tax-exemption-tab',
@@ -16,6 +17,7 @@ export class TaxExemptionTabComponent implements OnInit {
   constructor(private serviceApplicationsServices: ServiceapplicationService,
               public accountService: AccountService,
               private dialog: MatDialog,
+              public route: ActivatedRoute,
               private toastr: ToastrService) {
   }
 
@@ -25,7 +27,7 @@ export class TaxExemptionTabComponent implements OnInit {
 
   UpdateServiceApplication() {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
-      localStorage.getItem('ServiceApplicationId'))
+      this.route.snapshot.params['ServiceApplicationId'])
       .subscribe(result => {
         console.log(result);
         this.toastr.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');

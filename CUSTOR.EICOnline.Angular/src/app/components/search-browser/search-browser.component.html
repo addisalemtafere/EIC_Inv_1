@@ -121,8 +121,6 @@
                 <mat-icon color="primary">visibility</mat-icon>
                 View
               </a>
-
-
               <button color="primary" mat-raised-button class="margin-10 pointer"
                       matTooltip="Click her to add project"
                       (click)="select(investors.InvestorId,investors.InvestorNameEng)">
@@ -258,7 +256,7 @@
                 <mat-icon color="primary">visibility</mat-icon>
                 View
               </a>
-              <button *ngIf="canViewTasks || canManageAftercareData || canManageManageIncentiveAssignedServices "
+              <button *ngIf="canViewTasks || canManageAftercareData || canManageManageIncentiveAssignedServices"
                       mat-raised-button
                       [disabled]="!projectList.IsActive"
                       color="primary"

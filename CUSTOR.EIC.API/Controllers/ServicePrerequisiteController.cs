@@ -44,10 +44,10 @@ namespace EIC.Investment.API.Controllers.Controllers
             return await ServicePrerequisiteRepo.GetRecord(id);
         }
 
-        [HttpGet("api/servicePrerequisiteByServiceId/{SectorId:int}")]
-        public async Task<List<ServicePrerequisite>> GetServicePrerequisiteBySectorId(int SectorId)
+        [HttpGet("api/servicePrerequisiteByServiceId/{ServiceId:int}")]
+        public async Task<List<ServicePrerequisite>> GetServicePrerequisiteBySectorId(int ServiceId)
         {
-            return await ServicePrerequisiteRepo.GetAllServicePrerequisitesBySectorId(SectorId);
+            return await ServicePrerequisiteRepo.GetAllServicePrerequisitesBySectorId(ServiceId);
         }
 
         [HttpGet("api/servicePrerequisite/{descEng}/{serviceId:int}")]

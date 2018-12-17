@@ -117,7 +117,10 @@
           <mat-icon>library_add</mat-icon>
           Archive application
         </a>
-
+        <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" (click)="startService('1001','incentive Detail')">
+          <mat-icon>library_add</mat-icon>
+          Incentive Detail
+        </a>
 
         <a *ngIf="canViewTasks" mat-list-item="" (click)="startService('1001','capitalRegistration')">
 
@@ -176,7 +179,7 @@
             <a mat-list-item routerLinkActive="active" routerLink="other">
               <mat-icon color="primary" class="mat-18">settings</mat-icon>
               {{'mainMenu.site' | translate}}</a>
-          <a mat-list-item routerLinkActive="active" routerLink="lettertempalte">
+            <a mat-list-item routerLinkActive="active" routerLink="lettertempalte">
               <mat-icon color="primary" class="mat-18">settings</mat-icon>
               {{'mainMenu.lettertemplate' | translate}}</a>
           </mat-list>

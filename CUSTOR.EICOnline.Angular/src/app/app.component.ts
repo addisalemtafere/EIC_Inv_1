@@ -1,12 +1,4 @@
-import {
-  AfterContentChecked,
-  AfterViewChecked,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import {AfterContentChecked, AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {AppTranslationService} from '../@custor/services/translation.service';
@@ -48,12 +40,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   isInvestor: boolean;
   serviceList: ServiceModel[] = [];
   numberOfNotification: any;
-  private _mobileQueryListener: () => void;
   public checkInvestorRegistered: boolean;
-  private m: IncentiveLogModel;
   public inId: number;
-  private subscription: Subscription;
   public isLogged: any;
+  private _mobileQueryListener: () => void;
+  private m: IncentiveLogModel;
+  private subscription: Subscription;
   private allServices: ServiceModel[] = [];
 
   constructor(storageManager: LocalStoreManager,
@@ -82,6 +74,66 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     this.CheckLoginStatus();
     this.m = new IncentiveLogModel();
 
+  }
+
+  get currentLang(): string {
+    return this.configurations.language || 'et';
+  }
+
+  get canManageAftercareData() {
+    return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
+  }
+
+  get canManageManageAftercareData() {
+    return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
+  }
+
+  get canManageDispatchIncentivesServices() {
+    return this.accountService.userHasPermission(Permission.DispatchIncentivesServicesPermission);
+  }
+
+  get canManageAssignedServicesPermission() {
+    return this.accountService.userHasPermission(Permission.ManageAssignedServicesPermission);
+  }
+
+  get canManageApproveIncentiveUploadedItems() {
+    return this.accountService.userHasPermission(Permission.ApproveIncentiveUploadedItemsPermission);
+  }
+
+  get canManageManageIncentiveAssignedServices() {
+    return this.accountService.userHasPermission(Permission.ManageIncentiveAssignedServicesPermission);
+  }
+
+  get canViewReadOnlyData() {
+    return this.accountService.userHasPermission(Permission.ViewReadOnlyDataPermission);
+  }
+
+  get canManageLookupsPermission() {
+    return this.accountService.userHasPermission(Permission.manageLookupsPermission);
+  }
+
+  get canManageSettings() {
+    return this.accountService.userHasPermission(Permission.manageSettingsPermission);
+  }
+
+  get canViewServiceApplication() {
+    return this.accountService.userHasPermission(Permission.viewServiceApplication);
+  }
+
+  get canViewTasks() {
+    return this.accountService.userHasPermission(Permission.viewServiceList);
+  }
+
+  get canManageRoles() {
+    return this.accountService.userHasPermission(Permission.manageRolesPermission);
+  }
+
+  get canManageAdmins() {
+    return this.accountService.userHasPermission(Permission.manageSiteAdministratorsPermission);
+  }
+
+  get canManageUsers() {
+    return this.accountService.userHasPermission(Permission.manageUsersPermission);
   }
 
   ngOnInit() {
@@ -134,7 +186,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     localStorage.setItem('ServiceId', '1235');
   }
 
-
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
 
@@ -172,10 +223,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  get currentLang(): string {
-    return this.configurations.language || 'et';
-  }
-
   getAllServices() {
     this.serviceService.getAll()
       .subscribe(result => {
@@ -191,10 +238,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   public startService(serviceId: any, title: string) {
     localStorage.setItem('title', title);
     this.router.navigate(['/search-browser/' + serviceId + '/' + 0 + '/' + 0]);
-
-
   }
-
 
   clearLocalStorage() {
     localStorage.clear();
@@ -248,10 +292,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     }
   }
 
-  get canManageAftercareData() {
-    return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
-  }
-
   toServiceList() {
     if (localStorage.getItem('InvestorId') !== null) {
       // this.dialog.open(CustomerServiceStarterComponent);
@@ -272,58 +312,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
       this.router.navigate(['investor-tab/0/0/0']);
     }
 
-  }
-
-  get canManageManageAftercareData() {
-    return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
-  }
-
-  get canManageDispatchIncentivesServices() {
-    return this.accountService.userHasPermission(Permission.DispatchIncentivesServicesPermission);
-  }
-
-  get canManageAssignedServicesPermission() {
-    return this.accountService.userHasPermission(Permission.ManageAssignedServicesPermission);
-  }
-
-  get canManageApproveIncentiveUploadedItems() {
-    return this.accountService.userHasPermission(Permission.ApproveIncentiveUploadedItemsPermission);
-  }
-
-  get canManageManageIncentiveAssignedServices() {
-    return this.accountService.userHasPermission(Permission.ManageIncentiveAssignedServicesPermission);
-  }
-
-  get canViewReadOnlyData() {
-    return this.accountService.userHasPermission(Permission.ViewReadOnlyDataPermission);
-  }
-
-  get canManageLookupsPermission() {
-    return this.accountService.userHasPermission(Permission.manageLookupsPermission);
-  }
-
-  get canManageSettings() {
-    return this.accountService.userHasPermission(Permission.manageSettingsPermission);
-  }
-
-  get canViewServiceApplication() {
-    return this.accountService.userHasPermission(Permission.viewServiceApplication);
-  }
-
-  get canViewTasks() {
-    return this.accountService.userHasPermission(Permission.viewServiceList);
-  }
-
-  get canManageRoles() {
-    return this.accountService.userHasPermission(Permission.manageRolesPermission);
-  }
-
-  get canManageAdmins() {
-    return this.accountService.userHasPermission(Permission.manageSiteAdministratorsPermission);
-  }
-
-  get canManageUsers() {
-    return this.accountService.userHasPermission(Permission.manageUsersPermission);
   }
 
   private filterService(result: ServiceModel[]) {

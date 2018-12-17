@@ -87,8 +87,7 @@ export class CustomerServiceStarterComponent implements OnInit {
         case 1023:
         case 1027:
         case 1028:
-
-
+        case 1237:
           this.router.navigate(['/investor-project-list/' + serviceId]);
           break;
         default:

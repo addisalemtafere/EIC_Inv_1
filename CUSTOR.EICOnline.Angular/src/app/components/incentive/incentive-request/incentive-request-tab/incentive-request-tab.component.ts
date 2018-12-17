@@ -4,6 +4,7 @@ import {ServiceapplicationService} from '../../../setting/services-tabs/serviceA
 import {AccountService} from '@custor/services/security/account.service';
 import {NotificationComponent} from '../../../project-profile/notification/notification.component';
 import {MatDialog} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-incentive-request-tab',
@@ -12,21 +13,26 @@ import {MatDialog} from '@angular/material';
 })
 export class IncentiveRequestTabComponent implements OnInit {
   public isInvestor: boolean;
+  private ServiceApplicationId: any;
+  private ProjectId: any;
 
   constructor(private serviceApplicationsServices: ServiceapplicationService,
               public accountService: AccountService,
+              private route: ActivatedRoute,
               private dialog: MatDialog,
               private toastr: ToastrService) {
   }
 
   ngOnInit() {
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'] || this.route.snapshot.params['serviceApplicationId'];
+    this.ProjectId = this.route.snapshot.params['ProjectId'] || this.route.snapshot.params['projectId'];
     this.getUserType();
 
   }
 
   UpdateServiceApplication() {
     this.serviceApplicationsServices.finalForApprovalServiceApplications(
-      localStorage.getItem('ServiceApplicationId'))
+      this.ServiceApplicationId)
       .subscribe(result => {
         console.log(result);
         this.toastr.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
