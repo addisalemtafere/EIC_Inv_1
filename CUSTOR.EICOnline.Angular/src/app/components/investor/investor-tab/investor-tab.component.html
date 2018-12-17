@@ -13,7 +13,14 @@
 
   <mat-tab label="Service Info">
     <ng-template matTabContent>
-      <app-service-info></app-service-info>
+      <mat-card>
+
+        <mat-card-content>
+          <mat-checkbox (change)="isExisting()" color="primary">Not completed Only</mat-checkbox>
+        </mat-card-content>
+
+      </mat-card>
+      <app-service-info *ngIf="isExistingCustomer"></app-service-info>
     </ng-template>
   </mat-tab>
 

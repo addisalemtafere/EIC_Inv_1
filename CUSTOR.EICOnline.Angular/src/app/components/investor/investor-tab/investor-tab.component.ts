@@ -26,6 +26,7 @@ export class InvestorTabComponent implements OnInit {
   public userName: string;
   private ServiceApplicationId: any;
   public registrationIndex: any;
+  public isExistingCustomer: boolean;
 
   constructor(private accountService: AccountService,
               public router: Router,
@@ -59,12 +60,14 @@ export class InvestorTabComponent implements OnInit {
 
     dialogConfig.data = {
       ServiceApplicationId: this.ServiceApplicationId,
-      title: 'Angular For Beginners'
     };
-    // this.dialog.open(NotificationComponent);
     this.dialog.open(NotificationComponent, dialogConfig);
 
 
+  }
+
+  isExisting() {
+    this.isExistingCustomer = true;
   }
 }
 
