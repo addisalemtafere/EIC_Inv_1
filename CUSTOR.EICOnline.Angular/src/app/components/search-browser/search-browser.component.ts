@@ -313,7 +313,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
         }
         break;
       case 1234:
-        this.router.navigate(['/after-care/'+projectId]);
+        this.router.navigate(['/after-care/' + projectId]);
         break;
       case 1028:
         this.editProject(projectId, ServiceApplicationId, 13);
