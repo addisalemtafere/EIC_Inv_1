@@ -15,7 +15,7 @@ import {ToastrService} from 'ngx-toastr';
   templateUrl: './project-renewal.component.html',
   styleUrls: ['./project-renewal.component.scss']
 })
-export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
+export class ProjectRenewalComponent implements OnInit {
   projectRenewalForm: FormGroup;
   loading = false;
   public projectList: ProjectModel[];
@@ -49,7 +49,7 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
     this.isInvestor = !this.accountService.getUserType();
     this.route.params
       .subscribe((params: Params) => {
-        console.log(this.ServiceApplicationId);
+        // console.log(this.ServiceApplicationId);
         if (this.ServiceApplicationId > 1) {
           this.getServiceApplicationRenewal();
           this.approval = true;
@@ -64,7 +64,8 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
       RenewedFrom: new FormControl(),
       ProjectId: this.ProjectId,
       InvestorId: this.InvestorId,
-      ServiceId: this.ServiceId
+      ServiceId: this.ServiceId,
+      ServiceApplicationId: this.ServiceApplicationId
     });
   }
 
@@ -84,18 +85,6 @@ export class ProjectRenewalComponent implements OnInit, AfterContentChecked {
       });
   }
 
-  ngAfterContentChecked() {
-    // this.projectRenewalForm.patchValue({
-    //   ServiceId: localStorage.getItem('ServiceId'),
-    //   InvestorId: localStorage.getItem('InvestorId'),
-    //   // ProjectId: localStorage.getItem('ProjectId'),
-    // });
-    // if (this.isInvestor) {
-    //   this.projectRenewalForm.patchValue({
-    //     ProjectId: localStorage.getItem('ProjectId'),
-    //   });
-    // }
-  }
 
   notification(message: string) {
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');

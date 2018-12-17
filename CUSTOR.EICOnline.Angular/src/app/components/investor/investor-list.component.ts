@@ -59,7 +59,7 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.accountService.getUserType()) {
-      console.log(this.accountService.currentUser.Tin);
+      // console.log(this.accountService.currentUser.Tin);
       this.isInvestor = this.accountService.getUserType();
       if (this.accountService.currentUser.Tin !== 'null' && this.accountService.currentUser.Tin !== '') {
         this.getInvestorsByUserId();
@@ -87,7 +87,7 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
     this.loadingIndicator = true;
     this.invService.getInvestorByTIN(this.accountService.currentUser.Tin)
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.investors = result;
           if (!this.investors) {
             this.toastr.error('No records were found to list', 'Error', {
@@ -110,7 +110,7 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
     this.loadingIndicator = true;
     this.invService.getInvestorByUserId(this.accountService.currentUser.Id)
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.investors = result;
           if (!this.investors) {
             this.toastr.error('No records were found to list', 'Error', {
@@ -137,7 +137,7 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
   }
 
   editInvestor(investor: Investor) {
-    console.log(this.investors);
+    // console.log(this.investors);
     if (investor) {
 
       this.router.navigate(['/investor-tab/1235/' + investor.InvestorId + '/' + 0], {relativeTo: this.route});
@@ -178,7 +178,7 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
     this.projectService.getProjectByInvestorId(InvestorId)
       .subscribe(result => {
           this.projectList = result;
-          console.log(result);
+          // console.log(result);
           this.title = 'ProjectDetail';
           this.investorShow = false;
           if (!this.projectList) {
@@ -189,7 +189,7 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
           } else {
             this.loadingIndicator = false;
             this.dataSource2 = new MatTableDataSource<ProjectModel>(result);
-            console.log(result);
+            // console.log(result);
             this.dataSource2.paginator = this.paginator;
           }
         },
@@ -213,12 +213,12 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
 
 
   projectDetail(id: number) {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['/service-detail', id]);
   }
 
   deleteProject(id: number) {
-    console.log(id);
+    // console.log(id);
     const response = confirm('Do you want to Delete this Project ?');
     if (response === true) {
       this.projectService.delete(id)

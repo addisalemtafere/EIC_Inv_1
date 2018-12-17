@@ -31,7 +31,7 @@ export class ServiceInfoComponent implements OnInit {
   ngOnInit() {
     this.title = localStorage.getItem('title');
     this.ServiceId = this.route.snapshot.params['ServiceId'];
-    console.log(this.ServiceId)
+    // console.log(this.ServiceId)
     this.route.params
       .subscribe((params: Params) => {
         this.serviceId = +params['id'];
@@ -45,7 +45,7 @@ export class ServiceInfoComponent implements OnInit {
   }
 
   getPrerequisiteByServiceId(serviceId: any) {
-    console.log(serviceId)
+    // console.log(serviceId)
     this.servicePrerequisiteService
       .servicePrerequisiteByServiceId(serviceId)
       .subscribe(result => {

@@ -3,7 +3,8 @@ import {DataSharingService} from '../../../../Services/data-sharing.service';
 import {Subscription} from 'rxjs';
 import {AccountService} from '@custor/services/security/account.service';
 import {NotificationComponent} from '../../notification/notification.component';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-substitute-tab',
@@ -18,9 +19,12 @@ export class SubstituteTabComponent implements OnInit {
   public renewalIndex: any;
   public projectName: string | null;
   public investorName: string | null;
+  private ServiceApplicationId: any;
+  private userName: string;
 
   constructor(public accountService: AccountService,
               public dialog: MatDialog,
+              public route: ActivatedRoute,
               private dataSharing: DataSharingService) {
 
   }
@@ -30,12 +34,14 @@ export class SubstituteTabComponent implements OnInit {
     this.subscription = this.dataSharing.renewalIndex
       .subscribe(index => {
         this.renewalIndex = index;
-        // console.log(index)
-        // this.move(this.steeperIndex);
+
       });
     this.title = localStorage.getItem('title');
     this.projectName = localStorage.getItem('projectName');
     this.investorName = localStorage.getItem('investorName');
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+
+    this.userName = this.accountService.currentUser.FullName;
   }
 
   getUserType() {
@@ -43,8 +49,16 @@ export class SubstituteTabComponent implements OnInit {
   }
 
   addMessage() {
-    this.dialog.open(NotificationComponent);
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data = {
+      ServiceApplicationId: this.ServiceApplicationId,
+      title: 'Angular For Beginners'
+    };
+    this.dialog.open(NotificationComponent, dialogConfig);
 
   }
-
 }
+
+
+

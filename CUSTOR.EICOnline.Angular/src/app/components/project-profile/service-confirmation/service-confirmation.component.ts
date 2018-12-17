@@ -10,7 +10,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./service-confirmation.component.scss']
 })
 export class ServiceConfirmationComponent implements OnInit {
-  private ServiceApplicationId: any;
+  public ServiceApplicationId: any;
   public confirm = true;
 
   constructor(public serviceApplicationsServices: ServiceapplicationService,
@@ -30,7 +30,7 @@ export class ServiceConfirmationComponent implements OnInit {
       this.ServiceApplicationId)
       .subscribe(result => {
         this.confirm = true;
-        console.log(result);
+        // console.log(result);
         this.toastr.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
       });
 

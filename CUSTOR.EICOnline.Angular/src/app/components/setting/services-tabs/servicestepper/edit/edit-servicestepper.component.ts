@@ -67,7 +67,7 @@ export class EditServicestepperComponent implements OnInit, OnDestroy {
       .getServiceStep(id)
       .subscribe(result => {
         this.serviceStepper = result;
-        console.log(this.serviceStepper);
+        // console.log(this.serviceStepper);
         this.getService();
         this.updateForm();
       },

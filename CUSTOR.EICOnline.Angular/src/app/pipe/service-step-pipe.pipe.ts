@@ -15,8 +15,8 @@ export class ServiceStepPipePipe implements PipeTransform {
   transform(code: any, args?: any): any {
     for (const step of this.allStep) {
       if (step.ServiceStepId === code) {
-        // console.log(code);
-        // console.log(step.Description);
+        // // console.log(code);
+        // // console.log(step.Description);
         return step.Name;
       }
     }
@@ -26,7 +26,7 @@ export class ServiceStepPipePipe implements PipeTransform {
   getSteps() {
     this.servicesStepService.getAll()
       .subscribe(result => {
-        // console.log(result)
+        // // console.log(result)
         this.allStep = result;
       });
   }

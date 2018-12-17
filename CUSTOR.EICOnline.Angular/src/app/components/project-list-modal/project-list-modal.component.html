@@ -10,22 +10,16 @@
         <mat-progress-bar mode="query"></mat-progress-bar>
       </div>
       <mat-table #table [dataSource]="dataSource2">
-        <ng-container matColumnDef="No">
-          <mat-header-cell [fxFlex]="6" *matHeaderCellDef>No</mat-header-cell>
-          <mat-cell [fxFlex]="6" *matCellDef="let projectList;let i=index;">
-            {{i+1}}
-          </mat-cell>
-        </ng-container>
 
         <ng-container matColumnDef="ProjectName">
-          <mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>
-          <mat-cell *matCellDef="let projectList">
+          <mat-header-cell fxFlex="15" *matHeaderCellDef>Project Name</mat-header-cell>
+          <mat-cell fxFlex="15" *matCellDef="let projectList">
             {{projectList?.ProjectName}}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="ProjectDescription">
-          <mat-header-cell *matHeaderCellDef>Project Description</mat-header-cell>
-          <mat-cell *matCellDef="let projectList">
+          <mat-header-cell fxFlex="20" *matHeaderCellDef>Project Description</mat-header-cell>
+          <mat-cell fxFlex="20" *matCellDef="let projectList">
 
             {{(projectList.ProjectDescription!=null) ? (projectList.ProjectDescription |
             filterPipe:10): ''}}
@@ -33,21 +27,21 @@
         </ng-container>
 
         <ng-container matColumnDef="startDate">
-          <mat-header-cell *matHeaderCellDef> Start Date</mat-header-cell>
-          <mat-cell *matCellDef="let projectList">
+          <mat-header-cell fxFlex="10" *matHeaderCellDef> Start Date</mat-header-cell>
+          <mat-cell fxFlex="10" *matCellDef="let projectList">
             {{projectList?.StartDate | date}}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="InvestmentActivity">
-          <mat-header-cell *matHeaderCellDef> Investment Activity</mat-header-cell>
-          <mat-cell *matCellDef="let projectList">
+          <mat-header-cell fxFlex="50" *matHeaderCellDef> Investment Activity</mat-header-cell>
+          <mat-cell fxFlex="50" *matCellDef="let projectList">
             {{projectList?.InvestmentActivity?.DescriptionEnglish}}
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-          <mat-cell *matCellDef="let projectList">
+          <mat-header-cell fxFlex="10" *matHeaderCellDef>Status</mat-header-cell>
+          <mat-cell fxFlex="10" *matCellDef="let projectList">
             <a style="color: #00bcd4;" *ngIf="!projectList?.IsActive;else finished">
               Not active
               <!--<mat-icon color="primary" class="mat-18">navigate_next</mat-icon>-->
@@ -61,11 +55,9 @@
 
         <ng-container matColumnDef="Action">
 
-          <mat-header-cell [fxFlex]="30" *matHeaderCellDef>Action
+          <mat-header-cell fxFlex="10" *matHeaderCellDef>Action</mat-header-cell>
 
-          </mat-header-cell>
-
-          <mat-cell [fxFlex]="30" *matCellDef="let projectList; let i=index">
+          <mat-cell fxFlex="10" *matCellDef="let projectList; let i=index">
             <div>
               <a class="pointer custom-button"
                  (click)="go(projectList?.ProjectId,

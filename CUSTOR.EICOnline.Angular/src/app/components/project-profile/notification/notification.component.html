@@ -22,7 +22,7 @@
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
       <mat-form-field fxFlex="45">
         <mat-select formControlName="CurrentStatus"
-                    placeholder="Select Status">
+                    placeholder="Select Your Decision ">
           <!--<mat-option *ngFor="let choice of choices" [value]="choice">-->
           <!--choice-->
           <!--</mat-option>-->
@@ -36,10 +36,7 @@
       <mat-form-field style="height: 50px;"
                       class="demo-full-width">
         <mat-label>Message</mat-label>
-        <textarea style="   height: 86px;
-           font-size: 15px;
-             color: #0894a2;"
-                  class="full-width"
+        <textarea class="full-width message-body"
                   formControlName="Message" matInput
                   row="10">
 

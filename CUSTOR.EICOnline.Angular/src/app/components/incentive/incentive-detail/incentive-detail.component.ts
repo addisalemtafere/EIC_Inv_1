@@ -90,7 +90,7 @@ export class IncentiveDetailComponent implements OnInit {
     this.serviceId = this.activatedRoute.snapshot.params['serviceId'] || this.activatedRoute.snapshot.params['ServiceId'];
     this.serviceApplicationId = this.activatedRoute.snapshot.params['serviceApplicationId'] || this.activatedRoute.snapshot.params['ServiceApplicationId'];
     this.projectId = this.activatedRoute.snapshot.params['projectId'] || this.activatedRoute.snapshot.params['ProjectId'];
-    //console.log(this.serviceId);
+    //// console.log(this.serviceId);
     this.route.params
       .subscribe((params: Params) => {
         this.getIncentiveRequestItems(this.projectId);
@@ -111,7 +111,7 @@ export class IncentiveDetailComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
-            console.log(this.letterModelList);
+            // console.log(this.letterModelList);
             this.dataSourceLetter = new MatTableDataSource<LetterModel>(this.letterModelList);
           }
         },
@@ -122,7 +122,7 @@ export class IncentiveDetailComponent implements OnInit {
     this.IncentiveRequestItemService.getIncentiveRequestDetailsByProjectId(projectId).subscribe(result => {
       if (result.length > 0) {
         this.items = result;
-        console.log(this.items);
+        // console.log(this.items);
         this.dataSource = new MatTableDataSource<IncentiveRequestDetailModel>(this.items);
         this.loading = false;
       }
@@ -133,7 +133,7 @@ export class IncentiveDetailComponent implements OnInit {
     this.IncentiveRequestItemService.getIncentiveRequestDetailsBytCategoryCode(this.activatedRoute.snapshot.params['projectId'], categoryId).subscribe(result => {
       if (result.length > 0) {
         this.items = result;
-        console.log(this.items);
+        // console.log(this.items);
         this.dataSource = new MatTableDataSource<IncentiveRequestDetailModel>(this.items);
         this.loading = false;
       }
@@ -154,6 +154,7 @@ export class IncentiveDetailComponent implements OnInit {
     this.currentCategoryId = categoryCode;
     console.log(this.currentCategoryId);
     if (categoryCode === 10778 || categoryCode === 10782 || categoryCode === 10777 ) {
+
       this.isVisibleShowBalance = true;
 
     } else {
@@ -172,14 +173,17 @@ export class IncentiveDetailComponent implements OnInit {
     console.log(this.currentCategoryId);
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {      // this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
       this.router.navigate(['bom-balance/' + this.projectId + '/' + 0 + '/' + 0]);
+
     } else if (this.currentCategoryId == 10777) {
       this.router.navigate(['sparepart-balance/' + this.projectId + '/' + 0]);
     }
   }
 
   showLetter() {
+
     this.serviceId = 0;
     this.serviceApplicationId = 0;
+
     this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + this.isForDetail]);
   }
 

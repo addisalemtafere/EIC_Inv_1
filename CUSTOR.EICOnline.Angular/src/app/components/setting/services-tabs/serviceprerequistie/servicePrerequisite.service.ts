@@ -50,12 +50,7 @@ export class ServicePrerequisiteService extends BaseService<ServicePrerequisiteM
   }
 
   saveServicePrerequisite(servicePrerequisite: ServicePrerequisite): Observable<ServicePrerequisite> {
-    console.log(servicePrerequisite.ServicePrerequisiteId,
-      servicePrerequisite.Description,
-      servicePrerequisite.DescriptionEnglish,
-      servicePrerequisite.ServiceId,
-      servicePrerequisite.IsActive
-    );
+
     return this.httpClient.post<ServicePrerequisite>(this.config.urls.url('serviceprerequisite'), servicePrerequisite).pipe(
       map(ServicePrereq => {
         this.servicePrerequisite = ServicePrereq;

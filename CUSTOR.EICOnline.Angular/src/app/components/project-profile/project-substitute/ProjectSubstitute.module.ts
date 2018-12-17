@@ -7,7 +7,8 @@ import {SubstituteTabComponent} from './substitute-tab/substitute-tab.component'
 import {ServiceInfoModule} from '../service-info/serviceInfo.module';
 import {ServiceConfirmationModule} from '../service-confirmation/ServiceConfirmation.module';
 import {OfficerModule} from '../../officer-Task/officer.module';
-import {ServicePrerequisiteModule} from '../service-prerequisite/ServicePrerequisiteModule';
+import {AftercareModule} from "../aftercare/aftercare.module";
+import {AftercareRecommModule} from "../aftercare-recomendation/AftercareRecommModule";
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import {ServicePrerequisiteModule} from '../service-prerequisite/ServicePrerequi
     ServiceConfirmationModule,
     // ServicePrerequisiteModule,
     OfficerModule,
+    AftercareRecommModule
   ],
   declarations: [ProjectSubstituteComponent, SubstituteTabComponent],
   exports: [ProjectSubstituteComponent]

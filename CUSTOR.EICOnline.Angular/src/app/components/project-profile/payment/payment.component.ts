@@ -53,7 +53,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
     this.initForm();
     this.getServiceApplication(this.ServiceApplicationId);
 
-    // console.log(localStorage.getItem('ServiceApplicationId'));
+    // // console.log(localStorage.getItem('ServiceApplicationId'));
   }
 
   initForm() {
@@ -85,10 +85,10 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
   }
 
   getServiceApplication(id: any) {
-    console.log(id);
+    // console.log(id);
     this.serviceApplicationService.getOneById(id)
       .subscribe((result: ServiceApplicationModel) => {
-        console.log(result);
+        // console.log(result);
         this.TotalAmount = result.Service.ServiceTariff[0].Tariff.Fee;
         this.serviceTariff = result.Service.ServiceTariff;
         this.getTotalAmount(this.serviceTariff);
@@ -101,7 +101,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
     for (const data of serviceTariff) {
       this.TotalAmount = this.TotalAmount + data.Tariff.Fee;
     }
-    console.log(this.TotalAmount);
+    // console.log(this.TotalAmount);
   }
 
   ngAfterViewInit(): void {

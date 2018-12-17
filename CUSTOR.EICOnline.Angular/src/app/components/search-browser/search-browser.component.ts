@@ -103,7 +103,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.loadingIndicator = true;
     this.invService.searchInvestor(this.searchForm.value)
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.investors = result;
           if (!this.investors) {
             this.loadingIndicator = false;
@@ -113,7 +113,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           } else {
             this.loadingIndicator = false;
             this.dataSource = new MatTableDataSource<Investor>(result);
-            console.log(result);
+            // console.log(result);
             this.dataSource.paginator = this.paginator;
           }
         },
@@ -136,7 +136,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.loadingIndicator = true;
     this.invService.getInvestors()
       .subscribe(result => {
-          console.log(result);
+          // console.log(result);
           this.investors = result;
           if (!this.investors) {
             this.loadingIndicator = false;
@@ -148,7 +148,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
             this.loadingIndicator = false;
 
             this.dataSource = new MatTableDataSource<Investor>(result);
-            console.log(result);
+            // console.log(result);
             this.dataSource.paginator = this.paginator;
           }
         },
@@ -159,12 +159,17 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   select(InvestorId: any, investorName: any) {
+
     if (this.ServiceId == 13) {
+
       this.InvestorId = InvestorId;
+
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
     }
     else {
       // localStorage.setItem('InvestorId', InvestorId);
+      this.router.navigate(['/search-browser/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
+
       this.invName = investorName;
       this.loadingIndicator = true;
       this.projectService.getProjectByInvestorId(InvestorId)
@@ -182,7 +187,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
             } else {
               this.loadingIndicator = false;
               this.dataSource = new MatTableDataSource<ProjectModel>(result);
-              console.log(result);
+              // console.log(result);
               this.dataSource.paginator = this.paginator;
             }
           },
@@ -254,7 +259,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   projectDetail(id: number) {
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.router.navigate(['/service-detail', id]);
   }
 
@@ -276,7 +281,10 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   nextService(InvestorId: any, projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
     const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
-    const investorId = InvestorId; //this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
+
+    const investorId = this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
+    // console.log(serviceId);
+
     switch (serviceId) {
       case 13:
         this.router.navigate(['/pro/0/0/0/0/0']);//Fire
@@ -305,7 +313,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
         }
         break;
       case 1234:
-        this.router.navigate(['/after-care']);
+        this.router.navigate(['/after-care/'+projectId]);
         break;
       case 1028:
         this.editProject(projectId, ServiceApplicationId, 13);

@@ -26,7 +26,7 @@ export class ProjectListModalComponent implements OnInit {
   public title: string;
   dataSource2: any;
   public serviceApplication: ServiceApplicationModel;
-  displayedColumnsProject = ['No', 'ProjectName', 'startDate', 'InvestmentActivity', 'status', 'Action'];
+  displayedColumnsProject = ['ProjectName', 'startDate', 'InvestmentActivity', 'status', 'Action'];
   @ViewChild(MatPaginator) paginator2: MatPaginator;
   sourceInvestor: Investor;
   loadingIndicator: boolean;
@@ -75,7 +75,7 @@ export class ProjectListModalComponent implements OnInit {
           } else {
             this.loadingIndicator = false;
             this.dataSource2 = new MatTableDataSource<ProjectModel>(result);
-            console.log(result);
+            // console.log(result);
             this.dataSource2.paginator = this.paginator2;
           }
         },
@@ -90,11 +90,10 @@ export class ProjectListModalComponent implements OnInit {
   go(projectId: any, applicationId: any, ServiceId: any, InvestorId: any) {
 
     if (+this.ServiceId == 1023) {
-      this.router.navigate(['pro/' + projectId + '/' + applicationId + '/' + ServiceId + '/' + 0 + '/' + InvestorId]);
+      this.router.navigate(['pro/' + projectId + '/' + 0 + '/' + 1023 + '/' + 0 + '/' + InvestorId]);
       localStorage.setItem('ParentProjectId', projectId);
     } else {
-      localStorage.removeItem('ServiceApplicationId');
-      localStorage.setItem('ProjectId', projectId);
+
       this.serviceApplication.ProjectId = projectId;
       this.serviceApplication.ServiceId = this.ServiceId;
       this.serviceApplication.InvestorId = InvestorId;
@@ -106,6 +105,7 @@ export class ProjectListModalComponent implements OnInit {
       this.serviceApplication.IsActive = false;
       this.serviceapplicationService.create(this.serviceApplication)
         .subscribe(result => {
+          console.log(result)
           this.view(this.ServiceId, 'Incentive', result.ServiceApplicationId, result.ServiceWorkflow[0].ServiceWorkflowId, projectId);
         });
 
@@ -116,6 +116,8 @@ export class ProjectListModalComponent implements OnInit {
 
   view(serviceId: any, name: any, applicationId: any, workflowId: any, projectId: any) {
     this.title = name;
+    console.log(workflowId)
+
     const investorId = localStorage.getItem('InvestorId')
     switch (serviceId) {
 
@@ -143,16 +145,16 @@ export class ProjectListModalComponent implements OnInit {
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
       case '18':
-        this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + 0]);
+        this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
       case '19':
-        this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + 0]);
+        this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
       case '1023':
         this.router.navigate(['pro/' + projectId + '/' + applicationId + '/' + serviceId + '/' + 0 + '/' + investorId]);
         break;
       case '1027':
-        this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + 0]);
+        this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
       case '1028':
         this.router.navigate(['pro/' + projectId + '/' + applicationId + '/' + serviceId + '/' + 0 + '/' + investorId]);

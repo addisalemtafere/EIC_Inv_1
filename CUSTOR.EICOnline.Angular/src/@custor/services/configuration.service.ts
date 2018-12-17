@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
-import {AppTranslationService} from './translation.service';
-import {LocalStoreManager} from './storeManager.service';
-import {settingKeys} from '../helpers/settingKeys';
-import {Utilities} from '../helpers/utilities';
-import {environment} from '../../environments/environment';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { AppTranslationService } from './translation.service';
+import { LocalStoreManager } from './storeManager.service';
+import { settingKeys } from '../helpers/settingKeys';
+import { Utilities } from '../helpers/utilities';
+import { environment } from '../../environments/environment';
 
 // tslint:disable-next-line:interface-over-type-literal
 type UserConfiguration = {
@@ -18,17 +18,22 @@ export class ConfigurationService {
   public static readonly appVersion: string = '1.0';
 
   // public baseUrl = environment.baseUrl || Utilities.baseUrl();
+  public baseUrl = 'http://localhost:5050/';
+  // public tokenUrl = environment.tokenUrl || environment.baseUrl || Utilities.baseUrl();
+  public tokenUrl = 'http://localhost:5050';
+  public loginUrl = environment.loginUrl;
+  public fallbackBaseUrl = 'http://custor.net';
+
   public static readonly defaultLanguage: string = 'et';
   public static readonly defaultHomeUrl: string = '/';
   public static readonly defaultThemeId: number = 1;
-  public baseUrl = 'http://localhost:5050/';
-  //public baseUrl = 'http://172.17.33.132/';
-  // public tokenUrl = environment.tokenUrl || environment.baseUrl || Utilities.baseUrl();
- public tokenUrl = 'http://localhost:5050';
-  // public tokenUrl = 'http://172.17.33.132';
-  public loginUrl = environment.loginUrl;
-  public fallbackBaseUrl = 'http://custor.net';
+
+  private _language: string = null;
+  private _homeUrl: string = null;
+  private _themeId: number = null;
+
   private onConfigurationImported: Subject<boolean> = new Subject<boolean>();
+
   configurationImported$ = this.onConfigurationImported.asObservable();
 
   constructor(
@@ -38,38 +43,25 @@ export class ConfigurationService {
     this.loadLocalChanges();
   }
 
-  private _language: string = null;
+  private loadLocalChanges() {
+    if (this.localStorage.exists(settingKeys.LANGUAGE)) {
+      this._language = this.localStorage.getDataObject<string>(settingKeys.LANGUAGE);
+      this.translationService.changeLanguage(this._language);
+    } else {
+      this.resetLanguage();
+    }
 
-  get language() {
-    return this._language || ConfigurationService.defaultLanguage;
+    if (this.localStorage.exists(settingKeys.HOME_URL)) {
+      this._homeUrl = this.localStorage.getDataObject<string>(settingKeys.HOME_URL);
+    }
+
+    if (this.localStorage.exists(settingKeys.THEME_ID)) {
+      this._themeId = this.localStorage.getDataObject<number>(settingKeys.THEME_ID);
+    }
   }
 
-  set language(value: string) {
-    this._language = value;
-    this.saveToLocalStore(value, settingKeys.LANGUAGE);
-    this.translationService.changeLanguage(value);
-  }
-
-  private _homeUrl: string = null;
-
-  get homeUrl() {
-    return this._homeUrl || ConfigurationService.defaultHomeUrl;
-  }
-
-  set homeUrl(value: string) {
-    this._homeUrl = value;
-    this.saveToLocalStore(value, settingKeys.HOME_URL);
-  }
-
-  private _themeId: number = null;
-
-  get themeId() {
-    return this._themeId || ConfigurationService.defaultThemeId;
-  }
-
-  set themeId(value: number) {
-    this._themeId = value;
-    this.saveToLocalStore(value, settingKeys.THEME_ID);
+  private saveToLocalStore(data: any, key: string) {
+    setTimeout(() => this.localStorage.savePermanentData(data, key));
   }
 
   public import(jsonValue: string) {
@@ -116,27 +108,6 @@ export class ConfigurationService {
     this.resetLanguage();
   }
 
-  private loadLocalChanges() {
-    if (this.localStorage.exists(settingKeys.LANGUAGE)) {
-      this._language = this.localStorage.getDataObject<string>(settingKeys.LANGUAGE);
-      this.translationService.changeLanguage(this._language);
-    } else {
-      this.resetLanguage();
-    }
-
-    if (this.localStorage.exists(settingKeys.HOME_URL)) {
-      this._homeUrl = this.localStorage.getDataObject<string>(settingKeys.HOME_URL);
-    }
-
-    if (this.localStorage.exists(settingKeys.THEME_ID)) {
-      this._themeId = this.localStorage.getDataObject<number>(settingKeys.THEME_ID);
-    }
-  }
-
-  private saveToLocalStore(data: any, key: string) {
-    setTimeout(() => this.localStorage.savePermanentData(data, key));
-  }
-
   private resetLanguage() {
     const language = this.translationService.useBrowserLanguage();
 
@@ -145,5 +116,30 @@ export class ConfigurationService {
     } else {
       this._language = this.translationService.changeLanguage();
     }
+  }
+
+  set language(value: string) {
+    this._language = value;
+    this.saveToLocalStore(value, settingKeys.LANGUAGE);
+    this.translationService.changeLanguage(value);
+  }
+  get language() {
+    return this._language || ConfigurationService.defaultLanguage;
+  }
+
+  set homeUrl(value: string) {
+    this._homeUrl = value;
+    this.saveToLocalStore(value, settingKeys.HOME_URL);
+  }
+  get homeUrl() {
+    return this._homeUrl || ConfigurationService.defaultHomeUrl;
+  }
+
+  set themeId(value: number) {
+    this._themeId = value;
+    this.saveToLocalStore(value, settingKeys.THEME_ID);
+  }
+  get themeId() {
+    return this._themeId || ConfigurationService.defaultThemeId;
   }
 }

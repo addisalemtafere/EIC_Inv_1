@@ -23,7 +23,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   employmentData: ProjectEmploymentModel;
   editMode = false;
   loading = false;
-  projectId: number;
+
   subscription: Subscription;
   empId: any;
   public formErrors = {
@@ -44,6 +44,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
+  private projectId: any;
 
   constructor(private formBuilder: FormBuilder,
               public formService: FormService,
@@ -63,20 +64,17 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.projectId = this.route.snapshot.params['ProjectId']
 
 
     if (this.ServiceId === '1234') {
-      this.getProjectStatus(this.route.snapshot.params['ProjectId']);
+      this.getProjectStatus(this.projectId);
     }
     this.initStaticData('en');
+    if (this.projectId > 1 && this.ServiceId == '13') {
+      this.getEmployment();
+    }
 
-    this.route.params
-      .subscribe((params: Params) => {
-        this.projectId = +params['id'];
-        if (this.projectId > 1) {
-          this.getEmployment();
-        }
-      });
     this.formBuild();
   }
 

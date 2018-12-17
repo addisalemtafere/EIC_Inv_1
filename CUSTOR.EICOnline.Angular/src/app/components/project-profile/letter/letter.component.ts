@@ -137,7 +137,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
-            console.log(this.letterModelList);
+            // console.log(this.letterModelList);
             this.dataSource = new MatTableDataSource<LetterModel>(this.letterModelList);
           }
         },
@@ -148,7 +148,7 @@ export class LetterComponent implements OnInit {
     this.taxExemptionService.getTaxExemption(this.ProjectId)
       .subscribe(result => {
           if (result) {
-            console.log(result);
+            // console.log(result);
             this.taxExemptionModel = result;
           }
         },
@@ -190,7 +190,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
-            console.log(this.letterModelList);
+            // console.log(this.letterModelList);
             this.dataSource = new MatTableDataSource<LetterModel>(this.letterModelList);
           }
         },
@@ -201,9 +201,9 @@ export class LetterComponent implements OnInit {
     this.incentiveRequestService.getIncentiveRequestByServiceApplicationId(this.ServiceApplicationId)//34517
       .subscribe(result => {
           if (result) {
-            console.log(this.incentiveRequestModelList);
+            // console.log(this.incentiveRequestModelList);
             this.incentiveRequestModelList = result;
-            console.log(result);
+            // console.log(result);
           }
         },
         error => this.errMsg.getError(error));
@@ -213,7 +213,7 @@ export class LetterComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        console.log(result);
+        // console.log(result);
       }, error => this.errMsg.getError(error));
   }
 
@@ -338,6 +338,7 @@ export class LetterComponent implements OnInit {
     if (this.ServiceId == '1045') {
       this.LetterContent = this.LetterContent.replace(/{{OrgName}}/g,
         this.taxExemptionModel.RevenueBranchDescription);
+
 
     } else if (this.ServiceId == '1046') {
       // this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo;

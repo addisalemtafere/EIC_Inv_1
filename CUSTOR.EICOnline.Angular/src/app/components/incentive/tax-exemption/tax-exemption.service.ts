@@ -53,7 +53,7 @@ export class TaxExemptionService {
     return this.httpClient.post<TaxExemptionModel>(this.config.urls.url('taxexemption'), taxExemption).pipe(
       map(TaxExemptionItem => {
         this.taxExemptionModel = TaxExemptionItem;
-        console.log(this.taxExemptionModel);
+        // console.log(this.taxExemptionModel);
         return this.taxExemptionModel;
       }),
       catchError(this.errMsg.parseObservableResponseError));

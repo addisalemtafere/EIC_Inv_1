@@ -15,3 +15,4 @@ import {SearchBrowserComponent} from './search-browser.component';
 export class SearchBrowserModule {
 
 }
+    console.log(this.ServiceApplicationId)

@@ -202,7 +202,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
 
     this.parentRequestId = this.activatedRoute.snapshot.params['requestId'];
     // bind items grid
-    console.log(this.parentRequestId);
+    // console.log(this.parentRequestId);
     this.getIncentiveRequestItems(this.parentRequestId);
 
     if (this.currentCategoryId.toString() === this.incenticeCategoryLookuptypes.MotorVehicles) {
@@ -260,7 +260,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     this.IncentiveRequestItemService.getIncentiveBoMRequestDetails(pId, categoryId, Phase)
       .subscribe((items) => {
         this.BOMItems = items;
-        console.log(items);
+        // console.log(items);
       });
   }
 
@@ -286,12 +286,12 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     //   value: event.value,
     //   text: target.innerText.trim()
     // };
-    // console.log(selectedObj);
-    console.log(this.getLookupText(val));
+    // // console.log(selectedObj);
+    // console.log(this.getLookupText(val));
     // to-do expensive code to be improved
     let desc;
     this.filterLookups.forEach(item => {
-      // console.log(item.English + ' ' + item.LookupId);
+      // // console.log(item.English + ' ' + item.LookupId);
       if (item.LookupId === val) {
         // alert (item.English);
         desc = item.English;
@@ -312,9 +312,9 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
 
   // }
   getLookupText(val: number) {
-    // console.log(val);
+    // // console.log(val);
     this.filterLookups.forEach(item => {
-      // console.log(item.English + ' ' + item.LookupId);
+      // // console.log(item.English + ' ' + item.LookupId);
       if (item.LookupId === val) {
         // alert (item.English);
         return item.English;
@@ -327,7 +327,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     this.IncentiveRequestItemService.getIncentiveRequestItemslist(parentRequestId).subscribe(result => {
       if (result.length > 0) {
         this.items = result;
-        console.log(this.items);
+        // console.log(this.items);
         this.dataSource = new MatTableDataSource<IncentiveRequestDetailModel>(this.items);
         this.loading = false;
       }
@@ -363,7 +363,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   }
 
   updateForm() {
-    console.log(this.itemDetail);
+    // console.log(this.itemDetail);
     this.incentiveRequestItemForm.setValue({
       IncentiveCategoryId: this.itemDetail.IncentiveCategoryId == null ? '' : this.itemDetail.IncentiveCategoryId,
       IncentiveItemId: this.itemDetail.IncentiveItemId,
@@ -380,7 +380,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       // ExRate: this.itemDetail.CurrencyRate,
       BOMIncentiveItemId: this.itemDetail.IncentiveItemId,
     });
-    // console.log(this.IncentiveRequestDetailModel);
+    // // console.log(this.IncentiveRequestDetailModel);
     // },4000);
     this.isNewIncentiveRequestItem = false;
   }
@@ -500,7 +500,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
         },
         err => this.handleError(err));
     } else {
-      console.log('updating...');
+      // console.log('updating...');
       return this.IncentiveRequestItemService.updateIncentiveRequestItem(
         this.getEditedIncentiveItem()).subscribe((itemDetail: IncentiveRequestDetailModel) => {
           this.saveCompleted(itemDetail);
@@ -550,7 +550,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   }
 
   deleteRecord(index: number) {
-    console.log(index);
+    // console.log(index);
     this.IncentiveItemtEditIndex = index;
     this.itemDetail = this.items[index];
     // to-do show confirmation dialog
@@ -594,7 +594,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   }
 
   showBalance() {
-    console.log(this.currentCategoryId);
+    // console.log(this.currentCategoryId);
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {
       this.router.navigate(['bom-balance/' + this.projectId + '/' + this.serviceApplicationId + '/' + this.serviceId]);
     } else if (this.currentCategoryId == 10777) {

@@ -110,8 +110,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
               public activityService: ActivityService,
               public invactivityService: InvactivityService,
               private dataSharing: DataSharingService) {
-    this.project = <ProjectModel>{};
-    this.address = <AddressModel>{};
+    // this.project = <ProjectModel>{};
+    // this.address = <AddressModel>{};
   }
 
   setMinDate(minD: Date) {
@@ -146,21 +146,15 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.projectId = this.route.snapshot.params['ProjectId'];
 
     this.fillAddressLookups();
     this.formBuild();
     this.updateDateRange();
     this.initStaticData('en');
-
-    this.route.params
-      .subscribe((params: Params) => {
-        this.projectId = +params['id'];
-        // this.projectId = this.route.snapshot.params['id'];
-        if (this.projectId > 1) {
-          console.log(this.projectId);
-          this.getProjectDetail();
-        }
-      });
+    if (this.projectId > 1) {
+      this.getProjectDetail();
+    }
 
 
   }
@@ -172,10 +166,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         if (localStorage.getItem('ParentProjectId') === null) {
           this.editMode = true;
           this.projectIdEditing = project.ProjectId;
-          this.projectId = project.ProjectId;
-          // localStorage.setItem('ProjectId', this.projectId);
-          // localStorage.setItem('workFlowId', project.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
-          // localStorage.setItem('ServiceId', project.ServiceApplication[0].ServiceId);
         }
         this.projectForm.patchValue(project);
         this.getAddressData(project.ProjectId);
@@ -304,7 +294,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     if (!woredaCode) {
       return;
     }
-    console.log(woredaCode);
 
   }
 
@@ -333,7 +322,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     if (!InvActivityId) {
       return;
     }
-    console.log(this.investmentActivity);
+    // console.log(this.investmentActivity);
     this.filterInvestmentActivityList = this.investmentActivity.filter((item) => {
       return item.ActivityId === InvActivityId;
     });
@@ -393,23 +382,24 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   formBuild() {
+    console.log(this.ServiceId)
     this.projectForm = this.formBuilder.group({
-      ProjectName: [this.project.ProjectName, [Validators.required,
+      ProjectName: ['', [Validators.required,
         CustomValidators.validateCharacters, Validators.minLength(2)]],
       InvestorId: [this.InvestorId],
-      ParentProjectId: '0',
-      CreatedUserName: this.accountServices.currentUser.UserName,
-      ProjectDescription: [this.project.ProjectDescription, [Validators.required, Validators.minLength(2)]],
-      StartDate: [this.project.StartDate, [Validators.required]],
-      OperationDate: [this.project.OperationDate, Validators.required],
       ServiceId: [this.ServiceId],
-      SectorId: [this.project.SectorId],
-      SubSectorId: [this.project.SubSectorId],
-      ActivityId: [this.project.ActivityId],
-      IsOromiaSpecialZone: [this.project.IsOromiaSpecialZone],
-      InvActivityId: [this.project.InvActivityId],
-      EndingDate: [this.project.EndingDate, Validators.required],
-      EnvironmentalImpact: [this.project.EnvironmentalImpact, [Validators.required, Validators.minLength(2)
+      ParentProjectId: ['0'],
+      CreatedUserName: this.accountServices.currentUser.UserName,
+      ProjectDescription: ['', [Validators.required, Validators.minLength(2)]],
+      StartDate: ['', [Validators.required]],
+      OperationDate: ['', Validators.required],
+      SectorId: [''],
+      SubSectorId: [''],
+      ActivityId: [''],
+      IsOromiaSpecialZone: [''],
+      InvActivityId: [''],
+      EndingDate: ['', Validators.required],
+      EnvironmentalImpact: ['', [Validators.required, Validators.minLength(2)
       ]],
 
       'address': new FormGroup({
@@ -445,17 +435,13 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.loading = false;
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
 
-    this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
-      duration: 3000,
-    });
   }
 
   ngAfterContentChecked(): void {
-    // this.projectForm.patchValue({
-    //   ParentProjectId: localStorage.getItem('ParentProjectId')
-    // });
-
-    if (this.ServiceId === 1023 && !this.editMode) {
+    this.projectForm.patchValue({
+      ServiceId: this.ServiceId
+    });
+    if (this.ServiceId == 1023 && !this.editMode) {
       this.projectForm.patchValue({
         ParentProjectId: localStorage.getItem('ParentProjectId')
       });
@@ -476,9 +462,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getIsChecked() {
-    console.log(this.projectForm.get('address').get('IsIndustrialPark').value);
     return this.projectForm.get('address').get('IsIndustrialPark').value;
-
   }
 
 

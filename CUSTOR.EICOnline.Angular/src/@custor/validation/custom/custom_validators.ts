@@ -39,8 +39,8 @@ export class CustomValidators extends Validators {
     const otherSourceFinance = control.get('OtherSourceFinance');
     const total = control.get('Total');
     const sourceTotal = loanFinance.value + equityFinance.value + otherSourceFinance.value;
-    console.log(total.value);
-    console.log(sourceTotal.value);
+    // console.log(total.value);
+    // console.log(sourceTotal.value);
     return total.value !== sourceTotal ? {'sumIsNotEqual': true} : null;
   };
 }

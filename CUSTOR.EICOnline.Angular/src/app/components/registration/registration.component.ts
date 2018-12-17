@@ -1,17 +1,25 @@
 import {fadeInOut} from '@custor/services/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Component, OnInit} from '@angular/core';
-import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_WITHSPACE_REGEX, STATUS} from '../../const/consts';
+import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import {AfterContentChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {Subscription} from 'rxjs';
+import {Utilities} from '@custor/helpers/utilities';
+import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_WITHSPACE_REGEX, GENDERS, STATUS} from '../../const/consts';
 import {BudgetYearType} from '../../model/Registration/BudgetYearType';
+import {AddressService} from '../../Services/Address/address.service';
 import {ToastrService} from 'ngx-toastr';
 import {BudgetYearTypeService} from '../../Services/Registration/BudgetYearType.service';
-import {RegistrationStatus} from '../../model/lookupData';
+import {Lookup, RegistrationStatus} from '../../model/lookupData';
 import {MajorDivision} from '../../model/catagory/MajorDivision.model';
 import {CatagoryService} from '../../Services/Catagory/Catagory.service';
+import {Investor} from '../../model/investor';
 import {RegistrationService} from '../../Services/Registration/Registration.service';
 import {RegistrationCatagory} from '../../model/Registration/RegistrationCatagory';
 import {RegistrationCatagoryService} from '../../Services/Registration/RegistrationCatagory.service';
 import {RegistrationModel} from '../../model/Registration/RegistrationModel';
+import {ServiceTariffModel} from '../../model/servicetariff';
+import {AddressModel} from '../../model/address/Address.model';
 
 @Component({
   selector: 'app-registration',
@@ -250,12 +258,12 @@ export class RegistrationComponent implements OnInit {
     this.registrationForm.patchValue({
       cTin: localStorage.getItem('Tin')
     });
-    // console.log(this.registrationForm.get('cMajorDivisions').value);
+    // // console.log(this.registrationForm.get('cMajorDivisions').value);
 
     return this.registrationCatagoryService.saveRegistrationCatagory(
       this.getEditedRegistrationCatagory()).subscribe(
       (registrationcatagory: RegistrationCatagory) => {
-        console.log(registrationcatagory);
+        // console.log(registrationcatagory);
       },
       error => this.toastr.error(error));
   }*/

@@ -14,7 +14,10 @@ import {ErrorMessage} from '@custor/services/errMessageService';
 import {InvestorService} from '../../investor/investor.service';
 import {Investor} from '../../../model/investor';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
-import {ActivatedRoute} from '@angular/router';
+
+import {ActivatedRoute} from "@angular/router";
+import {ConfigurationService} from "@custor/services/configuration.service";
+
 
 @Component({
   selector: 'app-service-prerequisite',
@@ -56,6 +59,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
+  public baseUrl: string;
 
   constructor(public snackbar: MatSnackBar,
               public dialog: MatDialog,
@@ -64,6 +68,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
               public errMsg: ErrorMessage,
               public route: ActivatedRoute,
               public userActivityDataServices: UserActivityDataServices,
+              public config: ConfigurationService,
               public dataSharing: DataSharingService,
               public serviceApplicationsServices: ServiceapplicationService,
               public servicePrerequisiteService: ServicePrerequisiteService,
@@ -78,7 +83,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     const ServiceWorkflowId = this.route.snapshot.params['workFlowId'];
     this.workFlowId = (ServiceWorkflowId == undefined) ? '' : ServiceWorkflowId;
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-
+    this.baseUrl = this.config.baseUrl;
     this.createForm();
     this.getServicePrerequisite(this.ServiceId);
   }
@@ -105,7 +110,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     const formModel = this.documentForm.value;
 
     const formData = new FormData();
-    console.log(formModel.workFlowId);
+    // console.log(formModel.workFlowId);
     formData.append('Name', formModel.Name);
     formData.append('ServicePrerequisiteId', formModel.ServicePrerequisiteId);
     formData.append('ServiceApplicationId', formModel.ServiceApplicationId);
@@ -117,7 +122,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
   upload(i: number, files: FileList) {
     this.errors = []; // Clear error
-    console.log((!this.isValidFiles(files)));
+    // console.log((!this.isValidFiles(files)));
     if (files && files[0].size > 0 && (this.isValidFiles(files))) {
       this.documentForm.patchValue({
         Name: 'Eic_file',
@@ -144,7 +149,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
       .subscribe(result => {
         this.filterPrerequisite(result);
 
-        console.log(this.servicePreList);
+        // console.log(this.servicePreList);
       });
   }
 
@@ -263,10 +268,17 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     }
   }
 
-  private filterPrerequisite(prerequeste: ServicePrerequisite[]) {
+
+
+
+   private filterPrerequisite(prerequeste: ServicePrerequisite[]) {
     this.investorService.getInvestor(this.InvestorId)
       .subscribe((result: Investor) => {
         this.getPreReqService(prerequeste, result);
       });
   }
+
+
+
+
 }

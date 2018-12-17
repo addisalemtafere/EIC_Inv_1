@@ -85,20 +85,18 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.projectId = this.route.snapshot.params['ProjectId']
 
 
-    if (this.ServiceId === '1234') {
+    if (this.ServiceId == '1234') {
+      // this.projectId = this.route.snapshot.params['ProjectId']
       this.getProjectStatus(this.route.snapshot.params['ProjectId']);
     }
-
+    if (this.projectId > 1 && this.ServiceId == '13') {
+      this.getProjectCost();
+    }
     this.initStaticData('en');
-    this.route.params
-      .subscribe((params: Params) => {
-        this.projectId = +params['id'];
-        if (this.projectId > 1) {
-          this.getProjectCost();
-        }
-      });
+
     this.formBuild();
     this.getExchangeRate();
     this.formControlValueChanged();
@@ -180,11 +178,11 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
       OfficeEquipmentCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       OtherCapitalCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       InitialWorkingCapitalCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
-      EquityFinance: new FormControl(''),
+      EquityFinance: new FormControl(0),
 
-      LoanFinance: new FormControl(''),
-      OtherSourceFinance: new FormControl(''),
-      OtherSourceDescription: new FormControl(''),
+      LoanFinance: new FormControl(0),
+      OtherSourceFinance: new FormControl(0),
+      OtherSourceDescription: new FormControl(0),
 
       ActualCostInForeign: new FormControl(''),
       Unit: new FormControl('1'),

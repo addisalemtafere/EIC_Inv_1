@@ -66,7 +66,7 @@ export class IncentiveRequestService {
   saveIncentiveRequest(incentiveRequest: IncentiveRequestModel): Observable<IncentiveRequestModel> {
     return this.httpClient.post<IncentiveRequestModel>(this.config.urls.url('incentiveRequest'), incentiveRequest).pipe(
       map(IncentiveRequest => {
-        console.log(this.incentiveRequestModel);
+        // console.log(this.incentiveRequestModel);
         this.incentiveRequestModel = IncentiveRequest;
         return this.incentiveRequestModel;
       }),

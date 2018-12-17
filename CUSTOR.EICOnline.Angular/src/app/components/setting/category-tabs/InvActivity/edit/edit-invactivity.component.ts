@@ -99,7 +99,7 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    console.log(this.invactivity.ActivityId);
+    // console.log(this.invactivity.ActivityId);
     this.invActivityForm.patchValue({
       cDescription: this.invactivity.Description == null ? '' : this.invactivity.Description.toString(),
       cDescriptionAlias: this.invactivity.DescriptionAlias == null ? '' : this.invactivity.DescriptionAlias.toString(),
@@ -192,7 +192,7 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
 
   private getEditedInvActivity(): InvActivityModel {
     const formModel = this.invActivityForm.value;
-    // console.log(this.invactivity.InvActivityId);
+    // // console.log(this.invactivity.InvActivityId);
     return {
       InvActivityId: this.isNewInvActivity ? 0 : this.invactivity.InvActivityId,
       ActivityId: formModel.cActivity,
@@ -265,10 +265,10 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
     if (!SubSecId) {
       return;
     }
-    console.log(this.activityModels);
+    // console.log(this.activityModels);
     this.filltersActivityModels = null;
     this.filltersActivityModels = this.activityModels.filter((item) => {
-      console.log(SubSecId + 'item' + item.SubSectorId);
+      // console.log(SubSecId + 'item' + item.SubSectorId);
 
       return item.SubSectorId === SubSecId;
     });

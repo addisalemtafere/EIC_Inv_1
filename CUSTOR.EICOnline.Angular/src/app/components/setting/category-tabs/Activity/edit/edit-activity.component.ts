@@ -106,7 +106,7 @@ export class EditActivityComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    console.log(this.activity);
+    // console.log(this.activity);
     this.activityForm.patchValue({
       cDescription: this.activity.Description == null ? '' : this.activity.Description.toString(),
       cDescriptionAlias: this.activity.DescriptionAlias == null ? '' : this.activity.DescriptionAlias.toString(),

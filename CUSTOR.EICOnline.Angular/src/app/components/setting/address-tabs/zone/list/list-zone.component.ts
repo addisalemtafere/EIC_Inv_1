@@ -58,7 +58,7 @@ export class ListZoneComponent implements OnInit, AfterViewInit {
               closeButton: true,
             });
           } else {
-            // console.log(this.zoneModels);
+            // // console.log(this.zoneModels);
             this.dataSource.data = this.zoneModels;
           }
         },

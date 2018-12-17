@@ -6,16 +6,16 @@
   </div>
 
 
-        </div>
+</div>
 
 <form class="margin-2 " [formGroup]="documentForm">
   <mat-card #content class="padding-0" id="content">
     <!--<mat-card-header>-->
-      <!--<mat-card-subtitle class="sub-title">-->
+    <!--<mat-card-subtitle class="sub-title">-->
 
-        <!--Attach Below listed PreRequisite document accordingly-->
-        <!--&lt;!&ndash;<mat-divider></mat-divider>&ndash;&gt;-->
-      <!--</mat-card-subtitle>-->
+    <!--Attach Below listed PreRequisite document accordingly-->
+    <!--&lt;!&ndash;<mat-divider></mat-divider>&ndash;&gt;-->
+    <!--</mat-card-subtitle>-->
     <!--</mat-card-header>-->
 
     <mat-card-content id="container">
@@ -24,16 +24,18 @@
       <div fxLayout="row wrap" fxLayoutAlign="center ">
         <mat-progress-bar color="accent" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
         <mat-table class="full-width" #table [dataSource]="dataSource">
-          <ng-container style="width: 10px !important;" matColumnDef="No">
-            <mat-header-cell style="width: 10px !important;" *matHeaderCellDef>No</mat-header-cell>
-            <mat-cell style="width: 10px !important;" *matCellDef="let servicePreList; let i=index;">
-              <div *ngIf="servicePreList.IsDocument">{{i+1}}</div>
+          <ng-container matColumnDef="No">
+            <mat-header-cell fxFlex="6" *matHeaderCellDef>No</mat-header-cell>
+            <mat-cell fxFlex="6" *matCellDef="let servicePreList; let i=index;">
+              <div style="color: #0c97a8;font-weight: bolder;font-size: 16px;" *ngIf="servicePreList.IsDocument">
+                {{i+1}}).
+              </div>
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="PreRequisite">
-            <mat-header-cell *matHeaderCellDef>PreRequisite</mat-header-cell>
-            <mat-cell *matCellDef="let servicePreList;">
+            <mat-header-cell fxFlex="40" *matHeaderCellDef>PreRequisite</mat-header-cell>
+            <mat-cell fxFlex="40" class="attachDocument" *matCellDef="let servicePreList;">
               <div *ngIf="servicePreList.IsDocument">{{(servicePreList.DescriptionEnglish==null)?
                 '':(servicePreList.DescriptionEnglish )}}
               </div>
@@ -45,14 +47,16 @@
               <!--{{servicePreList.ServicePrerequisiteId | documentPipe: 9074 }}-->
               <!--<a target="_blank" href="http://www.google.component">viebw</a>-->
 
-              <a style="padding-left: 50px;" *ngIf="servicePreList.upload" target="_blank"
-                 href="http://172.17.33.132//Upload/{{servicePreList.URL}}">view</a>
+              <a style="padding-left: 50px;font-weight:bolder;color: #0c97a8;font-size: 16px;text-decoration: none;"
+                 *ngIf="servicePreList.upload" target="_blank"
+                 href="{{baseUrl}}//Upload/{{servicePreList.URL}}">Show File</a>
+
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="Action">
-            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-            <mat-cell *matCellDef="let servicePreList;let i=index;">
+            <mat-header-cell fxFlex="25" *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell fxFlex="25" *matCellDef="let servicePreList;let i=index;">
               <div *ngIf="servicePreList.IsDocument">
                 <a class="pointer"
 
@@ -88,34 +92,34 @@
     </mat-card-content>
 
     <!--<div fxLayoutGap="3em" align="center">-->
-      <!--<div style="padding: 20px" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">-->
+    <!--<div style="padding: 20px" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">-->
 
-        <!--<div fxFlex="15">-->
+    <!--<div fxFlex="15">-->
 
-          <!--&lt;!&ndash;<button class="custom-button" (click)="next()" color="warn" type="button">&ndash;&gt;-->
-          <!--&lt;!&ndash;Back&ndash;&gt;-->
-          <!--&lt;!&ndash;</button>&ndash;&gt;-->
-        <!--</div>-->
-        <!--<div style="text-align: center" fxFlex="67" fxFlexAlign="center">-->
-          <!--&lt;!&ndash;<button mat-raised-button="" color="primary">&ndash;&gt;-->
-          <!--&lt;!&ndash;<mat-icon class="mat-18">done</mat-icon>&ndash;&gt;-->
-          <!--&lt;!&ndash;<span>Save as Draft</span>&ndash;&gt;-->
-          <!--&lt;!&ndash;</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;<button class="custom-button" (click)="next()" color="warn" type="button">&ndash;&gt;-->
+    <!--&lt;!&ndash;Back&ndash;&gt;-->
+    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div style="text-align: center" fxFlex="67" fxFlexAlign="center">-->
+    <!--&lt;!&ndash;<button mat-raised-button="" color="primary">&ndash;&gt;-->
+    <!--&lt;!&ndash;<mat-icon class="mat-18">done</mat-icon>&ndash;&gt;-->
+    <!--&lt;!&ndash;<span>Save as Draft</span>&ndash;&gt;-->
+    <!--&lt;!&ndash;</button>&ndash;&gt;-->
 
-          <!--<button style="margin-left: 10px" (click)="UpdateServiceApplication()" mat-raised-button="" class="mr-16"-->
-                  <!--color="primary">-->
-            <!--<mat-icon color="primary">done</mat-icon>-->
-            <!--<span>Submit </span>-->
-          <!--</button>-->
-        <!--</div>-->
-        <!--<div fxFlex="15">-->
+    <!--<button style="margin-left: 10px" (click)="UpdateServiceApplication()" mat-raised-button="" class="mr-16"-->
+    <!--color="primary">-->
+    <!--<mat-icon color="primary">done</mat-icon>-->
+    <!--<span>Submit </span>-->
+    <!--</button>-->
+    <!--</div>-->
+    <!--<div fxFlex="15">-->
 
-          <!--&lt;!&ndash;<button class="custom-button" (click)="next()" color="warn" type="button">&ndash;&gt;-->
-          <!--&lt;!&ndash;Next&ndash;&gt;-->
-          <!--&lt;!&ndash;</button>&ndash;&gt;-->
-        <!--</div>-->
+    <!--&lt;!&ndash;<button class="custom-button" (click)="next()" color="warn" type="button">&ndash;&gt;-->
+    <!--&lt;!&ndash;Next&ndash;&gt;-->
+    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+    <!--</div>-->
 
-      <!--</div>-->
+    <!--</div>-->
 
     <!--</div>-->
   </mat-card>

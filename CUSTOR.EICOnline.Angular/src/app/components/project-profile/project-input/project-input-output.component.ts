@@ -29,7 +29,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
   rawInputId: number;
   loading = false;
   subscription: Subscription;
-  projectId: number;
+  projectId: any;
   formErrors = {
     ElectricPower: 'Minimum 0 Maximum 1000 kwh!',
     Water: '',
@@ -67,18 +67,16 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.projectId = this.route.snapshot.params['ProjectId']
 
     if (this.ServiceId === '1234') {
       this.getProjectStatus(this.route.snapshot.params['ProjectId']);
     }
+    if (this.projectId > 1) {
+      this.getProjectRequirement();
+    }
     this.initStaticData('en');
-    this.route.params
-      .subscribe((params: Params) => {
-        this.projectId = +params['id'];
-        if (this.projectId > 1) {
-          this.getProjectRequirement();
-        }
-      });
+
   }
 
   getProjectRequirement() {
@@ -123,7 +121,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
 
   initForm() {
     this.pIOform = this.formBuilder.group({
-      ProjectId: [''],
+      ProjectId: [],
       ElectricPower: [0, [Validators.min(0)]],
       Water: [0, [Validators.min(0)]],
       OtherUtility: [0, [Validators.min(0)]],

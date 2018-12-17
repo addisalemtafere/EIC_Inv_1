@@ -37,11 +37,7 @@ export class LookupsService {
   }
 
   saveLookups(subLookuptypesModel: LookupsModel): Observable<LookupsModel> {
-    console.log(subLookuptypesModel.LookupId,
-      subLookuptypesModel.Amharic,
-      subLookuptypesModel.English,
-      subLookuptypesModel.LookUpTypeId
-    );
+
     return this.httpClient.post<LookupsModel>(this.config.urls.url('lookup'), subLookuptypesModel).pipe(
       map(LookupsData => {
         this.subLookuptypesModel = LookupsData;

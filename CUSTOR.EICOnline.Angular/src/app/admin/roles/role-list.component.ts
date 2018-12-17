@@ -98,7 +98,7 @@ export class RoleListComponent implements OnInit, AfterViewInit {
         },
         error => {
           this.loadingIndicator = false;
-          console.log(Utilities.getHttpResponseMessage(error));
+          // console.log(Utilities.getHttpResponseMessage(error));
           this.alertService.error(`Error - "${Utilities.getHttpResponseMessage(error)}"`,
             'Load Error');
         });

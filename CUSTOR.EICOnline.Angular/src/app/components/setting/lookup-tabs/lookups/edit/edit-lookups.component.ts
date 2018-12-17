@@ -90,7 +90,7 @@ export class EditLookupsComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    console.log(this.sublookups);
+    // console.log(this.sublookups);
     this.subLookupsForm.patchValue({
       cAmharic: this.sublookups.Amharic == null ? '' : this.sublookups.Amharic.toString(),
       cEnglish: this.sublookups.English == null ? '' : this.sublookups.English.toString(),

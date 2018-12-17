@@ -84,7 +84,7 @@ export class EditRegionComponent implements OnInit, OnDestroy {
       .getRegion(id)
       .subscribe(result => {
           this.regions = result;
-          console.log(this.regions);
+          // console.log(this.regions);
           this.updateForm();
         },
         error => this.toastr.error(this.errMsg.getError(error)));

@@ -59,10 +59,10 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
         this.InvestorId = result.InvestorId;
         this.templateMessage = 'Dear ' +
           this.investorName +
-          ', We already  received  your ' +
+          ', We have already  received  your application request for ' +
           this.getServiceName(result.ServiceId) + ' ' +
-          ' application Request case number ' + result.CaseNumber + '' +
-          ' Your Application has been reviewed by our officer ';
+          '(case number ' + this.ServiceApplicationId + ').' +
+          ' Your Application has been reviewed by our officer  ';
         this.notificationForm.patchValue({
           ToUserId: this.UserId,
           UserId: this.UserId,
@@ -88,7 +88,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
   sendMessage() {
     this.notificationService.create(this.notificationForm.value)
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         this.toast.success('message has been sent', 'Message');
       });
   }
@@ -115,7 +115,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    console.log("notifications")
+    // console.log("notifications")
 
   }
 

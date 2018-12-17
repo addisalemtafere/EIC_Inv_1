@@ -184,7 +184,8 @@
       "Photo": "Photo",
       "MangerAddress": "Manager Address",
       "PaidCapital": "Paid Capital",
-      "SighnedCapital": "Signed Capital"
+      "SighnedCapital": "Signed Capital",
+      "FormOfOwnership": "Form Of Ownership"
     }
   },
   "form": {

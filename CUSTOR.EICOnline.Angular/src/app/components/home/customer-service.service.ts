@@ -40,7 +40,7 @@ export class CustomerServicesService {
       .pipe(
         map(serviceList => {
           this.serviceList = serviceList;
-          // console.log(serviceListPre);
+          // // console.log(serviceListPre);
         }),
         catchError(error => {
           return this.handleError(error);
@@ -54,7 +54,7 @@ export class CustomerServicesService {
         map(serviceList => {
           this.serviceList = serviceList;
           return this.serviceList;
-          // console.log(serviceListPre);
+          // // console.log(serviceListPre);
         }),
         catchError(error => {
           return this.handleError(error);
@@ -68,7 +68,7 @@ export class CustomerServicesService {
         map(serviceList => {
           this.serviceList = serviceList;
           return this.serviceList;
-          // console.log(serviceListPre);
+          // // console.log(serviceListPre);
         }),
         catchError(error => {
           return this.handleError(error);
@@ -91,11 +91,11 @@ export class CustomerServicesService {
 
   getPrerequisites(id): Observable<any> {
     const endpointUrl = `${this.presUrl}/${id}`;
-    // console.log (endpointUrl);
+    // // console.log (endpointUrl);
     return this.httpClient.get<ServicePrerequisite[]>(endpointUrl).pipe(
       map(pre => {
         this.checkLists = pre;
-        console.log(this.checkList);
+        // console.log(this.checkList);
         return this.checkLists;
       }),
       catchError(error => {
@@ -110,7 +110,7 @@ export class CustomerServicesService {
     let modelStateErrors = '';
 
     if (!serverError.type) {
-      console.log(serverError);
+      // console.log(serverError);
       for (const key in serverError) {
         if (serverError[key]) {
           modelStateErrors += serverError[key] + '\n';

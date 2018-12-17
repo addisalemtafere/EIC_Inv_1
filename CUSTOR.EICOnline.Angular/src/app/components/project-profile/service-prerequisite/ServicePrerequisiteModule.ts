@@ -9,8 +9,8 @@ import {SharedModule} from '@custor/modules/shared.module';
     CommonModule,
     SharedModule,
     ServicePrerequsiteRoutingModule],
-  declarations: [ServicePrerequisiteComponent],
-  exports: [ServicePrerequisiteComponent]
+  declarations: [],
+  exports: []
 })
 export class ServicePrerequisiteModule {
 }

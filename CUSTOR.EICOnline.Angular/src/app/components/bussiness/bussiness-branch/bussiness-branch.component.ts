@@ -42,7 +42,7 @@ export class BussinessBranchComponent implements OnInit {
       result => {
         this.RegistrationBranchList = result;
         this.dataSource.data = this.RegistrationBranchList;
-        console.log(this.RegistrationBranchList);
+        // console.log(this.RegistrationBranchList);
       }
     );
     this.loadBussinessBranch();
@@ -53,20 +53,20 @@ export class BussinessBranchComponent implements OnInit {
      result => {
        this.selectedBranchList = result;
        this.dataSourceBranch.data = this.selectedBranchList;
-       console.log(this.selectedBranchList);
+       // console.log(this.selectedBranchList);
        this.loadingIndicator = false;
      }
    );
  }
   onBussinessBranchControlChanged($event, data?: BussinessBranchModel) {
-    console.log(data);
+    // console.log(data);
     const id = $event.source.value;
     this.selectedBussinessBranchList = {
       AddressId: id };
     if ($event.checked) {
       this.bussinessServ.saveBussinessBranch(this.selectedBussinessBranchList)
         .subscribe(
-          result => { console.log(result);
+          result => { // console.log(result);
             this.loadBussinessBranch();
             this.toastr.success('Record saved successfully!'); }
         );
@@ -86,17 +86,17 @@ export class BussinessBranchComponent implements OnInit {
        //   this.onClear();
        // });
     }
-   // console.log($event.target);
-    console.log($event);
+   // // console.log($event.target);
+    // console.log($event);
   //  this.associateIdList.push($event.source.value);
-    //console.log(this.associateIdList);
+    //// console.log(this.associateIdList);
   }
 
   DeleteBussinessBranch(AddressId: number) {
     this.selectedBussinessBranchList = {
       AddressId: AddressId };
     this.bussinessServ.DeleteBussinessBranchByAddresId(this.selectedBussinessBranchList).subscribe(
-      result => { console.log(result);
+      result => { // console.log(result);
         this.loadBussinessBranch();
         this.toastr.success('Record Deleted successfully!');
       }

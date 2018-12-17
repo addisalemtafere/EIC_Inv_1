@@ -25,6 +25,11 @@
     </ng-template>
   </mat-tab>
 
+  <mat-tab *ngIf="!isInvestor" label="After Care Recommendation">
+    <ng-template matTabContent>
+      <app-aftercare-recommendation></app-aftercare-recommendation>
+    </ng-template>
+  </mat-tab>
   <mat-tab label="Project Renewal">
     <ng-template matTabContent>
       <app-project-renewal></app-project-renewal>
@@ -62,9 +67,9 @@
   </mat-tab>
   <!--Fire Make this Comment-->
   <!--<mat-tab *ngIf="!isInvestor" label="Letter">-->
-    <!--<ng-template matTabContent>-->
-      <!--<app-letter></app-letter>-->
-    <!--</ng-template>-->
+  <!--<ng-template matTabContent>-->
+  <!--<app-letter></app-letter>-->
+  <!--</ng-template>-->
   <!--</mat-tab>-->
 </mat-tab-group>
 

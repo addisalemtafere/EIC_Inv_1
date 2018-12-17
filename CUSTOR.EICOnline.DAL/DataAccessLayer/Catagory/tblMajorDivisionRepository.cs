@@ -59,11 +59,32 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
         //    return tblMajorDivisions;
         //}
 
+
         public async Task<List<tblMajorDivision>> GetMajorDivisionsByInvestorID(int InvstorId)
         {
             List<tblMajorDivision> tblMajorDivisions = new List<tblMajorDivision>();
             try
             {
+
+                //var q = from m in Context.tblMajorDivision
+                //        join r in Context.RegistrationCatagorys
+                //        on m.Code equals r.MajorCatagoryCode
+                //        select new
+                //        {
+                //            m.Id,m.Code,
+                //            m.Description,
+                //            m.DescriptionSort,
+                //            m.DescriptionSoundX,
+                //            m.EnglishDescription,
+                //            m.MajorDivAfanOromo,
+                //            m.MajorDivAfar,
+                //            m.MajorDivArabic,
+                //            m.MajorDivSomali,
+                //            m.MajorDivTigrigna,
+
+                //        };
+
+
                 var catagory = await Context.RegistrationCatagorys
                     .SingleOrDefaultAsync(param => param.InvestorId == InvstorId);
 
@@ -82,6 +103,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             }
             return tblMajorDivisions;
         }
+
 
 
     }

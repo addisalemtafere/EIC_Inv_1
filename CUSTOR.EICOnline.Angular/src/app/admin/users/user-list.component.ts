@@ -93,7 +93,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   private onDataLoadSuccessful(users: User[], roles: Role[]) {
     this.loadingIndicator = false;
-    console.log(users);
+    // console.log(users);
     const ADMIN_ROLE = 'Site Administrators'; // check case sensitivity
     if (!this.canManageAdmins) {
       users = users.filter((item) => {

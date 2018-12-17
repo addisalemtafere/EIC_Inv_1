@@ -42,11 +42,7 @@ export class ZoneService {
   }
 
   saveZone(zoneModel: Zone): Observable<Zone> {
-    console.log(zoneModel.ZoneId,
-      zoneModel.RegionId,
-      zoneModel.Description,
-      zoneModel.DescriptionEnglish
-    );
+
     return this.httpClient.post<Zone>(this.config.urls.url('zone'), zoneModel).pipe(
       map(ZoneData => {
         this.zoneModel = ZoneData;
