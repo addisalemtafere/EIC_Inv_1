@@ -19,13 +19,6 @@ export class DataSharingService {
   assignTask = new Subject<boolean>();
   investorTabSelectedIndex = new Subject<any>();
   isLoggedIn = new Subject<boolean>();
-  // projectIdForEditing = new Subject<Number>();
-  // startingUtil = new Subject<ProjectRequirementModel>();
-  // startingCost = new Subject<ProjectCostModel>();
-  // startingEditInput = new Subject<ProjectInputModel>();
-  // startingEditProduct = new Subject<ProjectOutputModel>();
-  // startingEmpl = new Subject<ProjectEmploymentModel>();
-  // startingShare = new Subject<ProjectNationalityCompositionModel>();
 
   constructor() {
   }
