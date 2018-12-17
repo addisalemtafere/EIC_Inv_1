@@ -10,6 +10,7 @@ export class DataSharingService {
   projectId = new Subject<any>();
   steeperIndex = new Subject<any>();
   renewalIndex = new Subject<any>();
+  // registrationIndex = new Subject<any>();
   currentIndex = new BehaviorSubject(null);
   workFlowId = new Subject<any>();
   isNew = new Subject<boolean>();

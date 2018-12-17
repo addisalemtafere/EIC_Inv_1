@@ -25,6 +25,7 @@ export class InvestorTabComponent implements OnInit {
   public isInvestor: boolean;
   public userName: string;
   private ServiceApplicationId: any;
+  public registrationIndex: any;
 
   constructor(private accountService: AccountService,
               public router: Router,
@@ -35,6 +36,10 @@ export class InvestorTabComponent implements OnInit {
 
   ngOnInit() {
 
+    this.subscription = this.dataSharing.steeperIndex
+      .subscribe(index => {
+        this.registrationIndex = index;
+      });
     this.getUserType();
 
     this.title = localStorage.getItem('title');
