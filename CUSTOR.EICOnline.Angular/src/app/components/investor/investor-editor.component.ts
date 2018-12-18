@@ -390,7 +390,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       FormOfOwnership: ['', Validators.required],
       cIsEthiopianOrigin: [false],
       cTin: [''],
-
+      IsExistingCustomer: [false],
       cRegNumber: [''],
       cRegDate: [''],
       cPaidCapital: ['', [Validators.compose([Validators.required, Validators.minLength(2),])]],
@@ -438,6 +438,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
       cPaidCapital: this.investor.PaidCapital || '',
       cSighnedCapital: this.investor.SighnedCapital || '',
+      IsExistingCustomer: this.investor.IsExistingCustomer || '',
 
       /*  cTradeNameEng: this.investor.TradeNameEnglish || '',
         cTradeName: this.investor.TradeName || '',*/
@@ -618,6 +619,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       RegistrationCatagories: formModel.cMajorDivision,
 
       UserId: this.accountService.currentUser.Id,
+      IsExistingCustomer: formModel.IsExistingCustomer,
       // SiteCode: this.accountService.currentUser.SiteCode,
       IsActive: true,
       IsDeleted: false,

@@ -67,6 +67,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public string UserId { get; set; }
         //public string SiteCode { get; set; }
+        public bool? IsExistingCustomer { get; set; }
         public bool? IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public Guid? ObjectId { get; set; }
