@@ -96,7 +96,6 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
         this.nationalityCompositionService.create(this.projectShareForm.value)
           .subscribe(result => {
             if (this.nationalityCompositionData.length < 1) {
-              // setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(7), 0);
             }
             this.projectShareForm.addControl('ProjectNationalityCompositionId', new FormControl(''));

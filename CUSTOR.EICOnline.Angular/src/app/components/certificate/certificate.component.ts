@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import {CertificateService} from '../../Services/certificate.service';
@@ -19,7 +19,7 @@ import {ServiceApplicationService} from '../../Services/service-application.serv
 import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-certificate',
@@ -28,6 +28,8 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class CertificateComponent implements OnInit {
   date: any;
+  formOfOwnerShipDescriptionAmharic: any;
+  formOfOwnerShipDescriptionEnglish: any;
   investorDetailList: ServiceApplicationModel;
   investorAddressList: any;
   investmentAddressList: AddressModel;
@@ -115,6 +117,22 @@ export class CertificateComponent implements OnInit {
         this.getManager(this.investorDetailList.ProjectId);
         this.getInvactivity(this.investorDetailList.Project.InvActivityId);
         this.approve();
+        if (this.investorDetailList.Investor.FormOfOwnership == 1) {
+          this.formOfOwnerShipDescriptionAmharic = 'የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ';
+          this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR DOMESTIC';
+        } else if (this.investorDetailList.Investor.FormOfOwnership == 2) {
+          this.formOfOwnerShipDescriptionAmharic = 'የውጭ ሃገር ኢንቨስተር የኢንቨስትመንት ፈቃድ';
+          this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR FOREIGN INVESTOR';
+        } else if (this.investorDetailList.Investor.FormOfOwnership == 3) {
+          this.formOfOwnerShipDescriptionAmharic = 'እንደ ሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ';
+          this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR AS OF DOMESTIC';
+        } else if (this.investorDetailList.Investor.FormOfOwnership == 4) {
+          this.formOfOwnerShipDescriptionAmharic = 'የውጭ ባለሃብት (በቅንጅት) የኢንቨስትመንት ፈቃድ';
+          this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR JOINT INVESTMENT';
+        } else {
+          this.formOfOwnerShipDescriptionAmharic = 'የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ';
+          this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR DOMESTIC';
+        }
 
       });
   }

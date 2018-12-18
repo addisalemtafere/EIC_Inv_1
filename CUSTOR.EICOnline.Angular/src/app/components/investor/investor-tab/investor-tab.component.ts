@@ -41,7 +41,6 @@ export class InvestorTabComponent implements OnInit {
     this.projectName = localStorage.getItem('projectName');
     this.investorName = localStorage.getItem('investorName');
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-
     this.userName = this.accountService.currentUser.FullName;
   }
 

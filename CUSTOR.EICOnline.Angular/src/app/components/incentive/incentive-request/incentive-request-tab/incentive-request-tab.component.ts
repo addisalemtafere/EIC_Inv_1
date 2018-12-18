@@ -22,13 +22,11 @@ export class IncentiveRequestTabComponent implements OnInit {
   private title: string;
   private projectName: string;
   private investorName: string;
-  private ServiceApplicationId: any;
   private userName: string;
 
 
   constructor(private serviceApplicationsServices: ServiceapplicationService,
               public accountService: AccountService,
-              private route: ActivatedRoute,
               private dialog: MatDialog,
               private route: ActivatedRoute,
               private toastr: ToastrService) {
