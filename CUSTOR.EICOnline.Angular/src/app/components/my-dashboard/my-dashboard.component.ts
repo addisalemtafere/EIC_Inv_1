@@ -103,7 +103,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     }
     if (serviceId === 1054) {
       this.router.navigate(['/bill-of-material/2' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
-    } else if (serviceId === 13 || serviceId==1023) {
+    } else if (serviceId === 13 || serviceId == 1023) {
       switch (step) {
         case 8:
           stepIndex = 1;
@@ -147,8 +147,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.dataSourceNotitification = new MatTableDataSource<NotificationModel>(result);
         this.loading = false;
         this.notitficationList = result;
-        // console.log(this.notitficationList);
-        // this.dataSourceNotitification.paginator = this.paginator2;
+
       }, error => this.errMsg.getError(error));
   }
 

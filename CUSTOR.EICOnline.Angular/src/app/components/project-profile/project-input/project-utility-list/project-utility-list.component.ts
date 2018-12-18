@@ -32,7 +32,7 @@ export class ProjectUtilityListComponent implements OnInit {
   }
 
   getPlannedUtility() {
-    this.utilityService.getAll()
+    this.utilityService.RequirementByProject(this.ProjectId)
       .subscribe(result => {
         this.plannedUtilityList = result[0];
       });

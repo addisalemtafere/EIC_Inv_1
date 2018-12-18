@@ -27,7 +27,7 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
   loading = false;
   subscription: Subscription;
   projectInputData: ProjectInputModel[] = [];
-  projectId: number;
+  projectId: any;
   public dataSource: any;
   displayedColumns = ['No', 'RawMaterialType', 'Remark', 'Action'];
   inputEditIndex: number;
@@ -149,12 +149,10 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
   onEditInput(index: number) {
     this.editModeInput = true;
     this.inputEditIndex = index;
-    // console.log(this.projectInputData[index]);
     this.pRawMaterialForm.patchValue(this.projectInputData[index]);
     this.pRawMaterialForm.patchValue({
       IsForeign: this.projectInputData[index].IsForeign.toString()
     });
-    // console.log(this.projectInputData[index].IsForeign);
   }
 
 

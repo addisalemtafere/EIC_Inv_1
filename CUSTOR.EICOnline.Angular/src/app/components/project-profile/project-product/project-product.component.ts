@@ -82,7 +82,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-    
+
     if (this.ServiceId === '1234') {
       this.getProjectStatus(this.projectId);
     }
@@ -139,6 +139,12 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
   onClear() {
     this.editMode = false;
     this.productForm.reset();
+    this.productForm.patchValue({
+      ProjectId: this.projectId
+    });
+    this.productForm.patchValue({
+      workFlowId: this.workFlowId
+    });
   }
 
   initForm() {

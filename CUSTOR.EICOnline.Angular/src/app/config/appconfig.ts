@@ -114,7 +114,7 @@ export class AppConfiguration {
     projectList: 'api/Projects/list',
     ProjectOnlyByInvestorId: 'api/Projects/ProjectOnlyByInvestorId',
     approveProject: 'api/Projects/approveProject',
-    ProjectsGetProjectStatus: '/api/Projects/GetProjectStatus',
+    ProjectsGetProjectStatus: 'api/Projects/GetProjectStatus',
 
     ServiceApplicationsByInvestorId: 'api/ServiceApplications/ByInvestorId',
     ServiceApplicationsByOfficerId: 'api/ServiceApplications/ByOfficerId',

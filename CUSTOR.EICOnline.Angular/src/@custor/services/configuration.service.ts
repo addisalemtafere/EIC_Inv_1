@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { AppTranslationService } from './translation.service';
-import { LocalStoreManager } from './storeManager.service';
-import { settingKeys } from '../helpers/settingKeys';
-import { Utilities } from '../helpers/utilities';
-import { environment } from '../../environments/environment';
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
+import {AppTranslationService} from './translation.service';
+import {LocalStoreManager} from './storeManager.service';
+import {settingKeys} from '../helpers/settingKeys';
+import {Utilities} from '../helpers/utilities';
+import {environment} from '../../environments/environment';
 
 // tslint:disable-next-line:interface-over-type-literal
 type UserConfiguration = {
