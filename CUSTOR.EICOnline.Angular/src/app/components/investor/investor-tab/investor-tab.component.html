@@ -11,8 +11,28 @@
 </div>
 <mat-tab-group [selectedIndex]="registrationIndex">
 
+  <!--<mat-tab label="Service Info">-->
+  <!--<ng-template matTabContent>-->
+  <!--<mat-card class="margin-2">-->
+
+  <!--<mat-card-content>-->
+  <!--<mat-checkbox (change)="isExisting()" color="primary">are You existing customer?</mat-checkbox>-->
+  <!--</mat-card-content>-->
+
+  <!--</mat-card>-->
+  <!--</ng-template>-->
+  <!--</mat-tab>-->
   <mat-tab label="Service Info">
+
     <ng-template matTabContent>
+      <!--<mat-card class="margin-2">-->
+
+      <!--<mat-card-content>-->
+      <!--<mat-checkbox (change)="isExisting()" color="primary">are You existing customer?</mat-checkbox>-->
+      <!--</mat-card-content>-->
+
+      <!--</mat-card>-->
+
       <app-service-info></app-service-info>
     </ng-template>
   </mat-tab>
@@ -27,12 +47,12 @@
       <app-associate-form></app-associate-form>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Company Clearance">
+  <mat-tab label="Company Clearance" *ngIf="!isNew">
     <ng-template matTabContent>
       <app-company-clearance-form></app-company-clearance-form>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Document">
+  <mat-tab label="Document" *ngIf="isNew">
     <ng-template matTabContent>
       <mat-card *ngIf="!isInvestor" class="margin-2 simple-card">
         <mat-card-header>

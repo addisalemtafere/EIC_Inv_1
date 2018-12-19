@@ -67,6 +67,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 PaidCapital = investorDTO.PaidCapital,
                 SighnedCapital = investorDTO.SighnedCapital,
+                IsExistingCustomer = investorDTO.IsExistingCustomer,
                 //SiteCode = investorDTO.SiteCode
 
             };
@@ -102,6 +103,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 RegistrationNumber = inv.RegistrationNumber,
                 PaidCapital = inv.PaidCapital,
                 SighnedCapital = inv.SighnedCapital,
+                IsExistingCustomer = inv.IsExistingCustomer,
+
 
                 //SiteCode = inv.SiteCode,
                 CellPhoneNo = add.CellPhoneNo,

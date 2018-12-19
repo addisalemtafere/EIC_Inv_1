@@ -59,7 +59,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-tab/:ServiceId/:ServiceApplicationId/:InvestorId',
+        path: 'investor-tab/:ServiceId/:ServiceApplicationId/:InvestorId/:IsExistingCustomer',
         loadChildren: 'app/components/investor/investor-tab/investor-tab.module#InvestorTabModule',
         canActivate: [AuthGuard]
       },

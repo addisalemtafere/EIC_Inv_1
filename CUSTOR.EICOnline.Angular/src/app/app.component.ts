@@ -182,7 +182,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   gotoCustomerRegistration() {
-    this.router.navigate(['investor-tab/1235/0/0']);
+    this.router.navigate(['investor-tab/1235/0/0/0']);
     localStorage.setItem('ServiceId', '1235');
   }
 
@@ -285,7 +285,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   Investor() {
     if (localStorage.getItem('InvestorId') === 'null') {
-      this.router.navigate(['investor-tab/1235/0/0']);
+      this.router.navigate(['investor-tab/1235/0/0/0']);
     } else {
       this.router.navigate(['/investor/edit', localStorage.getItem('InvestorId')]);
 
