@@ -153,6 +153,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.catagoryService.getMajorDivision()
       .subscribe(result => {
           this.majorDivisions = result;
+          this.majorDivisions = result;
         },
         error => this.toastr.error(error));
   }
