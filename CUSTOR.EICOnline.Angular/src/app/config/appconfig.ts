@@ -7,7 +7,7 @@ export class AppConfiguration {
     customers: 'api/customers/',
     investors: 'api/investors/',
     customer: 'api/customer/',
-    investor: 'api/investor/',
+    investor: 'api/investor',
     login: 'api/login/',
     logout: 'api/logout/',
     lookups: 'api/Lookups/',

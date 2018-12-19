@@ -47,12 +47,12 @@
       <app-associate-form></app-associate-form>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Company Clearance" *ngIf="!Investor.IsExistingCustomer">
+  <mat-tab label="Company Clearance" *ngIf="!isNew">
     <ng-template matTabContent>
       <app-company-clearance-form></app-company-clearance-form>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Document" *ngIf="Investor.IsExistingCustomer">
+  <mat-tab label="Document" *ngIf="isNew">
     <ng-template matTabContent>
       <mat-card *ngIf="!isInvestor" class="margin-2 simple-card">
         <mat-card-header>

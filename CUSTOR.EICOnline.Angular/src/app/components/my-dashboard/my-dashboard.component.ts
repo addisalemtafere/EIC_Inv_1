@@ -224,7 +224,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1235:
-        this.router.navigate(['investor-tab/' + serviceId + '/' + ServiceApplicationId + '/' + investorId]);
+        this.router.navigate(['investor-tab/' + serviceId + '/' + ServiceApplicationId + '/' + investorId + '/' + 0]);
 
         break;
       case 1236:
@@ -282,7 +282,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           this.investors = result;
           // console.log(result);
           if (this.investors.length === 0) {
-            this.router.navigate(['investor-tab/1235/0/0']);
+            this.router.navigate(['investor-tab/1235/0/0/0']);
             localStorage.setItem('ServiceId', '1235');
             this.toastr.success('Dear customer Please complete your Profile', 'Well Come !!!', {
               closeButton: true,

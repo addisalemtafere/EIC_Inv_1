@@ -84,6 +84,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   AllowCascading = true;
   @Input() errors: string[] = [];
+  private isNew: any;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -533,14 +534,25 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.loadingIndicator = true;
     return this.custService.saveInvestor(this.getEditedInvestor())
       .subscribe((investor) => {
-          this.saveCompleted(investor);
+          this.isNew = this.getEditedInvestor().IsExistingCustomer == true ? 1 : 0;
 
-          localStorage.setItem('InvestorId', investor.InvestorId.toString());
-          //localStorage.setItem('legalStatus', investor.LegalStatus.toString());
-          this.router.navigate(['investor-tab/1235/' + investor.ServiceApplicationId + '/' + investor.InvestorId]);
-          //alert(investor.ServiceApplicationId);
-          // this.saveAddress();
+          // const IsExistingCustomer = this.route.snapshot.params['IsExistingCustomer'];
 
+          // this.router.navigateByUrl(this.router.url.replace(IsExistingCustomer, this.isNew));
+          if (investor == null) {
+            const ServiceApplicationId1 = this.route.snapshot.params['ServiceApplicationId'];
+            const InvestorId1 = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
+            this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew]);
+
+          }
+
+          if (investor != null) {
+            this.router.navigate(['investor-tab/1235/' + investor.ServiceApplicationId + '/' + investor.InvestorId + '/' + this.isNew]);
+            this.saveCompleted(investor);
+
+            localStorage.setItem('InvestorId', investor.InvestorId.toString());
+
+          }
         },
         err => this.handleError(err)
       );

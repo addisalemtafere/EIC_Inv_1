@@ -33,6 +33,8 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   private InvestorId: any;
   public Investor: Investor;
   public isNew: any;
+  private isNewListener: number;
+  private isNewFirst: number;
 
   constructor(private accountService: AccountService,
               public router: Router,
@@ -58,6 +60,9 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
 
     this.getInvestor();
     this.userName = this.accountService.currentUser.FullName;
+    // this.isNewFirst = this.route.snapshot.params['IsExistingCustomer'];
+    this.isNewListener = this.route.snapshot.params['IsExistingCustomer'];
+
   }
 
   getUserType() {
@@ -80,16 +85,24 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
     this.investorService.getInvestor(this.InvestorId)
       .subscribe((result: Investor) => {
         this.Investor = result;
+        this.isNew = result.IsExistingCustomer;
+        // this.isNewFirst = this.isNew;
+        this.isNewListener = (this.isNew == true) ? 1 : 0
       });
   }
 
   ngAfterContentChecked(): void {
-    // this.getInvestor();
-    console.log('ngAfterViewChecked')
-    //   this.getInvestor();
-    // this.isNew=this.route.snapshot.params['IsExistingCustomer']
-  }
 
+    this.isNewFirst = this.route.snapshot.params['IsExistingCustomer'];
+
+    if (this.isNewListener != this.isNewFirst) {
+      console.log("isNewListener=" + this.isNewListener)
+      console.log("isNewFirst=" + this.isNewFirst)
+      this.isNewListener = this.isNewFirst;
+      this.getInvestor();
+
+    }
+  }
 
 
   ngAfterContentInit(): void {
