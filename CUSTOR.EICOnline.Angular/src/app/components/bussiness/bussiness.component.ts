@@ -96,8 +96,10 @@ export class BussinessComponent implements OnInit {
       // console.log(pair);
     });
 
-
-
+    this.bussinessService.getMajorDivisionByInvestorId(this.InvestorId).subscribe(result => {
+        this.MajorDivisionList = result;
+      }
+    );
     if (this.BussinessId <= 0) {
       this.bussinessService.getRegistrationByInvestorId(this.InvestorId).subscribe(
         result => {
@@ -131,10 +133,7 @@ export class BussinessComponent implements OnInit {
           this.loadingIndicator = false;
         }
       );
-      this.bussinessService.getMajorDivisionByInvestorId(this.InvestorId).subscribe(result => {
-          this.MajorDivisionList = result;
-        }
-      );
+
     }
 
 

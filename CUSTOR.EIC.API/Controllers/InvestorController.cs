@@ -80,8 +80,6 @@ namespace EICOnline.Controllers
         public async Task<ServiceApplication> SaveInvestor([FromBody] InvestorDTO postedInvestor)
         {
             bool isUpdate = (postedInvestor.InvestorId > 0);
-
-
             if (!ModelState.IsValid)
                 throw new ApiException("Model binding failed.", 500);
 
