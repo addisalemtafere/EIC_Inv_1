@@ -11,6 +11,13 @@
         </li>
       </ul>
     </div>
+    <div fxLayout="row" style="margin:20px 0px" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+      <div [fxFlex]="128">
+        <mat-checkbox formControlName="IsExistingCustomer" color="primary">
+          <strong>I am existing customer?</strong>
+        </mat-checkbox>
+      </div>
+    </div>
     <div style="margin-top: 10px" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
       <mat-form-field fxLayoutGap="4em" [fxFlex]="30">
         <mat-label>{{'investors.editor.LegalStatus' | translate}}</mat-label>
@@ -339,13 +346,8 @@
       <h4>{{'investors.editor.BusinessDataCaption' | translate}}</h4></div>
     <mat-divider></mat-divider>
     <div id="divTradeReg">
-      <div fxLayout="row" style="margin:20px 0px" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
-        <div [fxFlex]="128">
-          <mat-checkbox formControlName="IsExistingCustomer" color="primary">
-            Are you existing customer?
-          </mat-checkbox>
-        </div>
-      </div>
+
+
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
         <mat-form-field fxFlex>
           <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
@@ -355,21 +357,21 @@
           </mat-error>
           <!-- // to-do apply server side validation -->
         </mat-form-field>
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *ngIf="isNewCustomer">
           <mat-label name="lblRegNumber">{{'investors.editor.RegNumber' | translate}}</mat-label>
           <input matInput formControlName="cRegNumber" NaturalNumberOnlyDir/>
         </mat-form-field>
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *ngIf="isNewCustomer">
           <mat-label name="lblRegDate">{{'investors.editor.RegDate' | translate}}</mat-label>
           <input [matDatepicker]="cRegDate" matInput formControlName="cRegDate"/>
           <mat-datepicker-toggle matSuffix [for]="cRegDate"></mat-datepicker-toggle>
           <mat-datepicker #cRegDate></mat-datepicker>
         </mat-form-field>
-        <mat-form-field fxFlex fxFlex="14">
+        <mat-form-field fxFlex fxFlex="14" *ngIf="isNewCustomer">
           <mat-label name="lblPaidCapital">{{'investors.editor.PaidCapital' | translate}}</mat-label>
           <input matInput formControlName="cPaidCapital"/>
         </mat-form-field>
-        <mat-form-field fxFlex fxFlex="15">
+        <mat-form-field fxFlex fxFlex="15" *ngIf="isNewCustomer">
           <mat-label name="lblSighnedCapital">{{'investors.editor.SighnedCapital' | translate}}</mat-label>
           <input matInput formControlName="cSighnedCapital"/>
         </mat-form-field>

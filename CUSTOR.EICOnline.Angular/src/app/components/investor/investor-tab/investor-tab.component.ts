@@ -85,7 +85,6 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
       .subscribe((result: Investor) => {
         this.Investor = result;
         this.isNew = result.IsExistingCustomer;
-        // this.isNewFirst = this.isNew;
         this.isNewListener = (this.isNew == true) ? 1 : 0
       });
   }
@@ -95,30 +94,11 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
     this.isNewFirst = this.route.snapshot.params['IsExistingCustomer'];
 
     if (this.isNewListener != this.isNewFirst) {
-      console.log("isNewListener=" + this.isNewListener)
-      console.log("isNewFirst=" + this.isNewFirst)
       this.isNewListener = this.isNewFirst;
       this.getInvestor();
-
     }
   }
 
-
-  ngAfterContentInit(): void {
-    console.log('ngAfterViewChecked')
-    //   this.getInvestor();
-  }
-
-  // ngAfterViewInit(): void {
-  //   console.log('log')
-  //   this.getInvestor();
-  //
-  // }
-  //
-  // ngAfterViewChecked(): void {
-  //   console.log('ngAfterViewChecked')
-  //   this.getInvestor();
-  // }
 
 }
 
