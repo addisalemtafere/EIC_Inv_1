@@ -188,10 +188,16 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.isExistingCustomer.valueChanges.subscribe(
       (isNewCustomer: boolean) => {
         if (isNewCustomer && this.legalStatus.value !== 1) {
+          this.sighnedCapital.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+          this.paidCapital.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
           this.isNewCustomer = true;
         } else {
 
           this.isNewCustomer = false;
+          this.sighnedCapital.clearAsyncValidators();
+          this.paidCapital.clearAsyncValidators();
         }
       });
   }
@@ -405,7 +411,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       IsExistingCustomer: [false],
       cRegNumber: [''],
       cRegDate: [''],
-      cPaidCapital: ['', [Validators.compose([Validators.required, Validators.minLength(2),])]],
+      cPaidCapital: [''],
       cSighnedCapital: [''],
       cMajorDivision: [],
 

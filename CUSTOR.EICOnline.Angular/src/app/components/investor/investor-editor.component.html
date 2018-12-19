@@ -342,13 +342,13 @@
       <div fxLayout="row" style="margin:20px 0px" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
         <div [fxFlex]="128">
           <mat-checkbox formControlName="IsExistingCustomer" color="primary">
-            Are you existing customer?
+            <strong>Are you existing customer?</strong>
           </mat-checkbox>
         </div>
       </div>
 
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
-        <mat-form-field fxFlex >
+        <mat-form-field fxFlex>
           <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
           <input matInput formControlName="cTin" number maxlength="10"/>
           <mat-error *ngIf="tin.hasError('maxlength')">
@@ -356,11 +356,11 @@
           </mat-error>
           <!-- // to-do apply server side validation -->
         </mat-form-field>
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *ngIf="isNewCustomer">
           <mat-label name="lblRegNumber">{{'investors.editor.RegNumber' | translate}}</mat-label>
           <input matInput formControlName="cRegNumber" NaturalNumberOnlyDir/>
         </mat-form-field>
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *ngIf="isNewCustomer">
           <mat-label name="lblRegDate">{{'investors.editor.RegDate' | translate}}</mat-label>
           <input [matDatepicker]="cRegDate" matInput formControlName="cRegDate"/>
           <mat-datepicker-toggle matSuffix [for]="cRegDate"></mat-datepicker-toggle>
