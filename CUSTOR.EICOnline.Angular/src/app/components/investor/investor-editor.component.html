@@ -346,8 +346,9 @@
           </mat-checkbox>
         </div>
       </div>
+
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex >
           <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
           <input matInput formControlName="cTin" number maxlength="10"/>
           <mat-error *ngIf="tin.hasError('maxlength')">
@@ -365,11 +366,11 @@
           <mat-datepicker-toggle matSuffix [for]="cRegDate"></mat-datepicker-toggle>
           <mat-datepicker #cRegDate></mat-datepicker>
         </mat-form-field>
-        <mat-form-field fxFlex fxFlex="14">
+        <mat-form-field fxFlex fxFlex="14" *ngIf="isNewCustomer">
           <mat-label name="lblPaidCapital">{{'investors.editor.PaidCapital' | translate}}</mat-label>
           <input matInput formControlName="cPaidCapital"/>
         </mat-form-field>
-        <mat-form-field fxFlex fxFlex="15">
+        <mat-form-field fxFlex fxFlex="15" *ngIf="isNewCustomer">
           <mat-label name="lblSighnedCapital">{{'investors.editor.SighnedCapital' | translate}}</mat-label>
           <input matInput formControlName="cSighnedCapital"/>
         </mat-form-field>

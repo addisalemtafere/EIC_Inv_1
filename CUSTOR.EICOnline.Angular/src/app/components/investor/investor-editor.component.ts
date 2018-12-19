@@ -85,6 +85,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   AllowCascading = true;
   @Input() errors: string[] = [];
   private isNew: any;
+  public isNewCustomer: boolean;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -183,6 +184,16 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         }
       });
 
+
+    this.isExistingCustomer.valueChanges.subscribe(
+      (isNewCustomer: boolean) => {
+        if (isNewCustomer && this.legalStatus.value !== 1) {
+          this.isNewCustomer = true;
+        } else {
+
+          this.isNewCustomer = false;
+        }
+      });
   }
 
   ClearSoleValidators() {
@@ -814,6 +825,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   get FormOfOwnershipV() {
     return this.investorForm.get('FormOfOwnership');
+  }
+
+  get isExistingCustomer() {
+    return this.investorForm.get('IsExistingCustomer');
   }
 
   /*get tradeName() {
