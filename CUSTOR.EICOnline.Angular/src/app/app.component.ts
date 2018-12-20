@@ -299,7 +299,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     } else {
 
       this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-      this.router.navigate(['investor-tab/0/0/0']);
+      this.router.navigate(['investor-tab/0/0/0/0']);
     }
 
   }
@@ -309,7 +309,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
       this.router.navigate(['associate/list']);
     } else {
       this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-      this.router.navigate(['investor-tab/0/0/0']);
+      this.router.navigate(['investor-tab/0/0/0/0']);
     }
 
   }
