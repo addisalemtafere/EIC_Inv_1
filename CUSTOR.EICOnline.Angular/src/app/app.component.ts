@@ -294,9 +294,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     return this.accountService.userHasPermission(Permission.ManageIncentiveAssignedServicesPermission);
   }
 
+
   get canViewReadOnlyData() {
     return this.accountService.userHasPermission(Permission.ViewReadOnlyDataPermission);
   }
+
 
   get canManageLookupsPermission() {
     return this.accountService.userHasPermission(Permission.manageLookupsPermission);

@@ -61,7 +61,8 @@
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
-        <a *ngIf="!isInvestor && !canViewReadOnlyData" mat-list-item routerLinkActive="active"
+        <a *ngIf="!isInvestor && !canViewReadOnlyData && !canManageLookupsPermission" mat-list-item
+           routerLinkActive="active"
            [routerLinkActiveOptions]="{ exact: true }"
            routerLink="/officer-dashboard">
           <mat-icon>dashboard</mat-icon>
@@ -71,7 +72,7 @@
            [routerLinkActiveOptions]="{ exact: true }"
            routerLink="/management-dashboard">
           <mat-icon class="mat-18">collections</mat-icon>
-          Service Overview
+          Management Dashboard
         </a>
 
         <mat-expansion-panel *ngIf="isInvestor" #profile [class.mat-elevation-z0]="!profile.expanded">
@@ -99,9 +100,9 @@
           </mat-list>
         </mat-expansion-panel>
         <!--<a *ngIf="canViewTasks " mat-list-item routerLinkActive="active"-->
-           <!--(click)="gotoCustomerRegistration()">-->
-          <!--<mat-icon>people</mat-icon>-->
-          <!--{{'mainMenu.customerRegistration' | translate}}-->
+        <!--(click)="gotoCustomerRegistration()">-->
+        <!--<mat-icon>people</mat-icon>-->
+        <!--{{'mainMenu.customerRegistration' | translate}}-->
         <!--</a>-->
 
 
@@ -176,7 +177,7 @@
             <a mat-list-item routerLinkActive="active" routerLink="other">
               <mat-icon color="primary" class="mat-18">settings</mat-icon>
               {{'mainMenu.site' | translate}}</a>
-          <a mat-list-item routerLinkActive="active" routerLink="lettertempalte">
+            <a mat-list-item routerLinkActive="active" routerLink="lettertempalte">
               <mat-icon color="primary" class="mat-18">settings</mat-icon>
               {{'mainMenu.lettertemplate' | translate}}</a>
           </mat-list>
