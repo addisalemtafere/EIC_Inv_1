@@ -18,66 +18,70 @@
         </div> -->
         <h3>Requirements</h3>
         <!-- <div class=" border"> -->
-          <ol type="none">
-            <li *ngFor="let item of checkLists;let i=index">
-              <!--<span style="margin-right: 20px;" matBadge="{{i+1}}"></span>-->
-              <span>{{item.DescriptionEnglish}}</span>
+        <ol type="none">
+          <li *ngFor="let item of checkLists;let i=index">
+            <!--<span style="margin-right: 20px;" matBadge="{{i+1}}"></span>-->
+            <span>{{item.DescriptionEnglish}}</span>
+          </li>
+        </ol>
+        <h3>መሟላት ያለባቸው</h3>
+        <div class="checkList" fxFlex="100">
+          <ol>
+            <li *ngFor="let checkList of checkLists">
+              <span>{{checkList.Description}}</span>
             </li>
           </ol>
-          <h3>መሟላት ያለባቸው</h3>
-          <div class="checkList" fxFlex="100">
-            <ol>
-              <li *ngFor="let checkList of checkLists">
-                <span>{{checkList.Description}}</span>
-              </li>
-            </ol>
-          </div>
-          <div class="alert-info" role="alert">
-            <div class="f-lft">
-              <mat-icon class="mat-18" color="primary">info</mat-icon>
-              <div class="txt-j"> By continuing using the system you certify that you have
-                read
-                the above service request instruction and accept the applicable
-                <p class="bld">
-                  <a target="_blank" ui-sref="page({url:'privacy-policy'})" translate="" href="/page/privacy-policy">Terms
-                    and Conditions</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        <!-- </div> -->
-        <div fxLayoutAlign=" center" class="footerButton block" fxFlex="">
-          <button (click)="continue()" style="margin: 10px;" color="primary" mat-raised-button>
-            <mat-icon class="mat-18">done</mat-icon>
-            <span class="agree">I agree and continue</span>
-          </button>
-
-          <!--<button (click)="back()" style="margin: 10px;" color="warn" mat-raised-button>-->
-          <!--<mat-icon class="mat-18">x</mat-icon>-->
-          <!--<span>Close</span>-->
-          <!--</button>-->
         </div>
+        <!--<div class="alert-info" role="alert">-->
+        <!--<div class="f-lft">-->
+        <!--<mat-icon class="mat-18" color="primary">info</mat-icon>-->
+        <!--<div class="txt-j"> By continuing using the system you certify that you have-->
+        <!--read-->
+        <!--the above service request instruction and accept the applicable-->
+        <!--<p class="bld">-->
+        <!--<a target="_blank" ui-sref="page({url:'privacy-policy'})" translate="" href="/page/privacy-policy">Terms-->
+        <!--and Conditions</a>-->
+        <!--</p>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!-- </div> -->
+        <!--<div fxLayoutAlign=" center" class="footerButton block" fxFlex="">-->
+        <!--<button (click)="continue()" style="margin: 10px;" color="primary" mat-raised-button>-->
+        <!--<mat-icon class="mat-18">done</mat-icon>-->
+        <!--<span class="agree">I agree and continue</span>-->
+        <!--</button>-->
+
+        <!--&lt;!&ndash;<button (click)="back()" style="margin: 10px;" color="warn" mat-raised-button>&ndash;&gt;-->
+        <!--&lt;!&ndash;<mat-icon class="mat-18">x</mat-icon>&ndash;&gt;-->
+        <!--&lt;!&ndash;<span>Close</span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+        <!--</div>-->
       </div>
       <div class="appGuid block" fxFlex="40%">
         <div class="hdr-brk sub-title">Application Form guide</div>
         <ol>
-          <li>Please make sure that you have created an online account and customer profile that enables you to access our portal.
+          <li>Please make sure that you have created an online account and customer profile that enables you to access
+            our portal.
           </li>
-          <li>After logging in to the portal, please select the service you would like to request from the provided list, and fill the Request Form properly in order to submit your service request application. Fields marked
-            with ‘astrics (*)’ sign are mandatory information that should be provided. 
+          <li>After logging in to the portal, please select the service you would like to request from the provided
+            list, and fill the Request Form properly in order to submit your service request application. Fields marked
+            with ‘astrics (*)’ sign are mandatory information that should be provided.
           </li>
           <li>
-            Make sure that you have prepared scanned copies of the list of documnets listed here in order to uplaod them later, when requested.
+            Make sure that you have prepared scanned copies of the list of documnets listed here in order to uplaod them
+            later, when requested.
           </li>
           <li>If you wish to pause your application request process and continue later, your can do so by saving your
             application as a Draft and Resume it later by cliking on "Draft Applications" menu item.
           </li>
           <li>
-            After you Submit your Service Request Application, you will receive a confirmation email indicating receipt of your application by our staff that will handle the case.  
+            After you Submit your Service Request Application, you will receive a confirmation email indicating receipt
+            of your application by our staff that will handle the case.
             The staff who will handle your case may contact you for further information regarding your
-            application. 
+            application.
           </li>
-         
+
         </ol>
       </div>
     </div>
