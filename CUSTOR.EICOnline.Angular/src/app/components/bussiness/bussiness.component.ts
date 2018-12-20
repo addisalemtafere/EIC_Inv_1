@@ -133,9 +133,7 @@ export class BussinessComponent implements OnInit {
           this.loadingIndicator = false;
         }
       );
-
     }
-
 
     this.catagoryservice.getDivision().subscribe(result => {
         this.DivisionList = result;

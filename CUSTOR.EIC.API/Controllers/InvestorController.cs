@@ -100,10 +100,10 @@ namespace EICOnline.Controllers
                     CreatedUserId = 1,
                     IsActive = false,
                     CreatedUserName = "Investor",
-                    InvestorNameAmharic = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
-                                          postedInvestor.FirstNameEng,
-                    InvestorNameEnglish = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
-                                          postedInvestor.FirstNameEng,
+                    InvestorNameAmharic = postedInvestor.FirstName + postedInvestor.FatherName +
+                                          postedInvestor.GrandName,
+                    InvestorNameEnglish = postedInvestor.FirstNameEng + postedInvestor.FatherNameEng +
+                                          postedInvestor.GrandNameEng,
                     ServiceNameAmharic = "Customer Registration",
                     ServiceNameEnglish = "Customer Registration",
                     ProjectNameEnglish = "",

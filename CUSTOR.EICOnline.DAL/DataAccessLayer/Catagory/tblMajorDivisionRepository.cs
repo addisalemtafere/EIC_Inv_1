@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace CUSTOR.EICOnline.DAL.DataAccessLayer
 {
-   public class tblMajorDivisionRepository
-     : EFRepository<ApplicationDbContext, tblMajorDivision>
+    public class tblMajorDivisionRepository
+      : EFRepository<ApplicationDbContext, tblMajorDivision>
     {
         public tblMajorDivisionRepository(ApplicationDbContext context) : base(context)
         {
@@ -85,12 +85,15 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
                 //        };
 
 
-                var catagory = await Context.RegistrationCatagorys
-                    .SingleOrDefaultAsync(param => param.InvestorId == InvstorId);
-
-                tblMajorDivisions = await Context.tblMajorDivision
-                    .Where(param => param.Code.ToString() == catagory.MajorCatagoryCode)
-                    .ToListAsync();
+                List<RegistrationCatagory> catagory = await Context.RegistrationCatagorys
+                //.ToListAsync(param => param.InvestorId === InvstorId);
+                .Where(m => m.InvestorId == InvstorId).ToListAsync();
+                // ToDO Fire
+                for (var i = 0; i < catagory.Count; i++)
+                {
+                    tblMajorDivisions = await Context.tblMajorDivision
+                        .Where(param => param.Code.ToString() == catagory[i].MajorCatagoryCode).ToListAsync();
+                }
             }
             catch (InvalidOperationException exc)
             {
