@@ -12,7 +12,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             return new Address
             {
                 CellPhoneNo = investorDTO.CellPhoneNo,
-                AddressType = (int)AddressType.eInvestor,
+                AddressType = (int) AddressType.eInvestor,
                 Email = investorDTO.Email,
                 Fax = investorDTO.Fax,
                 HouseNo = investorDTO.HouseNo,
@@ -33,9 +33,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 WoredaId = investorDTO.WoredaId,
                 ZoneId = investorDTO.ZoneId,
                 AddressId = investorDTO.AddressId
-
             };
         }
+
         public static Investor GetInvestor(this InvestorDTO investorDTO)
         {
             return new Investor
@@ -68,8 +68,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 PaidCapital = investorDTO.PaidCapital,
                 SighnedCapital = investorDTO.SighnedCapital,
                 IsExistingCustomer = investorDTO.IsExistingCustomer,
+                RegistrationCatagories = investorDTO.RegistrationCatagories,
                 //SiteCode = investorDTO.SiteCode
-
             };
         }
 
@@ -105,6 +105,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 SighnedCapital = inv.SighnedCapital,
                 IsExistingCustomer = inv.IsExistingCustomer,
 
+             //   RegistrationCatagories = inv.RegistrationCatagories,
 
                 //SiteCode = inv.SiteCode,
                 CellPhoneNo = add.CellPhoneNo,

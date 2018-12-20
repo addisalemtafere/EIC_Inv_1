@@ -14,9 +14,9 @@
     <mat-card>
       <div class="error-bar" style="width:100%; " *ngIf="errors.length > 0">
         <ul>
-            <li *ngFor="let error of errors">
-                {{ error }}
-            </li>
+          <li *ngFor="let error of errors">
+            {{ error }}
+          </li>
         </ul>
       </div>
       <mat-card-content>
@@ -30,13 +30,13 @@
             </mat-form-field>
           </div>
 
-          <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-            <div fxFlex.gt-sm="0 1 calc(50% - 0.5em)">
-              <mat-checkbox formControlName="isExistingCustomer" (click)="ExistingCustomerChecked($event)">
-                {{'users.editor.ExistingCustomer' | translate}}
-              </mat-checkbox>
-            </div>
-          </div>
+          <!--<div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">-->
+          <!--<div fxFlex.gt-sm="0 1 calc(50% - 0.5em)">-->
+          <!--<mat-checkbox formControlName="isExistingCustomer" (click)="ExistingCustomerChecked($event)">-->
+          <!--{{'users.editor.ExistingCustomer' | translate}}-->
+          <!--</mat-checkbox>-->
+          <!--</div>-->
+          <!--</div>-->
 
           <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
             <mat-form-field fxFlex *ngIf="isExisting">
@@ -120,9 +120,9 @@
             </div>
           </div>
           <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-                <!--<re-captcha formControlName="recaptcha" required></re-captcha>-->
-                <!-- <div *ngIf="recaptcha.errors.required">You must check the security image</div> -->
-            </div>
+            <!--<re-captcha formControlName="recaptcha" required></re-captcha>-->
+            <!-- <div *ngIf="recaptcha.errors.required">You must check the security image</div> -->
+          </div>
           <!-- https://github.com/angular/material2/issues/8798 -->
           <div>&nbsp;</div>
         </form>
