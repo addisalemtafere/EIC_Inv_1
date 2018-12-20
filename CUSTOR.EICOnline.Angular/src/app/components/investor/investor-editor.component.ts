@@ -599,11 +599,11 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.investorForm.get('cGender').patchValue('');
     }
     this.toastr.success('Record saved successfully!');
-    if (this.accountService.getUserType()) {
-      this.router.navigate(['investor']);
-    } else {
-      this.router.navigate(['search-browser']);
-    }
+    // if (this.accountService.getUserType()) {
+    //   this.router.navigate(['investor']);
+    // } else {
+    //   this.router.navigate(['search-browser']);
+    // }
   }
 
   private handleError(error) {
