@@ -96,7 +96,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
 
     if (this.isNewListener != this.isNewFirst) {
       this.isNewListener = this.isNewFirst;
-      this.getInvestor();
+      // this.getInvestor();
     }
   }
 
