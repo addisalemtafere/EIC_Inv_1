@@ -35,6 +35,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   private isNewFirst: number;
   private isNewListener2: number;
   private ServiceApplicationId: any;
+  private subscription: Subscription;
 
   constructor(private accountService: AccountService,
               public router: Router,
