@@ -313,7 +313,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     }
 
   }
-
+  
   private filterService(result: ServiceModel[]) {
     this.serviceList = result.filter((item) => {
       if (this.canManageManageIncentiveAssignedServices) {

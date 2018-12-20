@@ -94,8 +94,9 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
     this.isNewFirst = this.route.snapshot.params['IsExistingCustomer'];
 
     if (this.isNewListener != this.isNewFirst) {
+      console.log('jhh');
       this.isNewListener = this.isNewFirst;
-      this.getInvestor();
+       this.getInvestor();
     }
   }
 
