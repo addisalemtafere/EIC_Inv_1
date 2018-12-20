@@ -31,10 +31,11 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   public registrationIndex: any;
   public isExistingCustomer: boolean;
   private InvestorId: any;
-  public Investor: Investor;
-  public isNew: any;
+  public investor: Investor;
+  public isNew = false;
   private isNewListener: number;
   private isNewFirst: number;
+  private isNewListener2: number;
 
   constructor(private accountService: AccountService,
               public router: Router,
@@ -42,6 +43,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
               public dialog: MatDialog,
               public route: ActivatedRoute,
               public dataSharing: DataSharingService) {
+    this.investor = new Investor();
   }
 
   ngOnInit() {
@@ -57,8 +59,9 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
     this.investorName = localStorage.getItem('investorName');
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
-
-    this.getInvestor();
+    if (this.InvestorId != 0) {
+      this.getInvestor();
+    }
     this.userName = this.accountService.currentUser.FullName;
     // this.isNewFirst = this.route.snapshot.params['IsExistingCustomer'];
     this.isNewListener = this.route.snapshot.params['IsExistingCustomer'];
@@ -84,19 +87,29 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
 
     this.investorService.getInvestor(this.InvestorId)
       .subscribe((result: Investor) => {
-        this.Investor = result;
+        this.investor = result;
         this.isNew = result.IsExistingCustomer;
         this.isNewListener = (this.isNew == true) ? 1 : 0
+        // this.isNewListener = this.route.snapshot.params['IsExistingCustomer'];
+
+        const ServiceApplicationId1 = this.route.snapshot.params['ServiceApplicationId'];
+        const InvestorId1 = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
+        this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNewListener]);
+
       });
   }
 
   ngAfterContentChecked(): void {
 
     this.isNewFirst = this.route.snapshot.params['IsExistingCustomer'];
-
+    // console.log('1= ' + this.isNewFirst)
+    // console.log('2= ' + this.isNewListener)
     if (this.isNewListener != this.isNewFirst) {
+      // this.isNewFirst = this.isNewListener;
       this.isNewListener = this.isNewFirst;
-      // this.getInvestor();
+      this.getInvestor();
+      console.log('inside 1= ' + this.isNewFirst)
+      console.log('inside 2= ' + this.isNewListener)
     }
   }
 
