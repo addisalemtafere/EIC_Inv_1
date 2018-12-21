@@ -187,7 +187,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   projectDetail(serviceApplication: ServiceApplicationModel) {
-    console.log(serviceApplication)
+    console.log(serviceApplication);
 
     const projectId = serviceApplication.ProjectId;
     const ServiceApplicationId = serviceApplication.ServiceApplicationId;
@@ -228,7 +228,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
 
         break;
       case 1236:
-        this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+        this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId + '/' + 0]);
         break;
       default:
         this.router.navigate(['/notfound'], {relativeTo: this.route});

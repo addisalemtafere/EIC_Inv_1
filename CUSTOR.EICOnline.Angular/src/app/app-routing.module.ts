@@ -64,7 +64,7 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
         canActivate: [AuthGuard]
       },
       {
-        path: 'business-tab/:ServiceId/:InvestorId/:ServiceApplicationId/:BusinessId/:workFlowId',
+        path: 'business-tab/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId/:BusinessId',
         loadChildren: 'app/components/business/business-tab/business-tab.module#BusinessTabModule',
         canActivate: [AuthGuard]
       },

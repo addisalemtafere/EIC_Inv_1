@@ -7,6 +7,7 @@ using CUSTOR.EICOnline.DAL.EntityLayer;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CUSTOR.EICOnline.API.Controllers.Bussiness
 {
@@ -19,6 +20,26 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
         {
             context = ctx;
         }
+        //[HttpGet("GetBusinessLicensingGroup/{id}")]
+        //public async Task<List<BussinessLicenseVM>> GetRecords(int id)
+        //{
+        //    List<BussinessLicenseVM> BusinessLicense = null;
+        //    try
+        //    {
+        //        BusinessLicense = await context.BusinessLicensingGroup
+        //            .Where(bg => bg.BusinessId == id).ToListAsync();
+        //    }
+        //    catch (InvalidOperationException)
+        //    {
+        //        //SetError("Couldn't load tblMajorDivisions");
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //SetError(ex);
+        //    }
+        //    return BusinessLicense;
+        //}
 
         [HttpPost("SaveBussinessLicense")]
         public async Task<IActionResult> SaveBussinessLicense([FromBody] BussinessLicenseVM bussinesslicense)

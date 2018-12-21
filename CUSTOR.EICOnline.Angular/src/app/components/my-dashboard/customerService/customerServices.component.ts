@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceModel} from '../../../model/Service.model';
-import {CustomerServicesService} from '../../home/customer-service.service';
 import {ToastrService} from 'ngx-toastr';
 import {fadeInOut} from '../../../../@custor/services/animations';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {ServiceService} from '../../../Services/service.service';
 import {DataSharingService} from '../../../Services/data-sharing.service';
-import {IncentiveLogService} from '../../../Services/incentive-log.service';
 import {IncentiveLogModel} from '../../../model/IncentiveLog.model';
 import {AccountService} from '@custor/services/security/account.service';
 import {ProjectListModalComponent} from '../../project-list-modal/project-list-modal.component';
@@ -24,7 +22,7 @@ export class CustomerServiceStarterComponent implements OnInit {
   loadingIndicator: boolean;
 
 
-  constructor(              public router: Router,
+  constructor(public router: Router,
               public dialog: MatDialog,
               public dataSharing: DataSharingService,
               public serviceService: ServiceService,
@@ -93,7 +91,7 @@ export class CustomerServiceStarterComponent implements OnInit {
           break;
 
         case 1236:
-          this.router.navigate(['/business-tab/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0+ '/' + 0]);
+          this.router.navigate(['/business-tab/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
           break;
 
         default:
