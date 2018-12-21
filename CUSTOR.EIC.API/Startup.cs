@@ -9,6 +9,7 @@ using CUSTOR.EICOnline.API.Authorization;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.DataAccessLayer;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Address;
+using CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.Security;
@@ -289,6 +290,7 @@ namespace EICOnline.API
                 services.AddScoped<tblSubGroupRepository>();
                 services.AddScoped<RegistrationRepository>();
                 services.AddScoped<RegistrationCatagoryRepository>();
+                services.AddScoped<BusinessLicensingGroupRepository>();
 
 
 

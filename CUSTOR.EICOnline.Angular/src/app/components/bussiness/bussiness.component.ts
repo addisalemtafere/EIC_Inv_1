@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
-import {Subscription} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 
 import {BussinessModel} from '../../model/bussiness/BussinessModel.model';
-import {ALPHABET_WITHSPACE_REGEX, STATUS, ET_ALPHABET_WITHSPACE_REGEX, GENDERS} from '../../const/consts';
+import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_WITHSPACE_REGEX, STATUS} from '../../const/consts';
 
 import {BussinessCatagory} from '../../model/bussiness/BussinessCatagory.model';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -32,6 +31,7 @@ export class BussinessComponent implements OnInit {
   GroupList: DivisionModel[] = [];
   filterGroupList: DivisionModel[] = [];
   bussinessCatagory: BussinessCatagory;
+  bussinessCatagoryList: BussinessCatagory[]=[];
   SubGroupList = [];
   ServiceApplicationId: any;
   InvestorId: any;
@@ -61,6 +61,31 @@ export class BussinessComponent implements OnInit {
        SubGroup: new FormControl()
      });*/
     this.initForm();
+  }
+
+  /* MajorDivision: formModel.Catagory.MajorDivision,
+    Division: formModel.Catagory.Division,
+    MajorGroup: formModel.Catagory.MajorGroup,
+    Group: formModel.Catagory.Group,
+    SubGroup: formModel.Catagory.SubGroup*/
+  get BussinessName() {
+    return this.bussinessForm.get('cBussinessName');
+  }
+
+  get BussinessNameEng() {
+    return this.bussinessForm.get('cBussinessNameEng');
+  }
+
+  get LicenseNum() {
+    return this.bussinessForm.get('cLicenseNum');
+  }
+
+  get Capital() {
+    return this.bussinessForm.get('cCapital');
+  }
+
+  get Status() {
+    return this.bussinessForm.get('cStatus');
   }
 
   initForm() {
@@ -95,12 +120,13 @@ export class BussinessComponent implements OnInit {
       this.bussinessStatus.push(Bussinessta);
       // console.log(pair);
     });
-
+    console.log(this.BussinessId);
     this.bussinessService.getMajorDivisionByInvestorId(this.InvestorId).subscribe(result => {
         this.MajorDivisionList = result;
       }
     );
     if (this.BussinessId <= 0) {
+
       this.bussinessService.getRegistrationByInvestorId(this.InvestorId).subscribe(
         result => {
           if (result.LegalStatus === '1') {
@@ -131,6 +157,7 @@ export class BussinessComponent implements OnInit {
             cLicenseNum: result.LicenceNumber
           });
           this.loadingIndicator = false;
+          this.doBindCategory(this.BussinessId);
         }
       );
     }
@@ -206,11 +233,15 @@ export class BussinessComponent implements OnInit {
     this.bussinessService.saveBussiness(this.getEditedbussiness()).subscribe((bussiness: BussinessModel) => {
       localStorage.setItem('BussinesId', bussiness.ID.toString());
       localStorage.setItem('ServiceApplicationID', bussiness.ServiceApplicationId.toString());
-      this.router.navigate(['business-tab/1236/' + bussiness.InvestorId + '/' + bussiness.ServiceApplicationId + '/' + bussiness.ID + '/' + 0]);
+      this.router.navigate(['business-tab/1236/' + bussiness.InvestorId + '/' + bussiness.ServiceApplicationId + '/' + 0 + '/' + 0 + '/' + bussiness.ID]);
       this.SaveCatagory();
       this.saveComplete();
     });
 
+  }
+
+  back() {
+    this.router.navigate(['/bussiness/searchregistration']);
   }
 
   private saveComplete() {
@@ -246,32 +277,10 @@ export class BussinessComponent implements OnInit {
     });
   }
 
-  back() {
-    this.router.navigate(['/bussiness/searchregistration']);
-  }
+  private doBindCategory(businessId: number) {
+    this.bussinessService.getBussinessCatagory(businessId).subscribe(result => {
+      this.bussinessCatagoryList = result;
 
-  /* MajorDivision: formModel.Catagory.MajorDivision,
-    Division: formModel.Catagory.Division,
-    MajorGroup: formModel.Catagory.MajorGroup,
-    Group: formModel.Catagory.Group,
-    SubGroup: formModel.Catagory.SubGroup*/
-  get BussinessName() {
-    return this.bussinessForm.get('cBussinessName');
-  }
-
-  get BussinessNameEng() {
-    return this.bussinessForm.get('cBussinessNameEng');
-  }
-
-  get LicenseNum() {
-    return this.bussinessForm.get('cLicenseNum');
-  }
-
-  get Capital() {
-    return this.bussinessForm.get('cCapital');
-  }
-
-  get Status() {
-    return this.bussinessForm.get('cStatus');
+    });
   }
 }

@@ -222,6 +222,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.projectModel = result;
+            console.log(result);
           }
         },
         error => this.errMsg.getError(error));
@@ -333,8 +334,7 @@ export class LetterComponent implements OnInit {
     this.LetterContent = this.LetterContent.replace(/{{ChassisNo}}/g,
       formModel.ChassisNo);
     this.LetterContent = this.LetterContent.replace(/{{Capital}}/g,
-      (this.projectModel.ProjectCost.OtherCapitalCost + this.projectModel.ProjectCost.EquityFinance + this.projectModel.ProjectCost.LoanFinance).toString());
-
+      (this.projectModel.ProjectCost[0].OtherCapitalCost + this.projectModel.ProjectCost[0].EquityFinance + this.projectModel.ProjectCost[0].LoanFinance).toString());
     if (this.ServiceId == '1045') {
       this.LetterContent = this.LetterContent.replace(/{{OrgName}}/g,
         this.taxExemptionModel.RevenueBranchDescription);

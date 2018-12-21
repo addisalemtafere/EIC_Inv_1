@@ -30,14 +30,14 @@ export class ProjectListModalComponent implements OnInit {
   @ViewChild(MatPaginator) paginator2: MatPaginator;
   sourceInvestor: Investor;
   loadingIndicator: boolean;
-  private ServiceId: any;
   projectModel: ProjectModel;
+  private ServiceId: any;
   private ExemptionYear: any;
 
   constructor(private projetServices: ProjectProfileService,
               private accountService: AccountService,
               private serviceapplicationService: ServiceapplicationService,
-              private toastr: ToastrService,private projectProfileService: ProjectProfileService,
+              private toastr: ToastrService, private projectProfileService: ProjectProfileService,
               private router: Router,
               private errMsg: ErrorMessage,
               private route: ActivatedRoute,
@@ -105,7 +105,7 @@ export class ProjectListModalComponent implements OnInit {
       this.serviceApplication.IsActive = false;
       this.serviceapplicationService.create(this.serviceApplication)
         .subscribe(result => {
-          console.log(result)
+          console.log(result);
           this.view(this.ServiceId, 'Incentive', result.ServiceApplicationId, result.ServiceWorkflow[0].ServiceWorkflowId, projectId);
         });
 
@@ -116,9 +116,9 @@ export class ProjectListModalComponent implements OnInit {
 
   view(serviceId: any, name: any, applicationId: any, workflowId: any, projectId: any) {
     this.title = name;
-    console.log(workflowId)
+    console.log(workflowId);
 
-    const investorId = localStorage.getItem('InvestorId')
+    const investorId = localStorage.getItem('InvestorId');
     switch (serviceId) {
 
       case '1047':
@@ -142,7 +142,7 @@ export class ProjectListModalComponent implements OnInit {
         }
         break;
       case '1236':
-        this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
+        this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId + '/' + workflowId + '/' + 0]);
         break;
       case '18':
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);

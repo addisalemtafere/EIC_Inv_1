@@ -105,7 +105,8 @@ namespace CUSTOR.EICOnline.DAL
             {
                 return await Context.Project.
                     Include(i => i.Investor).
-                    Include(ia => ia.InvestmentActivity)
+                    Include(ia => ia.InvestmentActivity).
+                    Include(pc => pc.ProjectCost)
                 .Where(p=>p.ProjectId==id).FirstAsync();
                 //  .Select(
                 //p => new ProjectDetailsModel
