@@ -378,7 +378,9 @@
       </div>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em">
         <mat-form-field fxFlex fxFlex="100">
+
           <mat-select placeholder="Category *" formControlName="cMajorDivision" multiple>
+
             <mat-option *ngFor="let MajorDivision of majorDivisions" [value]="MajorDivision.Id">
               {{MajorDivision.EnglishDescription}}
             </mat-option>

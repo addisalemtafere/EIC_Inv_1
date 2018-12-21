@@ -291,7 +291,11 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           this.investor = result;
           this.fillAddressLookups();
           this.updateForm();
-          // this.getAddressData(this.investor.InvestorId);
+          console.log(this.investor.RegistrationCatagories)
+          this.investorForm.patchValue({
+            cMajorDivision: this.investor.RegistrationCatagories
+
+          })
         },
         error => this.toastr.error(error));
     this.loadingIndicator = false;
@@ -456,6 +460,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       cPaidCapital: this.investor.PaidCapital || '',
       cSighnedCapital: this.investor.SighnedCapital || '',
       IsExistingCustomer: this.investor.IsExistingCustomer || '',
+      cMajorDivision: this.investor.RegistrationCatagories || '',
 
       /*  cTradeNameEng: this.investor.TradeNameEnglish || '',
         cTradeName: this.investor.TradeName || '',*/
