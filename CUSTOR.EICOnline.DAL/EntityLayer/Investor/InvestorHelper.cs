@@ -73,7 +73,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             };
         }
 
-        public static InvestorDTO GetInvestorDTO(Investor inv, Address add)
+        public static InvestorDTO GetInvestorDTO(Investor inv, Address add, int[] catagory)
         {
             return new InvestorDTO
             {
@@ -105,7 +105,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 SighnedCapital = inv.SighnedCapital,
                 IsExistingCustomer = inv.IsExistingCustomer,
 
-             //   RegistrationCatagories = inv.RegistrationCatagories,
+                RegistrationCatagories = catagory,
 
                 //SiteCode = inv.SiteCode,
                 CellPhoneNo = add.CellPhoneNo,
@@ -119,7 +119,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 TeleNo = add.TeleNo,
                 WoredaId = add.WoredaId,
                 ZoneId = add.ZoneId,
-                AddressId = add.AddressId
+                AddressId = add.AddressId,
             };
         }
     }
