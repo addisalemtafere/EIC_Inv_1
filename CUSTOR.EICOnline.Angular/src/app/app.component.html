@@ -69,20 +69,18 @@
           Dashboard
         </a>
         <a *ngIf="!isInvestor && !canManageManageIncentiveAssignedServices" mat-list-item routerLinkActive="active"
-<<<<<<< HEAD
+
                 [routerLinkActiveOptions]="{ exact: true }"
                 routerLink="/management-dashboard">
         <mat-icon class="mat-18">collections</mat-icon>
         Service Overview
       </a>
 
-=======
            [routerLinkActiveOptions]="{ exact: true }"
            routerLink="/management-dashboard">
           <mat-icon class="mat-18">collections</mat-icon>
           Management Dashboard
         </a>
->>>>>>> 42807f8f81f823a47ba026daa994a8d76332850c
 
         <mat-expansion-panel *ngIf="isInvestor" #profile [class.mat-elevation-z0]="!profile.expanded">
           <mat-expansion-panel-header style="font-size: 16px;">
