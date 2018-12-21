@@ -20,19 +20,19 @@ namespace EICOnline.Controllers
     [EnableCors("CorsPolicy")]
     public class InvestorController : Controller
     {
-
         private readonly ApplicationDbContext context;
         private readonly InvestorRepository InvestorRepo;
         private RegistrationCatagoryRepository regCatagoryRepo;
         private IAccountManager accountManager;
 
-        public InvestorController(ApplicationDbContext ctx, IAccountManager accManager, InvestorRepository investorRepo , RegistrationCatagoryRepository RegCatagoryRepo)
+        public InvestorController(ApplicationDbContext ctx, IAccountManager accManager, InvestorRepository investorRepo,
+            RegistrationCatagoryRepository RegCatagoryRepo)
         {
             context = ctx;
             InvestorRepo = investorRepo;
             regCatagoryRepo = RegCatagoryRepo;
             accountManager = accManager;
-        } 
+        }
 
         [HttpGet]
         [Route("api/throw")]
@@ -57,7 +57,6 @@ namespace EICOnline.Controllers
         }
 
 
-
         [HttpGet("api/InvestorByUserId/{id}")]
         public async Task<IEnumerable<Investor>> GetInvestorByUserId(string id)
         {
@@ -80,68 +79,66 @@ namespace EICOnline.Controllers
         [HttpPost("api/investor")]
         public async Task<ServiceApplication> SaveInvestor([FromBody] InvestorDTO postedInvestor)
         {
-
-
-            
-
+            bool isUpdate = (postedInvestor.InvestorId > 0);
             if (!ModelState.IsValid)
                 throw new ApiException("Model binding failed.", 500);
 
             ApplicationUser appUser = await accountManager.GetUserByUserNameAsync(postedInvestor.UserName);
             // to-do check if appUser is valid
-            InvestorDTO inv =  InvestorRepo.SaveInvestor(postedInvestor, appUser);
-            
-            var serviceApplication = new ServiceApplication
+            InvestorDTO inv = InvestorRepo.SaveInvestor(postedInvestor, appUser);
+            if (!isUpdate)
             {
-                InvestorId = inv.InvestorId,
-                CaseNumber = "12",
-                ServiceId = 1235,
-                CurrentStatusId = 44450,
-                IsSelfService = true, 
-                IsPaid = true,
-                StartDate = DateTime.Now,
-                CreatedUserId = 1,
-                IsActive = false,
-                CreatedUserName = "Investor",
-                InvestorNameAmharic = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
-                                      postedInvestor.FirstNameEng,
-                InvestorNameEnglish = postedInvestor.FirstNameEng + postedInvestor.FirstNameEng +
-                                      postedInvestor.FirstNameEng,
-                ServiceNameAmharic = "Customer Registration",
-                ServiceNameEnglish = "Customer Registration",
-                ProjectNameEnglish = "",
-                ProjectNameAmharic = ""
-            };
-            var serviceWorkflow = new ServiceWorkflow
-            {
-                StepId = 9,
-                ActionId = 3,
-                FromStatusId = 3,
-                ToStatusId = 5,
-                PerformedByRoleId = 1,
-                NextStepId = 1015,
-                GenerateEmail = true,
-                GenerateLetter = true,
-                IsDocumentRequired = true,
-                ServiceId = serviceApplication.ServiceId,
-                LegalStatusId = 3,
-                CreatedUserId = 1,
-                IsActive = false
-            };
+                var serviceApplication = new ServiceApplication
+                {
+                    InvestorId = inv.InvestorId,
+                    CaseNumber = "12",
+                    ServiceId = 1235,
+                    CurrentStatusId = 44450,
+                    IsSelfService = true,
+                    IsPaid = true,
+                    StartDate = DateTime.Now,
+                    CreatedUserId = 1,
+                    IsActive = false,
+                    CreatedUserName = "Investor",
+                    InvestorNameAmharic = postedInvestor.FirstName + postedInvestor.FatherName +
+                                          postedInvestor.GrandName,
+                    InvestorNameEnglish = postedInvestor.FirstNameEng + postedInvestor.FatherNameEng +
+                                          postedInvestor.GrandNameEng,
+                    ServiceNameAmharic = "Customer Registration",
+                    ServiceNameEnglish = "Customer Registration",
+                    ProjectNameEnglish = "",
+                    ProjectNameAmharic = ""
+                };
+                var serviceWorkflow = new ServiceWorkflow
+                {
+                    StepId = 9,
+                    ActionId = 3,
+                    FromStatusId = 3,
+                    ToStatusId = 5,
+                    PerformedByRoleId = 1,
+                    NextStepId = 1015,
+                    GenerateEmail = true,
+                    GenerateLetter = true,
+                    IsDocumentRequired = true,
+                    ServiceId = serviceApplication.ServiceId,
+                    LegalStatusId = 3,
+                    CreatedUserId = 1,
+                    IsActive = false
+                };
 
-            serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
-            context.ServiceApplication.Add(serviceApplication);
-            await context.SaveChangesAsync();
-            
-            return serviceApplication;
+                serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
+                context.ServiceApplication.Add(serviceApplication);
+                await context.SaveChangesAsync();
+
+                return serviceApplication;
+            }
+            return null;
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInvestor(int id)
         {
-            //if (!HttpContext.User.Identity.IsAuthenticated)
-            //    throw new ApiException("You have to be logged in first", 401);
-            if (!await InvestorRepo.DeleteInvestor(id))
+          if (!await InvestorRepo.DeleteInvestor(id))
                 throw new ApiException("Record could not be deleted");
             return Ok();
         }

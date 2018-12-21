@@ -15,7 +15,7 @@ export class CustomerServicesService {
   private readonly _servicesUrl: string = 'api/services/en';
   private readonly _serviceUrl: string = 'api/service/';
   private readonly _incentiveServiceUrl: string = 'api/incentiveServices/en';
-  private readonly _presUrl: string = 'api/servicePrerequisiteByServiceId/';
+  private readonly _presUrl: string = 'api/servicePrerequisiteByServiceId';
 
   get servicesUrl() {
     return this.config.baseUrl + this._servicesUrl;

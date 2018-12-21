@@ -121,8 +121,6 @@
                 <mat-icon color="primary">visibility</mat-icon>
                 View
               </a>
-
-
               <button color="primary" mat-raised-button class="margin-10 pointer"
                       matTooltip="Click her to add project"
                       (click)="select(investors.InvestorId,investors.InvestorNameEng)">
@@ -161,7 +159,7 @@
 
 
   <!--<mat-divider></mat-divider>-->
-  <mat-card-content>
+  <mat-card-content *ngIf="projectList.length>0">
     <div fxFlex="100%">
 
       <div class="spinner-container" *ngIf="loadingIndicator">
@@ -258,7 +256,7 @@
                 <mat-icon color="primary">visibility</mat-icon>
                 View
               </a>
-              <button *ngIf="canViewTasks || canManageAftercareData || canManageManageIncentiveAssignedServices "
+              <button *ngIf="canViewTasks || canManageAftercareData || canManageManageIncentiveAssignedServices"
                       mat-raised-button
                       [disabled]="!projectList.IsActive"
                       color="primary"

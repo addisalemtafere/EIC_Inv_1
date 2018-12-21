@@ -31,7 +31,6 @@ export class BusinessTabComponent implements OnInit {
   ngOnInit() {
 
     this.getUserType();
-
     this.title = localStorage.getItem('title');
     this.projectName = localStorage.getItem('projectName');
     this.investorName = localStorage.getItem('investorName');

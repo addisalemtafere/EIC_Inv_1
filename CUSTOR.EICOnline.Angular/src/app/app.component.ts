@@ -1,12 +1,4 @@
-import {
-  AfterContentChecked,
-  AfterViewChecked,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import {AfterContentChecked, AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {AppTranslationService} from '../@custor/services/translation.service';
@@ -48,12 +40,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   isInvestor: boolean;
   serviceList: ServiceModel[] = [];
   numberOfNotification: any;
-  private _mobileQueryListener: () => void;
   public checkInvestorRegistered: boolean;
-  private m: IncentiveLogModel;
   public inId: number;
-  private subscription: Subscription;
   public isLogged: any;
+  private _mobileQueryListener: () => void;
+  private m: IncentiveLogModel;
+  private subscription: Subscription;
   private allServices: ServiceModel[] = [];
 
   constructor(storageManager: LocalStoreManager,
@@ -84,205 +76,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   }
 
-  ngOnInit() {
-    localStorage.setItem('loggIn', 'false');
-
-    this.checkInvestor();
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        const url = (<NavigationStart>event).url;
-        if (url !== url.toLowerCase()) {
-          this.router.navigateByUrl((<NavigationStart>event).url.toLowerCase());
-        }
-
-        if (this.adminExpander && url.indexOf('admin') > 0) {
-          this.adminExpander.open();
-        }
-        if (this.servicesExpander && url.indexOf('services') > 0) {
-          this.servicesExpander.open();
-        }
-
-        if ((url.indexOf('dashboard') > 0)) {
-          this.getAllServices();
-
-          if (this.authService.isLoggedIn) {
-            setTimeout(() => this.isLoggedIn$ = Observable.of(true));
-            this.countNotification(this.accountService.currentUser.Id);
-            this.getUserType();
-            // this.CheckLoginStatus();
-
-          } else {
-            setTimeout(() => this.isLoggedIn$ = Observable.of(false));
-          }
-        } else {
-          if (this.authService.isLoggedIn) {
-            setTimeout(() => this.isLoggedIn$ = Observable.of(true));
-            this.countNotification(this.accountService.currentUser.Id);
-            this.getUserType();
-
-
-          } else {
-            setTimeout(() => this.isLoggedIn$ = Observable.of(false));
-          }
-        }
-      }
-    });
-  }
-
-  gotoCustomerRegistration() {
-    this.router.navigate(['investor-tab/1235/0/0']);
-    localStorage.setItem('ServiceId', '1235');
-  }
-
-
-  getUserType() {
-    this.isInvestor = this.accountService.getUserType();
-
-  }
-
-  CheckLoginStatus() {
-    if (this.authService.isLoggedIn) {
-      this.user = this.authService.currentUser;
-      this.currentUsername = this.user.UserName;
-
-    }
-
-    this.isLoggedIn$ = Observable.of(false);
-  }
-
-  DoLogin() {
-    if (this.authService.isLoggedIn) {
-      this.logout();
-    } else {
-      this.router.navigateByUrl('/login');
-    }
-  }
-
-  logout() {
-    this.currentUsername = '';
-    this.clearLocalStorage();
-    this.authService.logout();
-    this.authService.redirectLogoutUser();
-    setTimeout(() => this.isLoggedIn$ = Observable.of(false));
-    localStorage.setItem('loggIn', 'false');
-
-  }
-
-  ngOnDestroy() {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
-
   get currentLang(): string {
     return this.configurations.language || 'et';
   }
 
-  getAllServices() {
-    this.serviceService.getAll()
-      .subscribe(result => {
-        this.filterService(result);
-
-      });
-  }
-
-  checkInvestor() {
-
-  }
-
-  public startService(serviceId: any, title: string) {
-    localStorage.setItem('title', title);
-    this.router.navigate(['/search-browser/' + serviceId + '/' + 0 + '/' + 0]);
-
-
-  }
-
-
-  clearLocalStorage() {
-    localStorage.clear();
-  }
-
-  viewNotification() {
-
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = false;
-    dialogConfig.position = {
-      'top': '46px',
-      'right': '230px'
-
-    };
-    dialogConfig.width = '430px';
-    dialogConfig.maxHeight = '400px';
-    dialogConfig.panelClass = 'padding:1px;';
-
-    this.dialog.open(NotificationsComponent, dialogConfig);
-
-  }
-
-  countNotification(investorId: any) {
-    this.notificationService.CountNotification(investorId)
-      .subscribe(result => {
-        this.numberOfNotification = result;
-      });
-  }
-
-  ngAfterContentChecked(): void {
-    this.isLogged = localStorage.getItem('loggIn');
-
-  }
-
-  ngAfterViewChecked(): void {
-    if (this.authService.isLoggedIn) {
-      this.user = this.authService.currentUser;
-      this.currentUsername = this.user.UserName;
-    }
-
-  }
-
-  Investor() {
-    if (localStorage.getItem('InvestorId') === 'null') {
-      this.router.navigate(['investor-tab/1235/0/0']);
-    } else {
-      this.router.navigate(['/investor/edit', localStorage.getItem('InvestorId')]);
-
-    }
-  }
-
   get canManageAftercareData() {
     return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
-  }
-
-  toServiceList() {
-    if (localStorage.getItem('InvestorId') !== null) {
-      // this.dialog.open(CustomerServiceStarterComponent);
-      this.router.navigate(['/service-list']);
-    } else {
-
-      this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-      this.router.navigate(['investor-tab/0/0/0']);
-    }
-
-  }
-  toServiceList1() {
-    if (localStorage.getItem('InvestorId') !== null) {
-      // this.dialog.open(CustomerServiceStarterComponent);
-      this.router.navigate(['/followup']);
-    } else {
-      this.router.navigate(['/followup']);
-      //this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-     // this.router.navigate(['investor-tab/0/', 0]);
-    }
-
-  }
-
-  toMangerList() {
-    if (localStorage.getItem('InvestorId') !== null) {
-      this.router.navigate(['associate/list']);
-    } else {
-      this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-      this.router.navigate(['investor-tab/0/0/0']);
-    }
-
   }
 
   get canManageManageAftercareData() {
@@ -335,6 +134,196 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   get canManageUsers() {
     return this.accountService.userHasPermission(Permission.manageUsersPermission);
+  }
+
+  ngOnInit() {
+    localStorage.setItem('loggIn', 'false');
+
+    this.checkInvestor();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        const url = (<NavigationStart>event).url;
+        if (url !== url.toLowerCase()) {
+          this.router.navigateByUrl((<NavigationStart>event).url.toLowerCase());
+        }
+
+        if (this.adminExpander && url.indexOf('admin') > 0) {
+          this.adminExpander.open();
+        }
+        if (this.servicesExpander && url.indexOf('services') > 0) {
+          this.servicesExpander.open();
+        }
+
+        if ((url.indexOf('dashboard') > 0)) {
+          this.getAllServices();
+
+          if (this.authService.isLoggedIn) {
+            setTimeout(() => this.isLoggedIn$ = Observable.of(true));
+            this.countNotification(this.accountService.currentUser.Id);
+            this.getUserType();
+            // this.CheckLoginStatus();
+
+          } else {
+            setTimeout(() => this.isLoggedIn$ = Observable.of(false));
+          }
+        } else {
+          if (this.authService.isLoggedIn) {
+            setTimeout(() => this.isLoggedIn$ = Observable.of(true));
+            this.countNotification(this.accountService.currentUser.Id);
+            this.getUserType();
+
+
+          } else {
+            setTimeout(() => this.isLoggedIn$ = Observable.of(false));
+          }
+        }
+      }
+    });
+  }
+
+  gotoCustomerRegistration() {
+    this.router.navigate(['investor-tab/1235/0/0/0']);
+    localStorage.setItem('ServiceId', '1235');
+  }
+
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+
+  }
+
+  CheckLoginStatus() {
+    if (this.authService.isLoggedIn) {
+      this.user = this.authService.currentUser;
+      this.currentUsername = this.user.UserName;
+
+    }
+
+    this.isLoggedIn$ = Observable.of(false);
+  }
+
+  DoLogin() {
+    if (this.authService.isLoggedIn) {
+      this.logout();
+    } else {
+      this.router.navigateByUrl('/login');
+    }
+  }
+
+  logout() {
+    this.currentUsername = '';
+    this.clearLocalStorage();
+    this.authService.logout();
+    this.authService.redirectLogoutUser();
+    setTimeout(() => this.isLoggedIn$ = Observable.of(false));
+    localStorage.setItem('loggIn', 'false');
+
+  }
+
+  ngOnDestroy() {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  getAllServices() {
+    this.serviceService.getAll()
+      .subscribe(result => {
+        this.filterService(result);
+
+      });
+  }
+
+  checkInvestor() {
+
+  }
+
+  public startService(serviceId: any, title: string) {
+    localStorage.setItem('title', title);
+    this.router.navigate(['/search-browser/' + serviceId + '/' + 0 + '/' + 0]);
+  }
+
+  clearLocalStorage() {
+    localStorage.clear();
+  }
+
+  viewNotification() {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.position = {
+      'top': '46px',
+      'right': '230px'
+
+    };
+    dialogConfig.width = '430px';
+    dialogConfig.maxHeight = '400px';
+    dialogConfig.panelClass = 'padding:1px;';
+
+    this.dialog.open(NotificationsComponent, dialogConfig);
+
+  }
+
+  countNotification(investorId: any) {
+    this.notificationService.CountNotification(investorId)
+      .subscribe(result => {
+        this.numberOfNotification = result;
+      });
+  }
+
+  ngAfterContentChecked(): void {
+    this.isLogged = localStorage.getItem('loggIn');
+
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.authService.isLoggedIn) {
+      this.user = this.authService.currentUser;
+      this.currentUsername = this.user.UserName;
+    }
+
+  }
+
+  Investor() {
+    if (localStorage.getItem('InvestorId') === 'null') {
+      this.router.navigate(['investor-tab/1235/0/0/0']);
+    } else {
+      this.router.navigate(['/investor/edit', localStorage.getItem('InvestorId')]);
+
+    }
+  }
+
+  toServiceList() {
+    if (localStorage.getItem('InvestorId') !== null) {
+      // this.dialog.open(CustomerServiceStarterComponent);
+      this.router.navigate(['/service-list']);
+    } else {
+
+      this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
+      this.router.navigate(['investor-tab/1235/0/0/0']);
+
+    }
+
+  }
+  toServiceList1() {
+    if (localStorage.getItem('InvestorId') !== null) {
+      // this.dialog.open(CustomerServiceStarterComponent);
+      this.router.navigate(['/followup']);
+    } else {
+      this.router.navigate(['/followup']);
+      //this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
+     // this.router.navigate(['investor-tab/0/', 0]);
+    }
+
+  }
+
+  toMangerList() {
+    if (localStorage.getItem('InvestorId') !== null) {
+      this.router.navigate(['associate/list']);
+    } else {
+      this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
+      this.router.navigate(['investor-tab/1235/0/0/0']);
+    }
+
   }
 
   private filterService(result: ServiceModel[]) {

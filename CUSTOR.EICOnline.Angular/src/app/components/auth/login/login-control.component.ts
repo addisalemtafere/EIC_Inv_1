@@ -102,6 +102,7 @@ export class LoginControlComponent implements OnInit, OnDestroy {
 
   login() {
     this.isLoading = true;
+    this.authService.logout();
     this.authService.login(this.getUserLogin())
       .subscribe(
         user => {
@@ -116,7 +117,7 @@ export class LoginControlComponent implements OnInit, OnDestroy {
               this.router.navigate(['/dashboard']);
 
             } else {
-              if (this.canViewReadOnlyData) {
+              if (this.canViewReadOnlyData || this.manageLookups) {
                 this.router.navigate(['/management-dashboard']);
 
               } else {
@@ -194,6 +195,10 @@ export class LoginControlComponent implements OnInit, OnDestroy {
 
   get canViewReadOnlyData() {
     return this.accountService.userHasPermission(Permission.ViewReadOnlyDataPermission);
+  }
+
+  get manageLookups() {
+    return this.accountService.userHasPermission(Permission.manageLookupsPermission);
   }
 
 }

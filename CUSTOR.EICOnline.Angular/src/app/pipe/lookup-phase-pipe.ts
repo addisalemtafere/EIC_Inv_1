@@ -15,7 +15,7 @@ export class LookupPhasePipe implements PipeTransform {
   transform(code: any, en: number, args?: any): any {
     for (const lookup of this.allLookup) {
       if (lookup.LookupId == code) {
-        if (en === 1) {
+        if (en == 1) {
           return lookup.English;
         } else {
           return lookup.Amharic;

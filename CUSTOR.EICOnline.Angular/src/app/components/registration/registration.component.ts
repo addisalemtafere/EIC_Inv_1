@@ -107,9 +107,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   fillAllLookups() {
-
     this.getBudgetYearTypes();
-
     //this.getAllNation();
   }
 

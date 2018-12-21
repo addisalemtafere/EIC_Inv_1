@@ -705,6 +705,15 @@ mat-footer-row, mat-row {
   font-weight: bolder !important;
 }
 
+.afterBody {
+  min-height: 200 !important;
+  font-size: 15px !important;
+  color: black !important;
+  line-height: 23px !important;
+  text-align: justify !important;
+  font-weight: bolder !important;
+}
+
 .message-subject {
   font-size: 16px !important;
   text-decoration: underline;

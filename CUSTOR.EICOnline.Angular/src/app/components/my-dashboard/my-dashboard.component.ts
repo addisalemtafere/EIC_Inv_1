@@ -103,7 +103,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     }
     if (serviceId === 1054) {
       this.router.navigate(['/bill-of-material/2' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
-    } else if (serviceId === 13 || serviceId==1023) {
+    } else if (serviceId === 13 || serviceId == 1023) {
       switch (step) {
         case 8:
           stepIndex = 1;
@@ -147,8 +147,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.dataSourceNotitification = new MatTableDataSource<NotificationModel>(result);
         this.loading = false;
         this.notitficationList = result;
-        // console.log(this.notitficationList);
-        // this.dataSourceNotitification.paginator = this.paginator2;
+
       }, error => this.errMsg.getError(error));
   }
 
@@ -225,7 +224,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1235:
-        this.router.navigate(['investor-tab/' + serviceId + '/' + ServiceApplicationId + '/' + investorId]);
+        this.router.navigate(['investor-tab/' + serviceId + '/' + ServiceApplicationId + '/' + investorId + '/' + 0]);
 
         break;
       case 1236:
@@ -283,7 +282,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           this.investors = result;
           // console.log(result);
           if (this.investors.length === 0) {
-            this.router.navigate(['investor-tab/1235/0/0']);
+            this.router.navigate(['investor-tab/1235/0/0/0']);
             localStorage.setItem('ServiceId', '1235');
             this.toastr.success('Dear customer Please complete your Profile', 'Well Come !!!', {
               closeButton: true,

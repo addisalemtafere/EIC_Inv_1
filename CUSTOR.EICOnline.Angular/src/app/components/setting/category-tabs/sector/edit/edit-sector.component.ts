@@ -55,8 +55,6 @@ export class EditSectorComponent implements OnInit, OnDestroy {
       return;
     }
     if (id) {
-      // to-do
-      // get the selected customer either through @Input or shared service
       this.getSectors(id);
     }
   }

@@ -86,10 +86,10 @@ namespace CUSTOR.EICOnline.DAL
 
 
                     regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(inv.InvestorId);
-                    foreach (var catagory in inv.RegistrationCatagories)
+                    foreach (var catagory in postedInvestor.RegistrationCatagories)
                     {
                         RegistrationCatagory regCatagory = new RegistrationCatagory();
-                        regCatagory.InvestorId = inv.InvestorId;
+                        regCatagory.InvestorId = postedInvestor.InvestorId;
                         regCatagory.MajorCatagoryCode = catagory;
                         Context.RegistrationCatagorys.Add(regCatagory);
                          Context.SaveChanges();

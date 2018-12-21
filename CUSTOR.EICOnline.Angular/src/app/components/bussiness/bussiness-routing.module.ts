@@ -14,10 +14,10 @@ const routes: Routes = [
     path: 'bussinesstab',
     component: BussinessTabComponent
   },
-  {
-    path: 'searchregistration',
-    component: RegistrationListComponent
-  },
+  // {
+  //   path: 'searchregistration',
+  //   component: RegistrationListComponent
+  // },
   {
     path: 'bussinessbranch',
     component: BussinessBranchComponent

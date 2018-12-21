@@ -29,17 +29,18 @@ export class Investor {
   // IsDiaspora = false;
   Tin?: string = null;
   RegistrationNumber?: string = null;
-  RegistrationCatagories : string[];
+  RegistrationCatagories: string[];
   RegistrationDate?: Date = null;
   // TradeName?: string = null;
   // tradeNameSort: string = null;
   // tradeNameSoundX: string = null;
   // TradeNameEnglish?: string = null;
 
-  PaidCapital= null;
-  SighnedCapital= null;
+  PaidCapital = null;
+  SighnedCapital = null;
 
   UserId: string = null;
+  IsExistingCustomer: boolean;
   // SiteCode: string = null;
   IsActive = true;
   IsDeleted = false;

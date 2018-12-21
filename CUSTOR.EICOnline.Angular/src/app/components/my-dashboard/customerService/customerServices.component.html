@@ -15,7 +15,7 @@
         <a mat-button class="service" *ngFor="let customerService of customerServices;let i=index"
            (click)="startService(customerService.ServiceId,customerService.NameEnglish)"
            matRipple>
-          <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="row" fxLayoutAlign="start center" *ngIf="customerService.ServiceId!=1235">
 
             <div class="image-wrapper" fxFlex="0 1 auto" fxLayoutAlign="center center">
               <!-- <img [src]=""  class="image" alt="{{customerService.serviceNameEnglish}}" /> -->

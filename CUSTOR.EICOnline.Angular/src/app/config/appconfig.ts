@@ -7,7 +7,7 @@ export class AppConfiguration {
     customers: 'api/customers/',
     investors: 'api/investors/',
     customer: 'api/customer/',
-    investor: 'api/investor/',
+    investor: 'api/investor',
     login: 'api/login/',
     logout: 'api/logout/',
     lookups: 'api/Lookups/',
@@ -114,7 +114,7 @@ export class AppConfiguration {
     projectList: 'api/Projects/list',
     ProjectOnlyByInvestorId: 'api/Projects/ProjectOnlyByInvestorId',
     approveProject: 'api/Projects/approveProject',
-    ProjectsGetProjectStatus: '/api/Projects/GetProjectStatus',
+    ProjectsGetProjectStatus: 'api/Projects/GetProjectStatus',
 
     ServiceApplicationsByInvestorId: 'api/ServiceApplications/ByInvestorId',
     ServiceApplicationsByOfficerId: 'api/ServiceApplications/ByOfficerId',
@@ -271,5 +271,6 @@ export class AppConfiguration {
 
   constructor() {
     this.urls.baseUrl = 'http://localhost:5050/';
+   // this.urls.baseUrl = 'http://172.17.33.132/';
   }
 }

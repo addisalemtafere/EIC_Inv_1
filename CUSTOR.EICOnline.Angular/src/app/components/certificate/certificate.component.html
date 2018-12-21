@@ -34,9 +34,11 @@
           <div class="block" fxFlex="60%">
             <div id="logo" class="full-width">
               <div class="certificate-title">ኢትዮጵያ የኢንቨስትመንት ኮሚሽን</div>
-              <div class="certificate-titlet">ETIOPIAN INVESTMENT COMMISSION</div>
-              <div style="margin-top: 5px" class="c-subtitle">የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ</div>
-              <div class="c-subtitle">INVESTMENT PERMIT FOR DOMESTIC</div>
+              <div class="certificate-titlet">ETHIOPIAN INVESTMENT COMMISSION</div>
+              <!--<div style="margin-top: 5px" class="c-subtitle">የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ</div>-->
+              <!--<div class="c-subtitle">INVESTMENT PERMIT FOR DOMESTIC</div>-->
+              <div style="margin-top: 5px" class="c-subtitle">{{formOfOwnerShipDescriptionAmharic}}</div>
+              <div class="c-subtitle">{{formOfOwnerShipDescriptionEnglish}}</div>
             </div>
           </div>
           <div class="block" fxFlex="20%">
@@ -107,7 +109,7 @@
               <tr>
                 <td class="t-header">4.የሥራ አስክያጅ ስም</td>
                 <td class="data value">
-                  {{manager[0].Associate?.FatherName}}
+                  {{manager[0].Associate?.FirstName}}
                   {{manager[0].Associate?.FatherName}}
                   {{manager[0].Associate?.GrandName}}
                 </td>
@@ -141,7 +143,7 @@
                 <td class="data value">{{investorAddressList?.HouseNo}}</td>
               </tr>
               <tr>
-                <td class="a-header">ፖ ሳ ቁፖ ሳ ቁ</td>
+                <td class="a-header">ፖ.ሳ.ቁ</td>
                 <td class="data value">{{investorAddressList?.Pobox}}</td>
                 <td class="a-header">ስልክ ቁጥር</td>
                 <td class="data value">{{investorAddressList?.TeleNo}}</td>
@@ -246,7 +248,7 @@
               </tr>
               <tr>
                 <td class="t-header">4. Name of General Manager</td>
-                <td class="data value">{{manager[0].Associate?.FatherNameEng}}
+                <td class="data value">{{manager[0].Associate?.FirstNameEng}}
                   {{manager[0].Associate?.FatherNameEng}}
                   {{manager[0].Associate?.GrandNameEng}}
                 </td>

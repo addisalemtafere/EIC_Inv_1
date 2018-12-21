@@ -102,7 +102,7 @@ export class IncentiveDetailComponent implements OnInit {
 
   initForm() {
     this.incentiveDetailForm = this.fb.group({
-      IncentiveCategoryId: [this.IncentiveRequestModel.IncentiveCategoryId, Validators.required]
+      //IncentiveCategoryId: ['', Validators.required]
     });
   }
 
@@ -152,8 +152,9 @@ export class IncentiveDetailComponent implements OnInit {
       return;
     }
     this.currentCategoryId = categoryCode;
-    // console.log(this.currentCategoryId);
-    if (categoryCode === 10778 || categoryCode === 10782) {
+    console.log(this.currentCategoryId);
+    if (categoryCode === 10778 || categoryCode === 10782 || categoryCode === 10777 ) {
+
       this.isVisibleShowBalance = true;
 
     } else {
@@ -169,17 +170,20 @@ export class IncentiveDetailComponent implements OnInit {
   }
 
   showBalance() {
-    // console.log(this.currentCategoryId);
-    if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {
-      // this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
-      this.router.navigate(['bom-balance/' + this.projectId + '/' + this.serviceApplicationId + '/' + this.serviceId]);
+    console.log(this.currentCategoryId);
+    if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {      // this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
+      this.router.navigate(['bom-balance/' + this.projectId + '/' + 0 + '/' + 0]);
+
     } else if (this.currentCategoryId == 10777) {
-      this.router.navigate(['sparepart-balance/' + this.projectId + '/' + this.serviceApplicationId]);
+      this.router.navigate(['sparepart-balance/' + this.projectId + '/' + 0]);
     }
   }
 
   showLetter() {
-    // console.log('hi');
+
+    this.serviceId = 0;
+    this.serviceApplicationId = 0;
+
     this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + this.isForDetail]);
   }
 

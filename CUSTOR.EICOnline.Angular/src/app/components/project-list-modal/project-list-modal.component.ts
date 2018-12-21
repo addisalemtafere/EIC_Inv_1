@@ -11,6 +11,7 @@ import {Utilities} from '@custor/helpers/utilities';
 import {Investor} from '../../model/investor';
 import {ServiceapplicationService} from '../setting/services-tabs/serviceApplication/serviceapplication.service';
 import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
+import {ErrorMessage} from '@custor/services/errMessageService';
 
 @Component({
   selector: 'app-project-list-modal',
@@ -30,12 +31,15 @@ export class ProjectListModalComponent implements OnInit {
   sourceInvestor: Investor;
   loadingIndicator: boolean;
   private ServiceId: any;
+  projectModel: ProjectModel;
+  private ExemptionYear: any;
 
   constructor(private projetServices: ProjectProfileService,
               private accountService: AccountService,
               private serviceapplicationService: ServiceapplicationService,
-              private toastr: ToastrService,
+              private toastr: ToastrService,private projectProfileService: ProjectProfileService,
               private router: Router,
+              private errMsg: ErrorMessage,
               private route: ActivatedRoute,
               private incentiveLogService: IncentiveLogService) {
     this.m = new IncentiveLogModel();
@@ -127,7 +131,15 @@ export class ProjectListModalComponent implements OnInit {
         this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
       case '1045':
-        this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
+        this.getProjectDetails(projectId);
+        if (this.ExemptionYear == 0) {
+          this.toastr.error('This project does not have the right to take tax Exemption incentive', 'Not Allowed');
+        }
+        else if (this.projectModel.ProjectStatus === 4) {
+          this.toastr.error('Project it already cancelled', 'Not Allowed');
+        } else {
+          this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
+        }
         break;
       case '1236':
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
@@ -149,6 +161,19 @@ export class ProjectListModalComponent implements OnInit {
         break;
 
     }
+  }
+
+  getProjectDetails(projectId: any) {
+    this.projectProfileService.projectsDetailForLetter(projectId)
+      .subscribe(result => {
+          if (result) {
+            this.projectModel = result;
+            this.ExemptionYear = this.projectModel.IsOromiaSpecialZone ? this.projectModel.InvestmentActivity.InAddisOromiaAreas : this.projectModel.InvestmentActivity.InOtherAreas;
+            console.log(this.projectModel.IsOromiaSpecialZone);
+            console.log(this.ExemptionYear);
+          }
+        },
+        error => this.errMsg.getError(error));
   }
 
   back() {

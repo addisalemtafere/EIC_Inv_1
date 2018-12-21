@@ -1,13 +1,4 @@
-﻿import {
-  AfterContentChecked,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+﻿import {AfterContentChecked, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {PreRequisiteDocumentService} from '../../../Services/pre-requisite-document.service';
@@ -23,8 +14,10 @@ import {ErrorMessage} from '@custor/services/errMessageService';
 import {InvestorService} from '../../investor/investor.service';
 import {Investor} from '../../../model/investor';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
+
 import {ActivatedRoute} from "@angular/router";
 import {ConfigurationService} from "@custor/services/configuration.service";
+
 
 @Component({
   selector: 'app-service-prerequisite',
@@ -85,14 +78,13 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
   ngOnInit(): void {
     this.servicePreList = [];
-    this.ServiceId = this.route.snapshot.params['ServiceId'];
-    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
     const ServiceWorkflowId = this.route.snapshot.params['workFlowId'];
     this.workFlowId = (ServiceWorkflowId == undefined) ? '' : ServiceWorkflowId;
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.baseUrl = this.config.baseUrl;
     this.createForm();
-    console.log(this.workFlowId)
     this.getServicePrerequisite(this.ServiceId);
   }
 
@@ -124,7 +116,6 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     formData.append('ServiceApplicationId', formModel.ServiceApplicationId);
     formData.append('KeyWords', formModel.KeyWords);
     formData.append('workFlowId', formModel.WorkFlowId);
-
 
     return formData;
   }
@@ -188,6 +179,53 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
   }
 
+  UpdateServiceApplication() {
+    this.serviceApplicationsServices
+      .finalForApprovalServiceApplications(this.ServiceApplicationId)
+      .subscribe(result => {
+        this.toast.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
+      });
+  }
+
+  ngAfterContentChecked(): void {
+
+    // this.documentForm.patchValue({
+    //   WorkFlowId: localStorage.getItem('workFlowId')
+    // });
+    //
+    // console.log(localStorage.getItem('workFlowId'));
+    // console.log(this.documentForm.get('WorkFlowId').value);
+  }
+
+  next() {
+    setTimeout(() => this.dataSharing.steeperIndex.next(9), 0);
+    setTimeout(() => this.dataSharing.currentIndex.next(9), 0);
+  }
+
+  getPreReqService(pre: any, investor: Investor) {
+    this.servicePreList = [];
+    for (let i = 0; i < pre.length; i++) {
+      if (pre[i].BusinessType === investor.LegalStatus || pre[i].BusinessType === 3) {
+        this.servicePreList.push(pre[i]);
+
+      }
+    }
+    console.log(this.servicePreList);
+    console.log(this.servicePreList);
+    this.getDocument(this.documentForm.get('ServiceApplicationId').value);
+  }
+
+  confirmFileDelete(index: number) {
+    this.confirmDialogRef = this.dialog.open(AngConfirmDialogComponent, {disableClose: false});
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    return this.confirmDialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.deleteFile(index);
+        }
+      });
+  }
+
   private isValidFiles(files) {
     // Check Number of files
     if (files.length > this.maxFiles) {
@@ -230,49 +268,17 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     }
   }
 
-  UpdateServiceApplication() {
-    this.serviceApplicationsServices
-      .finalForApprovalServiceApplications(this.ServiceApplicationId)
-      .subscribe(result => {
-        this.toast.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
-      });
-  }
 
-  ngAfterContentChecked(): void {
 
-  }
 
-  next() {
-    setTimeout(() => this.dataSharing.steeperIndex.next(9), 0);
-    setTimeout(() => this.dataSharing.currentIndex.next(9), 0);
-  }
-
-  private filterPrerequisite(prerequeste: ServicePrerequisite[]) {
+   private filterPrerequisite(prerequeste: ServicePrerequisite[]) {
     this.investorService.getInvestor(this.InvestorId)
       .subscribe((result: Investor) => {
         this.getPreReqService(prerequeste, result);
       });
   }
 
-  getPreReqService(pre: any, investor: Investor) {
-    this.servicePreList = [];
-    for (let i = 0; i < pre.length; i++) {
-      if (pre[i].BusinessType === investor.LegalStatus || pre[i].BusinessType === 3) {
-        this.servicePreList.push(pre[i]);
 
-      }
-    }
-    this.getDocument(this.documentForm.get('ServiceApplicationId').value);
-  }
 
-  confirmFileDelete(index: number) {
-    this.confirmDialogRef = this.dialog.open(AngConfirmDialogComponent, {disableClose: false});
-    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
-    return this.confirmDialogRef.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.deleteFile(index);
-        }
-      });
-  }
+
 }

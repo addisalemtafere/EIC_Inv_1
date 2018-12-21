@@ -66,14 +66,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string RegistrationNumber { get; set; }
         public DateTime? RegistrationDate { get; set; }
 
-        public decimal PaidCapital { get; set; }
-        public decimal SighnedCapital { get; set; }
+        public decimal? PaidCapital { get; set; }
+        public decimal? SighnedCapital { get; set; }
 
         [NotMapped]
         public string[] RegistrationCatagories { get; set; }
 
         public string UserId { get; set; }
         //public string SiteCode { get; set; }
+        public bool? IsExistingCustomer { get; set; }        
         public bool? IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public string CreatedUserId { get; set; }

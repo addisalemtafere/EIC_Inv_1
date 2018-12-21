@@ -21,7 +21,7 @@ export const TITLES: any[] =
 
 export const FormOfOwnership: any[] = [
   {'Id': '1', 'Description': 'የሃገር ውስጥ ባለሃብት', 'DescriptionEng': 'Domestic Investor'},
-  {'Id': '2', 'Description': 'የውጭ ኢንቨስተር', 'DescriptionEng': 'Foreign Investor'},
+  {'Id': '2', 'Description': 'የውጭ ሃገር ኢንቨስተር', 'DescriptionEng': 'Foreign Investor'},
   {'Id': '3', 'Description': 'እንደ ሃገር ውስጥ ባለሃብት', 'DescriptionEng': 'As Domestic Investor'},
   {'Id': '4', 'Description': 'የሀገር ውስጥ እና የውጭ ባለሀብት', 'DescriptionEng': 'Joint Investment'},
   // {'Id': '5', Description: 'ትውልደ ኢትዮጵያዊ', 'DescriptionEng': 'Ethiopian by birth'},

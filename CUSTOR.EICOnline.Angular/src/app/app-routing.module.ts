@@ -68,7 +68,7 @@ import {FollowupFormComponent} from "./components/followup/followup-form/followu
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-tab/:ServiceId/:ServiceApplicationId/:InvestorId',
+        path: 'investor-tab/:ServiceId/:ServiceApplicationId/:InvestorId/:IsExistingCustomer',
         loadChildren: 'app/components/investor/investor-tab/investor-tab.module#InvestorTabModule',
         canActivate: [AuthGuard]
       },
@@ -378,7 +378,7 @@ import {FollowupFormComponent} from "./components/followup/followup-form/followu
         canActivate: [AuthGuard]
       },
       {
-        path: 'incentive-detail/:projectId/:serviceApplicationId/:serviceId',
+        path: 'incentive-detail/:projectId/:serviceApplicationId/:serviceId/:isForDetail',
         loadChildren: 'app/components/incentive/incentive-detail/incentive-detail.module#IncentiveDetailModule',
         canActivate: [AuthGuard]
       },

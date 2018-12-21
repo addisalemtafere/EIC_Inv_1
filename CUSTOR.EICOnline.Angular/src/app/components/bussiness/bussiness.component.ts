@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs';
@@ -13,7 +13,6 @@ import {DivisionModel} from '../../model/catagory/DivisionModel.model';
 import {CatagoryService} from '../../Services/Catagory/Catagory.service';
 import {BussinessService} from '../../Services/bussiness/bussiness.service';
 import {MajorDivision} from '../../model/catagory/MajorDivision.model';
-
 
 
 @Component({
@@ -41,25 +40,26 @@ export class BussinessComponent implements OnInit {
   Tin: string;
   private BussinessN: string;
   private BussinessNeng: string;
+
   // DivisionList = []
-  constructor( private http: HttpClient,
-               public toastr: ToastrService,
-               private catagoryservice: CatagoryService,
-               private  bussinessService: BussinessService,
-               private router: Router,
-               public route: ActivatedRoute,
-                private fb: FormBuilder) {
-   /* this.bussinessForm = new FormGroup({
-      BussinessName: new FormControl(),
-      LicenseNum: new FormControl(),
-      Status: new FormControl(),
-      Capital: new FormControl(),
-      MajorDivision: new FormControl(),
-      Division: new FormControl(),
-      MajorGroup: new FormControl(),
-      Group: new FormControl(),
-      SubGroup: new FormControl()
-    });*/
+  constructor(private http: HttpClient,
+              public toastr: ToastrService,
+              private catagoryservice: CatagoryService,
+              private  bussinessService: BussinessService,
+              private router: Router,
+              public route: ActivatedRoute,
+              private fb: FormBuilder) {
+    /* this.bussinessForm = new FormGroup({
+       BussinessName: new FormControl(),
+       LicenseNum: new FormControl(),
+       Status: new FormControl(),
+       Capital: new FormControl(),
+       MajorDivision: new FormControl(),
+       Division: new FormControl(),
+       MajorGroup: new FormControl(),
+       Group: new FormControl(),
+       SubGroup: new FormControl()
+     });*/
     this.initForm();
   }
 
@@ -88,7 +88,7 @@ export class BussinessComponent implements OnInit {
     let Bussinessta: any = [];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
-    this.BussinessId  = this.route.snapshot.params['BusinessId'];
+    this.BussinessId = this.route.snapshot.params['BusinessId'];
 
     STATUS.forEach(pair => {
       Bussinessta = {'Id': pair.Id.toString(), 'Desc': pair.Description};
@@ -100,42 +100,40 @@ export class BussinessComponent implements OnInit {
         this.MajorDivisionList = result;
       }
     );
+    if (this.BussinessId <= 0) {
+      this.bussinessService.getRegistrationByInvestorId(this.InvestorId).subscribe(
+        result => {
+          if (result.LegalStatus === '1') {
+            this.BussinessNeng = result.FirstNameEng + ' ' + result.FatherNameEng + ' ' + result.GrandNameEng;
+            this.BussinessN = result.FirstName + ' ' + result.FatherName + ' ' + result.GrandName;
+          } else {
+            this.BussinessN = result.FirstName;
+            this.BussinessNeng = result.FirstNameEng;
+          }
+          this.bussinessForm.patchValue({
 
-if(this.BussinessId <= 0) {
-  this.bussinessService.getRegistrationByInvestorId(this.InvestorId).subscribe(
-    result => {
-      if (result.LegalStatus === '1') {
-        this.BussinessNeng = result.FirstNameEng + ' ' + result.FatherNameEng + ' ' + result.GrandNameEng;
-        this.BussinessN = result.FirstName + ' ' + result.FatherName + ' ' + result.GrandName;
-      } else {
-        this.BussinessN = result.FirstName;
-        this.BussinessNeng = result.FirstNameEng;
-      }
-      this.bussinessForm.patchValue({
+            cBussinessName: this.BussinessN,
+            cBussinessNameEng: this.BussinessNeng,
+            cCapital: result.PaidCapital
 
-        cBussinessName: this.BussinessN,
-        cBussinessNameEng: this.BussinessNeng,
-        cCapital: result.PaidCapital
-
-      });
-      this.loadingIndicator = false;
+          });
+          this.loadingIndicator = false;
+        }
+      );
     }
-  );
-}
-else {
-  this.bussinessService.getBusiness(this.BussinessId).subscribe(
-    result => {
-      this.bussinessForm.patchValue({
-        cBussinessName: result.TradeNameAmh,
-        cBussinessNameEng: result.TradesName,
-        cCapital: result.Capital,
-        cLicenseNum: result.LicenceNumber
-      });
-      this.loadingIndicator = false;
+    else {
+      this.bussinessService.getBusiness(this.BussinessId).subscribe(
+        result => {
+          this.bussinessForm.patchValue({
+            cBussinessName: result.TradeNameAmh,
+            cBussinessNameEng: result.TradesName,
+            cCapital: result.Capital,
+            cLicenseNum: result.LicenceNumber
+          });
+          this.loadingIndicator = false;
+        }
+      );
     }
-  );
-}
-
 
     this.catagoryservice.getDivision().subscribe(result => {
         this.DivisionList = result;
@@ -164,7 +162,8 @@ else {
     if (!id) {
       return;
     }
-   this.filterDivisionList = this.DivisionList.filter((item) => {return item.Parent === id;
+    this.filterDivisionList = this.DivisionList.filter((item) => {
+        return item.Parent === id;
       }
     );
   }
@@ -173,7 +172,8 @@ else {
     if (!id) {
       return;
     }
-    this.filterMajorGroupList = this.MajorGroupList.filter((item) => {return item.Parent === id;
+    this.filterMajorGroupList = this.MajorGroupList.filter((item) => {
+        return item.Parent === id;
       }
     );
   }
@@ -182,7 +182,8 @@ else {
     if (!id) {
       return;
     }
-    this.filterGroupList = this.GroupList.filter((item) => {return item.Parent === id;
+    this.filterGroupList = this.GroupList.filter((item) => {
+        return item.Parent === id;
       }
     );
   }
@@ -191,23 +192,24 @@ else {
     if (!id) {
       return;
     }
-    this.filterSubGroupList = this.SubGroupList.filter((item) => {return item.Parent === id;
+    this.filterSubGroupList = this.SubGroupList.filter((item) => {
+        return item.Parent === id;
       }
     );
   }
 
   onSubmit() {
     if (!this.bussinessForm.valid) {
-       return;
+      return;
     }
     this.loadingIndicator = true;
-     this.bussinessService.saveBussiness(this.getEditedbussiness()).subscribe((bussiness: BussinessModel) => {
-       localStorage.setItem('BussinesId', bussiness.ID.toString());
-       localStorage.setItem('ServiceApplicationID', bussiness.ServiceApplicationId.toString());
-       this.router.navigate(['business-tab/1236/' + bussiness.InvestorId + '/' + bussiness.ServiceApplicationId + '/' + bussiness.ID + '/' + 0]);
-       this.SaveCatagory();
-       this.saveComplete();
-       });
+    this.bussinessService.saveBussiness(this.getEditedbussiness()).subscribe((bussiness: BussinessModel) => {
+      localStorage.setItem('BussinesId', bussiness.ID.toString());
+      localStorage.setItem('ServiceApplicationID', bussiness.ServiceApplicationId.toString());
+      this.router.navigate(['business-tab/1236/' + bussiness.InvestorId + '/' + bussiness.ServiceApplicationId + '/' + bussiness.ID + '/' + 0]);
+      this.SaveCatagory();
+      this.saveComplete();
+    });
 
   }
 
@@ -215,6 +217,7 @@ else {
     this.loadingIndicator = false;
     this.toastr.success('Record saved successfully!');
   }
+
   private getEditedbussiness(): BussinessModel {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
@@ -242,9 +245,11 @@ else {
     this.bussinessService.saveBussinessLicense(this.getCatagory()).subscribe((bussinessLicense: BussinessCatagory) => {
     });
   }
+
   back() {
     this.router.navigate(['/bussiness/searchregistration']);
   }
+
   /* MajorDivision: formModel.Catagory.MajorDivision,
     Division: formModel.Catagory.Division,
     MajorGroup: formModel.Catagory.MajorGroup,
@@ -257,6 +262,7 @@ else {
   get BussinessNameEng() {
     return this.bussinessForm.get('cBussinessNameEng');
   }
+
   get LicenseNum() {
     return this.bussinessForm.get('cLicenseNum');
   }
@@ -264,6 +270,7 @@ else {
   get Capital() {
     return this.bussinessForm.get('cCapital');
   }
+
   get Status() {
     return this.bussinessForm.get('cStatus');
   }
