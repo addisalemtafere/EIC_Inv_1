@@ -57,7 +57,7 @@ export class BussinessComponent implements OnInit {
        MajorDivision: new FormControl(),
        Division: new FormControl(),
        MajorGroup: new FormControl(),
-       Group: new FormControl(),
+       BGroup: new FormControl(),
        SubGroup: new FormControl()
      });*/
     this.initForm();
@@ -66,7 +66,7 @@ export class BussinessComponent implements OnInit {
   /* MajorDivision: formModel.Catagory.MajorDivision,
     Division: formModel.Catagory.Division,
     MajorGroup: formModel.Catagory.MajorGroup,
-    Group: formModel.Catagory.Group,
+    BGroup: formModel.Catagory.BGroup,
     SubGroup: formModel.Catagory.SubGroup*/
   get BussinessName() {
     return this.bussinessForm.get('cBussinessName');
@@ -278,9 +278,10 @@ export class BussinessComponent implements OnInit {
   }
 
   private doBindCategory(businessId: number) {
-    this.bussinessService.getBussinessCatagory(businessId).subscribe(result => {
+    this.bussinessService.getBussinessLicense(businessId).subscribe(result => {
       this.bussinessCatagoryList = result;
       console.log(this.bussinessCatagoryList);
+
     });
   }
 }

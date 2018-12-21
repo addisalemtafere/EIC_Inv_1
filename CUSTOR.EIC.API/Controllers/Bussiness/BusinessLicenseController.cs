@@ -22,11 +22,11 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             context = ctx;
         }
 
-        [HttpGet("GetBusinessLicenseGroup/{InvestorId:int}")]
-        public async Task<List<BusinessLicensingGroup>> GetBusinessLicenseGroup(int InvestorId)
+        [HttpGet("GetBusinessLicenseGroup/{businessId:int}")]
+        public async Task<List<BusinessLicensingGroup>> GetBusinessLicenseGroup(int businessId)
         {
             BusinessLicensingGroupRepository businessLicenseGroupRepo = new BusinessLicensingGroupRepository(context);
-            return await businessLicenseGroupRepo.GetRecords(InvestorId);
+            return await businessLicenseGroupRepo.GetRecords(businessId);
         }
 
         [HttpPost("SaveBussinessLicense")]

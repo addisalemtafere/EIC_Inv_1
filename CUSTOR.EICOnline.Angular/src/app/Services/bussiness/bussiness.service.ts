@@ -37,8 +37,8 @@ export class BussinessService {
     );
   }
 
-  getBussinessLicense() {
-    return this.httpClient.get(this.config.urls.url('GetBusinessLicenseGroup')).pipe(
+  getBussinessLicense(businessId: any) {
+    return this.httpClient.get(this.config.urls.url('GetBusinessLicenseGroup', businessId)).pipe(
       map(result => {
         return result;
       }), catchError(this.errMsg.parseObservableResponseError));
