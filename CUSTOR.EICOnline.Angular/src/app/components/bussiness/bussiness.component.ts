@@ -31,7 +31,7 @@ export class BussinessComponent implements OnInit {
   GroupList: DivisionModel[] = [];
   filterGroupList: DivisionModel[] = [];
   bussinessCatagory: BussinessCatagory;
-  bussinessCatagoryList: BussinessCatagory[]=[];
+  bussinessCatagoryList: BussinessCatagory[] = [];
   SubGroupList = [];
   ServiceApplicationId: any;
   InvestorId: any;
@@ -109,6 +109,8 @@ export class BussinessComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.initCategory();
     this.loadingIndicator = true;
     let Bussinessta: any = [];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
@@ -148,7 +150,7 @@ export class BussinessComponent implements OnInit {
       );
     }
     else {
-      this.bussinessService.getBusiness(this.BussinessId).subscribe(
+      setTimeout(() => this.bussinessService.getBusiness(this.BussinessId).subscribe(
         result => {
           this.bussinessForm.patchValue({
             cBussinessName: result.TradeNameAmh,
@@ -158,10 +160,12 @@ export class BussinessComponent implements OnInit {
           });
           this.loadingIndicator = false;
           this.doBindCategory(this.BussinessId);
-        }
-      );
-    }
+        }), 2000);
 
+    }
+  }
+
+  initCategory() {
     this.catagoryservice.getDivision().subscribe(result => {
         this.DivisionList = result;
       }
@@ -181,7 +185,6 @@ export class BussinessComponent implements OnInit {
         this.SubGroupList = result;
       }
     );
-
   }
 
 
@@ -206,9 +209,12 @@ export class BussinessComponent implements OnInit {
   }
 
   filterGroup(id: number) {
+    console.log(id);
     if (!id) {
       return;
     }
+    console.log(this.filterGroupList);
+    console.log(this.GroupList);
     this.filterGroupList = this.GroupList.filter((item) => {
         return item.Parent === id;
       }
@@ -280,6 +286,32 @@ export class BussinessComponent implements OnInit {
   private doBindCategory(businessId: number) {
     this.bussinessService.getBussinessLicense(businessId).subscribe(result => {
       this.bussinessCatagoryList = result;
+      this.filterDivision(+this.bussinessCatagoryList[0].MajorDivision);
+      this.filterMajorGroup(+this.bussinessCatagoryList[0].Division);
+      this.filterGroup(+this.bussinessCatagoryList[0].MajorGroup);
+      this.filterSubGroup(+this.bussinessCatagoryList[0].BGroup);
+
+      this.bussinessForm.get('Catagory').patchValue({
+        MajorDivision: this.bussinessCatagoryList[0].MajorDivision,
+        Division: this.bussinessCatagoryList[0].Division,
+        MajorGroup: this.bussinessCatagoryList[0].MajorGroup,
+        Group: this.bussinessCatagoryList[0].BGroup,
+        SubGroup: this.bussinessCatagoryList[0].SubGroup,
+      });
+
+      for (let i = 0; i < this.filterSubGroupList.length; i++) {
+        for (let j = 0; j < this.bussinessCatagoryList.length; j++) {
+          if (this.bussinessCatagoryList[j].SubGroup === this.filterSubGroupList[i].Id) {
+            this.filterSubGroupList[i].selected = true;
+            // // console.log(this.tariffModel[j]);
+          } else {
+            if (this.filterSubGroupList[i].selected !== true) {
+              this.filterSubGroupList[i].selected = false;
+            }
+          }
+        }
+      }
+
       console.log(this.bussinessCatagoryList);
 
     });

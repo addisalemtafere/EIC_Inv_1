@@ -150,7 +150,7 @@
 
     <mat-selection-list aria-colcount="2" formControlName="SubGroup" dense [required]="true">
         <h3 matSubheader>Business License Category *:</h3>
-        <mat-list-option class="width-400" [checkboxPosition]="left" *ngFor="let SubGroup of filterSubGroupList" [value]="SubGroup.Id">
+        <mat-list-option [selected]="SubGroup?.selected" class="width-400" [checkboxPosition]="left" *ngFor="let SubGroup of filterSubGroupList" [value]="SubGroup.Id">
           {{SubGroup.EnglishDescription}}
         </mat-list-option>
       </mat-selection-list>
