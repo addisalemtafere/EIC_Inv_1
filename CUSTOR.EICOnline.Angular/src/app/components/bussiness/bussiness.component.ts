@@ -116,7 +116,7 @@ export class BussinessComponent implements OnInit {
     this.BussinessId = this.route.snapshot.params['BusinessId'];
 
     STATUS.forEach(pair => {
-      Bussinessta = {'Id': pair.Id.toString(), 'Desc': pair.Description};
+      Bussinessta = {'Id': pair.Id.toString(), 'Desc': pair.DescriptionEnglish};
       this.bussinessStatus.push(Bussinessta);
       // console.log(pair);
     });
@@ -280,7 +280,6 @@ export class BussinessComponent implements OnInit {
   private doBindCategory(businessId: number) {
     this.bussinessService.getBussinessCatagory(businessId).subscribe(result => {
       this.bussinessCatagoryList = result;
-
     });
   }
 }

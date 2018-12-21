@@ -14,27 +14,27 @@
     <mat-table #table [dataSource]="dataSource" *ngIf="selectedBranchList.length==0">
 
       <ng-container matColumnDef="RegionID">
-        <mat-header-cell *matHeaderCellDef>ክልል  </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Region  </mat-header-cell>
         <mat-cell *matCellDef="let RegistrationBranchList">
           {{RegistrationBranchList?.RegionName}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="Zone">
-        <mat-header-cell *matHeaderCellDef>ዞን  </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Zone  </mat-header-cell>
         <mat-cell *matCellDef="let RegistrationBranchList">
        {{RegistrationBranchList?.ZoneName}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="WoredaID">
-        <mat-header-cell *matHeaderCellDef>ክፍለ ከተማ </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Subcity/Woreda </mat-header-cell>
         <mat-cell *matCellDef="let RegistrationBranchList">
           {{RegistrationBranchList?.WoredaName}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="HouseNo">
-        <mat-header-cell *matHeaderCellDef>የቤት ቁጥር   </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>House No   </mat-header-cell>
         <mat-cell *matCellDef="let RegistrationBranchList">
             {{RegistrationBranchList.HouseNo }}
           </mat-cell>

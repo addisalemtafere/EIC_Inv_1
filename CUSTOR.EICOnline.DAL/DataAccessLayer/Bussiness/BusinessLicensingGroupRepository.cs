@@ -1,5 +1,6 @@
 ﻿using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,25 +15,25 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
         {
         }
 
-        //public async Task<List<BusinessLicensingGroup>> GetRecords(int id)
-        //{
-        //    List<BusinessLicensingGroup> BusinessLicensingGroup = null;
-        //    try
-        //    {
-        //        BusinessLicensingGroup = await Context.BusinessLicensingGroup
-        //            .Where(bg => bg.BusinessId == id).ToListAsync();
-        //    }
-        //    catch (InvalidOperationException)
-        //    {
-        //        SetError("Couldn't load tblMajorDivisions");
-        //        return null;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        SetError(ex);
-        //    }
-        //    return BusinessLicensingGroup;
-        //}
+        public async Task<List<BusinessLicensingGroup>> GetRecords(int id)
+        {
+            List<BusinessLicensingGroup> BusinessLicensingGroup = null;
+            try
+            {
+                BusinessLicensingGroup = await Context.BusinessLicensingGroup
+                    .Where(bg => bg.BusinessId == id).ToListAsync();
+            }
+            catch (InvalidOperationException)
+            {
+                SetError("Couldn't load tblMajorDivisions");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                SetError(ex);
+            }
+            return BusinessLicensingGroup;
+        }
 
         public async Task<BusinessLicensingGroup> SaveBussinessBussinessLicense(BusinessLicensingGroup business)
         {
