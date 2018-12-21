@@ -11,12 +11,8 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
 import {ErrorComponent} from './components/error/error.component';
 import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {AddressComponent} from './components/project-profile/address/address.component';
-
-import {FollowComponent} from './follow/follow.component';
-import {FollowupModule} from "./components/followup/followup.module";
 import {FollowupComponent} from "./components/followup/followup.component";
-
-import {LettertemplateModule} from './components/letter-template/lettertemplate.module';
+import {FollowupFormComponent} from "./components/followup/followup-form/followup-form.component";
 
 
 @NgModule({
@@ -29,10 +25,10 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
       },
       {
         path: 'followup',
-        // loadChildren: 'app/components/followup/followup.module#FollowupModule',
-        // canActivate: [AuthGuard]
-
          component: FollowupComponent
+      },{
+        path: 'followupform',
+        loadChildren: 'app/components/followup/followup.module#FollowupModule',
       },
       {
         path: 'dashboard',

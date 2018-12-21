@@ -2,14 +2,18 @@ import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "@custor/modules/shared.module";
 import {FollowupComponent} from "./followup.component";
+import { FollowupFormComponent } from './followup-form/followup-form.component';
+import {followup_routing_module} from "./followup-routing.module";
 
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    followup_routing_module
   ],
   declarations: [
-    FollowupComponent
+    FollowupComponent,
+    FollowupFormComponent
   ],
   exports: [
     FollowupComponent]

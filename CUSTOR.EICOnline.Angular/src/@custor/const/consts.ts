@@ -130,20 +130,20 @@ export const ApplicationStatus: any[] =
   ];
 // by gebre
 export const Decision: any[]=[
-  {'Id':'1','Description': 'ተፈቅዷል', 'DescriptionEnglish': 'Permitted'},
-  {'Id':'2','Description': 'ውድቅ ተደርጓል', 'DescriptionEnglish': 'Not Permitted'}
+  {Id:1,Description: 'ተፈቅዷል', DescriptionEnglish: 'Permitted'},
+  {Id:2,Description: 'ውድቅ ተደርጓል', DescriptionEnglish: 'Not Permitted'}
 ];
 export const Service: any[]=[
-  {'Id':'1','Description': 'አዲስ የኢንቨስትመንት ፈቃድ', 'DescriptionEnglish': 'New Investment Permit'},
-  {'Id':'2','Description': 'የኢንቨስትመንት ፈቃድ እድሳት', 'DescriptionEnglish': 'Renewal of IP'},
-  {'Id':'2','Description': 'የኢንቨስትመንት ፈቃድ ስረዛ', 'DescriptionEnglish': 'Cancellation of IP'},
-  {'Id':'2','Description': 'የኢንቨስትመንት ፈቃድ ማስፋፊያ', 'DescriptionEnglish': 'IP Expansion'},
-  {'Id':'2','Description': 'የኢንቨስትመንት ፈቃድ ምትክ', 'DescriptionEnglish': 'Substitute IP'},
-  {'Id':'2','Description': 'የፕሮጀክት ለውጥ', 'DescriptionEnglish': 'Amendment of IP'},
-  {'Id':'2','Description': 'Incentive Tax holiday', 'DescriptionEnglish': 'Tax Holiday '},
-  {'Id':'2','Description': 'Incentive Duty Free', 'DescriptionEnglish': 'Duty Free'},
-  {'Id':'2','Description': 'Incentive Construction Material', 'DescriptionEnglish': 'Construction Material'},
-  {'Id':'2','Description': 'Raw Material', 'DescriptionEnglish': 'Raw Material'},
-  {'Id':'2','Description': 'Business License', 'DescriptionEnglish': 'Business License'}
+  {Id:1,Description: 'አዲስ የኢንቨስትመንት ፈቃድ', DescriptionEnglish:  'New Investment Permit'},
+  {Id:2,Description:'የኢንቨስትመንት ፈቃድ እድሳት', DescriptionEnglish:  'Renewal of IP'},
+  {Id:3,Description: 'የኢንቨስትመንት ፈቃድ ስረዛ', DescriptionEnglish: 'Cancellation of IP'},
+  {Id:4,Description: 'የኢንቨስትመንት ፈቃድ ማስፋፊያ', DescriptionEnglish:  'IP Expansion'},
+  {Id:5,Description: 'የኢንቨስትመንት ፈቃድ ምትክ', DescriptionEnglish: 'Substitute IP'},
+  {Id:6,Description:'የፕሮጀክት ለውጥ', DescriptionEnglish:  'Amendment of IP'},
+  {Id:7,Description: 'Incentive Tax holiday', DescriptionEnglish:  'Tax Holiday '},
+  {Id:8,Description:'Incentive Duty Free', DescriptionEnglish: 'Duty Free'},
+  {Id:9,Description: 'Incentive Construction Material', DescriptionEnglish:  'Construction Material'},
+  {Id:10,Description: 'Raw Material', DescriptionEnglish:  'Raw Material'},
+  {Id:11,Description:'Business License', DescriptionEnglish: 'Business License'}
 
   ];

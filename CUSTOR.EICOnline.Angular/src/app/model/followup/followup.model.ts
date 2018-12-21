@@ -1,10 +1,11 @@
 export class FollowUpModel {
-  public FollowupId: any;
+  public Id: any;
   public ProjectId : number;
   public InvestorName : string;
-  public AfterCareDate : string;
-  public AfterCareDecision : string;
-  public AfterCarefinding : string;
+  public ServiceId:number;
+  public FollowupDate : string;
+  public DecisionMade : number;
+  public FollowupFinding : string;
   public OfficerRemark : string;
   public EventDateTime: string;
   public CreatedUserId?:number;

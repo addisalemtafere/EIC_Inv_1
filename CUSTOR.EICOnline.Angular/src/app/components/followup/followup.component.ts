@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MatDialog, MatDialogRef, MatSort, MatTableDataSource} from "@angular/material";
+import {MatDialog, MatDialogConfig, MatDialogRef, MatSort, MatTableDataSource} from "@angular/material";
 import {FollowupService} from "../../Services/followup/followup.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataSharingService} from "../../Services/data-sharing.service";
@@ -18,6 +18,8 @@ import {Utilities} from "@custor/helpers/utilities";
 import {Decision, Service} from '@custor/const/consts';
 import {Decisions, Services, UnitType} from "../../model/lookupData";
 import {UnitTypes} from "@custor/const/consts";
+import {NotificationComponent} from "../project-profile/notification/notification.component";
+import {FollowupFormComponent} from "./followup-form/followup-form.component";
 
 @Component({
   selector: 'app-followup',
@@ -39,7 +41,7 @@ export class FollowupComponent implements OnInit {
 
   public decision: Decisions[] = [];
   public service: Services[] = [];
-  constructor(
+  constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private followupService: FollowupService,
     private activatedRoute: ActivatedRoute,
@@ -48,61 +50,65 @@ export class FollowupComponent implements OnInit {
     private lookUpService: LookUpService,
     private http: HttpClient, private accountService: AccountService,
     private authService: AuthService,
-    private configService: ConfigurationService, public dialog: MatDialog,
+    private configService: ConfigurationService,
     private toastr: ToastrService) {
 
   }
 
   // @ViewChild(MatSort) sort: MatSort;
   ngOnInit(): void {
-    this.initForm();
+    //this.initForm();
     this.loadFollowups();
     this.initStaticData('en');
     // this.dataSource.sort = this.sort;
   }
 
 
-  initForm() {
-    // console.log(localStorage.getItem("InvestorId"));
-    this.followUpForm = this.fb.group({
-      investorName: ['', Validators.required],
-      cAfterCareDate: ['', Validators.required],
-      afterCareDecision: ['', Validators.required],
-      findings: ['', Validators.required],
-      serviceName: ['', Validators.required]
-    });
-  }
-  errorMsg={
-    investorName: 'Investor Name is required!',
-    cAfterCareDate: 'Please select date!',
-    afterCareDecision: 'Please select the decision!',
-    findings: 'Please fill out the findings!',
-    serviceName: 'Please select the service name!'
-  }
-
-
-  public onSubmit() {
-    // console.log(this.followUpForm.value);
-    const formData=this.mapValuesData(this.followUpForm.value);
-    // console.log(formData.ProjectId);
-    this.followupService.create(formData)
-      .subscribe(
-        (followup: FollowUpModel) => {
-          // localStorage.setItem('InvestorId', followup.InvestorId.toString());
-          // console.log(localStorage.getItem(['InvestorId']).toString());
-          console.log(followup);
-          this.loadFollowups();
-        }
-      );
-    // this.loadFollowups();
-
-  }
-  mapValuesData(follow:FollowUpModel){
-    follow.ProjectId=23130;
-    follow.CreatedUserName=this.accountService.currentUser.UserName;
-    follow.CreatedUserName=this.accountService.currentUser.Id;
-    return follow;
-}
+//   initForm() {
+//     // console.log(localStorage.getItem("InvestorId"));
+//     this.followUpForm = this.fb.group({
+//       investorName: ['', Validators.required],
+//       FollowupDate: ['', Validators.required],
+//       DecisionMade: [1, Validators.required],
+//       findings: ['', Validators.required],
+//       serviceName: [1, Validators.required],
+//       OfficerRemark: ['']
+//
+//     });
+//   }
+//   errorMsg={
+//     investorName: 'Investor Name is required!',
+//     cAfterCareDate: 'Please select date!',
+//     afterCareDecision: 'Please select the decision!',
+//     findings: 'Please fill out the findings!',
+//     serviceName: 'Please select the service name!'
+//   }
+//
+//
+//   public onSubmit() {
+//     // console.log(this.followUpForm.value);
+//     const formData=this.mapValuesData(this.followUpForm.value);
+//     // console.log(formData.ProjectId);
+//     console.log(formData);
+//     this.followupService.create(formData)
+//       .subscribe(
+//         (followup: FollowUpModel) => {
+//           // localStorage.setItem('InvestorId', followup.InvestorId.toString());
+//           // console.log(localStorage.getItem(['InvestorId']).toString());
+//           console.log(followup);
+//           this.loadFollowups();
+//         }
+//       );
+//     // this.loadFollowups();
+//
+//   }
+//   mapValuesData(follow:FollowUpModel){
+//     follow.ProjectId=23130;
+//     follow.CreatedUserName=this.accountService.currentUser.UserName;
+//     // follow.CreatedUserId=(int)this.accountService.currentUser.Id;
+//     // follow.ServiceId=this.getServices(this.followups.se)
+//     return follow;
+// }
   public loadFollowups() {
 
     return this.followupService.getAll()
@@ -113,6 +119,24 @@ export class FollowupComponent implements OnInit {
       });
   }
 
+  addfollowup() {
+    const dialogRef = this.dialog.open(FollowupFormComponent);
+    // this.router.navigate(['/followupform']);
+
+  }
+
+  // addfollowup() {
+  //   // const dialogConfig = new MatDialogConfig();
+  //   //
+  //   // dialogConfig.data = {
+  //   //   ServiceApplicationId: 22,
+  //   //   title: 'Angular For Beginners'
+  //   // };
+  //   this.dialog.open(FollowupFormComponent);
+  //   // this.dialog.open(FollowupFormComponent, dialogConfig);
+  //
+  //
+  // }
   delete(followupp:FollowUpModel)
   {
     // const followupData=
@@ -125,11 +149,11 @@ export class FollowupComponent implements OnInit {
       if (result) {
         console.log("Deletion Invoked");
         console.log(followupp);
-        console.log(followupp.FollowupId);
-        this.followupService.delete(followupp.FollowupId)
+        console.log(followupp.Id);
+        this.followupService.delete(followupp.Id)
           .subscribe(results => {
               this.dataSource.data = this.dataSource
-                .data.filter(item => item.FollowupId !== followupp.FollowupId);
+                .data.filter(item => item.Id !== followupp.Id);
             },
             error => {
               // tslint:disable-next-line:max-line-length
@@ -142,6 +166,18 @@ export class FollowupComponent implements OnInit {
     });
 
 }
+
+  getServices(service: number): string {
+
+    return Decision.filter(element => element.Id === service).map(element => element.DescriptionEnglish)[0];
+    // return consts.Decision.filter(ele => ele.id === gender).map(ele => ele.name)[0];
+  }
+
+  getDecision(decision: number): string {
+
+    return Decision.filter(element => element.Id === decision).map(element => element.DescriptionEnglish)[0];
+    // return consts.Decision.filter(ele => ele.id === gender).map(ele => ele.name)[0];
+  }
 
 initStaticData(en) {
     let desc: Decisions= new Decisions();
