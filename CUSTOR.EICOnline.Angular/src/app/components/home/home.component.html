@@ -1,7 +1,10 @@
 <!--<mat-progress-spinner *ngIf="isLoggedIn" mode="determinate" [value]="12"-->
 <!--color="primary"-->
 <!--[strokeWidth]="10"></mat-progress-spinner>-->
-<mat-progress-bar *ngIf="!isLoggedIn" mode="buffer" [value]="" [bufferValue]="" color="primary"></mat-progress-bar>
+<mat-progress-bar
+  style="color: #0c97a8" *ngIf="!isLoggedIn"
+  mode="buffer" [value]="" [bufferValue]=""
+></mat-progress-bar>
 
 
 <div id="app_container" class="nav-container" *ngIf="isLoggedIn">
