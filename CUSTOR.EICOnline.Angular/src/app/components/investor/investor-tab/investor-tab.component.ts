@@ -30,7 +30,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   private ServiceApplicationId: any;
   public registrationIndex: any;
   public isExistingCustomer: boolean;
-  private InvestorId: any;
+  public InvestorId: any;
   public investor: Investor;
   public isNew = false;
   private isNewListener: number;
