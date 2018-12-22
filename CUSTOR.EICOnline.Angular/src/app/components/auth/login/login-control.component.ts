@@ -110,7 +110,7 @@ export class LoginControlComponent implements OnInit, OnDestroy {
 
           this.goToDashboard();
 
-          this.reset();
+          // this.reset();
           if (!this.isModal) {
             localStorage.setItem('loggIn', 'true');
 

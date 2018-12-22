@@ -1,4 +1,10 @@
-<div id="app_container" class="nav-container">
+<!--<mat-progress-spinner *ngIf="isLoggedIn" mode="determinate" [value]="12"-->
+<!--color="primary"-->
+<!--[strokeWidth]="10"></mat-progress-spinner>-->
+<mat-progress-bar *ngIf="!isLoggedIn" mode="buffer" [value]="" [bufferValue]="" color="primary"></mat-progress-bar>
+
+
+<div id="app_container" class="nav-container" *ngIf="isLoggedIn">
   <div fxLayout="row" fxLayoutAlign="" class="content" style="margin-top: 0px;">
     <div id="home-header">
       <!-- <mat-toolbar color="primary" class="app-toolbar" style="height: 110px"> -->
@@ -30,65 +36,65 @@
     </div>
   </div>
   <div class="container">
-    
- 
-  <div fxLayout="row" fxLayoutAlign="space-around center" class="content" style="width: 1000px; margin: auto"> 
+
+
+    <div fxLayout="row" fxLayoutAlign="space-around center" class="content" style="width: 1000px; margin: auto">
       <p class="message-box warning" style="margin-top:5px; margin-bottom: -5px">
         Dear customer; you need to <a routerLink="/register">Register</a>
         and create an account in order to access our services. If you already have an account,
         please enter your username and password on the Login Panel located on the right hand side of the screen.
-    </p>
-  </div>
-  <app-service-list></app-service-list>
-  <div class="container" style="margin: auto; width: 1000px">
-    <br>
-    <br>
-    <h2>Our Address (አድራሻችን)</h2>
-    <mat-divider></mat-divider>
-    <div fxLayout="row" fxLayoutAlign="" class="content" style="margin-top: 0px; margin-bottom: 100px">
-      <div class="blocks" fxFlex="70%" fxFlexOffset="10px">
+      </p>
+    </div>
+    <app-service-list></app-service-list>
+    <div class="container" style="margin: auto; width: 1000px">
+      <br>
+      <br>
+      <h2>Our Address (አድራሻችን)</h2>
+      <mat-divider></mat-divider>
+      <div fxLayout="row" fxLayoutAlign="" class="content" style="margin-top: 0px; margin-bottom: 100px">
+        <div class="blocks" fxFlex="70%" fxFlexOffset="10px">
 
-        <mat-card>
-          <mat-card-header>
-            <h4>Our Location</h4>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="address_card_content">
-              <div class="col-md-6">
-                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false"
-                         [zoomControl]="true">
-                  <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng"
-                              [label]="m.label">
-                    <agm-info-window>
-                      <strong>Ethiopian Investmnet Commission, Bole Road
-                        Addis Ababa, Ethiopia </strong>
-                    </agm-info-window>
-                  </agm-marker>
-                </agm-map>
+          <mat-card>
+            <mat-card-header>
+              <h4>Our Location</h4>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="address_card_content">
+                <div class="col-md-6">
+                  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false"
+                           [zoomControl]="true">
+                    <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng"
+                                [label]="m.label">
+                      <agm-info-window>
+                        <strong>Ethiopian Investmnet Commission, Bole Road
+                          Addis Ababa, Ethiopia </strong>
+                      </agm-info-window>
+                    </agm-marker>
+                  </agm-map>
+                </div>
+                <!-- <div class="col-md-1"></div> -->
               </div>
-              <!-- <div class="col-md-1"></div> -->
-            </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="blocks" fxFlex="30%" fxFlexOffset="10px" style="vertical-align: top">
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="blocks" fxFlex="30%" fxFlexOffset="10px" style="vertical-align: top">
 
-        <mat-card style="width: 250px; height: 320px; margin-right:20px">
-          <mat-card-header>
-            <h4>Our Contact Address</h4>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="col-md-5 address" style="margin-left: 5px">
-              Email:<a href="mailto:info@eic.gov.et"> info@eic.gov.et</a>
-              <br>Website: <a href="www.investethiopia.gov.et"> www.investethiopia.gov.et</a>
-              <br> Mobile: <a href="tel:(+251) 11 551 0033"> (+251) 11 551 0033</a>
-              <br> Tel: <a href="tel:(+251) 11 551 4396"> (+251) 11 551 4396</a> <br>
-              <br> P.O. Box 2313
-              <br> Addis Ababa, Ethiopia
-            </div>
-          </mat-card-content>
-        </mat-card>
+          <mat-card style="width: 250px; height: 320px; margin-right:20px">
+            <mat-card-header>
+              <h4>Our Contact Address</h4>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="col-md-5 address" style="margin-left: 5px">
+                Email:<a href="mailto:info@eic.gov.et"> info@eic.gov.et</a>
+                <br>Website: <a href="www.investethiopia.gov.et"> www.investethiopia.gov.et</a>
+                <br> Mobile: <a href="tel:(+251) 11 551 0033"> (+251) 11 551 0033</a>
+                <br> Tel: <a href="tel:(+251) 11 551 4396"> (+251) 11 551 4396</a> <br>
+                <br> P.O. Box 2313
+                <br> Addis Ababa, Ethiopia
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
       </div>
     </div>
   </div>
-</div>

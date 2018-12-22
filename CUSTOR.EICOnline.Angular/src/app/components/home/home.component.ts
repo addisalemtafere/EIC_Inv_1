@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
       draggable: false
     }
   ];
+  public isLoggedIn: boolean;
 
   constructor(private formBuilder: FormBuilder,
               public router: Router,
@@ -34,6 +35,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.authService.isLoggedIn) {
+      this.isLoggedIn = false;
+    } else {
+      this.isLoggedIn = true;
+
+    }
+
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]

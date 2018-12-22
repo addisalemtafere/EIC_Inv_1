@@ -42,18 +42,18 @@
       <app-edit-investor></app-edit-investor>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Manager" [disabled]="InvestorId==0">
+  <mat-tab label="Manager" [disabled]="investor.InvestorId==0 || investor.InvestorId==undefined ">
     <ng-template matTabContent>
       <app-associate-form></app-associate-form>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Company Clearance" [disabled]="InvestorId==0"
+  <mat-tab label="Company Clearance" [disabled]="investor.InvestorId==null || investor.InvestorId==undefined "
            *ngIf="!isNew">
     <ng-template matTabContent>
       <app-company-clearance-form></app-company-clearance-form>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Document" [disabled]="InvestorId==0" *ngIf="isNew">
+  <mat-tab label="Document" [disabled]="investor.InvestorId==null || investor.InvestorId==undefined " *ngIf="isNew">
     <ng-template matTabContent>
       <mat-card *ngIf="!isInvestor" class="margin-2 simple-card">
         <mat-card-header>
@@ -68,20 +68,20 @@
     </ng-template>
   </mat-tab>
 
-  <mat-tab *ngIf="!isInvestor" [disabled]="InvestorId==0"
+  <mat-tab *ngIf="!isInvestor" [disabled]="investor.InvestorId==null || investor.InvestorId==undefined "
            label="Payment">
     <ng-template matTabContent>
       <app-payment></app-payment>
     </ng-template>
   </mat-tab>
-  <mat-tab *ngIf="!isInvestor" [disabled]="InvestorId==0"
+  <mat-tab *ngIf="!isInvestor" [disabled]="investor.InvestorId==null || investor.InvestorId==undefined "
            label="Certificate">
     <ng-template matTabContent>
       <app-registration-certificate></app-registration-certificate>
 
     </ng-template>
   </mat-tab>
-  <mat-tab *ngIf="isInvestor" [disabled]="InvestorId==0"
+  <mat-tab *ngIf="isInvestor" [disabled]="investor.InvestorId==null || investor.InvestorId==undefined "
            label="Confirmation">
     <ng-template matTabContent>
       <app-service-confirmation></app-service-confirmation>

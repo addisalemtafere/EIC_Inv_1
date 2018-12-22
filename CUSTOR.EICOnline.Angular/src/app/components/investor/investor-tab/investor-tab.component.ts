@@ -47,6 +47,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
+    console.log(this.investor)
 
     this.subscription = this.dataSharing.steeperIndex
       .subscribe(index => {
@@ -88,9 +89,9 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
     this.investorService.getInvestor(this.InvestorId)
       .subscribe((result: Investor) => {
         this.investor = result;
+
         this.isNew = result.IsExistingCustomer;
         this.isNewListener = (this.isNew == true) ? 1 : 0
-        // this.isNewListener = this.route.snapshot.params['IsExistingCustomer'];
 
         const ServiceApplicationId1 = this.route.snapshot.params['ServiceApplicationId'];
         const InvestorId1 = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
