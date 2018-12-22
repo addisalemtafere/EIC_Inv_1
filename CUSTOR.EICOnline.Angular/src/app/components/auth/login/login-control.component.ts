@@ -108,30 +108,17 @@ export class LoginControlComponent implements OnInit, OnDestroy {
         user => {
 
 
-          this.isLoading = false;
+          this.goToDashboard();
 
           this.reset();
           if (!this.isModal) {
             localStorage.setItem('loggIn', 'true');
-            if (this.accountService.getUserType()) {
-              this.router.navigate(['/dashboard']);
 
-            } else {
-              if (this.canViewReadOnlyData || this.manageLookups) {
-                this.router.navigate(['/management-dashboard']);
-
-              } else {
-                this.router.navigate(['/officer-dashboard']);
-
-              }
-
-
-            }
           } else {
             this.toastr.info(`Session for ${user.UserName} restored!`, 'Login');
             setTimeout(() => {
               this.toastr.info('Please try your last operation again', 'Session Restored');
-            }, 500);
+            }, 0);
 
             this.closeModal();
           }
@@ -155,9 +142,34 @@ export class LoginControlComponent implements OnInit, OnDestroy {
           }
           setTimeout(() => {
             this.isLoading = false;
-          }, 500);
+          }, 0);
         });
   }
+
+  goToDashboard() {
+    setTimeout(() => {
+      if (this.accountService.getUserType()) {
+        this.router.navigate(['/dashboard']);
+        this.isLoading = false;
+
+
+      } else {
+        if (this.canViewReadOnlyData || this.manageLookups) {
+          this.router.navigate(['/management-dashboard']);
+          this.isLoading = false;
+
+
+        } else {
+          this.router.navigate(['/officer-dashboard']);
+          this.isLoading = false;
+
+
+        }
+      }
+    }, 0)
+
+  }
+
 
   offerAlternateHost() {
     if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
