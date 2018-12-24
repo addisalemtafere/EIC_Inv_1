@@ -55,7 +55,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   public investorName: string | null;
   projectModel: ProjectModel;
   private investors: Investor[];
-  private projectList: ProjectModel[];
+  public projectList: ProjectModel[];
   private ServiceId: any;
   private isForDetail: any;
   private ServiceApplicationId: any;

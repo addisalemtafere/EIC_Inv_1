@@ -241,11 +241,11 @@
 
 
         <ng-container matColumnDef="Action">
-          <mat-header-cell [fxFlex]="33" *matHeaderCellDef>Action
+          <mat-header-cell [fxFlex]="20" *matHeaderCellDef>Action
 
           </mat-header-cell>
 
-          <mat-cell [fxFlex]="33" *matCellDef="let projectList; let i=index">
+          <mat-cell [fxFlex]="20" *matCellDef="let projectList; let i=index">
 
             <div>
 
@@ -266,19 +266,19 @@
 
                 <span style="font-weight: bolder;">Continue </span>
               </button>
-              <button style="margin-left: 5px" *ngIf="canManageManageIncentiveAssignedServices "
+              <!--<button style="margin-left: 5px" *ngIf="canManageManageIncentiveAssignedServices "-->
 
-                      mat-raised-button
-                      [disabled]="!projectList.IsActive"
-                      color="primary"
-                      matTooltip="Click Here to Continue"
-                      (click)="showIncentiveDetials(projectList?.ProjectId,
-                      projectList?.ServiceApplicationId,
-              projectList.ServiceId,
-              projectList?.ProjectStatus,
-              projectList?.ProjectName)">
-                <span style="font-weight: bolder;">Incentive Detail</span>
-              </button>
+              <!--mat-raised-button-->
+              <!--[disabled]="!projectList.IsActive"-->
+              <!--color="primary"-->
+              <!--matTooltip="Click Here to Continue"-->
+              <!--(click)="showIncentiveDetials(projectList?.ProjectId,-->
+              <!--projectList?.ServiceApplicationId,-->
+              <!--projectList.ServiceId,-->
+              <!--projectList?.ProjectStatus,-->
+              <!--projectList?.ProjectName)">-->
+              <!--<span style="font-weight: bolder;">Incentive Detail</span>-->
+              <!--</button>-->
             </div>
           </mat-cell>
         </ng-container>

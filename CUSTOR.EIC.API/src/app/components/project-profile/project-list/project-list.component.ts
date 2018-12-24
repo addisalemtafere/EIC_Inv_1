@@ -215,14 +215,13 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   onNewProject() {
-    // console.log(this.router.url);
     this.router.navigate(['../new'], {relativeTo: this.route});
   }
 
   nextStep(step: number, projectId: any, serviceApplicationId: any, serviceId: any, title: string, workFlowId: any, InvestorId: any, investorName: string, projectName: string) {
-    // console.log(investorName);
+    const id = serviceApplicationId;
+    const investorId = InvestorId;
     let stepIndex;
-    // console.log(workFlowId);
     switch (step) {
       case 8:
         stepIndex = 1;
@@ -249,17 +248,51 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         stepIndex = 8;
         break;
     }
-    // localStorage.setItem('ServiceId', serviceId);
-    // localStorage.setItem('title', title);
-    // localStorage.setItem('ProjectId', projectId);
-    // localStorage.setItem('ServiceApplicationId', serviceApplicationId);
-    // localStorage.setItem('workFlowId', workFlowId);
-    // localStorage.setItem('InvestorId', InvestorId);
+
     localStorage.setItem('investorName', investorName);
     localStorage.setItem('projectName', projectName);
     setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
-    this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + InvestorId]);
+
+    switch (serviceId) {
+      case 13:
+      case 1023:
+        this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + InvestorId]);
+
+        break;
+      case 18:
+        this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
+        break;
+      case 19:
+        this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
+        break;
+      case 1027:
+        this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
+        break;
+      case 1045:
+        this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
+        break;
+      case 1046:
+        this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
+        break;
+      case 1047:
+        this.router.navigate(['/bill-of-material/1/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
+        break;
+      case 1054:
+        this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
+        break;
+      case 1235:
+
+        this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId + '/' + 0]);
+
+        break;
+      case 1236:
+        this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId + '/' + 0]);
+        break;
+      default:
+        this.router.navigate(['/notfound'], {relativeTo: this.route});
+        break;
+    }
   }
 
   getAllService() {

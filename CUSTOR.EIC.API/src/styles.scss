@@ -418,8 +418,7 @@ mat-cell {
   line-height: 1.5 !important;
   //color: #212529 !important;
   //text-align: center !important;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px;
   //font-family: Poppins-Regular;
   font-size: 15px;
   color: #808080;
@@ -517,7 +516,7 @@ mat-header-row {
 }
 
 .mat-header-cell {
-  /*color: black;*/
+  color: black !important;
   font-size: 12px;
   font-style: italic;
   font-weight: bolder;
@@ -588,6 +587,8 @@ mat-header-row, th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
 
 mat-footer-row, mat-row {
   min-height: unset !important;
+  text-transform: capitalize;
+
 }
 
 .border-2 {
