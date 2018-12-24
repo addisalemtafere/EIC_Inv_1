@@ -304,7 +304,7 @@ namespace EIC.Investment.API.Controllers
         [HttpGet("ProjectDetail/{id}")]
         public async Task<Project> GetProjectDetails([FromRoute] int id)
         {
-            return await _projectRepository.GetProjectDetails();
+            return await _projectRepository.GetProjectDetails(id);
         }
     }
 }

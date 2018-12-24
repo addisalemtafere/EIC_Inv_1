@@ -92,8 +92,7 @@ namespace CUSTOR.EICOnline.DAL
                     Context.SaveChanges();
                 }
 
-
-                regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(inv.InvestorId);
+                                             regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(inv.InvestorId);
                 foreach (var catagory in inv.RegistrationCatagories)
                 {
                     RegistrationCatagory regCatagory = new RegistrationCatagory();
