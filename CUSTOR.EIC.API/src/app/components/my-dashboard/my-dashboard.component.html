@@ -40,7 +40,7 @@
                 </div>
                 <mat-table #table [dataSource]="dataSource">
                   <ng-container matColumnDef="CaseNumber">
-                    <mat-header-cell *matHeaderCellDef>CaseNumber</mat-header-cell>
+                    <mat-header-cell  *matHeaderCellDef>CaseNumber</mat-header-cell>
                     <mat-cell *matCellDef="let serviceApplicationList">
                       {{serviceApplicationList?.CaseNumber}}
                     </mat-cell>
@@ -48,20 +48,20 @@
                   <ng-container matColumnDef="ServiceName">
                     <mat-header-cell *matHeaderCellDef>Service Name</mat-header-cell>
                     <mat-cell *matCellDef="let serviceApplicationList">
-                      {{serviceApplicationList?.ServiceNameEnglish | filterPipe: 20}}
+                      {{serviceApplicationList?.ServiceNameEnglish | filterPipe: 50}}
                     </mat-cell>
                   </ng-container>
-                  <ng-container matColumnDef="ProjectName">
-                    <mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>
-                    <mat-cell *matCellDef="let serviceApplicationList">
+                  <!--<ng-container matColumnDef="ProjectName">-->
+                  <!--<mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>-->
+                  <!--<mat-cell *matCellDef="let serviceApplicationList">-->
 
-                      {{serviceApplicationList?.ProjectNameEnglish}}
-                    </mat-cell>
-                  </ng-container>
+                  <!--{{serviceApplicationList?.ProjectNameEnglish}}-->
+                  <!--</mat-cell>-->
+                  <!--</ng-container>-->
 
 
                   <ng-container matColumnDef="currentStatus">
-                    <mat-header-cell *matHeaderCellDef>Current Status</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef>Application Status</mat-header-cell>
                     <mat-cell *matCellDef="let serviceApplicationList">
                      <span class="common-button-status drafted"
                            *ngIf="serviceApplicationList?.CurrentStatusId===44450">

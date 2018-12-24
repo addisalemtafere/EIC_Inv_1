@@ -33,7 +33,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   loading = true;
   searchForm: FormGroup;
   serviceList: ServiceModel[] = [];
-  displayedColumns = ['CaseNumber', 'ServiceName', 'ProjectName', 'currentStatus', 'NextStep', 'Action'];
+  displayedColumns = ['CaseNumber', 'ServiceName', 'currentStatus', 'NextStep', 'Action'];
   displayedColumnsNotification = ['subject', 'date', 'message', 'Action'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
