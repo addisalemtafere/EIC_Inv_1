@@ -237,6 +237,7 @@ export class AppConfiguration {
     DeleteBussinessBranch: 'api/BusinessBranch/Delete',
     Bussiness: 'api/Business/Save',
     SaveBussinessLicense: 'api/SaveBussinessLicense',
+    GetBusinessLicenseGroup: 'api/GetBusinessLicenseGroup',
     GetRegistrationCatagory: 'api/Business/GetRegistrationCatagory',
     GetBusiness: 'api/Business/GetBussiness',
 

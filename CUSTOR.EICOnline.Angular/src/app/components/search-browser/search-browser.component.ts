@@ -369,7 +369,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
         break;
       case 1236:
         if (projectStatus !== 4) {
-          this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+          this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId + '/' + 0]);
           localStorage.setItem('ParentProjectId', projectId);
         } else {
           this.toastr.error('Project it already cancelled', 'Not Allowed');

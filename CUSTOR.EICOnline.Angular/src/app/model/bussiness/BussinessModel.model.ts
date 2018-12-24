@@ -13,7 +13,7 @@ export class BussinessModel {
               LicenseNum: string, Status: string,
               Capital: string, MajorDivision: string,
               Division: string, MajorGroup: string,
-              Group: string, SubGroup: string,
+              BGroup: string, SubGroup: string,
               ) {
     this.Id = Id;
     this.BussinessName = BussinessName;
@@ -23,7 +23,7 @@ export class BussinessModel {
     this.MajorDivision = MajorDivision;
     this.Division = Division;
     this.MajorGroup = MajorGroup;
-    this.Group = Group;
+    this.BGroup = BGroup;
     this.SubGroup = SubGroup;*/
   }
 }

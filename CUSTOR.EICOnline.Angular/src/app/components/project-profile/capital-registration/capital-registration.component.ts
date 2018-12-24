@@ -177,7 +177,7 @@ export class CapitalRegistrationComponent implements OnInit, AfterContentChecked
 
   ngAfterContentChecked(): void {
     this.capitalRegistrationForm.patchValue({
-      ProjectId: localStorage.getItem('ProjectId')
+      ProjectId: this.projectId
     });
 
     this.capitalRegistrationForm.patchValue({

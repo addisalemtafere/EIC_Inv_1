@@ -63,7 +63,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public decimal? SighnedCapital { get; set; }
 
         [NotMapped]
-        public string[] RegistrationCatagories { get; set; }
+        public int[] RegistrationCatagories { get; set; }
 
         public string UserId { get; set; }
         //public string SiteCode { get; set; }

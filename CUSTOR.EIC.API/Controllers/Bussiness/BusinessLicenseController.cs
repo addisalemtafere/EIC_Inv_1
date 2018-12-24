@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.EICOnline.API.ViewModels.Bussiness;
+using CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CUSTOR.EICOnline.API.Controllers.Bussiness
 {
@@ -18,6 +20,13 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
         public BusinessLicenseController(ApplicationDbContext ctx)
         {
             context = ctx;
+        }
+
+        [HttpGet("GetBusinessLicenseGroup/{businessId:int}")]
+        public async Task<List<BusinessLicensingGroup>> GetBusinessLicenseGroup(int businessId)
+        {
+            BusinessLicensingGroupRepository businessLicenseGroupRepo = new BusinessLicensingGroupRepository(context);
+            return await businessLicenseGroupRepo.GetRecords(businessId);
         }
 
         [HttpPost("SaveBussinessLicense")]
