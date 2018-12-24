@@ -107,11 +107,11 @@ export class EditSubsectorComponent implements OnInit, OnDestroy {
   initForm() {
     this.subSectorsForm = this.fb.group({
       cDescription: ['', Validators.compose([Validators.required, Validators.maxLength(150),
-        Validators.pattern('^([ \u1200-\u137F])+$')])],
-      cDescriptionAlias: ['', Validators.pattern('^([ \u1200-\u137F])+$')],
+        Validators.pattern('^([ \u1200-\u137F ()])+$')])],
+      cDescriptionAlias: ['', Validators.pattern('^([ \u1200-\u137F ()])+$')],
       cDescriptionEnglish: ['', Validators.compose([Validators.required, Validators.maxLength(200),
-        Validators.pattern('^[a-zA-Z /,]+$')])],
-      cDescriptionEnglishAlias: ['', Validators.pattern('^[a-zA-Z /,]+$')],
+        Validators.pattern('^[a-zA-Z /,().-]+$')])],
+      cDescriptionEnglishAlias: ['', Validators.pattern('^[a-zA-Z /,().-]+$')],
       cSector: [0, Validators.required]
     });
   }

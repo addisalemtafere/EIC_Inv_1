@@ -10,18 +10,19 @@ using System.Threading.Tasks;
 namespace CUSTOR.EICOnline.DAL.DataAccessLayer
 {
     public class tblMajorDivisionRepository
-      : EFRepository<ApplicationDbContext, tblMajorDivision>
+        : EFRepository<ApplicationDbContext, tblMajorDivision>
     {
         public tblMajorDivisionRepository(ApplicationDbContext context) : base(context)
         {
         }
+
         public async Task<List<tblMajorDivision>> GetRecords()
         {
             List<tblMajorDivision> tblMajorDivisions = null;
             try
             {
                 tblMajorDivisions = await Context.tblMajorDivision
-                 .ToListAsync();
+                    .ToListAsync();
             }
             catch (InvalidOperationException)
             {
@@ -32,6 +33,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             {
                 SetError(ex);
             }
+
             return tblMajorDivisions;
         }
 
@@ -65,7 +67,6 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             List<tblMajorDivision> tblMajorDivisions = new List<tblMajorDivision>();
             try
             {
-
                 //var q = from m in Context.tblMajorDivision
                 //        join r in Context.RegistrationCatagorys
                 //        on m.Code equals r.MajorCatagoryCode
@@ -86,13 +87,39 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
 
 
                 List<RegistrationCatagory> catagory = await Context.RegistrationCatagorys
-                //.ToListAsync(param => param.InvestorId === InvstorId);
-                .Where(m => m.InvestorId == InvstorId).ToListAsync();
+                    //.ToListAsync(param => param.InvestorId === InvstorId);
+                    .Where(m => m.InvestorId == InvstorId).ToListAsync();
                 // ToDO Fire
                 for (var i = 0; i < catagory.Count; i++)
                 {
+                    //if (i == 1)
+                    //{
                     tblMajorDivisions = await Context.tblMajorDivision
                         .Where(param => param.Code.ToString() == catagory[i].MajorCatagoryCode).ToListAsync();
+                    //}
+                    //else if (i == 2)
+                    //{
+                    //    tblMajorDivisions = await Context.tblMajorDivision
+                    //        .Where(param =>
+                    //            param.Code.ToString() == catagory[i].MajorCatagoryCode ||
+                    //            param.Code.ToString() == catagory[i + 1].MajorCatagoryCode).ToListAsync();
+                    //}
+                    //else if (i == 3)
+                    //{
+                    //    tblMajorDivisions = await Context.tblMajorDivision
+                    //        .Where(param =>
+                    //            param.Code.ToString() == catagory[i].MajorCatagoryCode ||
+                    //            param.Code.ToString() == catagory[i + 1].MajorCatagoryCode ||
+                    //            param.Code.ToString() == catagory[i + 2].MajorCatagoryCode).ToListAsync();
+                    //}
+                    //else if (i == 4)
+                    //{
+                    //    tblMajorDivisions = await Context.tblMajorDivision
+                    //        .Where(param => param.Code.ToString() == catagory[i].MajorCatagoryCode ||
+                    //                        param.Code.ToString() == catagory[i + 1].MajorCatagoryCode ||
+                    //                        param.Code.ToString() == catagory[i + 2].MajorCatagoryCode ||
+                    //                        param.Code.ToString() == catagory[i + 2].MajorCatagoryCode).ToListAsync();
+                    //}
                 }
             }
             catch (InvalidOperationException exc)
@@ -100,14 +127,13 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
                 SetError("Couldn't load tblMajorDivisions");
                 return null;
             }
+
             catch (Exception ex)
             {
                 SetError(ex);
             }
+
             return tblMajorDivisions;
         }
-
-
-
     }
 }

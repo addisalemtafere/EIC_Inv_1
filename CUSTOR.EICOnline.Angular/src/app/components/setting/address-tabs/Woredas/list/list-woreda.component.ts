@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { Woreda, Zone } from '../../../../../model/address';
-import { WoredaService } from '../woreda.service';
-import { AngConfirmDialogComponent } from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
-import { ErrorMessage } from '../../../../../../@custor/services/errMessageService';
-import { Utilities } from '../../../../../../@custor/helpers/utilities';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {HttpClient} from '@angular/common/http';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {Region, Woreda, Zone} from '../../../../../model/address';
+import {WoredaService} from '../woreda.service';
+import {AngConfirmDialogComponent} from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
+import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
+import {Utilities} from '../../../../../../@custor/helpers/utilities';
+import {determineId} from '@custor/helpers/compare';
 
 @Component({
   selector: 'app-list-woreda',
@@ -26,12 +27,15 @@ export class ListWoredaComponent implements OnInit, AfterViewInit {
   loadingIndicator: boolean;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  regionModels: Region[] = [];
+  fillterZoneModels: Zone[] = [];
+  filltersWoredaModels: Woreda[] = [];
 
   constructor(private http: HttpClient,
-    private woredaService: WoredaService,
-    private errMsg: ErrorMessage,
-    private toastr: ToastrService, public dialog: MatDialog,
-    private router: Router, private route: ActivatedRoute) {
+              private woredaService: WoredaService,
+              private errMsg: ErrorMessage,
+              private toastr: ToastrService, public dialog: MatDialog,
+              private router: Router, private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
   }
@@ -46,22 +50,68 @@ export class ListWoredaComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.getRegions();
+    this.getAllZones();
     this.getWoredas();
+  }
+
+  filterZone(ZoneId: string) {
+    if (!ZoneId) {
+      return;
+    }
+    this.filltersWoredaModels = null;
+    this.filltersWoredaModels = this.woredaModels.filter((item) => {
+      return item.ZoneId === ZoneId;
+    });
+    this.dataSource.data = this.filltersWoredaModels;
+  }
+
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
+  }
+
+  filterRegion(RegionCode: string) {
+    if (!RegionCode) {
+      return;
+    }
+    this.fillterZoneModels = null;
+    this.fillterZoneModels = this.zoneModels.filter((item) => {
+      return item.RegionId === RegionCode;
+    });
+  }
+
+  getRegions() {
+    this.woredaService.getRegions()
+      .subscribe(result => {
+          this.regionModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+
+  getAllZones() {
+    this.woredaService.getZones()
+      .subscribe(result => {
+          this.zoneModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error))
+      );
   }
 
   getWoredas() {
     this.loadingIndicator = true;
     this.woredaService.getWoredas()
       .subscribe(result => {
-        this.woredaModels = result;
-        if (!this.woredaModels) {
-          this.toastr.error('No records were found to list', 'Error', {
-            closeButton: true,
-          });
-        } else {
-          this.dataSource.data = this.woredaModels;
-        }
-      },
+          this.woredaModels = result;
+          if (!this.woredaModels) {
+            this.toastr.error('No records were found to list', 'Error', {
+              closeButton: true,
+            });
+          } else {
+            this.dataSource.data = this.woredaModels;
+          }
+        },
         err => {
           if (!this.errMsg.message) {
             this.toastr.error('Error! Please check if the Web Woreda is running');
@@ -79,7 +129,7 @@ export class ListWoredaComponent implements OnInit, AfterViewInit {
 
   editWoreda(woredaModel: Woreda) {
     if (woredaModel) {
-      this.router.navigate(['/woredas/edit', woredaModel.WoredaId], { relativeTo: this.route });
+      this.router.navigate(['/woredas/edit', woredaModel.WoredaId], {relativeTo: this.route});
     } else {
       this.router.navigate(['/woredas/edit', 0]);
     }
@@ -98,9 +148,9 @@ export class ListWoredaComponent implements OnInit, AfterViewInit {
       if (result) {
         this.woredaService.deleteWoreda(woredaModel)
           .subscribe(results => {
-            this.loadingIndicator = false;
-            this.dataSource.data = this.dataSource.data.filter(item => item !== woredaModel);
-          },
+              this.loadingIndicator = false;
+              this.dataSource.data = this.dataSource.data.filter(item => item !== woredaModel);
+            },
             error => {
               // tslint:disable-next-line:max-line-length
               this.toastr.error(

@@ -11,7 +11,6 @@
       <form #form="ngForm" [formGroup]="invActivityForm" novalidate (ngSubmit)="onSubmit()" fxLayout="column"
             autocomplete="off">
         <div fxLayout="column" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
-
           <mat-form-field>
             <mat-label>Sector:</mat-label>
             <mat-select formControlName="cSector" [compareWith]="compareIds" (selectionChange)="filterSector($event.value)" required>
@@ -107,7 +106,7 @@
           </mat-form-field>
         </div>
         <div mat-dialog-actions>
-          <button [disabled]="form.invalid" mat-raised-button type="submit" color="primary">
+          <button [disabled]="form.invalid" mat-raised-button type="submit" color="primary" style="margin: 15px;">
             Save
           </button>
           <button mat-raised-button (click)="onBack()" color="warn" type="button">

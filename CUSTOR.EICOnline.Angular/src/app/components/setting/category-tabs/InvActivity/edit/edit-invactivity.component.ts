@@ -29,15 +29,15 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
   isNewInvActivity = false;
 
   invactivity: InvActivityModel = new InvActivityModel();
-  sectorModels: SectorModel[] = [];
-
-  subsectorModels: SubSectorModel[] = [];
-  fillterssubsectorModels: SubSectorModel[] = [];
-
   activity: ActivityModel;
 
-  activityModels: ActivityModel[] = [];
+  sectorModels: SectorModel[] = [];
+  subsectorModels: SubSectorModel[] = [];
   filltersActivityModels: ActivityModel[] = [];
+  fillterssubsectorModels: SubSectorModel[] = [];
+
+  activityModels: ActivityModel[] = [];
+
 
   invActivityForm: FormGroup;
   loadingIndicator: boolean;

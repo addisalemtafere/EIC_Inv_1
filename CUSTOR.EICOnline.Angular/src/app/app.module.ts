@@ -28,7 +28,6 @@ import {ProjectProfileService} from './Services/project-profile.service';
 import {ProjectCostService} from './Services/project-cost.service';
 import {ProjectEmploymentService} from './Services/project-employment.service';
 import {ProjectNationalityCompositionService} from './Services/project-nationality-composition.service';
-import {SectorService} from './Services/Sector.service';
 import {SiteService} from './Services/site.service';
 import {ErrorMessage} from '../@custor/services/errMessageService';
 import {AddressService} from './Services/Address/address.service';
@@ -69,6 +68,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
 import {BusinessTabComponent} from './components/business/business-tab/business-tab.component';
 import {ManagementDashboardComponent} from './components/management-dashboard/management-dashboard.component';
 import {AppComponent} from './app.component';
+import {SectorService} from './components/setting/category-tabs/sector/sector.service';
 
 
 

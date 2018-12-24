@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { Kebele, Woreda } from '../../../../../model/address';
-import { KebeleService } from '../kebele.service';
-import { AngConfirmDialogComponent } from '@custor/components/confirm-dialog/confirm-dialog.component';
-import { ErrorMessage } from '@custor/services/errMessageService';
-import { Utilities } from '@custor/helpers/utilities';
-import { InvestorService } from '../../../../investor/investor.service';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {ToastrService} from 'ngx-toastr';
+import {MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {ActivatedRoute, Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {Kebele, Region, Woreda, Zone} from '../../../../../model/address';
+import {KebeleService} from '../kebele.service';
+import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
+import {ErrorMessage} from '@custor/services/errMessageService';
+import {Utilities} from '@custor/helpers/utilities';
+import {InvestorService} from '../../../../investor/investor.service';
+import {determineId} from '@custor/helpers/compare';
 
 @Component({
   selector: 'app-list-kebele',
@@ -19,6 +20,11 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
   woredaModels: Woreda[];
   kebeleModels: Kebele[];
   kebeleModel: Kebele = new Kebele();
+  regionModels: Region[] = [];
+  zoneModels: Zone[] = [];
+  fillterszoneModels: Zone[] = [];
+  filltersWoredaModels: Woreda[] = [];
+  filltersKebeleModels: Kebele[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -30,17 +36,44 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
 
   constructor(private http: HttpClient,
-    private subKebeleService: KebeleService,
-    private errMsg: ErrorMessage,
-    public investorKebeleAddress: InvestorService,
-    private toastr: ToastrService, public dialog: MatDialog,
-    private router: Router, private route: ActivatedRoute) {
+              private subKebeleService: KebeleService,
+              private errMsg: ErrorMessage,
+              public investorKebeleAddress: InvestorService,
+              private toastr: ToastrService, public dialog: MatDialog,
+              private router: Router, private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit() {
+    this.getRegions();
+    this.getZones();
+    this.getWoredas();
     this.getKebeles();
+  }
+
+  getRegions() {
+    this.subKebeleService.getRegions()
+      .subscribe(result => {
+          this.regionModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+
+  getZones() {
+    this.subKebeleService.getZones()
+      .subscribe(result => {
+          this.zoneModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+
+  getWoredas() {
+    this.subKebeleService.getWoredas()
+      .subscribe(result => {
+          this.woredaModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   applyFilter(filterValue: string) {
@@ -50,6 +83,43 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  filterRegion(regionCode: string) {
+    if (!regionCode) {
+      return;
+    }
+    this.fillterszoneModels = null;
+    this.fillterszoneModels = this.zoneModels.filter((item) => {
+      return item.RegionId === regionCode;
+    });
+  }
+
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
+  }
+
+  filterZone(ZoneId: string) {
+    if (!ZoneId) {
+      return;
+    }
+    this.filltersWoredaModels = null;
+    this.filltersWoredaModels = this.woredaModels.filter((item) => {
+      return item.ZoneId === ZoneId;
+    });
+  }
+
+  filterWoreda(wordeaId: string) {
+    if (!wordeaId) {
+      return;
+    }
+    this.filltersKebeleModels = null;
+    this.filltersKebeleModels = this.kebeleModels.filter((item) => {
+      return item.WoredaId === wordeaId;
+    });
+    this.dataSource.data = this.filltersKebeleModels;
   }
 
   /*getKebeles() {
@@ -99,6 +169,7 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
         });
     this.loadingIndicator = false;
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -106,7 +177,7 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
 
   editKebele(kebeleModel: Kebele) {
     if (kebeleModel) {
-      this.router.navigate(['/kebeles/edit', kebeleModel.KebeleId], { relativeTo: this.route });
+      this.router.navigate(['/kebeles/edit', kebeleModel.KebeleId], {relativeTo: this.route});
     } else {
       this.router.navigate(['/kebeles/edit', 0]);
     }
@@ -125,9 +196,9 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
       if (result) {
         this.subKebeleService.deleteKebele(kebeleModel)
           .subscribe(results => {
-            this.loadingIndicator = false;
-            this.dataSource.data = this.dataSource.data.filter(item => item !== kebeleModel);
-          },
+              this.loadingIndicator = false;
+              this.dataSource.data = this.dataSource.data.filter(item => item !== kebeleModel);
+            },
             error => {
               // tslint:disable-next-line:max-line-length
               this.toastr.error(

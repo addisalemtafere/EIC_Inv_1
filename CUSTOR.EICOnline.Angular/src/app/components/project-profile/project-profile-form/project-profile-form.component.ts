@@ -11,7 +11,6 @@ import {ZoneModel} from '../../../model/address/Zone.model';
 import {WoredaModel} from '../../../model/address/Woreda.model';
 import {KebeleModel} from '../../../model/address/Kebele.model';
 import {ToastrService} from 'ngx-toastr';
-import {SectorService} from '../../../Services/Sector.service';
 import {SectorModel} from '../../../model/Sector.model';
 import {SiteService} from '../../../Services/site.service';
 import {SubSectorModel} from '../../../model/SubSector.model';
@@ -30,6 +29,7 @@ import {InvestorService} from '../../investor/investor.service';
 import {UserActivityDataServices} from '../../../admin/user-detail/user-detail.service';
 import {AccountService} from '@custor/services/security/account.service';
 import {SiteModel} from '../../../model/Site.model';
+import {SectorService} from '../../setting/category-tabs/sector/sector.service';
 
 @Component({
   selector: 'app-project-profile-form',

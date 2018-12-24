@@ -2,12 +2,13 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Zone} from '../../../../../model/address';
+import {Region, Zone} from '../../../../../model/address';
 import {ToastrService} from 'ngx-toastr';
 import {ZoneService} from '../zone.service';
 import {AngConfirmDialogComponent} from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
 import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
 import {Utilities} from '../../../../../../@custor/helpers/utilities';
+import {determineId} from '@custor/helpers/compare';
 
 @Component({
   selector: 'app-list-zone',
@@ -25,10 +26,11 @@ export class ListZoneComponent implements OnInit, AfterViewInit {
   loadingIndicator: boolean;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
-
+  regionModels: Region[] = [];
+  fillterZoneModels: Zone[] = [];
   constructor(private http: HttpClient,
               private subZoneService: ZoneService,
-              private errMsg: ErrorMessage,
+              private errMsg: ErrorMessage,private zonesService: ZoneService,
               private toastr: ToastrService, public dialog: MatDialog,
               private router: Router, private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
@@ -46,8 +48,20 @@ export class ListZoneComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getZones();
+    this.getRegions();
   }
-
+  getRegions() {
+    this.zonesService.getRegions()
+      .subscribe(result => {
+          this.regionModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
+  }
   getZones() {
     this.loadingIndicator = true;
     this.subZoneService.getZones()
@@ -72,6 +86,16 @@ export class ListZoneComponent implements OnInit, AfterViewInit {
     this.loadingIndicator = false;
   }
 
+  filterRegion(RegionCode: string) {
+    if (!RegionCode) {
+      return;
+    }
+    this.fillterZoneModels = null;
+    this.fillterZoneModels = this.zoneModels.filter((item) => {
+      return item.RegionId === RegionCode;
+    });
+    this.dataSource.data=this.fillterZoneModels;
+  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

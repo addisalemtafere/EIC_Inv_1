@@ -14,7 +14,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
     public class BusinessController : Controller
     {
         private ApplicationDbContext context;
-        public BusinessController (ApplicationDbContext ctx)
+        public BusinessController(ApplicationDbContext ctx)
         {
             context = ctx;
         }
@@ -56,7 +56,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
                 }
                 return descriptionList;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
@@ -93,15 +93,15 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             try
             {
                 var Bussinesslist = context.BusinessLicensingGroup.SingleOrDefault(param => param.BusinessId == BussinessId);
-                    tblGroup description = new tblGroup();
-                    int code = Convert.ToInt16(Bussinesslist.BGroup);
-                    var catdata = context.tblGroup.SingleOrDefault(param => param.Id == code);
-                    if (catdata != null)
-                    {
-                        description.EnglishDescription = catdata.EnglishDescription;
-                        description.Description = catdata.Description;
-                    }
-                
+                tblGroup description = new tblGroup();
+                int code = Convert.ToInt16(Bussinesslist.BGroup);
+                var catdata = context.tblGroup.SingleOrDefault(param => param.Id == code);
+                if (catdata != null)
+                {
+                    description.EnglishDescription = catdata.EnglishDescription;
+                    description.Description = catdata.Description;
+                }
+
                 return description;
             }
             catch (Exception ex)
@@ -117,19 +117,19 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             {
                 return BadRequest(ModelState);
             }
-            
-                try
-                {
-        
 
-                    BusinessRepository
-               businessRepo = new BusinessRepository(context);
+            try
+            {
+                if (bussiness.ID == 0)
+                {
+                    BusinessRepository businessRepo = new BusinessRepository(context);
                     await businessRepo.SaveBussiness(bussiness);
                 }
-                catch (Exception ex)
-                {
+            }
+            catch (Exception ex)
+            {
 
-                }
+            }
             return CreatedAtAction("SaveBussiness", new { id = bussiness.ID }, bussiness);
         }
 

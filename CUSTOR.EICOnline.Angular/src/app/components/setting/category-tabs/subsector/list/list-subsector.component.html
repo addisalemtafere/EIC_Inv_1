@@ -1,4 +1,4 @@
-<div style="width:660px" class="margin-3">
+
   <!--<mat-toolbar color="primary">-->
   <!--<mat-toolbar-row>-->
   <!--<span>Service Lookup</span>-->
@@ -19,7 +19,15 @@
   <!--</div>-->
   <!--</mat-toolbar-row>-->
   <!--</mat-toolbar>-->
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z8" style="margin: 15px;">
+    <mat-form-field  style="margin: 15px;width: 150px">
+      <mat-label>Sector:</mat-label>
+      <mat-select formControlName="cSector" [compareWith]="compareIds" (selectionChange)="filterSector($event.value)" required>
+        <mat-option *ngFor="let sector of sectorModels" [value]="sector.SectorId">
+          <span>{{sector.DescriptionEnglishAlias}}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
     <mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="SubsectorId">
@@ -64,4 +72,4 @@
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
-</div>
+

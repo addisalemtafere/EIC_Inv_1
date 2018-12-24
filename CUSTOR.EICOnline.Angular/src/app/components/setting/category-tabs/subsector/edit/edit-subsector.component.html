@@ -34,7 +34,7 @@
           </mat-form-field>
           <mat-form-field>
             <mat-label>Description Alias:</mat-label>
-            <input matInput formControlName="cDescriptionAlias"  required maxlength="20" />
+            <input matInput formControlName="cDescriptionAlias"  required maxlength="50" />
             <mat-error *ngIf="DescriptionAlias.hasError('required')">
               Please enter Description Alias amharic
             </mat-error>
@@ -57,7 +57,7 @@
           </mat-form-field>
           <mat-form-field>
             <mat-label >Description English Alias:</mat-label>
-            <input matInput formControlName="cDescriptionEnglishAlias" required maxlength="20" />
+            <input matInput formControlName="cDescriptionEnglishAlias" required maxlength="50" />
             <mat-error *ngIf="DescriptionEnglishAlias.hasError('required')">
               Please enter service name english
             </mat-error>
@@ -67,7 +67,7 @@
           </mat-form-field>
         </div>
         <div mat-dialog-actions>
-          <button [disabled]="form.invalid" mat-raised-button type="submit" color="primary">
+          <button [disabled]="form.invalid" mat-raised-button type="submit" color="primary" style="margin: 15px;">
             Save
           </button>
           <button mat-raised-button (click)="onBack()" color="warn" type="button">

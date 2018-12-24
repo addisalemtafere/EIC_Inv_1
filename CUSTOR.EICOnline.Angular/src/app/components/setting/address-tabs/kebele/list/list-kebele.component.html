@@ -1,4 +1,33 @@
-<div class="width-600 kebele-container margin-3">
+<div class="mat-elevation-z8" style="margin: 15px;">
+  <mat-form-field style="margin: 15px;width: 100px">
+    <mat-label>{{'kebele.Region' | translate}}</mat-label>
+    <mat-select formControlName="cRegion" [compareWith]="compareIds"
+                (selectionChange)="filterRegion($event.value)" required>
+      <option value="0">--Select--</option>
+      <mat-option *ngFor="let region of regionModels" [value]="region.RegionId">
+        <span>{{region.DescriptionEnglish}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field style="margin: 15px;width: 100px">
+    <mat-label>{{'kebele.Zone' | translate}}</mat-label>
+    <mat-select formControlName="cZone" [compareWith]="compareIds" (selectionChange)="filterZone($event.value)"
+                required>
+      <option value="0">--Select--</option>
+      <mat-option *ngFor="let zone of fillterszoneModels" [value]="zone.ZoneId">
+        <span>{{zone.DescriptionEnglish}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field style="margin: 15px;width: 100px">
+    <mat-label>{{'kebele.Woreda' | translate}}</mat-label>
+    <mat-select formControlName="cWoreda" [compareWith]="compareIds" required (selectionChange)="filterWoreda($event.value)">
+      <option value="0">--Select--</option>
+      <mat-option *ngFor="let woreda of filltersWoredaModels" [value]="woreda.WoredaId">
+        <span>{{woreda.DescriptionEnglish}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
   <div class="mat-elevation-z8">
     <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
