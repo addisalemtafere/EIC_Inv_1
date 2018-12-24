@@ -69,13 +69,6 @@
           Dashboard
         </a>
         <a *ngIf="!isInvestor && !canManageManageIncentiveAssignedServices" mat-list-item routerLinkActive="active"
-
-                [routerLinkActiveOptions]="{ exact: true }"
-                routerLink="/management-dashboard">
-        <mat-icon class="mat-18">collections</mat-icon>
-        Service Overview
-      </a>
-
            [routerLinkActiveOptions]="{ exact: true }"
            routerLink="/management-dashboard">
           <mat-icon class="mat-18">collections</mat-icon>
@@ -100,10 +93,6 @@
 
               {{'mainMenu.associate' | translate}}</a>
             <a *ngIf="isInvestor" (click)="toServiceList()" mat-list-item routerLinkActive="active">
-              <mat-icon color="primary" class="mat-18">view_list</mat-icon>
-
-              {{'mainMenu.Services' | translate}}</a>
-            <a *ngIf="isInvestor" (click)="toServiceList1()" mat-list-item routerLinkActive="active">
               <mat-icon color="primary" class="mat-18">view_list</mat-icon>
 
               {{'mainMenu.Services' | translate}}</a>

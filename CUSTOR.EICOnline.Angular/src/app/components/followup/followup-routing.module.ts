@@ -6,8 +6,8 @@ import {FollowupFormComponent} from "./followup-form/followup-form.component";
 import {SearchBrowserComponent} from "../search-browser/search-browser.component";
 
 const routes: Routes = [
-  {path: 'followupform', component: FollowupFormComponent},
   {path: '', component: FollowupComponent},
+  {path: 'followupform', component: FollowupFormComponent}
 
 ];
 

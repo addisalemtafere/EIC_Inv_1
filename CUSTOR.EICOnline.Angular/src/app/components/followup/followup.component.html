@@ -93,7 +93,7 @@
         </button>
       </mat-header-cell>
       <mat-cell *matCellDef="let followups">
-        <!--<button mat-icon-button matTooltip = "Edit" > <mat-icon color="primary" (click)="editFollowup(followups)">edit</mat-icon></button>-->
+        <button mat-icon-button matTooltip = "Edit" > <mat-icon color="primary" (click)="editFollowup(followups)">edit</mat-icon></button>
         <button  mat-icon-button  (click)="delete(followups)" matTooltip="Delete"><mat-icon color="warn">delete</mat-icon></button>
       </mat-cell>
       <!--(click)="editContact(followups.FollowUpId)"

@@ -1,0 +1,66 @@
+<div [@fadeInOut] class="page-content margin-2 mat-elevation-z8">
+  <form #form="ngForm" [formGroup] = "followUpForm" novalidate (ngSubmit)="onSubmit()"
+        fxLayout="column"
+        autocomplete="off">
+
+    <div style="margin-top: 10px" fxLayout="row" fxLayoutGap="2em" class="row">
+      <mat-label>Follow Up</mat-label>
+    </div>
+    <pre>{{followUpForm.value | json }}</pre>
+    <div style="margin-top: 10px" fxLayout="row" fxLayoutGap="2em" class="row">
+      <mat-form-field fxFlex>
+        <mat-label name="lblRegDate">Followup Date</mat-label>
+        <input [matDatepicker]="FollowupDate" matInput formControlName="FollowupDate"/>
+        <mat-datepicker-toggle matSuffix [for]="FollowupDate"></mat-datepicker-toggle>
+        <mat-datepicker #FollowupDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Investor Name/ Legal Representative</mat-label>
+        <input matInput formControlName="investorName"  required/>
+        <mat-error align="start" *ngIf="errorMsg.investorName">{{errorMsg.investorName}}</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Services</mat-label>
+        <mat-select formControlName="serviceName" required>
+          <option value="0">--Select--</option>
+          <mat-option *ngFor="let ser of service" [value]="ser.Id">
+            <span>{{ser.DescriptionEnglish}}</span>
+          </mat-option>
+        </mat-select>
+        <!--<mat-error align="start" *ngIf="formErrors.ProductUnit">{{ formErrors.ProductUnit }}</mat-error>-->
+      </mat-form-field>
+
+
+    </div>
+    <div style="margin-top: 10px" fxLayout="row" fxLayoutGap="2em" class="row">
+
+      <mat-form-field fxFlex>
+        <mat-label>Followup Finding</mat-label>
+        <textarea  aria-multiline="true" matInput="multiline" formControlName="findings" required></textarea>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Officer Remark</mat-label>
+        <textarea matInput formControlName="OfficerRemark"></textarea>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Decision Made:</mat-label>
+
+
+        <mat-select formControlName="DecisionMade" >
+          <option value="0">--Select--</option>
+          <mat-option *ngFor="let dec of decision" [value]="dec.Id">
+            <span>{{dec.DescriptionEnglish}}</span>
+          </mat-option>
+        </mat-select>
+        <!--<mat-error align="start" *ngIf="formErrors.ProductUnit">{{ formErrors.ProductUnit }}</mat-error>-->
+      </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions style="margin: 15px; text-align: center">
+      <button mat-raised-button type="submit" color="primary" style="margin-right: 10px">
+        {{'common.commands.Save' | translate}}
+      </button>
+    </div>
+  </form>
+</div>

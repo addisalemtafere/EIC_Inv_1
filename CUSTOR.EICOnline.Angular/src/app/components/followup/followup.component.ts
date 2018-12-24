@@ -33,12 +33,12 @@ export class FollowupComponent implements OnInit {
   dataSource: MatTableDataSource<FollowUpModel>;
   followUpForm: FormGroup;
   displayedColumns: string[] = ['InvestorName', 'AfterCareDecision', 'OfficerRemark', 'action'];
-  public allFollowUpData: FollowUpModel[];
+  public allFollowUpData: FollowUpModel;
   public followups: FollowUpModel[];
   fupmodel: Subscription;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
-
+followupformpopup:MatDialogRef<FollowupFormComponent>;
   public decision: Decisions[] = [];
   public service: Services[] = [];
   constructor(public dialog: MatDialog,
@@ -59,7 +59,6 @@ export class FollowupComponent implements OnInit {
   ngOnInit(): void {
     //this.initForm();
     this.loadFollowups();
-    this.initStaticData('en');
     // this.dataSource.sort = this.sort;
   }
 
@@ -118,26 +117,28 @@ export class FollowupComponent implements OnInit {
         // this.dataSource.paginator = this.paginator;
       });
   }
-
   addfollowup() {
-    const dialogRef = this.dialog.open(FollowupFormComponent);
-    // this.router.navigate(['/followupform']);
+    console.log("add clicked")
+    this.router.navigate(['/followupform']);
+    // const followupData=
+    // this.followupformpopup = this.dialog.open(FollowupFormComponent,
+    //   {
+    //     disableClose: false
+    //   });
 
   }
 
-  // addfollowup() {
-  //   // const dialogConfig = new MatDialogConfig();
-  //   //
-  //   // dialogConfig.data = {
-  //   //   ServiceApplicationId: 22,
-  //   //   title: 'Angular For Beginners'
-  //   // };
-  //   this.dialog.open(FollowupFormComponent);
-  //   // this.dialog.open(FollowupFormComponent, dialogConfig);
-  //
-  //
-  // }
-  delete(followupp:FollowUpModel)
+
+
+  editFollowup(followupp:FollowUpModel)
+  {
+    console.log("edit invoked!")
+    localStorage.setItem('followupId',followupp.Id);
+     this.router.navigate(['followupform'])
+
+
+  }
+    delete(followupp:FollowUpModel)
   {
     // const followupData=
     this.confirmDialogRef = this.dialog.open(AngConfirmDialogComponent,
@@ -166,38 +167,9 @@ export class FollowupComponent implements OnInit {
     });
 
 }
-
-  getServices(service: number): string {
-
-    return Decision.filter(element => element.Id === service).map(element => element.DescriptionEnglish)[0];
-    // return consts.Decision.filter(ele => ele.id === gender).map(ele => ele.name)[0];
-  }
-
   getDecision(decision: number): string {
-
     return Decision.filter(element => element.Id === decision).map(element => element.DescriptionEnglish)[0];
-    // return consts.Decision.filter(ele => ele.id === gender).map(ele => ele.name)[0];
   }
 
-initStaticData(en) {
-    let desc: Decisions= new Decisions();
-  Decision.forEach(pair => {
-    desc = {
-        'Id': pair.Id.toString(),
-        'DescriptionEnglish': pair.DescriptionEnglish,
-        'Description': pair.Description
-      };
-      this.decision.push(desc);
-    });
-  let ser: Services= new Services();
-  Service.forEach(pair => {
-    ser = {
-      'Id': pair.Id.toString(),
-      'DescriptionEnglish': pair.DescriptionEnglish,
-      'Description': pair.Description
-    };
-    this.service.push(ser);
-  });
-  }
 }
 

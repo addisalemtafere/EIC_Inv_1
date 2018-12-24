@@ -25,10 +25,11 @@ import {FollowupFormComponent} from "./components/followup/followup-form/followu
       },
       {
         path: 'followup',
-         component: FollowupComponent
-      },{
+        component: FollowupComponent
+      },
+      {
         path: 'followupform',
-        loadChildren: 'app/components/followup/followup.module#FollowupModule',
+         component: FollowupFormComponent
       },
       {
         path: 'dashboard',
