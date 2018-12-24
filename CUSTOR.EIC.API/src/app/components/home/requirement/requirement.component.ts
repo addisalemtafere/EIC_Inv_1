@@ -15,7 +15,6 @@ import {ServicePrerequisite} from '../../../model/service-prerequisite';
   animations: [fadeInOut]
 })
 export class RequirementComponent implements OnInit {
-  // selectedRequirement: Prerequisite;
   checkLists: ServicePrerequisite[];
   title: string;
   loadingIndicator: boolean;
@@ -29,7 +28,6 @@ export class RequirementComponent implements OnInit {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params['id'];
-    // console.debug(id);
     if (id < 1) {
       return;
     }
@@ -40,10 +38,10 @@ export class RequirementComponent implements OnInit {
     this.title = localStorage.getItem('title');
 
     this.loadingIndicator = true;
+
     this.custService.getPrerequisites(id)
       .subscribe(result => {
           this.checkLists = result;
-          // console.log(result);
         },
         error => {
           this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
@@ -53,7 +51,6 @@ export class RequirementComponent implements OnInit {
 
   continue() {
     const ch = +localStorage.getItem('ServiceId');
-    // this.dialogRef.close();
     this.router.navigate(['/login']);
 
   }

@@ -292,7 +292,7 @@ export class Utilities {
   }
 
   public static baseUrl() {
-    const base = 'http://eic.eastus.cloudapp.azure.com/';
+    const base = 'http://localhost:5050/';
    // const base  = 'http://172.17.33.132/';
 
 
