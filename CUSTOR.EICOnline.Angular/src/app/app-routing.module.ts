@@ -12,6 +12,7 @@ import {ErrorComponent} from './components/error/error.component';
 import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {AddressComponent} from './components/project-profile/address/address.component';
 import {LettertemplateModule} from './components/letter-template/lettertemplate.module';
+import {HelpComponent} from "./components/help/help.component";
 
 @NgModule({
   imports: [
@@ -371,6 +372,11 @@ import {LettertemplateModule} from './components/letter-template/lettertemplate.
       {
         path: 'incentive-detail/:projectId/:serviceApplicationId/:serviceId',
         loadChildren: 'app/components/incentive/incentive-detail/incentive-detail.module#IncentiveDetailModule',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'help',
+        component: HelpComponent,
         canActivate: [AuthGuard]
       },
       {path: '', component: HomeComponent},

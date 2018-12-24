@@ -18,7 +18,7 @@ export class ServiceInfoComponent implements OnInit {
   serviceId: any;
   public serviceDetail: ProjectModel;
   public checkLists: ServicePrerequisite[];
-  private ServiceId: any;
+  public ServiceId: any;
 
   constructor(public  servicePrerequisiteService: ServicePrerequisiteService,
               public router: Router,

@@ -69,6 +69,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
 import {BusinessTabComponent} from './components/business/business-tab/business-tab.component';
 import {ManagementDashboardComponent} from './components/management-dashboard/management-dashboard.component';
 import {AppComponent} from './app.component';
+import { HelpComponent } from './components/help/help.component';
 
 
 
@@ -94,6 +95,7 @@ import {AppComponent} from './app.component';
     BaseComponent,
     ErrorComponent,
     AddressComponent,
+    HelpComponent,
     // IncentiveDetailComponent
   ],
   // ,
