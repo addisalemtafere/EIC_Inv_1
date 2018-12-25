@@ -418,6 +418,18 @@
       "SpecificAreaName": "Specific Area Name",
       "IsMainOffice": "Is Main Office"
     }
+  },
+  "payment": {
+    "investorName": "Investor Name",
+    "paymentDate": "Payment Date",
+    "no": "No",
+    "paymentReason": "Payment Reason",
+    "receiptNo": "Receipt No",
+    "amount": "Amount",
+    "checkNo": "Check No",
+    "totalAmount": "Total Amount",
+    "totalAmountdescription": "Amount Description",
+    "cashierName": "Cashier Name"
   }
 }
 

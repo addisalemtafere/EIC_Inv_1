@@ -117,11 +117,11 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbQuery<IncentiveBomDto> IncentiveBomDto { get; set; }
 
 
-        public DbSet<tblDivision> tblDivision { get; set; }
-        public DbSet<tblGroup> tblGroup { get; set; }
-        public DbSet<tblMajorDivision> tblMajorDivision { get; set; }
-        public DbSet<tblMajorGroup> tblMajorGroup { get; set; }
-        public DbSet<tblSubGroup> tblSubGroup { get; set; }
+        public DbSet<tblDivision> Division { get; set; }
+        public DbSet<Group> Group { get; set; }
+        public DbSet<MajorDivision> MajorDivision { get; set; }
+        public DbSet<MajorGroup> MajorGroup { get; set; }
+        public DbSet<SubGroup> SubGroup { get; set; }
         public DbSet<BudgetYearType> BudgetYearTypes { get; set; }
         public DbSet<Registration> Registrations { get; set; }
         public DbSet<RegistrationCatagory> RegistrationCatagorys { get; set; }
@@ -302,7 +302,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             modelBuilder.Entity<IncentiveTaxExemptionRequest
       >(entity =>
             {
-                entity.ToTable("Incentive_TaxExemptionRequest", "dbo");
+                entity.ToTable("IncentiveTaxExemptionRequest", "dbo");
             });
             modelBuilder.Entity<Squence>(entity =>
             {
@@ -2046,7 +2046,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             });
             modelBuilder.Entity<Registration>(entity =>
             {
-                entity.ToTable("tblRegistration", "dbo");
+                entity.ToTable("Registration", "dbo");
             });
             modelBuilder.Entity<RegistrationCatagory>(entity =>
             {

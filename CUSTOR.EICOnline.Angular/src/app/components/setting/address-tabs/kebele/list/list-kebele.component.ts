@@ -155,7 +155,7 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
             });
 
           } else {
-            this.dataSource.data = this.kebeleModels;
+            //this.dataSource.data = this.kebeleModels;
           }
         },
         err => {

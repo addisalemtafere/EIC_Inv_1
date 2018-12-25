@@ -25,7 +25,7 @@ namespace CUSTOR.EICOnline.API.Controllers
         [HttpGet]
         [Route("api/MajorDivisions")]
         //[Authorize(Authorization.Policies.ViewAllInvestorsPolicy)]
-        public async Task<IEnumerable<tblMajorDivision>> GetMajorDivisions()
+        public async Task<IEnumerable<MajorDivision>> GetMajorDivisions()
         {
             MajorDivisionRepo = new tblMajorDivisionRepository(context);
             return await MajorDivisionRepo.GetRecords();
@@ -48,7 +48,7 @@ namespace CUSTOR.EICOnline.API.Controllers
         //[HttpGet]
         //[Route("api/MajorDivisions/{Tin:int}")]
         ////[Authorize(Authorization.Policies.ViewAllInvestorsPolicy)]
-        //public async Task<IEnumerable<tblMajorDivision>> GetMajorDivisions(string Tin)
+        //public async Task<IEnumerable<MajorDivision>> GetMajorDivisions(string Tin)
         //{
         //    MajorDivisionRepo = new tblMajorDivisionRepository(context);
         //    return await MajorDivisionRepo.GetRecordsByTin(Tin);
@@ -57,7 +57,7 @@ namespace CUSTOR.EICOnline.API.Controllers
         [HttpGet]
         [Route("api/GetMajorDivisionsByInvestorID/{InvestorId:int}")]
         //[Authorize(Authorization.Policies.ViewAllInvestorsPolicy)]
-        public async Task<IEnumerable<tblMajorDivision>> GetMajorDivisionsByInvestorID(int InvestorId)
+        public async Task<IEnumerable<MajorDivision>> GetMajorDivisionsByInvestorID(int InvestorId)
         {
             MajorDivisionRepo = new tblMajorDivisionRepository(context);
             return await MajorDivisionRepo.GetMajorDivisionsByInvestorID(InvestorId);
@@ -65,21 +65,21 @@ namespace CUSTOR.EICOnline.API.Controllers
 
 
         [HttpGet("api/MajorGroup")]
-        public async Task<IEnumerable<tblMajorGroup>> GetMajorGroups()
+        public async Task<IEnumerable<MajorGroup>> GetMajorGroups()
         {
             tblMajorGroupRepository tblMajorGroupRepo  = new tblMajorGroupRepository(context);
             return await tblMajorGroupRepo.GetRecords();
         }
 
         [HttpGet("api/Groups")]
-        public async Task<IEnumerable<tblGroup>> GetGroups()
+        public async Task<IEnumerable<Group>> GetGroups()
         {
             GroupRepo = new tblGroupRepository(context);
             return await GroupRepo.GetRecords();
         }
 
         [HttpGet("api/SubGroups")]
-        public async Task<IEnumerable<tblSubGroup>> GetSubGroups()
+        public async Task<IEnumerable<SubGroup>> GetSubGroups()
         {
             SubGroupRepo = new tblSubGroupRepository(context);
             return await SubGroupRepo.GetRecords();

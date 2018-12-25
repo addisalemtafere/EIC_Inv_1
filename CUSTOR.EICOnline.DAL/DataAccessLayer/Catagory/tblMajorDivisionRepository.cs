@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 namespace CUSTOR.EICOnline.DAL.DataAccessLayer
 {
     public class tblMajorDivisionRepository
-        : EFRepository<ApplicationDbContext, tblMajorDivision>
+        : EFRepository<ApplicationDbContext, MajorDivision>
     {
         public tblMajorDivisionRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public async Task<List<tblMajorDivision>> GetRecords()
+        public async Task<List<MajorDivision>> GetRecords()
         {
-            List<tblMajorDivision> tblMajorDivisions = null;
+            List<MajorDivision> tblMajorDivisions = null;
             try
             {
-                tblMajorDivisions = await Context.tblMajorDivision
+                tblMajorDivisions = await Context.MajorDivision
                     .ToListAsync();
             }
             catch (InvalidOperationException)
@@ -37,15 +37,15 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             return tblMajorDivisions;
         }
 
-        //public async Task<List<tblMajorDivision>> GetRecordsByTin(string Tin)
+        //public async Task<List<MajorDivision>> GetRecordsByTin(string Tin)
         //{
-        //    List<tblMajorDivision> tblMajorDivisions = new List<tblMajorDivision>();
+        //    List<MajorDivision> tblMajorDivisions = new List<MajorDivision>();
         //    try
         //    {
         //        var catagory = await Context.RegistrationCatagorys
         //            .SingleOrDefaultAsync(param => param.Tin == Tin);
 
-        //        tblMajorDivisions = await Context.tblMajorDivision
+        //        tblMajorDivisions = await Context.MajorDivision
         //            .Where(param => param.Code.ToString() == catagory.MajorCatagoryCode)
         //            .ToListAsync();
         //    }
@@ -62,12 +62,12 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
         //}
 
 
-        public async Task<List<tblMajorDivision>> GetMajorDivisionsByInvestorID(int InvstorId)
+        public async Task<List<MajorDivision>> GetMajorDivisionsByInvestorID(int InvstorId)
         {
-            List<tblMajorDivision> tblMajorDivisions = new List<tblMajorDivision>();
+            List<MajorDivision> tblMajorDivisions = new List<MajorDivision>();
             try
             {
-                //var q = from m in Context.tblMajorDivision
+                //var q = from m in Context.MajorDivision
                 //        join r in Context.RegistrationCatagorys
                 //        on m.Code equals r.MajorCatagoryCode
                 //        select new
@@ -94,19 +94,19 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
                 {
                     //if (i == 1)
                     //{
-                    tblMajorDivisions = await Context.tblMajorDivision
+                    tblMajorDivisions = await Context.MajorDivision
                         .Where(param => param.Code.ToString() == catagory[i].MajorCatagoryCode).ToListAsync();
                     //}
                     //else if (i == 2)
                     //{
-                    //    tblMajorDivisions = await Context.tblMajorDivision
+                    //    tblMajorDivisions = await Context.MajorDivision
                     //        .Where(param =>
                     //            param.Code.ToString() == catagory[i].MajorCatagoryCode ||
                     //            param.Code.ToString() == catagory[i + 1].MajorCatagoryCode).ToListAsync();
                     //}
                     //else if (i == 3)
                     //{
-                    //    tblMajorDivisions = await Context.tblMajorDivision
+                    //    tblMajorDivisions = await Context.MajorDivision
                     //        .Where(param =>
                     //            param.Code.ToString() == catagory[i].MajorCatagoryCode ||
                     //            param.Code.ToString() == catagory[i + 1].MajorCatagoryCode ||
@@ -114,7 +114,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
                     //}
                     //else if (i == 4)
                     //{
-                    //    tblMajorDivisions = await Context.tblMajorDivision
+                    //    tblMajorDivisions = await Context.MajorDivision
                     //        .Where(param => param.Code.ToString() == catagory[i].MajorCatagoryCode ||
                     //                        param.Code.ToString() == catagory[i + 1].MajorCatagoryCode ||
                     //                        param.Code.ToString() == catagory[i + 2].MajorCatagoryCode ||

@@ -392,6 +392,19 @@
       "SpecificAreaName": "የአካባቢው ልዩ ",
       "IsMainOffice": "ዋና መስሪያ ቤት"
     }
+  },
+  "payment": {
+    "investorName": "ስም",
+    "paymentDate": "የክፍያ ቀን",
+    "no": "ተ.ቁ",
+    "paymentReason": "የክፍያ ምክንያት",
+    "receiptNo": "ደረሰኝ ቁጥር",
+    "amount": "የገንዘቡ መጠን",
+    "checkNo": "የቼክ ቁጥር",
+    "totalAmount": "ድምር",
+    "totalAmountdescription": "የገንዘቡ ልክ በፊደል",
+    "cashierName": "የገንዘብ ተቀባይ ስምና ፊርማ"
   }
 }
+
 

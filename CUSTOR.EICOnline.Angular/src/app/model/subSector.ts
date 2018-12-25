@@ -1,8 +1,8 @@
 import {SectorModel} from './sector';
 
 export class SubSectorModel {
-  public SubSectorId: number;
-  public SectorId: number;
+  public SubSectorId: any;
+  public SectorId: any;
   public Description: string;
   public DescriptionAlias: string;
   public DescriptionEnglish: string;

@@ -21,13 +21,13 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             try
             {
                 int id = (int)Id;
-                tblDivisions = await Context.tblDivision
+                tblDivisions = await Context.Division
                   .Where(tblDivision => tblDivision.Parent == id)
                                 .ToListAsync();
             }
             catch (InvalidOperationException)
             {
-                SetError("Couldn't load tblDivision - invalid tblDivision id specified.");
+                SetError("Couldn't load Division - invalid Division id specified.");
                 return null;
             }
             catch (Exception ex)
@@ -41,12 +41,12 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             List<tblDivision> tblDivisions = null;
             try
             {
-                tblDivisions = await Context.tblDivision
+                tblDivisions = await Context.Division
                                 .ToListAsync();
             }
             catch (InvalidOperationException)
             {
-                SetError("Couldn't load tblDivision - invalid tblDivision id specified.");
+                SetError("Couldn't load Division - invalid Division id specified.");
                 return null;
             }
             catch (Exception ex)

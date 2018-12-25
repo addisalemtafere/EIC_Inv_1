@@ -10,6 +10,7 @@ import {OrderModel} from '../../../model/Order.model';
 import {FormService} from '../../../../@custor/validation/custom/form';
 import {ServiceTariffModel} from '../../../model/servicetariff';
 import {ActivatedRoute} from "@angular/router";
+import {ConfigurationService} from '@custor/services/configuration.service';
 
 @Component({
   selector: 'app-payment',
@@ -26,12 +27,13 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
   investorName: string;
   public formErrors = {
     ReceiptNumber: '',
-    CheckNo: '',
+    // CheckNo: '',
   };
   private ServiceId: any;
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
+  currentLang = '';
 
   constructor(
     public serviceApplicationService: ServiceApplicationService,
@@ -39,6 +41,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
     public route: ActivatedRoute,
     public formService: FormService,
     public accountService: AccountService,
+    private configService: ConfigurationService,
     public orderService: OrderService) {
     this.today = new Date();
   }
@@ -49,6 +52,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.currentLang = this.configService.language;
 
     this.initForm();
     this.getServiceApplication(this.ServiceApplicationId);
@@ -60,7 +64,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
     this.orderForm = this.fb.group({
       ServiceApplicationId: new FormControl(this.ServiceApplicationId),
       ReceiptNumber: new FormControl('', Validators.required),
-      CheckNo: new FormControl('', Validators.required),
+      CheckNo: new FormControl(''),
       TotalAmount: [''],
       CashierUserName: [''],
       PaymentDate: ['']
@@ -92,7 +96,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
         this.TotalAmount = result.Service.ServiceTariff[0].Tariff.Fee;
         this.serviceTariff = result.Service.ServiceTariff;
         this.getTotalAmount(this.serviceTariff);
-        this.investorName = result.InvestorNameAmharic;
+        this.investorName = result.InvestorNameEnglish;
       });
   }
 

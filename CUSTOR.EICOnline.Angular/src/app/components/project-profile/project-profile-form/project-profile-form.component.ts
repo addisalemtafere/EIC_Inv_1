@@ -11,9 +11,7 @@ import {ZoneModel} from '../../../model/address/Zone.model';
 import {WoredaModel} from '../../../model/address/Woreda.model';
 import {KebeleModel} from '../../../model/address/Kebele.model';
 import {ToastrService} from 'ngx-toastr';
-import {SectorModel} from '../../../model/Sector.model';
 import {SiteService} from '../../../Services/site.service';
-import {SubSectorModel} from '../../../model/SubSector.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {FormOfOwnershipModel} from '../../../model/EnumModel';
 import {DataSharingService} from '../../../Services/data-sharing.service';
@@ -30,6 +28,9 @@ import {UserActivityDataServices} from '../../../admin/user-detail/user-detail.s
 import {AccountService} from '@custor/services/security/account.service';
 import {SiteModel} from '../../../model/Site.model';
 import {SectorService} from '../../setting/category-tabs/sector/sector.service';
+import {SubsectorService} from '../../setting/category-tabs/subsector/subsector.service';
+import {SectorModel} from '../../../model/sector';
+import {SubSectorModel} from '../../../model/subSector';
 
 @Component({
   selector: 'app-project-profile-form',
@@ -104,6 +105,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
               private investorService: InvestorService,
               private errMsg: ErrorMessage,
               private sectorService: SectorService,
+              private subSectorService: SubsectorService,
               private siteService: SiteService,
               public formService: FormService,
               public snackbar: MatSnackBar,
@@ -197,7 +199,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllSector() {
-    this.sectorService.getSector()
+    this.sectorService.getSectors()
       .subscribe(result => {
           this.sectorList = result;
         },
@@ -206,7 +208,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllSubSector() {
-    this.sectorService.getAllSubSector()
+    this.subSectorService.getSubSectors()
       .subscribe(result => {
           this.subSectorList = result;
           this.filterSubSectorList = result;
@@ -301,10 +303,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     if (!SubSecId) {
       return;
     }
-
     this.filterActivityLIst = null;
     this.filterSubSectorList = this.subSectorList.filter((item) => {
-      return item.SectorId === SubSecId;
+      return item.SectorId == SubSecId;
     });
   }
 
