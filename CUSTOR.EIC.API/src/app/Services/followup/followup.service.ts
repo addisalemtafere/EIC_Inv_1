@@ -1,9 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {AppConfiguration} from "../../config/appconfig";
+
 import {FollowUpModel} from "../../model/followup/followup.model";
-import {BaseService} from "../Base.service";
 import {ErrorMessage} from "@custor/services/errMessageService";
+import {AppConfiguration} from "../../../../../CUSTOR.EIC.API/src/app/config/appconfig";
+import {BaseService} from "../../../../../CUSTOR.EIC.API/src/app/Services/Base.service";
 
 @Injectable({
   providedIn: 'root'
