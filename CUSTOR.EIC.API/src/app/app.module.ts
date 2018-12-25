@@ -169,8 +169,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ImageUploadModule.forRoot(),
     EditorModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    // NgxUiLoaderRouterModule,
-    // NgxUiLoaderHttpModule.forRoot({showForeground: true})
+    NgxUiLoaderHttpModule.forRoot({showForeground: true})
 
 
   ],
