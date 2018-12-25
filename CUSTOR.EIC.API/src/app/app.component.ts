@@ -1,4 +1,12 @@
-import {AfterContentChecked, AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {AppTranslationService} from '../@custor/services/translation.service';
@@ -19,6 +27,7 @@ import {IncentiveLogService} from './Services/incentive-log.service';
 import {ToastrService} from 'ngx-toastr';
 import {Subscription} from 'rxjs/Subscription';
 import {Permission} from './model/security/permission.model';
+import {NgxUiLoaderService} from "ngx-ui-loader";
 
 // import { ToastrService } from 'ngx-toastr';
 
@@ -62,6 +71,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
               public incentiveLogService: IncentiveLogService,
               public serviceService: ServiceService,
               changeDetectorRef: ChangeDetectorRef,
+              private ngxService: NgxUiLoaderService,
               media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -137,11 +147,17 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   ngOnInit() {
+
+    this.ngxService.start(); // start foreground loading with 'default' id
+    this.ngxService.stop(); // start foreground loading with 'default' id
+
+
     localStorage.setItem('loggIn', 'false');
 
     this.checkInvestor();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+
         const url = (<NavigationStart>event).url;
         if (url !== url.toLowerCase()) {
           this.router.navigateByUrl((<NavigationStart>event).url.toLowerCase());
@@ -179,6 +195,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         }
       }
     });
+    this.ngxService.start(); // start foreground loading with 'default' id
+
   }
 
   gotoCustomerRegistration() {
@@ -304,6 +322,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     }
 
   }
+
   toServiceList1() {
     if (localStorage.getItem('InvestorId') !== null) {
       // this.dialog.open(CustomerServiceStarterComponent);
@@ -311,7 +330,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     } else {
       this.router.navigate(['/followup']);
       //this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-     // this.router.navigate(['investor-tab/0/', 0]);
+      // this.router.navigate(['investor-tab/0/', 0]);
     }
 
   }

@@ -12,9 +12,9 @@ import {ToastrService} from "ngx-toastr";
 import {Decision, Service} from '@custor/const/consts';
 import {FollowUpModel} from "../../../../model/followup/followup.model";
 import {Decisions, Services} from "../../../../model/lookupData";
-import {FollowupService} from "../../../../Services/followup/followup.service";
 import {DataSharingService} from "../../../../Services/data-sharing.service";
 import {LookUpService} from "../../../../Services/look-up.service";
+import {FollowupService} from "../../../../Services/followup/followup.service";
 
 @Component({
   selector: 'app-followup-form',
@@ -34,6 +34,7 @@ export class FollowupFormComponent implements OnInit {
 
   public decision: Decisions[] = [];
   public service: Services[] = [];
+
   constructor(
     private fb: FormBuilder,
     private followupService: FollowupService,
@@ -44,19 +45,21 @@ export class FollowupFormComponent implements OnInit {
     private http: HttpClient, private accountService: AccountService,
     private authService: AuthService,
     private configService: ConfigurationService, public dialog: MatDialog,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) {
+  }
 
   ngOnInit() {
     this.initForm();
-    const id= localStorage.getItem("followupId");
+    const id = localStorage.getItem("followupId");
     console.log(id);
-    if(id != null){
+    if (id != null) {
       this.getFollowup(id);
     }
-      this.initStaticData('en');
+    this.initStaticData('en');
 
   }
-  getFollowup(id){
+
+  getFollowup(id) {
     this.followupService
       .getOneById(id)
       .subscribe(result => {
@@ -65,21 +68,23 @@ export class FollowupFormComponent implements OnInit {
         this.updateForm(result);
       });
   }
-  updateForm(fup:FollowUpModel){
+
+  updateForm(fup: FollowUpModel) {
     // console.log(this.allFollowUpData);
-    console.log("result = "+this.getServices(fup.Id))
-    console.log("result = "+this.getDecision(fup.DecisionMade))
+    console.log("result = " + this.getServices(fup.Id))
+    console.log("result = " + this.getDecision(fup.DecisionMade))
 
     this.followUpForm.patchValue(
       {
         investorName: fup.InvestorName || '',
         FollowupDate: fup.FollowupDate || '',
-        DecisionMade: this.getDecision(fup.DecisionMade) || '' ,
+        DecisionMade: this.getDecision(fup.DecisionMade) || '',
         FollowupFinding: fup.FollowupFinding || '',
-        serviceName: this.getServices(fup.Id)  || '',
+        serviceName: this.getServices(fup.Id) || '',
         OfficerRemark: fup.OfficerRemark || ''
       });
   }
+
   initForm() {
     this.followUpForm = this.fb.group({
       investorName: ['', Validators.required],
@@ -91,7 +96,8 @@ export class FollowupFormComponent implements OnInit {
 
     });
   }
-  errorMsg={
+
+  errorMsg = {
     investorName: 'Investor Name is required!',
     cAfterCareDate: 'Please select date!',
     afterCareDecision: 'Please select the decision!',
@@ -101,34 +107,34 @@ export class FollowupFormComponent implements OnInit {
 
 
   public onSubmit() {
-    const formData=this.mapValuesData(this.followUpForm.value);
-   const fid=localStorage.getItem('followupId');
-    if(fid != null)
-    {
-      this.followupService.update(formData,fid).subscribe(
+    const formData = this.mapValuesData(this.followUpForm.value);
+    const fid = localStorage.getItem('followupId');
+    if (fid != null) {
+      this.followupService.update(formData, fid).subscribe(
         (followup: FollowUpModel) => {
-          console.log("update="+followup);
+          console.log("update=" + followup);
           this.router.navigate(['followup'])
         }
       );
     }
-    else
-    {
-    this.followupService.create(formData)
-      .subscribe(
-        (followup: FollowUpModel) => {
-               console.log("new="+followup);
-         this.router.navigate(['followup'])
-        }
-      );
-  }
+    else {
+      this.followupService.create(formData)
+        .subscribe(
+          (followup: FollowUpModel) => {
+            console.log("new=" + followup);
+            this.router.navigate(['followup'])
+          }
+        );
+    }
 
   }
-  mapValuesData(follow:FollowUpModel){
-    follow.ProjectId=23130;
-    follow.CreatedUserName=this.accountService.currentUser.UserName;
+
+  mapValuesData(follow: FollowUpModel) {
+    follow.ProjectId = 23130;
+    follow.CreatedUserName = this.accountService.currentUser.UserName;
     return follow;
   }
+
   getServices(service: number): string {
     return Service.filter(element => element.Id === service).map(element => element.DescriptionEnglish)[0];
   }
@@ -138,7 +144,7 @@ export class FollowupFormComponent implements OnInit {
   }
 
   initStaticData(en) {
-    let desc: Decisions= new Decisions();
+    let desc: Decisions = new Decisions();
     Decision.forEach(pair => {
       desc = {
         'Id': pair.Id.toString(),
@@ -147,7 +153,7 @@ export class FollowupFormComponent implements OnInit {
       };
       this.decision.push(desc);
     });
-    let ser: Services= new Services();
+    let ser: Services = new Services();
     Service.forEach(pair => {
       ser = {
         'Id': pair.Id.toString(),
