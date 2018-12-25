@@ -170,7 +170,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     EditorModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     // NgxUiLoaderRouterModule,
-    NgxUiLoaderHttpModule.forRoot({showForeground: true})
+    // NgxUiLoaderHttpModule.forRoot({showForeground: true})
 
 
   ],
