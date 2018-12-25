@@ -61,7 +61,7 @@ namespace CUSTOR.EICOnline.API.Controllers
 
 			_context.Followups.Update(fup);
 			_context.SaveChanges();
-			return Ok(new { message = "Contact is updated successfully." });
+			return Ok(new { message = "Follow up is updated successfully." });
 		}
 
 
@@ -75,7 +75,7 @@ namespace CUSTOR.EICOnline.API.Controllers
 			_context.Followups.Add(followup);
 			_context.SaveChanges();
 
-			return Ok(new { message = "Contact is added successfully." });
+			return Ok(new { message = "Follow up is added successfully." });
 		}
 
 	    [HttpDelete("{id}")]
