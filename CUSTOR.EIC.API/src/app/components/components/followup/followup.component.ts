@@ -1,23 +1,22 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogConfig, MatDialogRef, MatSort, MatTableDataSource} from "@angular/material";
-import {FollowupService} from "../../Services/followup/followup.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {DataSharingService} from "../../Services/data-sharing.service";
-import {LookUpService} from "../../Services/look-up.service";
 import {HttpClient} from "@angular/common/http";
 import {AccountService} from "@custor/services/security/account.service";
 import {AuthService} from "@custor/services/security/auth.service";
 import {ConfigurationService} from "@custor/services/configuration.service";
 import {ToastrService} from "ngx-toastr";
-import {FollowUpModel} from "../../model/followup/followup.model";
-import {Investor} from "../../model/investor";
+
 import {Subscription} from "rxjs";
 import {AngConfirmDialogComponent} from "@custor/components/confirm-dialog/confirm-dialog.component";
 import {Utilities} from "@custor/helpers/utilities";
 import {Decision} from '@custor/const/consts';
-import {Decisions, Services, UnitType} from "../../model/lookupData";
-import {NotificationComponent} from "../project-profile/notification/notification.component";
+import {FollowUpModel} from "../../../model/followup/followup.model";
+import {Decisions, Services} from "../../../model/lookupData";
+import {FollowupService} from "../../../Services/followup/followup.service";
+import {DataSharingService} from "../../../Services/data-sharing.service";
+import {LookUpService} from "../../../Services/look-up.service";
 
 @Component({
   selector: 'app-followup',
