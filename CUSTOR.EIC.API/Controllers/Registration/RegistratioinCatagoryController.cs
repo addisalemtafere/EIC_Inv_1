@@ -37,12 +37,19 @@ namespace EIC.Investment.API.Controllers
         //      Include(a => a.MajorCatagoryCode).
         //    FirstAsync(m => m.Tin == Tin);
 
-        //    if (registrationcatagory == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(registrationcatagory);
-        //}
+       
+        [HttpPost("api/registrationcatagory")]
+        public async Task<IActionResult> PostRegistraionCatagory([FromBody] RegistrationCatagory registrationCatagory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            _context.RegistrationCatagorys.Add(registrationCatagory);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("PostRegistraionCatagory", new { Tin = registrationCatagory.Tin }, registrationCatagory);
+        }
+
 
 
         //[HttpPost("api/registrationcatagory")]

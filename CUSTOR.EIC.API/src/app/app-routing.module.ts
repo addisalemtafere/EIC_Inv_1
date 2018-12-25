@@ -13,6 +13,9 @@ import {CustomerServiceStarterComponent} from './components/my-dashboard/custome
 import {AddressComponent} from './components/project-profile/address/address.component';
 import {LettertemplateModule} from './components/letter-template/lettertemplate.module';
 import {HelpComponent} from "./components/help/help.component";
+import {FollowupComponent} from "./components/followup/followup.component";
+import {FollowupFormComponent} from "./components/followup/followup-form/followup-form.component";
+
 
 @NgModule({
   imports: [
@@ -21,6 +24,14 @@ import {HelpComponent} from "./components/help/help.component";
         path: 'home',
         redirectTo: '/',
         pathMatch: 'full'
+      },
+      {
+        path: 'followup',
+        component: FollowupComponent
+      },
+      {
+        path: 'followupform',
+         component: FollowupFormComponent
       },
       {
         path: 'dashboard',

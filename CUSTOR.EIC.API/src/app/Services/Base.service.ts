@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
-import {ErrorMessage} from '../../@custor/services/errMessageService';
+import {ErrorMessage} from '@custor/services/errMessageService';
 
 @Injectable()
 export abstract class BaseService<T> {
@@ -38,7 +38,7 @@ export abstract class BaseService<T> {
   }
 
   update(resource, id) {
-    // console.log(resource);
+     console.log(resource);
     return this.httpClient.put(this.url + '/' + id, resource).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }

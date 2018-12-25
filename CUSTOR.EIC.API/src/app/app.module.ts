@@ -9,7 +9,7 @@ import {FooterModule} from '@custor/components/shared/footer.component';
 import {ThemePickerModule} from '@custor/components/shared/theme-picker.component';
 import {LangSwitcherModule} from '@custor/components/shared/lang-switcher.component';
 import {LocalStoreManager} from '@custor/services/storeManager.service';
-import {AppTranslationService, TranslateLanguageLoader} from '../@custor/services/translation.service';
+import {AppTranslationService, TranslateLanguageLoader} from '@custor/services/translation.service';
 import {ConfigurationService} from '@custor/services/configuration.service';
 import {EndpointFactory} from '@custor/services/security/endpoint-factory.service';
 import {AccountService} from '@custor/services/security/account.service';
@@ -71,6 +71,10 @@ import {ManagementDashboardComponent} from './components/management-dashboard/ma
 import {AppComponent} from './app.component';
 import { HelpComponent } from './components/help/help.component';
 
+import { FollowComponent } from './follow/follow.component';
+import {FollowupComponent} from './components/followup/followup.component';
+import {FollowupFormComponent} from './components/followup/followup-form/followup-form.component';
+
 
 
 @NgModule({
@@ -97,8 +101,12 @@ import { HelpComponent } from './components/help/help.component';
     AddressComponent,
     HelpComponent,
     // IncentiveDetailComponent
+    FollowupComponent,
+    FollowComponent,
+    FollowupFormComponent
+
   ],
-  // ,
+
   imports: [
 
     ThemePickerModule,

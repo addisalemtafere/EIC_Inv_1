@@ -304,6 +304,17 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     }
 
   }
+  toServiceList1() {
+    if (localStorage.getItem('InvestorId') !== null) {
+      // this.dialog.open(CustomerServiceStarterComponent);
+      this.router.navigate(['/followup']);
+    } else {
+      this.router.navigate(['/followup']);
+      //this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
+     // this.router.navigate(['investor-tab/0/', 0]);
+    }
+
+  }
 
   toMangerList() {
     if (localStorage.getItem('InvestorId') !== null) {

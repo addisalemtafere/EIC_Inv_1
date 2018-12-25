@@ -246,6 +246,8 @@ export class AppConfiguration {
     SaveRegistration: 'api/saveregistration',
     UpdateRegistration: 'api/UpdateRegistration',
     SaveRegistrationCatagory: 'api/registrationcatagory',
+    followup: 'api/followup',
+    followupedit: 'delete/followup',
     GetBussinessMajorCatagory: 'api/Business/GetBussinessMajorcata',
     GetBussinessCatagory: 'api/Business/GetBussinessCatagory',
 
