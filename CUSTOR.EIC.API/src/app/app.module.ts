@@ -28,6 +28,7 @@ import {ProjectProfileService} from './Services/project-profile.service';
 import {ProjectCostService} from './Services/project-cost.service';
 import {ProjectEmploymentService} from './Services/project-employment.service';
 import {ProjectNationalityCompositionService} from './Services/project-nationality-composition.service';
+import {SectorService} from './Services/Sector.service';
 import {SiteService} from './Services/site.service';
 import {ErrorMessage} from '../@custor/services/errMessageService';
 import {AddressService} from './Services/Address/address.service';
@@ -66,13 +67,45 @@ import {ErrorComponent} from './components/error/error.component';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
 import {AddressComponent} from './components/project-profile/address/address.component';
 import {AppComponent} from './app.component';
-import {SectorService} from './components/setting/category-tabs/sector/sector.service';
-
 import {HelpComponent} from './components/help/help.component';
 import {FollowupComponent} from "./components/components/followup/followup.component";
 import {FollowComponent} from "./components/follow/follow.component";
 import {FollowupFormComponent} from "./components/components/followup/followup-form/followup-form.component";
+import {
+  NgxUiLoaderConfig, NgxUiLoaderHttpModule,
+  NgxUiLoaderModule,
+  NgxUiLoaderRouterModule,
+  PB_DIRECTION,
+  POSITION,
+  SPINNER
+} from "ngx-ui-loader";
 
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  "bgsColor": "#04a162",
+  "bgsOpacity": 0.5,
+  "bgsPosition": "bottom-left",
+  "bgsSize": 90,
+  "bgsType": "three-strings",
+  "blur": 5,
+  "fgsColor": "#00bcd4",
+  "fgsPosition": "center-center",
+  "fgsSize": 120,
+  "fgsType": "three-strings",
+  "gap": 24,
+  "logoPosition": "center-center",
+  "logoSize": 120,
+  "logoUrl": "",
+  "overlayColor": "rgba(40, 40, 40, 0.8)",
+  "pbColor": "#00ACC1",
+  "pbDirection": "ltr",
+  "pbThickness": 3,
+  "hasProgressBar": true,
+  "text": "Loading",
+  "textColor": "cadetblue",
+  "textPosition": "center-center",
+  "threshold": 500,
+
+};
 
 @NgModule({
   declarations: [
@@ -134,7 +167,10 @@ import {FollowupFormComponent} from "./components/components/followup/followup-f
     MatButtonModule,
     PlotlyModule,
     ImageUploadModule.forRoot(),
-    EditorModule
+    EditorModule,
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxUiLoaderHttpModule.forRoot({showForeground: true})
+
 
   ],
   entryComponents: [
