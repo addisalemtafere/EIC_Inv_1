@@ -11,10 +11,9 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
 import {ErrorComponent} from './components/error/error.component';
 import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {AddressComponent} from './components/project-profile/address/address.component';
-import {LettertemplateModule} from './components/letter-template/lettertemplate.module';
 import {HelpComponent} from "./components/help/help.component";
-import {FollowupComponent} from "./components/followup/followup.component";
-import {FollowupFormComponent} from "./components/followup/followup-form/followup-form.component";
+import {FollowupFormComponent} from './components/components/followup/followup-form/followup-form.component';
+import {FollowupComponent} from "./components/components/followup/followup.component";
 
 
 @NgModule({
@@ -31,7 +30,7 @@ import {FollowupFormComponent} from "./components/followup/followup-form/followu
       },
       {
         path: 'followupform',
-         component: FollowupFormComponent
+        component: FollowupFormComponent
       },
       {
         path: 'dashboard',

@@ -66,15 +66,11 @@ import {EditorModule} from '@tinymce/tinymce-angular';
 import {ErrorComponent} from './components/error/error.component';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
 import {AddressComponent} from './components/project-profile/address/address.component';
-import {BusinessTabComponent} from './components/business/business-tab/business-tab.component';
-import {ManagementDashboardComponent} from './components/management-dashboard/management-dashboard.component';
 import {AppComponent} from './app.component';
-import { HelpComponent } from './components/help/help.component';
-
-import { FollowComponent } from './follow/follow.component';
-import {FollowupComponent} from './components/followup/followup.component';
-import {FollowupFormComponent} from './components/followup/followup-form/followup-form.component';
-
+import {HelpComponent} from './components/help/help.component';
+import {FollowupComponent} from "./components/components/followup/followup.component";
+import {FollowComponent} from "./components/follow/follow.component";
+import {FollowupFormComponent} from "./components/components/followup/followup-form/followup-form.component";
 
 
 @NgModule({
