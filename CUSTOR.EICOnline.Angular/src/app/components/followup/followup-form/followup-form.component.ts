@@ -4,7 +4,6 @@ import {FollowUpModel} from "../../../model/followup/followup.model";
 import {MatDialog, MatDialogRef, MatTableDataSource} from "@angular/material";
 import {Subscription} from "rxjs";
 import {AngConfirmDialogComponent} from "@custor/components/confirm-dialog/confirm-dialog.component";
-import {Decisions, Services} from "../../../model/lookupData";
 import {FollowupService} from "../../../Services/followup/followup.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataSharingService} from "../../../Services/data-sharing.service";

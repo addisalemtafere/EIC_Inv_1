@@ -15,11 +15,9 @@ import {Investor} from "../../model/investor";
 import {Subscription} from "rxjs";
 import {AngConfirmDialogComponent} from "@custor/components/confirm-dialog/confirm-dialog.component";
 import {Utilities} from "@custor/helpers/utilities";
-import {Decision, Service} from '@custor/const/consts';
+import {Decision} from '@custor/const/consts';
 import {Decisions, Services, UnitType} from "../../model/lookupData";
-import {UnitTypes} from "@custor/const/consts";
 import {NotificationComponent} from "../project-profile/notification/notification.component";
-import {FollowupFormComponent} from "./followup-form/followup-form.component";
 
 @Component({
   selector: 'app-followup',
