@@ -37,6 +37,34 @@ namespace CUSTOR.EICOnline.API.Controllers
 			return new ObjectResult(item);
 		}
 
+		[HttpPut("{id}")]
+		public IActionResult Update(long id, [FromBody] Followup item)
+		{
+			// set bad request if contact data is not provided in body
+			/*if (item == null || id == 0)
+			{
+				return BadRequest();
+			}
+			*/
+			var fup = _context.Followups.FirstOrDefault(t => t.Id == id);
+			if (fup == null)
+			{
+				return NotFound();
+			}
+
+			fup.InvestorName = item.InvestorName;
+			fup.FollowupDate = item.FollowupDate;
+			fup.ServiceId = item.ServiceId;
+			fup.FollowupFinding = item.FollowupFinding;
+			fup.OfficerRemark = item.OfficerRemark;
+			fup.DecisionMade = item.DecisionMade;
+
+			_context.Followups.Update(fup);
+			_context.SaveChanges();
+			return Ok(new { message = "Contact is updated successfully." });
+		}
+
+
 		[HttpPost]
 		//[Route("addContact")]
 		public IActionResult saveFollowup([FromBody] Followup followup)

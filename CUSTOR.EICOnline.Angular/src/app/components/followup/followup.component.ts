@@ -29,16 +29,12 @@ import {FollowupFormComponent} from "./followup-form/followup-form.component";
 
 export class FollowupComponent implements OnInit {
 
-  followupmodel: FollowUpModel[];
   dataSource: MatTableDataSource<FollowUpModel>;
   followUpForm: FormGroup;
   displayedColumns: string[] = ['InvestorName', 'AfterCareDecision', 'OfficerRemark', 'action'];
-  public allFollowUpData: FollowUpModel;
   public followups: FollowUpModel[];
-  fupmodel: Subscription;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
-followupformpopup:MatDialogRef<FollowupFormComponent>;
   public decision: Decisions[] = [];
   public service: Services[] = [];
   constructor(public dialog: MatDialog,
@@ -55,76 +51,24 @@ followupformpopup:MatDialogRef<FollowupFormComponent>;
 
   }
 
-  // @ViewChild(MatSort) sort: MatSort;
   ngOnInit(): void {
-    //this.initForm();
     this.loadFollowups();
-    // this.dataSource.sort = this.sort;
   }
 
 
-//   initForm() {
-//     // console.log(localStorage.getItem("InvestorId"));
-//     this.followUpForm = this.fb.group({
-//       investorName: ['', Validators.required],
-//       FollowupDate: ['', Validators.required],
-//       DecisionMade: [1, Validators.required],
-//       findings: ['', Validators.required],
-//       serviceName: [1, Validators.required],
-//       OfficerRemark: ['']
-//
-//     });
-//   }
-//   errorMsg={
-//     investorName: 'Investor Name is required!',
-//     cAfterCareDate: 'Please select date!',
-//     afterCareDecision: 'Please select the decision!',
-//     findings: 'Please fill out the findings!',
-//     serviceName: 'Please select the service name!'
-//   }
-//
-//
-//   public onSubmit() {
-//     // console.log(this.followUpForm.value);
-//     const formData=this.mapValuesData(this.followUpForm.value);
-//     // console.log(formData.ProjectId);
-//     console.log(formData);
-//     this.followupService.create(formData)
-//       .subscribe(
-//         (followup: FollowUpModel) => {
-//           // localStorage.setItem('InvestorId', followup.InvestorId.toString());
-//           // console.log(localStorage.getItem(['InvestorId']).toString());
-//           console.log(followup);
-//           this.loadFollowups();
-//         }
-//       );
-//     // this.loadFollowups();
-//
-//   }
-//   mapValuesData(follow:FollowUpModel){
-//     follow.ProjectId=23130;
-//     follow.CreatedUserName=this.accountService.currentUser.UserName;
-//     // follow.CreatedUserId=(int)this.accountService.currentUser.Id;
-//     // follow.ServiceId=this.getServices(this.followups.se)
-//     return follow;
-// }
+
   public loadFollowups() {
 
     return this.followupService.getAll()
       .subscribe(result => {
         this.followups = result;
         this.dataSource = new MatTableDataSource<FollowUpModel>(result);
-        // this.dataSource.paginator = this.paginator;
       });
   }
   addfollowup() {
     console.log("add clicked")
     this.router.navigate(['/followupform']);
-    // const followupData=
-    // this.followupformpopup = this.dialog.open(FollowupFormComponent,
-    //   {
-    //     disableClose: false
-    //   });
+    localStorage.setItem('followupId','');
 
   }
 
@@ -140,7 +84,6 @@ followupformpopup:MatDialogRef<FollowupFormComponent>;
   }
     delete(followupp:FollowUpModel)
   {
-    // const followupData=
     this.confirmDialogRef = this.dialog.open(AngConfirmDialogComponent,
       {
         disableClose: false
@@ -157,7 +100,6 @@ followupformpopup:MatDialogRef<FollowupFormComponent>;
                 .data.filter(item => item.Id !== followupp.Id);
             },
             error => {
-              // tslint:disable-next-line:max-line-length
               this.toastr.error(
                 `An error occured in deleting the Followup.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
                 'Delete Error');
