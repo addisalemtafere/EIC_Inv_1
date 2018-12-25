@@ -66,15 +66,12 @@ import {ErrorComponent} from './components/error/error.component';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
 import {AddressComponent} from './components/project-profile/address/address.component';
 import {AppComponent} from './app.component';
-<<<<<<< HEAD:CUSTOR.EICOnline.Angular/src/app/app.module.ts
 import {SectorService} from './components/setting/category-tabs/sector/sector.service';
 
-=======
 import {HelpComponent} from './components/help/help.component';
 import {FollowupComponent} from "./components/components/followup/followup.component";
 import {FollowComponent} from "./components/follow/follow.component";
 import {FollowupFormComponent} from "./components/components/followup/followup-form/followup-form.component";
->>>>>>> 1ea149208e5173ea484b862ded402c52eae185c9:CUSTOR.EIC.API/src/app/app.module.ts
 
 
 @NgModule({
