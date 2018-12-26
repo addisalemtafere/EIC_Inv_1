@@ -48,11 +48,11 @@ namespace EIC.Investment.API.Controllers.Controllers
         {
             if (!ModelState.IsValid)
                 throw new ApiException("Model binding failed.", 500);
-            if (!TariffRepo.Validate(postedTariff))
-                //throw new ApiException(TariffRepo.ErrorMessage, 500, TariffRepo.ValidationErrors);
+            //if (!TariffRepo.Validate(postedTariff))
+            //throw new ApiException(TariffRepo.ErrorMessage, 500, TariffRepo.ValidationErrors);
 
-                if (!await TariffRepo.SaveAsync(postedTariff))
-                    throw new ApiException(TariffRepo.ErrorMessage);
+            if (!await TariffRepo.SaveAsync(postedTariff))
+                throw new ApiException(TariffRepo.ErrorMessage);
             return postedTariff;
         }
 

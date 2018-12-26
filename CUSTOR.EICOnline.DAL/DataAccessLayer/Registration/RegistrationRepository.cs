@@ -60,17 +60,16 @@ namespace CUSTOR.EICOnline.DAL
         }
 
 
-        public async Task<List<Registration>> GetRecordByTIN(object Tin)
+        public async Task<Registration> GetRecordByTIN(object Tin)
         {
-            List<Registration> registration = null;
+            Registration registration = null;
             try
             {
                 string id = (string)Tin;
                 registration = await Context.Registrations
-                  .Where(reg => reg.Tin == id)
-                                .ToListAsync();
+                  .SingleOrDefaultAsync(reg => reg.Tin == id);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
                 SetError("Couldn't load Registration - invalid Registration id specified.");
                 return null;

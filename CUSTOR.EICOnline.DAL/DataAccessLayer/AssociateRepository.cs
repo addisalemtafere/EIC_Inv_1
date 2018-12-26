@@ -61,6 +61,35 @@ namespace CUSTOR.EICOnline.DAL
             }
             return AssociateHelper.GetAssociateDTO(associate, add);
         }
+
+
+        public async Task<AssociateDTO> GetAssociateByInvestorId(int InvestorId)
+        {
+            Associate associate = null;
+            Address add = null;
+            try
+            {
+                int id = InvestorId;
+                associate = await Context.Associate
+                           .FirstOrDefaultAsync(asso => asso.InvestorId == id);
+
+                add = await Context.Address
+                            .FirstOrDefaultAsync(a => a.ParentId == associate.AssociateId && a.AddressType == (int)AddressType.eManager);
+            }
+            catch (InvalidOperationException)
+            {
+                SetError("Couldn't load Associate - invalid Associate id specified.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                SetError(ex);
+            }
+            return AssociateHelper.GetAssociateDTO(associate, add);
+        }
+
+
+
         public async Task<AssociateDTO> SaveAssociate(AssociateDTO postedAssociate, ApplicationUser appUser)
         {
 
@@ -76,12 +105,16 @@ namespace CUSTOR.EICOnline.DAL
                     if (isUpdate)
                     {
                         Context.Associate.Update(ass);
+                        Context.SaveChanges();
+
                     }
                     else
                     {
                         Context.Associate.Add(ass);
+                        Context.SaveChanges();
+
                     }
-                    await Context.SaveChangesAsync();
+                    //Context.SaveChanges();
 
                     // Add/Update Address
                     Address address = AssociateHelper.GetAddress(postedAssociate);
@@ -91,13 +124,15 @@ namespace CUSTOR.EICOnline.DAL
                     {
                         address.AddressId = postedAssociate.AddressId;
                         Context.Address.Update(address);
+                        Context.SaveChanges();
+
                     }
                     else
                     {
                         Context.Address.Add(address);
+                        Context.SaveChanges();
+
                     }
-                  
-                    await Context.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {

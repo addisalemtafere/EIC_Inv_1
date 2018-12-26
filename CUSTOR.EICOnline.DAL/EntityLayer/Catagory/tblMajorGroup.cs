@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
-  public class tblMajorGroup
+  public class MajorGroup
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -1,5 +1,6 @@
 ﻿using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,38 @@ using System.Threading.Tasks;
 
 namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
 {
-   public class BusinessLicensingGroupRepository : EFRepository<ApplicationDbContext, BusinessLicensingGroup>
+    public class BusinessLicensingGroupRepository : EFRepository<ApplicationDbContext, BusinessLicensingGroup>
     {
         public BusinessLicensingGroupRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public async Task<BusinessLicensingGroup> SaveBussinessBussinessLicense(BusinessLicensingGroup business)
+
+        public async Task<List<BusinessLicensingGroup>> GetRecords(int id)
         {
-           BusinessLicensingGroup businessLicense = null;
+            List<BusinessLicensingGroup> BusinessLicensingGroup = null;
             try
             {
-               
+                BusinessLicensingGroup = await Context.BusinessLicensingGroup
+                    .Where(bg => bg.BusinessId == id).ToListAsync();
+            }
+            catch (InvalidOperationException)
+            {
+                SetError("Couldn't load tblMajorDivisions");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                SetError(ex);
+            }
+            return BusinessLicensingGroup;
+        }
+
+        public async Task<BusinessLicensingGroup> SaveBussinessBussinessLicense(BusinessLicensingGroup business)
+        {
+            BusinessLicensingGroup businessLicense = null;
+            try
+            {
+
                 Context.Add(business);
                 await Context.SaveChangesAsync();
                 return businessLicense;

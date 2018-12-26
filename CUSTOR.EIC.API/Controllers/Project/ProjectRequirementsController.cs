@@ -58,7 +58,20 @@ namespace EIC.Investment.API.Controllers
 
             return Ok(projectRequirement);
         }
-
+//        [HttpGet("ActualRequirement/{id}")]
+//        public IActionResult GetProjectActualRequirement([FromRoute] int id)
+//        {
+//            if (!ModelState.IsValid) return BadRequest(ModelState);
+//
+//            var projectRequirement = _context.ProjectRequirement
+//                .Where(p => p.IsActual && p.ProjectId == id)
+//                .AsEnumerable()
+//                .OrderByDescending(s => s.ProjectCostId);
+//
+//            if (projectCost == null) return NotFound();
+//
+//            return Ok(projectCost);
+//        }
         // PUT: api/ProjectRequirements/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProjectRequirement([FromRoute] int id,

@@ -76,7 +76,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     [NotMapped]
     public int? ServiceId { get; set; }
 
-    public bool IsOromiaSpecialZone { get; set; }
+    public bool? IsOromiaSpecialZone { get; set; }
     public Investor Investor { get; set; }
     public Sector sector { get; set; }
     public Activity Activity { get; set; }
