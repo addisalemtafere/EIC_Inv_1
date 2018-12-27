@@ -52,10 +52,11 @@ namespace CUSTOR.EICOnline.API.Controllers
 
 
         [HttpGet("GetOneAssociateByInvestorId/{id}")]
-        public async Task<Associate> GetOneAssociateByInvestorID([FromRoute] int id)
+        public async Task<AssociateDTO> GetOneAssociateByInvestorID([FromRoute] int id)
         {
-            var associate = await _context.Associate.FirstOrDefaultAsync(m => m.InvestorId == id);
-            return associate;
+            return await Repository.GetAssociateByInvestorId(id);
+            //var associate = await _context.Associate.FirstOrDefaultAsync(m => m.InvestorId == id);
+            //return associate;
         }
 
 

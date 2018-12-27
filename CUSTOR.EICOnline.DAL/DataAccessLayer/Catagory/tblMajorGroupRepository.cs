@@ -15,14 +15,14 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
         {
         }
 
-        public async Task<List<tblMajorGroup>> GetRecordsById(object Id)
+        public async Task<List<MajorGroup>> GetRecordsById(object Id)
         {
-            List<tblMajorGroup> tblMajorGroups = null;
+            List<MajorGroup> tblMajorGroups = null;
             try
             {
                 int id = (int)Id;
-                tblMajorGroups = await Context.tblMajorGroup
-                  .Where(tblDivision => tblDivision.Parent == id)
+                tblMajorGroups = await Context.MajorGroup
+                  .Where(Division => Division.Parent == id)
                                 .ToListAsync();
             }
             catch (InvalidOperationException)
@@ -37,12 +37,12 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             return tblMajorGroups;
         }
 
-        public async Task<List<tblMajorGroup>> GetRecords()
+        public async Task<List<MajorGroup>> GetRecords()
         {
-            List<tblMajorGroup> tblMajorGroups = null;
+            List<MajorGroup> tblMajorGroups = null;
             try
             {
-                tblMajorGroups = await Context.tblMajorGroup
+                tblMajorGroups = await Context.MajorGroup
                                 .ToListAsync();
             }
             catch (InvalidOperationException)

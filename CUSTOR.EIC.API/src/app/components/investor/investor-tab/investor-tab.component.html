@@ -1,0 +1,83 @@
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0">
+  <div class="block" fxFlex="">
+    <app-page-header title="customerRegistration" icon="people"></app-page-header>
+
+  </div>
+  <div id="title1" class="block" fxFlex="50">
+    <span style="text-transform: capitalize;" class="page-title">Full Name: {{userName}}</span>
+
+
+  </div>
+</div>
+<!--{{nextIndex}}-->
+<mat-tab-group #stepper [selectedIndex]="registrationIndex">
+
+
+  <mat-tab label="Service Info">
+
+    <ng-template matTabContent>
+      <!--<mat-card class="margin-2">-->
+
+      <!--<mat-card-content>-->
+      <!--<mat-checkbox (change)="isExisting()" color="primary">are You existing customer?</mat-checkbox>-->
+      <!--</mat-card-content>-->
+
+      <!--</mat-card>-->
+
+      <app-service-info></app-service-info>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Investor" [disabled]="nextIndex <1">
+    <ng-template matTabContent>
+      <app-edit-investor></app-edit-investor>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Manager" [disabled]="nextIndex <2">
+    <ng-template matTabContent>
+      <app-associate-form></app-associate-form>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Company Clearance" [disabled]="nextIndex <3"
+           *ngIf="!isNew">
+    <ng-template matTabContent>
+      <app-company-clearance-form></app-company-clearance-form>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Document" [disabled]="nextIndex <3" *ngIf="isNew">
+    <ng-template matTabContent>
+      <mat-card *ngIf="!isInvestor" class="margin-2 simple-card">
+        <mat-card-header>
+          <mat-card-subtitle class="sub-title"></mat-card-subtitle>
+          <button class="margin-10 certificate-title" mat-raised-button=""
+                  (click)="addMessage()" color="primary">
+            Add Message
+          </button>
+        </mat-card-header>
+      </mat-card>
+      <app-service-prerequisite></app-service-prerequisite>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab *ngIf="!isInvestor" [disabled]="investor.InvestorId==0"
+           label="Payment">
+    <ng-template matTabContent>
+      <app-payment></app-payment>
+    </ng-template>
+  </mat-tab>
+  <mat-tab *ngIf="!isInvestor" [disabled]="investor.InvestorId==0"
+           label="Certificate">
+    <ng-template matTabContent>
+      <app-registration-certificate></app-registration-certificate>
+
+    </ng-template>
+  </mat-tab>
+  <mat-tab *ngIf="isInvestor" [disabled]="nextIndex<3"
+           label="Confirmation">
+    <ng-template matTabContent>
+      <app-service-confirmation></app-service-confirmation>
+    </ng-template>
+  </mat-tab>
+
+</mat-tab-group>
+

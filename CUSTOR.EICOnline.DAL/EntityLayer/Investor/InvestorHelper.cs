@@ -12,7 +12,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             return new Address
             {
                 CellPhoneNo = investorDTO.CellPhoneNo,
-                AddressType = (int)AddressType.eInvestor,
+                AddressType = (int) AddressType.eInvestor,
                 Email = investorDTO.Email,
                 Fax = investorDTO.Fax,
                 HouseNo = investorDTO.HouseNo,
@@ -33,9 +33,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 WoredaId = investorDTO.WoredaId,
                 ZoneId = investorDTO.ZoneId,
                 AddressId = investorDTO.AddressId
-
             };
         }
+
         public static Investor GetInvestor(this InvestorDTO investorDTO)
         {
             return new Investor
@@ -64,13 +64,16 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 LegalStatus = investorDTO.LegalStatus,
                 RegistrationDate = investorDTO.RegistrationDate,
                 RegistrationNumber = investorDTO.RegistrationNumber,
-                
-                //SiteCode = investorDTO.SiteCode
 
+                PaidCapital = investorDTO.PaidCapital,
+                SighnedCapital = investorDTO.SighnedCapital,
+                IsExistingCustomer = investorDTO.IsExistingCustomer,
+                RegistrationCatagories = investorDTO.RegistrationCatagories,
+                //SiteCode = investorDTO.SiteCode
             };
         }
 
-        public static InvestorDTO GetInvestorDTO(Investor inv, Address add)
+        public static InvestorDTO GetInvestorDTO(Investor inv, Address add, int[] catagory)
         {
             return new InvestorDTO
             {
@@ -98,7 +101,12 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 LegalStatus = inv.LegalStatus,
                 RegistrationDate = inv.RegistrationDate,
                 RegistrationNumber = inv.RegistrationNumber,
-              
+                PaidCapital = inv.PaidCapital,
+                SighnedCapital = inv.SighnedCapital,
+                IsExistingCustomer = inv.IsExistingCustomer,
+
+                RegistrationCatagories = catagory,
+
                 //SiteCode = inv.SiteCode,
                 CellPhoneNo = add.CellPhoneNo,
                 Email = add.Email,
@@ -111,7 +119,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 TeleNo = add.TeleNo,
                 WoredaId = add.WoredaId,
                 ZoneId = add.ZoneId,
-                AddressId = add.AddressId
+                AddressId = add.AddressId,
             };
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL.EntityLayer;
@@ -22,15 +23,6 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             _context = context;
         }
 
-        // GET: api/CompanyClearances
-        [HttpGet]
-        public IEnumerable<CompanyClearance> GetCapitalRegistrations()
-        {
-            return _context.CompanyClearances;
-        }
-
-        // GET: api/CompanyClearances/5
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompanyNames([FromRoute] int id)
         {
@@ -45,6 +37,13 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
         }
 
 
+        [HttpGet("getCompanyClearanceByInvestorId/{id}")]
+        public async Task<CompanyClearance> getCompanyClearanceByInvestorId([FromRoute] int id)
+        {
+            var companyClearance = await _context.CompanyClearances.FirstOrDefaultAsync(m => m.InvestorId == id);
+            return companyClearance;
+        }
+
         // POST: api/CompanyClearances
         [HttpPost]
         public async Task<IActionResult> PostCompanyClearance([FromBody] CompanyClearance companyClearance)
@@ -58,11 +57,18 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             companyClearance.CreatedDate = DateTime.Today;
             companyClearance.UpdatedBy = "Aklile";
             companyClearance.UpdatedDate = DateTime.Today;
-
+          var workFlowId = companyClearance.workFlowId;
+          if (workFlowId.HasValue)
+          {
+            var serviceWorkflow = _context.ServiceWorkflow.First(s => s.ServiceWorkflowId == workFlowId);
+            serviceWorkflow.NextStepId = 1020;
+            _context.Entry(serviceWorkflow).State = EntityState.Modified;
+          }
             _context.CompanyClearances.Add(editedCompanyClearance);
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCapitalRegistrations", new { id = editedCompanyClearance.CompanyClearanceId },
+            return CreatedAtAction("getCompanyClearanceByInvestorId", new { id = editedCompanyClearance.CompanyClearanceId },
                 editedCompanyClearance);
         }
 
@@ -80,8 +86,45 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             _context.Entry(companyClearance).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCapitalRegistrations", companyClearance);
+            return CreatedAtAction("getCompanyClearanceByInvestorId", companyClearance);
         }
+
+
+
+        [HttpPut("SaveFinalApprovedName")]
+        public async Task<IActionResult> SaveFinalApprovedName([FromBody] CompanyClearance companyClearance)
+        {
+            CompanyClearance objCompanyClearance = await _context.CompanyClearances.SingleOrDefaultAsync(param => param.InvestorId == companyClearance.InvestorId);
+            await _context.SaveChangesAsync();
+
+            string CompnayNameAmharic = "";
+            string CompnayNameEnglish = "";
+            if (companyClearance.IsCompanyNameOneApproved)
+            {
+                CompnayNameAmharic = companyClearance.CompanyNameOneAmharic;
+                CompnayNameEnglish = companyClearance.CompanyNameOneEnglish;
+            }
+            if (companyClearance.IsCompanyNameTwoApproved)
+            {
+                CompnayNameAmharic = companyClearance.CompanyNameTwoAmharic;
+                CompnayNameEnglish = companyClearance.CompanyNameTwoEnglish;
+            }
+            if (companyClearance.IsCompanyNameThreeApproved)
+            {
+                CompnayNameAmharic = companyClearance.CompanyNameThreeAmharic;
+                CompnayNameEnglish = companyClearance.CompanyNameThreeEnglish;
+            }
+            await _context.SaveChangesAsync();
+
+
+            Investor inv = await _context.Investors.SingleOrDefaultAsync(param => param.InvestorId == companyClearance.InvestorId);
+            inv.FirstName = CompnayNameAmharic;
+            inv.FirstNameEng = CompnayNameEnglish;
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("getCompanyClearanceByInvestorId", companyClearance);
+        }
+
 
 
         // DELETE: api/ApiWithActions/5
