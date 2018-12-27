@@ -1,4 +1,13 @@
-import {AfterContentChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectorRef, Input} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ChangeDetectorRef,
+  Input
+} from '@angular/core';
 import {AddressModel} from '../../../../model/address/Address.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
@@ -26,7 +35,7 @@ import {InvestorService} from '../../investor.service';
 import {LookupsModel} from '../../../../model/lookups';
 import {determineId} from '@custor/helpers/compare';
 import {NationalityModel} from '../../../../model/address/NationalityModel';
-import { AppConfiguration } from 'app/config/appconfig';
+import {AppConfiguration} from 'app/config/appconfig';
 
 @Component({
   selector: 'app-associate-form',
@@ -72,6 +81,8 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   investorId: number;
   AllowCascading = true;
   @Input() errors: string[] = [];
+  private workFlowId: any;
+
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
@@ -82,7 +93,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
               private associateService: AssociateService,
               private custService: InvestorService,
               private configService: ConfigurationService,
-              private toastr: ToastrService,  private appConfig: AppConfiguration,
+              private toastr: ToastrService, private appConfig: AppConfiguration,
               private fb: FormBuilder) {
     this.checkAuthoriation();
     // create an empty object from the associate model
@@ -110,6 +121,8 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.currentLang = this.configService.language;
     const id = this.activatedRoute.snapshot.params['InvestorId'];
     this.investorId = this.activatedRoute.snapshot.params['InvestorId'];
+    this.workFlowId = this.activatedRoute.snapshot.params['workFlowId'];
+
     this.initStaticData(this.currentLang);
     this.fillAddressLookups();
     this.imgBase64 = '';
@@ -163,7 +176,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
           this.associate = result;
 
 
-          if(result == null){
+          if (result == null) {
             this.isNewInvestor = true;
           }
           else {
@@ -173,14 +186,13 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
             this.imgPhoto = this.appConfig.urls.baseUrl + 'photo/Mgr' + this.associate.AssociateId + '.jpg'; // to-do put the path in config
           }
           // console.log(this.imgPhoto);
-            // this.updateForm();
+          // this.updateForm();
 
           // this.getAddressData(this.associate.AssociateId);
         },
         error => this.toastr.error(error));
     this.loadingIndicator = false;
   }
-
 
 
   getAddressData(parent: number) {
@@ -282,6 +294,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       cNationality: ['1'], // Ethiopian
       cGender: ['1'],
       Title: [''],
+      workFlowId: this.workFlowId,
       Origin: [false],
       'address': new FormGroup({
         ParentId: new FormControl(),
@@ -323,7 +336,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     // Set dropdown values
     setTimeout(() => {
       if (this.associate.ZoneId != null) {
-          this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.associate.ZoneId);
+        this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.associate.ZoneId);
       }
     }, 100);
     setTimeout(() => {
@@ -333,26 +346,26 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     }, 100);
     setTimeout(() => {
       if (this.associate.WoredaId != null) {
-        this.getKebeleByWoredaId (this.associate.WoredaId);
+        this.getKebeleByWoredaId(this.associate.WoredaId);
       }
-  }, 100);
+    }, 100);
 
-  this.associateForm.get('address').patchValue({
-    RegionId: this.associate.RegionId == null ? '' : this.associate.RegionId.toString(),
-    ZoneId: this.associate.ZoneId == null ? '' : this.associate.ZoneId.toString(),
-    WoredaId: this.associate.WoredaId == null ? '' : this.associate.WoredaId.toString(),
-    KebeleId: this.associate.KebeleId == null ? '' : this.associate.KebeleId.toString(),
-    HouseNo: this.associate.HouseNo || '',
-    TeleNo: this.associate.TeleNo || '',
-    Pobox: this.associate.Pobox || '',
-    Fax: this.associate.Fax || '',
-    CellPhoneNo: this.associate.CellPhoneNo || '',
-    Email: this.associate.Email || '',
-    OtherAddress: this.associate.OtherAddress || ''
-  });
-  this.isNewInvestor = false;
-  this.imgBase64 =  ''; // image file should not be recreated if not file is picked
-  this.AllowCascading = true;
+    this.associateForm.get('address').patchValue({
+      RegionId: this.associate.RegionId == null ? '' : this.associate.RegionId.toString(),
+      ZoneId: this.associate.ZoneId == null ? '' : this.associate.ZoneId.toString(),
+      WoredaId: this.associate.WoredaId == null ? '' : this.associate.WoredaId.toString(),
+      KebeleId: this.associate.KebeleId == null ? '' : this.associate.KebeleId.toString(),
+      HouseNo: this.associate.HouseNo || '',
+      TeleNo: this.associate.TeleNo || '',
+      Pobox: this.associate.Pobox || '',
+      Fax: this.associate.Fax || '',
+      CellPhoneNo: this.associate.CellPhoneNo || '',
+      Email: this.associate.Email || '',
+      OtherAddress: this.associate.OtherAddress || ''
+    });
+    this.isNewInvestor = false;
+    this.imgBase64 = ''; // image file should not be recreated if not file is picked
+    this.AllowCascading = true;
   }
 
 
@@ -384,6 +397,8 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.toastr.success('Record saved successfully!');
     this.dataSharing.investorTabSelectedIndex.next(2);
     //this.router.navigate(['/associate/list']);
+    setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+    setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
   }
 
   private handleError(error) {
@@ -417,6 +432,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       IsActive: true,
       IsDeleted: false,
       Title: formModel.Title,
+      workFlowId: this.workFlowId,
       PhotoData: this.imgBase64,
       RegionId: add.RegionId,
       ZoneId: add.ZoneId,
@@ -459,27 +475,27 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   filterRegion(regionCode: string) {
-      if (!regionCode || !this.AllowCascading) {
-        return;
-      }
-      this.filteredKebeles = null;
-      this.filteredWoredas = null;
-      if (!this.zones) {
-        return;
-      }
-      this.filteredZones = this.zones.filter((item) => {
-        return item.RegionId === regionCode;
-      });
+    if (!regionCode || !this.AllowCascading) {
+      return;
+    }
+    this.filteredKebeles = null;
+    this.filteredWoredas = null;
+    if (!this.zones) {
+      return;
+    }
+    this.filteredZones = this.zones.filter((item) => {
+      return item.RegionId === regionCode;
+    });
   }
 
   filterZone(zoneCode: string) {
-      if (!zoneCode || !this.AllowCascading) {
-        return;
-      }
-      this.filteredKebeles = null;
-      this.filteredWoredas = this.woredas.filter((item) => {
-        return item.ZoneId === zoneCode;
-      });
+    if (!zoneCode || !this.AllowCascading) {
+      return;
+    }
+    this.filteredKebeles = null;
+    this.filteredWoredas = this.woredas.filter((item) => {
+      return item.ZoneId === zoneCode;
+    });
   }
 
   filterWoreda(woredaCode: string) {
@@ -488,6 +504,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     }
     this.getKebeleByWoredaId(woredaCode);
   }
+
   compareIds(id1: any, id2: any): boolean {
     const a1 = determineId(id1);
     const a2 = determineId(id2);
@@ -641,10 +658,11 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   ngAfterViewInit(): void {
     // this.fillAddressLookups();
   }
+
   fileChange(input) {
-      const pattern = /image-*/;
-      if (!input.files[0].type.match(pattern)) {
-          this.toastr.error('The selected file is not valid image file');
+    const pattern = /image-*/;
+    if (!input.files[0].type.match(pattern)) {
+      this.toastr.error('The selected file is not valid image file');
       return;
     }
     const reader = new FileReader();
@@ -653,33 +671,33 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       const img = document.createElement('img');
       img.src = result;
       this.resizeImage(img, 150, 150, (resizedImage) => {
-          this.imgPhoto = resizedImage;
+        this.imgPhoto = resizedImage;
       });
-  });
-}
+    });
+  }
 
-readFile(file, reader, callback) {
+  readFile(file, reader, callback) {
     reader.onload = () => {
-        callback(reader.result);
+      callback(reader.result);
     };
     reader.readAsDataURL(file);
-}
+  }
 
-resizeImage(img, maxWidth: number, maxHeight: number, callback) {
-  return img.onload = () => {
+  resizeImage(img, maxWidth: number, maxHeight: number, callback) {
+    return img.onload = () => {
       let width = img.width;
       let height = img.height;
       // Maintain aspect ratio
       if (width > height) {
-          if (width > maxWidth) {
-              height *= maxWidth / width;
-              width = maxWidth;
-          }
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
       } else {
-          if (height > maxHeight) {
-              width *= maxHeight / height;
-              height = maxHeight;
-          }
+        if (height > maxHeight) {
+          width *= maxHeight / height;
+          height = maxHeight;
+        }
       }
       // create a canvas object
       const canvas = document.createElement('canvas');
@@ -691,8 +709,9 @@ resizeImage(img, maxWidth: number, maxHeight: number, callback) {
       // // console.log(dataUrl);
       this.imgBase64 = dataUrl.split(',')[1];
       callback(dataUrl, img.src.length, dataUrl.length);
-  };
-}
+    };
+  }
+
 // =====================
 
 }
