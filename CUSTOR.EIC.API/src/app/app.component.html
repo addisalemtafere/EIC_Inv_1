@@ -90,13 +90,10 @@
               {{'mainMenu.InvestorProfile' | translate}}</a>
             <a *ngIf="isInvestor" (click)="toMangerList()" mat-list-item routerLinkActive="active">
               <mat-icon color="primary">people</mat-icon>
-
               {{'mainMenu.associate' | translate}}</a>
             <a *ngIf="isInvestor" (click)="toServiceList()" mat-list-item routerLinkActive="active">
               <mat-icon color="primary" class="mat-18">view_list</mat-icon>
-
               {{'mainMenu.Services' | translate}}</a>
-
           </mat-list>
         </mat-expansion-panel>
         <!--<a *ngIf="canViewTasks " mat-list-item routerLinkActive="active"-->
@@ -132,8 +129,6 @@
           *ngIf="canManageManageIncentiveAssignedServices || canManageAssignedServicesPermission"
           #serv
           [class.mat-elevation-z0]="!serv.expanded">
-
-
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>reorder</mat-icon>
