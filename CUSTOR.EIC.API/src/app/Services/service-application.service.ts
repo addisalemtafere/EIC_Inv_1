@@ -50,4 +50,10 @@ export class ServiceApplicationService extends BaseService<ServiceApplicationMod
       this.appConfig.urls.url('ServiceApplicationWithInvestor', serviceApplicationId)
     ).pipe(catchError(this.errMsg.parseObservableResponseError));
   }
+
+  getServiceApplicationById(serviceApplicationId: any) {
+    return this.httpClient.get<ServiceGroupModel[]>(
+      this.appConfig.urls.url('ServiceApplicationById', serviceApplicationId)
+    ).pipe(catchError(this.errMsg.parseObservableResponseError));
+  }
 }

@@ -163,7 +163,47 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     const serviceId = serviceApplication.ServiceId;
     const investorId = serviceApplication.InvestorId;
     const workFlowId = serviceApplication.ServiceWorkflow[0].ServiceWorkflowId;
+    const step = serviceApplication.ServiceWorkflow[0].NextStepId;
+    let stepIndex;
+    switch (step) {
+      case 8:
+        stepIndex = 1;
+        break;
+      case 9:
+        stepIndex = 4;
+        break;
+      case 10:
+        stepIndex = 5;
+        break;
+      case 11:
+        stepIndex = 2;
+        break;
+      case 12:
+        stepIndex = 7;
+        break;
+      case 13:
+        stepIndex = 2;
+        break;
+      case 14:
+        stepIndex = 6;
+        break;
+      case 18:
+        stepIndex = 8;
+        break;
+      case 1018:
+        stepIndex = 3;
+        break;
+      case 1019:
+        stepIndex = 3;
+        break;
+      case 1020:
+        stepIndex = 4;
+        break;
+    }
 
+
+    setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
+    setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
     switch (serviceId) {
       case 13:
       case 1023:
@@ -193,7 +233,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         break;
       case 1235:
 
-        this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId + '/' + 0]);
+        this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId + '/' + 0 + '/' + workFlowId]);
 
         break;
       case 1236:
@@ -247,6 +287,15 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
       case 18:
         stepIndex = 8;
         break;
+      case 1018:
+        stepIndex = 3;
+        break;
+      case 1019:
+        stepIndex = 3;
+        break;
+      case 1020:
+        stepIndex = 4;
+        break;
     }
 
     localStorage.setItem('investorName', investorName);
@@ -283,7 +332,8 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         break;
       case 1235:
 
-        this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId + '/' + 0]);
+
+        this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId + '/' + 0 + '/' + workFlowId]);
 
         break;
       case 1236:
@@ -416,4 +466,6 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     this.dataSource.paginator = this.paginator;
 
   }
+
+
 }

@@ -505,6 +505,15 @@ namespace EIC.Investment.API.Controllers
             return serviceApplication;
         }
 
+      [HttpGet("ServiceApplicationById/{id}")]
+      public async Task<ServiceApplication> GetServiceApplicationById([FromRoute] int id)
+      {
+        var serviceApplication = await
+          _context.ServiceApplication
+          .SingleOrDefaultAsync(m => m.ServiceApplicationId == id);
+        return serviceApplication;
+      }
+
         private bool ServiceApplicationExists(int id)
         {
             return _context.ServiceApplication.Any(e => e.ServiceApplicationId == id);

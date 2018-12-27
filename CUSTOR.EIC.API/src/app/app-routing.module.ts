@@ -70,7 +70,7 @@ import {FollowupComponent} from "./components/components/followup/followup.compo
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-tab/:ServiceId/:ServiceApplicationId/:InvestorId/:IsExistingCustomer',
+        path: 'investor-tab/:ServiceId/:ServiceApplicationId/:InvestorId/:IsExistingCustomer/:workFlowId',
         loadChildren: 'app/components/investor/investor-tab/investor-tab.module#InvestorTabModule',
         canActivate: [AuthGuard]
       },
