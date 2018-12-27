@@ -29,6 +29,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
   companyClearanceSub: Subscription;
   companyClearance: CompanyClearanceModel;
   private InvestorId: any;
+  private workFlowId: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -75,6 +76,8 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
 
   ngOnInit(): void {
     this.InvestorId = this.activatedRoute.snapshot.params['InvestorId'];
+    this.workFlowId = this.activatedRoute.snapshot.params['workFlowId'];
+
     this.initForm();
 
     if (this.InvestorId < 1) {
@@ -97,6 +100,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
       CompanyNameTwoAmharic: ['', Validators.required],
       CompanyNameThreeEnglish: ['', Validators.required],
       CompanyNameThreeAmharic: ['', Validators.required],
+      workFlowId: [''],
     });
   }
 
@@ -240,6 +244,7 @@ export class CompanyClearanceFormComponent implements OnInit, AfterViewInit, OnD
       CompanyNameTwoAmharic: formModel.CompanyNameTwoAmharic,
       CompanyNameThreeEnglish: formModel.CompanyNameThreeEnglish,
       CompanyNameThreeAmharic: formModel.CompanyNameThreeAmharic,
+      workFlowId: this.workFlowId,
       IsCompanyNameOneApproved: false,
       IsCompanyNameTwoApproved: false,
       IsCompanyNameThreeApproved: false,

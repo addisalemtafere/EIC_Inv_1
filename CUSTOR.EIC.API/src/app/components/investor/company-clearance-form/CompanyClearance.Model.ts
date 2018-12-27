@@ -13,6 +13,7 @@ export class CompanyClearanceModel {
   public CompanyNameThreeAmharic: string;
   public IsCompanyNameThreeApproved: boolean;
   public IsActive: boolean;
+  public workFlowId: any;
   /*public IsDeleted: boolean;
   public CreatedDate: Date;
   public CreatedBy: string;

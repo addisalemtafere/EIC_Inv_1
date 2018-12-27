@@ -1,22 +1,22 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 // tslint:disable-next-line:max-line-length
-import {MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {ActivatedRoute, Router} from '@angular/router';
+import { MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 // import { SharedModule } from "../../@custor/modules/shared.module";
-import {HttpClient} from '@angular/common/http';
-import {Investor} from '../../model/investor';
-import {InvestorService} from './investor.service';
-import {Utilities} from '@custor/helpers/utilities';
-import {ToastrService} from 'ngx-toastr';
-import {fadeInOut} from '@custor/services/animations';
+import { HttpClient } from '@angular/common/http';
+import { Investor } from '../../model/investor';
+import { InvestorService } from './investor.service';
+import { Utilities } from '@custor/helpers/utilities';
+import { ToastrService } from 'ngx-toastr';
+import { fadeInOut } from '@custor/services/animations';
 // import {ErrorMessage} from '../../../@custor/services/errMessageService';
-import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
-import {AuthService} from '@custor/services/security/auth.service';
-import {AccountService} from '@custor/services/security/account.service';
-import {Permission} from '../../model/security/permission.model';
-import {DataSharingService} from '../../Services/data-sharing.service';
-import {ProjectModel} from '../../model/project.model';
-import {ProjectProfileService} from '../../Services/project-profile.service';
+import { AngConfirmDialogComponent } from '@custor/components/confirm-dialog/confirm-dialog.component';
+import { AuthService } from '@custor/services/security/auth.service';
+import { AccountService } from '@custor/services/security/account.service';
+import { Permission } from '../../model/security/permission.model';
+import { DataSharingService } from '../../Services/data-sharing.service';
+import { ProjectModel } from '../../model/project.model';
+import { ProjectProfileService } from '../../Services/project-profile.service';
 
 @Component({
   selector: 'app-investor-list',
@@ -24,19 +24,21 @@ import {ProjectProfileService} from '../../Services/project-profile.service';
   styleUrls: ['./investor-list.component.scss'],
   animations: [fadeInOut]
 })
-
 export class InvestorListComponent implements OnInit, AfterViewInit {
   selectedInvestor: Investor;
   investors: Investor[];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator;
+  @ViewChild(MatSort)
+  sort: MatSort;
   isInvestor: boolean;
   displayedColumns = ['FirstNameEng', 'FatherNameEng', 'RegistrationNumber', 'RegistrationDate', 'Tin', 'actions'];
   dataSource: MatTableDataSource<Investor>;
   dataSource2: any;
 
   displayedColumnsProject = ['No', 'ProjectName', 'startDate', 'InvestmentActivity', 'status', 'Action'];
-  @ViewChild(MatPaginator) paginator2: MatPaginator;
+  @ViewChild(MatPaginator)
+  paginator2: MatPaginator;
   sourceInvestor: Investor;
   loadingIndicator: boolean;
   dialogRef: any;
@@ -46,13 +48,15 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
   private title: string;
 
   constructor(private http: HttpClient,
-              private invService: InvestorService,
-              public projectService: ProjectProfileService,
-              private accountService: AccountService,
-              private authService: AuthService,
-              private dataSharing: DataSharingService,
-              private toastr: ToastrService, public dialog: MatDialog,
-              private router: Router, private route: ActivatedRoute) {
+    private invService: InvestorService,
+    public projectService: ProjectProfileService,
+    private accountService: AccountService,
+    private authService: AuthService,
+    private dataSharing: DataSharingService,
+    private toastr: ToastrService,
+    public dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
   }
@@ -90,9 +94,11 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
           // console.log(result);
           this.investors = result;
           if (!this.investors) {
-            this.toastr.error('No records were found to list', 'Error', {
-              closeButton: true,
-            });
+            this.toastr.error('No records were found to list',
+              'Error',
+              {
+                closeButton: true,
+              });
           } else {
             this.dataSource.data = this.investors;
           }
@@ -113,9 +119,11 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
           // console.log(result);
           this.investors = result;
           if (!this.investors) {
-            this.toastr.error('No records were found to list', 'Error', {
-              closeButton: true,
-            });
+            this.toastr.error('No records were found to list',
+              'Error',
+              {
+                closeButton: true,
+              });
           } else {
             this.dataSource.data = this.investors;
           }
@@ -140,9 +148,10 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
     // console.log(this.investors);
     if (investor) {
 
-      this.router.navigate(['/investor-tab/1235/' + investor.InvestorId + '/' + 0+'/'+0], {relativeTo: this.route});
+      this.router.navigate(['/investor-tab/1235/' + investor.InvestorId + '/' + 0 + '/' + 0 + '/' + 0],
+        { relativeTo: this.route });
     } else {
-      this.router.navigate(['/investor-tab/1235/0/0/0']);
+      this.router.navigate(['/investor-tab/1235/0/0/0/0']);
     }
   }
 
@@ -183,9 +192,11 @@ export class InvestorListComponent implements OnInit, AfterViewInit {
           this.investorShow = false;
           if (!this.projectList) {
             this.loadingIndicator = false;
-            this.toastr.error('No records were found to list', 'Error', {
-              closeButton: true,
-            });
+            this.toastr.error('No records were found to list',
+              'Error',
+              {
+                closeButton: true,
+              });
           } else {
             this.loadingIndicator = false;
             this.dataSource2 = new MatTableDataSource<ProjectModel>(result);

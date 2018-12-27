@@ -106,7 +106,32 @@ import {FollowupFormComponent} from "./components/components/followup/followup-f
 //   "threshold": 500,
 //
 // };
-
+// const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+//   "bgsColor": "#04a162",
+//   "bgsOpacity": 0.5,
+//   "bgsPosition": "bottom-left",
+//   "bgsSize": 90,
+//   "bgsType": "three-strings",
+//   "blur": 65,
+//   "fgsColor": "#0c97a8",
+//   "fgsPosition": "center-center",
+//   "fgsSize": 120,
+//   "fgsType": "three-strings",
+//   "gap": 24,
+//   "logoPosition": "center-center",
+//   "logoSize": 120,
+//   "logoUrl": "",
+//   "overlayColor": "rgba(40, 40, 40, 0.8)",
+//   "pbColor": "#0c97a8",
+//   "pbDirection": "ltr",
+//   "pbThickness": 5,
+//   "hasProgressBar": true,
+//   "text": "Loading",
+//   "textColor": "#0c97a8",
+//   "textPosition": "center-center",
+//   "threshold": 500,
+//
+// };
 @NgModule({
   declarations: [
     AppComponent,

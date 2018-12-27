@@ -310,7 +310,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.catagoryService.getMajorDivision()
       .subscribe(result => {
           this.majorDivisions = result;
-          this.majorDivisions = result;
+          // this.majorDivisions = result;
         },
         error => this.toastr.error(error));
   }
@@ -671,6 +671,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.loadingIndicator = true;
     return this.custService.saveInvestor(this.getEditedInvestor())
       .subscribe((investor) => {
+          console.log(investor)
           this.isNew = this.getEditedInvestor().IsExistingCustomer == true ? 1 : 0;
 
           // const IsExistingCustomer = this.route.snapshot.params['IsExistingCustomer'];
@@ -679,15 +680,19 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           if (investor == null) {
             const ServiceApplicationId1 = this.route.snapshot.params['ServiceApplicationId'];
             const InvestorId1 = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
-            this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew]);
+            const workFlowId = this.route.snapshot.params['workFlowId'];
+
+            this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
 
           }
 
           if (investor != null) {
-            this.router.navigate(['investor-tab/1235/' + investor.ServiceApplicationId + '/' + investor.InvestorId + '/' + this.isNew]);
+            this.router.navigate(['investor-tab/1235/' + investor.ServiceApplicationId + '/' + investor.InvestorId + '/' + this.isNew + '/' + investor.ServiceWorkflow[0].ServiceWorkflowId]);
             this.saveCompleted(investor);
 
             localStorage.setItem('InvestorId', investor.InvestorId.toString());
+            setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
+            setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
 
           }
         },
