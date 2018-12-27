@@ -1,6 +1,6 @@
-import {AfterContentChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild, Input} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {fadeInOut} from '@custor/services/animations';
 import {InvestorService} from './investor.service';
@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs';
 import {Utilities} from '@custor/helpers/utilities';
 
 import {Gender, LegalStatus, Lookup} from '../../model/lookupData';
-import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../const/consts';
+import {ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../const/consts';
 import {determineId} from '@custor/helpers/compare';
 import {ConfigurationService} from '@custor/services/configuration.service';
 import {ToastrService} from 'ngx-toastr';
@@ -46,7 +46,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   formOfOwnershipList: FormOfOwnershipModel[] = [];
 
   investorSub: Subscription;
-  private form: NgForm;
   title: string;
   isNewInvestor = false;
   investor: Investor;
@@ -70,22 +69,21 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   currentLang = '';
   countryLookupType = 1;
   allPermissions: Permission[] = [];
-  private addressList: AddressModel;
-  private addressId: number | undefined;
   public investorTitle: Lookup[];
   TitleLookup: LookupsModel[];
   public nationList: NationalityModel[];
   originFlag = true;
   public countryListWithOutEthipia: LookupsModel[];
   public branch = false;
-
-  private ServiceId: any;
-  private ServiceApplicationId: any;
-
   AllowCascading = true;
   @Input() errors: string[] = [];
-  private isNew: any;
   public isNewCustomer: boolean;
+  private form: NgForm;
+  private addressList: AddressModel;
+  private addressId: number | undefined;
+  private ServiceId: any;
+  private ServiceApplicationId: any;
+  private isNew: any;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -106,6 +104,164 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     // initialize the form
     this.initForm();
     // // console.log(this.accountService.currentUser.Roles);
+  }
+
+  get canManageInvestors() {
+    return this.accountService.userHasPermission(Permission.manageInvestorsPermission);
+  }
+
+  get canViewInvestors() {
+    return this.accountService.userHasPermission(Permission.viewInvestorsPermission);
+  }
+
+  get firstName() {
+    return this.investorForm.get('cFirstName');
+  }
+
+  get fatherName() {
+    return this.investorForm.get('cFatherName');
+  }
+
+  get Title() {
+    return this.investorForm.get('Title');
+  }
+
+  get grandName() {
+    return this.investorForm.get('cGrandName');
+  }
+
+  get firstNameEng() {
+    return this.investorForm.get('cFirstNameEng');
+  }
+
+  get fatherNameEng() {
+    return this.investorForm.get('cFatherNameEng');
+  }
+
+  get grandNameEng() {
+    return this.investorForm.get('cGrandNameEng');
+  }
+
+  get nationality() {
+    return this.investorForm.get('cNationality');
+  }
+
+  get gender() {
+    return this.investorForm.get('cGender');
+  }
+
+  get isEthiopianOrigin() {
+    return this.investorForm.get('cIsEthiopianOrigin');
+  }
+
+  get region() {
+    return this.investorForm.get('RegionId');
+  }
+
+  get zone() {
+    return this.investorForm.get('ZoneId');
+  }
+
+  get woreda() {
+    return this.investorForm.get('WoredaId');
+  }
+
+  get kebele() {
+    return this.investorForm.get('KebeleId');
+  }
+
+
+  // getInvestorTitle() {
+  //   this.lookUpService.getAll().subscribe(result => {
+  //     // console.log(result);
+  //     this.investorTitle = result;
+  //   });
+
+  // }
+
+  get houseNumber() {
+    return this.investorForm.get('HouseNo');
+  }
+
+  get phoneDirect() {
+    return this.investorForm.get('PhoneDirect');
+  }
+
+  get CellPhoneNo() {
+    return this.investorForm.get('CellPhoneNo');
+  }
+
+  get fax() {
+    return this.investorForm.get('Fax');
+  }
+
+  get pobox() {
+    return this.investorForm.get('POBox');
+  }
+
+  get legalStatus() {
+    return this.investorForm.get('cLegalStatus');
+  }
+
+  get FormOfOwnershipV() {
+    return this.investorForm.get('FormOfOwnership');
+  }
+
+  get isExistingCustomer() {
+    return this.investorForm.get('IsExistingCustomer');
+  }
+
+  get sighnedCapital() {
+    return this.investorForm.get('cSighnedCapital');
+  }
+
+  get paidCapital() {
+    return this.investorForm.get('cPaidCapital');
+  }
+
+  get regDate() {
+    return this.investorForm.get('cRegDate');
+  }
+
+  get regNumber() {
+    return this.investorForm.get('cRegNumber');
+  }
+
+  get tin() {
+    return this.investorForm.get('cTin');
+  }
+
+  get otherAddress() {
+    return this.investorForm.get('OtherAddress');
+  }
+
+  get companyName() {
+    return this.investorForm.get('cCompanyName');
+  }
+
+  get companyNameEng() {
+    return this.investorForm.get('cCompanyNameEng');
+  }
+
+  get nationalityCompany() {
+    return this.investorForm.get('cNationalityCompany');
+  }
+
+  get email() {
+    return this.investorForm.get('Email');
+  }
+
+  get houseNo() {
+    return this.investorForm.get('HouseNo');
+  }
+
+  // another getter for easy access to form fields
+  get ct() {
+    return this.investorForm.controls;
+  }
+
+  get floatLabels(): string {
+    return 'auto';
   }
 
   checkAuthoriation() {
@@ -150,12 +306,11 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
   }
 
-
   getMajorDivisions() {
     this.catagoryService.getMajorDivision()
       .subscribe(result => {
           this.majorDivisions = result;
-          this.majorDivisions = result;
+          // this.majorDivisions = result;
         },
         error => this.toastr.error(error));
   }
@@ -214,13 +369,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.companyNameEng.clearValidators();
   }
 
-  private getAllNation() {
-    this.addressService.getNationality()
-      .subscribe(result => {
-        this.nationList = result;
-      });
-  }
-
   initStaticDataOwnerShip(currentLang) {
     this.formOfOwnershipList = [];
 
@@ -253,34 +401,13 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.getLookups();
   }
 
-  private getPermissions() {
-    this.loadingIndicator = true;
-
-    this.accountService.getPermissions()
-      .subscribe(result => {
-          this.allPermissions = result;
-          this.loadingIndicator = false;
-
-
-        },
-        error => {
-          this.loadingIndicator = false;
-          this.toastr.error(`Unable to retrieve permissions from the server.\r\nErrors:
-              "${Utilities.getHttpResponseMessage(error)}"`, 'Get Permissions Error');
-        });
-  }
-
-  get canManageInvestors() {
-    return this.accountService.userHasPermission(Permission.manageInvestorsPermission);
-  }
-
-  get canViewInvestors() {
-    return this.accountService.userHasPermission(Permission.viewInvestorsPermission);
-  }
-
   ngOnDestroy() {
     // this.investorSub.unsubscribe();
   }
+
+  // get isDiaspora() {
+  //   return this.investorForm.get('cIsDiaspora');
+  // }
 
   getInvestor(id) {
     this.isNewInvestor = false;
@@ -291,16 +418,15 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           this.investor = result;
           this.fillAddressLookups();
           this.updateForm();
-          console.log(this.investor.RegistrationCatagories)
+          console.log(this.investor.RegistrationCatagories);
           this.investorForm.patchValue({
             cMajorDivision: this.investor.RegistrationCatagories
 
-          })
+          });
         },
         error => this.toastr.error(error));
     this.loadingIndicator = false;
   }
-
 
   getAddressData(parent: number) {
     this.addressService.getAddress(parent)
@@ -312,15 +438,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.investorForm.get('address').patchValue(result);
       }, error => this.toastr.error(error));
   }
-
-
-  // getInvestorTitle() {
-  //   this.lookUpService.getAll().subscribe(result => {
-  //     // console.log(result);
-  //     this.investorTitle = result;
-  //   });
-
-  // }
 
   fillAddressLookups() {
     // to-do
@@ -391,7 +508,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         },
         error => this.toastr.error(error));
   }
-
 
   initForm() {
     this.investorForm = this.fb.group({
@@ -555,6 +671,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.loadingIndicator = true;
     return this.custService.saveInvestor(this.getEditedInvestor())
       .subscribe((investor) => {
+          console.log(investor)
           this.isNew = this.getEditedInvestor().IsExistingCustomer == true ? 1 : 0;
 
           // const IsExistingCustomer = this.route.snapshot.params['IsExistingCustomer'];
@@ -563,15 +680,19 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           if (investor == null) {
             const ServiceApplicationId1 = this.route.snapshot.params['ServiceApplicationId'];
             const InvestorId1 = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
-            this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew]);
+            const workFlowId = this.route.snapshot.params['workFlowId'];
+
+            this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
 
           }
 
           if (investor != null) {
-            this.router.navigate(['investor-tab/1235/' + investor.ServiceApplicationId + '/' + investor.InvestorId + '/' + this.isNew]);
+            this.router.navigate(['investor-tab/1235/' + investor.ServiceApplicationId + '/' + investor.InvestorId + '/' + this.isNew + '/' + investor.ServiceWorkflow[0].ServiceWorkflowId]);
             this.saveCompleted(investor);
 
             localStorage.setItem('InvestorId', investor.InvestorId.toString());
+            setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
+            setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
 
           }
         },
@@ -587,92 +708,13 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       }, error => this.toastr.error(error));
   }
 
-
-  private saveCompleted(investor?: Investor) {
-    if (investor) {
-      this.investor = investor;
-    } else {
-      this.toastr.success('Error. Record was not saved!');
-      return;
-    }
-    this.loadingIndicator = false;
-    // clear the dummy values uaed to avoid conditional validation issues
-    if (this.isCompany) {
-      this.investorForm.get('cFirstNameEng').patchValue('');
-      this.investorForm.get('cFatherNameEng').patchValue('');
-      this.investorForm.get('cGrandNameEng').patchValue('');
-      this.investorForm.get('cGender').patchValue('');
-    }
-    this.toastr.success('Record saved successfully!');
-    // if (this.accountService.getUserType()) {
-    //   this.router.navigate(['investor']);
-    // } else {
-    //   this.router.navigate(['search-browser']);
-    // }
+  /*get tradeName() {
+    return this.investorForm.get('cTradeName');
   }
 
-  private handleError(error) {
-    this.loadingIndicator = false;
-
-    const errList = Utilities.getHttpResponseMessage(error);
-    if (error.status === 400) { // bad request (validation)
-      this.errors = errList;
-      this.toastr.error('Please fix the listed errors', 'Error');
-    } else {
-      this.errors = [];
-      this.toastr.error(error.status + ':' + errList[0].toString(), 'Error');
-    }
-  }
-
-  private getEditedInvestor(): Investor {
-    const formModel = this.investorForm.value;
-    const add = this.investorForm.get('address').value;
-    // // console.log(add);
-    return {
-      InvestorId: this.isNewInvestor ? 0 : this.investor.InvestorId,
-      FirstName: this.isCompany ? formModel.cCompanyName : formModel.cFirstName,
-      FatherName: this.isCompany ? '' : formModel.cFatherName,
-      GrandName: this.isCompany ? '' : formModel.cGrandName,
-      FirstNameEng: this.isCompany ? formModel.cCompanyNameEng : formModel.cFirstNameEng,
-      FatherNameEng: this.isCompany ? '' : formModel.cFatherNameEng,
-      GrandNameEng: this.isCompany ? '' : formModel.cGrandNameEng,
-      Nationality: this.isCompany ? formModel.cNationalityCompany : formModel.cNationality,
-      Gender: this.isCompany ? null : formModel.cGender,
-      Tin: formModel.cTin,
-      RegistrationDate: formModel.cRegDate,
-      RegistrationNumber: formModel.cRegNumber,
-      /*TradeName: formModel.cTradeName,
-      TradeNameEnglish: formModel.cTradeNameEng,*/
-      PaidCapital: formModel.cPaidCapital,
-      SighnedCapital: formModel.cSighnedCapital,
-
-      LegalStatus: formModel.cLegalStatus,
-      IsEthiopianOrigin: formModel.cIsEthiopianOrigin,
-
-      RegistrationCatagories: formModel.cMajorDivision,
-
-      UserId: this.accountService.currentUser.Id,
-      IsExistingCustomer: formModel.IsExistingCustomer,
-      // SiteCode: this.accountService.currentUser.SiteCode,
-      IsActive: true,
-      IsDeleted: false,
-      Title: this.isCompany ? null : formModel.Title,
-      FormOfOwnership: formModel.FormOfOwnership,
-      RegionId: add.RegionId,
-      ZoneId: add.ZoneId,
-      WoredaId: add.WoredaId,
-      KebeleId: add.KebeleId,
-      HouseNo: add.HouseNo,
-      TeleNo: add.TeleNo,
-      Pobox: add.Pobox,
-      Fax: add.Fax,
-      CellPhoneNo: add.CellPhoneNo,
-      Email: add.Email,
-      OtherAddress: add.OtherAddress,
-      UserName: this.accountService.currentUser.UserName,
-      AddressId: this.isNewInvestor ? 0 : this.investor.AddressId
-    };
-  }
+  get tradeNameEng() {
+    return this.investorForm.get('cTradeNameEng');
+  }*/
 
   getKebeleByWoredaId(wordaId: any) {
     this.addressService.getKebelesByWoreda(wordaId)
@@ -749,162 +791,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     window.history.back();
   }
 
-  get firstName() {
-    return this.investorForm.get('cFirstName');
-  }
-
-  get fatherName() {
-    return this.investorForm.get('cFatherName');
-  }
-
-  get Title() {
-    return this.investorForm.get('Title');
-  }
-
-  get grandName() {
-    return this.investorForm.get('cGrandName');
-  }
-
-  get firstNameEng() {
-    return this.investorForm.get('cFirstNameEng');
-  }
-
-  get fatherNameEng() {
-    return this.investorForm.get('cFatherNameEng');
-  }
-
-  get grandNameEng() {
-    return this.investorForm.get('cGrandNameEng');
-  }
-
-  get nationality() {
-    return this.investorForm.get('cNationality');
-  }
-
-  get gender() {
-    return this.investorForm.get('cGender');
-  }
-
-  // get isDiaspora() {
-  //   return this.investorForm.get('cIsDiaspora');
-  // }
-
-  get isEthiopianOrigin() {
-    return this.investorForm.get('cIsEthiopianOrigin');
-  }
-
-  get region() {
-    return this.investorForm.get('RegionId');
-  }
-
-  get zone() {
-    return this.investorForm.get('ZoneId');
-  }
-
-  get woreda() {
-    return this.investorForm.get('WoredaId');
-  }
-
-  get kebele() {
-    return this.investorForm.get('KebeleId');
-  }
-
-  get houseNumber() {
-    return this.investorForm.get('HouseNo');
-  }
-
-  get phoneDirect() {
-    return this.investorForm.get('PhoneDirect');
-  }
-
-  get CellPhoneNo() {
-    return this.investorForm.get('CellPhoneNo');
-  }
-
-  get fax() {
-    return this.investorForm.get('Fax');
-  }
-
-  get pobox() {
-    return this.investorForm.get('POBox');
-  }
-
-  get legalStatus() {
-    return this.investorForm.get('cLegalStatus');
-  }
-
-  get FormOfOwnershipV() {
-    return this.investorForm.get('FormOfOwnership');
-  }
-
-  get isExistingCustomer() {
-    return this.investorForm.get('IsExistingCustomer');
-  }
-
-  /*get tradeName() {
-    return this.investorForm.get('cTradeName');
-  }
-
-  get tradeNameEng() {
-    return this.investorForm.get('cTradeNameEng');
-  }*/
-
-  get sighnedCapital() {
-    return this.investorForm.get('cSighnedCapital');
-  }
-
-  get paidCapital() {
-    return this.investorForm.get('cPaidCapital');
-  }
-
-
-  get regDate() {
-    return this.investorForm.get('cRegDate');
-  }
-
-  get regNumber() {
-    return this.investorForm.get('cRegNumber');
-  }
-
-  get tin() {
-    return this.investorForm.get('cTin');
-  }
-
-  get otherAddress() {
-    return this.investorForm.get('OtherAddress');
-  }
-
-  get companyName() {
-    return this.investorForm.get('cCompanyName');
-  }
-
-  get companyNameEng() {
-    return this.investorForm.get('cCompanyNameEng');
-  }
-
-  get nationalityCompany() {
-    return this.investorForm.get('cNationalityCompany');
-  }
-
-  get email() {
-    return this.investorForm.get('Email');
-  }
-
-  get houseNo() {
-    return this.investorForm.get('HouseNo');
-  }
-
-  // another getter for easy access to form fields
-  get ct() {
-    return this.investorForm.controls;
-  }
-
-  // use it as 'ct.controlName.errors.required'
-
-  get floatLabels(): string {
-    return 'auto';
-  }
-
   ngAfterViewInit(): void {
     // this.fillAddressLookups();
   }
@@ -922,6 +808,121 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     } else {
       this.nationalityCompany.clearValidators();
     }
+  }
+
+  private getAllNation() {
+    this.addressService.getNationality()
+      .subscribe(result => {
+        this.nationList = result;
+      });
+  }
+
+  // use it as 'ct.controlName.errors.required'
+
+  private getPermissions() {
+    this.loadingIndicator = true;
+
+    this.accountService.getPermissions()
+      .subscribe(result => {
+          this.allPermissions = result;
+          this.loadingIndicator = false;
+
+
+        },
+        error => {
+          this.loadingIndicator = false;
+          this.toastr.error(`Unable to retrieve permissions from the server.\r\nErrors:
+              "${Utilities.getHttpResponseMessage(error)}"`, 'Get Permissions Error');
+        });
+  }
+
+  private saveCompleted(investor?: Investor) {
+    if (investor) {
+      this.investor = investor;
+    } else {
+      this.toastr.success('Error. Record was not saved!');
+      return;
+    }
+    this.loadingIndicator = false;
+    // clear the dummy values uaed to avoid conditional validation issues
+    if (this.isCompany) {
+      this.investorForm.get('cFirstNameEng').patchValue('');
+      this.investorForm.get('cFatherNameEng').patchValue('');
+      this.investorForm.get('cGrandNameEng').patchValue('');
+      this.investorForm.get('cGender').patchValue('');
+    }
+    this.toastr.success('Record saved successfully!');
+    // if (this.accountService.getUserType()) {
+    //   this.router.navigate(['investor']);
+    // } else {
+    //   this.router.navigate(['search-browser']);
+    // }
+  }
+
+  private handleError(error) {
+    this.loadingIndicator = false;
+
+    const errList = Utilities.getHttpResponseMessage(error);
+    if (error.status === 400) { // bad request (validation)
+      this.errors = errList;
+      this.toastr.error('Please fix the listed errors', 'Error');
+    } else {
+      this.errors = [];
+      this.toastr.error(error.status + ':' + errList[0].toString(), 'Error');
+    }
+  }
+
+  private getEditedInvestor(): Investor {
+    const formModel = this.investorForm.value;
+    const add = this.investorForm.get('address').value;
+    if (this.route.snapshot.params['InvestorId'] > 0) {
+      this.isNewInvestor = false;
+    }
+    // // console.log(add);
+    return {
+      InvestorId: this.isNewInvestor ? 0 : this.investor.InvestorId,
+      FirstName: this.isCompany ? formModel.cCompanyName : formModel.cFirstName,
+      FatherName: this.isCompany ? '' : formModel.cFatherName,
+      GrandName: this.isCompany ? '' : formModel.cGrandName,
+      FirstNameEng: this.isCompany ? formModel.cCompanyNameEng : formModel.cFirstNameEng,
+      FatherNameEng: this.isCompany ? '' : formModel.cFatherNameEng,
+      GrandNameEng: this.isCompany ? '' : formModel.cGrandNameEng,
+      Nationality: this.isCompany ? formModel.cNationalityCompany : formModel.cNationality,
+      Gender: this.isCompany ? null : formModel.cGender,
+      Tin: formModel.cTin,
+      RegistrationDate: formModel.cRegDate,
+      RegistrationNumber: formModel.cRegNumber,
+      /*TradeName: formModel.cTradeName,
+      TradeNameEnglish: formModel.cTradeNameEng,*/
+      PaidCapital: formModel.cPaidCapital,
+      SighnedCapital: formModel.cSighnedCapital,
+
+      LegalStatus: formModel.cLegalStatus,
+      IsEthiopianOrigin: formModel.cIsEthiopianOrigin,
+
+      RegistrationCatagories: formModel.cMajorDivision,
+
+      UserId: this.accountService.currentUser.Id,
+      IsExistingCustomer: formModel.IsExistingCustomer,
+      // SiteCode: this.accountService.currentUser.SiteCode,
+      IsActive: true,
+      IsDeleted: false,
+      Title: this.isCompany ? null : formModel.Title,
+      FormOfOwnership: formModel.FormOfOwnership,
+      RegionId: add.RegionId,
+      ZoneId: add.ZoneId,
+      WoredaId: add.WoredaId,
+      KebeleId: add.KebeleId,
+      HouseNo: add.HouseNo,
+      TeleNo: add.TeleNo,
+      Pobox: add.Pobox,
+      Fax: add.Fax,
+      CellPhoneNo: add.CellPhoneNo,
+      Email: add.Email,
+      OtherAddress: add.OtherAddress,
+      UserName: this.accountService.currentUser.UserName,
+      AddressId: this.isNewInvestor ? 0 : this.investor.AddressId
+    };
   }
 
 }

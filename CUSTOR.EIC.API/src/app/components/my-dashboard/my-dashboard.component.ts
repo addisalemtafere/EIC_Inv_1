@@ -103,7 +103,8 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     }
     if (serviceId === 1054) {
       this.router.navigate(['/bill-of-material/2' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
-    } else if (serviceId === 13 || serviceId == 1023) {
+    }
+    else if (serviceId === 13 || serviceId == 1023) {
       switch (step) {
         case 8:
           stepIndex = 1;
@@ -131,6 +132,23 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           break;
       }
       this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + investorId]);
+    }
+    else if (serviceId === 1235) {
+      switch (step) {
+        case 1018:
+          stepIndex = 2;
+          break;
+        case 1019:
+          stepIndex = 2;
+          break;
+        // case 1020:
+        //   stepIndex = 3;
+        //   break;
+        case 1021:
+          stepIndex = 3;
+          break;
+      }
+      this.router.navigate(['investor-tab/' + serviceId + '/' + serviceApplicationId + '/' + investorId + '/' + 0 + '/' + workFlowId]);
     }
 
     localStorage.setItem('investorName', investorName);
@@ -195,7 +213,41 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
 
     const workFlowId = serviceApplication.ServiceWorkflow[0].ServiceWorkflowId;
     const investorId = localStorage.getItem('InvestorId');
-    // console.log(workFlowId)
+
+
+    const step = serviceApplication.ServiceWorkflow[0].NextStepId;
+    let stepIndex;
+    switch (step) {
+      case 8:
+        stepIndex = 1;
+        break;
+      case 9:
+        stepIndex = 4;
+        break;
+      case 10:
+        stepIndex = 5;
+        break;
+      case 11:
+        stepIndex = 2;
+        break;
+      case 12:
+        stepIndex = 7;
+        break;
+      case 13:
+        stepIndex = 2;
+        break;
+      case 14:
+        stepIndex = 6;
+        break;
+      case 18:
+        stepIndex = 8;
+        break;
+
+    }
+
+
+    setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
+    setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
 
     switch (serviceId) {
       case 13 :
@@ -224,7 +276,22 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
       case 1235:
-        this.router.navigate(['investor-tab/' + serviceId + '/' + ServiceApplicationId + '/' + investorId + '/' + 0]);
+        switch (step) {
+          case 1018:
+            stepIndex = 2;
+            break;
+          case 1019:
+            stepIndex = 2;
+            break;
+          // case 1020:
+          //   stepIndex = 3;
+          //   break;
+          case 1021:
+            stepIndex = 3;
+            break;
+        }
+
+        this.router.navigate(['investor-tab/' + serviceId + '/' + ServiceApplicationId + '/' + investorId + '/' + 0 + '/' + workFlowId]);
 
         break;
       case 1236:
@@ -234,6 +301,10 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/notfound'], {relativeTo: this.route});
         break;
     }
+  }
+
+  gotInvestorTab() {
+
   }
 
   search() {
@@ -282,7 +353,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           this.investors = result;
           // console.log(result);
           if (this.investors.length === 0) {
-            this.router.navigate(['investor-tab/1235/0/0/0']);
+            this.router.navigate(['investor-tab/1235/0/0/0/0']);
             localStorage.setItem('ServiceId', '1235');
             this.toastr.success('Dear customer Please complete your Profile', 'Well Come !!!', {
               closeButton: true,

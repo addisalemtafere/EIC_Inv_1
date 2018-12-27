@@ -1,4 +1,4 @@
-<div style="width:600px">
+
   <!--<mat-toolbar color="primary">-->
   <!--<mat-toolbar-row>-->
   <!--<span>Activity Maintainace</span>-->
@@ -19,7 +19,25 @@
   <!--</div>-->
   <!--</mat-toolbar-row>-->
   <!--</mat-toolbar>-->
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z8" style="margin: 15px;">
+    <mat-form-field>
+      <mat-label>Sector:</mat-label>
+      <mat-select formControlName="cSector" [compareWith]="compareIds" (selectionChange)="filterSector($event.value)" required>
+        <option value="0">--Select--</option>
+        <mat-option *ngFor="let sector of sectorModels" [value]="sector.SectorId">
+          <span>{{sector.DescriptionEnglishAlias}}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Sub Sector:</mat-label>
+      <mat-select formControlName="cSubSector" [compareWith]="compareIds" (selectionChange)="filterSubSector($event.value)" required>
+        <option value="0">--Select--</option>
+        <mat-option *ngFor="let subsector of fillterssubsectorModels" [value]="subsector.SubSectorId">
+          <span>{{subsector.DescriptionEnglishAlias}}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
     <mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="Id">
@@ -58,4 +76,4 @@
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
-</div>
+

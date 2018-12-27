@@ -52,11 +52,9 @@ export class EditServicetariffComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getService();
     const id = this.activatedRoute.snapshot.params['id'];
-    // console.log(id);
     if (id < 1) {
       this.isNewServiceTariff = true;
-      /*this.title = 'Create a new Service';
-      this.getService();*/
+      this.getTariff();
       return;
     }
     if (id) {
@@ -79,17 +77,13 @@ export class EditServicetariffComponent implements OnInit, OnDestroy {
   // }
 
   getServiceTariff(id) {
-   // // console.log(id);
     this.isNewServiceTariff = false;
     this.loadingIndicator = true;
     this.serviceTariffsSub =
       this.servicetariffService
         .getServiceTariff(id)
         .subscribe((result: any) => {
-          //// console.log(result);
           this.serviceTariffLists = result;
-          //// console.log(this.serviceTariffLists);
-          // this.onSelectedTariff();
           this.updateForm();
           this.getTariff();
         },

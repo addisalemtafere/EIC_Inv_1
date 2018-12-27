@@ -45,6 +45,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         [NotMapped]
         public string UserName { get; set; }
+        
+        
+        [NotMapped]
+        public int? workFlowId { get; set; }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL.EntityLayer;
@@ -56,8 +57,15 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             companyClearance.CreatedDate = DateTime.Today;
             companyClearance.UpdatedBy = "Aklile";
             companyClearance.UpdatedDate = DateTime.Today;
-
+          var workFlowId = companyClearance.workFlowId;
+          if (workFlowId.HasValue)
+          {
+            var serviceWorkflow = _context.ServiceWorkflow.First(s => s.ServiceWorkflowId == workFlowId);
+            serviceWorkflow.NextStepId = 1020;
+            _context.Entry(serviceWorkflow).State = EntityState.Modified;
+          }
             _context.CompanyClearances.Add(editedCompanyClearance);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("getCompanyClearanceByInvestorId", new { id = editedCompanyClearance.CompanyClearanceId },
@@ -105,7 +113,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             {
                 CompnayNameAmharic = companyClearance.CompanyNameThreeAmharic;
                 CompnayNameEnglish = companyClearance.CompanyNameThreeEnglish;
-            }           
+            }
             await _context.SaveChangesAsync();
 
 

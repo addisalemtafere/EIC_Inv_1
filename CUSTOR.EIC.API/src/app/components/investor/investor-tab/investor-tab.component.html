@@ -9,19 +9,10 @@
 
   </div>
 </div>
-<mat-tab-group [selectedIndex]="registrationIndex">
+<!--{{nextIndex}}-->
+<mat-tab-group #stepper [selectedIndex]="registrationIndex">
 
-  <!--<mat-tab label="Service Info">-->
-  <!--<ng-template matTabContent>-->
-  <!--<mat-card class="margin-2">-->
 
-  <!--<mat-card-content>-->
-  <!--<mat-checkbox (change)="isExisting()" color="primary">are You existing customer?</mat-checkbox>-->
-  <!--</mat-card-content>-->
-
-  <!--</mat-card>-->
-  <!--</ng-template>-->
-  <!--</mat-tab>-->
   <mat-tab label="Service Info">
 
     <ng-template matTabContent>
@@ -37,23 +28,23 @@
     </ng-template>
   </mat-tab>
 
-  <mat-tab label="Investor">
+  <mat-tab label="Investor" [disabled]="nextIndex <1">
     <ng-template matTabContent>
       <app-edit-investor></app-edit-investor>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Manager" [disabled]="investor.InvestorId==0">
+  <mat-tab label="Manager" [disabled]="nextIndex <2">
     <ng-template matTabContent>
       <app-associate-form></app-associate-form>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Company Clearance" [disabled]="investor.InvestorId==0"
+  <mat-tab label="Company Clearance" [disabled]="nextIndex <3"
            *ngIf="!isNew">
     <ng-template matTabContent>
       <app-company-clearance-form></app-company-clearance-form>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Document" [disabled]="investor.InvestorId==0" *ngIf="isNew">
+  <mat-tab label="Document" [disabled]="nextIndex <3" *ngIf="isNew">
     <ng-template matTabContent>
       <mat-card *ngIf="!isInvestor" class="margin-2 simple-card">
         <mat-card-header>
@@ -81,7 +72,7 @@
 
     </ng-template>
   </mat-tab>
-  <mat-tab *ngIf="isInvestor" [disabled]="investor.InvestorId==0"
+  <mat-tab *ngIf="isInvestor" [disabled]="nextIndex<3"
            label="Confirmation">
     <ng-template matTabContent>
       <app-service-confirmation></app-service-confirmation>

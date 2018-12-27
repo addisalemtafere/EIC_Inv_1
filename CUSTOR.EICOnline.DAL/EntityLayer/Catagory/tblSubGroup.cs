@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
-   public class tblSubGroup
+   public class SubGroup
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

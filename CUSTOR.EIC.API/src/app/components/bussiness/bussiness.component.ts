@@ -40,6 +40,8 @@ export class BussinessComponent implements OnInit {
   Tin: string;
   private BussinessN: string;
   private BussinessNeng: string;
+  private IsNewBusiness = true;
+  private businessLicensingId;
 
   // DivisionList = []
   constructor(private http: HttpClient,
@@ -122,13 +124,12 @@ export class BussinessComponent implements OnInit {
       this.bussinessStatus.push(Bussinessta);
       // console.log(pair);
     });
-    console.log(this.BussinessId);
     this.bussinessService.getMajorDivisionByInvestorId(this.InvestorId).subscribe(result => {
         this.MajorDivisionList = result;
       }
     );
     if (this.BussinessId <= 0) {
-
+      this.IsNewBusiness = true;
       this.bussinessService.getRegistrationByInvestorId(this.InvestorId).subscribe(
         result => {
           if (result.LegalStatus === '1') {
@@ -150,6 +151,7 @@ export class BussinessComponent implements OnInit {
       );
     }
     else {
+      this.IsNewBusiness = false;
       setTimeout(() => this.bussinessService.getBusiness(this.BussinessId).subscribe(
         result => {
           this.bussinessForm.patchValue({
@@ -256,10 +258,14 @@ export class BussinessComponent implements OnInit {
   }
 
   private getEditedbussiness(): BussinessModel {
+    console.log(this.IsNewBusiness);
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.BussinessId = this.route.snapshot.params['BusinessId'];
+
     const formModel = this.bussinessForm.value;
     return {
+      ID: this.IsNewBusiness ? 0 : this.BussinessId,
       OwnerTIN: this.Tin,
       ServiceApplicationId: this.ServiceApplicationId,
       InvestorId: this.InvestorId,
@@ -280,6 +286,7 @@ export class BussinessComponent implements OnInit {
 
   private SaveCatagory() {
     this.bussinessService.saveBussinessLicense(this.getCatagory()).subscribe((bussinessLicense: BussinessCatagory) => {
+      this.businessLicensingId = bussinessLicense.BusinessLicensingId;
     });
   }
 

@@ -1,4 +1,4 @@
-<div style="width:660px" class="margin-3">
+<div class="mat-elevation-z8" style="margin: 15px;">
   <!--<mat-toolbar color="primary">-->
   <!--<mat-toolbar-row>-->
   <!--<span>Investment Activity Maintainace</span>-->
@@ -19,7 +19,7 @@
   <!--</div>-->
   <!--</mat-toolbar-row>-->
   <!--</mat-toolbar>-->
-  <div>
+
     <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
     <mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="Id">
@@ -63,5 +63,5 @@
     </mat-table>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-  </div>
+
 </div>

@@ -225,7 +225,6 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
     // console.log(this.woredaModels);
     this.filltersWoredaModels = null;
     this.filltersWoredaModels = this.woredaModels.filter((item) => {
-      // // console.log(SubSecId + "item" + item.ZoneId)
       return item.ZoneId === ZoneId;
     });
   }
@@ -241,7 +240,6 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
     }
     this.loadingIndicator = false;
     this.toastr.success('Record saved successfully!');
-    //this.router.navigate(['kebeles/list']);
     this.router.navigate(['address']);
   }
 

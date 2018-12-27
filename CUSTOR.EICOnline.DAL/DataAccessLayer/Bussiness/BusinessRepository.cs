@@ -115,6 +115,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
                 serviceApplication.ProjectId = bussiness.ID;
                 Context.ServiceApplication.Add(serviceApplication);
                 Context.SaveChanges();
+
                 bussiness.ServiceApplicationId = serviceApplication.ServiceApplicationId;
                 serviceWorkflow.ServiceApplicationId = serviceApplication.ServiceApplicationId;
                 Context.ServiceWorkflow.Add(serviceWorkflow);

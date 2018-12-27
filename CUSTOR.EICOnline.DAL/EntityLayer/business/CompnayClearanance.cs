@@ -9,6 +9,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.business
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompanyClearanceId { get; set; }
+
         public int InvestorId { get; set; }
 
         public string CompanyNameOneEnglish { get; set; }
@@ -31,5 +32,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.business
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public Guid ObjectId { get; set; }
+
+        [NotMapped]
+        public int? workFlowId { get; set; }
     }
 }

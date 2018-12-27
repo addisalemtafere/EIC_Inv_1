@@ -9,7 +9,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public int RegistrationCatagoryId { get; set; }
         //public Guid MainGuid { get; set; }
         public int InvestorId { get; set; }
-        public string Tin { get; set; }
+//        public string Tin { get; set; }
         public string MajorCatagoryCode { get; set; }
 
     }

@@ -14,8 +14,8 @@
         <div class="block" fxFlex="">
           <mat-form-field>
             <input formControlName="CheckNo" matInput type="number" placeholder="Check No">
-            <mat-error align="start" *ngIf="formErrors.CheckNo" class="form__error">{{ formErrors.CheckNo }}
-            </mat-error>
+            <!--<mat-error align="start" *ngIf="formErrors.CheckNo" class="form__error">{{ formErrors.CheckNo }}-->
+            <!--</mat-error>-->
           </mat-form-field>
         </div>
         <div class="block" fxFlex="">
@@ -44,35 +44,36 @@
       <table>
         <thead>
         <tr>
-          <td class="title-head">ስም</td>
+          <td class="title-head">{{'payment.investorName'| translate}}</td>
+
           <td style="    padding-right: 588px;" colspan="2">{{investorName}}</td>
-          <td class="title-head">የክፍያ ቀን :{{today | date}}</td>
+          <td class="title-head">{{'payment.paymentDate' | translate}} :{{today | date}}</td>
         </tr>
         <tr>
-          <td class="title-head">ደረሰኝ ቁጥር</td>
+          <td class="title-head">{{'payment.receiptNo' | translate}}</td>
           <td colspan="3" style="float: left;">{{payment?.ReceiptNumber}}</td>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <th class="title-head">ተ.ቁ</th>
-          <th class="title-head" colspan="2" class="desc">የክፍያ ምክንያት</th>
-          <th class="title-head">የገንዘቡ መጠን</th>
+          <th class="title-head">{{'payment.no' | translate}}</th>
+          <th class="title-head" colspan="2" class="desc">{{'payment.paymentReason' | translate}}</th>
+          <th class="title-head">{{'payment.amount' | translate}}</th>
         </tr>
 
         <tr *ngFor="let row of serviceTariff;let i=index;">
           <td class="service">{{i+1}}</td>
-          <td colspan="2" class="desc">{{row?.Tariff.Name}}</td>
+          <td colspan="2" class="desc">{{row?.Tariff.NameEnglish}}</td>
           <td class="qty">{{row?.Tariff.Fee}}</td>
         </tr>
         <tr>
-          <td class="service">የቼክ ቁጥር</td>
+          <td class="service">{{'payment.checkNo' | translate}}</td>
           <td class="desc">{{payment?.CheckNo}}</td>
-          <td style="float: right" class="service">ድምር</td>
+          <td style="float: right" class="service">{{'payment.totalAmount' | translate}}</td>
           <td class="qty">{{TotalAmount}}</td>
         </tr>
         <tr>
-          <td class="service">የገንዘቡ ልክ በፊደል</td>
+          <td class="service">{{'payment.totalAmountdescription' | translate}}</td>
 
           <td class="qty" colspan="3">---</td>
         </tr>
@@ -83,7 +84,7 @@
 
             <div style="margin-top: 20px;padding-right: 160px;">{{payment?.CashierUserName}}</div>
             <div class="service" style="margin-left: 78%;border-top: 1px dotted #c4cbcc;">
-              የገንዘብ ተቀባይ ስምና ፊርማ
+              {{'payment.cashierName' | translate}}
             </div>
           </td>
         </tr>
@@ -93,35 +94,36 @@
       <table>
         <thead>
         <tr>
-          <td class="title-head">ስም</td>
+          <td class="title-head">{{'payment.investorName' | translate}}</td>
+
           <td style="    padding-right: 588px;" colspan="2">{{investorName}}</td>
-          <td class="title-head">የክፍያ ቀን :{{today | date}}</td>
+          <td class="title-head">{{'payment.paymentDate' | translate}} :{{today | date}}</td>
         </tr>
         <tr>
-          <td class="title-head">ደረሰኝ ቁጥር</td>
+          <td class="title-head">{{'payment.receiptNo' | translate}}</td>
           <td colspan="3" style="float: left;">{{payment?.ReceiptNumber}}</td>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <th class="title-head">ተ.ቁ</th>
-          <th class="title-head" colspan="2" class="desc">የክፍያ ምክንያት</th>
-          <th class="title-head">የገንዘቡ መጠን</th>
+          <th class="title-head">{{'payment.no' | translate}}</th>
+          <th class="title-head" colspan="2" class="desc">{{'payment.paymentReason' | translate}}</th>
+          <th class="title-head">{{'payment.amount' | translate}}</th>
         </tr>
 
         <tr *ngFor="let row of serviceTariff;let i=index;">
           <td class="service">{{i+1}}</td>
-          <td colspan="2" class="desc">{{row?.Tariff.Name}}</td>
+          <td colspan="2" class="desc">{{row?.Tariff.NameEnglish}}</td>
           <td class="qty">{{row?.Tariff.Fee}}</td>
         </tr>
         <tr>
-          <td class="service">የቼክ ቁጥር</td>
+          <td class="service">{{'payment.checkNo' | translate}}</td>
           <td class="desc">{{payment?.CheckNo}}</td>
-          <td style="float: right" class="service">ድምር</td>
-          <td class="qty">{{payment?.TotalAmount}}</td>
+          <td style="float: right" class="service">{{'payment.totalAmount' | translate}}</td>
+          <td class="qty">{{TotalAmount}}</td>
         </tr>
         <tr>
-          <td class="service">የገንዘቡ ልክ በፊደል</td>
+          <td class="service">{{'payment.totalAmountdescription' | translate}}</td>
 
           <td class="qty" colspan="3">---</td>
         </tr>
@@ -132,7 +134,7 @@
 
             <div style="margin-top: 20px;padding-right: 160px;">{{payment?.CashierUserName}}</div>
             <div class="service" style="margin-left: 78%;border-top: 1px dotted #c4cbcc;">
-              የገንዘብ ተቀባይ ስምና ፊርማ
+              {{'payment.cashierName' | translate}}
             </div>
           </td>
         </tr>
@@ -141,35 +143,36 @@
       <table>
         <thead>
         <tr>
-          <td class="title-head">ስም</td>
+          <td class="title-head">{{'payment.investorName' | translate}}</td>
+
           <td style="    padding-right: 588px;" colspan="2">{{investorName}}</td>
-          <td class="title-head">የክፍያ ቀን :{{today | date}}</td>
+          <td class="title-head">{{'payment.paymentDate' | translate}} :{{today | date}}</td>
         </tr>
         <tr>
-          <td class="title-head">ደረሰኝ ቁጥር</td>
+          <td class="title-head">{{'payment.receiptNo' | translate}}</td>
           <td colspan="3" style="float: left;">{{payment?.ReceiptNumber}}</td>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <th class="title-head">ተ.ቁ</th>
-          <th class="title-head" colspan="2" class="desc">የክፍያ ምክንያት</th>
-          <th class="title-head">የገንዘቡ መጠን</th>
+          <th class="title-head">{{'payment.no' | translate}}</th>
+          <th class="title-head" colspan="2" class="desc">{{'payment.paymentReason' | translate}}</th>
+          <th class="title-head">{{'payment.amount' | translate}}</th>
         </tr>
 
         <tr *ngFor="let row of serviceTariff;let i=index;">
           <td class="service">{{i+1}}</td>
-          <td colspan="2" class="desc">{{row?.Tariff.Name}}</td>
+          <td colspan="2" class="desc">{{row?.Tariff.NameEnglish}}</td>
           <td class="qty">{{row?.Tariff.Fee}}</td>
         </tr>
         <tr>
-          <td class="service">የቼክ ቁጥር</td>
+          <td class="service">{{'payment.checkNo' | translate}}</td>
           <td class="desc">{{payment?.CheckNo}}</td>
-          <td style="float: right" class="service">ድምር</td>
-          <td class="qty">{{payment?.TotalAmount}}</td>
+          <td style="float: right" class="service">{{'payment.totalAmount' | translate}}</td>
+          <td class="qty">{{TotalAmount}}</td>
         </tr>
         <tr>
-          <td class="service">የገንዘቡ ልክ በፊደል</td>
+          <td class="service">{{'payment.totalAmountdescription' | translate}}</td>
 
           <td class="qty" colspan="3">---</td>
         </tr>
@@ -180,7 +183,7 @@
 
             <div style="margin-top: 20px;padding-right: 160px;">{{payment?.CashierUserName}}</div>
             <div class="service" style="margin-left: 78%;border-top: 1px dotted #c4cbcc;">
-              የገንዘብ ተቀባይ ስምና ፊርማ
+              {{'payment.cashierName' | translate}}
             </div>
           </td>
         </tr>

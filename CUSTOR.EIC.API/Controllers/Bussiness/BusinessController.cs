@@ -14,7 +14,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
     public class BusinessController : Controller
     {
         private ApplicationDbContext context;
-        public BusinessController (ApplicationDbContext ctx)
+        public BusinessController(ApplicationDbContext ctx)
         {
             context = ctx;
         }
@@ -36,17 +36,17 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
 
 
         [HttpGet("GetRegistrationCatagory/{InvestorId:int}")]
-        public List<tblMajorDivision> GetRegistrationcata(int InvestorId)
+        public List<MajorDivision> GetRegistrationcata(int InvestorId)
         {
             try
             {
                 var catdatalist = context.RegistrationCatagorys.Where(param => param.InvestorId == InvestorId).ToList();
-                List<tblMajorDivision> descriptionList = new List<tblMajorDivision>();
+                List<MajorDivision> descriptionList = new List<MajorDivision>();
                 for (int i = 0; i < catdatalist.Count; i++)
                 {
-                    tblMajorDivision description = new tblMajorDivision();
+                    MajorDivision description = new MajorDivision();
                     int code = Convert.ToInt16(catdatalist[i].MajorCatagoryCode);
-                    var catdata = context.tblMajorDivision.SingleOrDefault(param => param.Code == code);
+                    var catdata = context.MajorDivision.SingleOrDefault(param => param.Code == code);
                     if (catdata != null)
                     {
                         description.EnglishDescription = catdata.EnglishDescription;
@@ -56,23 +56,23 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
                 }
                 return descriptionList;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
         }
         [HttpGet("GetBussinessCatagory/{BussinessId:int}")]
-        public List<tblSubGroup> GetBussinesscata(int BussinessId)
+        public List<SubGroup> GetBussinesscata(int BussinessId)
         {
             try
             {
                 var Bussinesslist = context.BusinessLicensingGroup.Where(param => param.BusinessId == BussinessId).ToList();
-                List<tblSubGroup> descriptionList = new List<tblSubGroup>();
+                List<SubGroup> descriptionList = new List<SubGroup>();
                 for (int i = 0; i < Bussinesslist.Count; i++)
                 {
-                    tblSubGroup description = new tblSubGroup();
+                    SubGroup description = new SubGroup();
                     int code = Convert.ToInt16(Bussinesslist[i].SubGroup);
-                    var catdata = context.tblSubGroup.SingleOrDefault(param => param.Id == code);
+                    var catdata = context.SubGroup.SingleOrDefault(param => param.Id == code);
                     if (catdata != null)
                     {
                         description.EnglishDescription = catdata.EnglishDescription;
@@ -88,20 +88,20 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             }
         }
         [HttpGet("GetBussinessMajorcata/{BussinessId:int}")]
-        public tblGroup GetBussinessMajorcata(int BussinessId)
+        public Group GetBussinessMajorcata(int BussinessId)
         {
             try
             {
                 var Bussinesslist = context.BusinessLicensingGroup.SingleOrDefault(param => param.BusinessId == BussinessId);
-                    tblGroup description = new tblGroup();
-                    int code = Convert.ToInt16(Bussinesslist.BGroup);
-                    var catdata = context.tblGroup.SingleOrDefault(param => param.Id == code);
-                    if (catdata != null)
-                    {
-                        description.EnglishDescription = catdata.EnglishDescription;
-                        description.Description = catdata.Description;
-                    }
-                
+                Group description = new Group();
+                int code = Convert.ToInt16(Bussinesslist.BGroup);
+                var catdata = context.Group.SingleOrDefault(param => param.Id == code);
+                if (catdata != null)
+                {
+                    description.EnglishDescription = catdata.EnglishDescription;
+                    description.Description = catdata.Description;
+                }
+
                 return description;
             }
             catch (Exception ex)
@@ -117,19 +117,19 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
             {
                 return BadRequest(ModelState);
             }
-            
-                try
-                {
-        
 
-                    BusinessRepository
-               businessRepo = new BusinessRepository(context);
+            try
+            {
+                if (bussiness.ID == 0)
+                {
+                    BusinessRepository businessRepo = new BusinessRepository(context);
                     await businessRepo.SaveBussiness(bussiness);
                 }
-                catch (Exception ex)
-                {
+            }
+            catch (Exception ex)
+            {
 
-                }
+            }
             return CreatedAtAction("SaveBussiness", new { id = bussiness.ID }, bussiness);
         }
 

@@ -26,7 +26,7 @@ namespace CUSTOR.EICOnline.DAL
             Investor investor = null;
             Address add = null;
             ICollection<RegistrationCatagory> catagory = null;
-//            string[] cat =;
+            //            string[] cat =;
             List<int> cat = new List<int>();
             try
             {
@@ -37,7 +37,7 @@ namespace CUSTOR.EICOnline.DAL
                 //int m = (int)AddressType.eInvestor;
 
                 add = await Context.Address
-                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eInvestor);
+                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eInvestor);
 
                 foreach (var item in catagory)
                 {
@@ -92,7 +92,7 @@ namespace CUSTOR.EICOnline.DAL
                     Context.SaveChanges();
                 }
 
-                                             regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(inv.InvestorId);
+                regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(inv.InvestorId);
                 foreach (var catagory in inv.RegistrationCatagories)
                 {
                     RegistrationCatagory regCatagory = new RegistrationCatagory();
@@ -119,7 +119,7 @@ namespace CUSTOR.EICOnline.DAL
             Investor investor = null;
             try
             {
-                int id = (int) InvestorId;
+                int id = (int)InvestorId;
                 investor = await Context.Investors
                     //.Include(p => p.Associate)
                     .FirstOrDefaultAsync(inv => inv.InvestorId == id);
@@ -142,7 +142,7 @@ namespace CUSTOR.EICOnline.DAL
             List<Investor> investor = null;
             try
             {
-                string id = (string) UserId;
+                string id = (string)UserId;
                 investor = await Context.Investors
                     .Where(inv => inv.UserId == id)
                     .ToListAsync();
@@ -165,7 +165,7 @@ namespace CUSTOR.EICOnline.DAL
             List<Investor> investor = null;
             try
             {
-                string id = (string) Tin;
+                string id = (string)Tin;
                 investor = await Context.Investors
                     .Where(inv => inv.Tin == id)
                     .ToListAsync();
@@ -294,7 +294,7 @@ namespace CUSTOR.EICOnline.DAL
 
 
                     var add = await Context.Address
-                        .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eManager);
+                        .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eManager);
 
                     if (add != null)
                     {

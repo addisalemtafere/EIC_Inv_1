@@ -9,6 +9,10 @@ import {ActivityService} from '../activity.service';
 import {AngConfirmDialogComponent} from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
 import {Utilities} from '../../../../../../@custor/helpers/utilities';
 import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
+import {determineId} from '@custor/helpers/compare';
+import {SectorModel} from '../../../../../model/sector';
+import {SubsectorService} from '../../subsector/subsector.service';
+import {SectorService} from '../../sector/sector.service';
 
 @Component({
   selector: 'app-list',
@@ -16,7 +20,6 @@ import {ErrorMessage} from '../../../../../../@custor/services/errMessageService
   styleUrls: ['./list-activity.component.css']
 })
 export class ListActivityComponent implements OnInit, AfterViewInit {
-  subSectorModels: SubSectorModel[];
   activityModels: ActivityModel[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -27,9 +30,15 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   loadingIndicator: boolean;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  sectorModels: SectorModel[] = [];
+  subsectorModels: SubSectorModel[] = [];
+  filltersActivityModels: ActivityModel[] = [];
+  fillterssubsectorModels: SubSectorModel[] = [];
 
   constructor(private http: HttpClient,
               private subActivityService: ActivityService,
+              private sectorService: SectorService,
+              private subSectorService: SubsectorService,
               private errMsg: ErrorMessage,
               private toastr: ToastrService, public dialog: MatDialog,
               private router: Router, private route: ActivatedRoute) {
@@ -47,6 +56,8 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.getSectors();
+    this.getSubSectors();
     this.getActivitys();
   }
 
@@ -111,5 +122,51 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
       }
       this.loadingIndicator = false;
     });
+  }
+
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
+  }
+
+  filterSector(sectorCode: number) {
+    if (!sectorCode) {
+      return;
+    }
+    this.fillterssubsectorModels = null;
+    // this.filltersActivityModels = null;
+    this.fillterssubsectorModels = this.subsectorModels.filter((item) => {
+      return item.SectorId === sectorCode;
+    });
+  }
+
+  filterSubSector(SubSecId: number) {
+    if (!SubSecId) {
+      return;
+    }
+    this.filltersActivityModels = null;
+    this.filltersActivityModels = this.activityModels.filter((item) => {
+
+      return item.SubSectorId === SubSecId;
+    });
+    this.dataSource.data = this.filltersActivityModels;
+
+  }
+
+  getSectors() {
+    this.sectorService.getSectors()
+      .subscribe(result => {
+          this.sectorModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+
+  getSubSectors() {
+    this.subSectorService.getSubSectors()
+      .subscribe(result => {
+          this.subsectorModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
   }
 }
