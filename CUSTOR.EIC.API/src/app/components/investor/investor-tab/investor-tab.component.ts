@@ -1,13 +1,15 @@
-import {AfterContentChecked, Component, OnInit} from '@angular/core';
+import {AfterContentChecked, Component, OnInit, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {DataSharingService} from '../../../Services/data-sharing.service';
 import {Subscription} from 'rxjs';
 import {AccountService} from '@custor/services/security/account.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NotificationComponent} from '../../project-profile/notification/notification.component';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatStepper} from '@angular/material';
 import {Investor} from '../../../model/investor';
 import {InvestorService} from '../investor.service';
+import {ServiceApplicationService} from "../../../Services/service-application.service";
+import {ServiceApplicationModel} from "../../../model/ServiceApplication.model";
 
 @Component({
   selector: 'app-investor-tab',
@@ -15,19 +17,19 @@ import {InvestorService} from '../investor.service';
   styleUrls: ['./investor-tab.component.scss']
 })
 export class InvestorTabComponent implements OnInit, AfterContentChecked {
-  public isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  isEditable = false;
+
+
+  @ViewChild('stepper') stepper: MatStepper;
   public selectedIndex = 0;
   public title: string;
   public projectName: string;
   public investorName: string;
   public isInvestor: boolean;
   public userName: string;
-  public registrationIndex: any;
+  public registrationIndex = 0;
   public isExistingCustomer: boolean;
   public InvestorId: any;
+  public steeperIndex = 0;
 
   public investor: Investor;
   public isNew = false;
@@ -36,19 +38,23 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   private isNewListener2: number;
   private ServiceApplicationId: any;
   private subscription: Subscription;
+  public nextIndex = 0;
+  private upeerLimit: any;
+  private serviceApplication: ServiceApplicationModel;
+  private enable: boolean;
 
   constructor(private accountService: AccountService,
               public router: Router,
               private investorService: InvestorService,
               public dialog: MatDialog,
+              public serviceAppService: ServiceApplicationService,
               public route: ActivatedRoute,
               public dataSharing: DataSharingService) {
     this.investor = new Investor();
   }
 
   ngOnInit() {
-    console.log(this.investor)
-
+    console.log(this.nextIndex)
     this.subscription = this.dataSharing.steeperIndex
       .subscribe(index => {
         this.registrationIndex = index;
@@ -61,6 +67,9 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
 
+    if (this.ServiceApplicationId != 0) {
+      this.ServiceApplication(this.ServiceApplicationId);
+    }
     if (this.InvestorId != 0) {
       this.getInvestor();
     }
@@ -68,7 +77,23 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
     // this.isNewFirst = this.route.snapshot.params['IsExistingCustomer'];
     this.isNewListener = this.route.snapshot.params['IsExistingCustomer'];
 
+    this.subscription = this.dataSharing.steeperIndex
+      .subscribe(index => {
+        this.steeperIndex = index;
+        this.move(this.steeperIndex);
+      });
+    this.subscription = this.dataSharing.currentIndex
+      .subscribe(index => {
+        this.nextIndex = index;
+        this.upeerLimit = index;
+      });
+
   }
+
+  move(index: number) {
+    this.stepper.selectedIndex = index;
+  }
+
 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
@@ -97,8 +122,10 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
         this.isNewListener = (this.isNew == true) ? 1 : 0
 
         const ServiceApplicationId1 = this.route.snapshot.params['ServiceApplicationId'];
+        const workFlowId = this.route.snapshot.params['workFlowId'];
         const InvestorId1 = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
-        this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNewListener]);
+
+        this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNewListener + '/' + workFlowId]);
 
       });
   }
@@ -116,5 +143,37 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   }
 
 
-}
+  private ServiceApplication(id: any) {
+    this.serviceAppService.getServiceApplicationById(id)
+      .subscribe(status => {
+        console.log(status)
+        this.serviceApplication = status;
+        this.applicationStatus(this.serviceApplication.ServiceApplicationId)
+      })
+  }
 
+  public applicationStatus(ServiceApplicationId: string) {
+    switch (ServiceApplicationId) {
+      case '44450': //Drafted
+        this.enable = true;
+        break;
+      case '44446': //Submitted
+        this.enable = false;
+
+        break;
+      case '44447': //Approved
+        this.enable = false;
+
+        break;
+      case '44448': //Pending
+        this.enable = true;
+
+        break
+      case '44449': //Completed
+        this.enable = false;
+
+        break;
+
+    }
+  }
+}

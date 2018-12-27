@@ -37,6 +37,7 @@ export class AssociateDTO {
   OtherAddress: string = null;
   AddressId = 0;
   UserName: string = null;
+  workFlowId:any;
 }
 
 export class AssociateModel {
@@ -90,4 +91,5 @@ export class AssociateModel {
   OtherAddress: string = null;
   PhotoData?: string;
   UserName: string = null;
+  workFlowId: any = null;
 }

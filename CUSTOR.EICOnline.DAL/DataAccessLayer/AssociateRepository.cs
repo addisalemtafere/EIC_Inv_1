@@ -22,9 +22,9 @@ namespace CUSTOR.EICOnline.DAL
             Associate associate = null;
             try
             {
-                int id = (int)AssociateId;
+                int id = (int) AssociateId;
                 associate = await Context.Associate
-                                .FirstOrDefaultAsync(inv => inv.AssociateId == id);
+                    .FirstOrDefaultAsync(inv => inv.AssociateId == id);
             }
             catch (InvalidOperationException)
             {
@@ -35,8 +35,10 @@ namespace CUSTOR.EICOnline.DAL
             {
                 SetError(ex);
             }
+
             return associate;
         }
+
         public async Task<AssociateDTO> GetAssociate(int associateId)
         {
             Associate associate = null;
@@ -45,10 +47,10 @@ namespace CUSTOR.EICOnline.DAL
             {
                 int id = associateId;
                 associate = await Context.Associate
-                           .FirstOrDefaultAsync(inv => inv.AssociateId == id);
+                    .FirstOrDefaultAsync(inv => inv.AssociateId == id);
 
                 add = await Context.Address
-                            .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eManager);
+                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eManager);
             }
             catch (InvalidOperationException)
             {
@@ -59,6 +61,7 @@ namespace CUSTOR.EICOnline.DAL
             {
                 SetError(ex);
             }
+
             return AssociateHelper.GetAssociateDTO(associate, add);
         }
 
@@ -71,10 +74,11 @@ namespace CUSTOR.EICOnline.DAL
             {
                 int id = InvestorId;
                 associate = await Context.Associate
-                           .FirstOrDefaultAsync(asso => asso.InvestorId == id);
+                    .FirstOrDefaultAsync(asso => asso.InvestorId == id);
 
                 add = await Context.Address
-                            .FirstOrDefaultAsync(a => a.ParentId == associate.AssociateId && a.AddressType == (int)AddressType.eManager);
+                    .FirstOrDefaultAsync(a =>
+                        a.ParentId == associate.AssociateId && a.AddressType == (int) AddressType.eManager);
             }
             catch (InvalidOperationException)
             {
@@ -85,17 +89,16 @@ namespace CUSTOR.EICOnline.DAL
             {
                 SetError(ex);
             }
+
             return AssociateHelper.GetAssociateDTO(associate, add);
         }
 
 
-
         public async Task<AssociateDTO> SaveAssociate(AssociateDTO postedAssociate, ApplicationUser appUser)
         {
-
             bool isUpdate = (postedAssociate.AssociateId > 0);
             Associate ass = AssociateHelper.GetAssociate(postedAssociate);
-   
+
             using (var transaction = await Context.Database.BeginTransactionAsync())
             {
                 try
@@ -106,13 +109,18 @@ namespace CUSTOR.EICOnline.DAL
                     {
                         Context.Associate.Update(ass);
                         Context.SaveChanges();
-
                     }
                     else
                     {
                         Context.Associate.Add(ass);
                         Context.SaveChanges();
-
+                        var workFlowId = postedAssociate.workFlowId;
+                        if (workFlowId.HasValue)
+                        {
+                            var serviceWorkflow = Context.ServiceWorkflow.First(s => s.ServiceWorkflowId == workFlowId);
+                            serviceWorkflow.NextStepId = 1021;
+                            Context.Entry(serviceWorkflow).State = EntityState.Modified;
+                        }
                     }
                     //Context.SaveChanges();
 
@@ -125,13 +133,11 @@ namespace CUSTOR.EICOnline.DAL
                         address.AddressId = postedAssociate.AddressId;
                         Context.Address.Update(address);
                         Context.SaveChanges();
-
                     }
                     else
                     {
                         Context.Address.Add(address);
                         Context.SaveChanges();
-
                     }
                 }
                 catch (Exception ex)
@@ -139,12 +145,13 @@ namespace CUSTOR.EICOnline.DAL
                     transaction.Rollback();
                     SetError(ex.Message);
                 }
+
                 transaction.Commit();
                 postedAssociate.AssociateId = ass.AssociateId; //used for image filename
                 return postedAssociate;
             }
-
         }
+
         public async Task<bool> DeleteAssociate(int id)
         {
             using (var transaction = await Context.Database.BeginTransactionAsync())
@@ -152,25 +159,27 @@ namespace CUSTOR.EICOnline.DAL
                 try
                 {
                     var associate = await Context.Associate
-                         .FirstOrDefaultAsync(ass => ass.AssociateId == id);
+                        .FirstOrDefaultAsync(ass => ass.AssociateId == id);
                     if (associate == null)
                     {
                         transaction.Rollback();
                         SetError("Investor does not exist");
                         return false;
                     }
+
                     Context.Associate.Remove(associate);
                     await SaveAsync();
 
-                
+
                     var add = await Context.Address
-                       .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eManager);
+                        .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eManager);
 
                     if (add != null)
                     {
                         Context.Address.Remove(add);
                         await SaveAsync();
-                    }            
+                    }
+
                     transaction.Commit();
                     return true;
                 }
@@ -180,10 +189,7 @@ namespace CUSTOR.EICOnline.DAL
                     SetError(ex.Message);
                     return false;
                 }
-
             }
         }
-
-
     }
 }

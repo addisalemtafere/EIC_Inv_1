@@ -214,6 +214,7 @@ export class AppConfiguration {
 
 
     ServiceApplicationWithInvestor: 'api/ServiceApplications/ServiceApplicationWithInvestor',
+    ServiceApplicationById: 'api/ServiceApplications/ServiceApplicationById',
 
 
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
@@ -226,7 +227,7 @@ export class AppConfiguration {
 
     GetAllBudgetYearTypes: 'api/GetAllBudgetYearTypes',
     Divisions: 'api/Divisions/',
-    MajorDivisions: 'api/MajorDivisions/',
+    MajorDivisions: 'api/MajorDivisions',
     GetMajorDivisionsByInvestorID: 'api/GetMajorDivisionsByInvestorID',
     MajorGroup: 'api/MajorGroup/',
     Groups: 'api/Groups/',
