@@ -71,41 +71,41 @@ import {HelpComponent} from './components/help/help.component';
 import {FollowupComponent} from "./components/components/followup/followup.component";
 import {FollowComponent} from "./components/follow/follow.component";
 import {FollowupFormComponent} from "./components/components/followup/followup-form/followup-form.component";
-import {
-  NgxUiLoaderConfig, NgxUiLoaderHttpModule,
-  NgxUiLoaderModule,
-  NgxUiLoaderRouterModule,
-  PB_DIRECTION,
-  POSITION,
-  SPINNER
-} from "ngx-ui-loader";
+// import {
+//   NgxUiLoaderConfig, NgxUiLoaderHttpModule,
+//   NgxUiLoaderModule,
+//   NgxUiLoaderRouterModule,
+//   PB_DIRECTION,
+//   POSITION,
+//   SPINNER
+// } from "ngx-ui-loader";
 
-const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-  "bgsColor": "#04a162",
-  "bgsOpacity": 0.5,
-  "bgsPosition": "bottom-left",
-  "bgsSize": 90,
-  "bgsType": "three-strings",
-  "blur": 5,
-  "fgsColor": "#00bcd4",
-  "fgsPosition": "center-center",
-  "fgsSize": 120,
-  "fgsType": "three-strings",
-  "gap": 24,
-  "logoPosition": "center-center",
-  "logoSize": 120,
-  "logoUrl": "",
-  "overlayColor": "rgba(40, 40, 40, 0.8)",
-  "pbColor": "#00ACC1",
-  "pbDirection": "ltr",
-  "pbThickness": 3,
-  "hasProgressBar": true,
-  "text": "Loading",
-  "textColor": "cadetblue",
-  "textPosition": "center-center",
-  "threshold": 500,
-
-};
+// const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+//   "bgsColor": "#04a162",
+//   "bgsOpacity": 0.5,
+//   "bgsPosition": "bottom-left",
+//   "bgsSize": 90,
+//   "bgsType": "three-strings",
+//   "blur": 5,
+//   "fgsColor": "#00bcd4",
+//   "fgsPosition": "center-center",
+//   "fgsSize": 120,
+//   "fgsType": "three-strings",
+//   "gap": 24,
+//   "logoPosition": "center-center",
+//   "logoSize": 120,
+//   "logoUrl": "",
+//   "overlayColor": "rgba(40, 40, 40, 0.8)",
+//   "pbColor": "#00ACC1",
+//   "pbDirection": "ltr",
+//   "pbThickness": 3,
+//   "hasProgressBar": true,
+//   "text": "Loading",
+//   "textColor": "cadetblue",
+//   "textPosition": "center-center",
+//   "threshold": 500,
+//
+// };
 
 @NgModule({
   declarations: [
@@ -168,8 +168,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     PlotlyModule,
     ImageUploadModule.forRoot(),
     EditorModule,
-    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxUiLoaderHttpModule.forRoot({showForeground: true})
+    // app
 
 
   ],

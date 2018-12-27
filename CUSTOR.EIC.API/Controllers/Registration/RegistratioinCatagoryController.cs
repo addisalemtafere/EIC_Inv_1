@@ -37,7 +37,7 @@ namespace EIC.Investment.API.Controllers
         //      Include(a => a.MajorCatagoryCode).
         //    FirstAsync(m => m.Tin == Tin);
 
-       
+
         [HttpPost("api/registrationcatagory")]
         public async Task<IActionResult> PostRegistraionCatagory([FromBody] RegistrationCatagory registrationCatagory)
         {
@@ -47,7 +47,7 @@ namespace EIC.Investment.API.Controllers
             }
             _context.RegistrationCatagorys.Add(registrationCatagory);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("PostRegistraionCatagory", new { Tin = registrationCatagory.Tin }, registrationCatagory);
+            return CreatedAtAction("PostRegistraionCatagory", new { Tin = "" }, registrationCatagory);
         }
 
 
