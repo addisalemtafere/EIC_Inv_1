@@ -6,7 +6,7 @@ import {AssociateFormComponent} from './associate-form/associate-form.component'
 const routes: Routes = [
   // {path: '', component:  },
   {path: 'list', component: AssociateComponent},
-  {path: 'form/:id/:invid', component: AssociateFormComponent}
+  {path: 'form/:InvestorId/:InvestorId', component: AssociateFormComponent}
 
 ];
 
