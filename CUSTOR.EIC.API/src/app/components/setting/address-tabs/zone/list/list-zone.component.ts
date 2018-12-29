@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -9,6 +9,7 @@ import {AngConfirmDialogComponent} from '../../../../../../@custor/components/co
 import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
 import {Utilities} from '../../../../../../@custor/helpers/utilities';
 import {determineId} from '@custor/helpers/compare';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-list-zone',
@@ -17,10 +18,11 @@ import {determineId} from '@custor/helpers/compare';
 })
 export class ListZoneComponent implements OnInit, AfterViewInit {
   zoneModels: Zone[];
+  zoneLists: Zone[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns = ['Id',  'Description', 'DescriptionEnglish', 'actions'];
+  displayedColumns = ['Id', 'Description', 'DescriptionEnglish', 'actions'];
 
   dataSource: MatTableDataSource<Zone>;
   loadingIndicator: boolean;
@@ -28,9 +30,12 @@ export class ListZoneComponent implements OnInit, AfterViewInit {
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
   regionModels: Region[] = [];
   fillterZoneModels: Zone[] = [];
+  //@ViewChild('region') region: any;
+  region: any;
+
   constructor(private http: HttpClient,
               private subZoneService: ZoneService,
-              private errMsg: ErrorMessage,private zonesService: ZoneService,
+              private errMsg: ErrorMessage, private zonesService: ZoneService,
               private toastr: ToastrService, public dialog: MatDialog,
               private router: Router, private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
@@ -50,6 +55,7 @@ export class ListZoneComponent implements OnInit, AfterViewInit {
     this.getZones();
     this.getRegions();
   }
+
   getRegions() {
     this.zonesService.getRegions()
       .subscribe(result => {
@@ -57,11 +63,13 @@ export class ListZoneComponent implements OnInit, AfterViewInit {
         },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
+
   compareIds(id1: any, id2: any): boolean {
     const a1 = determineId(id1);
     const a2 = determineId(id2);
     return a1 === a2;
   }
+
   getZones() {
     this.loadingIndicator = true;
     this.subZoneService.getZones()
@@ -73,7 +81,7 @@ export class ListZoneComponent implements OnInit, AfterViewInit {
             });
           } else {
             // // console.log(this.zoneModels);
-            this.dataSource.data = this.zoneModels;
+            //this.dataSource.data = this.zoneModels;
           }
         },
         err => {
@@ -90,12 +98,20 @@ export class ListZoneComponent implements OnInit, AfterViewInit {
     if (!RegionCode) {
       return;
     }
-    this.fillterZoneModels = null;
-    this.fillterZoneModels = this.zoneModels.filter((item) => {
-      return item.RegionId === RegionCode;
-    });
-    this.dataSource.data=this.fillterZoneModels;
+    this.region = RegionCode,
+      this.subZoneService.getZonesbyParent(RegionCode)
+        .subscribe(result => {
+          this.fillterZoneModels = result;
+          this.dataSource.data = this.fillterZoneModels;
+        });
+    // this.region = RegionCode;
+    // this.fillterZoneModels = null;
+    // this.fillterZoneModels = this.zoneModels.filter((item) => {
+    //   return item.RegionId === RegionCode;
+    // });
+
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -103,9 +119,9 @@ export class ListZoneComponent implements OnInit, AfterViewInit {
 
   editZone(zoneModel: Zone) {
     if (zoneModel) {
-      this.router.navigate(['/zones/edit', zoneModel.ZoneId], {relativeTo: this.route});
+      this.router.navigate(['/zones/edit/' + zoneModel.ZoneId + '/' + 0], {relativeTo: this.route});
     } else {
-      this.router.navigate(['/zones/edit', 0]);
+      this.router.navigate(['/zones/edit/' + 0 + '/' + this.region]);
     }
   }
 

@@ -8,8 +8,7 @@ const routes: Routes = [{
   path: '', component: ZoneComponent, children: [
     { path: '', component: ListZoneComponent },
     { path: 'list', component: ListZoneComponent },
-    { path: 'edit/:id', component: EditZoneComponent }
-
+    { path: 'edit/:id/:regionId', component: EditZoneComponent }
   ]
 }];
 

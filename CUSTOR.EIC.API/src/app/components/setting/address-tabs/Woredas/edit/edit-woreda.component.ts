@@ -45,7 +45,7 @@ export class EditWoredaComponent implements OnInit, OnDestroy {
   }
 
 
- get Description() {
+  get Description() {
     return this.woredaForm.get('cDescription');
   }
 
@@ -72,6 +72,10 @@ export class EditWoredaComponent implements OnInit, OnDestroy {
       this.title = 'Create a new Woreda';
       this.getRegions();
       this.getAllZones();
+      this.woredaForm.patchValue({
+        cRegion: this.activatedRoute.snapshot.params['regionId'],
+        cZone: this.activatedRoute.snapshot.params['zoneId']
+      });
       return;
     }
     if (id) {
@@ -157,9 +161,9 @@ export class EditWoredaComponent implements OnInit, OnDestroy {
   initForm() {
     this.woredaForm = this.fb.group({
       cDescription: ['', Validators.compose([Validators.required, Validators.maxLength(150),
-        Validators.pattern('^([ \u1200-\u137F])+$')])],
+        Validators.pattern('^([ \u1200-\u137F 0-9])+$')])],
       cDescriptionEnglish: ['', Validators.compose([Validators.required, Validators.maxLength(200),
-        Validators.pattern('^[a-zA-Z /,]+$')])],
+        Validators.pattern('^[a-zA-Z /,0-9]+$')])],
       cRegion: [0, Validators.required],
       cZone: [0, Validators.required],
       cCode: ['', Validators.compose([Validators.required, Validators.maxLength(20)])]
