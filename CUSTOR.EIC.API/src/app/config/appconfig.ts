@@ -60,7 +60,7 @@ export class AppConfiguration {
     //     customers: 'api/customers/',
     //     customer: 'api/customer',
     serviceslookup: 'api/serviceslookup',
-    services: 'api/services/',
+    services: 'api/services',
     service: 'api/service',
     serviceprerequisites: 'api/serviceprerequisites',
     serviceprerequisite: 'api/serviceprerequisite',

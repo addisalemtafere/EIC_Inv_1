@@ -7,27 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CUSTOR.EICOnline.API", "CUS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CUSTOR.EICOnline.DAL", "CUSTOR.EICOnline.DAL\CUSTOR.EICOnline.DAL.csproj", "{63667743-DE73-4FE5-9AD8-7AC2697FC891}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CUSTOR.EICOnline.Angular", "CUSTOR.EICOnline.Angular\", "{A29D3EC3-0309-418E-8F05-62CCE81EEA07}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_51424"
-		Debug.AspNetCompiler.PhysicalPath = "CUSTOR.EICOnline.Angular\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51424\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_51424"
-		Release.AspNetCompiler.PhysicalPath = "CUSTOR.EICOnline.Angular\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51424\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "51424"
-		SlnRelativePath = "CUSTOR.EICOnline.Angular\"
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
