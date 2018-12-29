@@ -10,6 +10,8 @@ import {ErrorMessage} from '@custor/services/errMessageService';
 import {Utilities} from '@custor/helpers/utilities';
 import {InvestorService} from '../../../../investor/investor.service';
 import {determineId} from '@custor/helpers/compare';
+import {WoredaService} from "../../Woredas/woreda.service";
+import {ZoneService} from "../../zone/zone.service";
 
 @Component({
   selector: 'app-list-kebele',
@@ -34,9 +36,13 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
   loadingIndicator: boolean;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  region: any;
+  zone: any;
+  woreda: any;
 
   constructor(private http: HttpClient,
               private subKebeleService: KebeleService,
+              private woredaService: WoredaService, private subZoneService: ZoneService,
               private errMsg: ErrorMessage,
               public investorKebeleAddress: InvestorService,
               private toastr: ToastrService, public dialog: MatDialog,
@@ -47,9 +53,9 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getRegions();
-    this.getZones();
-    this.getWoredas();
-    this.getKebeles();
+    // this.getZones();
+    // this.getWoredas();
+    // this.getKebeles();
   }
 
   getRegions() {
@@ -85,14 +91,26 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
     }
   }
 
-  filterRegion(regionCode: string) {
-    if (!regionCode) {
+  filterRegion(RegionCode: string) {
+    if (!RegionCode) {
       return;
     }
-    this.fillterszoneModels = null;
-    this.fillterszoneModels = this.zoneModels.filter((item) => {
-      return item.RegionId === regionCode;
-    });
+    this.region = RegionCode,
+      this.subZoneService.getZonesbyParent(RegionCode)
+        .subscribe(result => {
+          this.fillterszoneModels = result;
+        });
+  }
+
+  filterZone(ZoneId: string) {
+    if (!ZoneId) {
+      return;
+    }
+    this.zone = ZoneId;
+    this.woredaService.getWoredaByParent(ZoneId)
+      .subscribe(result => {
+        this.filltersWoredaModels = result;
+      });
   }
 
   compareIds(id1: any, id2: any): boolean {
@@ -101,25 +119,26 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
     return a1 === a2;
   }
 
-  filterZone(ZoneId: string) {
-    if (!ZoneId) {
-      return;
-    }
-    this.filltersWoredaModels = null;
-    this.filltersWoredaModels = this.woredaModels.filter((item) => {
-      return item.ZoneId === ZoneId;
-    });
-  }
+  // filterZone(ZoneId: string) {
+  //   if (!ZoneId) {
+  //     return;
+  //   }
+  //   this.zone = ZondId;
+  //   this.filltersWoredaModels = null;
+  //   this.filltersWoredaModels = this.woredaModels.filter((item) => {
+  //     return item.ZoneId === ZoneId;
+  //   });
+  // }
 
   filterWoreda(wordeaId: string) {
     if (!wordeaId) {
       return;
     }
-    this.filltersKebeleModels = null;
-    this.filltersKebeleModels = this.kebeleModels.filter((item) => {
-      return item.WoredaId === wordeaId;
-    });
-    this.dataSource.data = this.filltersKebeleModels;
+    this.woreda = wordeaId;
+    this.subKebeleService.getKebeles()
+      .subscribe(result => {
+        this.dataSource.data = result;
+      });
   }
 
   /*getKebeles() {
@@ -177,9 +196,9 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
 
   editKebele(kebeleModel: Kebele) {
     if (kebeleModel) {
-      this.router.navigate(['/kebeles/edit', kebeleModel.KebeleId], {relativeTo: this.route});
+      this.router.navigate(['/kebeles/edit/' + kebeleModel.KebeleId + '/' + 0 + '/' + 0 + '/' + 0], {relativeTo: this.route});
     } else {
-      this.router.navigate(['/kebeles/edit', 0]);
+      this.router.navigate(['/kebeles/edit/' + 0 + '/' + this.region + '/' + this.zone + '/' + this.woreda]);
     }
   }
 

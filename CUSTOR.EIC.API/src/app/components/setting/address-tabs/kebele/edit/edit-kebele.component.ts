@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs/index';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { KebeleService } from '../kebele.service';
-import { Kebele, Region, Woreda, Zone } from '../../../../../model/address';
-import { AppConfiguration } from '../../../../../config/appconfig';
-import { ErrorMessage } from '../../../../../../@custor/services/errMessageService';
-import { determineId } from '../../../../../../@custor/helpers/compare';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ToastrService} from 'ngx-toastr';
+import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs/index';
+import {ActivatedRoute, Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {KebeleService} from '../kebele.service';
+import {Kebele, Region, Woreda, Zone} from '../../../../../model/address';
+import {AppConfiguration} from '../../../../../config/appconfig';
+import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
+import {determineId} from '../../../../../../@custor/helpers/compare';
 
 @Component({
   selector: 'app-edit-kebele',
@@ -34,12 +34,12 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
   private form: NgForm;
 
   constructor(private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient,
-    private config: AppConfiguration,
-    private kebeleService: KebeleService, private errMsg: ErrorMessage,
-    private toastr: ToastrService,
-    private fb: FormBuilder) {
+              private router: Router,
+              private http: HttpClient,
+              private config: AppConfiguration,
+              private kebeleService: KebeleService, private errMsg: ErrorMessage,
+              private toastr: ToastrService,
+              private fb: FormBuilder) {
     this.kebele = <Kebele>{};
     // initialize the form
     this.initForm();
@@ -61,9 +61,11 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
   get Region() {
     return this.kebeleForm.get('cRegion');
   }
+
   get Zone() {
     return this.kebeleForm.get('cZone');
   }
+
   get Woreda() {
     return this.kebeleForm.get('cWoreda');
   }
@@ -76,6 +78,11 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
       this.getRegions();
       this.getZones();
       this.getWoredas();
+      this.kebeleForm.patchValue({
+        cRegion: this.activatedRoute.snapshot.params['regionId'],
+        cZone: this.activatedRoute.snapshot.params['zoneId'],
+        cWoreda: this.activatedRoute.snapshot.params['woredaId']
+      });
       return;
     }
     if (id) {
@@ -89,12 +96,12 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
     this.kebeleSub = this.kebeleService
       .getKebele(id)
       .subscribe(result => {
-        this.kebele = result;
-        this.getRegions();
-        this.getZones();
-        this.getWoredas();
-        this.updateForm();
-      },
+          this.kebele = result;
+          this.getRegions();
+          this.getZones();
+          this.getWoredas();
+          this.updateForm();
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
     this.loadingIndicator = false;
   }
@@ -163,33 +170,33 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
       this.getEditedKebele()).subscribe((kebele: Kebele) => {
         this.saveCompleted(kebele);
       },
-        err => this.handleError(err));
+      err => this.handleError(err));
   }
 
   ngOnDestroy() {
-  //  this.kebeleSub.unsubscribe;
+    //  this.kebeleSub.unsubscribe;
   }
 
   getRegions() {
     this.kebeleService.getRegions()
       .subscribe(result => {
-        this.regionModels = result;
-      },
+          this.regionModels = result;
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   getZones() {
     this.kebeleService.getZones()
       .subscribe(result => {
-        this.zoneModels = result;
-        if (this.isNewKebele) {
-          const formModel = this.kebeleForm.value;
-          this.filterRegion(formModel.cRegion);
-        } else {
-          //// console.log(this.kebele.Woreda.Zone.RegionId);
-          this.filterRegion(this.kebele.Woreda.Zone.RegionId);
-        }
-      },
+          this.zoneModels = result;
+          if (this.isNewKebele) {
+            const formModel = this.kebeleForm.value;
+            this.filterRegion(formModel.cRegion);
+          } else {
+            //// console.log(this.kebele.Woreda.Zone.RegionId);
+            this.filterRegion(this.kebele.Woreda.Zone.RegionId);
+          }
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
@@ -207,14 +214,14 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
   getWoredas() {
     this.kebeleService.getWoredas()
       .subscribe(result => {
-        this.woredaModels = result;
-        if (this.isNewKebele) {
-          const formModel = this.kebeleForm.value;
-          this.filterZone(formModel.cZone);
-        } else {
-          this.filterZone(this.kebele.Woreda.ZoneId);
-        }
-      },
+          this.woredaModels = result;
+          if (this.isNewKebele) {
+            const formModel = this.kebeleForm.value;
+            this.filterZone(formModel.cZone);
+          } else {
+            this.filterZone(this.kebele.Woreda.ZoneId);
+          }
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 

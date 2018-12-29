@@ -47,7 +47,7 @@ namespace EIC.Investment.API.Controllers
             }
             _context.RegistrationCatagorys.Add(registrationCatagory);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("PostRegistraionCatagory", new { Tin = registrationCatagory.InvestorId }, registrationCatagory);
+            return CreatedAtAction("PostRegistraionCatagory", new { Tin = "" }, registrationCatagory);
         }
 
 

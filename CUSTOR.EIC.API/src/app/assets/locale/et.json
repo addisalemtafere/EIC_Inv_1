@@ -317,20 +317,23 @@
   "region": {
     "Code": "ኮድ",
     "Description": "መግለጫ",
-    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "Header": "ክልል"
   },
   "zone": {
     "Region": "ክልል",
     "Code": "ኮድ",
     "Description": "መግለጫ",
-    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "Header": "ዞን"
   },
   "woreda": {
     "Region": "ክልል",
     "Zone": "ዞን",
     "Code": "ኮድ",
     "Description": "መግለጫ",
-    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "Header": "ወረዳ"
   },
   "kebele": {
     "Region": "ክልል",
@@ -338,7 +341,8 @@
     "Woreda": "ወረዳ",
     "KebeleCode": "ቀበሌ ኮድ",
     "Description": "መግለጫ",
-    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "Header": "ቀበሌ"
   },
   "registration": {
     "management": {

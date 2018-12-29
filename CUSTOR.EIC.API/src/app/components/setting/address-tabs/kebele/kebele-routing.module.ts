@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       {path: '', component: ListKebeleComponent},
       {path: 'list', component: ListKebeleComponent},
-      {path: 'edit/:id', component: EditKebeleComponent}
+      {path: 'edit/:id/:regionId/:zoneId/:woredaId', component: EditKebeleComponent}
     ]
   }
 ];

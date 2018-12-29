@@ -15,7 +15,7 @@ export class ZoneService {
   regonModelList: Region[] = [];
 
   constructor(private httpClient: HttpClient,
-    private config: AppConfiguration, private errMsg: ErrorMessage) {
+              private config: AppConfiguration, private errMsg: ErrorMessage) {
   }
 
   /*getServicePrerequisiteForExistance(descEng,serviceId): Observable<Zone> {
@@ -31,6 +31,15 @@ export class ZoneService {
       map(zonedata => {
         this.zoneModel = zonedata;
         return this.zoneModel;
+      }),
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getZonesbyParent(id): Observable<Zone[]> {
+    return this.httpClient.get<Zone[]>(this.config.urls.url('zoneByParentId', id)).pipe(
+      map(zonedata => {
+        this.zoneList = zonedata;
+        return this.zoneList;
       }),
       catchError(this.errMsg.parseObservableResponseError));
   }

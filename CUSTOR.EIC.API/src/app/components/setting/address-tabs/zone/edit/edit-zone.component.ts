@@ -20,7 +20,6 @@ export class EditZoneComponent implements OnInit, OnDestroy {
 
   zonesSub: Subscription;
   title: string;
-  /*serviceId:number;*/
   isNewZone = false;
   zones: Zone;
   regionModels: Region[] = [];
@@ -63,6 +62,9 @@ export class EditZoneComponent implements OnInit, OnDestroy {
     if (id < 1) {
       this.isNewZone = true;
       this.title = 'Create a new Zone';
+      this.zoneForm.patchValue({
+        cRegion: this.activatedRoute.snapshot.params['regionId']
+      });
       return;
     }
     if (id) {
@@ -111,7 +113,6 @@ export class EditZoneComponent implements OnInit, OnDestroy {
       .getZone(id)
       .subscribe(result => {
           this.zones = result;
-          // console.log(this.zones);
           this.updateForm();
         },
         error => this.toastr.error(this.errMsg.getError(error)));
@@ -119,7 +120,6 @@ export class EditZoneComponent implements OnInit, OnDestroy {
   }
 
   updateForm() {
-    // console.log(this.zones);
     this.zoneForm.patchValue({
       cDescription: this.zones.Description == null ? '' : this.zones.Description.toString(),
       cDescriptionEnglish: this.zones.DescriptionEnglish == null ? '' : this.zones.DescriptionEnglish.toString(),
@@ -134,9 +134,9 @@ export class EditZoneComponent implements OnInit, OnDestroy {
   initForm() {
     this.zoneForm = this.fb.group({
       cDescription: ['', Validators.compose([Validators.required, Validators.maxLength(20),
-        Validators.pattern('^([ \u1200-\u137F])+$')])],
+        Validators.pattern('^([ \u1200-\u137F 0-9])+$')])],
       cDescriptionEnglish: ['', Validators.compose([Validators.required, Validators.maxLength(30),
-        Validators.pattern('^[a-zA-Z /,]+$')])],
+        Validators.pattern('^[a-zA-Z /,0-9]+$')])],
       cRegion: [0, Validators.required],
       cId: ['', Validators.compose([Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')])]
     });
@@ -171,7 +171,7 @@ export class EditZoneComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-  //  this.zonesSub.unsubscribe;
+    //  this.zonesSub.unsubscribe;
   }
 
   onBack() {

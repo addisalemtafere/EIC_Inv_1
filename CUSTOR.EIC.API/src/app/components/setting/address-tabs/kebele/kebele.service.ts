@@ -36,6 +36,14 @@ export class KebeleService {
       }),
       catchError(this.errMsg.parseObservableResponseError), );
   }
+  getKebeleByParent(id): Observable<Kebele[]> {
+    return this.httpClient.get<Kebele[]>(this.config.urls.url('kebeleByByParentId', id)).pipe(
+      map(kebeleData => {
+        // this.kebeleModel = kebeleData;
+        return kebeleData;
+      }),
+      catchError(this.errMsg.parseObservableResponseError), );
+  }
 
   getKebeles(): Observable<Kebele[]> {
     return this.httpClient.get<Kebele[]>(this.config.urls.url('kebeles')).pipe(

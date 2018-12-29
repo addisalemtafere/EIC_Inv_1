@@ -1,14 +1,13 @@
 <div class="mat-elevation-z8" style="margin: 15px;">
-  <mat-form-field style="width: 150px;margin: 15px;">
-    <mat-label>{{'zone.Region' | translate}}</mat-label>
-    <mat-select formControlName="cRegion" [compareWith]="compareIds" required
-                (selectionChange)="filterRegion($event.value)">
-      <mat-option *ngFor="let region of regionModels" [value]="region.RegionId">
-        <span>{{region.DescriptionEnglish}}</span>
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
+    <mat-form-field style="width: 150px;margin: 15px;">
+      <mat-label>{{'zone.Region' | translate}}</mat-label>
+      <mat-select  [compareWith]="compareIds" required #region
+                  (selectionChange)="filterRegion($event.value)">
+        <mat-option *ngFor="let region of regionModels" [value]="region.RegionId">
+          <span>{{region.DescriptionEnglish}}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
   <mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="Id">

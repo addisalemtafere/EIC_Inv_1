@@ -337,20 +337,23 @@
   "region": {
     "Code": "Code",
     "Description": "Description",
-    "DescriptionEnglish": "Description English"
+    "DescriptionEnglish": "Description English",
+    "Header": "Region Editor"
   },
   "zone": {
     "Region": "Region",
     "Code": "Code",
     "Description": "Description",
-    "DescriptionEnglish": "Description English"
+    "DescriptionEnglish": "Description English",
+    "Header": "Zone Editor"
   },
   "woreda": {
     "Region": "Region",
     "Zone": "Zone",
     "Code": "Code",
     "Description": "Description",
-    "DescriptionEnglish": "Description English"
+    "DescriptionEnglish": "Description English",
+    "Header": "Woreda Editor"
   },
   "kebele": {
     "Region": "Region",
@@ -358,7 +361,8 @@
     "Woreda": "Woreda",
     "KebeleCode": "Kebele Code",
     "Description": "Description",
-    "DescriptionEnglish": "Description English"
+    "DescriptionEnglish": "Description English",
+    "Header": "Kebele Editor"
   },
   "registration": {
     "management": {

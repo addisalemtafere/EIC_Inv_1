@@ -36,7 +36,14 @@ export class WoredaService {
       }),
       catchError(this.errMsg.parseObservableResponseError), );
   }
-
+  getWoredaByParent(id): Observable<Woreda[]> {
+    return this.httpClient.get<Woreda[]>(this.config.urls.url('woredaByParent', id)).pipe(
+      map(woredaData => {
+        this.woredaList = woredaData;
+        return this.woredaList;
+      }),
+      catchError(this.errMsg.parseObservableResponseError), );
+  }
   getWoredas(): Observable<Woreda[]> {
     return this.httpClient.get<Woreda[]>(this.config.urls.url('woredas')).pipe(
       map(woredaList => this.woredaList = woredaList),

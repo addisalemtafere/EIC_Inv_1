@@ -99,6 +99,7 @@ export class AppConfiguration {
 
     woredas: 'api/Woredas',
     woreda: 'api/woreda',
+    woredaByParent: 'api/woredaByParent',
     kebeles: 'api/Kebeles',
     kebele: 'api/Kebele',
     servicePrerequisiteByServiceId: 'api/servicePrerequisiteByServiceId',
@@ -154,8 +155,10 @@ export class AppConfiguration {
     lookuptype: 'api/lookuptype',
     woredaById: 'api/woreda/ById',
     kebeleById: 'api/Kebele/ById',
+    kebeleByByParentId: 'api/Kebeles/ByParent',
     regionsById: 'api/Regions/ById',
     zoneById: 'api/Zones/ById',
+    zoneByParentId: 'api/Zones/ByParentId',
     townById: 'api/Towns/ById',
     requirementByProject: 'api/ProjectRequirements/ByProject',
     ProjectsDetail: 'api/Projects/Detail',
