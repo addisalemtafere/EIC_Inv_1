@@ -12,11 +12,12 @@ import {Subscription} from "rxjs";
 import {AngConfirmDialogComponent} from "@custor/components/confirm-dialog/confirm-dialog.component";
 import {Utilities} from "@custor/helpers/utilities";
 import {Decision} from '@custor/const/consts';
-import {FollowUpModel} from "../../../model/followup/followup.model";
-import {Decisions, Services} from "../../../model/lookupData";
-import {FollowupService} from "../../../Services/followup/followup.service";
-import {DataSharingService} from "../../../Services/data-sharing.service";
-import {LookUpService} from "../../../Services/look-up.service";
+import {FollowUpModel} from "../../model/followup/followup.model";
+import {Decisions, Services} from '../../model/lookupData';
+import {FollowupService} from "../../Services/followup/followup.service";
+import {DataSharingService} from "../../Services/data-sharing.service";
+import {LookUpService} from "../../Services/look-up.service";
+
 
 @Component({
   selector: 'app-followup',

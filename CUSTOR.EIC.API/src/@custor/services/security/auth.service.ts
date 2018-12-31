@@ -107,11 +107,14 @@ export class AuthService {
   }
 
   private processLoginResponse(response: LoginResponse, rememberMe: boolean) {
+
     const accessToken = response.access_token;
 
     if (accessToken == null) {
       throw new Error('Received accessToken was empty');
     }
+    localStorage.setItem('loggIn', 'true');
+
 
     const refreshToken = response.refresh_token || this.refreshToken;
     const expiresIn = response.expires_in;
