@@ -18,5 +18,5 @@ const routes: Routes = [
   exports: [RouterModule],
   declarations: []
 })
-export class followup_routing_module {
+export class FollowupRoutingModule {
 }

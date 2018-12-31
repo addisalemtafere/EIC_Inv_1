@@ -53,7 +53,7 @@ export class AppConfiguration {
 
     pOutPutByProject: 'api/ProjectOutputs/ByProject',
     serviceSteps: 'api/ServiceSteps',
-    search: '/api/ServiceApplications/Api/Search',
+    search: 'api/ServiceApplications/Api/Search',
     document: 'api/Document',
 
     // firie api

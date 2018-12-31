@@ -98,6 +98,7 @@ export class AuthService {
   }
 
   login(user: UserLogin) {
+    localStorage.setItem('loggIn', 'true');
     if (this.isLoggedIn) {
       this.logout();
     }

@@ -12,8 +12,8 @@ import {ErrorComponent} from './components/error/error.component';
 import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {AddressComponent} from './components/project-profile/address/address.component';
 import {HelpComponent} from "./components/help/help.component";
-import {FollowupFormComponent} from './components/components/followup/followup-form/followup-form.component';
-import {FollowupComponent} from "./components/components/followup/followup.component";
+import {FollowupComponent} from "./components/followup/followup.component";
+import {FollowupFormComponent} from "./components/followup/followup-form/followup-form.component";
 
 
 @NgModule({
@@ -26,11 +26,8 @@ import {FollowupComponent} from "./components/components/followup/followup.compo
       },
       {
         path: 'followup',
-        component: FollowupComponent
-      },
-      {
-        path: 'followupform',
-        component: FollowupFormComponent
+        loadChildren: 'app/components/followup/followup.module#FollowupModule',
+        canActivate: [AuthGuard]
       },
       {
         path: 'dashboard',
