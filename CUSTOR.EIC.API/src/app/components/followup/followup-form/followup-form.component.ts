@@ -10,11 +10,12 @@ import {AuthService} from "@custor/services/security/auth.service";
 import {ConfigurationService} from "@custor/services/configuration.service";
 import {ToastrService} from "ngx-toastr";
 import {Decision, Service} from '@custor/const/consts';
-import {FollowUpModel} from "../../../../model/followup/followup.model";
-import {Decisions, Services} from "../../../../model/lookupData";
-import {DataSharingService} from "../../../../Services/data-sharing.service";
-import {LookUpService} from "../../../../Services/look-up.service";
-import {FollowupService} from "../../../../Services/followup/followup.service";
+import {FollowUpModel} from '../../../model/followup/followup.model';
+import {FollowupService} from "../../../Services/followup/followup.service";
+import {Decisions, Services} from "../../../model/lookupData";
+import {DataSharingService} from "../../../Services/data-sharing.service";
+import {LookUpService} from "../../../Services/look-up.service";
+
 
 @Component({
   selector: 'app-followup-form',

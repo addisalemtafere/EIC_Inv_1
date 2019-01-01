@@ -68,9 +68,7 @@ import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.s
 import {AddressComponent} from './components/project-profile/address/address.component';
 import {AppComponent} from './app.component';
 import {HelpComponent} from './components/help/help.component';
-import {FollowupComponent} from "./components/components/followup/followup.component";
-import {FollowComponent} from "./components/follow/follow.component";
-import {FollowupFormComponent} from "./components/components/followup/followup-form/followup-form.component";
+
 import {
   NgxUiLoaderConfig, NgxUiLoaderHttpModule,
   NgxUiLoaderModule,
@@ -130,10 +128,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ErrorComponent,
     AddressComponent,
     HelpComponent,
-    // IncentiveDetailComponent
-    FollowupComponent,
-    FollowComponent,
-    FollowupFormComponent
 
   ],
 

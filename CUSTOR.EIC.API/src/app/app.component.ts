@@ -152,7 +152,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     this.ngxService.stop(); // start foreground loading with 'default' id
 
 
-    localStorage.setItem('loggIn', 'false');
+    // localStorage.setItem('loggIn', 'false');
 
     this.checkInvestor();
     this.router.events.subscribe(event => {

@@ -5,12 +5,12 @@
       <mat-icon>menu</mat-icon>
     </button>
     <!-- <h1 class="app-name"><a routerLink="/">{{appTitle}}</a></h1> -->
-    <a style='margin-top: 12px' (click)="goToHome()" ><img src='../assets/logo/eInvest.png'/></a>
+    <a style='margin-top: 12px' (click)="goToHome()"><img src='../assets/logo/eInvest.png'/></a>
 
     <span class="app-toolbar-spacer"></span>
     <!-- <app-theme-picker></app-theme-picker> -->
     <!--<app-lang-switcher></app-lang-switcher>-->
-    <button mat-button (click)="DoLogin()">
+    <button *ngIf="isLogged==='false'" mat-button (click)="DoLogin()">
       <mat-icon>lock_open</mat-icon>
       <span>{{'mainMenu.Login' | translate}}</span>
     </button>
@@ -23,10 +23,15 @@
       <mat-icon>person</mat-icon>
       <span>{{'mainMenu.Register' | translate}}</span>
     </button>
-    <button *ngIf="isLogged!=='false'" class="side-button" mat-button [matMenuTriggerFor]="accountMenu"
-            matTooltip="{{'mainMenu.UserAccount' | translate}}">
+    <button *ngIf="isLogged!=='false'" mat-button class="side-button">
       <mat-icon class="menu-button">account_circle</mat-icon>
       <span>{{currentUsername}}</span>
+    </button>
+    <button *ngIf="isLogged!=='false'" class="side-button" mat-button [matMenuTriggerFor]="accountMenu"
+            matTooltip="{{'mainMenu.UserAccount' | translate}}">
+      <!--<mat-icon class="menu-button">account_circle</mat-icon>-->
+      <mat-icon class="menu-button">more_vert</mat-icon>
+      <!--<span>{{currentUsername}}</span>-->
     </button>
     <mat-menu #accountMenu="matMenu">
       <!--<button *ngIf="isLoggedIn$ | async" mat-menu-item (click)="router.navigateByUrl('/settings')">-->
@@ -43,7 +48,7 @@
       </button>
     </mat-menu>
   </mat-toolbar>
-
+  <!--{{isLoggedIn$}}-->
   <mat-sidenav-container class="app-sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav *ngIf="isLoggedIn$ | async" #mainNav class="app-sidenav-nav mat-elevation-z6"
@@ -61,6 +66,7 @@
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
+
         <a *ngIf="!isInvestor && !canViewReadOnlyData && !canManageLookupsPermission" mat-list-item
            routerLinkActive="active"
            [routerLinkActiveOptions]="{ exact: true }"
