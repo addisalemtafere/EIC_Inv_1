@@ -1,13 +1,13 @@
-<div class="mat-elevation-z8" style="margin: 10px;">
+<div class="mat-elevation-z8" style="margin: 10px;" fxFlex="65">
     <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
     <mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="ServiceId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100px">Service Id</mat-header-cell>
-        <mat-cell *matCellDef="let row" fxFlex="100px"> {{row.ServiceId}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="150px">Service Id</mat-header-cell>
+        <mat-cell *matCellDef="let row" fxFlex="150px"> {{row.ServiceId}}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="ServiceNameEnglish">
-        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="180px">Service Name</mat-header-cell>
-        <mat-cell *matCellDef="let row" fxFlex="180px"> {{row.DisplayNameEnglish}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="250px">Service Name</mat-header-cell>
+        <mat-cell *matCellDef="let row" fxFlex="250px"> {{row.DisplayNameEnglish}}</mat-cell>
       </ng-container>
       <!--<ng-container matColumnDef="Fee" >-->
       <!--<mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="180px">Fee</mat-header-cell>-->
