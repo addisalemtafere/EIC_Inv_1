@@ -124,3 +124,9 @@ export class Services {
   public Description: string;
   public DescriptionEnglish: string;
 }
+@Injectable()
+export class ServiceType {
+  public Id: number;
+  public Description: string;
+  public DescriptionEnglish: string;
+}

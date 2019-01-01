@@ -1,16 +1,16 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs/index';
-import { HttpClient } from '@angular/common/http';
-import { SectorModel } from '../../../../../model/sector';
-import { AppConfiguration } from '../../../../../config/appconfig';
-import { SubSectorModel } from '../../../../../model/subSector';
-import { ToastrService } from 'ngx-toastr';
-import { ActivityModel } from '../../../../../model/activity';
-import { ActivityService } from '../activity.service';
-import { ErrorMessage } from '../../../../../../@custor/services/errMessageService';
-import { determineId } from '../../../../../../@custor/helpers/compare';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs/index';
+import {HttpClient} from '@angular/common/http';
+import {SectorModel} from '../../../../../model/sector';
+import {AppConfiguration} from '../../../../../config/appconfig';
+import {SubSectorModel} from '../../../../../model/subSector';
+import {ToastrService} from 'ngx-toastr';
+import {ActivityModel} from '../../../../../model/activity';
+import {ActivityService} from '../activity.service';
+import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
+import {determineId} from '../../../../../../@custor/helpers/compare';
 
 @Component({
   selector: 'app-edit-activity',
@@ -34,12 +34,12 @@ export class EditActivityComponent implements OnInit, OnDestroy {
   loadingIndicator: boolean;
 
   constructor(private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient,
-    private config: AppConfiguration,
-    private activityService: ActivityService, private errMsg: ErrorMessage,
-    private toastr: ToastrService,
-    private fb: FormBuilder) {
+              private router: Router,
+              private http: HttpClient,
+              private config: AppConfiguration,
+              private activityService: ActivityService, private errMsg: ErrorMessage,
+              private toastr: ToastrService,
+              private fb: FormBuilder) {
     this.activity = <ActivityModel>{};
     // initialize the form
     this.initForm();
@@ -54,6 +54,10 @@ export class EditActivityComponent implements OnInit, OnDestroy {
       /*this.getService();*/
       this.getSector();
       this.getSubSector();
+      this.activityForm.patchValue({
+        cSector: this.activatedRoute.snapshot.params['sectorId'],
+        cSubSector: this.activatedRoute.snapshot.params['subSectorId']
+      });
       return;
     }
     if (id) {
@@ -64,17 +68,22 @@ export class EditActivityComponent implements OnInit, OnDestroy {
   getSector() {
     this.activityService.getSector()
       .subscribe(result => {
-        this.sectorModels = result;
-      },
+          this.sectorModels = result;
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   getSubSector() {
     this.activityService.getSubSector()
       .subscribe(result => {
-        this.subsectorModels = result;
-        this.filterSector(this.activity.SubSector.SectorId);
-      },
+          this.subsectorModels = result;
+          if (this.isNewActivity) {
+            this.filterSector(this.activatedRoute.snapshot.params['sectorId']);
+          }
+          else {
+            this.filterSector(this.activity.SubSector.SectorId);
+          }
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
@@ -96,11 +105,11 @@ export class EditActivityComponent implements OnInit, OnDestroy {
     this.activitySub = this.activityService
       .getActivity(id)
       .subscribe(result => {
-        this.activity = result;
-        this.getSector();
-        this.getSubSector();
-        this.updateForm();
-      },
+          this.activity = result;
+          this.getSector();
+          this.getSubSector();
+          this.updateForm();
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
     this.loadingIndicator = false;
   }
@@ -123,10 +132,10 @@ export class EditActivityComponent implements OnInit, OnDestroy {
   initForm() {
     this.activityForm = this.fb.group({
       cDescription: ['', Validators.compose([Validators.required, Validators.maxLength(150),
-      Validators.pattern('^([ \u1200-\u137F])+$')])],
+        Validators.pattern('^([ \u1200-\u137F])+$')])],
       cDescriptionAlias: ['', Validators.pattern('^([ \u1200-\u137F])+$')],
       cDescriptionEnglish: ['', Validators.compose([Validators.required, Validators.maxLength(200),
-      Validators.pattern('^[a-zA-Z /,]+$')])],
+        Validators.pattern('^[a-zA-Z /,]+$')])],
       cDescriptionEnglishAlias: ['', Validators.pattern('^[a-zA-Z /,]+$')],
       cSector: [0, Validators.required],
       cSubSector: [0, Validators.required]
@@ -158,7 +167,7 @@ export class EditActivityComponent implements OnInit, OnDestroy {
       this.getEditedActivity()).subscribe((activity: ActivityModel) => {
         this.saveCompleted(activity);
       },
-        err => this.handleError(err));
+      err => this.handleError(err));
   }
 
   /* checkRecordExistance(): boolean {
@@ -212,12 +221,12 @@ export class EditActivityComponent implements OnInit, OnDestroy {
     }
     this.fillterssubsectorModels = null;
     this.fillterssubsectorModels = this.subsectorModels.filter((item) => {
-      return item.SectorId === sectorCode;
+      return item.SectorId == sectorCode;
     });
   }
 
   ngOnDestroy() {
-  //  this.activitySub.unsubscribe();
+    //  this.activitySub.unsubscribe();
   }
 
   onBack() {

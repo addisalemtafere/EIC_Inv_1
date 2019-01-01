@@ -187,7 +187,9 @@ export class EditSectorComponent implements OnInit, OnDestroy {
     //this.router.navigate(['sectors/list']);
     this.router.navigate(['category']);
   }
-
+  get EconomicSector() {
+    return this.sectorsForm.get('cEconomicSector');
+  }
   get Description() {
     return this.sectorsForm.get('cDescription');
   }

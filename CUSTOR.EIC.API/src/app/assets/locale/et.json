@@ -408,6 +408,68 @@
     "totalAmount": "ድምር",
     "totalAmountdescription": "የገንዘቡ ልክ በፊደል",
     "cashierName": "የገንዘብ ተቀባይ ስምና ፊርማ"
+  },
+  "sector": {
+    "header": "ዘረፍ",
+    "Description": "መግለጫ",
+    "DescriptionAlias": "መግለጫ በአጭሩ",
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "DescriptionEnglishAlias": "መግለጫ በእንግሊዘኛ በአጭሩ",
+    "EconomicSectorCode": "ኢኮኖሚክ ሴክተር ኮድ"
+  },
+  "subbsector": {
+    "sector": "ዘረፍ",
+    "header": "ዋና ዘረፍ",
+    "Description": "መግለጫ",
+    "DescriptionAlias": "መግለጫ በአጭሩ",
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "DescriptionEnglishAlias": "መግለጫ በእንግሊዘኛ በአጭሩ"
+  },
+  "invActivity": {
+    "sector": "ዘረፍ",
+    "subsector": "ዋና ዘረፍ",
+    "activity": "መስክ",
+    "header": "ፍቃድ መስጫ መደብ",
+    "Description": "መግለጫ",
+    "DescriptionAlias": "መግለጫ በአጭሩ",
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "DescriptionEnglishAlias": "መግለጫ በእንግሊዘኛ በአጭሩ",
+    "InAddisOromiaAreas": "አዲስ አበባና ኦሮሚያ ልዩ ዞን",
+    "InOtherAreas": "በሌሎች  አከባቢ"
+  },
+  "activity": {
+    "sector": "ዘረፍ",
+    "subsector": "ዋና ዘረፍ",
+    "header": "መስክ",
+    "Description": "መግለጫ",
+    "DescriptionAlias": "መግለጫ በአጭሩ",
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "DescriptionEnglishAlias": "መግለጫ በእንግሊዘኛ በአጭሩ"
+  },
+  "lookupTypes": {
+    "Header": "ሉክአፕ አይነት",
+    "LookupType": "LookupType",
+    "Description": "መግለጫ",
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+  },
+  "lookup": {
+    "Header": "ሉክአፕ",
+    "LookupType": "LookupType",
+    "LookupId": "Lookup Id",
+    "Amharic": "መግለጫ",
+    "English": "መግለጫ በእንግሊዘኛ"
+  },
+  "site": {
+    "Header": "ጣቢያ",
+    "Amharic": "ስም",
+    "NameEnglish": "ስምበእንግሊዘኛ"
+  },
+  "service": {
+    "Header": "አገልግሎት",
+    "Name": "ስም",
+    "DisplayName": "ስም /ባጭሩ/",
+    "NameEnglish": "ስም በእንግሊዘኛ",
+    "DisplayNameEnglish": "ስምበእንግሊዘኛ/ማሳያ/"
   }
 }
 

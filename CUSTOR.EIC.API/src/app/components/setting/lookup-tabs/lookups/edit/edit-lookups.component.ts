@@ -48,7 +48,10 @@ export class EditLookupsComponent implements OnInit, OnDestroy {
     if (id < 1) {
       this.isNewSubLookups = true;
       this.title = 'Create a new Lookup';
-      /*this.getService();*/
+      console.log(this.activatedRoute.snapshot.params['lookuptypeId']);
+      this.subLookupsForm.patchValue({
+        cLookUpTypeId: this.activatedRoute.snapshot.params['lookuptypeId']
+      });
       return;
     }
     if (id) {
@@ -105,9 +108,9 @@ export class EditLookupsComponent implements OnInit, OnDestroy {
   initForm() {
     this.subLookupsForm = this.fb.group({
       cAmharic: ['', Validators.compose([Validators.required, Validators.maxLength(150),
-        Validators.pattern('^([ \u1200-\u137F])+$')])],
+        Validators.pattern('^([ \u1200-\u137F 0-9 /])+$')])],
       cEnglish: ['', Validators.compose([Validators.required, Validators.maxLength(200),
-        Validators.pattern('^[a-zA-Z /,]+$')])],
+        Validators.pattern('^[a-zA-Z 0-9 /,]+$')])],
       cLookUpTypeId: [0, Validators.required],
       cLookupId: ['', Validators.required],
     });

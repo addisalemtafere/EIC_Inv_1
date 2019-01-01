@@ -28,14 +28,16 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 return null;
             }
         }
+
         public async Task<ICollection<Lookups>> GetRecordByParentandByCode(int LookupId, int Id1, int Id2)
         {
             ICollection<Lookups> lookups = null;
             try
             {
-                int id = (int)LookupId;
+                int id = (int) LookupId;
                 lookups = await Context.Lookup
-                                        .Where(look => look.LookUpTypeId == id && (look.LookupId == Id1 || look.LookupId == Id2)).ToListAsync();
+                    .Where(look => look.LookUpTypeId == id && (look.LookupId == Id1 || look.LookupId == Id2))
+                    .ToListAsync();
             }
             catch (InvalidOperationException)
             {
@@ -53,23 +55,39 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public IEnumerable<LookupsModel> GetLookups(int page = 0, int pageSize = 15)
         {
             var lookups = (from sp in Context.Lookup
-                           join s in Context.LookupType on sp.LookUpTypeId equals s.LookUpTypeId
-                           select new LookupsModel()
-                           {
-                               LookupId = sp.LookupId,
-                               Amharic = sp.Amharic,
-                               English = sp.English,
-                               DescriptionEnglish = s.DescriptionEnglish
-                           }).AsEnumerable();
+                join s in Context.LookupType on sp.LookUpTypeId equals s.LookUpTypeId
+                select new LookupsModel()
+                {
+                    LookupId = sp.LookupId,
+                    Amharic = sp.Amharic,
+                    English = sp.English,
+                    DescriptionEnglish = s.DescriptionEnglish
+                }).AsEnumerable();
             if (page > 0)
             {
                 lookups = lookups
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
             }
 
             return lookups;
         }
+
+        public async Task<List<Lookups>> GetLookupsByParent(int id, int page = 0, int pageSize = 15)
+        {
+            IQueryable<Lookups> lookups = Context.Lookup
+                .Where(sp => sp.LookUpTypeId == id)
+                .OrderBy(sp => sp.English);
+            if (page > 0)
+            {
+                lookups = lookups
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
+            }
+
+            return await lookups.ToListAsync();
+        }
+
         //public async Task<List<Lookups>> GetLookups(int page = 0, int pageSize = 15)
         //{
         //    IQueryable<Lookups> lookups = Context.Lookup
@@ -102,14 +120,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 return null;
             }
         }
+
         public override async Task<Lookups> GetRecord(object LookupId)
         {
             Lookups lookups = null;
             try
             {
-                int id = (int)LookupId;
+                int id = (int) LookupId;
                 lookups = await Context.Lookup
-                                        .Where(look => look.LookupId == id).FirstOrDefaultAsync();
+                    .Where(look => look.LookupId == id).FirstOrDefaultAsync();
             }
             catch (InvalidOperationException)
             {
@@ -130,9 +149,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             ICollection<Lookups> lookups = null;
             try
             {
-                int id = (int)LookupId;
+                int id = (int) LookupId;
                 lookups = await Context.Lookup
-                                        .Where(look => look.LookUpTypeId == id).ToListAsync();
+                    .Where(look => look.LookUpTypeId == id).ToListAsync();
             }
             catch (InvalidOperationException)
             {
@@ -146,6 +165,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
             return lookups;
         }
+
         public async Task<bool> DeleteLookup(int id)
         {
             var Lookup = await Context.Lookup
@@ -155,6 +175,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 SetError("Lookup does not exist");
                 return false;
             }
+
             Context.Lookup.Remove(Lookup);
             return await SaveAsync();
         }
@@ -166,6 +187,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 ValidationErrors.Add("No record was provided");
                 return false;
             }
+
             if (string.IsNullOrEmpty(entity.English))
                 ValidationErrors.Add("Please enter English", "English");
             else if (string.IsNullOrEmpty(entity.English) || entity.English.Length < 2)

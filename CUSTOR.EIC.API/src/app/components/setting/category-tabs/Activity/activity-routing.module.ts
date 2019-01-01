@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '', component: ActivityComponent,    children: [
       {path: '', component: ListActivityComponent},
       {path: 'list', component: ListActivityComponent},
-      {path: 'edit/:id', component: EditActivityComponent}
+      {path: 'edit/:id/:sectorId/:subSectorId', component: EditActivityComponent}
       ]
   }];
 

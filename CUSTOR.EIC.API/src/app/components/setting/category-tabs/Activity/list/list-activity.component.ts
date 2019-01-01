@@ -15,7 +15,7 @@ import {SubsectorService} from '../../subsector/subsector.service';
 import {SectorService} from '../../sector/sector.service';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-activity-list',
   templateUrl: './list-activity.component.html',
   styleUrls: ['./list-activity.component.css']
 })
@@ -34,6 +34,8 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   subsectorModels: SubSectorModel[] = [];
   filltersActivityModels: ActivityModel[] = [];
   fillterssubsectorModels: SubSectorModel[] = [];
+  private sectorId: any;
+  private subSectorId: any;
 
   constructor(private http: HttpClient,
               private subActivityService: ActivityService,
@@ -57,8 +59,8 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getSectors();
-    this.getSubSectors();
-    this.getActivitys();
+    // this.getSubSectors();
+    // this.getActivitys();
   }
 
   getActivitys() {
@@ -91,9 +93,9 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
 
   editActivity(activityModel?: ActivityModel) {
     if (activityModel) {
-      this.router.navigate(['/activitys/edit', activityModel.ActivityId], {relativeTo: this.route});
+      this.router.navigate(['/activitys/edit', activityModel.ActivityId + '/' + 0 + '/' + 0], {relativeTo: this.route});
     } else {
-      this.router.navigate(['/activitys/edit', 0]);
+      this.router.navigate(['/activitys/edit/' + 0 + '/' + this.sectorId + '/' + this.subSectorId]);
     }
   }
 
@@ -134,24 +136,34 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
     if (!sectorCode) {
       return;
     }
-    this.fillterssubsectorModels = null;
-    // this.filltersActivityModels = null;
-    this.fillterssubsectorModels = this.subsectorModels.filter((item) => {
-      return item.SectorId === sectorCode;
-    });
+    this.sectorId = sectorCode;
+    this.subSectorService.getSubSectorByParent(sectorCode)
+      .subscribe(result => {
+          this.fillterssubsectorModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+    // this.fillterssubsectorModels = null;
+    // // this.filltersActivityModels = null;
+    // this.fillterssubsectorModels = this.subsectorModels.filter((item) => {
+    //   return item.SectorId === sectorCode;
+    // });
   }
 
   filterSubSector(SubSecId: number) {
     if (!SubSecId) {
       return;
     }
-    this.filltersActivityModels = null;
-    this.filltersActivityModels = this.activityModels.filter((item) => {
-
-      return item.SubSectorId === SubSecId;
-    });
-    this.dataSource.data = this.filltersActivityModels;
-
+    this.subSectorId = SubSecId;
+    this.subActivityService.getActivityByParent(SubSecId)
+      .subscribe(result => {
+        console.log(result)
+        this.dataSource.data = result;
+      });
+    // this.filltersActivityModels = null;
+    // this.filltersActivityModels = this.activityModels.filter((item) => {
+    //
+    //   return item.SubSectorId === SubSecId;
+    // });
   }
 
   getSectors() {

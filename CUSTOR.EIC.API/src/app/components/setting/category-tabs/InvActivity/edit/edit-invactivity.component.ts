@@ -1,18 +1,18 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/index';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs/index';
 
-import { ToastrService } from 'ngx-toastr';
-import { InvActivityModel } from '../../../../../model/invactivity';
-import { InvactivityService } from '../invactivity.service';
-import { SubSectorModel } from '../../../../../model/subSector';
-import { ActivityModel } from '../../../../../model/activity';
-import { SectorModel } from '../../../../../model/sector';
-import { AppConfiguration } from '../../../../../config/appconfig';
-import { ErrorMessage } from '../../../../../../@custor/services/errMessageService';
-import { determineId } from '../../../../../../@custor/helpers/compare';
+import {ToastrService} from 'ngx-toastr';
+import {InvActivityModel} from '../../../../../model/invactivity';
+import {InvactivityService} from '../invactivity.service';
+import {SubSectorModel} from '../../../../../model/subSector';
+import {ActivityModel} from '../../../../../model/activity';
+import {SectorModel} from '../../../../../model/sector';
+import {AppConfiguration} from '../../../../../config/appconfig';
+import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
+import {determineId} from '../../../../../../@custor/helpers/compare';
 
 @Component({
   selector: 'app-edit-invactivity',
@@ -43,12 +43,12 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
   loadingIndicator: boolean;
 
   constructor(private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient,
-    private config: AppConfiguration,
-    private invactivityService: InvactivityService, private errMsg: ErrorMessage,
-    private toastr: ToastrService,
-    private fb: FormBuilder) {
+              private router: Router,
+              private http: HttpClient,
+              private config: AppConfiguration,
+              private invactivityService: InvactivityService, private errMsg: ErrorMessage,
+              private toastr: ToastrService,
+              private fb: FormBuilder) {
     this.invactivity = <InvActivityModel>{};
     // initialize the form
     this.initForm();
@@ -63,6 +63,11 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
       this.getSectors();
       this.getSubSectors();
       this.getActivitys();
+      this.invActivityForm.patchValue({
+        cSector: this.activatedRoute.snapshot.params['sectorId'],
+        cSubSector: this.activatedRoute.snapshot.params['subSectorId'],
+        cActivity: this.activatedRoute.snapshot.params['activityId']
+      });
       return;
     }
     if (id) {
@@ -88,12 +93,12 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
     this.invactivitySub = this.invactivityService
       .getInvActivity(id)
       .subscribe(result => {
-        this.invactivity = result;
-        this.getSectors();
-        this.getSubSectors();
-        this.getActivitys();
-        this.updateForm();
-      },
+          this.invactivity = result;
+          this.getSectors();
+          this.getSubSectors();
+          this.getActivitys();
+          this.updateForm();
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
     this.loadingIndicator = false;
   }
@@ -119,10 +124,10 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
   initForm() {
     this.invActivityForm = this.fb.group({
       cDescription: ['', Validators.compose([Validators.required, Validators.maxLength(150),
-      Validators.pattern('^([ \u1200-\u137F])+$')])],
+        Validators.pattern('^([ \u1200-\u137F])+$')])],
       cDescriptionAlias: ['', Validators.pattern('^([ \u1200-\u137F])+$')],
       cDescriptionEnglish: ['', Validators.compose([Validators.required, Validators.maxLength(200),
-      Validators.pattern('^[a-zA-Z /,]+$')])],
+        Validators.pattern('^[a-zA-Z /,]+$')])],
       cDescriptionEnglishAlias: ['', Validators.pattern('^[a-zA-Z /,]+$')],
       cInAddisOromiaAreas: ['', Validators.pattern('^[0-9]+$')],
       cInOtherAreas: ['', Validators.pattern('^[0-9]+$')],
@@ -157,7 +162,7 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
       this.getEditedInvActivity()).subscribe((invactivity: InvActivityModel) => {
         this.saveCompleted(invactivity);
       },
-        err => this.handleError(err));
+      err => this.handleError(err));
   }
 
   /* checkRecordExistance(): boolean {
@@ -211,28 +216,27 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-   // this.invactivitySub.unsubscribe();
+    // this.invactivitySub.unsubscribe();
   }
 
   getSectors() {
     this.invactivityService.getSectors()
       .subscribe(result => {
-        this.sectorModels = result;
-      },
+          this.sectorModels = result;
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   getSubSectors() {
     this.invactivityService.getSubSectors()
       .subscribe(result => {
-        this.subsectorModels = result;
-        if (this.isNewInvActivity) {
-          const formModel = this.invActivityForm.value;
-          this.filterSector(formModel.cSector);
-        } else {
-          this.filterSector(this.invactivity.Activity.SubSector.SectorId);
-        }
-      },
+          this.subsectorModels = result;
+          if (this.isNewInvActivity) {
+            this.filterSector(this.activatedRoute.snapshot.params['sectorId']);
+          } else {
+            this.filterSector(this.invactivity.Activity.SubSector.SectorId);
+          }
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
@@ -241,23 +245,22 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
       return;
     }
     this.fillterssubsectorModels = null;
-    // this.filltersActivityModels = null;
     this.fillterssubsectorModels = this.subsectorModels.filter((item) => {
-      return item.SectorId === sectorCode;
+      return item.SectorId == sectorCode;
     });
   }
 
   getActivitys() {
     this.invactivityService.getActivitys()
       .subscribe(result => {
-        this.activityModels = result;
-        if (this.isNewInvActivity) {
-          const formModel = this.invActivityForm.value;
-          this.filterSubSector(formModel.cSubSector);
-        } else {
-          this.filterSubSector(this.invactivity.Activity.SubSectorId);
-        }
-      },
+          this.activityModels = result;
+          if (this.isNewInvActivity) {
+            const formModel = this.invActivityForm.value;
+            this.filterSubSector(formModel.cSubSector);
+          } else {
+            this.filterSubSector(this.invactivity.Activity.SubSectorId);
+          }
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
@@ -268,9 +271,7 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
     // console.log(this.activityModels);
     this.filltersActivityModels = null;
     this.filltersActivityModels = this.activityModels.filter((item) => {
-      // console.log(SubSecId + 'item' + item.SubSectorId);
-
-      return item.SubSectorId === SubSecId;
+      return item.SubSectorId == SubSecId;
     });
   }
 
