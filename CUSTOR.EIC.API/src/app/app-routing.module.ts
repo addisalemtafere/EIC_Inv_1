@@ -14,6 +14,7 @@ import {AddressComponent} from './components/project-profile/address/address.com
 import {HelpComponent} from "./components/help/help.component";
 import {FollowupComponent} from "./components/followup/followup.component";
 import {FollowupFormComponent} from "./components/followup/followup-form/followup-form.component";
+import {ServicesComponent} from "./components/setting/services-tabs/services/services.component";
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import {FollowupFormComponent} from "./components/followup/followup-form/followu
       },
       {
         path: 'service-list',
-        component: CustomerServiceStarterComponent
+        // component: CustomerServiceStarterComponent
+        loadChildren: 'app/components/my-dashboard/customerService/customerServiceList.module#CustomerServiceListModule',
       },
       {
         path: 'register',
@@ -230,11 +232,11 @@ import {FollowupFormComponent} from "./components/followup/followup-form/followu
         loadChildren: 'app/components/letter-template/lettertemplate.module#LettertemplateModule',
         canActivate: [AuthGuard]
       },
-      {
-        path: 'project/list',
-        component: ProjectListComponent,
-        canActivate: [AuthGuard]
-      },
+      // {
+      //   path: 'project/list',
+      //   component: ProjectListComponent,
+      //   canActivate: [AuthGuard]
+      // },
       {
         path: 'project-renewal/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/project-profile/project-renewal-tab/projectRenewal.module#ProjectRenewalModule',
@@ -359,7 +361,9 @@ import {FollowupFormComponent} from "./components/followup/followup-form/followu
         loadChildren: 'app/components/project-profile/capital-registration/capitalRegistration.module#CapitalRegistrationModule'
       },
       {
-        path: 'address/:id', component: AddressComponent
+        path: 'address/:id',
+        loadChildren: 'app/components/project-profile/address/address.module#AddressModule'
+
       },
       {
         path: 'requested-items-list/:categoryId/:projectId/:requestId/:Quantity/:CurrencyType/:CurrencyRate/:Phase/:ServiceApplicationId/:ServiceId',
@@ -381,11 +385,11 @@ import {FollowupFormComponent} from "./components/followup/followup-form/followu
         loadChildren: 'app/components/incentive/incentive-detail/incentive-detail.module#IncentiveDetailModule',
         canActivate: [AuthGuard]
       },
-      {
-        path: 'help',
-        component: HelpComponent,
-        canActivate: [AuthGuard]
-      },
+      // {
+      //   path: 'help',
+      //   component: HelpComponent,
+      //   canActivate: [AuthGuard]
+      // },
       {path: '', component: HomeComponent},
       {path: '**', component: NotFoundComponent},
     ])

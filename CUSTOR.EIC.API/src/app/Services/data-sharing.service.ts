@@ -21,5 +21,6 @@ export class DataSharingService {
   isLoggedIn = new Subject<boolean>();
 
   constructor() {
+
   }
 }

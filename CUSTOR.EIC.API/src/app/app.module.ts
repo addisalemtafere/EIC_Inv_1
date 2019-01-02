@@ -54,29 +54,15 @@ import {ServiceListComponent} from './components/home/service-list/services.comp
 import {SharedModule} from '@custor/modules/shared.module';
 import {LoginDialogComponent} from './components/auth/login/login-dialog.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ServiceInitComponent} from './components/project-profile/service-init/service-init.component';
-import {MatButtonModule, MatCardModule, MatGridListModule, MatIconModule, MatMenuModule} from '@angular/material';
 import {NotificationsComponent} from './components/notifications/notifications.component';
 import {TaskDispatcherComponent} from './components/task-dispatcher/task-dispatcher.component';
 import {BaseComponent} from './components/base-components/base.component';
-import {PlotlyModule} from 'angular-plotly.js';
-import {ImageUploadModule} from 'angular2-image-upload';
-import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {EditorModule} from '@tinymce/tinymce-angular';
 import {ErrorComponent} from './components/error/error.component';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
-import {AddressComponent} from './components/project-profile/address/address.component';
 import {AppComponent} from './app.component';
-import {HelpComponent} from './components/help/help.component';
 
-import {
-  NgxUiLoaderConfig, NgxUiLoaderHttpModule,
-  NgxUiLoaderModule,
-  NgxUiLoaderRouterModule,
-  PB_DIRECTION,
-  POSITION,
-  SPINNER
-} from "ngx-ui-loader";
+import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule} from "ngx-ui-loader";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -118,7 +104,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     EnumKeyValueListPipe,
     DocumentPipePipe,
     NotificationComponent,
-    ServiceInitComponent,
+    // ServiceInitComponent,
     LoginDialogComponent,
     LoginComponent,
     LoginControlComponent,
@@ -126,8 +112,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     TaskDispatcherComponent,
     BaseComponent,
     ErrorComponent,
-    AddressComponent,
-    HelpComponent,
+    // CustomerServiceStarterComponent
+    // AddressComponent,
+    // HelpComponent,
 
   ],
 
@@ -154,13 +141,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ToastrModule.forRoot({
       maxOpened: 1,
     }),
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    PlotlyModule,
-    ImageUploadModule.forRoot(),
+    // MatGridListModule,
+    // MatCardModule,
+    // MatMenuModule,
+    // MatIconModule,
+    // MatButtonModule,
+    // ImageUploadModule.forRoot(),
     EditorModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderHttpModule.forRoot({showForeground: true})
@@ -171,8 +157,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NotificationComponent,
     NotificationsComponent,
     TaskDispatcherComponent,
-    ServiceInitComponent,
-    CustomerServiceStarterComponent
+    // ServiceInitComponent,
+
   ],
   providers: [
     {provide: 'BASE_URL', useFactory: getBaseUrl},
