@@ -34,6 +34,14 @@ export class SubsectorService {
       }),
       catchError(this.errMsg.parseObservableResponseError), );
   }
+  getSubSectorByParent(id): Observable<SubSectorModel[]> {
+    return this.httpClient.get<SubSectorModel[]>(this.config.urls.url('subsectorByParent', id)).pipe(
+      map(sectordata => {
+        this.subsectorList = sectordata;
+        return this.subsectorList;
+      }),
+      catchError(this.errMsg.parseObservableResponseError), );
+  }
   getSubSectors(): Observable<SubSectorModel[]> {
     return this.httpClient.get<SubSectorModel[]>(this.config.urls.url('subsectors')).pipe(
       map(subsectorList => this.subsectorList = subsectorList),

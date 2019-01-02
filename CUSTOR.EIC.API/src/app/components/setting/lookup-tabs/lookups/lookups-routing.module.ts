@@ -7,7 +7,7 @@ import {EditLookupsComponent} from "./edit/edit-lookups.component";
 const LookupsRoute: Routes = [
 
     { path: 'list', component: ListLookupsComponent },
-    { path: 'edit/:id', component: EditLookupsComponent }
+    { path: 'edit/:id/:lookuptypeId', component: EditLookupsComponent }
   ];
 
 

@@ -28,6 +28,14 @@ export class LookupsService {
       }),
       catchError(this.errMsg.parseObservableResponseError),);
   }
+  getLookupByParent(id): Observable<LookupsModel[]> {
+    return this.httpClient.get<LookupsModel[]>(this.config.urls.url('lookupByParentId', id)).pipe(
+      map(lookuprdata => {
+        this.lookupsList = lookuprdata;
+        return this.lookupsList;
+      }),
+      catchError(this.errMsg.parseObservableResponseError),);
+  }
 
 
   getLookups(): Observable<LookupsModel[]> {

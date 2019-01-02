@@ -1,15 +1,11 @@
-<div class="containerX">
-
-  <mat-card>
-    <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
-    <mat-card-header>
-      <mat-card-title>
-        <!-- <mat-icon class="mat-button-icon">person_add</mat-icon> Edit Customer -->
-      </mat-card-title>
-    </mat-card-header>
-    <br />
-    <br />
-
+<mat-toolbar mat-dialog-title>
+  <h1 mat-dialog-title>
+    <mat-icon>create</mat-icon>
+    {{('lookupTypes.Header' | translate)}}
+  </h1>
+</mat-toolbar>
+<mat-card class="mat-elevation-z8">
+  <br/>
     <mat-card-content>
       <form #form="ngForm" [formGroup]="lookuptypesForm" novalidate (ngSubmit)="onSubmit()" fxLayout="column"
             autocomplete="off">
@@ -19,29 +15,29 @@
             <!--<input matInput formControlName="cLookUpTypeId"  required maxlength="10" />-->
           <!--</mat-form-field>-->
           <mat-form-field>
-            <mat-label>Description:</mat-label>
-            <input matInput formControlName="cDescription"  required maxlength="150" />
+            <mat-label>{{'lookupTypes.Description' | translate}}</mat-label>
+            <input matInput formControlName="cDescription" required maxlength="150"/>
             <mat-error *ngIf="Description.hasError('required')">
-              Please enter Description amharic
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+            <mat-error *ngIf="Description.hasError('maxlength')">
+              {{'common.validation.MaxLengthChar' | translate: {'max':'150'} }}
             </mat-error>
             <mat-error *ngIf="Description.hasError('pattern')">
-              Only amharic alphabetic charcters are allowed!
-            </mat-error>
-            <mat-error *ngIf="!Description.hasError('maxlength')">
-              Maximum charcters length is 150!
+              {{'common.validation.UseEthiopicOnly' | translate}}
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <mat-label >Description English:</mat-label>
-            <input matInput formControlName="cDescriptionEnglish" required maxlength="200" />
+            <mat-label>{{'lookupTypes.DescriptionEnglish' | translate}}</mat-label>
+            <input matInput formControlName="cDescriptionEnglish" required maxlength="200"/>
             <mat-error *ngIf="DescriptionEnglish.hasError('required')">
-              Please enter service name english
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+            <mat-error *ngIf="DescriptionEnglish.hasError('maxlength')">
+              {{'common.validation.MaxLengthChar' | translate: {'max':'200'} }}
             </mat-error>
             <mat-error *ngIf="DescriptionEnglish.hasError('pattern')">
-              Only alphabetic charcters are allowed!
-            </mat-error>
-            <mat-error *ngIf="!DescriptionEnglish.hasError('maxlength')">
-              Maximum charcters length is 200!
+              {{'common.validation.UseLatinOnly' | translate}}
             </mat-error>
           </mat-form-field>
         </div>
@@ -57,4 +53,4 @@
       </form>
     </mat-card-content>
   </mat-card>
-</div>
+

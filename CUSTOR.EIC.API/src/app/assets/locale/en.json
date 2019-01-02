@@ -434,6 +434,68 @@
     "totalAmount": "Total Amount",
     "totalAmountdescription": "Amount Description",
     "cashierName": "Cashier Name"
+  },
+  "sector": {
+    "header": "Sector Editor",
+    "Description": "Description",
+    "DescriptionAlias": "Description Alias",
+    "DescriptionEnglish": "Description English",
+    "DescriptionEnglishAlias": "Description English Alias",
+    "EconomicSectorCode": "Economic Sector Code"
+  },
+  "subsector": {
+    "Sector": "Sector",
+    "header": "SubSector Editor",
+    "Description": "Description",
+    "DescriptionAlias": "Description Alias",
+    "DescriptionEnglish": "Description English",
+    "DescriptionEnglishAlias": "Description English Alias"
+  },
+  "activity": {
+    "Sector": "Sector",
+    "subSector": "SubSector",
+    "header": "Activity Editor",
+    "Description": "Description",
+    "DescriptionAlias": "Description Alias",
+    "DescriptionEnglish": "Description English",
+    "DescriptionEnglishAlias": "Description English Alias"
+  },
+  "invActivity": {
+    "Sector": "Sector",
+    "subSector": "SubSector",
+    "activity": "Activity",
+    "header": "Activity Editor",
+    "Description": "Description",
+    "DescriptionAlias": "Description Alias",
+    "DescriptionEnglish": "Description English",
+    "DescriptionEnglishAlias": "Description English Alias",
+    "InAddisOromiaAreas": "In Addis Oromia Areas",
+    "InOtherAreas": "In Other Areas"
+  },
+  "lookupTypes": {
+    "Header": "Lookup Types Editor",
+    "LookupType": "LookupType",
+    "Description": "Description",
+    "DescriptionEnglish": "Description English"
+  },
+  "lookup": {
+    "Header": "Lookup Editor",
+    "LookupId": "Lookup Id",
+    "LookupType": "LookupType",
+    "Amharic": "Description",
+    "English": "Description English"
+  },
+  "site": {
+    "Header": "Site Editor",
+    "Amharic": "Amharic",
+    "NameEnglish": "English Name"
+  },
+  "service": {
+    "Header": "Service Editor",
+    "Name": "Name",
+    "DisplayName": "Display Name",
+    "NameEnglish": "Name English",
+    "DisplayNameEnglish": "Display Name English"
   }
 }
 
