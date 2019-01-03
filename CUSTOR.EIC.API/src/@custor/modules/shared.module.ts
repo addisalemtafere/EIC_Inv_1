@@ -24,7 +24,6 @@ import {NotFoundComponent} from '../../app/components/not-found/not-found.compon
 import {ServicePipePipe} from '../../app/pipe/service-pipe.pipe';
 import {LookuptypePipe} from '../../app/pipe/lookuptype.pipe.pipe';
 import {LookupPipe} from '../../app/pipe/lookup-pipe.pipe';
-import {ShowErrorsComponent} from '../../app/components/show-errors/show-errors.component';
 import {CustomsbranchPipe} from '../../app/pipe/customsbranch-pipe';
 import {LetterLookupPipe} from '../../app/pipe/letter-lookup.pipe';
 import {LookupReasonPipe} from '../../app/pipe/lookup-reason-pipe.pipe';
@@ -74,7 +73,6 @@ import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
     // CustomerServiceStarterComponent,
     LookupPipe,
     LookuptypePipe,
-    ShowErrorsComponent,
     CustomsbranchPipe,
     LookupReasonPipe,
     LetterLookupPipe,
@@ -103,7 +101,6 @@ import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
     // CustomerServiceStarterComponent,
     LookupPipe,
     LookuptypePipe,
-    ShowErrorsComponent,
     CustomsbranchPipe,
     LookupReasonPipe,
     LetterLookupPipe,
