@@ -58,7 +58,6 @@ import {NotificationsComponent} from './components/notifications/notifications.c
 import {TaskDispatcherComponent} from './components/task-dispatcher/task-dispatcher.component';
 import {BaseComponent} from './components/base-components/base.component';
 import {EditorModule} from '@tinymce/tinymce-angular';
-import {ErrorComponent} from './components/error/error.component';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
 import {AppComponent} from './app.component';
 
@@ -111,7 +110,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NotificationsComponent,
     TaskDispatcherComponent,
     BaseComponent,
-    ErrorComponent,
     // CustomerServiceStarterComponent
     // AddressComponent,
     // HelpComponent,

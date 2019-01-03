@@ -100,7 +100,6 @@
   <ItemGroup>
     <Folder Include="Controllers\Business\" />
     <Folder Include="obj\" />
-    <Folder Include="src\app\components\components" />
     <Folder Include="ViewModels\project\" />
     <Folder Include="ViewModels\Validations\" />
     <Folder Include="wwwroot\photo\" />
