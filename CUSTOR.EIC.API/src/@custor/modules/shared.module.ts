@@ -19,10 +19,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {EnabledControlDirective} from '../../app/directive/enabled-control.directive';
 import {ServicePrerequisiteComponent} from '../../app/components/project-profile/service-prerequisite/service-prerequisite.component';
 import {ServiceStepPipePipe} from '../../app/pipe/service-step-pipe.pipe';
-import {ProjectListComponent} from '../../app/components/project-profile/project-list/project-list.component';
 import {AccessDeniedComponent} from '../../app/components/denied/denied.component';
 import {NotFoundComponent} from '../../app/components/not-found/not-found.component';
-import {CustomerServiceStarterComponent} from '../../app/components/my-dashboard/customerService/customerServices.component';
 import {ServicePipePipe} from '../../app/pipe/service-pipe.pipe';
 import {LookuptypePipe} from '../../app/pipe/lookuptype.pipe.pipe';
 import {LookupPipe} from '../../app/pipe/lookup-pipe.pipe';
@@ -69,11 +67,11 @@ import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
     ServicePrerequisiteComponent,
     ServiceStepPipePipe,
     ServicePipePipe,
-    ProjectListComponent,
+    // ProjectListComponent,
 
     NotFoundComponent,
     AccessDeniedComponent,
-    CustomerServiceStarterComponent,
+    // CustomerServiceStarterComponent,
     LookupPipe,
     LookuptypePipe,
     ShowErrorsComponent,
@@ -98,11 +96,11 @@ import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
     ServicePrerequisiteComponent,
     ServiceStepPipePipe,
     ServicePipePipe,
-    ProjectListComponent,
+    // ProjectListComponent,
 
     NotFoundComponent,
     AccessDeniedComponent,
-    CustomerServiceStarterComponent,
+    // CustomerServiceStarterComponent,
     LookupPipe,
     LookuptypePipe,
     ShowErrorsComponent,

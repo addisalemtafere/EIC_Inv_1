@@ -23,6 +23,7 @@ import {DataSharingService} from '../../../Services/data-sharing.service';
 })
 export class AddressComponent implements OnInit, OnDestroy, AfterContentChecked {
 
+
   regions: RegionModel[] = [];
   zones: ZoneModel[] = [];
   filteredZones: ZoneModel[] = [];
