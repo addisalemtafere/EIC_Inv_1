@@ -229,4 +229,7 @@ export class EditTariffComponent implements OnInit, OnDestroy {
   get Quantity() {
     return this.tariffForm.get('cQuantity');
   }
+  get TariffMode() {
+    return this.tariffForm.get('cTariffModeId');
+  }
 }

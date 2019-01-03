@@ -467,9 +467,37 @@
   "service": {
     "Header": "አገልግሎት",
     "Name": "ስም",
+    "ServiceType": "አገልግሎት አይነት",
     "DisplayName": "ስም /ባጭሩ/",
     "NameEnglish": "ስም በእንግሊዘኛ",
     "DisplayNameEnglish": "ስምበእንግሊዘኛ/ማሳያ/"
+  },
+  "servicePrerequsite": {
+    "Header": "መስፈርት",
+    "ServiceType": "አገልግሎት አይነት",
+    "Description": "ስም",
+    "DescriptionEnglish": "ስምበእንግሊዘኛ/ማሳያ/"
+  },
+  "servicestepper": {
+    "Header": "የአገልግሎት ደረጃ",
+    "ServiceType": "አገልግሎት አይነት",
+    "NameAmharic": "ስም",
+    "NameEnglish": "ስምበእንግሊዘኛ/ማሳያ/"
+  },
+  "servicesTariff": {
+    "Header": "የአገክግሎት ክፍያ",
+    "ServiceType": "አገልግሎት አይነት",
+    "TariffType": "የክፍያ አይነት"
+  },
+  "tariff": {
+    "Header": "ክፍያ",
+    "AccountCode": "አካውንት ኮድ",
+    "TariffNameEnglish": "ስም በእንግሊዘኛ",
+    "Fee": "ክፍያ",
+    "IncrementalFee": "ተጨማሪ ክፍያ",
+    "Quantity": "ብዛት",
+    "TariffMode": "የክፍያ አይነት",
+    "TariffName": "ስም"
   }
 }
 

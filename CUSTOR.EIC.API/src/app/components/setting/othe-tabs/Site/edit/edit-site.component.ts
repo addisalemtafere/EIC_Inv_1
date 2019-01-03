@@ -29,7 +29,6 @@ export class EditSiteComponent implements OnInit, OnDestroy {
   /*sitesModel: SiteModel[] = [];*/
   sitesForm: FormGroup;
   loadingIndicator: boolean;
-  servicetypes: ServiceType[] = [];
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private http: HttpClient,

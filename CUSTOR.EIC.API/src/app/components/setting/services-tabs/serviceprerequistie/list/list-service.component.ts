@@ -1,14 +1,16 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 
-import { MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { ServicePrerequisite } from '../../../../../model/service-prerequisite';
-import { ServicePrerequisiteService } from '../servicePrerequisite.service';
-import { ToastrService } from 'ngx-toastr';
-import { AngConfirmDialogComponent } from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
-import { ErrorMessage } from '../../../../../../@custor/services/errMessageService';
-import { Utilities } from '../../../../../../@custor/helpers/utilities';
+import {MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {ActivatedRoute, Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {ServicePrerequisite} from '../../../../../model/service-prerequisite';
+import {ServicePrerequisiteService} from '../servicePrerequisite.service';
+import {ToastrService} from 'ngx-toastr';
+import {AngConfirmDialogComponent} from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
+import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
+import {Utilities} from '../../../../../../@custor/helpers/utilities';
+import {ServicePrerequisiteModel} from "../../../../../model/service";
+import {determineId} from "@custor/helpers/compare";
 
 @Component({
   selector: 'app-serviceprerequiste-list',
@@ -19,27 +21,53 @@ import { Utilities } from '../../../../../../@custor/helpers/utilities';
 export class ListServiceComponent implements OnInit, AfterViewInit {
   ServiceId: number;
   serviceprerequisites: ServicePrerequisite[];
+  servicesModel: ServicePrerequisiteModel[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns = ['Service Name', 'Description', 'DescriptionEnglish', 'IsActive', 'actions'];
-
+  displayedColumns = ['Description', 'DescriptionEnglish', 'IsActive', 'actions'];
+  //'Service Name',
   dataSource: MatTableDataSource<ServicePrerequisite>;
   loadingIndicator: boolean;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  serviceId: any;
 
   constructor(private http: HttpClient,
-    private servicePrerequisiteService: ServicePrerequisiteService,
-    private errMsg: ErrorMessage,
-    private toastr: ToastrService, public dialog: MatDialog,
-    private router: Router, private route: ActivatedRoute) {
+              private servicePrerequisiteService: ServicePrerequisiteService,
+              private errMsg: ErrorMessage,
+              private toastr: ToastrService, public dialog: MatDialog,
+              private router: Router, private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit() {
-    this.getServicePrerequisites();
+    this.getService();
+    //this.getServicePrerequisites();
+  }
+
+  getService() {
+    this.servicePrerequisiteService.getService()
+      .subscribe(result => {
+          this.servicesModel = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
+  }
+  filterPrerequsite(serviceCode: number) {
+    if (!serviceCode) {
+      return;
+    }
+    this.serviceId = serviceCode;
+    this.servicePrerequisiteService.getServicePrerequisiteByparent(serviceCode)
+      .subscribe(result => {
+        this.dataSource.data = result;
+      });
   }
 
   applyFilter(filterValue: string) {
@@ -55,15 +83,15 @@ export class ListServiceComponent implements OnInit, AfterViewInit {
     this.loadingIndicator = true;
     this.servicePrerequisiteService.getServicePrerequisites()
       .subscribe(result => {
-        this.serviceprerequisites = result;
-        if (!this.serviceprerequisites) {
-          this.toastr.error('No records were found to list', 'Error', {
-            closeButton: true,
-          });
-        } else {
-          this.dataSource.data = this.serviceprerequisites;
-        }
-      },
+          this.serviceprerequisites = result;
+          if (!this.serviceprerequisites) {
+            this.toastr.error('No records were found to list', 'Error', {
+              closeButton: true,
+            });
+          } else {
+            this.dataSource.data = this.serviceprerequisites;
+          }
+        },
         err => {
           if (!this.errMsg.message) {
             this.toastr.error('Error! Please check if the Web serviceprerequistie is running');
@@ -81,9 +109,9 @@ export class ListServiceComponent implements OnInit, AfterViewInit {
 
   editServicePrerequisite(servicePrerequisite: ServicePrerequisite) {
     if (servicePrerequisite) {
-      this.router.navigate(['/serviceprerequisites/edit', servicePrerequisite.ServicePrerequisiteId], { relativeTo: this.route });
+      this.router.navigate(['/serviceprerequisites/edit', servicePrerequisite.ServicePrerequisiteId + '/' + 0], {relativeTo: this.route});
     } else {
-      this.router.navigate(['/serviceprerequisites/edit', 0]);
+      this.router.navigate(['/serviceprerequisites/edit/' + 0 + '/' + this.serviceId]);
     }
   }
 
@@ -100,9 +128,9 @@ export class ListServiceComponent implements OnInit, AfterViewInit {
       if (result) {
         this.servicePrerequisiteService.deleteServicePrerequisite(servicePrerequisite)
           .subscribe(results => {
-            this.loadingIndicator = false;
-            this.dataSource.data = this.dataSource.data.filter(item => item !== servicePrerequisite);
-          },
+              this.loadingIndicator = false;
+              this.dataSource.data = this.dataSource.data.filter(item => item !== servicePrerequisite);
+            },
             error => {
               // tslint:disable-next-line:max-line-length
               this.toastr.error(
@@ -113,4 +141,6 @@ export class ListServiceComponent implements OnInit, AfterViewInit {
       this.loadingIndicator = false;
     });
   }
+
+
 }

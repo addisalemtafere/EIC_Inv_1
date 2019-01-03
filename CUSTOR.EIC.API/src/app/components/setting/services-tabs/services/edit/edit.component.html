@@ -76,6 +76,18 @@
             {{'common.validation.UseLatinOnly' | translate}}
           </mat-error>
         </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'service.ServiceType' | translate}}</mat-label>
+          <mat-select formControlName="cTypeOfService" [compareWith]="compareIds" required>
+            <option value="0">--Select--</option>
+            <mat-option *ngFor="let serviceType of serviceTypes" [value]="serviceType.Id">
+              <span>{{serviceType.DescriptionEnglish}}</span>
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="TypeOfService.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+        </mat-form-field>
       </div>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
         <div fxFlex.gt-sm="0 1 calc(50% - 0.5em)">

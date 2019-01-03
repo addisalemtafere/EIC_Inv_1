@@ -35,7 +35,7 @@
       "InvalidDate": "Enter correct date",
       "FutureDate": "This date can not be greater than Today",
       "InvalidEmail": "Enter a valid email address ",
-	   "NumberOnly": "Enter number only!"
+      "NumberOnly": "Enter number only!"
     },
     "messages": {
       "Saved": "Data was saved successfully",
@@ -377,32 +377,26 @@
       "EthiopiansShare": "Ethiopian's Share",
       "BudgetCatagory": "Budget Catagory",
       "RegistrationStatus": "Status",
-
       "Tin": "Tin",
       "RegNumber": "Registration Number",
       "RegDate": "Registration Date",
       "PaidCapital": "Paid Up Capital",
       "SighnedCapital": "Sighned Capital",
       "SingleShareValue": "Single Share Value",
-
       "RepresentativeNameAmharic": "Grantor Company Name(Amharic)",
       "RepresentativeNameEnglish": "Grantor Company Name(English)",
       "RepresentativeNameRegional": "Grantor Company Name(Regional)",
-
       "RepresentativeManagerNameAmharic": "Grantor Company Manager Name(Amharic)",
       "RepresentativeManagerNameEnglish": "Grantor Company Manager Name(English)",
       "RepresentativeManagerNameRegional": "Grantor Company Manager Name(Regional)",
-
       "MainOfficeAddressAmharic": "Main Office Country(Amharic)",
       "MainOfficeAddressEnglish": "Main Office Country(English)",
       "MainOfficeAddressRegional": "Main Office Country(Regional)",
-
       "MainOfficeCountryNameAmharic": "Country (Amharic)",
       "MainOfficeCountryNameEnglish": "Country(English)",
       "MainOfficeCountryNameRegional": "Country(Regional)"
     }
   },
-
   "registrationAddress": {
     "management": {
       "RegistrationAddressName": "Address"
@@ -493,9 +487,37 @@
   "service": {
     "Header": "Service Editor",
     "Name": "Name",
+    "ServiceType": "Service Type",
     "DisplayName": "Display Name",
     "NameEnglish": "Name English",
     "DisplayNameEnglish": "Display Name English"
+  },
+  "servicePrerequsite": {
+    "Header": "Service Prerequsite Editor",
+    "ServiceType": "Service Type",
+    "Description": "Description",
+    "DescriptionEnglish": "Description English"
+  },
+  "servicestepper": {
+    "Header": "Service stepper Editor",
+    "ServiceType": "Service Type",
+    "NameAmharic": "Amharic Name",
+    "NameEnglish": "English Name"
+  },
+  "servicesTariff": {
+    "Header": "Service Fee Editor",
+    "ServiceType": "Service Type",
+    "TariffType": "Fee Type"
+  },
+  "tariff": {
+    "Header": "Fee Editor",
+    "AccountCode": "Account Code",
+    "TariffNameEnglish": "Fee Name English",
+    "Fee": "Fee",
+    "IncrementalFee": "Incremental Fee",
+    "Quantity": "Quantity",
+    "TariffMode": "Tariff Mode",
+    "TariffName": "Fee Name"
   }
 }
 

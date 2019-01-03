@@ -8,7 +8,7 @@ const ServiceRoutes: Routes = [
   {
     path: '', component: ServicePreRequisiteComponent,
     children: [
-      {path: 'edit/:id', component: EditServiceComponent},
+      {path: 'edit/:id/:serviceId', component: EditServiceComponent},
       {path: 'list', component: ListServiceComponent}
       /* ,      {path: 'edit/:descEng/:serviceId', component: EditServiceComponent}*/
     ]

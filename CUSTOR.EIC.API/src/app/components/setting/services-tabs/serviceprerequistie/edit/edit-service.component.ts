@@ -56,6 +56,9 @@ export class EditServiceComponent implements OnInit, OnDestroy {
       this.isNewServicePrerequisite = true;
       this.title = 'Create a new Service Prerequisite';
       this.getService();
+      this.servicePrerequisiteForm.patchValue({
+        cServiceType: this.activatedRoute.snapshot.params['serviceId']
+      });
       return;
     }
     if (id) {
@@ -203,9 +206,8 @@ export class EditServiceComponent implements OnInit, OnDestroy {
    // this.router.navigate(['serviceprerequisites/list']);
   }
 
-  /*get Description() { return this.servicePrerequisiteForm.get('cDescription'); }
+  get Description() { return this.servicePrerequisiteForm.get('cDescription'); }
   get DescriptionEnglish() { return this.servicePrerequisiteForm.get('cDescriptionEnglish'); }
-
+  get BusinessType() { return this.servicePrerequisiteForm.get('cBusinessType'); }
   get ServiceId() { return this.servicePrerequisiteForm.get('cServiceType'); }
-  get isActive() { return this.servicePrerequisiteForm.get('cIsActive'); }*/
 }

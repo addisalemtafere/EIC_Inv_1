@@ -1,10 +1,19 @@
 <div class="mat-elevation-z8" style="margin: 10px;">
+  <mat-form-field fxLayoutGap="1em" style="margin: 10px;width: 250px">
+    <mat-label>{{'servicePrerequsite.ServiceType' | translate}}</mat-label>
+    <mat-select [compareWith]="compareIds" style="width: 250px" required (selectionChange)="filterPrerequsite($event.value)">
+      <option value="0">--Select--</option>
+      <mat-option *ngFor="let service of servicesModel" [value]="service.ServiceId">
+        <span>{{service.DisplayNameEnglish}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
   <mat-table [dataSource]="dataSource" matSort>
-    <ng-container matColumnDef="Service Name">
-      <mat-header-cell *matHeaderCellDef flex="100px">Service Name</mat-header-cell>
-      <mat-cell *matCellDef="let row" flex="100px">{{row.ServiceNameEnglish}}</mat-cell>
-    </ng-container>
+    <!--<ng-container matColumnDef="Service Name">-->
+      <!--<mat-header-cell *matHeaderCellDef flex="100px">Service Name</mat-header-cell>-->
+      <!--<mat-cell *matCellDef="let row" flex="100px">{{row.ServiceNameEnglish}}</mat-cell>-->
+    <!--</ng-container>-->
     <ng-container matColumnDef="Description">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
       <mat-cell *matCellDef="let row"> {{row.Description}}</mat-cell>
