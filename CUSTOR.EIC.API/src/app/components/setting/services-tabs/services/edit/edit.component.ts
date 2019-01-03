@@ -1,14 +1,18 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
 
-import { ServicesService } from '../services.service';
-import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
-import { ServicePrerequisiteModel } from '../../../../../model/service';
-import { AppConfiguration } from '../../../../../config/appconfig';
-import { ErrorMessage } from '@custor/services/errMessageService';
+import {ServicesService} from '../services.service';
+import {ToastrService} from 'ngx-toastr';
+import {Subscription} from 'rxjs';
+import {ServicePrerequisiteModel} from '../../../../../model/service';
+import {AppConfiguration} from '../../../../../config/appconfig';
+import {ErrorMessage} from '@custor/services/errMessageService';
+import {determineId} from "@custor/helpers/compare";
+import {ServiceType} from "../../../../../model/lookupData";
+import {ServiceTypes} from "@custor/const/consts";
+import {ServiceModel} from "../../../../../model/Service.model";
 
 @Component({
   selector: 'app-edit',
@@ -23,19 +27,20 @@ export class EditComponent implements OnInit, OnDestroy {
   private form: NgForm;
   title: string;
   isNewServices = false;
-  services: ServicePrerequisiteModel;
-
+  services: ServiceModel;
+  servicesList: ServiceModel[] = [];
+  serviceTypes: ServiceType[] = [];
   servicesForm: FormGroup;
   loadingIndicator: boolean;
 
   constructor(private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient,
-    private config: AppConfiguration,
-    private servicesService: ServicesService, private errMsg: ErrorMessage,
-    private toastr: ToastrService,
-    private fb: FormBuilder) {
-    this.services = <ServicePrerequisiteModel>{};
+              private router: Router,
+              private http: HttpClient,
+              private config: AppConfiguration,
+              private servicesService: ServicesService, private errMsg: ErrorMessage,
+              private toastr: ToastrService,
+              private fb: FormBuilder) {
+    //this.services = <ServiceModel>{};
     this.initForm();
     this.initStaticData('en');
   }
@@ -56,6 +61,15 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   initStaticData(currentLang) {
+    let servType: ServiceType = new ServiceType();
+    ServiceTypes.forEach(pair => {
+      servType = {
+        'Id': pair.Id.toString(),
+        'DescriptionEnglish': pair.DescriptionEnglish,
+        'Description': pair.Description
+      };
+      this.serviceTypes.push(servType);
+    });
   }
 
   getServices(id) {
@@ -64,9 +78,9 @@ export class EditComponent implements OnInit, OnDestroy {
     this.servicesSub = this.servicesService
       .getService(id)
       .subscribe(result => {
-        this.services = result;
-        this.updateForm();
-      },
+          this.services = result;
+          this.updateForm();
+        },
         error => this.toastr.error(this.errMsg.getError(error)));
     this.loadingIndicator = false;
   }
@@ -74,11 +88,11 @@ export class EditComponent implements OnInit, OnDestroy {
   updateForm() {
     this.servicesForm.setValue({
       cIsActive: this.services.IsActive,
-      /*cServiceType: this.services.ServiceId == null ? 1 : this.services.ServiceId,*/
       cName: this.services.Name == null ? '' : this.services.Name.toString(),
       cDisplayName: this.services.DisplayName == null ? '' : this.services.DisplayName.toString(),
       cNameEnglish: this.services.NameEnglish == null ? '' : this.services.NameEnglish.toString(),
-      cDisplayNameEnglish: this.services.DisplayNameEnglish == null ? '' : this.services.DisplayNameEnglish.toString()
+      cDisplayNameEnglish: this.services.DisplayNameEnglish == null ? '' : this.services.DisplayNameEnglish.toString(),
+      cTypeOfService: this.services.TypeOfService
     });
     // },4000);
 
@@ -89,13 +103,14 @@ export class EditComponent implements OnInit, OnDestroy {
     this.servicesForm = this.fb.group({
       cIsActive: true,
       cName: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(50),
-      Validators.pattern('^([ \u1200-\u137F])+$')])],
+        Validators.pattern('^([ \u1200-\u137F])+$')])],
       cDisplayName: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(50),
-      Validators.pattern('^([ \u1200-\u137F])+$')])],
+        Validators.pattern('^([ \u1200-\u137F])+$')])],
       cDisplayNameEnglish: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(62),
-      Validators.pattern('^[a-zA-Z /]+$')])],
+        Validators.pattern('^[a-zA-Z /]+$')])],
       cNameEnglish: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(62),
-      Validators.pattern('^[a-zA-Z /]+$')])]
+        Validators.pattern('^[a-zA-Z /]+$')])],
+      cTypeOfService: ['', Validators.required]
     });
   }
 
@@ -115,13 +130,13 @@ export class EditComponent implements OnInit, OnDestroy {
       this.loadingIndicator = true;
     }
     return this.servicesService.saveService(
-      this.getEditedService()).subscribe((services: ServicePrerequisiteModel) => {
+      this.getEditedService()).subscribe((services: ServiceModel) => {
         this.saveCompleted(services);
       },
-        err => this.handleError(err));
+      err => this.handleError(err));
   }
 
-  private saveCompleted(services?: ServicePrerequisiteModel) {
+  private saveCompleted(services?: ServiceModel) {
     if (services) {
       this.services = services;
     }
@@ -137,7 +152,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.loadingIndicator = false;
   }
 
-  private getEditedService(): ServicePrerequisiteModel {
+  private getEditedService(): ServiceModel {
     const formModel = this.servicesForm.value;
     return {
       ServiceId: this.isNewServices ? 0 : this.services.ServiceId,
@@ -145,12 +160,19 @@ export class EditComponent implements OnInit, OnDestroy {
       NameEnglish: formModel.cNameEnglish,
       DisplayName: formModel.cDisplayName,
       DisplayNameEnglish: formModel.cDisplayNameEnglish,
+      TypeOfService: formModel.cTypeOfService,
       IsActive: formModel.cIsActive,
     };
   }
 
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
+  }
+
   ngOnDestroy() {
-  //  this.servicesSub.unsubscribe();
+    //  this.servicesSub.unsubscribe();
   }
 
   onBack() {
@@ -159,6 +181,10 @@ export class EditComponent implements OnInit, OnDestroy {
 
   get Name() {
     return this.servicesForm.get('cName');
+  }
+
+  get TypeOfService() {
+    return this.servicesForm.get('cTypeOfService');
   }
 
   get DisplayName() {

@@ -42,6 +42,14 @@ export class ServicePrerequisiteService extends BaseService<ServicePrerequisiteM
       }),
       catchError(this.errMsg.parseObservableResponseError));
   }
+  getServicePrerequisiteByparent(id): Observable<ServicePrerequisite[]> {
+    return this.httpClient.get<ServicePrerequisite[]>(this.config.urls.url('serviceprerequisiteByParent', id)).pipe(
+      map(servicePrereq => {
+        this.servicePrerequisiteList = servicePrereq;
+        return this.servicePrerequisiteList;
+      }),
+      catchError(this.errMsg.parseObservableResponseError));
+  }
 
   getService(): Observable<ServicePrerequisiteModel[]> {
     return this.httpClient.get<ServicePrerequisiteModel[]>(this.config.urls.url('services')).pipe(

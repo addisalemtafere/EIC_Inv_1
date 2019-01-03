@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { ServicesService } from '../services.service';
-import { ToastrService } from 'ngx-toastr';
-import { ServicePrerequisiteModel } from '../../../../../model/service';
-import { AngConfirmDialogComponent } from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
-import { ErrorMessage } from '../../../../../../@custor/services/errMessageService';
-import { Utilities } from '../../../../../../@custor/helpers/utilities';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {ActivatedRoute, Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {ServicesService} from '../services.service';
+import {ToastrService} from 'ngx-toastr';
+import {ServicePrerequisiteModel} from '../../../../../model/service';
+import {AngConfirmDialogComponent} from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
+import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
+import {Utilities} from '../../../../../../@custor/helpers/utilities';
+import {ServiceModel} from "../../../../../model/Service.model";
 
 @Component({
   selector: 'app-list',
@@ -17,7 +18,7 @@ import { Utilities } from '../../../../../../@custor/helpers/utilities';
 })
 export class ListComponent implements OnInit, AfterViewInit {
   ServiceId: number;
-  servicePrerequisiteModels: ServicePrerequisiteModel[];
+  serviceModels: ServiceModel[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -29,13 +30,14 @@ export class ListComponent implements OnInit, AfterViewInit {
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
 
   constructor(private http: HttpClient,
-    private servicesService: ServicesService,
-    private errMsg: ErrorMessage,
-    private toastr: ToastrService, public dialog: MatDialog,
-    private router: Router, private route: ActivatedRoute) {
+              private servicesService: ServicesService,
+              private errMsg: ErrorMessage,
+              private toastr: ToastrService, public dialog: MatDialog,
+              private router: Router, private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
   }
+
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -48,19 +50,20 @@ export class ListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getServices();
   }
+
   getServices() {
     this.loadingIndicator = true;
     this.servicesService.getServices()
       .subscribe(result => {
-        this.servicePrerequisiteModels = result;
-        if (!this.servicePrerequisiteModels) {
-          this.toastr.error('No records were found to list', 'Error', {
-            closeButton: true,
-          });
-        } else {
-          this.dataSource.data = this.servicePrerequisiteModels;
-        }
-      },
+          this.serviceModels = result;
+          if (!this.serviceModels) {
+            this.toastr.error('No records were found to list', 'Error', {
+              closeButton: true,
+            });
+          } else {
+            this.dataSource.data = this.serviceModels;
+          }
+        },
         err => {
           if (!this.errMsg.message) {
             this.toastr.error('Error! Please check if the Web serviceprerequistie is running');
@@ -70,18 +73,15 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
     this.loadingIndicator = false;
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  editService(servicePrerequisiteModel: ServicePrerequisiteModel) {
-    if (servicePrerequisiteModel) {
-      // const dialogRef = this.dialog.open(EditComponent,
-      //   {
-      //     panelClass: 'mat-dialog-lg',
-      //     data: { servicePrerequisiteModel: servicePrerequisiteModel, roles: [] }
-      //   });
-      this.router.navigate(['/services-tab/edit', servicePrerequisiteModel.ServiceId], { relativeTo: this.route });
+
+  editService(serviceModel: ServiceModel) {
+    if (serviceModel) {
+      this.router.navigate(['/services-tab/edit', serviceModel.ServiceId], {relativeTo: this.route});
     } else {
       this.router.navigate(['/services-tab/edit', 0]);
     }
@@ -100,9 +100,9 @@ export class ListComponent implements OnInit, AfterViewInit {
       if (result) {
         this.servicesService.deleteService(servicePrerequisiteModel)
           .subscribe(results => {
-            this.loadingIndicator = false;
-            this.dataSource.data = this.dataSource.data.filter(item => item !== servicePrerequisiteModel);
-          },
+              this.loadingIndicator = false;
+              this.dataSource.data = this.dataSource.data.filter(item => item !== servicePrerequisiteModel);
+            },
             error => {
               // tslint:disable-next-line:max-line-length
               this.toastr.error(

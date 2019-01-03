@@ -9,7 +9,6 @@ import {AppConfiguration} from '../../../../../config/appconfig';
 import {SiteModel} from '../../../../../model/Site.model';
 import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
 import {determineId} from "@custor/helpers/compare";
-import {ServiceType} from "@custor/const/consts";
 
 @Component({
   selector: 'app-edit-site',
@@ -29,7 +28,7 @@ export class EditSiteComponent implements OnInit, OnDestroy {
   /*sitesModel: SiteModel[] = [];*/
   sitesForm: FormGroup;
   loadingIndicator: boolean;
-  // servicetypes: ServiceType[] = [];
+
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private http: HttpClient,

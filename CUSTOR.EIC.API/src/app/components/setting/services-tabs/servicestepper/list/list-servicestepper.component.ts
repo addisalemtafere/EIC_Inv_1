@@ -1,15 +1,18 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 
-import { MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { HttpClient } from '@angular/common/http';
+import {MatDialog, MatDialogRef, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {HttpClient} from '@angular/common/http';
 
-import { ToastrService } from 'ngx-toastr';
-import { ServiceStepModel } from '../../../../../model/ServiceStep.model';
-import { AngConfirmDialogComponent } from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
-import { ServicestepperService } from '../servicestepper.service';
-import { ErrorMessage } from '../../../../../../@custor/services/errMessageService';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Utilities } from '../../../../../../@custor/helpers/utilities';
+import {ToastrService} from 'ngx-toastr';
+import {ServiceStepModel} from '../../../../../model/ServiceStep.model';
+import {AngConfirmDialogComponent} from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
+import {ServicestepperService} from '../servicestepper.service';
+import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Utilities} from '../../../../../../@custor/helpers/utilities';
+import {determineId} from "@custor/helpers/compare";
+import {ServicePrerequisiteModel} from "../../../../../model/service";
+import {ServiceModel} from "../../../../../model/Service.model";
 
 @Component({
   selector: 'app-list-servicestepper',
@@ -28,18 +31,29 @@ export class ListServicestepperComponent implements OnInit, AfterViewInit {
   loadingIndicator: boolean;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  servicesModel: ServiceModel[] = [];
+  private serviceId: any;
 
   constructor(private http: HttpClient,
-    private serviceStepperService: ServicestepperService,
-    private errMsg: ErrorMessage,
-    private toastr: ToastrService, public dialog: MatDialog,
-    private router: Router, private route: ActivatedRoute) {
+              private serviceStepperService: ServicestepperService,
+              private errMsg: ErrorMessage,
+              private toastr: ToastrService, public dialog: MatDialog,
+              private router: Router, private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit() {
-    this.getServiceStepModels();
+    this.getService();
+    //this.getServiceStepModels();
+  }
+
+  getService() {
+    this.serviceStepperService.getService()
+      .subscribe(result => {
+          this.servicesModel = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   applyFilter(filterValue: string) {
@@ -51,19 +65,36 @@ export class ListServicestepperComponent implements OnInit, AfterViewInit {
     }
   }
 
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
+  }
+
+  filterServiceStepper(serviceCode: number) {
+    if (!serviceCode) {
+      return;
+    }
+    this.serviceId = serviceCode;
+    this.serviceStepperService.getServiceStepByParentId(serviceCode)
+      .subscribe(result => {
+        this.dataSource.data = result;
+      });
+  }
+
   getServiceStepModels() {
     this.loadingIndicator = true;
     this.serviceStepperService.getServiceSteps()
       .subscribe(result => {
-        this.servicestepmodels = result;
-        if (!this.servicestepmodels) {
-          this.toastr.error('No records were found to list', 'Error', {
-            closeButton: true,
-          });
-        } else {
-          this.dataSource.data = this.servicestepmodels;
-        }
-      },
+          this.servicestepmodels = result;
+          if (!this.servicestepmodels) {
+            this.toastr.error('No records were found to list', 'Error', {
+              closeButton: true,
+            });
+          } else {
+            this.dataSource.data = this.servicestepmodels;
+          }
+        },
         err => {
           if (!this.errMsg.message) {
             this.toastr.error('Error! Please check if the Web serviceprerequistie is running');
@@ -81,9 +112,9 @@ export class ListServicestepperComponent implements OnInit, AfterViewInit {
 
   editServiceStep(serviceStepper: ServiceStepModel) {
     if (serviceStepper) {
-      this.router.navigate(['/servicesteppers/edit', serviceStepper.ServiceStepId], { relativeTo: this.route });
+      this.router.navigate(['/servicesteppers/edit/' + serviceStepper.ServiceStepId + '/' + 0], {relativeTo: this.route});
     } else {
-      this.router.navigate(['/servicesteppers/edit', 0]);
+      this.router.navigate(['/servicesteppers/edit/' + 0 + '/' + this.serviceId]);
     }
   }
 
@@ -100,9 +131,9 @@ export class ListServicestepperComponent implements OnInit, AfterViewInit {
       if (result) {
         this.serviceStepperService.deleteServiceStep(serviceStepper)
           .subscribe(results => {
-            this.loadingIndicator = false;
-            this.dataSource.data = this.dataSource.data.filter(item => item !== serviceStepper);
-          },
+              this.loadingIndicator = false;
+              this.dataSource.data = this.dataSource.data.filter(item => item !== serviceStepper);
+            },
             error => {
               // tslint:disable-next-line:max-line-length
               this.toastr.error(
