@@ -5,7 +5,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {AngMaterialModule} from '../../@custor/modules/material.module';
 import {AngConfirmDialogComponent} from '../../@custor/components/confirm-dialog/confirm-dialog.component';
-import {PageHeaderComponent} from '../components/shared/page-header.component';
 import {UserEditorComponent} from '../../app/admin/users/user-editor.component';
 import {AppDialogComponent} from '../components/app-dialog/app-dialog.component';
 import {GroupByPipe} from '../pipes/group-by.pipe';
@@ -13,15 +12,11 @@ import {CommonModule} from '@angular/common';
 import {CountryPipe} from '../../app/pipe/country-pipe.pipe';
 import {RegionPipePipe} from '../../app/pipe/region-pipe.pipe';
 import {ZonePipePipe} from '../../app/pipe/zone-pipe.pipe';
-import {FilterPipePipe} from '../../app/pipe/filter-pipe.pipe';
 import {WoredaPipePipe} from '../../app/pipe/woreda-pipe.pipe';
 import {HttpClientModule} from '@angular/common/http';
 import {EnabledControlDirective} from '../../app/directive/enabled-control.directive';
 import {ServicePrerequisiteComponent} from '../../app/components/project-profile/service-prerequisite/service-prerequisite.component';
 import {ServiceStepPipePipe} from '../../app/pipe/service-step-pipe.pipe';
-import {AccessDeniedComponent} from '../../app/components/denied/denied.component';
-import {NotFoundComponent} from '../../app/components/not-found/not-found.component';
-import {ServicePipePipe} from '../../app/pipe/service-pipe.pipe';
 import {LookuptypePipe} from '../../app/pipe/lookuptype.pipe.pipe';
 import {LookupPipe} from '../../app/pipe/lookup-pipe.pipe';
 import {CustomsbranchPipe} from '../../app/pipe/customsbranch-pipe';
@@ -53,7 +48,7 @@ import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
     // BrowserAnimationsModule,
     AngMaterialModule,
     TranslateModule,
-    PageHeaderComponent,
+    // PageHeaderComponent,
     GroupByPipe,
     UserEditorComponent,
     AppDialogComponent,
@@ -65,7 +60,7 @@ import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
     EnabledControlDirective,
     ServicePrerequisiteComponent,
     ServiceStepPipePipe,
-    ServicePipePipe,
+    // ServicePipePipe,
     // ProjectListComponent,
 
     // NotFoundComponent,
@@ -93,7 +88,7 @@ import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
     EnabledControlDirective,
     ServicePrerequisiteComponent,
     ServiceStepPipePipe,
-    ServicePipePipe,
+    // ServicePipePipe,
     // ProjectListComponent,
 
     // NotFoundComponent,

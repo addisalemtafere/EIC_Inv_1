@@ -6,7 +6,6 @@ import {AgmCoreModule} from '@agm/core';
 import {ToastrModule} from 'ngx-toastr';
 import {HomeComponent} from './components/home/home.component';
 import {FooterModule} from '@custor/components/shared/footer.component';
-import {ThemePickerModule} from '@custor/components/shared/theme-picker.component';
 import {LangSwitcherModule} from '@custor/components/shared/lang-switcher.component';
 import {LocalStoreManager} from '@custor/services/storeManager.service';
 import {AppTranslationService, TranslateLanguageLoader} from '@custor/services/translation.service';
@@ -51,7 +50,6 @@ import {NotificationComponent} from './components/project-profile/notification/n
 
 import {CustomerServicesService} from './components/home/customer-service.service';
 import {ServiceListComponent} from './components/home/service-list/services.component';
-import {SharedModule} from '@custor/modules/shared.module';
 import {LoginDialogComponent} from './components/auth/login/login-dialog.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NotificationsComponent} from './components/notifications/notifications.component';
@@ -70,53 +68,23 @@ import {AccessDeniedComponent} from "./components/denied/denied.component";
 import {FilterPipePipe} from "./pipe/filter-pipe.pipe";
 import {PageHeaderComponent} from "@custor/components/shared/page-header.component";
 import {ServicePipePipe} from "./pipe/service-pipe.pipe";
-import {AngConfirmDialogComponent} from "@custor/components/confirm-dialog/confirm-dialog.component";
-import {GroupByPipe} from "@custor/pipes/group-by.pipe";
-import {UserEditorComponent} from "./admin/users/user-editor.component";
-import {AppDialogComponent} from "@custor/components/app-dialog/app-dialog.component";
-import {RegionPipePipe} from "./pipe/region-pipe.pipe";
-import {WoredaPipePipe} from "./pipe/woreda-pipe.pipe";
-import {ZonePipePipe} from "./pipe/zone-pipe.pipe";
-import {CountryPipe} from "./pipe/country-pipe.pipe";
-import {EnabledControlDirective} from "./directive/enabled-control.directive";
-import {ServicePrerequisiteComponent} from "./components/project-profile/service-prerequisite/service-prerequisite.component";
-import {ServiceStepPipePipe} from "./pipe/service-step-pipe.pipe";
-import {LookupPipe} from "./pipe/lookup-pipe.pipe";
-import {LookuptypePipe} from "./pipe/lookuptype.pipe.pipe";
-import {CustomsbranchPipe} from "./pipe/customsbranch-pipe";
-import {LookupReasonPipe} from "./pipe/lookup-reason-pipe.pipe";
-import {LetterLookupPipe} from "./pipe/letter-lookup.pipe";
-import {LookupPhasePipe} from "./pipe/lookup-phase-pipe";
 import {
-  MatAutocompleteModule, MatBadgeModule,
+  MatBadgeModule,
   MatButtonModule,
-  MatButtonToggleModule,
   MatCardModule,
   MatCheckboxModule,
-  MatChipsModule,
-  MatDatepickerModule,
-  MatDialogModule,
   MatExpansionModule,
   MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
   MatMenuModule,
-  MatNativeDateModule,
-  MatPaginatorModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
-  MatRadioModule,
-  MatRippleModule,
   MatSelectModule,
   MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
-  MatSortModule, MatStepperModule,
-  MatTableModule,
-  MatTabsModule,
-  MatToolbarModule, MatTooltipModule
+  MatToolbarModule,
+  MatTooltipModule
 } from "@angular/material";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -235,6 +203,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 
 
   ],
+
   entryComponents: [
     NotificationComponent,
     NotificationsComponent,
