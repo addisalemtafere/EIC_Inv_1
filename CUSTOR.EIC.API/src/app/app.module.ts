@@ -62,6 +62,62 @@ import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.s
 import {AppComponent} from './app.component';
 
 import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule} from "ngx-ui-loader";
+import {AngMaterialModule} from "@custor/modules/material.module";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NotFoundComponent} from "./components/not-found/not-found.component";
+import {AccessDeniedComponent} from "./components/denied/denied.component";
+import {FilterPipePipe} from "./pipe/filter-pipe.pipe";
+import {PageHeaderComponent} from "@custor/components/shared/page-header.component";
+import {ServicePipePipe} from "./pipe/service-pipe.pipe";
+import {AngConfirmDialogComponent} from "@custor/components/confirm-dialog/confirm-dialog.component";
+import {GroupByPipe} from "@custor/pipes/group-by.pipe";
+import {UserEditorComponent} from "./admin/users/user-editor.component";
+import {AppDialogComponent} from "@custor/components/app-dialog/app-dialog.component";
+import {RegionPipePipe} from "./pipe/region-pipe.pipe";
+import {WoredaPipePipe} from "./pipe/woreda-pipe.pipe";
+import {ZonePipePipe} from "./pipe/zone-pipe.pipe";
+import {CountryPipe} from "./pipe/country-pipe.pipe";
+import {EnabledControlDirective} from "./directive/enabled-control.directive";
+import {ServicePrerequisiteComponent} from "./components/project-profile/service-prerequisite/service-prerequisite.component";
+import {ServiceStepPipePipe} from "./pipe/service-step-pipe.pipe";
+import {LookupPipe} from "./pipe/lookup-pipe.pipe";
+import {LookuptypePipe} from "./pipe/lookuptype.pipe.pipe";
+import {CustomsbranchPipe} from "./pipe/customsbranch-pipe";
+import {LookupReasonPipe} from "./pipe/lookup-reason-pipe.pipe";
+import {LetterLookupPipe} from "./pipe/letter-lookup.pipe";
+import {LookupPhasePipe} from "./pipe/lookup-phase-pipe";
+import {
+  MatAutocompleteModule, MatBadgeModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatExpansionModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatSortModule, MatStepperModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule, MatTooltipModule
+} from "@angular/material";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -114,16 +170,44 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // AddressComponent,
     // HelpComponent,
 
+    NotFoundComponent,
+    AccessDeniedComponent,
+    FilterPipePipe,
+    PageHeaderComponent,
+    ServicePipePipe,
+
+
   ],
 
   imports: [
-
-    ThemePickerModule,
+    FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // ThemePickerModule,
     LangSwitcherModule,
     FooterModule,
     // NotificationModule,
+    AngMaterialModule,
+    // SharedModule,
+    MatButtonModule,
 
-    SharedModule,
+
+    MatCardModule,
+    MatCheckboxModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatBadgeModule,
+
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -193,6 +277,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ServicePrerequisiteService,
     CustomerServicesService
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule {
