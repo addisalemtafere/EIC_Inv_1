@@ -9,7 +9,6 @@ import {AppConfiguration} from '../../../../../config/appconfig';
 import {SiteModel} from '../../../../../model/Site.model';
 import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
 import {determineId} from "@custor/helpers/compare";
-import {ServiceType} from "@custor/const/consts";
 
 @Component({
   selector: 'app-edit-site',
