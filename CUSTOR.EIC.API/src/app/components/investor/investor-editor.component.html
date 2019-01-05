@@ -367,7 +367,7 @@
           <mat-datepicker-toggle matSuffix [for]="cRegDate"></mat-datepicker-toggle>
           <mat-datepicker #cRegDate></mat-datepicker>
         </mat-form-field>
-        <mat-form-field fxFlex fxFlex="14" *ngIf="isNewCustomer">
+        <mat-form-field fxFlex fxFlex="14" >
           <mat-label name="lblPaidCapital">{{'investors.editor.PaidCapital' | translate}}</mat-label>
           <input matInput formControlName="cPaidCapital"/>
         </mat-form-field>
@@ -381,7 +381,7 @@
 
           <mat-select placeholder="Category *" formControlName="cMajorDivision" multiple>
 
-            <mat-option *ngFor="let MajorDivision of majorDivisions" [value]="MajorDivision.Id">
+            <mat-option *ngFor="let MajorDivision of majorDivisions" [value]="MajorDivision.Code">
               {{MajorDivision.EnglishDescription}}
             </mat-option>
           </mat-select>

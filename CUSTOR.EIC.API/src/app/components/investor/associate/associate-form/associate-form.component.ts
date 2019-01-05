@@ -36,6 +36,7 @@ import {LookupsModel} from '../../../../model/lookups';
 import {determineId} from '@custor/helpers/compare';
 import {NationalityModel} from '../../../../model/address/NationalityModel';
 import {AppConfiguration} from 'app/config/appconfig';
+import {Investor} from "../../../../model/investor";
 
 @Component({
   selector: 'app-associate-form',
@@ -82,6 +83,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   AllowCascading = true;
   @Input() errors: string[] = [];
   private workFlowId: any;
+  investor: Investor;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -166,7 +168,18 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   ngOnDestroy() {
     // this.investorSub.unsubscribe();
   }
-
+  getInvestorById(id) {
+    this.isNewInvestor = false;
+    this.investorSub = this.custService
+      .getInvestor(id)
+      .subscribe(result => {
+          this.associate = result;
+          this.fillAddressLookups();
+          this.updateForm();
+        },
+        error => this.toastr.error(error));
+    this.loadingIndicator = false;
+  }
 
   getInvestor(id) {
     this.loadingIndicator = true;
@@ -174,10 +187,9 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       .getOneAssociateByInvestorId(id)
       .subscribe(result => {
           this.associate = result;
-
-
           if (result == null) {
             this.isNewInvestor = true;
+            this.getInvestorById(id);
           }
           else {
             this.isNewInvestor = false;
@@ -380,7 +392,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       return;
     }
     this.loadingIndicator = true;
-    // console.log(this.getEditedInvestor());
+    console.log(this.getEditedInvestor());
     return this.associateService.create(this.getEditedInvestor())
       .subscribe((associate: AssociateDTO) => {
           this.saveCompleted(associate);

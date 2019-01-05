@@ -6,7 +6,7 @@
       Certificate
     </button>
     <!--<button style="margin-left: 20px;" mat-raised-button="" color="primary" (click)="addMessage()">-->
-      <!--Send Message-->
+    <!--Send Message-->
     <!--</button>-->
 
   </mat-card-header>
@@ -26,27 +26,29 @@
     <div id="certificate" class="c-container">
       <header class="clearfix">
 
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
-          <div class="block" fxFlex="20%">
-            <div id="company" class="clearfix logo-image">
-              <img width="100" src="/assets/logo/Trade.gif">
-            </div>
-          </div>
-          <div class="block" fxFlex="60%">
-            <div id="logo" class="full-width">
-              <div class="certificate-title">ንግድ ሚኒስቴር</div>
-              <div class="certificate-titlet">Ministry of Trade</div>
-              <div style="margin-top: 5px" class="c-subtitle">የንግድ ምዝገባ</div>
-              <div class="c-subtitle">Commertial Registration</div>
-            </div>
-          </div>
-          <div class="block" fxFlex="20%">
-            <div class="logo-image" id="project">
-              <img width="100" src="/assets/images/et.png">
-            </div>
-          </div>
-        </div>
-        <div style="float: right;" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
+        <!--<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">-->
+        <!--<div class="block" fxFlex="20%">-->
+        <!--<div id="company" class="clearfix logo-image">-->
+        <!--<img width="100" src="/assets/logo/Trade.gif">-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="block" fxFlex="60%">-->
+        <!--<div id="logo" class="full-width">-->
+        <!--<div class="certificate-title">ንግድ ሚኒስቴር</div>-->
+        <!--<div class="certificate-titlet">Ministry of Trade</div>-->
+        <!--<div style="margin-top: 5px" class="c-subtitle">የንግድ ምዝገባ</div>-->
+        <!--<div class="c-subtitle">Commertial Registration</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="block" fxFlex="20%">-->
+        <!--<div class="logo-image" id="project">-->
+        <!--<img width="100" src="/assets/images/et.png">-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <div style="float: right;padding-top: 100px" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
+
           <div id="sub-header" class="block" style="font-size: 13px">
             <table>
               <tr>
@@ -100,10 +102,29 @@
 
       <div class="main" style="border-top: 1px solid #c4cbcc;margin-bottom: 10px; padding-top: 5px">
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
-
           <div id="amharic" class="block" fxFlex="45.5%">
             <table id="basic" class="full-width">
               <tbody>
+              <tr>
+                <td colspan="2" class="t-header" style="width: 600px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;የንግድ ምዝገባ ምስክር ወረቀት
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="t-header Title" style="width: 850px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;በንግድ ምዝገባና የፈቃድ አዋጅ ቁጥር 980/2008 መሰረት
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="t-header Title1" style="width: 600px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; የተሰጠ</td>
+              </tr>
+              <!--<tr>-->
+                <!--<td class="t-header"> የንግድ ምዝገባ ምስክር ወረቀት</td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="t-header">በንግድ ምዝገባና የፈቃድ አዋጅ ቁጥር 980/2008 መሰረት የተሰጠ</td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="t-header"> የተሰጠ</td>-->
+              <!--</tr>-->
               <tr>
                 <td class="t-header" style="width: 100px">1. የግለሰቡ/የድርጅቱ ስም</td>
                 <td class="data value" style="width: 100px">
@@ -125,7 +146,7 @@
                 <td class="data value">
                   {{manager[0].FirstName}}
                   {{manager[0].FatherName}}
-                  {{manager[0].FatherName}}
+                  {{manager[0].GrandName}}
                   <!-- {{manager[0].Associate?.FatherName}}
                    {{manager[0].Associate?.FatherName}}
                    {{manager[0].Associate?.GrandName}}-->
@@ -173,34 +194,6 @@
               </tr>
               </tbody>
             </table>
-
-            <!--<table class="full-width">
-              <caption class="caption">6.የኢንቨስትመንቱ አድራሻ</caption>
-              <tbody>
-              <tr>
-                <td class="a-header">ክልል</td>
-                <td class="data value">{{investmentAddressList?.Region.Description}}</td>
-                <td class="a-header">ዞን</td>
-                <td class="data value">{{investmentAddressList?.Region.Zones[0].Description}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">ከተማ</td>
-                <td class="data value">---</td>
-                <td class="a-header">ክፍለ ከተማ</td>
-                <td class="data value">---</td>
-              </tr>
-              <tr>
-                <td class="a-header">ቀበሌ/ወረዳ</td>
-                <td class="data value">
-                  {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
-                  /
-                  {{investmentAddressList?.Region.Zones[0].Woredas[0].Description}}
-                </td>
-                <td class="a-header">የቤት ቁጥር</td>
-                <td class="data value">---</td>
-              </tr>
-              </tbody>
-            </table>-->
             <table id="investmentCapital" class="full-width">
               <tbody>
               <tr>
@@ -236,7 +229,7 @@
 
             <table class="full-width">
               <tr>
-                <td> ይህ የምዝገባ የምስክር ወረቀት ዛሬ {{date | date}} አዲስ አበባ
+                <td> ይህ የምዝገባ የምስክር ወረቀት ዛሬ {{date | date}} በአዲስ አበባ
                   ተሰጠ ።
                 </td>
               </tr>
@@ -255,9 +248,22 @@
               </tbody>
             </table>
           </div>
-          <div id="english" class="block" fxFlex="48.5%">
+          <div id="english" class="block" fxFlex="45.5%">
             <table id="basicEn" class="full-width">
               <tbody>
+              <tr>
+                <td colspan="2" class="t-header" style="width: 600px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Commercial
+                  Registration Certificate
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="t-header Title" style="width: 850px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Issued under Commercial registration and
+                  Business
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="t-header Title1" style="width: 600px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; License Proc No. 980/2008</td>
+              </tr>
               <tr>
                 <td class="t-header" style="width: 80px">1. Owner/ Company Name</td>
                 <td class="data value"> {{investor.FirstNameEng}}
@@ -276,7 +282,7 @@
               <tr>
                 <td class="t-header">3. Name of General Manager</td>
                 <td class="data value">
-                  {{manager[0].FatherNameEng}}
+                  {{manager[0].FirstNameEng}}
                   {{manager[0].FatherNameEng}}
                   {{manager[0].GrandNameEng}}
                   <!-- {{manager[0].Associate?.FatherNameEng}}
@@ -397,30 +403,30 @@
               </tr>
             </table>
 
-            <table class="full-width">
-              <tbody>
-              <tr>
-                <td class="t-header" style="width: 50px">እስከ
-                </td>
-                <td class="data value" width="90%">{{ date | date}} ታድሷል</td>
-              </tr>
-              <tr>
-                <td class="t-header">Valid Until</td>
-                <td class="data value">{{date | date}}</td>
-              </tr>
-              </tbody>
-            </table>
+            <!--<table class="full-width">-->
+            <!--<tbody>-->
+            <!--<tr>-->
+            <!--<td class="t-header" style="width: 50px">እስከ-->
+            <!--</td>-->
+            <!--<td class="data value" width="90%">{{ date | date}} ታድሷል</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td class="t-header">Valid Until</td>-->
+            <!--<td class="data value">{{date | date}}</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+            <!--</table>-->
           </div>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em" style="font-size: 12px;">
           <div id="notices">
             <div>ማሳሰቢያ/Notice:</div>
-            <div>1. ይህ የንግድ ምዝገባ በአዋጅ ቁጥር 686/2002 መሠረት በየበጀት ዓመቱ ከሐምሌ 1 ቀን እስከ ታህሳስ 30 ቀን ድረስ ያለቅጣት የሚታደስ ሲሆን፤ ከጥር 1 ቀን
-              እስከ ሰኔ 30 ቀን ድረስ በአዋጅ በተቀመጠው የሚታደስ ይሆናል።<br>
-              This License Shall be renewed annually in accordance with Regulation no 686/2002 from 1 July to December
-              30 E.C with out penalty and with penalty from first January to June 30 E.C
-            </div>
+            <!--<div>1. ይህ የንግድ ምዝገባ በአዋጅ ቁጥር 686/2002 መሠረት በየበጀት ዓመቱ ከሐምሌ 1 ቀን እስከ ታህሳስ 30 ቀን ድረስ ያለቅጣት የሚታደስ ሲሆን፤ ከጥር 1 ቀን-->
+            <!--እስከ ሰኔ 30 ቀን ድረስ በአዋጅ በተቀመጠው የሚታደስ ይሆናል።<br>-->
+            <!--This License Shall be renewed annually in accordance with Regulation no 686/2002 from 1 July to December-->
+            <!--30 E.C with out penalty and with penalty from first January to June 30 E.C-->
+            <!--</div>-->
             <div style="margin-top: 10px !important;">
               2. ይህ የንግድ ምዝገባ የምስክር ወረቀት በዋስትና ወይም በእዳ ሊያዝ አይችልም።<br>
               The holder of this License is forbidden for surety ship or debt.

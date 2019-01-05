@@ -20,7 +20,7 @@ import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
-
+// import {Ethiopic} from '../../../@custor/EthiopicDateTime.cs'
 @Component({
   selector: 'app-certificate',
   templateUrl: './certificate.component.html',
@@ -71,7 +71,8 @@ export class CertificateComponent implements OnInit {
 
   getDate() {
     const today = new Date();
-    this.date = today;
+    //EthiopicDateTime.
+    this.date =  today;
   }
 
   addMessage() {
