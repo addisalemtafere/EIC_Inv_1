@@ -255,7 +255,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   public startService(serviceId: any, title: string) {
     localStorage.setItem('title', title);
-    this.router.navigate(['/search-browser/' + serviceId + '/' + 0 + '/' + 0]);
+    if (serviceId == 1235) {
+      this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
+
+    }
+    else {
+      this.router.navigate(['/search-browser/' + serviceId + '/' + 0 + '/' + 0]);
+    }
   }
 
   clearLocalStorage() {
