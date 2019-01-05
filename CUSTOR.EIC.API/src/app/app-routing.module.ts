@@ -4,17 +4,9 @@ import {HomeComponent} from './components/home/home.component';
 import {AuthService} from '@custor/services/security/auth.service';
 import {AuthGuard} from '@custor/services/security/auth-guard.service';
 import {NotFoundComponent} from './components/not-found/not-found.component';
-import {ProjectListComponent} from './components/project-profile/project-list/project-list.component';
 import {ConfirmComponent} from './components/auth/register/confirm.component';
 import {LoginComponent} from './components/auth/login/login.component';
 import {AccessDeniedComponent} from './components/denied/denied.component';
-import {ErrorComponent} from './components/error/error.component';
-import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
-import {AddressComponent} from './components/project-profile/address/address.component';
-import {HelpComponent} from "./components/help/help.component";
-import {FollowupComponent} from "./components/followup/followup.component";
-import {FollowupFormComponent} from "./components/followup/followup-form/followup-form.component";
-import {ServicesComponent} from "./components/setting/services-tabs/services/services.component";
 
 
 @NgModule({
@@ -348,10 +340,10 @@ import {ServicesComponent} from "./components/setting/services-tabs/services/ser
         loadChildren: 'app/components/incentive/tax-exemption/tax-exemption.module#TaxExemptionModule',
         canActivate: [AuthGuard]
       },
-      {
-        path: 'error',
-        component: ErrorComponent
-      },
+      // {
+      //   path: 'error',
+      //   component: ErrorComponent
+      // },
       {
         path: 'manage-password/:id',
         loadChildren: 'app/components/auth/manage-password/manage.module#ManagePasswordModule'
