@@ -498,6 +498,10 @@
     "Quantity": "ብዛት",
     "TariffMode": "የክፍያ አይነት",
     "TariffName": "ስም"
+  },
+  "letterTemplate": {
+    "Header": "Letter Template",
+    "LetterType": "Letter Type"
   }
 }
 

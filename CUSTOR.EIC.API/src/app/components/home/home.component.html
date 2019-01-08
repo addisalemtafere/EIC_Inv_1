@@ -3,48 +3,14 @@
   <!--mode="buffer" [value]="" [bufferValue]=""-->
 <!--&gt;</mat-progress-bar>-->
 
-
-<div id="app_container" class="nav-container" *ngIf="isLoggedIn">
-  <div fxLayout="row" fxLayoutAlign="" class="content" style="margin-top: 0px;">
-    <div id="home-header">
-      <!-- <mat-toolbar color="primary" class="app-toolbar" style="height: 110px"> -->
-      <mat-grid-list cols="10">
-        <div>
-          <mat-grid-tile [colspan]=5>
-            <img src='/assets/logo/EICLogo.png'>
-          </mat-grid-tile>
-          <mat-grid-tile [colspan]=3>
-          </mat-grid-tile>
-          <mat-grid-tile [colspan]=1>
-            <!-- <button  mat-button (click)="router.navigateByUrl('/login')"> -->
-            <!-- <button  mat-button (click)="DoLogin()">
-            <mat-icon>lock_open</mat-icon>
-            <span>{{'mainMenu.Login' | translate}}</span>
-         </button> -->
-            <h4>Ethiopian Investment Commission</h4>
-          </mat-grid-tile>
-          <mat-grid-tile [colspan]=1>
-            <!-- <button  mat-button (click)="router.navigateByUrl('/register')">
-              <mat-icon>person</mat-icon>
-              <span>{{'mainMenu.Register' | translate}}</span>
-           </button> -->
-            <img src='/assets/images/et.png' width="90px" height="60px">
-          </mat-grid-tile>
-        </div>
-      </mat-grid-list>
-      <!-- </mat-toolbar> -->
-    </div>
+<!--  -->
+<div fxLayout="row" fxLayoutAlign="space-around center" class="content" style="width: 90%; margin: auto">
+    <p class="message-box warning" style="margin-top:5px; margin-bottom: 5px; font-size: small">
+      Dear customer; you need to <a routerLink="/register">Register</a>
+      and create an account in order to access our services. If you already have an account,
+      please click <a routerLink="/login">Login</a> button, enter your user name and password and access the services of the portal.
+    </p>
   </div>
-  <div class="container">
-
-
-    <div fxLayout="row" fxLayoutAlign="space-around center" class="content" style="width: 1000px; margin: auto">
-      <p class="message-box warning" style="margin-top:5px; margin-bottom: -5px">
-        Dear customer; you need to <a routerLink="/register">Register</a>
-        and create an account in order to access our services. If you already have an account,
-        please enter your username and password on the Login Panel located on the right hand side of the screen.
-      </p>
-    </div>
     <app-service-list></app-service-list>
     <!--<div class="container" style="margin: auto; width: 1000px">-->
       <!--<br>-->
@@ -97,5 +63,5 @@
         <!--</div>-->
       <!--</div>-->
     <!--</div>-->
-  </div>
-</div>
+  <!-- </div>
+</div> -->

@@ -42,6 +42,56 @@ mat-divider {
   h2 {
     margin-bottom: 0px;
     font-size:medium;
-    color: #00bcd4;
-    margin-top: 10px;
+    // color: #00bcd4;
+    margin-bottom: 10px;
   }
+
+  .section-gap {
+    padding-left: 1rem 0;
+  }
+  
+  .section-gap-lg {
+    padding: 7rem 0;
+  }
+  .section-title-toolbar{
+    padding:1rem;
+ }
+ 
+ .section-title-toolbar {
+     border-radius: 10px;
+ }
+ .text-inverse {
+	color: #fff;
+}
+
+.col-gap {
+    margin-left: -15px;
+    margin-right: -15px;
+  
+    >div {
+      padding-left: .75rem;
+      padding-right: .75rem;
+      margin-bottom: .75rem;
+      margin-top: .75rem;
+    }
+  }
+
+  .service-card-gap{
+    margin-top: -120px;
+    padding:1.5rem;
+ }
+ 
+ 
+ .section-title-toolbar {
+     border-radius: 6px;
+ }
+ 
+ 
+
+
+.px-4 {
+	padding-right: 1.5rem!important
+}
+.mb-2{
+	margin-bottom: .5rem!important
+}

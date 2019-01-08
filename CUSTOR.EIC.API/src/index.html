@@ -4,16 +4,81 @@
   <meta charset="utf-8">
   <title>eInvest</title>
   <base href="/">
-  <!--<link href="https://fontas.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
-
-  <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Roboto+Mono:300" rel="stylesheet">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico"/>
 
   <!--<link rel="stylesheet" href="/path/to/material-icons/iconfont/material-icons.css">-->
 
+<style>
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300; }
 
+.h1-responsive {
+  font-size: 150%; }
+
+.h2-responsive {
+  font-size: 145%; }
+
+.h3-responsive {
+  font-size: 135%; }
+
+.h4-responsive {
+  font-size: 135%; }
+
+.h5-responsive {
+  font-size: 135%; }
+
+@media (min-width: 576px) {
+  .h1-responsive {
+    font-size: 170%; }
+  .h2-responsive {
+    font-size: 140%; }
+  .h3-responsive {
+    font-size: 125%; }
+  .h4-responsive {
+    font-size: 125%; }
+  .h5-responsive {
+    font-size: 125%; } }
+
+@media (min-width: 768px) {
+  .h1-responsive {
+    font-size: 200%; }
+  .h2-responsive {
+    font-size: 170%; }
+  .h3-responsive {
+    font-size: 140%; }
+  .h4-responsive {
+    font-size: 125%; }
+  .h5-responsive {
+    font-size: 125%; } }
+
+@media (min-width: 992px) {
+  .h1-responsive {
+    font-size: 200%; }
+  .h2-responsive {
+    font-size: 170%; }
+  .h3-responsive {
+    font-size: 140%; }
+  .h4-responsive {
+    font-size: 125%; }
+  .h5-responsive {
+    font-size: 125%; } }
+
+@media (min-width: 1200px) {
+  .h1-responsive {
+    font-size: 250%; }
+  .h2-responsive {
+    font-size: 200%; }
+  .h3-responsive {
+    font-size: 170%; }
+  .h4-responsive {
+    font-size: 140%; }
+  .h5-responsive {
+    font-size: 125%; } }
+</style>
   <style type="text/css">
     #custor-splash-screen {
       display: block;
@@ -93,7 +158,7 @@
       width: 100px;
       height: 100px;
       box-sizing: border-box;
-      border: 10px solid #4285F4;
+      border: 10px solid orange;
       border-bottom-color: transparent;
       border-radius: 50%;
     }
@@ -173,9 +238,38 @@
         transform: rotate(1080deg);
       }
     }
+    
   </style>
 </head>
-<body>
+<body style="background-color: #01579b; width:100%; height: 1000;margin: auto; color: orange">
+   
+  <section  style="margin: auto; text-align: center;color: white">
+      <div>
+        <table style="text-align: center; border: none; margin: auto; color: orange; ">
+          <tr>
+            <td >
+                <img width="60" src="/assets/logo/EIC2.png" align="middle" >
+            </td>
+            <td style="width:5%"></td>
+            <td >
+                 <h2 class="h2-responsive" style="font-family: sans-serif; font-weight: bolder" data-wow-delay="0.3s">Ethiopian Investment Commission</h2> 
+            </td>
+
+          </tr>
+        </table>
+        <hr style="width:50%">
+      </div>
+      
+      <br><br><br>
+    <div style="text-align: center; margin: auto" >
+              <h2 class="h3-responsive" style="font-family: sans-serif; font-weight: bolder; ">Online Service Delivery Portal</h2>
+              <div style="margin: auto; text-align: left; width: 45%">
+                <p >Welcome to our online service delivery portal. We are committed to providing efficient services to our customers.
+                </p>
+            </div>
+    </div>
+    <br>
+</section>
 
 <app-root>
   <custor-splash-screen id="custor-splash-screen">
@@ -196,9 +290,9 @@
         </div>
       </div>
       <br>
-      <div class="logo">
+      <!-- <div class="logo">
         <img width="128" src="/assets/logo/EIC.jpg">
-      </div>
+      </div> -->
     </div>
   </custor-splash-screen>
 </app-root>
