@@ -371,7 +371,7 @@
           <mat-label name="lblPaidCapital">{{'investors.editor.PaidCapital' | translate}}</mat-label>
           <input matInput formControlName="cPaidCapital"/>
         </mat-form-field>
-        <mat-form-field fxFlex fxFlex="15" *ngIf="isNewCustomer">
+        <mat-form-field fxFlex fxFlex="15" *ngIf="isNewCustomer || isCompany">
           <mat-label name="lblSighnedCapital">{{'investors.editor.SighnedCapital' | translate}}</mat-label>
           <input matInput formControlName="cSighnedCapital"/>
         </mat-form-field>
@@ -380,7 +380,6 @@
         <mat-form-field fxFlex fxFlex="100">
 
           <mat-select placeholder="Category *" formControlName="cMajorDivision" multiple>
-
             <mat-option *ngFor="let MajorDivision of majorDivisions" [value]="MajorDivision.Code">
               {{MajorDivision.EnglishDescription}}
             </mat-option>

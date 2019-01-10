@@ -421,7 +421,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           console.log(this.investor.RegistrationCatagories);
           this.investorForm.patchValue({
             cMajorDivision: this.investor.RegistrationCatagories
-
           });
         },
         error => this.toastr.error(error));
