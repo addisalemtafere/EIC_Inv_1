@@ -160,6 +160,8 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   select(InvestorId: any, investorName: any) {
     this.projectList = [];
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+
     if (this.ServiceId == 13) {
 
       this.InvestorId = InvestorId;
@@ -180,7 +182,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
             if (this.projectList.length == 0) {
               this.loadingIndicator = false;
 
-              this.toastr.error('No project records were found to list', 'Error', {
+              this.toastr.info('No active project records were found to list', 'Info', {
                 closeButton: true,
               });
             } else {

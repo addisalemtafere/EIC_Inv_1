@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/@angular/material/theming';
 @import '~ngx-toastr/toastr.css';
-// @import '~material-design-icons/iconfont/material-icons.css';
+@import '~material-design-icons/iconfont/material-icons.css';
 
 @include mat-core();
 
@@ -725,6 +725,6 @@ mat-footer-row, mat-row {
   font-weight: bolder !important;
 }
 
-.primary-bg{
+.primary-bg {
   background: #03A9F4;
 }
