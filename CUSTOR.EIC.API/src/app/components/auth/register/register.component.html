@@ -97,8 +97,8 @@
 
           <div formGroupName="password" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
 
-            <div  fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-              <mat-form-field appearance="outline">
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
+              <mat-form-field fxFlex="80" appearance="outline">
                 <mat-label>{{'users.editor.NewPassword' | translate}}</mat-label>
                 <input matInput type="password" formControlName="newPassword" autocomplete="off" required/>
                 <mat-error *ngIf="newPassword.hasError('required')">
@@ -107,12 +107,12 @@
                 <mat-error *ngIf="!newPassword.hasError('required') && newPassword.hasError('pattern')">
                   {{'users.editor.NewPasswordRules' | translate}}
                 </mat-error>
-                <!--<mat-icon matSuffix="" color="primary" class="mat-24">lock_open</mat-icon>-->
+                <mat-icon matSuffix="" color="primary" class="mat-24">lock_open</mat-icon>
               </mat-form-field>
             </div>
             <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
 
-              <mat-form-field  appearance="outline">
+              <mat-form-field fxFlex="80" appearance="outline">
                 <mat-label>{{'users.editor.ConfirmPassword' | translate}}</mat-label>
                 <input matInput type="password" formControlName="confirmPassword" required/>
                 <mat-error *ngIf="confirmPassword.hasError('required')">
@@ -121,7 +121,7 @@
                 <mat-error *ngIf="!confirmPassword.hasError('required') && confirmPassword.hasError('notEqual')">
                   {{'users.editor.PasswordMismatch' | translate}}
                 </mat-error>
-                <!--<mat-icon matSuffix="" color="primary" class="mat-24">lock_open</mat-icon>-->
+                <mat-icon matSuffix="" color="primary" class="mat-24">lock_open</mat-icon>
 
               </mat-form-field>
             </div>
