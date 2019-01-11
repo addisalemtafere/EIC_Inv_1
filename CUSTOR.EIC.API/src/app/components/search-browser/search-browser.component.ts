@@ -78,18 +78,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.todoTask = new TodoTaskModel();
   }
 
-  get canViewTasks() {
-    return this.accountService.userHasPermission(Permission.viewServiceList);
-  }
-
-  get canManageAftercareData() {
-    return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
-  }
-
-  get canManageManageIncentiveAssignedServices() {
-    return this.accountService.userHasPermission(Permission.ManageIncentiveAssignedServicesPermission);
-  }
-
   ngOnInit() {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.initForm();
@@ -262,7 +250,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   projectDetail(id: number) {
-    // console.log(this.router.url);
     this.router.navigate(['/service-detail', id]);
   }
 
@@ -448,6 +435,18 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.title = localStorage.getItem('title');
     this.projectName = localStorage.getItem('projectName');
     this.investorName = localStorage.getItem('investorName');
+  }
+
+  get canViewTasks() {
+    return this.accountService.userHasPermission(Permission.viewServiceList);
+  }
+
+  get canManageAftercareData() {
+    return this.accountService.userHasPermission(Permission.ManageAftercareDataPermission);
+  }
+
+  get canManageManageIncentiveAssignedServices() {
+    return this.accountService.userHasPermission(Permission.ManageIncentiveAssignedServicesPermission);
   }
 
 }

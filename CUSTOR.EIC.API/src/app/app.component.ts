@@ -170,8 +170,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
           this.servicesExpander.open();
         }
 
-        if ((url.indexOf('dashboard') > 0)) {
+        if (this.authService.isLoggedIn) {
           this.getAllServices();
+        }
+        if ((url.indexOf('dashboard') > 0)) {
 
           if (this.authService.isLoggedIn) {
             setTimeout(() => this.isLoggedIn$ = Observable.of(true));
@@ -352,6 +354,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   private filterService(result: ServiceModel[]) {
+    // this.serviceList = result;
     this.serviceList = result.filter((item) => {
       if (this.canManageManageIncentiveAssignedServices) {
         return item.TypeOfService == '4';
