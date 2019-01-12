@@ -28,13 +28,13 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   empId: any;
   public formErrors = {
     PermanentFemale: 'Must be positive number!',
-    PermanentMale: '',
-    TemporaryFemale: '',
-    TemporaryMale: '',
-    PermanentForeignFemale: '',
-    PermanentForeignMale: '',
-    TemporaryForeignFemale: '',
-    TemporaryForeignMale: '',
+    PermanentMale: 'Must be positive number!',
+    TemporaryFemale: 'Must be positive number!',
+    TemporaryMale: 'Must be positive number!',
+    PermanentForeignFemale: 'Must be positive number!',
+    PermanentForeignMale: 'Must be positive number!',
+    TemporaryForeignFemale: 'Must be positive number!',
+    TemporaryForeignMale: 'Must be positive number!',
     Quarter: '',
     RegistrationYear: '',
   };

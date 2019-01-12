@@ -42,6 +42,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   formOfOwnershipList: FormOfOwnershipModel[] = [];
   subscription: Subscription;
   serviceIdSubscription: Subscription;
+  public IsOromia : boolean=false;
   editMode = false;
   loading = false;
   project: ProjectModel;
@@ -59,10 +60,10 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   kebeles: KebeleModel[] = [];
   filteredKebeles: KebeleModel[] = [];
   public formErrors = {
-    ProjectName: '',
+    ProjectName: 'at least three characters!',
     ProjectDescription: '',
     StartDate: '',
-    operationDate: '',
+    OperationDate: '',
     EndingDate: '',
     Sector: '',
     SubSector: '',
@@ -72,7 +73,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     Kebele: '',
     SpecificAreaName: '',
     Remark: '',
-    EnvironmentalImpact: ''
+    EnvironmentalImpact: '',
+    IndustrialParkId: ''
 
   };
 
@@ -267,15 +269,21 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       });
   }
 
-  filterRegion(regionCode: string) {
+  filterRegion(regionCode: number) {
     if (!regionCode) {
       return;
+    }
+    if(regionCode == 4) {
+      this.IsOromia = true;
+    }
+    else{
+      this.IsOromia = false;
     }
     this.filteredZones = null;
     this.filteredKebeles = null;
     this.filteredWoredas = null;
     this.filteredZones = this.zones.filter((item) => {
-      return item.RegionId === regionCode;
+      return item.RegionId === regionCode.toString();
     });
   }
 
@@ -372,6 +380,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
           this.notification('address updated');
         });
     } else {
+      console.log(this.projectForm.get('address').value);
       this.addressService.saveAddress(this.projectForm.get('address').value)
         .subscribe(result => {
           setTimeout(() => this.dataSharing.projectId.next(this.projectId), 0);
@@ -385,8 +394,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   formBuild() {
     console.log(this.ServiceId)
     this.projectForm = this.formBuilder.group({
-      ProjectName: ['', [Validators.required,
-        CustomValidators.validateCharacters, Validators.minLength(2)]],
+      ProjectName: ['', Validators.compose([Validators.required,
+        CustomValidators.validateCharacters, Validators.minLength(2)])],
       InvestorId: [this.InvestorId],
       ServiceId: [this.ServiceId],
       ParentProjectId: ['0'],
@@ -411,7 +420,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         KebeleId: new FormControl(),
         SpecificAreaName: new FormControl(),
         IsIndustrialPark: new FormControl(),
-        IndustrialParkId: new FormControl(),
+        IndustrialParkId: new FormControl('',Validators.required),
         Remark: new FormControl()
       })
     });
@@ -465,7 +474,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   getIsChecked() {
     return this.projectForm.get('address').get('IsIndustrialPark').value;
   }
-
+  IsOromiaRegion() {
+    return this.IsOromia;
+  }
 
   private filterOnlineUser(result: SiteModel[]) {
     this.allSiteList = result.filter((item) => {
