@@ -125,7 +125,8 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
       workFlowId: new FormControl(this.workFlowId),
       Nationality: new FormControl(null, [Validators.required, this.checkNationality.bind(this)]),
       Qty: new FormControl('', [Validators.required]),
-      SharePercent: new FormControl(null, [Validators.required, this.validateTotal.bind(this)]),
+      SharePercent: new FormControl(null, [Validators.required,
+        Validators.max(100), this.validateTotal.bind(this)]),
       Description: new FormControl(null, Validators.minLength(2))
     });
 
