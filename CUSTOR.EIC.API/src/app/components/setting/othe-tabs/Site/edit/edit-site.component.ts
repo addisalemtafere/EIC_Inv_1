@@ -8,6 +8,7 @@ import {ToastrService} from 'ngx-toastr';
 import {AppConfiguration} from '../../../../../config/appconfig';
 import {SiteModel} from '../../../../../model/Site.model';
 import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
+import {determineId} from "@custor/helpers/compare";
 
 @Component({
   selector: 'app-edit-site',
@@ -163,7 +164,11 @@ export class EditSiteComponent implements OnInit, OnDestroy {
     // this.router.navigate(['sites/list']);
     window.history.back();
   }
-
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
+  }
   get Name() { return this.sitesForm.get('cName'); }
   get NameEnglish() { return this.sitesForm.get('cNameEnglish'); }
 }

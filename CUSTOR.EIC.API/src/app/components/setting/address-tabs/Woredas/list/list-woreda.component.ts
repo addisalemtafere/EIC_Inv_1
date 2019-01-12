@@ -9,6 +9,7 @@ import {AngConfirmDialogComponent} from '../../../../../../@custor/components/co
 import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
 import {Utilities} from '../../../../../../@custor/helpers/utilities';
 import {determineId} from '@custor/helpers/compare';
+import {ZoneService} from "../../zone/zone.service";
 
 @Component({
   selector: 'app-list-woreda',
@@ -30,9 +31,11 @@ export class ListWoredaComponent implements OnInit, AfterViewInit {
   regionModels: Region[] = [];
   fillterZoneModels: Zone[] = [];
   filltersWoredaModels: Woreda[] = [];
+  region: any
+  zone: any
 
   constructor(private http: HttpClient,
-              private woredaService: WoredaService,
+              private woredaService: WoredaService,private subZoneService: ZoneService,
               private errMsg: ErrorMessage,
               private toastr: ToastrService, public dialog: MatDialog,
               private router: Router, private route: ActivatedRoute) {
@@ -51,20 +54,10 @@ export class ListWoredaComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getRegions();
-    this.getAllZones();
-    this.getWoredas();
+    // this.getAllZones();
+    // this.getWoredas();
   }
 
-  filterZone(ZoneId: string) {
-    if (!ZoneId) {
-      return;
-    }
-    this.filltersWoredaModels = null;
-    this.filltersWoredaModels = this.woredaModels.filter((item) => {
-      return item.ZoneId === ZoneId;
-    });
-    this.dataSource.data = this.filltersWoredaModels;
-  }
 
   compareIds(id1: any, id2: any): boolean {
     const a1 = determineId(id1);
@@ -76,10 +69,23 @@ export class ListWoredaComponent implements OnInit, AfterViewInit {
     if (!RegionCode) {
       return;
     }
-    this.fillterZoneModels = null;
-    this.fillterZoneModels = this.zoneModels.filter((item) => {
-      return item.RegionId === RegionCode;
-    });
+    this.region = RegionCode,
+      this.subZoneService.getZonesbyParent(RegionCode)
+        .subscribe(result => {
+          this.fillterZoneModels = result;
+        });
+  }
+
+  filterZone(ZoneId: string) {
+    if (!ZoneId) {
+      return;
+    }
+    this.zone = ZoneId;
+    this.woredaService.getWoredaByParent(ZoneId)
+      .subscribe(result => {
+        this.woredaModels = result;
+        this.dataSource.data = this.woredaModels;
+      });
   }
 
   getRegions() {
@@ -109,7 +115,7 @@ export class ListWoredaComponent implements OnInit, AfterViewInit {
               closeButton: true,
             });
           } else {
-            this.dataSource.data = this.woredaModels;
+            //this.dataSource.data = this.woredaModels;
           }
         },
         err => {
@@ -129,9 +135,9 @@ export class ListWoredaComponent implements OnInit, AfterViewInit {
 
   editWoreda(woredaModel: Woreda) {
     if (woredaModel) {
-      this.router.navigate(['/woredas/edit', woredaModel.WoredaId], {relativeTo: this.route});
+      this.router.navigate(['/woredas/edit/' + woredaModel.WoredaId + '/' + 0 + '/' + 0], {relativeTo: this.route});
     } else {
-      this.router.navigate(['/woredas/edit', 0]);
+      this.router.navigate(['/woredas/edit/' + 0 + '/' + this.region + '/' + this.zone]);
     }
   }
 

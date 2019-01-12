@@ -8,7 +8,7 @@ const routes: Routes = [{
   path: '', component: ServicestepperComponent, children: [
     { path: '', component: ListServicestepperComponent },
     { path: 'list', component: ListServicestepperComponent },
-    { path: 'edit/:id', component: EditServicestepperComponent }
+    { path: 'edit/:id/:serviceId', component: EditServicestepperComponent }
   ]
 }];
 

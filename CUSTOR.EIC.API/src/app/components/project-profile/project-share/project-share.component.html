@@ -46,6 +46,9 @@
             <mat-error align="start" *ngIf="projectShareForm.get('SharePercent').hasError('value')" class="form__error">
               Sum of all share percent is exceeded 100
             </mat-error>
+            <mat-error align="start" *ngIf="projectShareForm.get('SharePercent').hasError('max')" class="form__error">
+              Share percent can not exceeded 100
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="full-width" fxLayoutGap="4em" [fxFlex]="30">

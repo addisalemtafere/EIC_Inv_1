@@ -37,6 +37,14 @@ export class ActivityService {
       }),
       catchError(this.errMsg.parseObservableResponseError),);
   }
+  getActivityByParent(id): Observable<ActivityModel[]> {
+    return this.httpClient.get<ActivityModel[]>(this.config.urls.url('activityByParent', id)).pipe(
+      map((activityData: ActivityModel[]) => {
+        this.activityList = activityData;
+        return this.activityList;
+      }),
+      catchError(this.errMsg.parseObservableResponseError),);
+  }
 
   getActivitys(): Observable<ActivityModel[]> {
     return this.httpClient.get<ActivityModel[]>(this.config.urls.url('activitys')).pipe(

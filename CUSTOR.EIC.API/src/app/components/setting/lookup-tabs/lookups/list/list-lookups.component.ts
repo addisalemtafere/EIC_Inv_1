@@ -8,6 +8,9 @@ import {LookupsModel} from '../../../../../model/lookups';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
 import {ToastrService} from 'ngx-toastr';
 import {LookupsService} from '../lookups.service';
+import {LookuptypesModel} from "../../../../../model/lookuptypes";
+import {determineId} from "@custor/helpers/compare";
+import {LookuptypesService} from "../../lookuptypes/lookuptypes.service";
 
 @Component({
   selector: 'app-list-lookups',
@@ -16,6 +19,7 @@ import {LookupsService} from '../lookups.service';
 })
 export class ListLookupsComponent implements OnInit, AfterViewInit {
   subLookupsModels: LookupsModel[];
+  lookuptypesModels: LookuptypesModel[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -25,9 +29,11 @@ export class ListLookupsComponent implements OnInit, AfterViewInit {
   loadingIndicator: boolean;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  lookuptypeId: any;
 
   constructor(private http: HttpClient,
               private subLookupsService: LookupsService,
+              private subLookupTypesService: LookuptypesService,
               private errMsg: ErrorMessage,
               private toastr: ToastrService, public dialog: MatDialog,
               private router: Router, private route: ActivatedRoute) {
@@ -44,9 +50,37 @@ export class ListLookupsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngOnInit() {
-    this.getLookups();
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
   }
+
+  ngOnInit() {
+    this.getLookupstype();
+    //this.getLookups();
+  }
+
+  getLookupstype() {
+    this.subLookupTypesService.getlookuptypess()
+      .subscribe(result => {
+          this.lookuptypesModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+  }
+
+  filterLookup(lookupCode: number) {
+    if (!lookupCode) {
+      return;
+    }
+    this.lookuptypeId = lookupCode;
+    this.subLookupsService.getLookupByParent(lookupCode)
+      .subscribe(result => {
+        console.log(result)
+        this.dataSource.data = result;
+      });
+  }
+
   getLookups() {
     this.loadingIndicator = true;
     this.subLookupsService.getLookups()
@@ -70,15 +104,17 @@ export class ListLookupsComponent implements OnInit, AfterViewInit {
         });
     this.loadingIndicator = false;
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
   editLookups(subLookupsModel: LookupsModel) {
     if (subLookupsModel) {
-      this.router.navigate(['/lookups/edit', subLookupsModel.LookupId], { relativeTo: this.route });
+      this.router.navigate(['/lookups/edit/' + subLookupsModel.LookupId + '/' + 0], {relativeTo: this.route});
     } else {
-      this.router.navigate(['/lookups/edit', 0]);
+      this.router.navigate(['/lookups/edit/' + 0 + '/' + this.lookuptypeId]);
     }
   }
 

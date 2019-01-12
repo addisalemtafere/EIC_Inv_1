@@ -54,31 +54,42 @@ import {ServiceListComponent} from './components/home/service-list/services.comp
 import {SharedModule} from '@custor/modules/shared.module';
 import {LoginDialogComponent} from './components/auth/login/login-dialog.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ServiceInitComponent} from './components/project-profile/service-init/service-init.component';
-import {MatButtonModule, MatCardModule, MatGridListModule, MatIconModule, MatMenuModule} from '@angular/material';
 import {NotificationsComponent} from './components/notifications/notifications.component';
 import {TaskDispatcherComponent} from './components/task-dispatcher/task-dispatcher.component';
 import {BaseComponent} from './components/base-components/base.component';
-import {PlotlyModule} from 'angular-plotly.js';
-import {ImageUploadModule} from 'angular2-image-upload';
-import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
 import {EditorModule} from '@tinymce/tinymce-angular';
-import {ErrorComponent} from './components/error/error.component';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
-import {AddressComponent} from './components/project-profile/address/address.component';
 import {AppComponent} from './app.component';
-import {HelpComponent} from './components/help/help.component';
-import {FollowupComponent} from "./components/components/followup/followup.component";
-import {FollowComponent} from "./components/follow/follow.component";
-import {FollowupFormComponent} from "./components/components/followup/followup-form/followup-form.component";
-// import {
-//   NgxUiLoaderConfig, NgxUiLoaderHttpModule,
-//   NgxUiLoaderModule,
-//   NgxUiLoaderRouterModule,
-//   PB_DIRECTION,
-//   POSITION,
-//   SPINNER
-// } from "ngx-ui-loader";
+
+
+import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule} from "ngx-ui-loader";
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  "bgsColor": "#04a162",
+  "bgsOpacity": 0.5,
+  "bgsPosition": "bottom-left",
+  "bgsSize": 90,
+  "bgsType": "three-strings",
+  "blur": 65,
+  "fgsColor": "#0c97a8",
+  "fgsPosition": "center-center",
+  "fgsSize": 120,
+  "fgsType": "three-strings",
+  "gap": 24,
+  "logoPosition": "center-center",
+  "logoSize": 120,
+  "logoUrl": "",
+  "overlayColor": "rgba(40, 40, 40, 0.8)",
+  "pbColor": "#0c97a8",
+  "pbDirection": "ltr",
+  "pbThickness": 5,
+  "hasProgressBar": true,
+  "text": "Loading",
+  "textColor": "#0c97a8",
+  "textPosition": "center-center",
+  "threshold": 500,
+
+};
 
 // const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 //   "bgsColor": "#04a162",
@@ -145,20 +156,16 @@ import {FollowupFormComponent} from "./components/components/followup/followup-f
     EnumKeyValueListPipe,
     DocumentPipePipe,
     NotificationComponent,
-    ServiceInitComponent,
+    // ServiceInitComponent,
     LoginDialogComponent,
     LoginComponent,
     LoginControlComponent,
     NotificationsComponent,
     TaskDispatcherComponent,
     BaseComponent,
-    ErrorComponent,
-    AddressComponent,
-    HelpComponent,
-    // IncentiveDetailComponent
-    FollowupComponent,
-    FollowComponent,
-    FollowupFormComponent
+    // CustomerServiceStarterComponent
+    // AddressComponent,
+    // HelpComponent,
 
   ],
 
@@ -185,13 +192,12 @@ import {FollowupFormComponent} from "./components/components/followup/followup-f
     ToastrModule.forRoot({
       maxOpened: 1,
     }),
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    PlotlyModule,
-    ImageUploadModule.forRoot(),
+    // MatGridListModule,
+    // MatCardModule,
+    // MatMenuModule,
+    // MatIconModule,
+    // MatButtonModule,
+    // ImageUploadModule.forRoot(),
     EditorModule,
     // app
 
@@ -201,8 +207,8 @@ import {FollowupFormComponent} from "./components/components/followup/followup-f
     NotificationComponent,
     NotificationsComponent,
     TaskDispatcherComponent,
-    ServiceInitComponent,
-    CustomerServiceStarterComponent
+    // ServiceInitComponent,
+
   ],
   providers: [
     {provide: 'BASE_URL', useFactory: getBaseUrl},

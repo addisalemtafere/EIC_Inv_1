@@ -10,6 +10,7 @@ import { ErrorMessage } from '@custor/services/errMessageService';
 import { ServiceStepModel } from '../../../../../model/ServiceStep.model';
 import { ServicePrerequisiteModel } from '../../../../../model/service';
 import { AppConfiguration } from '../../../../../config/appconfig';
+import {ServiceModel} from "../../../../../model/Service.model";
 
 @Component({
   selector: 'app-edit-servicestepper',
@@ -24,7 +25,7 @@ export class EditServicestepperComponent implements OnInit, OnDestroy {
   isNewServiceStepperSub = false;
   serviceStepper: ServiceStepModel;
   serviceSteppersModel: ServiceStepModel[] = [];
-  servicesModel: ServicePrerequisiteModel[] = [];
+  servicesModel: ServiceModel[] = [];
   serviceStepperForm: FormGroup;
   loadingIndicator: boolean;
   private form: NgForm;
@@ -48,6 +49,9 @@ export class EditServicestepperComponent implements OnInit, OnDestroy {
       this.isNewServiceStepperSub = true;
       this.title = 'Create a new Service Prerequisite';
       this.getService();
+      this.serviceStepperForm.patchValue({
+        cServiceType: this.activatedRoute.snapshot.params['serviceId']
+      });
       return;
     }
     if (id) {

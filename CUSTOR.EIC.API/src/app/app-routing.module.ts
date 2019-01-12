@@ -4,16 +4,9 @@ import {HomeComponent} from './components/home/home.component';
 import {AuthService} from '@custor/services/security/auth.service';
 import {AuthGuard} from '@custor/services/security/auth-guard.service';
 import {NotFoundComponent} from './components/not-found/not-found.component';
-import {ProjectListComponent} from './components/project-profile/project-list/project-list.component';
 import {ConfirmComponent} from './components/auth/register/confirm.component';
 import {LoginComponent} from './components/auth/login/login.component';
 import {AccessDeniedComponent} from './components/denied/denied.component';
-import {ErrorComponent} from './components/error/error.component';
-import {CustomerServiceStarterComponent} from './components/my-dashboard/customerService/customerServices.component';
-import {AddressComponent} from './components/project-profile/address/address.component';
-import {HelpComponent} from "./components/help/help.component";
-import {FollowupFormComponent} from './components/components/followup/followup-form/followup-form.component';
-import {FollowupComponent} from "./components/components/followup/followup.component";
 
 
 @NgModule({
@@ -26,11 +19,8 @@ import {FollowupComponent} from "./components/components/followup/followup.compo
       },
       {
         path: 'followup',
-        component: FollowupComponent
-      },
-      {
-        path: 'followupform',
-        component: FollowupFormComponent
+        loadChildren: 'app/components/followup/followup.module#FollowupModule',
+        canActivate: [AuthGuard]
       },
       {
         path: 'dashboard',
@@ -53,7 +43,8 @@ import {FollowupComponent} from "./components/components/followup/followup.compo
       },
       {
         path: 'service-list',
-        component: CustomerServiceStarterComponent
+        // component: CustomerServiceStarterComponent
+        loadChildren: 'app/components/my-dashboard/customerService/customerServiceList.module#CustomerServiceListModule',
       },
       {
         path: 'register',
@@ -233,11 +224,11 @@ import {FollowupComponent} from "./components/components/followup/followup.compo
         loadChildren: 'app/components/letter-template/lettertemplate.module#LettertemplateModule',
         canActivate: [AuthGuard]
       },
-      {
-        path: 'project/list',
-        component: ProjectListComponent,
-        canActivate: [AuthGuard]
-      },
+      // {
+      //   path: 'project/list',
+      //   component: ProjectListComponent,
+      //   canActivate: [AuthGuard]
+      // },
       {
         path: 'project-renewal/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
         loadChildren: 'app/components/project-profile/project-renewal-tab/projectRenewal.module#ProjectRenewalModule',
@@ -349,10 +340,10 @@ import {FollowupComponent} from "./components/components/followup/followup.compo
         loadChildren: 'app/components/incentive/tax-exemption/tax-exemption.module#TaxExemptionModule',
         canActivate: [AuthGuard]
       },
-      {
-        path: 'error',
-        component: ErrorComponent
-      },
+      // {
+      //   path: 'error',
+      //   component: ErrorComponent
+      // },
       {
         path: 'manage-password/:id',
         loadChildren: 'app/components/auth/manage-password/manage.module#ManagePasswordModule'
@@ -362,7 +353,9 @@ import {FollowupComponent} from "./components/components/followup/followup.compo
         loadChildren: 'app/components/project-profile/capital-registration/capitalRegistration.module#CapitalRegistrationModule'
       },
       {
-        path: 'address/:id', component: AddressComponent
+        path: 'address/:id',
+        loadChildren: 'app/components/project-profile/address/address.module#AddressModule'
+
       },
       {
         path: 'requested-items-list/:categoryId/:projectId/:requestId/:Quantity/:CurrencyType/:CurrencyRate/:Phase/:ServiceApplicationId/:ServiceId',
@@ -384,11 +377,11 @@ import {FollowupComponent} from "./components/components/followup/followup.compo
         loadChildren: 'app/components/incentive/incentive-detail/incentive-detail.module#IncentiveDetailModule',
         canActivate: [AuthGuard]
       },
-      {
-        path: 'help',
-        component: HelpComponent,
-        canActivate: [AuthGuard]
-      },
+      // {
+      //   path: 'help',
+      //   component: HelpComponent,
+      //   canActivate: [AuthGuard]
+      // },
       {path: '', component: HomeComponent},
       {path: '**', component: NotFoundComponent},
     ])

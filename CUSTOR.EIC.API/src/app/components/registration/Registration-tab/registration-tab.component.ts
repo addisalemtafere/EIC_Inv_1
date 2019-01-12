@@ -53,7 +53,7 @@ export class RegistratioinTabComponent implements OnInit {
           if(this.investor.Tin.trim() == "")
           {
             this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-            this.router.navigate(['investor-tab/0/', 0]);
+            this.router.navigate(['investor-tab/0/0/0/', 0]);
           }
           else {
 

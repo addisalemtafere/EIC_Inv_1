@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ErrorMessage} from "@custor/services/errMessageService";
 import {LookuptypesModel} from "../../../../model/lookuptypes";
@@ -13,6 +13,7 @@ export class LookuptypesService {
   constructor(private httpClient: HttpClient,
               private config: AppConfiguration, private errMsg: ErrorMessage) {
   }
+
   lookuptypesList: LookuptypesModel[] = [];
   lookuptypesModel: LookuptypesModel = new LookuptypesModel();
 
@@ -30,13 +31,24 @@ export class LookuptypesService {
         this.lookuptypesModel = lookuptypedata;
         return this.lookuptypesModel;
       }),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
+
+  getlookuptypesByParent(id): Observable<LookuptypesModel[]> {
+    return this.httpClient.get<LookuptypesModel[]>(this.config.urls.url('lookuptypeByParent', id)).pipe(
+      map(lookuptypedata => {
+        this.lookuptypesList = lookuptypedata;
+        return this.lookuptypesList;
+      }),
+      catchError(this.errMsg.parseObservableResponseError),);
+  }
+
   getlookuptypess(): Observable<LookuptypesModel[]> {
     return this.httpClient.get<LookuptypesModel[]>(this.config.urls.url('lookuptype')).pipe(
       map(lookuptypesList => this.lookuptypesList = lookuptypesList),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
+
   savelookuptypes(lookuptypesModel: LookuptypesModel): Observable<LookuptypesModel> {
 
     return this.httpClient.post<LookuptypesModel>(this.config.urls.url('lookuptype'), lookuptypesModel).pipe(
@@ -44,7 +56,7 @@ export class LookuptypesService {
         this.lookuptypesModel = lookuptypesData;
         return this.lookuptypesModel;
       }),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
 
   deletelookuptypes(lookuptypesModel: LookuptypesModel): Observable<any> {
@@ -52,6 +64,6 @@ export class LookuptypesService {
       map(result => {
         return result;
       }),
-      catchError(this.errMsg.parsePromiseResponseError), );
+      catchError(this.errMsg.parsePromiseResponseError),);
   }
 }

@@ -1,28 +1,7 @@
-
-  <!--<mat-toolbar color="primary">-->
-  <!--<mat-toolbar-row>-->
-  <!--<span>Service Lookup</span>-->
-  <!--&lt;!&ndash; <span class="toolbar-spacer"></span>&ndash;&gt;-->
-  <!--<div class="header-actions" style="width: 100%;">-->
-  <!--<mat-form-field>-->
-  <!--<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">-->
-  <!--</mat-form-field>-->
-
-  <!--<button mat-icon-button [routerLink]="['/subsectors/edit/', 0]">-->
-  <!--<mat-icon class="mat-button-icon">add</mat-icon>-->
-  <!--Add-->
-  <!--</button>-->
-  <!--<button mat-icon-button>-->
-  <!--<mat-icon>more_vertical</mat-icon>-->
-  <!--</button>-->
-
-  <!--</div>-->
-  <!--</mat-toolbar-row>-->
-  <!--</mat-toolbar>-->
   <div class="mat-elevation-z8" style="margin: 15px;">
-    <mat-form-field  style="margin: 15px;width: 150px">
+    <mat-form-field  style="width: 150px;margin: 15px;">
       <mat-label>Sector:</mat-label>
-      <mat-select formControlName="cSector" [compareWith]="compareIds" (selectionChange)="filterSector($event.value)" required>
+      <mat-select [compareWith]="compareIds" (selectionChange)="filterSector($event.value)" required>
         <mat-option *ngFor="let sector of sectorModels" [value]="sector.SectorId">
           <span>{{sector.DescriptionEnglishAlias}}</span>
         </mat-option>

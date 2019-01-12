@@ -317,20 +317,23 @@
   "region": {
     "Code": "ኮድ",
     "Description": "መግለጫ",
-    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "Header": "ክልል"
   },
   "zone": {
     "Region": "ክልል",
     "Code": "ኮድ",
     "Description": "መግለጫ",
-    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "Header": "ዞን"
   },
   "woreda": {
     "Region": "ክልል",
     "Zone": "ዞን",
     "Code": "ኮድ",
     "Description": "መግለጫ",
-    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "Header": "ወረዳ"
   },
   "kebele": {
     "Region": "ክልል",
@@ -338,7 +341,8 @@
     "Woreda": "ወረዳ",
     "KebeleCode": "ቀበሌ ኮድ",
     "Description": "መግለጫ",
-    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "Header": "ቀበሌ"
   },
   "registration": {
     "management": {
@@ -404,6 +408,100 @@
     "totalAmount": "ድምር",
     "totalAmountdescription": "የገንዘቡ ልክ በፊደል",
     "cashierName": "የገንዘብ ተቀባይ ስምና ፊርማ"
+  },
+  "sector": {
+    "header": "ዘረፍ",
+    "Description": "መግለጫ",
+    "DescriptionAlias": "መግለጫ በአጭሩ",
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "DescriptionEnglishAlias": "መግለጫ በእንግሊዘኛ በአጭሩ",
+    "EconomicSectorCode": "ኢኮኖሚክ ሴክተር ኮድ"
+  },
+  "subbsector": {
+    "sector": "ዘረፍ",
+    "header": "ዋና ዘረፍ",
+    "Description": "መግለጫ",
+    "DescriptionAlias": "መግለጫ በአጭሩ",
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "DescriptionEnglishAlias": "መግለጫ በእንግሊዘኛ በአጭሩ"
+  },
+  "invActivity": {
+    "sector": "ዘረፍ",
+    "subsector": "ዋና ዘረፍ",
+    "activity": "መስክ",
+    "header": "ፍቃድ መስጫ መደብ",
+    "Description": "መግለጫ",
+    "DescriptionAlias": "መግለጫ በአጭሩ",
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "DescriptionEnglishAlias": "መግለጫ በእንግሊዘኛ በአጭሩ",
+    "InAddisOromiaAreas": "አዲስ አበባና ኦሮሚያ ልዩ ዞን",
+    "InOtherAreas": "በሌሎች  አከባቢ"
+  },
+  "activity": {
+    "sector": "ዘረፍ",
+    "subsector": "ዋና ዘረፍ",
+    "header": "መስክ",
+    "Description": "መግለጫ",
+    "DescriptionAlias": "መግለጫ በአጭሩ",
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ",
+    "DescriptionEnglishAlias": "መግለጫ በእንግሊዘኛ በአጭሩ"
+  },
+  "lookupTypes": {
+    "Header": "ሉክአፕ አይነት",
+    "LookupType": "LookupType",
+    "Description": "መግለጫ",
+    "DescriptionEnglish": "መግለጫ በእንግሊዘኛ"
+  },
+  "lookup": {
+    "Header": "ሉክአፕ",
+    "LookupType": "LookupType",
+    "LookupId": "Lookup Id",
+    "Amharic": "መግለጫ",
+    "English": "መግለጫ በእንግሊዘኛ"
+  },
+  "site": {
+    "Header": "ጣቢያ",
+    "Amharic": "ስም",
+    "NameEnglish": "ስምበእንግሊዘኛ"
+  },
+  "service": {
+    "Header": "አገልግሎት",
+    "Name": "ስም",
+    "ServiceType": "አገልግሎት አይነት",
+    "DisplayName": "ስም /ባጭሩ/",
+    "NameEnglish": "ስም በእንግሊዘኛ",
+    "DisplayNameEnglish": "ስምበእንግሊዘኛ/ማሳያ/"
+  },
+  "servicePrerequsite": {
+    "Header": "መስፈርት",
+    "ServiceType": "አገልግሎት አይነት",
+    "Description": "ስም",
+    "DescriptionEnglish": "ስምበእንግሊዘኛ/ማሳያ/"
+  },
+  "servicestepper": {
+    "Header": "የአገልግሎት ደረጃ",
+    "ServiceType": "አገልግሎት አይነት",
+    "NameAmharic": "ስም",
+    "NameEnglish": "ስምበእንግሊዘኛ/ማሳያ/"
+  },
+  "servicesTariff": {
+    "Header": "የአገክግሎት ክፍያ",
+    "ServiceType": "አገልግሎት አይነት",
+    "TariffType": "የክፍያ አይነት"
+  },
+  "tariff": {
+    "Header": "ክፍያ",
+    "AccountCode": "አካውንት ኮድ",
+    "TariffNameEnglish": "ስም በእንግሊዘኛ",
+    "Fee": "ክፍያ",
+    "IncrementalFee": "ተጨማሪ ክፍያ",
+    "Quantity": "ብዛት",
+    "TariffMode": "የክፍያ አይነት",
+    "TariffName": "ስም"
+  },
+  "letterTemplate": {
+    "Header": "Letter Template",
+    "LetterType": "Letter Type"
   }
 }
 

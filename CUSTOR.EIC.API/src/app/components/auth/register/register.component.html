@@ -24,9 +24,10 @@
               fxLayoutGap="1em" autocomplete="off">
 
           <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-            <mat-form-field fxFlex>
+            <mat-form-field fxFlex appearance="outline">
               <mat-label>{{'users.editor.FullName' | translate}}</mat-label>
               <input matInput formControlName="fullName" required/>
+              <mat-icon matSuffix="" color="primary" class="mat-24">person</mat-icon>
             </mat-form-field>
           </div>
 
@@ -39,7 +40,7 @@
           <!--</div>-->
 
           <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-            <mat-form-field fxFlex *ngIf="isExisting">
+            <mat-form-field fxFlex *ngIf="isExisting" appearance="outline">
               <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
               <input matInput formControlName="tin" NaturalNumberOnlyDir/>
               <mat-error
@@ -55,10 +56,11 @@
                          *ngIf="!tin.hasError('required') && tin.hasError('isTinUnique')">
                 This Tin not registered
               </mat-error>
+              <mat-icon matSuffix="" color="primary" class="mat-24">key</mat-icon>
             </mat-form-field>
           </div>
           <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-            <mat-form-field fxFlex>
+            <mat-form-field fxFlex appearance="outline">
               <mat-label>{{'users.editor.Email' | translate}}</mat-label>
               <input matInput formControlName="email" required/>
               <mat-error *ngIf="email.hasError('required')">
@@ -71,30 +73,32 @@
                          *ngIf="!email.hasError('required') && email.hasError('isEmailUnique')">
                 This email has been registered already
               </mat-error>
-
+              <mat-icon matSuffix="" color="primary" class="mat-24">email</mat-icon>
             </mat-form-field>
           </div>
           <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-            <mat-form-field fxFlex>
+            <mat-form-field fxFlex appearance="outline">
               <mat-label>{{'users.editor.PhoneNumber' | translate}}</mat-label>
               <input matInput NaturalNumberOnlyDir formControlName="phoneNumber" required autocomplete="off"/>
+              <mat-icon matSuffix="" color="primary" class="mat-48">phone</mat-icon>
             </mat-form-field>
           </div>
 
           <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
               <mat-label>{{'users.editor.UserName' | translate}}</mat-label>
               <input matInput formControlName="userName" autocomplete="off" required/>
               <mat-error *ngIf="userName.hasError('required')">
                 {{'users.editor.UserNameRequired' | translate}}
               </mat-error>
+              <mat-icon matSuffix="" color="primary" class="mat-24">person_add</mat-icon>
             </mat-form-field>
           </div>
 
           <div formGroupName="password" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
 
             <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
-              <mat-form-field>
+              <mat-form-field fxFlex="80" appearance="outline">
                 <mat-label>{{'users.editor.NewPassword' | translate}}</mat-label>
                 <input matInput type="password" formControlName="newPassword" autocomplete="off" required/>
                 <mat-error *ngIf="newPassword.hasError('required')">
@@ -103,11 +107,12 @@
                 <mat-error *ngIf="!newPassword.hasError('required') && newPassword.hasError('pattern')">
                   {{'users.editor.NewPasswordRules' | translate}}
                 </mat-error>
+                <mat-icon matSuffix="" color="primary" class="mat-24">lock_open</mat-icon>
               </mat-form-field>
             </div>
             <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1em">
 
-              <mat-form-field fxFlex>
+              <mat-form-field fxFlex="80" appearance="outline">
                 <mat-label>{{'users.editor.ConfirmPassword' | translate}}</mat-label>
                 <input matInput type="password" formControlName="confirmPassword" required/>
                 <mat-error *ngIf="confirmPassword.hasError('required')">
@@ -116,6 +121,8 @@
                 <mat-error *ngIf="!confirmPassword.hasError('required') && confirmPassword.hasError('notEqual')">
                   {{'users.editor.PasswordMismatch' | translate}}
                 </mat-error>
+                <mat-icon matSuffix="" color="primary" class="mat-24">lock_open</mat-icon>
+
               </mat-form-field>
             </div>
           </div>

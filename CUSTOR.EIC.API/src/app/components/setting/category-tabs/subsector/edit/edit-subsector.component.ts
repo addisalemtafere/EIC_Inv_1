@@ -46,10 +46,13 @@ export class EditSubsectorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getSector();
     const id = this.activatedRoute.snapshot.params['id'];
+    const sectorId = this.activatedRoute.snapshot.params['sectorId'];
     if (id < 1) {
       this.isNewSubSector = true;
       this.title = 'Create a new Service';
-      /*this.getService();*/
+      this.subSectorsForm.patchValue({
+        cSector: this.activatedRoute.snapshot.params['sectorId']
+      });
       return;
     }
     if (id) {

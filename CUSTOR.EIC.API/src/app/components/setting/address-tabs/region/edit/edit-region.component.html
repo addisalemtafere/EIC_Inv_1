@@ -1,17 +1,25 @@
-<div [@fadeInOut] class="page-content margin-2 mat-elevation-z8" fxFlex="50" style="padding: 15px">
+<!--<div [@fadeInOut] class="page-content margin-2 mat-elevation-z8" fxFlex="50" style="padding: 15px">-->
 
-  <!--<mat-card>-->
-    <!--<mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>-->
+  <mat-toolbar mat-dialog-title>
+    <h1 mat-dialog-title>
+      <mat-icon>create</mat-icon>
+      {{('region.Header' | translate)}}
+    </h1>
+  </mat-toolbar>
+
+  <mat-card class="mat-elevation-z8">
+    <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
     <!--<mat-card-header>-->
-      <!--<mat-card-title>-->
-        <!--&lt;!&ndash; <mat-icon class="mat-button-icon">person_add</mat-icon> Edit Customer &ndash;&gt;-->
+      <!--<mat-card-title class="sub-title;accent-color">-->
+        <!--Edit Region-->
+        <!--<mat-divider></mat-divider>-->
       <!--</mat-card-title>-->
     <!--</mat-card-header>-->
-    <!--<br/>-->
-    <!--<br/>-->
+    <br/>
+    <br/>
 
-    <!--<mat-card-content>-->
-      <form #form="ngForm" [formGroup]="regionsForm"  novalidate (ngSubmit)="onSubmit()" fxLayout="column"
+    <mat-card-content>
+      <form #form="ngForm" [formGroup]="regionsForm" novalidate (ngSubmit)="onSubmit()" fxLayout="column"
             autocomplete="off">
         <div fxLayout="column" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
           <mat-form-field style="width: 100px">
@@ -59,6 +67,7 @@
           </button>
         </div>
       </form>
-    <!--</mat-card-content>-->
-  <!--</mat-card>-->
-</div>
+    </mat-card-content>
+  </mat-card>
+  <!--</div>-->
+

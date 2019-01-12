@@ -101,7 +101,7 @@ export class AssociateComponent implements OnInit, AfterViewInit {
       if (investor) {
         this.router.navigate(['/associate/form/', investor.AssociateId, investor.InvestorId], {relativeTo: this.route});
       } else {
-        this.router.navigate(['/associate/form', 0, invId]);
+        this.router.navigate(['/associate/form', 0, 0]);
       }
     } else {
       this.toastr.warning('Please Add Investor Profile ', 'Info');

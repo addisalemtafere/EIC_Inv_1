@@ -152,7 +152,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     // this.ngxService.stop(); // start foreground loading with 'default' id
 
 
-    localStorage.setItem('loggIn', 'false');
+    // localStorage.setItem('loggIn', 'false');
 
     this.checkInvestor();
     this.router.events.subscribe(event => {
@@ -170,8 +170,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
           this.servicesExpander.open();
         }
 
-        if ((url.indexOf('dashboard') > 0)) {
+        if (this.authService.isLoggedIn) {
           this.getAllServices();
+        }
+        if ((url.indexOf('dashboard') > 0)) {
 
           if (this.authService.isLoggedIn) {
             setTimeout(() => this.isLoggedIn$ = Observable.of(true));
@@ -255,7 +257,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   public startService(serviceId: any, title: string) {
     localStorage.setItem('title', title);
-    this.router.navigate(['/search-browser/' + serviceId + '/' + 0 + '/' + 0]);
+    if (serviceId == 1235) {
+      this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
+
+    }
+    else {
+      this.router.navigate(['/search-browser/' + serviceId + '/' + 0 + '/' + 0]);
+    }
   }
 
   clearLocalStorage() {
@@ -346,6 +354,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   private filterService(result: ServiceModel[]) {
+    // this.serviceList = result;
     this.serviceList = result.filter((item) => {
       if (this.canManageManageIncentiveAssignedServices) {
         return item.TypeOfService == '4';

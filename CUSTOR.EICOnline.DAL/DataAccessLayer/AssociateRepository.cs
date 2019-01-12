@@ -136,6 +136,7 @@ namespace CUSTOR.EICOnline.DAL
                     }
                     else
                     {
+                        address.AddressId = 0;
                         Context.Address.Add(address);
                         Context.SaveChanges();
                     }

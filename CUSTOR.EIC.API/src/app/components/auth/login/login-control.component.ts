@@ -103,6 +103,9 @@ export class LoginControlComponent implements OnInit, OnDestroy {
   login() {
     this.isLoading = true;
     this.authService.logout();
+    setTimeout(() => this.sharingService.steeperIndex.next(0), 0);
+    setTimeout(() => this.sharingService.currentIndex.next(0), 0);
+
     this.authService.login(this.getUserLogin())
       .subscribe(
         user => {

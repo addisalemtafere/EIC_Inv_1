@@ -29,6 +29,7 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
   fillterssubsectorModels: SubSectorModel[] = [];
   sectorModels: SectorModel[] = [];
+  private sectorId: any;
 
   constructor(private http: HttpClient,
               private subSectorService: SubsectorService,
@@ -50,7 +51,7 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getSector();
-    this.getSubSectors();
+    // this.getSubSectors();
   }
 
   getSubSectors() {
@@ -83,9 +84,9 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
 
   editSubSector(subSectorModel: SubSectorModel) {
     if (subSectorModel) {
-      this.router.navigate(['/subsectors/edit', subSectorModel.SubSectorId], {relativeTo: this.route});
+      this.router.navigate(['/subsectors/edit', subSectorModel.SubSectorId + '/' + 0], {relativeTo: this.route});
     } else {
-      this.router.navigate(['/subsectors/edit', 0]);
+      this.router.navigate(['/subsectors/edit/' + 0 + '/' + this.sectorId]);
     }
   }
 
@@ -126,13 +127,11 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
     if (!sectorCode) {
       return;
     }
-
-    this.fillterssubsectorModels = null;
-    this.fillterssubsectorModels = this.subSectorModels.filter((item) => {
-      return item.SectorId === sectorCode;
-    });
-    console.log(this.fillterssubsectorModels);
-    this.dataSource.data = this.fillterssubsectorModels;
+    this.sectorId = sectorCode;
+    this.subSectorService.getSubSectorByParent(sectorCode)
+      .subscribe(result => {
+        this.dataSource.data = result;
+      });
   }
 
   getSector() {

@@ -1,7 +1,7 @@
 <div class="mat-elevation-z8" style="margin: 15px;">
   <mat-form-field style="width: 150px;margin: 15px;">
     <mat-label>{{'zone.Region' | translate}}</mat-label>
-    <mat-select formControlName="cRegion" [compareWith]="compareIds" required
+    <mat-select formControlName="cRegion" [compareWith]="compareIds" required #region
                 (selectionChange)="filterRegion($event.value)">
       <mat-option *ngFor="let region of regionModels" [value]="region.RegionId">
         <span>{{region.DescriptionEnglish}}</span>
@@ -10,7 +10,7 @@
   </mat-form-field>
   <mat-form-field style="width: 150px;margin: 15px;">
     <mat-label>{{'kebele.Zone' | translate}}</mat-label>
-    <mat-select formControlName="cZone" [compareWith]="compareIds" (selectionChange)="filterZone($event.value)"
+    <mat-select formControlName="cZone" [compareWith]="compareIds" (selectionChange)="filterZone($event.value)" #zone
                 required>
       <option value="0">--Select--</option>
       <mat-option *ngFor="let zone of fillterZoneModels" [value]="zone.ZoneId">

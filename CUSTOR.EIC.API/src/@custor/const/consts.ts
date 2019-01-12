@@ -147,3 +147,9 @@ export const Service: any[]=[
   {Id:11,Description:'Business License', DescriptionEnglish: 'Business License'}
 
   ];
+export const ServiceTypes: any[]=[
+  {Id:1,Description: 'ክትትል', DescriptionEnglish: 'After care'},
+  {Id:2,Description: 'ንግድ  ምዝገባ', DescriptionEnglish: 'Commercial  Registration'},
+  {Id:3,Description: 'የኢንቨስትመንት አገልግሎት', DescriptionEnglish: 'Investment Service'},
+  {Id:4,Description: 'ማበረታቻ  አገልግሎት', DescriptionEnglish: 'Incentive Service'}
+];

@@ -34,7 +34,14 @@ export class ServicestepperService {
       }),
       catchError(this.errMsg.parseObservableResponseError));
   }
-
+  getServiceStepByParentId(id): Observable<ServiceStepModel[]> {
+    return this.httpClient.get<ServiceStepModel[]>(this.config.urls.url('servicestepperStepByParentId', id)).pipe(
+      map(servicePrereq => {
+        this.serviceStepModelList = servicePrereq;
+        return this.serviceStepModelList;
+      }),
+      catchError(this.errMsg.parseObservableResponseError));
+  }
   getService(): Observable<ServiceModel[]> {
     return this.httpClient.get<ServiceModel[]>(this.config.urls.url('services')).pipe(
       map(serviceList => this.serviceList = serviceList),

@@ -11,7 +11,8 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
     public class WoredaRepo : EFRepository<ApplicationDbContext, Woreda>
     {
         public WoredaRepo(ApplicationDbContext context) : base(context)
-        { }
+        {
+        }
 
         //public async Task<List<WoredaViewModel>> GetWoredas(object zId)
         //{
@@ -48,8 +49,8 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                     {
                         ZoneId = w.ZoneId,
                         WoredaId = w.WoredaId,
-                //DescriptionEnglish = w.DescriptionEnglish,
-                Description = (lang == "et") ? w.Description : w.DescriptionEnglish
+                        //DescriptionEnglish = w.DescriptionEnglish,
+                        Description = (lang == "et") ? w.Description : w.DescriptionEnglish
                     })
                     .ToListAsync();
             }
@@ -59,18 +60,34 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                 return null;
             }
         }
+
         public async Task<List<Woreda>> GetWoredas(int page = 0, int pageSize = 15)
         {
-
             IQueryable<Woreda> woreda = Context.Woredas
                 .Include(z => z.Zone)
                 .OrderBy(zo => zo.WoredaId);
             if (page > 0)
             {
                 woreda = woreda
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
             }
+
+            return await woreda.ToListAsync();
+        }
+
+        public async Task<List<Woreda>> GetWoredasByParent(string id,int page = 0, int pageSize = 15)
+        {
+            IQueryable<Woreda> woreda = Context.Woredas
+                .Where(zo => zo.ZoneId == id)
+                .OrderBy(zo => zo.DescriptionEnglish);
+            if (page > 0)
+            {
+                woreda = woreda
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
+            }
+
             return await woreda.ToListAsync();
         }
 
@@ -96,9 +113,9 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
             {
                 SetError(ex);
                 return null;
-
             }
         }
+
         public Woreda GetWoreda(object rId)
         {
             Woreda woreda = null;
@@ -106,37 +123,36 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
             {
                 string id = rId.ToString();
                 woreda = Context.Woredas
-                               .Include(r => r.Zone)
-                               .Include(r => r.Kebeles)
-                           .Where(x => x.WoredaId == id).FirstOrDefault();
+                    .Include(r => r.Zone)
+                    .Include(r => r.Kebeles)
+                    .Where(x => x.WoredaId == id).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 SetError(ex);
                 return null;
             }
+
             return woreda;
         }
+
         public async Task<List<Woreda>> GetAllWoredas()
         {
             try
             {
-
                 IQueryable<Woreda> woredas = Context.Woredas;
                 int i = woredas.Count();
                 return await woredas.ToListAsync();
-
             }
             catch (Exception ex)
             {
                 SetError(ex);
                 return null;
-
             }
         }
+
         public async Task<bool> DeleteWoreda(string id)
         {
-
             var Woreda = await Context.Woredas
                 .FirstOrDefaultAsync(zo => zo.WoredaId == id);
             if (Woreda == null)
@@ -144,9 +160,9 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                 SetError("Woreda does not exist");
                 return false;
             }
+
             Context.Woredas.Remove(Woreda);
             return await SaveAsync();
-
         }
     }
 }

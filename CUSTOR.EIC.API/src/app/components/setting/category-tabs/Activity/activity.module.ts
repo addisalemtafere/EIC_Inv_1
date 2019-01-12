@@ -10,8 +10,8 @@ import {SharedModule} from '@custor/modules/shared.module';
 @NgModule({
   imports: [
     CommonModule,
-    ActivityRoutingModule,
-    SharedModule
+    SharedModule,
+    ActivityRoutingModule
   ],
   declarations: [ListActivityComponent, EditActivityComponent, ActivityComponent],
   exports: [ListActivityComponent, EditActivityComponent, ActivityComponent],

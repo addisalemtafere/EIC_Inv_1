@@ -5,10 +5,10 @@ import {EditWoredaComponent} from './edit/edit-woreda.component';
 import {ListWoredaComponent} from './list/list-woreda.component';
 
 const routes: Routes = [{
-  path: '',  component: WoredaComponent,  children: [
+  path: '', component: WoredaComponent, children: [
     {path: '', component: ListWoredaComponent},
     {path: 'list', component: ListWoredaComponent},
-    {path: 'edit/:id', component: EditWoredaComponent}
+    {path: 'edit/:id/:regionId/:zoneId', component: EditWoredaComponent}
   ]
 }];
 

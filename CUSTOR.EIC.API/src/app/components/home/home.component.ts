@@ -11,19 +11,19 @@ import {AuthService} from '@custor/services/security/auth.service';
 export class HomeComponent implements OnInit {
   loginForm: FormGroup;
   loginFormErrors: any;
-  zoom = 14;
-  lat = 9.011805;
-  lng = 38.756546;
-  // AA 8.9806° N, 38.7578° E
-  markers: marker[] = [
-    {
-      lat: 9.0049,
-      lng: 38.7671,
-      label: 'EIC',
-      draggable: false
-    }
-  ];
-  public isLoggedIn: boolean;
+  // zoom = 14;
+  // lat = 9.011805;
+  // lng = 38.756546;
+  // // AA 8.9806° N, 38.7578° E
+  // markers: marker[] = [
+  //   {
+  //     lat: 9.0049,
+  //     lng: 38.7671,
+  //     label: 'EIC',
+  //     draggable: false
+  //   }
+  // ];
+  public isLoggedIn = false;
 
   constructor(private formBuilder: FormBuilder,
               public router: Router,

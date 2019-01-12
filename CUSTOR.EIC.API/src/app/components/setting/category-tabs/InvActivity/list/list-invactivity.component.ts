@@ -9,6 +9,12 @@ import {InvactivityService} from '../invactivity.service';
 import {AngConfirmDialogComponent} from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {Utilities} from '@custor/helpers/utilities';
+import {determineId} from "@custor/helpers/compare";
+import {SectorService} from "../../sector/sector.service";
+import {SubsectorService} from "../../subsector/subsector.service";
+import {ActivityService} from "../../Activity/activity.service";
+import {SubSectorModel} from "../../../../../model/subSector";
+import {SectorModel} from "../../../../../model/sector";
 
 @Component({
   selector: 'app-list-invactivity',
@@ -28,9 +34,19 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
   loadingIndicator: boolean;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  private subSectorId: any;
+  private sectorId: any;
+  fillterssubsectorModels: SubSectorModel[] = [];
+  filltersActivityModels: ActivityModel[] = [];
+  filterActivityLIst: InvActivityModel[] = [];
+  sectorModels: SectorModel[] = [];
+  private activityId: any;
 
   constructor(private http: HttpClient,
               private subInActivityService: InvactivityService,
+              private sectorService: SectorService,
+              private subSectorService: SubsectorService,
+              private subActivityService: ActivityService,
               private errMsg: ErrorMessage,
               private toastr: ToastrService, public dialog: MatDialog,
               private router: Router, private route: ActivatedRoute) {
@@ -39,7 +55,16 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.getInvActivitys();
+    this.getSectors();
+    //this.getInvActivitys();
+  }
+
+  getSectors() {
+    this.sectorService.getSectors()
+      .subscribe(result => {
+          this.sectorModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   applyFilter(filterValue: string) {
@@ -81,9 +106,9 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
 
   editInvActivity(invActivityModel: InvActivityModel) {
     if (invActivityModel) {
-      this.router.navigate(['/invactivitys/edit', invActivityModel.InvActivityId], {relativeTo: this.route});
+      this.router.navigate(['/invactivitys/edit/' + invActivityModel.InvActivityId + '/' + 0 + '/' + 0 + '/' + 0], {relativeTo: this.route});
     } else {
-      this.router.navigate(['/invactivitys/edit', 0]);
+      this.router.navigate(['/invactivitys/edit/' + 0 + '/' + this.sectorId + '/' + this.subSectorId + '/' + this.activityId]);
     }
   }
 
@@ -113,4 +138,48 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
       this.loadingIndicator = false;
     });
   }
+
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
+  }
+
+  filterSector(sectorCode: number) {
+    if (!sectorCode) {
+      return;
+    }
+    this.sectorId = sectorCode;
+    this.subSectorService.getSubSectorByParent(sectorCode)
+      .subscribe(result => {
+          this.fillterssubsectorModels = result;
+        },
+        error => this.toastr.error(this.errMsg.getError(error)));
+
+  }
+
+  filterSubSector(SubSecId: number) {
+    if (!SubSecId) {
+      return;
+    }
+    this.subSectorId = SubSecId;
+    this.subActivityService.getActivityByParent(SubSecId)
+      .subscribe(result => {
+        this.filltersActivityModels = result;
+      });
+  }
+
+  filterActivity(activityId: number) {
+    if (!activityId) {
+      return;
+    }
+    this.activityId = activityId;
+    this.subInActivityService.getInvActivityByParent(activityId)
+      .subscribe(result => {
+        console.log(result)
+        this.dataSource.data = result;
+      });
+
+  }
+
 }

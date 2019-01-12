@@ -1,25 +1,31 @@
 <div class="mat-elevation-z8" style="margin: 15px;">
-  <!--<mat-toolbar color="primary">-->
-  <!--<mat-toolbar-row>-->
-  <!--<span>Investment Activity Maintainace</span>-->
-  <!--&lt;!&ndash; <span class="toolbar-spacer"></span>&ndash;&gt;-->
-  <!--<div class="header-actions" style="width: 100%;">-->
-  <!--<mat-form-field>-->
-  <!--<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">-->
-  <!--</mat-form-field>-->
-
-  <!--<button mat-icon-button [routerLink]="['/invactivitys/edit/', 0]">-->
-  <!--<mat-icon class="mat-button-icon">add</mat-icon>-->
-  <!--Add-->
-  <!--</button>-->
-  <!--<button mat-icon-button>-->
-  <!--<mat-icon>more_vertical</mat-icon>-->
-  <!--</button>-->
-
-  <!--</div>-->
-  <!--</mat-toolbar-row>-->
-  <!--</mat-toolbar>-->
-
+  <mat-form-field style="width: 150px;margin: 15px;">
+    <mat-label>{{'invActivity.Sector' | translate}}</mat-label>
+    <mat-select  [compareWith]="compareIds" (selectionChange)="filterSector($event.value)" required>
+      <option value="0">--Select--</option>
+      <mat-option *ngFor="let sector of sectorModels" [value]="sector.SectorId">
+        <span>{{sector.DescriptionEnglishAlias}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field style="width: 150px;margin: 15px;">
+    <mat-label>{{'invActivity.subSector' | translate}}</mat-label>
+    <mat-select  [compareWith]="compareIds" (selectionChange)="filterSubSector($event.value)" required>
+      <option value="0">--Select--</option>
+      <mat-option *ngFor="let subsector of fillterssubsectorModels" [value]="subsector.SubSectorId">
+        <span>{{subsector.DescriptionEnglishAlias}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field style="width: 150px;margin: 15px;">
+    <mat-label>{{'invActivity.Activity' | translate}}</mat-label>
+    <mat-select  [compareWith]="compareIds" required (selectionChange)="filterActivity($event.value)">
+      <option value="0">--Select--</option>
+      <mat-option *ngFor="let activity of filltersActivityModels" [value]="activity.ActivityId">
+        <span>{{activity.DescriptionEnglishAlias}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
     <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
     <mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="Id">
@@ -40,9 +46,7 @@
       </ng-container>
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef fxFlex="100px">
-        </mat-header-cell>
-        <mat-header-cell *matHeaderCellDef fxFlex="100px">
-          <button mat-button color="primary" (click)="editActivity()">
+          <button mat-button color="primary" (click)="editInvActivity()">
             <mat-icon class="mat-button-icon">add</mat-icon>
             {{'common.commands.Add' | translate}}
           </button>
