@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   //     draggable: false
   //   }
   // ];
-  public isLoggedIn: boolean;
+  public isLoggedIn = false;
 
   constructor(private formBuilder: FormBuilder,
               public router: Router,

@@ -244,16 +244,17 @@
         </div>
       </div>
 
+
+
     </mat-sidenav-content>
 
 
   </mat-sidenav-container>
 
-  <!--<footer>-->
-  <!--<app-footer></app-footer>-->
-  <!--</footer>-->
+  <footer *ngIf="isLogged==='false'">
+    <app-footer></app-footer>
+  </footer>
 
 </div>
 <ngx-ui-loader></ngx-ui-loader>
 
-<!-- <app-login></app-login> -->

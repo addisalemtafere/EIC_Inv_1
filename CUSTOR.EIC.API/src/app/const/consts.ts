@@ -33,6 +33,52 @@ export const STATUS: any[] =
     {'Id': '1', 'Description': 'የተዘጋ', 'DescriptionEnglish': 'Closed'}
 
   ];
+
+export const CUSTOMER_SERVICE: any[] =
+  [
+    {
+      'ServiceId': '1235', 'Title': 'አዲስ ደንበኛና ንግድ ምዝገባ', 'TitleEnglish': 'Customer & Commercial Registration',
+      // tslint:disable-next-line:max-line-length
+      'Desc': 'Customers have to create their profile before they can request other services. They can also request for Commercial Registration Cerficate.  '
+    },
+    {
+      'ServiceId': '13', 'Title': 'አዲስ የኢንቨስትመንት ፈቃድ', 'TitleEnglish': 'New Investment Permit',
+      // tslint:disable-next-line:max-line-length
+      'Desc': 'Once data on  basic customer information is completed and approved, customers can request  New Investment Permit certificate.'
+    },
+    {
+      'ServiceId': '18', 'Title': 'የኢንቨስትመንት ፈቃድ እድሳት', 'TitleEnglish': 'Renewal of Investment Permit',
+      'Desc': 'Once data on  basic customer information is completed, cutomers with existing Investment Permit can renew their Investment Permit. '
+    },
+    {
+      'ServiceId': '19', 'Title': 'የኢንቨስትመንት ፈቃድ ስረዛ', 'TitleEnglish': 'Cancellation of Investment Permit',
+      'Desc': 'Customers can request Investment Permit cancellation service, by specfying the reason and submitting the required documents'
+    },
+    {
+      'ServiceId': '1023', 'Title': 'የኢንቨስትመንት ፈቃድ ማስፋፊያ', 'TitleEnglish': 'Investment License Expansion',
+      'Desc': 'This service allows customers to expand existing Permit or expand their existing Business'
+    },
+    {
+      'ServiceId': '1027', 'Title': 'የኢንቨስትመንት ፈቃድ ምትክ', 'TitleEnglish': 'Investment Permit Substitute',
+      'Desc': 'This service allows customers get a replacement of their Investment Permit certificate'
+    },
+    {
+      'ServiceId': '1028', 'Title': 'የፕሮጀክት ፈቃድ ለውጥ', 'TitleEnglish': 'Amendment of Investment Permit',
+      'Desc': 'This service allows customers request changes on existing data and and get another Investment Permit certificate'
+    },
+    {
+      'ServiceId': '1045', 'Title': 'የግብር እፎይታ ማበረታቻ', 'TitleEnglish': 'Tax Holiday Incentive',
+      'Desc': 'This service allows customers request Tax Holiday incentive support for their eligible projects'
+    },
+    {
+      'ServiceId': '1046', 'Title': 'የጉምሩክ ቀረጥ ማበረታቻ', 'TitleEnglish': 'Duty Free Incentive',
+      'Desc': 'This service allows customers to request Duty Free incentive support for their eligible projects'
+    },
+    {
+      'ServiceId': '1236', 'Title': 'አዲስ ንግድ ፈቃድ', 'TitleEnglish': 'New Business License',
+      'Desc': 'Once a project completes its implementation phase, customers can request for Business License'
+    }
+  ];
 export const SOLE_PROPRIETERSHIP_CODE = '1';
 export const ETHIOPIA_CODE = 1;
 const ALPHABET_WITHSPACE_REGEX = new RegExp(/^[a-zA-Z ]+$/);

@@ -1,4 +1,13 @@
-﻿import {AfterContentChecked, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+﻿import {
+  AfterContentChecked,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {PreRequisiteDocumentService} from '../../../Services/pre-requisite-document.service';
@@ -17,6 +26,7 @@ import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confi
 
 import {ActivatedRoute} from "@angular/router";
 import {ConfigurationService} from "@custor/services/configuration.service";
+import {AppConfiguration} from "../../../config/appconfig";
 
 
 @Component({
@@ -68,7 +78,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
               public errMsg: ErrorMessage,
               public route: ActivatedRoute,
               public userActivityDataServices: UserActivityDataServices,
-              public config: ConfigurationService,
+              public config: AppConfiguration,
               public dataSharing: DataSharingService,
               public serviceApplicationsServices: ServiceapplicationService,
               public servicePrerequisiteService: ServicePrerequisiteService,
@@ -83,7 +93,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     const ServiceWorkflowId = this.route.snapshot.params['workFlowId'];
     this.workFlowId = (ServiceWorkflowId == undefined) ? '' : ServiceWorkflowId;
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    this.baseUrl = this.config.baseUrl;
+    this.baseUrl = this.config.urls.baseUrl;
     this.createForm();
     this.getServicePrerequisite(this.ServiceId);
   }
@@ -270,16 +280,12 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   }
 
 
-
-
-   private filterPrerequisite(prerequeste: ServicePrerequisite[]) {
+  private filterPrerequisite(prerequeste: ServicePrerequisite[]) {
     this.investorService.getInvestor(this.InvestorId)
       .subscribe((result: Investor) => {
         this.getPreReqService(prerequeste, result);
       });
   }
-
-
 
 
 }
