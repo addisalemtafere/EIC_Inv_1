@@ -25,6 +25,11 @@ export class ServiceApplicationService extends BaseService<ServiceApplicationMod
       catchError(this.errMsg.parseObservableResponseError));
   }
 
+  changeInvestorApplicationStatus(resource, id) {
+    return this.httpClient.post(this.appConfig.urls.url('ChangeInvestorApplicationStatus', id), resource).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
   getApplicationGroupByServiceId(): Observable<ServiceGroupModel[]> {
     return this.httpClient.get<ServiceGroupModel[]>(this.appConfig.urls.url('ApplicationGroupByServiceId')).pipe(
       catchError(this.errMsg.parseObservableResponseError));

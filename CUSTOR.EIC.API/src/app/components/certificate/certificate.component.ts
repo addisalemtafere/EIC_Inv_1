@@ -192,7 +192,6 @@ export class CertificateComponent implements OnInit {
         // console.log(result);
       });
   }
-
   private approve() {
     this.lookup.Code = 44449;
     this.serviceApplication.changeApplicationStatus(this.lookup, this.investorDetailList.ServiceApplicationId)
@@ -200,5 +199,6 @@ export class CertificateComponent implements OnInit {
         this.toast.success('Project approved successfully ', 'Success');
       });
   }
+
 
 }

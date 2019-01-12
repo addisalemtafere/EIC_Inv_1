@@ -84,10 +84,11 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   generateCertification() {
+
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.getInvestorDetail(this.ServiceApplicationId);
     this.viewCertificate = true;
-
+    this.approve();
   }
 
   generatePDF() {
@@ -124,17 +125,17 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
     );
 
     //this.certificateService.getOneById(id)
-      // .subscribe((result: ServiceApplicationModel) => {
-       // this.investorDetailList = result;
-        //this.getInvestmentLocation(this.investorDetailList.ProjectId);
-        //this.getProjectCost(this.investorDetailList.ProjectId);
-        //this.getExportPercent(this.investorDetailList.ProjectId);
-        //// console.log(result);
-        //this.getInvestorAddress(this.investorDetailList.InvestorId);
-        //this.getManager(this.investorDetailList.ProjectId);
-        //this.getInvactivity(this.investorDetailList.Project.InvActivityId);
-       // this.approve();
-      //});
+    // .subscribe((result: ServiceApplicationModel) => {
+    // this.investorDetailList = result;
+    //this.getInvestmentLocation(this.investorDetailList.ProjectId);
+    //this.getProjectCost(this.investorDetailList.ProjectId);
+    //this.getExportPercent(this.investorDetailList.ProjectId);
+    //// console.log(result);
+    //this.getInvestorAddress(this.investorDetailList.InvestorId);
+    //this.getManager(this.investorDetailList.ProjectId);
+    //this.getInvactivity(this.investorDetailList.Project.InvActivityId);
+    // this.approve();
+    //});
   }
 
   getInvestmentLocation(parent: any) {
@@ -194,9 +195,10 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
 
   private approve() {
     this.lookup.Code = 44449;
-    this.serviceApplication.changeApplicationStatus(this.lookup, this.investorDetailList.ServiceApplicationId)
+    const ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.serviceApplication.changeInvestorApplicationStatus(this.lookup, ServiceApplicationId)
       .subscribe(result => {
-        this.toast.success('Project approved successfully ', 'Success');
+        this.toast.success('Customer and Commercial Registration approved successfully ', 'Success');
       });
   }
 
