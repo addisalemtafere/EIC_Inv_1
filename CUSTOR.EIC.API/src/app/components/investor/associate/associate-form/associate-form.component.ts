@@ -168,6 +168,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   ngOnDestroy() {
     // this.investorSub.unsubscribe();
   }
+
   getInvestorById(id) {
     this.isNewInvestor = false;
     this.investorSub = this.custService
@@ -405,6 +406,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     if (associate) {
       this.associate = associate;
     }
+    this.isNewInvestor = false;
     this.loadingIndicator = false;
     this.toastr.success('Record saved successfully!');
     this.dataSharing.investorTabSelectedIndex.next(2);
