@@ -61,6 +61,7 @@ import {EditorModule} from '@tinymce/tinymce-angular';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
 import {AppComponent} from './app.component';
 
+
 import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule} from "ngx-ui-loader";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -90,6 +91,58 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 
 };
 
+// const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+//   "bgsColor": "#04a162",
+//   "bgsOpacity": 0.5,
+//   "bgsPosition": "bottom-left",
+//   "bgsSize": 90,
+//   "bgsType": "three-strings",
+//   "blur": 5,
+//   "fgsColor": "#00bcd4",
+//   "fgsPosition": "center-center",
+//   "fgsSize": 120,
+//   "fgsType": "three-strings",
+//   "gap": 24,
+//   "logoPosition": "center-center",
+//   "logoSize": 120,
+//   "logoUrl": "",
+//   "overlayColor": "rgba(40, 40, 40, 0.8)",
+//   "pbColor": "#00ACC1",
+//   "pbDirection": "ltr",
+//   "pbThickness": 3,
+//   "hasProgressBar": true,
+//   "text": "Loading",
+//   "textColor": "cadetblue",
+//   "textPosition": "center-center",
+//   "threshold": 500,
+//
+// };
+// const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+//   "bgsColor": "#04a162",
+//   "bgsOpacity": 0.5,
+//   "bgsPosition": "bottom-left",
+//   "bgsSize": 90,
+//   "bgsType": "three-strings",
+//   "blur": 65,
+//   "fgsColor": "#0c97a8",
+//   "fgsPosition": "center-center",
+//   "fgsSize": 120,
+//   "fgsType": "three-strings",
+//   "gap": 24,
+//   "logoPosition": "center-center",
+//   "logoSize": 120,
+//   "logoUrl": "",
+//   "overlayColor": "rgba(40, 40, 40, 0.8)",
+//   "pbColor": "#0c97a8",
+//   "pbDirection": "ltr",
+//   "pbThickness": 5,
+//   "hasProgressBar": true,
+//   "text": "Loading",
+//   "textColor": "#0c97a8",
+//   "textPosition": "center-center",
+//   "threshold": 500,
+//
+// };
 @NgModule({
   declarations: [
     AppComponent,
@@ -146,8 +199,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // MatButtonModule,
     // ImageUploadModule.forRoot(),
     EditorModule,
-    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxUiLoaderHttpModule.forRoot({showForeground: true})
+    // app
 
 
   ],

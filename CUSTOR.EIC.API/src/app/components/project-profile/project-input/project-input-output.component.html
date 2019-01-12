@@ -62,10 +62,10 @@
         <div class="block" fxFlex="">
           <mat-form-field>
             <mat-label>Electric Power (kwh) :</mat-label>
-            <input type="number"
-                   matInput
-                   formControlName="ElectricPower">
-            <mat-error align="start" *ngIf="formErrors.ElectricPower">{{ formErrors.ElectricPower }}</mat-error>
+            <input name="ElectricPower"
+                   type="number"
+                   matInput  formControlName="ElectricPower" [maxlength]="16">
+            <mat-error align="start" *ngIf="formErrors.ElectricPower" class="form__error">{{ formErrors.ElectricPower }}</mat-error>
           </mat-form-field>
         </div>
         <div class="block" fxFlex="">
