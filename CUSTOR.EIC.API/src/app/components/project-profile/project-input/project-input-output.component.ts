@@ -30,8 +30,8 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
   loading = false;
   subscription: Subscription;
   projectId: any;
-  formErrors = {
-    ElectricPower: 'Minimum 0 Maximum 1000 kwh!',
+  public formErrors = {
+    ElectricPower: 'Minimum 0 Maximum 1000 kwhMinimum value is 0!',
     Water: '',
     OtherUtility: '',
     LandIndustrial: '',
@@ -95,8 +95,8 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
   onSubmit() {
     this.formService.markFormGroupTouched(this.pIOform);
 
-    if (!this.editMode) {
-      if (this.pIOform.valid) {
+    if (this.pIOform.valid) {
+      if (!this.editMode) {
         this.pRequirementService.create(this.getUtility())
           .subscribe(result => {
             this.notification('Saved');
@@ -105,15 +105,15 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
 
           }, error => this.toastr.error(this.errMsg.getError(error)));
       } else {
-        this.formErrors = this.formService.validateForm(this.pIOform, this.formErrors, false);
+        this.pRequirementService.update(this.getUtility(), this.rawInputId)
+          .subscribe(result => {
+            this.notification('update');
+            this.dataSharing.currentIndex.next(2);
+
+          }, error => this.toastr.error(this.errMsg.getError(error)));
       }
     } else {
-      this.pRequirementService.update(this.getUtility(), this.rawInputId)
-        .subscribe(result => {
-          this.notification('update');
-          this.dataSharing.currentIndex.next(2);
 
-        }, error => this.toastr.error(this.errMsg.getError(error)));
 
       this.formErrors = this.formService.validateForm(this.pIOform, this.formErrors, false);
     }
@@ -122,15 +122,15 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
   initForm() {
     this.pIOform = this.formBuilder.group({
       ProjectId: [],
-      ElectricPower: [0, [Validators.min(0)]],
-      Water: [0, [Validators.min(0)]],
+      ElectricPower: [0, [Validators.required, Validators.min(0)]],
+      Water: [0, [Validators.required,Validators.min(0)]],
       OtherUtility: [0, [Validators.min(0)]],
-      LandIndustrial: [0, [Validators.min(0)]],
-      LandAgricultural: [0, [Validators.min(0)]],
-      LandService: [0, [Validators.min(0)]],
-      OwnLand: [0, [Validators.min(0)]],
-      LeaseLand: [0, [Validators.min(0)]],
-      RentalLand: [0, [Validators.min(0)]],
+      LandIndustrial: [0, [Validators.required,Validators.min(0)]],
+      LandAgricultural: [0, [Validators.required,Validators.min(0)]],
+      LandService: [0, [Validators.required,Validators.min(0)]],
+      OwnLand: [0, [Validators.required,Validators.min(0)]],
+      LeaseLand: [0, [Validators.required,Validators.min(0)]],
+      RentalLand: [0, [Validators.required,Validators.min(0)]],
       Quarter: [''],
       RegistrationYear: [''],
       ProjectStatus: [''],
