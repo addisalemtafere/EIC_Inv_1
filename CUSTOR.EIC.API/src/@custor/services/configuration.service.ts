@@ -18,11 +18,11 @@ export class ConfigurationService {
   public static readonly appVersion: string = '1.0';
 
   // public baseUrl = environment.baseUrl || Utilities.baseUrl();
-  public baseUrl = 'http://localhost:5050/';
+  public baseUrl = 'http://eic.eastus.cloudapp.azure.com/';
   // public tokenUrl = environment.tokenUrl || environment.baseUrl || Utilities.baseUrl();
-  public tokenUrl = 'http://localhost:5050';
+  public tokenUrl = 'http://eic.eastus.cloudapp.azure.com';
   public loginUrl = environment.loginUrl;
-  public fallbackBaseUrl = 'http://localhost:5050';
+  public fallbackBaseUrl = 'http://eic.eastus.cloudapp.azure.com';
 
   public static readonly defaultLanguage: string = 'et';
   public static readonly defaultHomeUrl: string = '/';
