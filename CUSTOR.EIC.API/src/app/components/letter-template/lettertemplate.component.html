@@ -1,11 +1,16 @@
-<mat-card class="margin-2" style="box-shadow: none;border: 1px solid #dddddd" xmlns="http://www.w3.org/1999/html">
-
+<mat-toolbar mat-dialog-title>
+  <h1 mat-dialog-title>
+    <mat-icon>create</mat-icon>
+    {{('letterTemplate.Header' | translate)}}
+  </h1>
+</mat-toolbar>
+<mat-card class="mat-elevation-z8" fxFlex="90">
   <form [formGroup]="letterTemplateForm" novalidate>
     <mat-card-content>
       <div fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em">
         <div class="block" fxLayoutGap="2em">
-          <mat-form-field style="width: 150px">
-            <mat-label>Letter Type</mat-label>
+          <mat-form-field style="width: 250px;padding: 10px;">
+            <mat-label>{{'tariff.LetterType' | translate}}</mat-label>
             <mat-select formControlName="LetterType" style="font-family: Calibri" type="text" [compareWith]="compareIds"
                         required>
               <option value="0">--Select--</option>
@@ -14,7 +19,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <div fxFlex.gt-sm="0 1 calc(50% - 0.5em)">
+          <div fxFlex.gt-sm="0 1 calc(50% - 0.5em)" style="padding: 10px;">
             <mat-checkbox formControlName="IsActive">
               IsActive?
             </mat-checkbox>
@@ -23,7 +28,7 @@
 
         </div>
       </div>
-      <div fxFlex="75" fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em">
+      <div fxFlex="75" fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em" style="padding: 10px;" fxFill="100">
         <editor id="letterContent"
                 apiKey="4yzxfc219romk1dtk7h8c9q8zci4aj73ls684uxob669uvo4"
                 class="full-width"
@@ -50,7 +55,7 @@ toolbar_items_size: 'small'}">
   </form>
 </mat-card>
 <!--*ngIf="LetterTemplateModels.length>0"-->
-<mat-card class="margin-2 padding-0" style="width: 920px">
+<mat-card class="mat-elevation-z8" fxFlex="90">
   <mat-card-header>
     <mat-card-subtitle class="sub-title">List of Letter Template
     </mat-card-subtitle>
@@ -61,8 +66,8 @@ toolbar_items_size: 'small'}">
     </div>
     <mat-table #table [dataSource]="dataSource">
       <ng-container matColumnDef="LetterType">
-        <mat-header-cell *matHeaderCellDef fxFlex="35">Letter Type</mat-header-cell>
-        <mat-cell *matCellDef="let LetterTemplateModels" fxFlex="35"> {{LetterTemplateModels.LetterType | lookupPipe :
+        <mat-header-cell *matHeaderCellDef fxFlex="50">Letter Type</mat-header-cell>
+        <mat-cell *matCellDef="let LetterTemplateModels" fxFlex="50"> {{LetterTemplateModels.LetterType | lookupPipe :
           1}}
         </mat-cell>
       </ng-container>

@@ -64,15 +64,14 @@ namespace CUSTOR.EICOnline.DAL
 
         public bool DeleteRegistrationCatagoryByInvestorId(int InvestorID)
         {
-            var registrationCatagory = Context.RegistrationCatagorys
-                .FirstOrDefault(reg => reg.InvestorId == InvestorID);
-            if (registrationCatagory == null)
+            List<RegistrationCatagory> registrationCatagory = Context.RegistrationCatagorys
+                .Where(reg => reg.InvestorId == InvestorID).ToList();
+            
+            foreach (RegistrationCatagory catagory in registrationCatagory)
             {
-                //SetError("Registration does not exist");
-                return false;
+                Context.RegistrationCatagorys.Remove(catagory);
+                Context.SaveChanges();
             }
-            Context.RegistrationCatagorys.Remove(registrationCatagory);
-            Context.SaveChanges();
             return true;
         }
 

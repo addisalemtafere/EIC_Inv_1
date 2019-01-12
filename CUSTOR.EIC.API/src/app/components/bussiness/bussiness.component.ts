@@ -12,6 +12,7 @@ import {DivisionModel} from '../../model/catagory/DivisionModel.model';
 import {CatagoryService} from '../../Services/Catagory/Catagory.service';
 import {BussinessService} from '../../Services/bussiness/bussiness.service';
 import {MajorDivision} from '../../model/catagory/MajorDivision.model';
+import {SubGroup} from "../../model/catagory/SubGroup.model";
 
 
 @Component({
@@ -36,7 +37,7 @@ export class BussinessComponent implements OnInit {
   ServiceApplicationId: any;
   InvestorId: any;
   BussinessId: any;
-  filterSubGroupList = [];
+  filterSubGroupList: SubGroup[] = [];
   Tin: string;
   private BussinessN: string;
   private BussinessNeng: string;
@@ -241,9 +242,9 @@ export class BussinessComponent implements OnInit {
     this.bussinessService.saveBussiness(this.getEditedbussiness()).subscribe((bussiness: BussinessModel) => {
       localStorage.setItem('BussinesId', bussiness.ID.toString());
       localStorage.setItem('ServiceApplicationID', bussiness.ServiceApplicationId.toString());
-      this.router.navigate(['business-tab/1236/' + bussiness.InvestorId + '/' + bussiness.ServiceApplicationId + '/' + 0 + '/' + 0 + '/' + bussiness.ID]);
       this.SaveCatagory();
       this.saveComplete();
+      this.router.navigate(['business-tab/1236/' + bussiness.InvestorId + '/' + bussiness.ServiceApplicationId + '/' + 0 + '/' + 0 + '/' + bussiness.ID]);
     });
 
   }
@@ -303,24 +304,21 @@ export class BussinessComponent implements OnInit {
         Division: this.bussinessCatagoryList[0].Division,
         MajorGroup: this.bussinessCatagoryList[0].MajorGroup,
         Group: this.bussinessCatagoryList[0].BGroup,
-        SubGroup: this.bussinessCatagoryList[0].SubGroup,
+       // SubGroup: this.bussinessCatagoryList[0].SubGroup,
+        //SubGroup: this.bussinessCatagoryList,
       });
 
       for (let i = 0; i < this.filterSubGroupList.length; i++) {
         for (let j = 0; j < this.bussinessCatagoryList.length; j++) {
-          if (this.bussinessCatagoryList[j].SubGroup === this.filterSubGroupList[i].Id) {
-            this.filterSubGroupList[i].selected = true;
-            // // console.log(this.tariffModel[j]);
+          if (this.bussinessCatagoryList[j].SubGroup == this.filterSubGroupList[i].Id) {
+            this.filterSubGroupList[i].Selected = true;
           } else {
-            if (this.filterSubGroupList[i].selected !== true) {
-              this.filterSubGroupList[i].selected = false;
+            if (this.filterSubGroupList[i].Selected !== true) {
+              this.filterSubGroupList[i].Selected = false;
             }
           }
         }
       }
-
-      console.log(this.bussinessCatagoryList);
-
     });
   }
 }
