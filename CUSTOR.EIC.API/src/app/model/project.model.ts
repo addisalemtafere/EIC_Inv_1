@@ -34,6 +34,7 @@ export class ProjectModel {
   public BusinessLicenseNo: string;
   public ProjectStage: number;
   public ProjectStatus: number;
+  public IsSelfService: boolean;
   public ProjectCost?: ProjectCostModel;
   public ProjectEmployment?: ProjectEmploymentModel;
   public ProjectOutput?: ProjectOutputModel[];
