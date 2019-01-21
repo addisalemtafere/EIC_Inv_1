@@ -420,7 +420,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         KebeleId: new FormControl(),
         SpecificAreaName: new FormControl(),
         IsIndustrialPark: new FormControl(),
-        IndustrialParkId: new FormControl('',Validators.required),
+        IndustrialParkId: new FormControl(),
         Remark: new FormControl()
       })
     });

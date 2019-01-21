@@ -8,6 +8,7 @@ import {ServiceWorkflowHistoriesModel} from './ServiceWorkflowHistories.Model';
 import {ProjectSubstituteModel} from './ProjectSubstitute.model';
 import {IncentiveBoMRequestItemModel} from './incentive/IncentiveBoMRequestItem.model';
 import {TodoTaskModel} from './TodoTask.model';
+import {OrderModel} from "./Order.model";
 
 export class ServiceApplicationModel {
   public ServiceApplicationId: string;
@@ -38,6 +39,7 @@ export class ServiceApplicationModel {
   public Service?: ServiceModel;
   public Investor?: Investor;
   public Project?: ProjectModel;
+  public Order?: OrderModel;
 
   public ProjectCancellation?: ProjectCancellationModel[];
   public ProjectRenewal?: ProjectRenewalModel[];

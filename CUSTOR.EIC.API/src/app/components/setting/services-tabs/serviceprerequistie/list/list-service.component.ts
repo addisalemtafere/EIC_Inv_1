@@ -54,11 +54,13 @@ export class ListServiceComponent implements OnInit, AfterViewInit {
         },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
+
   compareIds(id1: any, id2: any): boolean {
     const a1 = determineId(id1);
     const a2 = determineId(id2);
     return a1 === a2;
   }
+
   filterPrerequsite(serviceCode: number) {
     if (!serviceCode) {
       return;
@@ -109,7 +111,7 @@ export class ListServiceComponent implements OnInit, AfterViewInit {
 
   editServicePrerequisite(servicePrerequisite: ServicePrerequisite) {
     if (servicePrerequisite) {
-      this.router.navigate(['/serviceprerequisites/edit', servicePrerequisite.ServicePrerequisiteId + '/' + 0], {relativeTo: this.route});
+      this.router.navigate(['/serviceprerequisites/edit/' + servicePrerequisite.ServicePrerequisiteId + '/' + 0], {relativeTo: this.route});
     } else {
       this.router.navigate(['/serviceprerequisites/edit/' + 0 + '/' + this.serviceId]);
     }
