@@ -336,7 +336,7 @@ namespace EIC.Investment.API.Controllers
         InvestorId = serviceApplication.InvestorId,
         CaseNumber = perminumber,
         ServiceId = serviceApplication.ServiceId,
-        CurrentStatusId = 44450,
+        CurrentStatusId = 44446,
         IsSelfService = true,
         IsPaid = true,
         StartDate = DateTime.Now,
