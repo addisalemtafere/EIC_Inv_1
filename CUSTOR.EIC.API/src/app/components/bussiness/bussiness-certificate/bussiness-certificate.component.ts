@@ -33,7 +33,7 @@ import {BussinessModel} from '../../../model/bussiness/BussinessModel.model';
   templateUrl: './bussiness-certificate.component.html',
   styleUrls: ['./bussiness-certificate.component.scss']
 })
-export class BussinessCertificateComponent implements OnInit , AfterViewChecked {
+export class BussinessCertificateComponent implements OnInit, AfterViewChecked {
 
   bussinessData: BussinessModel;
   BussinessId: any;
@@ -88,7 +88,7 @@ export class BussinessCertificateComponent implements OnInit , AfterViewChecked 
   }
 
   generateCertification() {
-    this.BussinessId  = this.route.snapshot.params['BusinessId'];
+    this.BussinessId = this.route.snapshot.params['BusinessId'];
     this.getBussinessDetail(this.BussinessId);
     this.viewCertificate = true;
 
@@ -114,19 +114,20 @@ export class BussinessCertificateComponent implements OnInit , AfterViewChecked 
   }
 
   getBussinessDetail(id: any) {
-    this.BussinessId  = this.route.snapshot.params['BusinessId'];
+    this.BussinessId = this.route.snapshot.params['BusinessId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.bussnesServ.getBussinessMajorCatagory(this.BussinessId).subscribe(result => {
         this.MajorDivision = result;
+        console.log(result)
       }
     );
-    this.bussnesServ.getBussinessCatagory(this.BussinessId ).subscribe(result => {
+    this.bussnesServ.getBussinessCatagory(this.BussinessId).subscribe(result => {
         this.MajorDivisionList = result;
       }
     );
-    this.bussnesServ.getBusiness(this.BussinessId ).subscribe(result => {
+    this.bussnesServ.getBusiness(this.BussinessId).subscribe(result => {
         this.bussinessData = result;
-     }
+      }
     );
     this.bussnesServ.getRegistrationByInvestorId(this.InvestorId).subscribe(
       result => {

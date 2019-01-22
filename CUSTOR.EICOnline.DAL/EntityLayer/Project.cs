@@ -65,7 +65,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public bool? IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime EventDatetime { get; set; }
-        public String CreatedUserId { get; set; }
+        public string CreatedUserId { get; set; }
         public string CreatedUserName { get; set; }
         public DateTime? UpdatedEventDatetime { get; set; }
         public int? UpdatedUserId { get; set; }

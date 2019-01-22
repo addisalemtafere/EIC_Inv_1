@@ -20,6 +20,7 @@ import {TodoTaskModel} from '../../model/TodoTask.model';
 import {ServiceModel} from '../../model/Service.model';
 import {Permission} from '../../model/security/permission.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
+import {ActivityModel} from "../../model/activity";
 
 @Component({
   selector: 'app-search-browser',
@@ -47,6 +48,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   @ViewChild(MatPaginator) paginator2: MatPaginator;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  //dataSource: MatTableDataSource<ProjectModel>;
   formErrors: {};
   public invName: any;
   todoTask: TodoTaskModel;
@@ -172,7 +174,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
             } else {
               this.loadingIndicator = false;
               this.investorShow = false;
-              this.dataSource = new MatTableDataSource<ProjectModel[]>(result);
+              this.dataSource = new MatTableDataSource<ProjectModel>(result);
               this.dataSource.paginator = this.paginator;
             }
           },
@@ -220,7 +222,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.title = 'search';
     this.investorShow = true;
     this.getInvestors();
-
   }
 
   deleteProject(id: number) {
