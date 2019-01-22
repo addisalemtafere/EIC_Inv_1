@@ -29,7 +29,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
   dataSource: any;
   productEditIndex: number;
   displayedColumns = [
-    'No', 'ProductName', 'ProductQty', 'ProductValue', 'DomesticMarketShare', 'ExportMarketShare', 'Remark',
+    'No', 'ProductName', 'ProductQty', 'DomesticMarketShare', 'ExportMarketShare', 'Remark',
     'Action'
   ];
   subscription: Subscription;
@@ -37,7 +37,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
     ProductName: '',
     ProductQty: '',
     ProductUnit: '',
-    ProductValue: '',
+    // ProductValue: '',
     DomesticMarketShare: '',
     ExportMarketShare: '',
     Remark: '',
@@ -155,7 +155,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
       ProductName: new FormControl('', [Validators.required, Validators.minLength(2)]),
       ProductQty: new FormControl(0, [Validators.required, Validators.min(0)]),
       ProductUnit: new FormControl('', [Validators.required]),
-      ProductValue: new FormControl(0, [Validators.required, Validators.min(0)]),
+      // ProductValue: new FormControl(0, [Validators.required, Validators.min(0)]),
       Quarter: [''],
       RegistrationYear: [''],
       ProjectStatus: [''],
@@ -179,7 +179,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
       ProductName: formModel.ProductName,
       ProductQty: formModel.ProductQty,
       ProductUnit: formModel.ProductUnit,
-      ProductValue: formModel.ProductValue,
+      // ProductValue: formModel.ProductValue,
       DomesticMarketShare: formModel.sharePercent.DomesticMarketShare,
       ExportMarketShare: formModel.sharePercent.ExportMarketShare,
       Quarter: formModel.Quarter,
