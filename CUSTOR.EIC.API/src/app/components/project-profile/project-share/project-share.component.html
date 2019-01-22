@@ -38,7 +38,6 @@
           <mat-form-field fxLayoutGap="4em" [fxFlex]="20">
             <mat-label>Share Percent % *:</mat-label>
             <input type="number"
-                   pattern="^([0-9]{1,2}){1}(\.[0-9]{1,2})?$"
                    formControlName="SharePercent"
                    matInput>
             <mat-error align="start" *ngIf="formErrors.SharePercent" class="form__error">{{ formErrors.SharePercent }}
