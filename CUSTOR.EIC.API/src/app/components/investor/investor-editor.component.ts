@@ -286,7 +286,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.initStaticDataOwnerShip(this.currentLang);
     this.fillAddressLookups();
     this.formControlValueChanged();
-
     this.getMajorDivisions();
 
     const id = this.route.snapshot.params['InvestorId'];
@@ -718,8 +717,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   getKebeleByWoredaId(wordaId: any) {
     this.addressService.getKebelesByWoreda(wordaId)
       .subscribe(result => {
-        // this.kebeles = result;
-        // // console.log(result);
+        this.filteredKebeles = null
         this.filteredKebeles = result;
       });
   }
@@ -730,6 +728,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
     this.filteredKebeles = null;
     this.filteredWoredas = null;
+    this.filteredZones = null;
     if (!this.zones) {
       return;
     }
@@ -743,6 +742,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       return;
     }
     this.filteredKebeles = null;
+    this.filteredWoredas = null;
     this.filteredWoredas = this.woredas.filter((item) => {
       return item.ZoneId === zoneCode;
     });

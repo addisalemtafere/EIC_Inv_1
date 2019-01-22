@@ -92,7 +92,8 @@ namespace CUSTOR.EICOnline.API.Controllers.Bussiness
         {
             try
             {
-                var Bussinesslist = context.BusinessLicensingGroup.SingleOrDefault(param => param.BusinessId == BussinessId);
+                var Bussinesslist = context.BusinessLicensingGroup
+                  .SingleOrDefault(param => param.BusinessId == BussinessId);
                 Group description = new Group();
                 int code = Convert.ToInt16(Bussinesslist.BGroup);
                 var catdata = context.Group.SingleOrDefault(param => param.Id == code);

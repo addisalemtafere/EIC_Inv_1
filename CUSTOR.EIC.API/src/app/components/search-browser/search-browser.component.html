@@ -115,7 +115,6 @@
           </mat-header-cell>
           <mat-cell [fxFlex]="20" *matCellDef="let investors; let i=index">
             <div>
-
               <a class="margin-10 pointer" matTooltip="Click her to for detail"
                  (click)="goToService(investors.InvestorId,investors.InvestorNameEng)">
                 <mat-icon color="primary">visibility</mat-icon>
@@ -128,8 +127,6 @@
               </button>
             </div>
           </mat-cell>
-
-
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns">
         </mat-header-row>

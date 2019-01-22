@@ -198,7 +198,7 @@ namespace EIC.Investment.API.Controllers
       editedProject.StartDate = DateTime.Now;
       editedProject.CreatedUserId = project.CreatedUserId;
       editedProject.ProjectStatus = 9;
-      editedProject.ProjectStage = 1;
+      editedProject.ProjectStage = 3;
       editedProject.SiteId = 3;
       editedProject.InvestmentPermitNo = perminumber;
 

@@ -151,9 +151,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
 
     if (this.ServiceId == 13) {
-
       this.InvestorId = InvestorId;
-
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
     }
     else {
@@ -164,21 +162,17 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.loadingIndicator = true;
       this.projectService.getProjectByInvestorId(InvestorId)
         .subscribe(result => {
-
             this.projectList = result;
             this.title = 'ProjectDetail';
             if (this.projectList.length == 0) {
               this.loadingIndicator = false;
-
               this.toastr.info('No active project records were found to list', 'Info', {
                 closeButton: true,
               });
             } else {
               this.loadingIndicator = false;
               this.investorShow = false;
-
-              this.dataSource = new MatTableDataSource<ProjectModel>(result);
-              // console.log(result);
+              this.dataSource = new MatTableDataSource<ProjectModel[]>(result);
               this.dataSource.paginator = this.paginator;
             }
           },
