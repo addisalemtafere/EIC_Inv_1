@@ -387,35 +387,36 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
             modelBuilder.Entity<Caption>(entity =>
             {
-                entity.Property(e => e.AfanOromo).HasMaxLength(250);
-
-                entity.Property(e => e.Afar).HasMaxLength(250);
-
-                entity.Property(e => e.Amharic)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.Arabic).HasMaxLength(250);
-
-                entity.Property(e => e.ControlName).HasMaxLength(250);
-
-                entity.Property(e => e.Description).HasMaxLength(250);
-
-                entity.Property(e => e.English)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.FormName).HasMaxLength(250);
-
-                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.Somali).HasMaxLength(250);
-
-                entity.Property(e => e.Tigrigna).HasMaxLength(250);
+                entity.ToTable("Caption", "dbo");
+//                entity.Property(e => e.AfanOromo).HasMaxLength(250);
+//
+//                entity.Property(e => e.Afar).HasMaxLength(250);
+//
+//                entity.Property(e => e.Amharic)
+//                    .IsRequired()
+//                    .HasMaxLength(250);
+//
+//                entity.Property(e => e.Arabic).HasMaxLength(250);
+//
+//                entity.Property(e => e.ControlName).HasMaxLength(250);
+//
+//                entity.Property(e => e.Description).HasMaxLength(250);
+//
+//                entity.Property(e => e.English)
+//                    .IsRequired()
+//                    .HasMaxLength(250);
+//
+//                entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+//
+//                entity.Property(e => e.FormName).HasMaxLength(250);
+//
+//                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+//
+//                entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+//
+//                entity.Property(e => e.Somali).HasMaxLength(250);
+//
+//                entity.Property(e => e.Tigrigna).HasMaxLength(250);
             });
 
             modelBuilder.Entity<DataChangeRequest>(entity =>

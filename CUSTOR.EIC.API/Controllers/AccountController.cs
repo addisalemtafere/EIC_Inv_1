@@ -87,7 +87,7 @@ namespace EICOnline.Controllers
 
         [HttpGet("users/{page:int}/{pageSize:int}")]
         [Produces(typeof(List<UserViewModel>))]
-        [Authorize(Policies.ViewAllUsersPolicy)]
+        //[Authorize(Policies.ViewAllUsersPolicy)]
         public async Task<IActionResult> GetUsers(int page, int pageSize)
         {
             var usersAndRoles = await _accountManager.GetUsersAndRolesAsync(page, pageSize);
@@ -612,8 +612,9 @@ namespace EICOnline.Controllers
         {
             var appRole = await _accountManager.GetRoleByIdAsync(id);
 
-            if (!(await _authorizationService.AuthorizeAsync(User, appRole?.Name ?? "",
-                Policies.ViewRoleByRoleNamePolicy)).Succeeded)
+
+            if (!(await _authorizationService.Au..................................................thorizeAsync(User, appRole?.Name ?? "",
+                Policies.ViewRoleByRoleNamePoli.cy)).Succeeded)
                 return new ChallengeResult();
 
             if (appRole == null)
@@ -654,7 +655,7 @@ namespace EICOnline.Controllers
             return Ok(Mapper.Map<List<RoleViewModel>>(roles));
         }
 
-        [HttpPut("roles/{id}")]
+        [HttpPut("roles/{id}")]./
         [Authorize(Policies.ManageAllRolesPolicy)]
         public async Task<IActionResult> UpdateRole(string id, [FromBody] RoleViewModel role)
         {
