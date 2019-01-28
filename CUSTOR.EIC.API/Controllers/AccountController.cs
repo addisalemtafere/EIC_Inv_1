@@ -89,9 +89,10 @@ namespace EICOnline.Controllers
 
         [HttpGet("users/{page:int}/{pageSize:int}")]
         [Produces(typeof(List<UserViewModel>))]
+
                 [AllowAnonymous]
 
-//        [Authorize(Policies.ViewAllUsersPolicy)]
+
         public async Task<IActionResult> GetUsers(int page, int pageSize)
         {
             var usersAndRoles = await _accountManager.GetUsersAndRolesAsync(page, pageSize);
@@ -616,8 +617,8 @@ namespace EICOnline.Controllers
         {
             var appRole = await _accountManager.GetRoleByIdAsync(id);
 
-            if (!(await _authorizationService.AuthorizeAsync(User, appRole?.Name ?? "",
-                Policies.ViewRoleByRoleNamePolicy)).Succeeded)
+
+            if (!(await _authorizationService.AuthorizeAsync(User, appRole?.Name ?? "",Policies.ViewRoleByRoleNamePolicy)).Succeeded)
                 return new ChallengeResult();
 
             if (appRole == null)
