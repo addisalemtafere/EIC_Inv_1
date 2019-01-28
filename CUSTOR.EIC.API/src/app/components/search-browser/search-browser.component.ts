@@ -172,7 +172,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
             } else {
               this.loadingIndicator = false;
               this.investorShow = false;
-              this.dataSource = new MatTableDataSource<ProjectModel[]>(result);
+              this.dataSource = new MatTableDataSource<ProjectModel>(result);
               this.dataSource.paginator = this.paginator;
             }
           },

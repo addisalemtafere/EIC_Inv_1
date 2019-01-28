@@ -79,6 +79,8 @@ namespace EICOnline.Controllers
 
         [HttpGet("users")]
         [Produces(typeof(List<UserViewModel>))]
+        [AllowAnonymous]
+
         //[Authorize(Authorization.Policies.ViewAllUsersPolicy)]
         public async Task<IActionResult> GetUsers()
         {
@@ -87,7 +89,9 @@ namespace EICOnline.Controllers
 
         [HttpGet("users/{page:int}/{pageSize:int}")]
         [Produces(typeof(List<UserViewModel>))]
-        [Authorize(Policies.ViewAllUsersPolicy)]
+                [AllowAnonymous]
+
+//        [Authorize(Policies.ViewAllUsersPolicy)]
         public async Task<IActionResult> GetUsers(int page, int pageSize)
         {
             var usersAndRoles = await _accountManager.GetUsersAndRolesAsync(page, pageSize);
