@@ -616,9 +616,8 @@ namespace EICOnline.Controllers
         public async Task<IActionResult> GetRoleById(string id)
         {
             var appRole = await _accountManager.GetRoleByIdAsync(id);
-
-
             if (!(await _authorizationService.AuthorizeAsync(User, appRole?.Name ?? "",Policies.ViewRoleByRoleNamePolicy)).Succeeded)
+
                 return new ChallengeResult();
 
             if (appRole == null)

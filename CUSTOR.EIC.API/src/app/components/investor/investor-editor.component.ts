@@ -325,7 +325,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
           this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          this.grandNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+          this.grandNameEng.setValidators([Validators.compose([Validators.minLength(2),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
           this.nationality.setValidators([Validators.required]);
           this.gender.setValidators([Validators.required]);
@@ -679,7 +679,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             const ServiceApplicationId1 = this.route.snapshot.params['ServiceApplicationId'];
             const InvestorId1 = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
             const workFlowId = this.route.snapshot.params['workFlowId'];
-
+            this.toastr.success('Record saved successfully!');
             this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
 
           }
@@ -801,6 +801,12 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   onFormOfOwnershipChanged(id: any) {
+    if (id == 1) {
+      this.originFlag = true;
+      this.investorForm.patchValue({
+        cNationality: 19
+      });
+    }
     this.branch = (id === '5');
     if (this.branch) {
       this.nationalityCompany.setValidators([Validators.required]);
