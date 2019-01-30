@@ -83,6 +83,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     translationService.setDefaultLanguage('et'); // default
     this.CheckLoginStatus();
     this.m = new IncentiveLogModel();
+    localStorage.setItem('loggIn', 'false');
 
   }
 
@@ -241,6 +242,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   ngOnDestroy() {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+    localStorage.setItem('loggIn', 'false');
   }
 
   getAllServices() {
