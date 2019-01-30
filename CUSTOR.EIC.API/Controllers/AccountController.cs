@@ -613,8 +613,8 @@ namespace EICOnline.Controllers
             var appRole = await _accountManager.GetRoleByIdAsync(id);
 
 
-            if (!(await _authorizationService.Au..................................................thorizeAsync(User, appRole?.Name ?? "",
-                Policies.ViewRoleByRoleNamePoli.cy)).Succeeded)
+            if (!(await _authorizationService.AuthorizeAsync(User, appRole?.Name ?? "",
+                Policies.ViewRoleByRoleNamePolicy)).Succeeded)
                 return new ChallengeResult();
 
             if (appRole == null)
@@ -655,7 +655,7 @@ namespace EICOnline.Controllers
             return Ok(Mapper.Map<List<RoleViewModel>>(roles));
         }
 
-        [HttpPut("roles/{id}")]./
+        [HttpPut("roles/{id}")]
         [Authorize(Policies.ManageAllRolesPolicy)]
         public async Task<IActionResult> UpdateRole(string id, [FromBody] RoleViewModel role)
         {
