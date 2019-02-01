@@ -6,7 +6,6 @@ import {AgmCoreModule} from '@agm/core';
 import {ToastrModule} from 'ngx-toastr';
 import {HomeComponent} from './components/home/home.component';
 import {FooterModule} from '@custor/components/shared/footer.component';
-import {ThemePickerModule} from '@custor/components/shared/theme-picker.component';
 import {LangSwitcherModule} from '@custor/components/shared/lang-switcher.component';
 import {LocalStoreManager} from '@custor/services/storeManager.service';
 import {AppTranslationService, TranslateLanguageLoader} from '@custor/services/translation.service';
@@ -33,7 +32,6 @@ import {SiteService} from './Services/site.service';
 import {ErrorMessage} from '../@custor/services/errMessageService';
 import {AddressService} from './Services/Address/address.service';
 import {FormService} from '../@custor/validation/custom/form';
-// import {MyDashboardComponent} from './components/my-dashboard/my-dashboard.component';
 import {ServiceService} from './Services/service.service';
 import {ServicetariffService} from './components/setting/services-tabs/servicetariff/servicetariff.service';
 import {TariffService} from './components/setting/othe-tabs/tariff/tariff.service';
@@ -62,7 +60,7 @@ import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.s
 import {AppComponent} from './app.component';
 
 
-import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule} from "ngx-ui-loader";
+import {NgxUiLoaderConfig} from "ngx-ui-loader";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -91,58 +89,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 
 };
 
-// const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-//   "bgsColor": "#04a162",
-//   "bgsOpacity": 0.5,
-//   "bgsPosition": "bottom-left",
-//   "bgsSize": 90,
-//   "bgsType": "three-strings",
-//   "blur": 5,
-//   "fgsColor": "#00bcd4",
-//   "fgsPosition": "center-center",
-//   "fgsSize": 120,
-//   "fgsType": "three-strings",
-//   "gap": 24,
-//   "logoPosition": "center-center",
-//   "logoSize": 120,
-//   "logoUrl": "",
-//   "overlayColor": "rgba(40, 40, 40, 0.8)",
-//   "pbColor": "#00ACC1",
-//   "pbDirection": "ltr",
-//   "pbThickness": 3,
-//   "hasProgressBar": true,
-//   "text": "Loading",
-//   "textColor": "cadetblue",
-//   "textPosition": "center-center",
-//   "threshold": 500,
-//
-// };
-// const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-//   "bgsColor": "#04a162",
-//   "bgsOpacity": 0.5,
-//   "bgsPosition": "bottom-left",
-//   "bgsSize": 90,
-//   "bgsType": "three-strings",
-//   "blur": 65,
-//   "fgsColor": "#0c97a8",
-//   "fgsPosition": "center-center",
-//   "fgsSize": 120,
-//   "fgsType": "three-strings",
-//   "gap": 24,
-//   "logoPosition": "center-center",
-//   "logoSize": 120,
-//   "logoUrl": "",
-//   "overlayColor": "rgba(40, 40, 40, 0.8)",
-//   "pbColor": "#0c97a8",
-//   "pbDirection": "ltr",
-//   "pbThickness": 5,
-//   "hasProgressBar": true,
-//   "text": "Loading",
-//   "textColor": "#0c97a8",
-//   "textPosition": "center-center",
-//   "threshold": 500,
-//
-// };
 @NgModule({
   declarations: [
     AppComponent,
@@ -170,8 +116,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   ],
 
   imports: [
-
-    ThemePickerModule,
+    //
+    // ThemePickerModule,
     LangSwitcherModule,
     FooterModule,
     // NotificationModule,
