@@ -27,6 +27,7 @@ import {IncentiveLogService} from './Services/incentive-log.service';
 import {ToastrService} from 'ngx-toastr';
 import {Subscription} from 'rxjs/Subscription';
 import {Permission} from './model/security/permission.model';
+import {NgxUiLoaderService} from "ngx-ui-loader";
 // import {NgxUiLoaderService} from "ngx-ui-loader";
 
 // import { ToastrService } from 'ngx-toastr';
@@ -63,6 +64,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
               private translationService: AppTranslationService,
               public configurations: ConfigurationService,
               public router: Router,
+              private ngxService: NgxUiLoaderService,
               public route: ActivatedRoute,
               public accountService: AccountService,
               public dataSharing: DataSharingService,
@@ -76,7 +78,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    // private ngxService: NgxUiLoaderService,
     storageManager.initialiseStorageSyncListener();
 
     translationService.addLanguages(['en', 'et']);
@@ -149,11 +150,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   ngOnInit() {
 
-    // this.ngxService.start(); // start foreground loading with 'default' id
+    this.ngxService.start(); // start foreground loading with 'default' id
     // this.ngxService.stop(); // start foreground loading with 'default' id
 
-
-    // localStorage.setItem('loggIn', 'false');
 
     this.checkInvestor();
     this.router.events.subscribe(event => {
@@ -198,7 +197,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         }
       }
     });
-    // this.ngxService.start(); // start foreground loading with 'default' id
+    this.ngxService.stop(); // start foreground loading with 'default' id
 
   }
 

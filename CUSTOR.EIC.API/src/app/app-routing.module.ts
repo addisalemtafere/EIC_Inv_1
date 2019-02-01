@@ -377,6 +377,11 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         loadChildren: 'app/components/incentive/incentive-detail/incentive-detail.module#IncentiveDetailModule',
         canActivate: [AuthGuard]
       },
+      {
+        path: 'investor-profile/:investorId',
+        loadChildren: 'app/components/investor/investor-profile/investor-profile.module#InvestorProfileModule',
+        canActivate: [AuthGuard]
+      },
       // {
       //   path: 'help',
       //   component: HelpComponent,

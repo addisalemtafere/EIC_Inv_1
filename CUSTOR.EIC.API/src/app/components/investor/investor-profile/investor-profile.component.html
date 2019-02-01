@@ -1,0 +1,32 @@
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0">
+  <div class="block" fxFlex="">
+    <app-page-header title="customerRegistration" icon="people"></app-page-header>
+
+  </div>
+  <div id="title1" class="block" fxFlex="50">
+    <span style="text-transform: capitalize;" class="page-title">Full Name: {{userName}}</span>
+  </div>
+</div>
+
+<mat-tab-group #stepper [selectedIndex]="registrationIndex">
+
+  <mat-tab label="Investor">
+    <ng-template matTabContent>
+      <app-edit-investor></app-edit-investor>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Manager" [disabled]="nextIndex <2">
+    <ng-template matTabContent>
+      <app-associate-form></app-associate-form>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab *ngIf="isInvestor" [disabled]="nextIndex<3"
+           label="Confirmation">
+    <ng-template matTabContent>
+      <app-service-confirmation></app-service-confirmation>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
