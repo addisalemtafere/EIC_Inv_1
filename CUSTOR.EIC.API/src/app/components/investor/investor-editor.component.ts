@@ -680,17 +680,17 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             const InvestorId1 = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
             const workFlowId = this.route.snapshot.params['workFlowId'];
             this.toastr.success('Record saved successfully!');
-            this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
+            this.router.navigate(['investor-profile/' + InvestorId1]);
 
           }
 
           if (investor != null) {
-            this.router.navigate(['investor-tab/1235/' + investor.ServiceApplicationId + '/' + investor.InvestorId + '/' + this.isNew + '/' + investor.ServiceWorkflow[0].ServiceWorkflowId]);
+            this.router.navigate(['investor-profile/' + investor.InvestorId]);
             this.saveCompleted(investor);
 
             localStorage.setItem('InvestorId', investor.InvestorId.toString());
-            setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
-            setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+            setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+            setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
 
           }
         },
