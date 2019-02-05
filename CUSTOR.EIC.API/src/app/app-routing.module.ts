@@ -378,7 +378,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-profile/:investorId',
+        path: 'investor-profile/:InvestorId',
         loadChildren: 'app/components/investor/investor-profile/investor-profile.module#InvestorProfileModule',
         canActivate: [AuthGuard]
       },

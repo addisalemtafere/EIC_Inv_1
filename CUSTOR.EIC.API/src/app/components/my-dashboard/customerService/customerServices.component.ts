@@ -94,6 +94,11 @@ export class CustomerServiceStarterComponent implements OnInit {
           this.router.navigate(['/business-tab/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
           break;
 
+        case 1235:
+
+          this.router.navigate(['/investor-tab/' + serviceId + '/' + 0 + '/' + investorId + '/' + 0 + '/' + 0]);
+          break;
+
         default:
           this.router.navigate(['/notfound'], {relativeTo: this.route});
           break;
