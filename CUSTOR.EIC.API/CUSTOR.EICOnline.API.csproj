@@ -10,7 +10,7 @@
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <Description>EIC Online Soluton</Description>
-    <Copyright>Copyright © 2018 www.custor.net</Copyright>
+    <Copyright>Copyright © 2019 www.custor.net</Copyright>
     <PackageProjectUrl>https://www.custor.net/EICOnline</PackageProjectUrl>
     <Company>CUSTOR</Company>
     <Version>1.2.0</Version>
@@ -109,7 +109,7 @@
 
   <ItemGroup>
     <None Include="bin\Debug\CUSTORDBWEB6.dll" />
-  </ItemGroup>  
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="CUSTORDBWEB6, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
