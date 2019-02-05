@@ -126,6 +126,7 @@ export class AppConfiguration {
     ServiceApplicationsByOfficerId: 'api/ServiceApplications/ByOfficerId',
     finalForApproval: 'api/ServiceApplications/finalForApproval',
     ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
+    ChangeInvestorApplicationStatus: 'api/ServiceApplications/ChangeInvestorApplicationStatus',
     ApplicationGroupByServiceId: 'api/ServiceApplications/ApplicationGroupByServiceId',
     ProjectGroupByStage: 'api/ServiceApplications/ProjectGroupByStage',
     ProjectGroupByEconomicSector: 'api/ServiceApplications/ProjectGroupByEconomicSector',
@@ -281,6 +282,6 @@ export class AppConfiguration {
 
   constructor() {
     this.urls.baseUrl = 'http://localhost:5050/';
-   // this.urls.baseUrl = 'http://172.17.33.132/';
+   // this.urls.baseUrl = 'http://localhost:5050/';
   }
 }

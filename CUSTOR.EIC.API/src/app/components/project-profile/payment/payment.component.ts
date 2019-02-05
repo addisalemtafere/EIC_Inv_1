@@ -53,9 +53,9 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.currentLang = this.configService.language;
-
     this.initForm();
     this.getServiceApplication(this.ServiceApplicationId);
+
 
     // // console.log(localStorage.getItem('ServiceApplicationId'));
   }
@@ -92,11 +92,22 @@ export class PaymentComponent implements OnInit, AfterViewInit, AfterViewChecked
     // console.log(id);
     this.serviceApplicationService.getOneById(id)
       .subscribe((result: ServiceApplicationModel) => {
-        // console.log(result);
         this.TotalAmount = result.Service.ServiceTariff[0].Tariff.Fee;
         this.serviceTariff = result.Service.ServiceTariff;
         this.getTotalAmount(this.serviceTariff);
         this.investorName = result.InvestorNameEnglish;
+        if (result.Order.TotalAmount != null || result.Order.TotalAmount != undefined) {
+          this.formService.markFormGroupTouched(this.orderForm);
+          if (this.orderForm.valid) {
+            this.orderService.create(this.orderForm.value)
+              .subscribe(result => {
+                this.payment = result;
+                this.paid = true;
+              });
+          } else {
+            this.formErrors = this.formService.validateForm(this.orderForm, this.formErrors, false);
+          }
+        }
       });
   }
 

@@ -83,6 +83,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   private addressId: number | undefined;
   private ServiceId: any;
   private ServiceApplicationId: any;
+  public isCommercialReg = false;
+
   private isNew: any;
 
   constructor(private route: ActivatedRoute,
@@ -166,10 +168,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     return this.investorForm.get('WoredaId');
   }
 
+
   get kebele() {
     return this.investorForm.get('KebeleId');
   }
-
 
   // getInvestorTitle() {
   //   this.lookUpService.getAll().subscribe(result => {
@@ -286,11 +288,16 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.initStaticDataOwnerShip(this.currentLang);
     this.fillAddressLookups();
     this.formControlValueChanged();
-
     this.getMajorDivisions();
 
     const id = this.route.snapshot.params['InvestorId'];
-    // console.debug(id);
+    if (this.ServiceId !== undefined || this.ServiceId == 1235) {
+      this.isCommercialReg = true;
+    }
+    // console.log(this.ServiceId);
+    // console.log(this.isCommercialReg);
+    console.log(id);
+
     if (id < 1) {
       this.isNewInvestor = true;
       this.isCompany = false;
@@ -304,6 +311,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       // get the selected investor either through @Input or shared service
       this.getInvestor(id);
     }
+
+
   }
 
   getMajorDivisions() {
@@ -326,7 +335,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
           this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          this.grandNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+          this.grandNameEng.setValidators([Validators.compose([Validators.minLength(2),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
           this.nationality.setValidators([Validators.required]);
           this.gender.setValidators([Validators.required]);
@@ -680,18 +689,31 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             const ServiceApplicationId1 = this.route.snapshot.params['ServiceApplicationId'];
             const InvestorId1 = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
             const workFlowId = this.route.snapshot.params['workFlowId'];
+            this.toastr.success('Record saved successfully!');
+            if (this.ServiceId == 1235) {
+              this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
 
-            this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
+            }
+            else {
+              this.router.navigate(['investor-profile/' + InvestorId1]);
+            }
 
           }
 
           if (investor != null) {
-            this.router.navigate(['investor-tab/1235/' + investor.ServiceApplicationId + '/' + investor.InvestorId + '/' + this.isNew + '/' + investor.ServiceWorkflow[0].ServiceWorkflowId]);
+            if (this.ServiceId == '1235' || 1235) {
+              this.router.navigate(['investor-tab/1235/' + 0 + '/' + investor.InvestorId + '/' + this.isNew + '/' + 0]);
+              setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
+              setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+            } else {
+              this.router.navigate(['investor-profile/' + investor.InvestorId]);
+              setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+              setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
+            }
             this.saveCompleted(investor);
 
             localStorage.setItem('InvestorId', investor.InvestorId.toString());
-            setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
-            setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+
 
           }
         },
@@ -718,8 +740,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   getKebeleByWoredaId(wordaId: any) {
     this.addressService.getKebelesByWoreda(wordaId)
       .subscribe(result => {
-        // this.kebeles = result;
-        // // console.log(result);
+        this.filteredKebeles = null
         this.filteredKebeles = result;
       });
   }
@@ -730,6 +751,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
     this.filteredKebeles = null;
     this.filteredWoredas = null;
+    this.filteredZones = null;
     if (!this.zones) {
       return;
     }
@@ -743,6 +765,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       return;
     }
     this.filteredKebeles = null;
+    this.filteredWoredas = null;
     this.filteredWoredas = this.woredas.filter((item) => {
       return item.ZoneId === zoneCode;
     });
@@ -801,6 +824,12 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   onFormOfOwnershipChanged(id: any) {
+    if (id == 1) {
+      this.originFlag = true;
+      this.investorForm.patchValue({
+        cNationality: 19
+      });
+    }
     this.branch = (id === '5');
     if (this.branch) {
       this.nationalityCompany.setValidators([Validators.required]);

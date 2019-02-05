@@ -66,7 +66,7 @@
            fxLayoutGap="2em">
         <div class="block" fxLayoutGap="2em">
           <mat-form-field [fxFlex]="18">
-            <mat-label>Product Name</mat-label>
+            <mat-label>Product/Service Name</mat-label>
             <input type="text" matInput
                    formControlName="ProductName">
             <mat-error align="start" *ngIf="formErrors.ProductName">{{ formErrors.ProductName }}</mat-error>
@@ -90,13 +90,13 @@
             </mat-select>
             <mat-error align="start" *ngIf="formErrors.ProductUnit">{{ formErrors.ProductUnit }}</mat-error>
           </mat-form-field>
-          <mat-form-field [fxFlex]="12">
-            <mat-label>Product Value * :</mat-label>
-            <input type="number" matInput
-                   formControlName="ProductValue">
-            <mat-error align="start" *ngIf="formErrors.ProductValue">{{ formErrors.ProductValue }}
-            </mat-error>
-          </mat-form-field>
+          <!--<mat-form-field [fxFlex]="12">-->
+            <!--<mat-label>Product Value * :</mat-label>-->
+            <!--<input type="number" matInput-->
+                   <!--formControlName="ProductValue">-->
+            <!--<mat-error align="start" *ngIf="formErrors.ProductValue">{{ formErrors.ProductValue }}-->
+            <!--</mat-error>-->
+          <!--</mat-form-field>-->
           <span formGroupName="sharePercent">
            <mat-form-field [fxFlex]="13">
              <mat-label>Domestic Market Share * :</mat-label>
@@ -125,7 +125,7 @@
             <mat-icon color="accent" class="mat-18">done</mat-icon>
             {{editMode ? 'Save' : 'Add'}}
           </button>
-         
+
         </div>
       </div>
     </mat-card-content>
@@ -162,10 +162,10 @@
       <!--<mat-cell *matCellDef="let productData"> {{productData.ProductUnit }}</mat-cell>-->
       <!--</ng-container>-->
 
-      <ng-container matColumnDef="ProductValue">
-        <mat-header-cell *matHeaderCellDef>Product Value</mat-header-cell>
-        <mat-cell *matCellDef="let productData">{{productData.ProductValue }}</mat-cell>
-      </ng-container>
+      <!--<ng-container matColumnDef="ProductValue">-->
+        <!--<mat-header-cell *matHeaderCellDef>Product Value</mat-header-cell>-->
+        <!--<mat-cell *matCellDef="let productData">{{productData.ProductValue }}</mat-cell>-->
+      <!--</ng-container>-->
       <ng-container matColumnDef="DomesticMarketShare">
         <mat-header-cell *matHeaderCellDef>Domestic Market Share</mat-header-cell>
         <mat-cell *matCellDef="let productData">

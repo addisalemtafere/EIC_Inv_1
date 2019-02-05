@@ -79,7 +79,7 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="FatherNameEng">
-          <mat-header-cell *matHeaderCellDef>የኢንቨስተሩ ስም</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Investor Name</mat-header-cell>
           <mat-cell *matCellDef="let investors">
             {{investors?.InvestorName}}
           </mat-cell>
@@ -104,8 +104,6 @@
             {{investors?.Tin}}
           </mat-cell>
         </ng-container>
-
-
         <ng-container matColumnDef="Action">
           <mat-header-cell [fxFlex]="20" *matHeaderCellDef>Action
             <button *ngIf="canViewTasks" style="margin-left: 50px;" mat-button color="primary" (click)="editInvestor()">
@@ -115,7 +113,6 @@
           </mat-header-cell>
           <mat-cell [fxFlex]="20" *matCellDef="let investors; let i=index">
             <div>
-
               <a class="margin-10 pointer" matTooltip="Click her to for detail"
                  (click)="goToService(investors.InvestorId,investors.InvestorNameEng)">
                 <mat-icon color="primary">visibility</mat-icon>
@@ -128,8 +125,6 @@
               </button>
             </div>
           </mat-cell>
-
-
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns">
         </mat-header-row>

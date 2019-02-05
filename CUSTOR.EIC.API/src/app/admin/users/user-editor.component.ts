@@ -36,8 +36,8 @@ export class UserEditorComponent implements OnChanges, OnDestroy, OnInit {
   @Input() roles: Role[] = [];
   @Input() isEditMode = false;
   @Input() errors: string[] = [];
-  private CONST_ADMIN = 'site administrators';
-  private CONST_SUPERADMIN = 'super administrators';
+  private CONST_ADMIN = 'site administrator';
+  private CONST_SUPERADMIN = 'super administrator';
   private CONST_ONLINEUSERS = 'online users';
   private CONST_ONLINESITE = 'onlinesite';
   private CONST_HEADOFFICE = 'headoffice';

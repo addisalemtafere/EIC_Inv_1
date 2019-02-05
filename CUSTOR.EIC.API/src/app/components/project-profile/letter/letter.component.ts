@@ -213,7 +213,7 @@ export class LetterComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        // console.log(result);
+        //console.log(result);
       }, error => this.errMsg.getError(error));
   }
 
@@ -222,7 +222,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.projectModel = result;
-            console.log(result);
+            //console.log(result);
           }
         },
         error => this.errMsg.getError(error));
@@ -311,6 +311,7 @@ export class LetterComponent implements OnInit {
   }
 
   generatePDF() {
+    //console.log(this.incentiveRequestModelList)
     this.ShowSave = true;
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g,
       this.projectModel.Investor.FirstNameEng.toUpperCase() +
@@ -331,28 +332,21 @@ export class LetterComponent implements OnInit {
       formModel.Attachment);
     this.LetterContent = this.LetterContent.replace(/{{CategoryCode}}/g,
       this.projectModel.InvestmentActivity.Code);
-    this.LetterContent = this.LetterContent.replace(/{{ChassisNo}}/g,
-      formModel.ChassisNo);
+    // this.LetterContent = this.LetterContent.replace(/{{ChassisNo}}/g,
+    //   formModel.ChassisNo);
     this.LetterContent = this.LetterContent.replace(/{{Capital}}/g,
       (this.projectModel.ProjectCost[0].OtherCapitalCost + this.projectModel.ProjectCost[0].EquityFinance + this.projectModel.ProjectCost[0].LoanFinance).toString());
     if (this.ServiceId == '1045') {
       this.LetterContent = this.LetterContent.replace(/{{OrgName}}/g,
         this.taxExemptionModel.RevenueBranchDescription);
-
-
-    } else if (this.ServiceId == '1046') {
-      // this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo;
-    } else {
-      // this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo;
     }
+
     this.LetterContent = this.LetterContent.replace(/{{ReqDate}}/g,
       new Date().toDateString());
-    // this.RequestDate);
 
     if (this.ServiceId !== '1045' && this.ServiceId !== '13') {
       this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
         this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
-        //'n343en7'
       );
     }
     this.LetterContent = this.LetterContent.replace(/{{TeleNo}}/g,

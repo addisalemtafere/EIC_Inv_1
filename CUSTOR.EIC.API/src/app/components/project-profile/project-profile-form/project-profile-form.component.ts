@@ -31,6 +31,7 @@ import {SectorService} from '../../setting/category-tabs/sector/sector.service';
 import {SubsectorService} from '../../setting/category-tabs/subsector/subsector.service';
 import {SectorModel} from '../../../model/sector';
 import {SubSectorModel} from '../../../model/subSector';
+import {Permission} from "../../../model/security/permission.model";
 
 @Component({
   selector: 'app-project-profile-form',
@@ -42,7 +43,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   formOfOwnershipList: FormOfOwnershipModel[] = [];
   subscription: Subscription;
   serviceIdSubscription: Subscription;
-  public IsOromia : boolean=false;
+  public IsOromia: boolean = false;
   editMode = false;
   loading = false;
   project: ProjectModel;
@@ -97,6 +98,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
 
 
   constructor(private route: ActivatedRoute,
+              private accountService: AccountService,
               private router: Router,
               public activityDataServices: UserActivityDataServices,
               public accountServices: AccountService,
@@ -273,10 +275,10 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     if (!regionCode) {
       return;
     }
-    if(regionCode == 4) {
+    if (regionCode == 4) {
       this.IsOromia = true;
     }
-    else{
+    else {
       this.IsOromia = false;
     }
     this.filteredZones = null;
@@ -409,8 +411,10 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       IsOromiaSpecialZone: [''],
       InvActivityId: [''],
       EndingDate: ['', Validators.required],
-      EnvironmentalImpact: ['', [Validators.required, Validators.minLength(2)
-      ]],
+      IsSelfService: [false],
+      EnvironmentalImpact: ['', [Validators.required, Validators.minLength(2)]],
+      AssignedUserId: [this.accountService.currentUser.Id],
+      CreatedUserId: [this.accountService.currentUser.Id],
 
       'address': new FormGroup({
         ParentId: new FormControl(),
@@ -420,7 +424,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         KebeleId: new FormControl(),
         SpecificAreaName: new FormControl(),
         IsIndustrialPark: new FormControl(),
-        IndustrialParkId: new FormControl('',Validators.required),
+        IndustrialParkId: new FormControl(),
         Remark: new FormControl()
       })
     });
@@ -428,6 +432,13 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.projectForm.valueChanges.subscribe((data) => {
       this.formErrors = this.formService.validateForm(this.projectForm, this.formErrors, true);
     });
+
+
+    if (this.canViewTasks) {
+      this.projectForm.patchValue({
+        IsSelfService: true
+      })
+    }
   }
 
   initStaticData(currentLang) {
@@ -474,6 +485,11 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   getIsChecked() {
     return this.projectForm.get('address').get('IsIndustrialPark').value;
   }
+
+  get canViewTasks() {
+    return this.accountService.userHasPermission(Permission.viewServiceList);
+  }
+
   IsOromiaRegion() {
     return this.IsOromia;
   }

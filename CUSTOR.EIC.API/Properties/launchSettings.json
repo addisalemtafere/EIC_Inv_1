@@ -3,11 +3,13 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost:5050/",
+      "applicationUrl": "http://localhost:5050",
       "sslPort": 0
     },
     "iisExpress": {
+
       "applicationUrl": "http://localhost:5050",
+
       "sslPort": 0
     }
   },
@@ -29,6 +31,7 @@
     },
     "newProfile1": {
       "commandName": "Executable"
+
     }
   }
 }

@@ -8,7 +8,7 @@
 
       <mat-form-field fxFlex="10">
         <mat-label>TIN :</mat-label>
-        <input matInput="">
+        <input matInput="" maxlength="10">
 
         <!--<mat-error align="start" *ngIf="formErrors.FormOfOwnership">{{ formErrors.FormOfOwnership }}-->
         <!--</mat-error>-->
@@ -140,7 +140,8 @@
           <ng-container matColumnDef="NextStep">
             <mat-header-cell fxFlex="10" *matHeaderCellDef>Next Step</mat-header-cell>
             <mat-cell fxFlex="10" *matCellDef="let serviceApplicationList;">
-              <a class="pointer" style="color: #00bcd4;" *ngIf="serviceApplicationList?.CurrentStatusId===44450"
+              <a class="pointer" style="color: #00bcd4;"
+                 *ngIf="serviceApplicationList?.CurrentStatusId===44450 && serviceApplicationList.IsSelfService==false"
                  (click)="nextStep(serviceApplicationList?.ServiceWorkflow[0]?.NextStepId,
             serviceApplicationList.ProjectId,
             serviceApplicationList.ServiceApplicationId,
@@ -152,9 +153,10 @@
                serviceApplicationList.ProjectNameEnglish)">
                 {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId | serviceStepPipe}}
                 <!--<mat-icon color="primary" class="mat-18">navigate_next</mat-icon>-->
+                {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId }}
               </a>
               <a class="pointer" style="color: #00bcd4;"
-                 *ngIf="serviceApplicationList?.CurrentStatusId!==44450 && serviceApplicationList?.CurrentStatusId!==44449"
+                 *ngIf="serviceApplicationList?.CurrentStatusId!==44450 && serviceApplicationList?.CurrentStatusId!==44449 && serviceApplicationList.IsSelfService==true"
                  (click)="nextStep(18,
             serviceApplicationList.ProjectId,
             serviceApplicationList.ServiceApplicationId,

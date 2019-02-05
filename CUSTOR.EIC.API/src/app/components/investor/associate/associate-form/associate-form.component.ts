@@ -168,6 +168,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   ngOnDestroy() {
     // this.investorSub.unsubscribe();
   }
+
   getInvestorById(id) {
     this.isNewInvestor = false;
     this.investorSub = this.custService
@@ -298,7 +299,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
       cFatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      cGrandNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
+      cGrandNameEng: ['', [Validators.compose([Validators.minLength(2),
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
       cFirstName: [''],
       cFatherName: [''],
@@ -405,6 +406,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     if (associate) {
       this.associate = associate;
     }
+    this.isNewInvestor = false;
     this.loadingIndicator = false;
     this.toastr.success('Record saved successfully!');
     this.dataSharing.investorTabSelectedIndex.next(2);
