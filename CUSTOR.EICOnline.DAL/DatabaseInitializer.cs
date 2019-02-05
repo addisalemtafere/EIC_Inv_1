@@ -33,7 +33,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
       try
       {
         _logger.LogInformation("Generating inbuilt accounts");
-        const string superAdminRoleName = "Super Administrators";
+        const string superAdminRoleName = "Super Administrator";
         //const string userRoleName = "user";
 
         await EnsureRoleAsync(superAdminRoleName, "Default super administrators", ApplicationPermissions.GetAllPermissionValues());
