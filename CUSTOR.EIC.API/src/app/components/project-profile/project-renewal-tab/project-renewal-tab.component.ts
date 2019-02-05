@@ -13,6 +13,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ProjectRenewalTabComponent implements OnInit {
   public isInvestor: boolean;
+  public isRenewal: boolean;
   public title: string | null;
   private subscription: Subscription;
   public renewalIndex: any;
@@ -47,6 +48,13 @@ export class ProjectRenewalTabComponent implements OnInit {
 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
+    if(!this.isInvestor){
+      this.isRenewal=true;
+    }
+    else
+    {
+      this.isRenewal=false;
+    }
   }
 
   addMessage() {

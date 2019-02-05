@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,10 +17,15 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
     public class ProjectCancellationsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private  ApplicationDbContext context;
 
-        public ProjectCancellationsController(ApplicationDbContext context)
+    public ProjectCancellationsController(ApplicationDbContext context)
         {
             _context = context;
+        }
+    public void ProjectController(ApplicationDbContext proContext)
+        {
+            context = proContext;
         }
 
         // DELETE: api/ProjectCancellations/5
@@ -83,37 +88,34 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
 
         // PUT: api/ProjectCancellations/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProjectCancellation([FromRoute] int id,
+        public async Task<IActionResult> PutProjectCancellationAsync([FromRoute] int id,
             [FromBody] ProjectCancellation projectCancellation)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //  return BadRequest(ModelState);
-            //}
-
-            //if (id != projectCancellation.ProjectCancellationId)
-            //{
-
-            //  return BadRequest();
-            //}
-            var project = _context.Project.First(s => s.ProjectId == projectCancellation.ProjectId);
-            project.ProjectStatus = 4;
+           
+            var project = _context.ProjectCancellation.First(s => s.ProjectCancellationId== id);
+            project.IsApproved = projectCancellation.IsApproved;
+            project.CancellationDate = projectCancellation.CancellationDate;
+            project.CancellationReason = projectCancellation.CancellationReason;
             _context.Entry(project).State = EntityState.Modified;
-            //_context.Entry(projectCancellation).State = EntityState.Modified;
+      try
+      {
+        await _context.SaveChangesAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProjectCancellationExists(id))
-                    return NotFound();
-                throw;
-            }
+        var projectStatus = context.Project.First(s => s.ProjectId == id);
+        projectStatus.ProjectStatus = 4;
+        context.Entry(projectStatus).State = EntityState.Modified;
+        await context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //  return null;
+        return CreatedAtAction("GetProjectInput", new { id = projectCancellation.ProjectCancellationId }, project);
+    }
+          catch (DbUpdateConcurrencyException)
+          {
+            if (false)
+              return NotFound();
+            throw;
+          }
+}
 
         private bool ProjectCancellationExists(int id)
         {

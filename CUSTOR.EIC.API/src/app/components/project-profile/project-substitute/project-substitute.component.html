@@ -22,6 +22,7 @@
                 {{data.type}}
               </mat-option>
             </mat-select>
+            <mat-error align="start" *ngIf="formErrors.Reason">{{ formErrors.Reason }}</mat-error>
           </mat-form-field>
         </div>
 
@@ -35,14 +36,22 @@
           </mat-form-field>
         </div>
         <div class="blocks">
-          <button
+          <button *ngIf="isInvestor"
             [disabled]="!projectsubstituteForm.valid"
             mat-raised-button=""
             type="submit"
             color="primary">
             <mat-icon class="mat-18">done</mat-icon>
             <!--<span class="agree">Save</span>-->
-            {{editMode ? 'Approve' : 'Save'}}
+            {{editMode ? 'Update' : 'Save'}}
+          </button> <button *ngIf="!isInvestor"
+            [disabled]="!projectsubstituteForm.valid"
+            mat-raised-button=""
+            type="submit"
+            color="primary" (click)="approve()">
+            <mat-icon class="mat-18">done</mat-icon>
+            <span class="agree">Approve</span>
+            <!--{{editMode ? 'Update' : 'Save'}}-->
           </button>
         </div>
       </div>

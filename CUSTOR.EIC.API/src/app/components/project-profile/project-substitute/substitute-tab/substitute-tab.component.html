@@ -25,12 +25,6 @@
       <app-aftercare-recommendation></app-aftercare-recommendation>
     </ng-template>
   </mat-tab>
-
-  <mat-tab label="Project Substitute">
-    <ng-template matTabContent>
-      <app-project-substitute></app-project-substitute>
-    </ng-template>
-  </mat-tab>
   <mat-tab label="Document">
     <ng-template matTabContent>
       <mat-card *ngIf="!isInvestor" class="margin-2 simple-card">
@@ -45,6 +39,12 @@
       <app-service-prerequisite></app-service-prerequisite>
     </ng-template>
   </mat-tab>
+  <mat-tab label="Project Substitute">
+    <ng-template matTabContent>
+      <app-project-substitute></app-project-substitute>
+    </ng-template>
+  </mat-tab>
+
   <mat-tab *ngIf="!isInvestor" label="Payment">
     <ng-template matTabContent>
       <app-payment></app-payment>

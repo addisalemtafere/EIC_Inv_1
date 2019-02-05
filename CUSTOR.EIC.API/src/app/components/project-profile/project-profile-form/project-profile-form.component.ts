@@ -392,7 +392,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   formBuild() {
-    console.log(this.ServiceId)
+    console.log(this.ServiceId);
     this.projectForm = this.formBuilder.group({
       ProjectName: ['', Validators.compose([Validators.required,
         CustomValidators.validateCharacters, Validators.minLength(2)])],

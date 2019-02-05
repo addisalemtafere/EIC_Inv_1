@@ -11,6 +11,7 @@ export class ProjectCancellationModel {
   public ApprovedDate: Date;
   public CancellationRemark: string;
   public IsActive: boolean;
+  public IsApproved: boolean;
   public IsDeleted: boolean;
   public EventDatetime: Date;
   public CreatedUserId: number;

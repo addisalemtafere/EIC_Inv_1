@@ -20,6 +20,7 @@ import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
+import {ProjectRenewalService} from "../../Services/project-renewal.service";
 // import {Ethiopic} from '../../../@custor/EthiopicDateTime.cs'
 @Component({
   selector: 'app-certificate',
@@ -28,6 +29,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class CertificateComponent implements OnInit {
   date: any;
+  renewedTo: Date;
   formOfOwnerShipDescriptionAmharic: any;
   formOfOwnerShipDescriptionEnglish: any;
   investorDetailList: ServiceApplicationModel;
@@ -50,6 +52,7 @@ export class CertificateComponent implements OnInit {
               public errMsg: ErrorMessage,
               public route: ActivatedRoute,
               public projectService: ProjectProfileService,
+              public projectRenewalService: ProjectRenewalService,
               public serviceApplication: ServiceApplicationService,
               public dialog: MatDialog,
               public toast: ToastrService,
@@ -67,8 +70,21 @@ export class CertificateComponent implements OnInit {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
     this.getDate();
+    if(this.ServiceApplicationId>0)
+    {
+      this.getServiceApplicationRenewal();
+    }
   }
-
+  private getServiceApplicationRenewal() {
+    this.projectRenewalService
+      .getRenewalByServiceApplicationId(this.ServiceApplicationId)
+      .subscribe(result => {
+        if(result.ProjectRenewal[0] != null)
+        {
+          this.renewedTo=result.ProjectRenewal[0].RenewedTo;
+        }
+      }, error => this.errMsg.getError(error));
+  }
   getDate() {
     const today = new Date();
     //EthiopicDateTime.

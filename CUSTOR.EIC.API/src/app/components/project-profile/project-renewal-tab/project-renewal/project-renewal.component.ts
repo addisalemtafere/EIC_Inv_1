@@ -1,5 +1,5 @@
 import {AfterContentChecked, Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectRenewalService} from '../../../../Services/project-renewal.service';
 import {MatSnackBar} from '@angular/material';
 import {DataSharingService} from '../../../../Services/data-sharing.service';
@@ -20,13 +20,20 @@ export class ProjectRenewalComponent implements OnInit {
   loading = false;
   public projectList: ProjectModel[];
   public isInvestor: boolean;
-  public editMode = false;
+  public editMode : boolean;
   private ServiceApplicationId: number;
   private InvestorId: any;
   private approval = false;
   private ServiceId: any;
   private ProjectId: any;
-
+  minDate: Date;
+  initMinDate: Date;
+  maxDate: Date;
+  public formErrors = {
+  RenewalDate: 'Renewal date is required!',
+  RenewedTo:'Renewal ending date is required and must be greater than the starting date!',
+  RenewedFrom: 'Renewal starting date is required!'
+};
   constructor(public fb: FormBuilder,
               public snackbar: MatSnackBar,
               private accountService: AccountService,
@@ -46,22 +53,24 @@ export class ProjectRenewalComponent implements OnInit {
 
     this.initForm();
     this.getAllProjects();
-    this.isInvestor = !this.accountService.getUserType();
+    this.isInvestor = this.accountService.getUserType();
     this.route.params
       .subscribe((params: Params) => {
-        // console.log(this.ServiceApplicationId);
+        console.log(this.ServiceApplicationId);
         if (this.ServiceApplicationId > 1) {
           this.getServiceApplicationRenewal();
-          this.approval = true;
+        }
+        else{
+          this.editMode = false;
         }
       });
   }
 
   initForm() {
     this.projectRenewalForm = this.fb.group({
-      RenewalDate: new FormControl(),
-      RenewedTo: new FormControl(),
-      RenewedFrom: new FormControl(),
+      RenewalDate: ['', Validators.required],
+      RenewedTo: new FormControl('', Validators.required),
+      RenewedFrom: new FormControl('', Validators.required),
       ProjectId: this.ProjectId,
       InvestorId: this.InvestorId,
       ServiceId: this.ServiceId,
@@ -78,10 +87,12 @@ export class ProjectRenewalComponent implements OnInit {
   }
 
   onSubmit() {
+
     this.projectRenewalService
       .create(this.projectRenewalForm.value)
       .subscribe(response => {
         this.dataSharing.renewalIndex.next(2);
+        this.toastr.success('Data  successfully Saved', 'Success');
       });
   }
 
@@ -96,19 +107,66 @@ export class ProjectRenewalComponent implements OnInit {
   }
 
   approve() {
+    if(this.editMode)
+    {
+      // console.log("Update!");
+      const id=localStorage.getItem('ProjectRenewalId').toString();
+      console.log(id);
+      this.projectRenewalService.update(this.projectRenewalForm.value,id)
+        .subscribe(result => {
+          console.log(result);
+          this.toastr.success('Renewal  successfully approved', 'Success');
+        });
+      console.log("Approved!");
+
+    }
+    else
+    {
+      console.log("New!");
     this.projectRenewalService
       .create(this.projectRenewalForm.value)
       .subscribe(result => {
         this.toastr.success('Renewal  successfully approved', 'Success');
       });
+    }
   }
 
   private getServiceApplicationRenewal() {
     this.projectRenewalService
       .getRenewalByServiceApplicationId(this.ServiceApplicationId)
       .subscribe(result => {
-        this.editMode = true;
         this.projectRenewalForm.patchValue(result.ProjectRenewal[0]);
+        if(result.ProjectRenewal[0] != null)
+        {
+          this.editMode=true;
+          localStorage.setItem('ProjectRenewalId', result.ProjectRenewal[0].ProjectRenewalId.toString());
+       console.log("ID="+result.ProjectRenewal[0].ProjectRenewalId);
+        }
       }, error => this.errMsg.getError(error));
+  }
+  setMinDate(minD: Date) {
+    this.minDate = minD;
+  }
+
+  setMaxDate(value: Date) {
+    this.maxDate = value;
+  }
+  updateDateRange() {
+    const today = new Date();
+    let mm1, dd1;
+    const dd = today.getDate();
+    const mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd1 = '0' + dd;
+    }
+    if (mm < 10) {
+      mm1 = '0' + mm;
+    }
+    const today1 = mm1 + '/' + dd1 + '/' + yyyy;
+    this.initMinDate = new Date(today);
+    if (this.projectRenewalForm.value.RenewedFrom !== null) {
+      this.minDate = this.projectRenewalForm.value.RenewedFrom;
+    }
   }
 }
