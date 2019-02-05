@@ -9,6 +9,8 @@ import {DataSharingService} from '../../../Services/data-sharing.service';
 import {IncentiveLogModel} from '../../../model/IncentiveLog.model';
 import {AccountService} from '@custor/services/security/account.service';
 import {ProjectListModalComponent} from '../../project-list-modal/project-list-modal.component';
+import {ServiceApplicationModel} from "../../../model/ServiceApplication.model";
+import {ServiceApplicationService} from "../../../Services/service-application.service";
 
 @Component({
   selector: 'app-customer-service-list',
@@ -20,6 +22,7 @@ export class CustomerServiceStarterComponent implements OnInit {
   customerServices: ServiceModel[];
   m: IncentiveLogModel;
   loadingIndicator: boolean;
+  private serviceApplication: ServiceApplicationModel;
 
 
   constructor(public router: Router,
@@ -28,9 +31,12 @@ export class CustomerServiceStarterComponent implements OnInit {
               public serviceService: ServiceService,
               public accountService: AccountService,
               public snackbar: MatSnackBar,
+              public serviceapplicationService: ServiceApplicationService,
               public route: ActivatedRoute,
               private toastr: ToastrService) {
     this.m = new IncentiveLogModel();
+    this.serviceApplication = new ServiceApplicationModel();
+
   }
 
   ngOnInit() {
@@ -59,21 +65,7 @@ export class CustomerServiceStarterComponent implements OnInit {
         case 13:
           this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
           break;
-        // case 18:
-        //   this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
-        //   break;
-        // case 19:
-        //   this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
-        //   break;
-        // case 1023:
-        //   this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
-        //   break;
-        // case 1027:
-        //   this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0]);
-        //   break;
-        // case 1028:
-        //   this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
-        //   break;
+
         case 1045:
         case 1054:
         case 1046:
@@ -95,8 +87,7 @@ export class CustomerServiceStarterComponent implements OnInit {
           break;
 
         case 1235:
-
-          this.router.navigate(['/investor-tab/' + serviceId + '/' + 0 + '/' + investorId + '/' + 0 + '/' + 0]);
+          this.startCustomerRegistrationService(serviceId, investorId);
           break;
 
         default:
@@ -122,7 +113,29 @@ export class CustomerServiceStarterComponent implements OnInit {
   selectProject(serviceId: any) {
     this.dialog.open(ProjectListModalComponent);
 
+
   }
+
+  startCustomerRegistrationService(serviceId: any, investorId: any) {
+
+
+    this.serviceApplication.ProjectId = 0;
+    this.serviceApplication.ServiceId = serviceId;
+    this.serviceApplication.InvestorId = investorId;
+    this.serviceApplication.CaseNumber = '1';
+    this.serviceApplication.CurrentStatusId = 44450;
+    this.serviceApplication.IsSelfService = true;
+    this.serviceApplication.IsPaid = true;
+    this.serviceApplication.CreatedUserId = 1;
+    this.serviceApplication.IsActive = false;
+
+    this.serviceapplicationService.create(this.serviceApplication)
+      .subscribe(result => {
+        this.router.navigate(['/investor-tab/' + serviceId + '/' + result.ServiceApplicationId + '/' + investorId + '/' + 0 + '/' + result.ServiceWorkflow[0].ServiceWorkflowId]);
+      });
+
+  }
+
 
 
   close() {
