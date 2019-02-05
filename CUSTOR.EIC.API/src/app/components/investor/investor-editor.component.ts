@@ -83,6 +83,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   private addressId: number | undefined;
   private ServiceId: any;
   private ServiceApplicationId: any;
+  public isCommercialReg = false;
+
   private isNew: any;
 
   constructor(private route: ActivatedRoute,
@@ -166,10 +168,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     return this.investorForm.get('WoredaId');
   }
 
+
   get kebele() {
     return this.investorForm.get('KebeleId');
   }
-
 
   // getInvestorTitle() {
   //   this.lookUpService.getAll().subscribe(result => {
@@ -289,7 +291,13 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.getMajorDivisions();
 
     const id = this.route.snapshot.params['InvestorId'];
-    // console.debug(id);
+    if (this.ServiceId !== undefined || this.ServiceId == 1235) {
+      this.isCommercialReg = true;
+    }
+    // console.log(this.ServiceId);
+    // console.log(this.isCommercialReg);
+    console.log(id);
+
     if (id < 1) {
       this.isNewInvestor = true;
       this.isCompany = false;
@@ -303,6 +311,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       // get the selected investor either through @Input or shared service
       this.getInvestor(id);
     }
+
+
   }
 
   getMajorDivisions() {
@@ -680,17 +690,30 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             const InvestorId1 = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
             const workFlowId = this.route.snapshot.params['workFlowId'];
             this.toastr.success('Record saved successfully!');
-            this.router.navigate(['investor-profile/' + InvestorId1]);
+            if (this.ServiceId == 1235) {
+              this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
+
+            }
+            else {
+              this.router.navigate(['investor-profile/' + InvestorId1]);
+            }
 
           }
 
           if (investor != null) {
-            this.router.navigate(['investor-profile/' + investor.InvestorId]);
+            if (this.ServiceId == '1235' || 1235) {
+              this.router.navigate(['investor-tab/1235/' + 0 + '/' + investor.InvestorId + '/' + this.isNew + '/' + 0]);
+              setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
+              setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+            } else {
+              this.router.navigate(['investor-profile/' + investor.InvestorId]);
+              setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+              setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
+            }
             this.saveCompleted(investor);
 
             localStorage.setItem('InvestorId', investor.InvestorId.toString());
-            setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
-            setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
+
 
           }
         },
