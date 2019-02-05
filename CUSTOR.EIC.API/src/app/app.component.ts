@@ -311,7 +311,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   Investor() {
-    if (localStorage.getItem('InvestorId') === 'null') {
+    if (localStorage.getItem('InvestorId') !== null) {
+
       this.router.navigate(['investor-profile/0']);
     } else {
       this.router.navigate(['/investor/edit', localStorage.getItem('InvestorId')]);
@@ -321,7 +322,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   toServiceList() {
     if (localStorage.getItem('InvestorId') !== null) {
-      // this.dialog.open(CustomerServiceStarterComponent);
       this.router.navigate(['/service-list']);
     } else {
 

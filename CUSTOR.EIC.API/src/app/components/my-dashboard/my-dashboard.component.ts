@@ -343,10 +343,6 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   getInvestorsByUserId() {
-    // if (!this.canViewInvestors) {
-    //     this.router.navigate(['denied']);
-    // }
-    // console.log(this.accountService.currentUser.Id);
     this.invService.getInvestorByUserId(this.accountService.currentUser.Id)
       .subscribe(result => {
           // console.log(result);
