@@ -249,40 +249,67 @@ namespace EIC.Investment.API.Controllers
     public async Task<IActionResult> PostServiceApplication([FromBody] ServiceApplication serviceApplication)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
-
+      Project project = null;
       var investor =
         _context.Investors.FirstOrDefault(inv => inv.InvestorId == serviceApplication.InvestorId);
 
       var service = _context.Service.FirstOrDefault(inv => inv.ServiceId == serviceApplication.ServiceId);
 
-      var project = _context.Project.FirstOrDefault(inv => inv.ProjectId == serviceApplication.ProjectId);
 
       var squence = _context.Squences.FirstOrDefault();
       var lastSe = squence.LastSquence + 1;
 
       var perminumber = lastSe.ToString();
 
+      ServiceApplication editServiceApplication;
 
-      var editServiceApplication = new ServiceApplication
+
+      if (serviceApplication.ProjectId > 0)
       {
-        InvestorId = serviceApplication.InvestorId,
-        CaseNumber = perminumber,
-        ProjectId = serviceApplication.ProjectId,
-        ServiceId = serviceApplication.ServiceId,
-        CurrentStatusId = 44450,
-        IsSelfService = true,
-        IsPaid = true,
-        StartDate = DateTime.Now,
-        CreatedUserId = 1,
-        IsActive = false,
-        CreatedUserName = serviceApplication.CreatedUserName,
-        InvestorNameAmharic = investor.InvestorName,
-        InvestorNameEnglish = investor.InvestorNameEng,
-        ServiceNameAmharic = service.DisplayName,
-        ServiceNameEnglish = service.DisplayNameEnglish,
-        ProjectNameEnglish = project.ProjectName,
-        ProjectNameAmharic = project.ProjectName
-      };
+        project = _context.Project.FirstOrDefault(inv => inv.ProjectId == serviceApplication.ProjectId);
+        editServiceApplication = new ServiceApplication
+        {
+          InvestorId = serviceApplication.InvestorId,
+          CaseNumber = perminumber,
+          ProjectId = serviceApplication.ProjectId,
+          ServiceId = serviceApplication.ServiceId,
+          CurrentStatusId = 44450,
+          IsSelfService = true,
+          IsPaid = true,
+          StartDate = DateTime.Now,
+          CreatedUserId = 1,
+          IsActive = false,
+          CreatedUserName = serviceApplication.CreatedUserName,
+          InvestorNameAmharic = investor.InvestorName,
+          InvestorNameEnglish = investor.InvestorNameEng,
+          ServiceNameAmharic = service.DisplayName,
+          ServiceNameEnglish = service.DisplayNameEnglish,
+          ProjectNameEnglish = project.ProjectName,
+          ProjectNameAmharic = project.ProjectName
+        };
+      }
+      else
+      {
+        editServiceApplication = new ServiceApplication
+        {
+          InvestorId = serviceApplication.InvestorId,
+          CaseNumber = perminumber,
+          ServiceId = 1235,
+          CurrentStatusId = 44450,
+          IsSelfService = true,
+          IsPaid = true,
+          StartDate = DateTime.Now,
+          CreatedUserId = 1,
+          IsActive = false,
+          CreatedUserName = serviceApplication.CreatedUserName,
+          InvestorNameAmharic = investor.InvestorName,
+          InvestorNameEnglish = investor.InvestorNameEng,
+          ServiceNameAmharic = "Customer Registration",
+          ServiceNameEnglish = "Customer Registration",
+          ProjectNameEnglish = "",
+          ProjectNameAmharic = ""
+        };
+      }
 
       var serviceWorkflow = new ServiceWorkflow
       {
