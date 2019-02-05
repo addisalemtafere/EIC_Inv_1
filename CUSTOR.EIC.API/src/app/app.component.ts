@@ -312,7 +312,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   Investor() {
     if (localStorage.getItem('InvestorId') === 'null') {
-      this.router.navigate(['investor-tab/0']);
+      this.router.navigate(['investor-profile/0']);
     } else {
       this.router.navigate(['/investor/edit', localStorage.getItem('InvestorId')]);
 
@@ -326,7 +326,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     } else {
 
       this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-      this.router.navigate(['investor-tab/1235/0/0/0/0']);
+      this.router.navigate(['investor-profile/0']);
 
     }
 
@@ -349,7 +349,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
       this.router.navigate(['associate/list']);
     } else {
       this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-      this.router.navigate(['investor-tab/1235/0/0/0/0']);
+      this.router.navigate(['investor-profile/0']);
     }
 
   }
