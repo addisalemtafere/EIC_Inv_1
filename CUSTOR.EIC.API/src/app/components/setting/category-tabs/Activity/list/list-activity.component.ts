@@ -93,7 +93,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
 
   editActivity(activityModel?: ActivityModel) {
     if (activityModel) {
-      this.router.navigate(['/activitys/edit', activityModel.ActivityId + '/' + 0 + '/' + 0], {relativeTo: this.route});
+      this.router.navigate(['/activitys/edit/' + activityModel.ActivityId + '/' + 0 + '/' + 0], {relativeTo: this.route});
     } else {
       this.router.navigate(['/activitys/edit/' + 0 + '/' + this.sectorId + '/' + this.subSectorId]);
     }
