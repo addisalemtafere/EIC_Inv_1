@@ -9,6 +9,9 @@ import {AccountService} from '@custor/services/security/account.service';
 import {ActivatedRoute, Params} from '@angular/router';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {ToastrService} from 'ngx-toastr';
+import {id} from "@swimlane/ngx-charts/release/utils";
+import {ProjectCancellationModel} from "../../../../model/project/ProjectCancellation.model";
+import {ProjectRenewalModel} from "../../../../model/ProjectRenewal.model";
 
 @Component({
   selector: 'app-project-renewal',
@@ -87,13 +90,27 @@ export class ProjectRenewalComponent implements OnInit {
   }
 
   onSubmit() {
-
-    this.projectRenewalService
-      .create(this.projectRenewalForm.value)
-      .subscribe(response => {
-        this.dataSharing.renewalIndex.next(2);
-        this.toastr.success('Data  successfully Saved', 'Success');
-      });
+    // console.log(this.editMode);
+    if(!this.editMode){
+        this.projectRenewalService
+          .create(this.projectRenewalForm.value)
+          .subscribe(response => {
+            this.dataSharing.renewalIndex.next(2);
+            this.toastr.success('Data  successfully Saved', 'Success');
+          });
+}
+else{
+  const id=localStorage.getItem('ProjectRenewalId').toString();
+  this.projectRenewalService
+    .update(this.projectRenewalForm.value,id)
+    .subscribe(result=>{
+      console.log("Updated="+ result);
+    });
+}
+  }
+  mapApproval(approve: ProjectRenewalModel): ProjectRenewalModel {
+    approve.IsApproved = true;
+    return approve;
   }
 
 
@@ -107,24 +124,25 @@ export class ProjectRenewalComponent implements OnInit {
   }
 
   approve() {
+    const RenewalData = this.mapApproval(this.projectRenewalForm.value);
+    console.log(RenewalData);
     if(this.editMode)
     {
-      // console.log("Update!");
+      console.log("Update!");
       const id=localStorage.getItem('ProjectRenewalId').toString();
       console.log(id);
-      this.projectRenewalService.update(this.projectRenewalForm.value,id)
+      this.projectRenewalService.update(RenewalData,id)
         .subscribe(result => {
           console.log(result);
           this.toastr.success('Renewal  successfully approved', 'Success');
         });
-      console.log("Approved!");
 
     }
     else
     {
       console.log("New!");
     this.projectRenewalService
-      .create(this.projectRenewalForm.value)
+      .create(RenewalData)
       .subscribe(result => {
         this.toastr.success('Renewal  successfully approved', 'Success');
       });

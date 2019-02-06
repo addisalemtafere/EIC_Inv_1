@@ -47,8 +47,10 @@ namespace CUSTOR.EICOnline.API.Controllers
     public async Task<IActionResult> UpdateAsync([FromRoute] int id,[FromBody] ProjectRenewal projectRenewal)
       {
         var updated = context.ProjectRenewal.FirstOrDefault(t => t.ProjectRenewalId == id);
-        updated.IsApproved =true;
-        context.Entry(updated).State = EntityState.Modified;
+        updated.IsApproved =projectRenewal.IsApproved;
+        updated.RenewedFrom = projectRenewal.RenewedFrom;
+        updated.RenewedTo = projectRenewal.RenewedTo;
+          context.Entry(updated).State = EntityState.Modified;
       try
       {
         await context.SaveChangesAsync();

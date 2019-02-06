@@ -154,12 +154,11 @@ export class ProjectCancellationComponent implements OnInit {
   approve() {
       const CancellationData = this.mapApproval(this.projectCancellationForm.value);
     const id=localStorage.getItem('ProjectCancellationId').toString();
-    console.log("ID"+id);
+    console.log("ID="+id);
     console.log(CancellationData);
        this.projectCancellationServices.update(CancellationData, id)
          .subscribe(result => {
-           console.log(result);
-           this.toastr.success('Cancellation successfully Updated.', 'Success');
+           this.toastr.success('Cancellation successfully Approved.', 'Success');
            this.approveApplication(this.ServiceApplicationId);
          });
 

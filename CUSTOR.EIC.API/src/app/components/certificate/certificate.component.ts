@@ -21,6 +21,7 @@ import {ProjectAssociateService} from '../../Services/project-associate.service'
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
 import {ProjectRenewalService} from "../../Services/project-renewal.service";
+import {ETHIOPIA_CODE} from "../../const/consts";
 // import {Ethiopic} from '../../../@custor/EthiopicDateTime.cs'
 @Component({
   selector: 'app-certificate',
@@ -87,7 +88,6 @@ export class CertificateComponent implements OnInit {
   }
   getDate() {
     const today = new Date();
-    //EthiopicDateTime.
     this.date =  today;
   }
 

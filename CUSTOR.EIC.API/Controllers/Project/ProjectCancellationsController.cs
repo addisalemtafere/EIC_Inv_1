@@ -23,13 +23,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
         {
             _context = context;
         }
-    public void ProjectController(ApplicationDbContext proContext)
-        {
-            context = proContext;
-        }
+   
 
-        // DELETE: api/ProjectCancellations/5
-        [HttpDelete("{id}")]
+    // DELETE: api/ProjectCancellations/5
+    [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProjectCancellation([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -94,6 +91,12 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
            
             var project = _context.ProjectCancellation.First(s => s.ProjectCancellationId== id);
             project.IsApproved = projectCancellation.IsApproved;
+            if (project.IsApproved == true)
+            {
+        var proStatus = _context.Project.First(e => e.ProjectId == project.ProjectId);
+        proStatus.ProjectId = project.ProjectId;
+        _context.Entry(proStatus).State = EntityState.Modified;
+            }
             project.CancellationDate = projectCancellation.CancellationDate;
             project.CancellationReason = projectCancellation.CancellationReason;
             _context.Entry(project).State = EntityState.Modified;
@@ -101,10 +104,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
       {
         await _context.SaveChangesAsync();
 
-        var projectStatus = context.Project.First(s => s.ProjectId == id);
-        projectStatus.ProjectStatus = 4;
-        context.Entry(projectStatus).State = EntityState.Modified;
-        await context.SaveChangesAsync();
+        
 
         //  return null;
         return CreatedAtAction("GetProjectInput", new { id = projectCancellation.ProjectCancellationId }, project);
@@ -116,10 +116,12 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
             throw;
           }
 }
+    
 
-        private bool ProjectCancellationExists(int id)
+    private bool ProjectCancellationExists(int id)
         {
             return _context.ProjectCancellation.Any(e => e.ProjectCancellationId == id);
         }
+
     }
 }

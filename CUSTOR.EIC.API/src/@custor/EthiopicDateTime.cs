@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class EthiopicDateTime
+public  class EthiopicDateTime
 {
   private static int Day;
   private static int Month;
