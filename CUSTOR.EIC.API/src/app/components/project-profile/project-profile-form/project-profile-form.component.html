@@ -57,11 +57,21 @@
             <mat-error align="start" *ngIf="formErrors.OperationDate">{{ formErrors.OperationDate }}</mat-error>
           </mat-form-field>
         </div>
+        <div class="blocks" fxFlex>
+          <mat-form-field>
+            <mat-label>Project Stage *:</mat-label>
+            <mat-select formControlName="ProjectStage" required>
+              <option value="0">--Select--</option>
+              <mat-option *ngFor="let status of projectStage" [value]="status.Id">
+                <span>{{status.DescriptionEnglish}}</span>
+              </mat-option>
+            </mat-select>
+            <mat-error align="start" *ngIf="formErrors.ProjectStage">{{ formErrors.ProjectStage }}</mat-error>
+          </mat-form-field>
+        </div>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="start center" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-
-
         <div class="block" fxFlex="50%">
           <mat-form-field class="full-width">
             <mat-label>Environmental Impact *:</mat-label>

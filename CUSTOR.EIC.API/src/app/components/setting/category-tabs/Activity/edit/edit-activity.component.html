@@ -42,12 +42,12 @@
           </mat-form-field>
           <mat-form-field>
             <mat-label>{{'activity.DescriptionAlias' | translate}}</mat-label>
-            <input matInput formControlName="cDescriptionAlias" required maxlength="20"/>
+            <input matInput formControlName="cDescriptionAlias" required maxlength="30"/>
             <mat-error *ngIf="DescriptionAlias.hasError('required')">
               {{'common.validation.Required' | translate}}
             </mat-error>
             <mat-error *ngIf="DescriptionAlias.hasError('maxlength')">
-              {{'common.validation.MaxLengthChar' | translate: {'max':'20'} }}
+              {{'common.validation.MaxLengthChar' | translate: {'max':'30'} }}
             </mat-error>
             <mat-error *ngIf="DescriptionAlias.hasError('pattern')">
               {{'common.validation.UseEthiopicOnly' | translate}}
@@ -68,12 +68,12 @@
           </mat-form-field>
           <mat-form-field>
             <mat-label>{{'activity.DescriptionEnglishAlias' | translate}}</mat-label>
-            <input matInput formControlName="cDescriptionEnglishAlias" required maxlength="20"/>
+            <input matInput formControlName="cDescriptionEnglishAlias" required maxlength="30"/>
             <mat-error *ngIf="DescriptionEnglishAlias.hasError('required')">
               {{'common.validation.Required' | translate}}
             </mat-error>
             <mat-error *ngIf="DescriptionEnglishAlias.hasError('maxlength')">
-              {{'common.validation.MaxLengthChar' | translate: {'max':'20'} }}
+              {{'common.validation.MaxLengthChar' | translate: {'max':'30'} }}
             </mat-error>
             <mat-error *ngIf="DescriptionEnglishAlias.hasError('pattern')">
               {{'common.validation.UseLatinOnly' | translate}}

@@ -84,7 +84,7 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
 
   editSubSector(subSectorModel: SubSectorModel) {
     if (subSectorModel) {
-      this.router.navigate(['/subsectors/edit', subSectorModel.SubSectorId + '/' + 0], {relativeTo: this.route});
+      this.router.navigate(['/subsectors/edit/' + subSectorModel.SubSectorId + '/' + 0], {relativeTo: this.route});
     } else {
       this.router.navigate(['/subsectors/edit/' + 0 + '/' + this.sectorId]);
     }
@@ -95,6 +95,7 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
       {
         disableClose: false
       });
+
 
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
 
