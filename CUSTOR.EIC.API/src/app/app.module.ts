@@ -61,6 +61,7 @@ import {AppComponent} from './app.component';
 
 
 import {NgxUiLoaderConfig} from "ngx-ui-loader";
+import {BrowserModule} from "@angular/platform-browser";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -118,6 +119,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   imports: [
     //
     // ThemePickerModule,
+    BrowserModule.withServerTransition({appId: 'eInvest-App'}),
+
     LangSwitcherModule,
     FooterModule,
     // NotificationModule,
