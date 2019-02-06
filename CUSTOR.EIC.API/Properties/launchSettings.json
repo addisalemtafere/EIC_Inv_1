@@ -27,7 +27,11 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://40.117.47.168/"
+      "applicationUrl": "http://localhost:5050/"
+    },
+    "newProfile1": {
+      "commandName": "Executable"
+
     }
   }
 }

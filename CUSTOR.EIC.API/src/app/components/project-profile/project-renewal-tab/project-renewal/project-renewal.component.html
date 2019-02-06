@@ -32,7 +32,7 @@
             <mat-datepicker-toggle matSuffix [for]="RenewalDate"></mat-datepicker-toggle>
             <mat-datepicker #RenewalDate>
             </mat-datepicker>
-            <!--<mat-error align="start" *ngIf="formErrors.StartDate">{{ formErrors.StartDate }}</mat-error>-->
+            <mat-error align="start" *ngIf="formErrors.RenewalDate">{{ formErrors.RenewalDate }}</mat-error>
           </mat-form-field>
         </div>
         <!--<div class="block" fxFlex>-->
@@ -64,23 +64,26 @@
           <mat-form-field>
             <input placeholder="Renewed From * :"
                    formControlName="RenewedFrom"
+                   [min]="minDate"
                    matInput
                    RenewedFrom
-                   [matDatepicker]="RenewedFrom">
+                   [matDatepicker]="RenewedFrom"
+                   (dateChange)="setMaxDate($event.value)">
             <mat-datepicker-toggle matSuffix [for]="RenewedFrom"></mat-datepicker-toggle>
             <mat-datepicker #RenewedFrom></mat-datepicker>
-            <!--<mat-error align="start" *ngIf="formErrors.StartDate">{{ formErrors.StartDate }}</mat-error>-->
+            <mat-error align="start" *ngIf="formErrors.RenewedFrom">{{ formErrors.RenewedFrom }}</mat-error>
           </mat-form-field>
         </div>
         <div class="block" fxFlex>
           <mat-form-field>
             <input placeholder="Renewed To * :"
                    matInput
+                   [min]="maxDate"
                    formControlName="RenewedTo"
                    [matDatepicker]="RenewedTo">
             <mat-datepicker-toggle matSuffix [for]="RenewedTo"></mat-datepicker-toggle>
             <mat-datepicker #RenewedTo></mat-datepicker>
-            <!--<mat-error align="start" *ngIf="formErrors.terminationDate">{{ formErrors.terminationDate }}</mat-error>-->
+            <mat-error align="start" *ngIf="formErrors.RenewedTo">{{ formErrors.RenewedTo }}</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -110,7 +113,7 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="center">
         <div mat-dialog-actions fxLayoutGap="3em">
-          <button
+          <button *ngIf="isInvestor"
             [disabled]="!projectRenewalForm.valid"
             type="submit"
             mat-raised-button=""
@@ -120,9 +123,9 @@
 
             {{editMode ? 'Update' : 'Save'}}
           </button>
-          <button *ngIf="isInvestor" mat-raised-button (click)="approve()" color="primary" type="button">
+          <button *ngIf="!isInvestor" mat-raised-button (click)="approve()" color="primary" type="button">
             <mat-icon class="mat-18">done_all</mat-icon>
-            <span>Save</span>
+            <span>Approve</span>
           </button>
         </div>
       </div>

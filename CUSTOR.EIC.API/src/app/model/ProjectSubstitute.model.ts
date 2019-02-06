@@ -10,6 +10,7 @@ export class ProjectSubstituteModel {
   public Reason: number;
   public SubstituteRemark: string;
   public IsActive: boolean;
+  public IsApproved: boolean;
   public IsDeleted: boolean;
   public EventDatetime: Date;
   public CreatedUserId: number;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CUSTOR.EICOnline.DAL.EntityLayer;
@@ -29,11 +29,11 @@ namespace CUSTOR.EICOnline.API.Controllers
 		public IActionResult GetById(long id)
 		{
 			// filter contact records by contact id
-			var item = _context.Followups.FirstOrDefault(t => t.Id == id);
-			if (item == null)
-			{
-				return NotFound();
-			}
+			var item = _context.Followups.FirstOrDefault(t => t.ProjectId == id);
+			//if (item == null)
+			//{
+			//	return NotFound();
+			//}
 			return new ObjectResult(item);
 		}
 
