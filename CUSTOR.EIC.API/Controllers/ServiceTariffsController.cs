@@ -55,8 +55,12 @@ namespace EIC.Investment.API.Controllers.Controllers
 
             //if (!await _serviceTariffsRepo.SaveAsync(postedServiceTariff))
             //    throw new ApiException(_serviceTariffsRepo.ErrorMessage);
-
-            foreach (var tariff in postedServiceTariff.TariffId)
+                List<ServiceTariff> SerTariff = _context.ServiceTariff.Where(param => param.ServiceId == postedServiceTariff.ServiceId).ToList();
+                foreach (ServiceTariff dellTariff in SerTariff)
+                {
+                    _context.ServiceTariff.Remove(dellTariff);
+                }
+          foreach (var tariff in postedServiceTariff.TariffId)
             {
                 var serviceTariff = new ServiceTariff();
                 serviceTariff.ServiceId = postedServiceTariff.ServiceId;

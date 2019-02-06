@@ -22,7 +22,7 @@ import {InvActivityModel} from '../../../model/invactivity';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {FormService} from '@custor/validation/custom/form';
 import {CustomValidators} from '@custor/validation/custom/custom_validators';
-import {FormOfOwnership} from '@custor/const/consts';
+import {FormOfOwnership, ProjectStage} from '@custor/const/consts';
 import {InvestorService} from '../../investor/investor.service';
 import {UserActivityDataServices} from '../../../admin/user-detail/user-detail.service';
 import {AccountService} from '@custor/services/security/account.service';
@@ -32,6 +32,7 @@ import {SubsectorService} from '../../setting/category-tabs/subsector/subsector.
 import {SectorModel} from '../../../model/sector';
 import {SubSectorModel} from '../../../model/subSector';
 import {Permission} from "../../../model/security/permission.model";
+import {ProjectStageModel} from "../../../model/lookupData";
 
 @Component({
   selector: 'app-project-profile-form',
@@ -60,6 +61,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   filteredWoredas: WoredaModel[] = [];
   kebeles: KebeleModel[] = [];
   filteredKebeles: KebeleModel[] = [];
+  projectStage: ProjectStageModel[] = [];
+
   public formErrors = {
     ProjectName: 'at least three characters!',
     ProjectDescription: '',
@@ -75,8 +78,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     SpecificAreaName: '',
     Remark: '',
     EnvironmentalImpact: '',
-    IndustrialParkId: ''
-
+    IndustrialParkId: '',
+    ProjectStage: ''
   };
 
   minDate: Date;
@@ -161,8 +164,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     if (this.projectId > 1) {
       this.getProjectDetail();
     }
-
-
   }
 
   getProjectDetail() {
@@ -415,7 +416,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       EnvironmentalImpact: ['', [Validators.required, Validators.minLength(2)]],
       AssignedUserId: [this.accountService.currentUser.Id],
       CreatedUserId: [this.accountService.currentUser.Id],
-
+      ProjectStage: ['', Validators.required],
       'address': new FormGroup({
         ParentId: new FormControl(),
         RegionId: new FormControl(),
@@ -449,6 +450,15 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         'Desc': (currentLang === 'am' ? pair.Description : pair.DescriptionEng)
       };
       this.formOfOwnershipList.push(formOfOwnership);
+    });
+
+    let projectSage: ProjectStageModel = new ProjectStageModel();
+    ProjectStage.forEach(pair => {
+      projectSage = {
+        'Id': pair.Id.toString(), 'DescriptionEnglish': pair.DescriptionEnglish,
+        'Description': pair.Description
+      };
+      this.projectStage.push(projectSage);
     });
   }
 

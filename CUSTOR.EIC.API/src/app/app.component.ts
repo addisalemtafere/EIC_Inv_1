@@ -311,8 +311,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   Investor() {
-    if (localStorage.getItem('InvestorId') === 'null') {
-      this.router.navigate(['investor-profile/0']);
+    if (localStorage.getItem('InvestorId') !== null || localStorage.getItem('profile-completed') == 'false') {
+      if (localStorage.getItem('profile-completed') == 'false') {
+        this.router.navigate(['investor-profile', localStorage.getItem('InvestorId')]);
+
+      }
+      else {
+        this.router.navigate(['investor-profile/0']);
+      }
     } else {
       this.router.navigate(['/investor/edit', localStorage.getItem('InvestorId')]);
 
@@ -320,13 +326,18 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   toServiceList() {
-    if (localStorage.getItem('InvestorId') !== null) {
-      // this.dialog.open(CustomerServiceStarterComponent);
+    if (localStorage.getItem('InvestorId') !== null || localStorage.getItem('profile-completed') == 'true') {
       this.router.navigate(['/service-list']);
     } else {
 
       this.toastr.warning('Please  complete investor profile before request any service!!', 'Info');
-      this.router.navigate(['investor-profile/0']);
+      if (localStorage.getItem('InvestorId') !== null) {
+        this.router.navigate(['investor-profile', localStorage.getItem('InvestorId')]);
+
+      }
+      else {
+        this.router.navigate(['investor-profile/0']);
+      }
 
     }
 

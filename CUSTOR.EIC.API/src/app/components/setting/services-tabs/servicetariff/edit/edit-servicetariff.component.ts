@@ -160,20 +160,20 @@ export class EditServicetariffComponent implements OnInit, OnDestroy {
    }*/
 
   public onSubmit() {
-    if (!this.serviceTariffForm.valid) {
-      return;
-    }
+    // if (!this.serviceTariffForm.valid) {
+    //   return;
+    // }
 
-    if (this.isNewServiceTariff) {
-      /* if (this.checkRecordExistance()) {
-         this.toastr.show(
-           'Record Exist', 'message', {
-             closeButton: true
-           })
-         return;
-       }*/
-      this.loadingIndicator = true;
-    }
+    // if (this.isNewServiceTariff) {
+    //   /* if (this.checkRecordExistance()) {
+    //      this.toastr.show(
+    //        'Record Exist', 'message', {
+    //          closeButton: true
+    //        })
+    //      return;
+    //    }*/
+    //   this.loadingIndicator = true;
+    // }
     return this.servicetariffService.saveServiceTariff(
       this.getEditedServiceTariff()).subscribe((servicetariffs: ServiceTariffModel) => {
         //// console.log(servicetariffs);

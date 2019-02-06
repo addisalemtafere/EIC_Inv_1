@@ -135,7 +135,7 @@ export class ListKebeleComponent implements OnInit, AfterViewInit {
       return;
     }
     this.woreda = wordeaId;
-    this.subKebeleService.getKebeles()
+    this.subKebeleService.getKebeleByParent(this.woreda)
       .subscribe(result => {
         this.dataSource.data = result;
       });

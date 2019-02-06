@@ -161,7 +161,7 @@ export class EditWoredaComponent implements OnInit, OnDestroy {
   initForm() {
     this.woredaForm = this.fb.group({
       cDescription: ['', Validators.compose([Validators.required, Validators.maxLength(150),
-        Validators.pattern('^([ \u1200-\u137F 0-9])+$')])],
+        Validators.pattern('^([ \u1200-\u137F / 0-9])+$')])],
       cDescriptionEnglish: ['', Validators.compose([Validators.required, Validators.maxLength(200),
         Validators.pattern('^[a-zA-Z /,0-9]+$')])],
       cRegion: [0, Validators.required],

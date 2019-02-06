@@ -45,7 +45,7 @@ export class ProjectModel {
   public ServiceApplication?: ServiceApplicationModel[];
   public Investor?: Investor;
 
-  constructor(ProjectId: number, ProjectName: string,
+  constructor(ProjectId: number, ProjectName: string, ProjectStage: number,
               ProjectDescription: string, StartDate: string, OperationDate: string,
               EndingDate: string, SectorId: number, SubSectorId: number,
               HasEnvironmentalImpact: boolean, EnvironmentalImpact: string,
@@ -59,6 +59,7 @@ export class ProjectModel {
     this.ProjectName = ProjectName;
     this.ProjectDescription = ProjectDescription;
     this.StartDate = StartDate;
+    this.ProjectStage = ProjectStage;
     this.OperationDate = OperationDate;
     this.EndingDate = EndingDate;
     this.SectorId = SectorId;
