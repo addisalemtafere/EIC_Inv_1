@@ -17,6 +17,7 @@
     <StartupObject>EICOnline.API.Program</StartupObject>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
 
   <ItemGroup>
@@ -118,6 +119,10 @@
   </ItemGroup>
 
 
+  <Target Name="Build Angular" Condition="'$(Configuration)'=='Release'" BeforeTargets="Build">
+    <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high"/>
+    <Exec Command="ng build"/>
+  </Target>
 
 
 </Project>

@@ -16,7 +16,7 @@
     </ng-template>
   </mat-tab>
 
-  <mat-tab label="Manager" [disabled]="nextIndex <2">
+  <mat-tab label="Manager" [disabled]="nextIndex <2 || hasInvestor==null ">
     <ng-template matTabContent>
       <app-associate-form></app-associate-form>
     </ng-template>

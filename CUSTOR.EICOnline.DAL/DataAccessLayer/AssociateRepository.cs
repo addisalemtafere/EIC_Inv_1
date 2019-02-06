@@ -121,6 +121,15 @@ namespace CUSTOR.EICOnline.DAL
                             serviceWorkflow.NextStepId = 1021;
                             Context.Entry(serviceWorkflow).State = EntityState.Modified;
                         }
+
+                        if (postedAssociate.InvestorId>0)
+                        {
+                            {
+                                var investoProfile = Context.Investors.First(s => s.InvestorId == postedAssociate.InvestorId);
+                                investoProfile.IsActive = true;
+                                Context.Entry(investoProfile).State = EntityState.Modified;
+                            }  
+                        }
                     }
                     //Context.SaveChanges();
 
