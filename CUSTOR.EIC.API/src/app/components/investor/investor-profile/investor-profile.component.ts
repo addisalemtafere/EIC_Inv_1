@@ -18,13 +18,14 @@ export class InvestorProfileComponent implements OnInit {
   @ViewChild('stepper') stepper: MatStepper;
   public isInvestor: boolean;
   public userName: string;
+  public hasInvestor: string;
 
   constructor(private dataSharing: DataSharingService,
               private accountService: AccountService) {
   }
 
   ngOnInit() {
-
+    this.hasInvestor = localStorage.getItem('InvestorId');
     this.getUserType();
 
     this.subscription = this.dataSharing.steeperIndex
