@@ -691,6 +691,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             const workFlowId = this.route.snapshot.params['workFlowId'];
             this.toastr.success('Record saved successfully!');
             if (this.ServiceId == 1235) {
+              console.log("test one at service")
               this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
 
             }
@@ -701,7 +702,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           }
 
           if (investor != null) {
-            if (this.ServiceId == '1235' || 1235) {
+            if (this.ServiceId ==  1235) {
+              console.log("test one at service 2"+ this.ServiceId)
+
               this.router.navigate(['investor-tab/1235/' + 0 + '/' + investor.InvestorId + '/' + this.isNew + '/' + 0]);
               setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
