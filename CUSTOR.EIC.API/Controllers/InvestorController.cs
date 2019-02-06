@@ -86,88 +86,8 @@ namespace EICOnline.Controllers
       ApplicationUser appUser = await accountManager.GetUserByUserNameAsync(postedInvestor.UserName);
       // to-do check if appUser is valid
       InvestorDTO inv = InvestorRepo.SaveInvestor(postedInvestor, appUser);
-      if (!isUpdate)
-      {
-//        var serviceApplication = new ServiceApplication
-//        {
-//<<<<<<< HEAD
-//          InvestorId = inv.InvestorId,
-//          CaseNumber = "12",
-//          ServiceId = 1235,
-//          CurrentStatusId = 44450,
-//          IsSelfService = true,
-//          IsPaid = true,
-//          StartDate = DateTime.Now,
-//          CreatedUserId = 1,
-//          IsActive = false,
-//          CreatedUserName = "Investor",
-//          InvestorNameAmharic = postedInvestor.FirstName + postedInvestor.FatherName +
-//                                postedInvestor.GrandName,
-//          InvestorNameEnglish = postedInvestor.FirstNameEng + postedInvestor.FatherNameEng +
-//                                postedInvestor.GrandNameEng,
-//          ServiceNameAmharic = "Customer Registration",
-//          ServiceNameEnglish = "Customer Registration",
-//          ProjectNameEnglish = "",
-//          ProjectNameAmharic = ""
-//        };
-//        var serviceWorkflow = new ServiceWorkflow
-////=======
-//            bool isUpdate = (postedInvestor.InvestorId > 0);
-//            if (!ModelState.IsValid)
-//                throw new ApiException("Model binding failed.", 500);
-//
-//            ApplicationUser appUser = await accountManager.GetUserByUserNameAsync(postedInvestor.UserName);
-//            // to-do check if appUser is valid
-//            InvestorDTO inv = InvestorRepo.SaveInvestor(postedInvestor, appUser);
-        if (!isUpdate)
-        {
-          var serviceApplication = new ServiceApplication
-          {
-            InvestorId = inv.InvestorId,
-            CaseNumber = "12",
-            ServiceId = 1235,
-            CurrentStatusId = 44450,
-            IsSelfService = true,
-            IsPaid = true,
-            StartDate = DateTime.Now,
-            CreatedUserId = 1,
-            IsActive = false,
-            CreatedUserName = "Investor",
-            InvestorNameAmharic = postedInvestor.FirstName + ' ' + postedInvestor.FatherName + ' ' +
-                                  postedInvestor.GrandName,
-            InvestorNameEnglish = postedInvestor.FirstNameEng + ' ' + postedInvestor.FatherNameEng + ' ' +
-                                  postedInvestor.GrandNameEng,
-            ServiceNameAmharic = "Customer Registration",
-            ServiceNameEnglish = "Customer Registration",
-            ProjectNameEnglish = "",
-            ProjectNameAmharic = ""
-          };
-          var serviceWorkflow = new ServiceWorkflow
-          {
-            StepId = 9,
-            ActionId = 3,
-            FromStatusId = 3,
-            ToStatusId = 5,
-            PerformedByRoleId = 1,
-            NextStepId = 1018,
-            GenerateEmail = true,
-            GenerateLetter = true,
-            IsDocumentRequired = true,
-            ServiceId = serviceApplication.ServiceId,
-            LegalStatusId = 3,
-            CreatedUserId = 1,
-            IsActive = false
-          };
 
-          serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
-          context.ServiceApplication.Add(serviceApplication);
-          await context.SaveChangesAsync();
-
-          return CreatedAtAction("GetInvestor", serviceApplication);
-        }
-      }
-
-      return CreatedAtAction("GetInvestor", "");
+      return CreatedAtAction("GetInvestor", inv);
     }
 
 

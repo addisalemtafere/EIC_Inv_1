@@ -343,17 +343,13 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   getInvestorsByUserId() {
-    // if (!this.canViewInvestors) {
-    //     this.router.navigate(['denied']);
-    // }
-    // console.log(this.accountService.currentUser.Id);
     this.invService.getInvestorByUserId(this.accountService.currentUser.Id)
       .subscribe(result => {
           // console.log(result);
           this.investors = result;
           // console.log(result);
           if (this.investors.length === 0) {
-            this.router.navigate(['investor-tab/1235/0/0/0/0']);
+            this.router.navigate(['investor-profile/0']);
             localStorage.setItem('ServiceId', '1235');
             this.toastr.success('Dear customer Please complete your Profile', 'Well Come !!!', {
               closeButton: true,

@@ -1,17 +1,8 @@
-import {
-  AfterContentChecked,
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ChangeDetectorRef,
-  Input
-} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AddressModel} from '../../../../model/address/Address.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../../../const/consts';
+import {ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../../../const/consts';
 import {KebeleModel} from '../../../../model/address/Kebele.model';
 import {Permission} from '../../../../model/security/permission.model';
 import {RegionModel} from '../../../../model/address/Region.model';
@@ -397,6 +388,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     return this.associateService.create(this.getEditedInvestor())
       .subscribe((associate: AssociateDTO) => {
           this.saveCompleted(associate);
+          localStorage.setItem('profile-completed', 'true')
         },
         err => this.handleError(err)
       );
