@@ -20,6 +20,8 @@ import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
+import {DateService} from "../../Services/date.service";
+
 // import {Ethiopic} from '../../../@custor/EthiopicDateTime.cs'
 @Component({
   selector: 'app-certificate',
@@ -44,9 +46,15 @@ export class CertificateComponent implements OnInit {
   private ServiceId: any;
   private InvestorId: any;
   private workFlowId: any;
-
+  private today: Date;
+  public dateGc: Date;
+  public todayEthioDate: any;
+  public dateEc1: Date;
+  public dd: Date;
+  public dateEthioNextYear: string;
   constructor(public certificateService: CertificateService,
               private projecAssService: ProjectAssociateService,
+
               public errMsg: ErrorMessage,
               public route: ActivatedRoute,
               public projectService: ProjectProfileService,
@@ -56,7 +64,8 @@ export class CertificateComponent implements OnInit {
               private projectCostService: ProjectCostService,
               public invactivityService: InvactivityService,
               private projectOutputService: ProjectOutputService,
-              private addressService: AddressService) {
+              private addressService: AddressService,
+              private dateService: DateService) {
     this.lookup = new Lookup();
   }
 
@@ -67,12 +76,18 @@ export class CertificateComponent implements OnInit {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
     this.getDate();
+    this.getEthiopianDate();
+
   }
 
   getDate() {
-    const today = new Date();
-    //EthiopicDateTime.
-    this.date =  today;
+    var d = new Date();
+    this.today = d;
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    var day = d.getDate();
+    this.dateGc = new Date(year + 1, month, day)
+
   }
 
   addMessage() {
@@ -192,6 +207,7 @@ export class CertificateComponent implements OnInit {
         // console.log(result);
       });
   }
+
   private approve() {
     this.lookup.Code = 44449;
     this.serviceApplication.changeApplicationStatus(this.lookup, this.investorDetailList.ServiceApplicationId)
@@ -201,4 +217,18 @@ export class CertificateComponent implements OnInit {
   }
 
 
+  private getEthiopianDate() {
+    let subscription = this.dateService.getEthiopianDateNow()
+      .subscribe(data => {
+
+        this.todayEthioDate = data;
+        var d = this.todayEthioDate.split('/').reverse().join('-')
+        var d2 = new Date(d);
+
+        var year = d2.getFullYear() + 1;
+        var month = d2.getMonth() + 1;
+        var day = d2.getDate();
+        this.dateEthioNextYear = day + '/' + month + '/' + year;
+      });
+  }
 }
