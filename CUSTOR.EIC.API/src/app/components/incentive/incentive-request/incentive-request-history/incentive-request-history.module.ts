@@ -6,7 +6,9 @@ import {IncentiveRequestHistoryRoutingModule} from './incentive-request-history-
 
 @NgModule({
   imports: [
-    CommonModule, SharedModule, IncentiveRequestHistoryRoutingModule],
+    CommonModule,
+    SharedModule,
+    IncentiveRequestHistoryRoutingModule],
   declarations: [IncentiveRequestHistoryComponent],
   exports: [IncentiveRequestHistoryComponent]
 })

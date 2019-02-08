@@ -21,7 +21,6 @@ import {NaturalNumberOnlyDirective} from '../@custor/directives/naturalNumber.di
 import {InvestorService} from './components/investor/investor.service';
 import {AppConfiguration} from './config/appconfig';
 import 'hammerjs';
-import 'ethiopian-date';
 import {EnumKeyValueListPipe} from './pipe/enum-key-value-list.pipe';
 import {ServicePrerequisiteService} from './components/setting/services-tabs/serviceprerequistie/servicePrerequisite.service';
 import {ProjectProfileService} from './Services/project-profile.service';

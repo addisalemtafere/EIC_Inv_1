@@ -24,7 +24,7 @@
     </mat-card-title>
     <div id="certificate" class="c-container">
       <header class="clearfix">
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em" style="margin-top: 150px">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em" style="margin-top: 175px">
           <!--<div class="block" fxFlex="20%">-->
           <!--<div id="company" class="clearfix logo-image">-->
           <!--<img width="100" src="/assets/logo/EIC.jpg">-->
@@ -58,7 +58,7 @@
                   የህትመት ቀን <br>
                   Date of Print
                 </td>
-                <td class="dta-head">{{date | date}}</td>
+                <td class="dta-head"><strong>{{todayEthioDate}}</strong></td>
               </tr>
               <tr>
                 <td class="s-head">
@@ -215,7 +215,7 @@
 
             <table class="full-width">
               <tr>
-                <td>በኢንቨስትመንት አዋጅ ቁጥር 769/2004 መሰረት ዛሬ {{date | date}} አዲስ አበባ
+                <td>በኢንቨስትመንት አዋጅ ቁጥር 769/2004 መሰረት ዛሬ <strong>{{todayEthioDate}}</strong> አዲስ አበባ
                   ተሰጠ ።
                 </td>
               </tr>
@@ -345,7 +345,9 @@
               </tr>
               <tr>
                 <td class="t-header">9. Amount of Investment Capital（USD）</td>
-                <td class="data value">{{projectCostTotalUSD}}</td>
+
+                <td class="data value">{{projectCostTotal}}</td>
+
               </tr>
               <tr>
                 <td class="t-header">10. Planned Export in Percent</td>
@@ -357,7 +359,7 @@
             <table class="full-width">
               <tr>
                 <td>This Permit is issued as per the Investment Proclamation
-                  in Addis Ababa this day {{date | date}}
+                  in Addis Ababa this day <strong>{{today | date}}</strong>
                 </td>
               </tr>
             </table>
@@ -367,11 +369,17 @@
               <tr>
                 <td class="t-header">እስከ
                 </td>
-                <td class="data value" >{{ renewedTo | date:'mediumDate'}} ታድሷል</td>
+
+                <td class="data value"><strong>{{ dateEthioNextYear}}</strong> ታድሷል</td>
               </tr>
-              <tr>
+              <tr *ngIf="ServiceId==13">
+                <td class="t-header">Valid Until</td>
+                <td class="data value"><strong>{{ dateGc | date}}</strong></td>
+
+              <tr *ngIf="ServiceId==18">
                 <td class="t-header">Valid Until</td>
                 <td class="data value">{{ renewedTo | date:'mediumDate'}}</td>
+
               </tr>
               </tbody>
             </table>

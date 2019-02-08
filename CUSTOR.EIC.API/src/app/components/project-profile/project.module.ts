@@ -12,7 +12,6 @@ import {ProjectInputOutputComponent} from './project-input/project-input-output.
 import {ProjectCostModule} from './project-cost/ProjectCost.module';
 import {ProductModule} from './project-product/product.module';
 import {EmploymentModule} from './project-employment/employment.module';
-import {ShareModule} from './project-share/Share.module';
 import {AssociateModule} from '../investor/associate/associate.module';
 import {ProjectAssociateComponent} from './project-associate/project-associate.component';
 import {UtilityModule} from './project-input/utility.module';
@@ -37,7 +36,6 @@ import {UtilityModule} from './project-input/utility.module';
     ProjectCostModule,
     EmploymentModule,
     ProductModule,
-    ShareModule,
     AssociateModule,
     UtilityModule
   ]
