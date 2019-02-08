@@ -53,7 +53,7 @@ export class ProjectCancellationTabComponent implements OnInit {
 
     dialogConfig.data = {
       ServiceApplicationId: this.ServiceApplicationId,
-      title: 'Angular For Beginners'
+      title: 'Message Title'
     };
     this.dialog.open(NotificationComponent, dialogConfig);
 

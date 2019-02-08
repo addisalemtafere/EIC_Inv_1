@@ -91,12 +91,15 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
            
             var project = _context.ProjectCancellation.First(s => s.ProjectCancellationId== id);
             project.IsApproved = projectCancellation.IsApproved;
+      project.ProjectId = projectCancellation.ProjectId;
             if (project.IsApproved == true)
             {
         var proStatus = _context.Project.First(e => e.ProjectId == project.ProjectId);
-        proStatus.ProjectId = project.ProjectId;
-        _context.Entry(proStatus).State = EntityState.Modified;
-            }
+        proStatus.ProjectStatus=4;
+        _context.Project.Update(proStatus);
+        _context.SaveChanges();
+        //_context.Entry(proStatus).State = EntityState.Modified;
+      }
             project.CancellationDate = projectCancellation.CancellationDate;
             project.CancellationReason = projectCancellation.CancellationReason;
             _context.Entry(project).State = EntityState.Modified;
