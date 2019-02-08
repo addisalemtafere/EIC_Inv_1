@@ -10,12 +10,14 @@
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <Description>EIC Online Soluton</Description>
-    <Copyright>Copyright © 2018 www.custor.net</Copyright>
+    <Copyright>Copyright © 2019 www.custor.net</Copyright>
     <PackageProjectUrl>https://www.custor.net/EICOnline</PackageProjectUrl>
     <Company>CUSTOR</Company>
     <Version>1.2.0</Version>
     <StartupObject>EICOnline.API.Program</StartupObject>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,6 +42,7 @@
     <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.1" />
     <PackageReference Include="MailKit" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.2" />
@@ -107,7 +110,7 @@
 
   <ItemGroup>
     <None Include="bin\Debug\CUSTORDBWEB6.dll" />
-  </ItemGroup>  
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="CUSTORDBWEB6, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -116,6 +119,10 @@
   </ItemGroup>
 
 
+  <Target Name="Build Angular" Condition="'$(Configuration)'=='Release'" BeforeTargets="Build">
+    <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high"/>
+    <Exec Command="ng build --prod --aot"/>
+  </Target>
 
 
 </Project>

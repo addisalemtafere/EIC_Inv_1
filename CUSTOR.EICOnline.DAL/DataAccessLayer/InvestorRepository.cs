@@ -25,16 +25,26 @@ namespace CUSTOR.EICOnline.DAL
         {
             Investor investor = null;
             Address add = null;
+            ICollection<RegistrationCatagory> catagory = null;
+            //            string[] cat =;
+            List<int> cat = new List<int>();
             try
             {
                 int id = InvestorId;
                 investor = await Context.Investors
                     .FirstOrDefaultAsync(inv => inv.InvestorId == id);
+                catagory = Context.RegistrationCatagorys.Where(inv => inv.InvestorId == id).ToList();
                 //int m = (int)AddressType.eInvestor;
+
                 add = await Context.Address
-                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eInvestor);
+                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eInvestor);
+
+                foreach (var item in catagory)
+                {
+                    cat.Add(System.Convert.ToInt32(item.MajorCatagoryCode));
+                }
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
                 SetError("Couldn't load Investor - invalid Investor id specified.");
                 return null;
@@ -44,10 +54,10 @@ namespace CUSTOR.EICOnline.DAL
                 SetError(ex);
             }
 
-            return InvestorHelper.GetInvestorDTO(investor, add);
+            return InvestorHelper.GetInvestorDTO(investor, add, cat.ToArray());
         }
 
-        public async Task<InvestorDTO> SaveInvestor(InvestorDTO postedInvestor, ApplicationUser appUser)
+        public InvestorDTO SaveInvestor(InvestorDTO postedInvestor, ApplicationUser appUser)
         {
             bool isUpdate = (postedInvestor.InvestorId > 0);
             Investor inv = InvestorHelper.GetInvestor(postedInvestor);
@@ -56,52 +66,52 @@ namespace CUSTOR.EICOnline.DAL
 
             Context.CurrentUserId = appUser.Id;
             Context.CurrentUserName = appUser.FullName;
-            using (var transaction = await Context.Database.BeginTransactionAsync())
+
+            try
             {
-                try
+                if (isUpdate)
+                    Context.Update(inv);
+                else
+                    Context.Add(inv);
+                Context.SaveChanges();
+
+                // Add/Update Address
+                postedInvestor.InvestorId = inv.InvestorId;
+                Address address = InvestorHelper.GetAddress(postedInvestor);
+                address.ParentId = inv.InvestorId;
+
+                if (isUpdate)
                 {
-                    if (isUpdate)
-                        Context.Update(inv);
-                    else
-                        Context.Add(inv);
-                    await Context.SaveChangesAsync();
-
-                    // Add/Update Address
-                    Address address = InvestorHelper.GetAddress(postedInvestor);
-                    address.ParentId = inv.InvestorId;
-
-//                    await regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(postedInvestor.InvestorId);
-//                    foreach (var catagory in postedInvestor.RegistrationCatagories)
-//                    {
-//                        RegistrationCatagory regCatagory = new RegistrationCatagory();
-//                        regCatagory.InvestorId = 2;
-//                        regCatagory.MajorCatagoryCode = catagory;
-//                        Context.RegistrationCatagorys.Add(regCatagory);
-//                        Context.SaveChangesAsync();
-//                    }
-
-                    if (isUpdate)
-                    {
-                        address.AddressId = postedInvestor.AddressId;
-                        Context.Address.Update(address);
-                    }
-                    else
-                    {
-                        Context.Address.Add(address);
-                    }
-
-                    await Context.SaveChangesAsync();
+                    address.AddressId = postedInvestor.AddressId;
+                    Context.Address.Update(address);
+                    Context.SaveChanges();
                 }
-                catch (Exception ex)
+                else
                 {
-                    transaction.Rollback();
-                    SetError(ex.Message);
+                    Context.Address.Add(address);
+                    Context.SaveChanges();
                 }
 
-                transaction.Commit();
-
-                return postedInvestor;
+                regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(inv.InvestorId);
+                foreach (var catagory in inv.RegistrationCatagories)
+                {
+                    RegistrationCatagory regCatagory = new RegistrationCatagory();
+                    regCatagory.InvestorId = inv.InvestorId;
+                    regCatagory.MajorCatagoryCode = catagory.ToString();
+                    Context.RegistrationCatagorys.Add(regCatagory);
+                    Context.SaveChanges();
+                }
             }
+            catch (Exception ex)
+            {
+                //transaction.Rollback();
+                SetError(ex.Message);
+            }
+
+            //transaction.Commit();
+
+            return postedInvestor;
+            //}
         }
 
         public override async Task<Investor> GetRecord(object InvestorId)
@@ -109,7 +119,7 @@ namespace CUSTOR.EICOnline.DAL
             Investor investor = null;
             try
             {
-                int id = (int) InvestorId;
+                int id = (int)InvestorId;
                 investor = await Context.Investors
                     //.Include(p => p.Associate)
                     .FirstOrDefaultAsync(inv => inv.InvestorId == id);
@@ -132,7 +142,7 @@ namespace CUSTOR.EICOnline.DAL
             List<Investor> investor = null;
             try
             {
-                string id = (string) UserId;
+                string id = (string)UserId;
                 investor = await Context.Investors
                     .Where(inv => inv.UserId == id)
                     .ToListAsync();
@@ -155,7 +165,7 @@ namespace CUSTOR.EICOnline.DAL
             List<Investor> investor = null;
             try
             {
-                string id = (string) Tin;
+                string id = (string)Tin;
                 investor = await Context.Investors
                     .Where(inv => inv.Tin == id)
                     .ToListAsync();
@@ -284,7 +294,7 @@ namespace CUSTOR.EICOnline.DAL
 
 
                     var add = await Context.Address
-                        .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eManager);
+                        .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eManager);
 
                     if (add != null)
                     {

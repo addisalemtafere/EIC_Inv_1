@@ -11,7 +11,8 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
     public class ZoneRepo : EFRepository<ApplicationDbContext, Zone>
     {
         public ZoneRepo(ApplicationDbContext context) : base(context)
-        { }
+        {
+        }
 
         public async Task<List<Zone>> GetZones(object rId)
         {
@@ -40,21 +41,38 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                 return null;
             }
         }
+
         public async Task<List<Zone>> GetZones(int page = 0, int pageSize = 15)
         {
-
             IQueryable<Zone> zones = Context.Zones
-                      .Include(r => r.Region)
-                       .OrderBy(zo => zo.ZoneId);
+                .Include(r => r.Region)
+                .OrderBy(zo => zo.ZoneId);
             if (page > 0)
             {
                 zones = zones
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
             }
 
             return await zones.ToListAsync();
         }
+
+        public async Task<List<Zone>> GetZonesByParent(string id, int page = 0, int pageSize = 15)
+        {
+            IQueryable<Zone> zones = Context.Zones
+                //.Include(r => r.Region)
+                .Where(zo => zo.RegionId == id)
+                .OrderBy(zo => zo.DescriptionEnglish);
+            if (page > 0)
+            {
+                zones = zones
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
+            }
+
+            return await zones.ToListAsync();
+        }
+
         public Zone GetZone(object rId)
         {
             Zone zone = null;
@@ -62,19 +80,20 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
             {
                 string id = rId.ToString();
                 zone = Context.Zones
-                               .Include(r => r.Region)
-                           .Where(x => x.ZoneId == id).FirstOrDefault();
+                    .Include(r => r.Region)
+                    .Where(x => x.ZoneId == id).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 SetError(ex);
                 return null;
             }
+
             return zone;
         }
+
         public async Task<bool> DeleteZone(string id)
         {
-
             var Zone = await Context.Zones
                 .FirstOrDefaultAsync(zo => zo.ZoneId == id);
             if (Zone == null)
@@ -82,10 +101,11 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                 SetError("Zone does not exist");
                 return false;
             }
+
             Context.Zones.Remove(Zone);
             return await SaveAsync();
-
         }
+
         public async Task<List<ZoneViewModel>> GetAllZones(string lang)
         {
             try

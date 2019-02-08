@@ -1,0 +1,169 @@
+<!--<app-page-header title="Bussiness" icon="Bussiness"></app-page-header>-->
+<button mat-raised-button="" (click)="back()" class="next-button" >
+  <!--<mat-icon class="button">arrow_back</mat-icon>-->
+  Back
+</button>
+<!--ddd-->
+
+<form #form="ngForm" [formGroup]="bussinessForm" novalidate (ngSubmit)="onSubmit()"
+      fxLayout="column"
+      autocomplete="off">
+  <mat-progress-bar *ngIf="loadingIndicator" mode="indeterminate"></mat-progress-bar>
+
+  <mat-card class="border" style="margin-top: 20px;">
+
+
+    <mat-card-subtitle class="sub-title">Investor Info
+      <mat-divider></mat-divider>
+    </mat-card-subtitle>
+
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+    <mat-form-field fxFlex>
+      <mat-label>Investor Name</mat-label>
+      <input matInput formControlName="cBussinessName" readonly  required/>
+        <mat-error *ngIf="BussinessName.hasError('required')">
+          {{'common.validation.Required' | translate}}
+        </mat-error>
+
+        <mat-error *ngIf="BussinessName.hasError('minlength')">
+          {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+        </mat-error>
+        <mat-error *ngIf="!BussinessName.hasError('required') && !BussinessName.hasError('minlength')
+                              && BussinessName.hasError('pattern')">
+          {{'common.validation.UseEthiopicOnly' | translate}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex disabled>
+      <mat-label>Investor Name/English/</mat-label>
+      <input matInput formControlName="cBussinessNameEng" readonly required/>
+      <mat-error *ngIf="BussinessNameEng.hasError('required')">
+        {{'common.validation.Required' | translate}}
+      </mat-error>
+
+      <mat-error *ngIf="BussinessNameEng.hasError('minlength')">
+        {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+      </mat-error>
+      <mat-error *ngIf="!BussinessNameEng.hasError('required') && !BussinessNameEng.hasError('minlength')
+                              && BussinessNameEng.hasError('pattern')">
+        {{'common.validation.UseLatinOnly' | translate}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+    <mat-form-field fxFlex>
+      <mat-label>Business License No. </mat-label>
+      <input matInput formControlName="cLicenseNum" required/>
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <mat-label>Registered Capital </mat-label>
+      <input matInput type="number" formControlName="cCapital" readonly required/>
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <mat-label>Status  </mat-label>
+      <mat-select formControlName="cStatus">
+        <!--<mat-option value="0">unknown</mat-option>-->
+        <mat-option *ngFor="let status of bussinessStatus" [value]="status.Id">
+          {{status.Desc}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+ <!-- <mat-form-field fxFlex>
+
+    </mat-form-field>
+    <mat-checkbox formControlName="cIsActive">
+      የቀድሞ ፍቃድ ነው ?
+    </mat-checkbox>-->
+  </div>
+  </mat-card>
+  <mat-card class="border" style="margin-top: 20px;">
+
+
+    <mat-card-subtitle class="sub-title">Category
+      <mat-divider></mat-divider>
+    </mat-card-subtitle>
+    <div formGroupName="Catagory">
+    <div>
+      <div class="block" fxFlex="">
+        <mat-form-field class="full-width">
+          <mat-label>Major Division *: </mat-label>
+          <mat-select formControlName="MajorDivision"  (selectionChange)="filterDivision($event.value)">
+            <mat-option value="0">unknown</mat-option>
+            <mat-option *ngFor="let MajorDivision of MajorDivisionList" [value]="MajorDivision.Id">
+              {{MajorDivision.EnglishDescription}}
+            </mat-option>
+          </mat-select>
+
+          <!--  <mat-error align="start" *ngIf="formErrors.Sector">{{ formErrors.Sector }}</mat-error>-->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+        <div class="block" fxFlex="">
+          <mat-form-field class="full-width">
+            <mat-label>Division * :</mat-label>
+            <mat-select formControlName="Division" (selectionChange)="filterMajorGroup($event.value)">
+              <mat-option value="0">unknown</mat-option>
+              <mat-option *ngFor="let Division of filterDivisionList" [value]="Division.Id">
+                {{Division.EnglishDescription}}
+              </mat-option>
+            </mat-select>
+
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+      <div class="block" fxFlex="">
+        <mat-form-field class="full-width">
+          <mat-label>Major Group *:</mat-label>
+          <mat-select formControlName="MajorGroup" (selectionChange)="filterGroup($event.value)">
+            <mat-option value="0">unknown</mat-option>
+            <mat-option *ngFor="let MajorGroupList of filterMajorGroupList " [value]="MajorGroupList.Id">
+              {{MajorGroupList.EnglishDescription}}
+            </mat-option>
+          </mat-select>
+
+          <mat-error></mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+      <div class="block" fxFlex>
+        <mat-form-field class="full-width">
+          <mat-label>Sub Group *:</mat-label>
+          <mat-select formControlName="Group" (selectionChange)="filterSubGroup($event.value)">
+            <mat-option value="0">unknown</mat-option>
+            <mat-option *ngFor="let Group of filterGroupList" [value]="Group.Id">
+              {{Group.EnglishDescription}}
+            </mat-option>
+          </mat-select>
+
+            <mat-error></mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+    <mat-selection-list aria-colcount="2" formControlName="SubGroup" dense [required]="true">
+        <h3 matSubheader>Business License Category *:</h3>
+        <mat-list-option [selected]="SubGroup?.Selected" class="width-400" [checkboxPosition]="left" *ngFor="let SubGroup of filterSubGroupList" [value]="SubGroup.Id">
+          {{SubGroup.EnglishDescription}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+      <mat-card-content>
+      </mat-card-content>
+    </mat-card>
+  <div mat-dialog-actions style="margin: 15px; text-align: center">
+    <button mat-raised-button type="submit" [disabled]="!bussinessForm.valid" color="primary" style="margin-right: 10px">
+     Save
+    </button>
+    <button mat-raised-button (click)="back()"  color="warn" type="button">
+      Cancel
+    </button>
+  </div>
+  </form>

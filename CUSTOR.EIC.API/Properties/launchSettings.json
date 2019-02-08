@@ -3,11 +3,13 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost/CUSTOR.EICOnline.API",
+      "applicationUrl": "http://40.117.47.168",
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://localhost:5050/",
+
+      "applicationUrl": "http://40.117.47.168",
+
       "sslPort": 0
     }
   },
@@ -20,12 +22,16 @@
       }
     },
     "EICOnline": {
-      "commandName": "Project",
+      "commandName": "IIS",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5050/"
+    },
+    "newProfile1": {
+      "commandName": "Executable"
+
     }
   }
 }

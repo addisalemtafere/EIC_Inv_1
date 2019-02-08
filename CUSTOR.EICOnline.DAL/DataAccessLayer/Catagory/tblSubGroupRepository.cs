@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace CUSTOR.EICOnline.DAL.DataAccessLayer
 {
-  public class tblSubGroupRepository : EFRepository<ApplicationDbContext, tblSubGroup>
+  public class tblSubGroupRepository : EFRepository<ApplicationDbContext, SubGroup>
     {
         public tblSubGroupRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public async Task<List<tblSubGroup>> GetRecordsById(object Id)
+        public async Task<List<SubGroup>> GetRecordsById(object Id)
         {
-            List<tblSubGroup> tblSubGroups = null;
+            List<SubGroup> tblSubGroups = null;
             try
             {
                 int id = (int)Id;
-                tblSubGroups = await Context.tblSubGroup
+                tblSubGroups = await Context.SubGroup
                   .Where(SubGroup => SubGroup.Parent == id)
                                 .ToListAsync();
             }
@@ -37,17 +37,17 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             return tblSubGroups;
         }
 
-        public async Task<List<tblSubGroup>> GetRecords()
+        public async Task<List<SubGroup>> GetRecords()
         {
-            List<tblSubGroup> tblSubGroups = null;
+            List<SubGroup> tblSubGroups = null;
             try
             {
-                tblSubGroups = await Context.tblSubGroup
+                tblSubGroups = await Context.SubGroup
                                 .ToListAsync();
             }
             catch (InvalidOperationException)
             {
-                SetError("Couldn't load tblSubGroup");
+                SetError("Couldn't load SubGroup");
                 return null;
             }
             catch (Exception ex)

@@ -1,0 +1,48 @@
+ 
+<div class="section-gap" style="width:90%; margin:auto"> 
+  <div class="container">
+    <mat-toolbar  style="height:170px; background-color: #1e88e5" class="section-title-toolbar">
+      <mat-toolbar-row>
+        <div fxLayoutAlign="space-between" class="toolbar-title">
+          <!-- <div class="block-title" > -->
+            <h1 class="text-inverse" style="margin-bottom: 2rem; font-size: large; font-weight: bold">Online Services Offered</h1>
+        </div>
+        <br>
+        <span style="text-align: left; color:white; font-size:12px; margin-left:-190px; margin-top: 10px">
+            Click on the Title to get information on the requirements of each respective service.
+        </span>
+
+      </mat-toolbar-row>
+      <mat-toolbar-row>
+         
+      </mat-toolbar-row>
+    </mat-toolbar>
+        <div class="service-card-gap px-4">
+            <div fxLayout="row wrap" class="col-gap">
+                  <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="33" fxFlex.lg="33" fxFlex.xl="33" *ngFor="let customerService of services">
+                    <mat-card style="background-color: oldlace">                         
+                          <div style="margin: auto">
+                            <a class="pointer" style="color:#1e88e5" (click)="goServiceDetail(customerService.Title,customerService.Id)">
+                              <h2 class="mb-2" style="font-weight: bold">{{customerService.Title}}</h2>
+                            </a>
+                            <span style="margin-right:15px; font-size: smaller">{{customerService.Desc}}</span>
+                            <br>
+                            <!-- <div style="text-align: center">
+                                <a mat-mini-fab (click)="goServiceDetail(customerService.Title,customerService.Id)" style="background-color:#1e88e5">Info</a>
+                            </div>
+                             -->
+                            <!-- <button mat-fab color="primary">
+                              <i class="material-icons">info</i>
+                            </button> -->
+                          </div>
+                       
+                  </mat-card>
+              </div>
+            </div>
+          </div>
+
+
+  </div>
+</div>
+
+  

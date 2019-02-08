@@ -52,20 +52,21 @@ namespace CUSTOR.EICOnline.API.Controllers
 
 
         [HttpGet("GetOneAssociateByInvestorId/{id}")]
-        public async Task<Associate> GetOneAssociateByInvestorID([FromRoute] int id)
+        public async Task<AssociateDTO> GetOneAssociateByInvestorID([FromRoute] int id)
         {
-            var associate = await _context.Associate.FirstOrDefaultAsync(m => m.InvestorId == id);
-            return associate;
+            return await Repository.GetAssociateByInvestorId(id);
+            //var associate = await _context.Associate.FirstOrDefaultAsync(m => m.InvestorId == id);
+            //return associate;
         }
 
 
-   
+
         [HttpGet("{id:int}")]
         public async Task<AssociateDTO> GetAssociate(int id)
         {
             return await Repository.GetAssociate(id);
         }
-     
+
         [HttpPost]
         public async Task<AssociateDTO> PostAssociate([FromBody] AssociateDTO associateDTO)
         {
@@ -84,7 +85,7 @@ namespace CUSTOR.EICOnline.API.Controllers
             if (!string.IsNullOrEmpty(associateDTO.PhotoData))
             {
                 // Create photo file
-                var photoPath = Path.Combine(host.WebRootPath, "Photo");
+                var photoPath = Path.Combine(host.WebRootPath, "photo");
                 if (!Directory.Exists(photoPath))
                     Directory.CreateDirectory(photoPath);
                 var fileName = "Mgr" + mgr.AssociateId.ToString() + ".jpg"; //put "Mgr" as constant in config file
@@ -103,7 +104,7 @@ namespace CUSTOR.EICOnline.API.Controllers
             }
             return mgr;
         }
- 
+
         [HttpDelete("{assId}")]
         public async Task<IActionResult> DeleteAssociate([FromRoute] int assId)
         {

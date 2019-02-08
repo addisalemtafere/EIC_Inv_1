@@ -19,7 +19,7 @@ namespace CUSTOR.EICOnline.DAL
         {
             List<RegistrationCatagory> registrationCatagory = null;
             try
-            {               
+            {
                 registrationCatagory = await Context.RegistrationCatagorys
                   .Where(reg => reg.InvestorId == InvestorID)
                                 .ToListAsync();
@@ -62,18 +62,32 @@ namespace CUSTOR.EICOnline.DAL
 
 
 
-        public async Task<bool> DeleteRegistrationCatagoryByInvestorId(int InvestorID)
+        public bool DeleteRegistrationCatagoryByInvestorId(int InvestorID)
         {
-            var registrationCatagory = await Context.RegistrationCatagorys
-                .FirstOrDefaultAsync(reg => reg.InvestorId == InvestorID);
-            if (registrationCatagory == null)
+            List<RegistrationCatagory> registrationCatagory = Context.RegistrationCatagorys
+                .Where(reg => reg.InvestorId == InvestorID).ToList();
+            
+            foreach (RegistrationCatagory catagory in registrationCatagory)
             {
-                //SetError("Registration does not exist");
-                return false;
+                Context.RegistrationCatagorys.Remove(catagory);
+                Context.SaveChanges();
             }
-            Context.RegistrationCatagorys.Remove(registrationCatagory);
-            return await SaveAsync();
+            return true;
         }
+
+
+        //public void DeleteRegistrationCatagoryByInvestorId(int InvestorID)
+        //{
+        //    var registrationCatagory = Context.RegistrationCatagorys
+        //        .FirstOrDefaultAsync(reg => reg.InvestorId == InvestorID);
+        //    if (registrationCatagory == null)
+        //    {
+        //        //SetError("Registration does not exist");
+        //        return;
+        //    }
+        //    Context.RegistrationCatagorys.Remove(registrationCatagory);
+        //    Context.SaveChanges();
+        //}
 
         //public async Task<bool> DeleteRegistrationCatagory(string Tin)
         //{

@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace CUSTOR.EICOnline.DAL.DataAccessLayer
 {
-   public class tblGroupRepository : EFRepository<ApplicationDbContext, tblGroup>
+   public class tblGroupRepository : EFRepository<ApplicationDbContext, Group>
     {
         public tblGroupRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public async Task<List<tblGroup>> GetRecordsById(object Id)
+        public async Task<List<Group>> GetRecordsById(object Id)
         {
-            List<tblGroup> tblGroups = null;
+            List<Group> tblGroups = null;
             try
             {
                 int id = (int)Id;
-                tblGroups = await Context.tblGroup
-                  .Where(tblGroup => tblGroup.Parent == id)
+                tblGroups = await Context.Group
+                  .Where(Group => Group.Parent == id)
                                 .ToListAsync();
             }
             catch (InvalidOperationException)
             {
-                SetError("Couldn't load tblGroup - invalid tblGroup id specified.");
+                SetError("Couldn't load Group - invalid Group id specified.");
                 return null;
             }
             catch (Exception ex)
@@ -37,17 +37,17 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             return tblGroups;
         }
 
-        public async Task<List<tblGroup>> GetRecords()
+        public async Task<List<Group>> GetRecords()
         {
-            List<tblGroup> tblGroups = null;
+            List<Group> tblGroups = null;
             try
             {
-                tblGroups = await Context.tblGroup
+                tblGroups = await Context.Group
                                 .ToListAsync();
             }
             catch (InvalidOperationException)
             {
-                SetError("Couldn't load tblGroup");
+                SetError("Couldn't load Group");
                 return null;
             }
             catch (Exception ex)

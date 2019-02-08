@@ -11,7 +11,8 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
     public class KebeleRepo : EFRepository<ApplicationDbContext, Kebele>
     {
         public KebeleRepo(ApplicationDbContext context) : base(context)
-        { }
+        {
+        }
 
         public async Task<List<KebeleViewModel>> GetKebele(string lang, string wrdId)
         {
@@ -26,8 +27,8 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                     {
                         WoredaId = k.WoredaId,
                         KebeleId = k.KebeleId,
-                //DescriptionEnglish = k.DescriptionEnglish,
-                Description = (lang == "et") ? k.Description : k.DescriptionEnglish
+                        //DescriptionEnglish = k.DescriptionEnglish,
+                        Description = (lang == "et") ? k.Description : k.DescriptionEnglish
                     })
                     .ToListAsync();
             }
@@ -48,8 +49,8 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                     {
                         WoredaId = k.WoredaId,
                         KebeleId = k.KebeleId,
-                //DescriptionEnglish = k.DescriptionEnglish,
-                Description = (lang == "et") ? k.Description : k.DescriptionEnglish
+                        //DescriptionEnglish = k.DescriptionEnglish,
+                        Description = (lang == "et") ? k.Description : k.DescriptionEnglish
                     })
                     .ToListAsync();
             }
@@ -104,7 +105,6 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
             {
                 SetError(ex);
                 return null;
-
             }
         }
 
@@ -125,14 +125,12 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                         DescriptionEnglish = k.DescriptionEnglish,
                         Description = k.Description
                     })
-                   .Where(x => x.WoredaId == id).
-                   ToListAsync();
+                    .Where(x => x.WoredaId == id).ToListAsync();
             }
             catch (Exception ex)
             {
                 SetError(ex);
                 return null;
-
             }
         }
 
@@ -143,36 +141,51 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
             {
                 string id = rId.ToString();
                 kebele = Context.Kebeles
-                               .Include(r => r.Woreda)
-                               .ThenInclude(z => z.Zone)
-                           .Where(x => x.KebeleId == id).FirstOrDefault();
+                    .Include(r => r.Woreda)
+                    .ThenInclude(z => z.Zone)
+                    .Where(x => x.KebeleId == id).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 SetError(ex);
                 return null;
             }
+
             return kebele;
         }
 
         public async Task<List<Kebele>> GetKebeles(int page = 0, int pageSize = 15)
         {
-
             IQueryable<Kebele> kebele = Context.Kebeles
                 .Include(r => r.Woreda)
                 .OrderBy(zo => zo.KebeleId);
             if (page > 0)
             {
                 kebele = kebele
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
             }
+
+            return await kebele.ToListAsync();
+        }
+
+        public async Task<List<Kebele>> GetKebelesByParent(string id, int page = 0, int pageSize = 15)
+        {
+            IQueryable<Kebele> kebele = Context.Kebeles
+                .Where(r => r.WoredaId == id)
+                .OrderBy(zo => zo.KebeleId);
+            if (page > 0)
+            {
+                kebele = kebele
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
+            }
+
             return await kebele.ToListAsync();
         }
 
         public async Task<bool> DeleteKebele(string id)
         {
-
             var Kebele = await Context.Kebeles
                 .FirstOrDefaultAsync(zo => zo.KebeleId == id);
             if (Kebele == null)
@@ -180,9 +193,9 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                 SetError("Kebele does not exist");
                 return false;
             }
+
             Context.Kebeles.Remove(Kebele);
             return await SaveAsync();
-
         }
     }
 }

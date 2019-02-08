@@ -26,7 +26,11 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Investor> Investors { get; set; }
-        public DbSet<CompanyClearance> CompanyClearances { get; set; }
+		//by gebre
+
+		public DbSet<Followup> Followups { get; set; }
+		
+		public DbSet<CompanyClearance> CompanyClearances { get; set; }
         public DbSet<Lookups> Lookup { get; set; }
 
         public virtual DbSet<Address> Address { get; set; }
@@ -117,17 +121,18 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbQuery<IncentiveBomDto> IncentiveBomDto { get; set; }
 
 
-        public DbSet<tblDivision> tblDivision { get; set; }
-        public DbSet<tblGroup> tblGroup { get; set; }
-        public DbSet<tblMajorDivision> tblMajorDivision { get; set; }
-        public DbSet<tblMajorGroup> tblMajorGroup { get; set; }
-        public DbSet<tblSubGroup> tblSubGroup { get; set; }
+        public DbSet<tblDivision> Division { get; set; }
+        public DbSet<Group> Group { get; set; }
+        public DbSet<MajorDivision> MajorDivision { get; set; }
+        public DbSet<MajorGroup> MajorGroup { get; set; }
+        public DbSet<SubGroup> SubGroup { get; set; }
         public DbSet<BudgetYearType> BudgetYearTypes { get; set; }
         public DbSet<Registration> Registrations { get; set; }
         public DbSet<RegistrationCatagory> RegistrationCatagorys { get; set; }
 
         public DbSet<Business> Businesses { get; set; }
         public DbSet<BusinessLicensingGroup> BusinessLicensingGroup { get; set; }
+        public DbSet<tblBusinessBranch> tblBusinessBranch { get; set; }
 
         public override int SaveChanges()
         {
@@ -267,6 +272,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             {
                 entity.ToTable("Test", "dbo");
             });
+            modelBuilder.Entity<Followup>(entity =>
+            {
+                entity.ToTable("Followup", "dbo");
+            });
 
             modelBuilder.Entity<CapitalRegistration>(entity =>
             {
@@ -301,7 +310,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             modelBuilder.Entity<IncentiveTaxExemptionRequest
       >(entity =>
             {
-                entity.ToTable("Incentive_TaxExemptionRequest", "dbo");
+                entity.ToTable("IncentiveTaxExemptionRequest", "dbo");
             });
             modelBuilder.Entity<Squence>(entity =>
             {
@@ -378,35 +387,36 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
             modelBuilder.Entity<Caption>(entity =>
             {
-                entity.Property(e => e.AfanOromo).HasMaxLength(250);
-
-                entity.Property(e => e.Afar).HasMaxLength(250);
-
-                entity.Property(e => e.Amharic)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.Arabic).HasMaxLength(250);
-
-                entity.Property(e => e.ControlName).HasMaxLength(250);
-
-                entity.Property(e => e.Description).HasMaxLength(250);
-
-                entity.Property(e => e.English)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.FormName).HasMaxLength(250);
-
-                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.Somali).HasMaxLength(250);
-
-                entity.Property(e => e.Tigrigna).HasMaxLength(250);
+                entity.ToTable("Caption", "dbo");
+//                entity.Property(e => e.AfanOromo).HasMaxLength(250);
+//
+//                entity.Property(e => e.Afar).HasMaxLength(250);
+//
+//                entity.Property(e => e.Amharic)
+//                    .IsRequired()
+//                    .HasMaxLength(250);
+//
+//                entity.Property(e => e.Arabic).HasMaxLength(250);
+//
+//                entity.Property(e => e.ControlName).HasMaxLength(250);
+//
+//                entity.Property(e => e.Description).HasMaxLength(250);
+//
+//                entity.Property(e => e.English)
+//                    .IsRequired()
+//                    .HasMaxLength(250);
+//
+//                entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+//
+//                entity.Property(e => e.FormName).HasMaxLength(250);
+//
+//                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+//
+//                entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+//
+//                entity.Property(e => e.Somali).HasMaxLength(250);
+//
+//                entity.Property(e => e.Tigrigna).HasMaxLength(250);
             });
 
             modelBuilder.Entity<DataChangeRequest>(entity =>
@@ -2045,7 +2055,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             });
             modelBuilder.Entity<Registration>(entity =>
             {
-                entity.ToTable("tblRegistration", "dbo");
+                entity.ToTable("Registration", "dbo");
             });
             modelBuilder.Entity<RegistrationCatagory>(entity =>
             {
@@ -2055,12 +2065,12 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
             modelBuilder.Entity<Business>(entity =>
             {
-                entity.ToTable("tblBusiness", "dbo");
+                entity.ToTable("Business", "dbo");
 
             });
             modelBuilder.Entity<BusinessLicensingGroup>(entity =>
             {
-                entity.ToTable("tblBusinessLicensingGroup", "dbo");
+                entity.ToTable("BusinessLicensingGroup", "dbo");
 
             });
 
