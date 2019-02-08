@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import * as html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
+import 'ethiopian-date';
 import {CertificateService} from '../../Services/certificate.service';
 import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
 import {AddressService} from '../../Services/Address/address.service';
@@ -22,6 +23,7 @@ import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
 import {ProjectRenewalService} from "../../Services/project-renewal.service";
 import {ETHIOPIA_CODE} from "../../const/consts";
+
 // import {Ethiopic} from '../../../@custor/EthiopicDateTime.cs'
 @Component({
   selector: 'app-certificate',
@@ -29,7 +31,7 @@ import {ETHIOPIA_CODE} from "../../const/consts";
   styleUrls: ['./certificate.component.scss']
 })
 export class CertificateComponent implements OnInit {
-  date: any;
+  date:any;
   renewedTo: Date;
   formOfOwnerShipDescriptionAmharic: any;
   formOfOwnerShipDescriptionEnglish: any;
@@ -43,6 +45,7 @@ export class CertificateComponent implements OnInit {
   viewCertificate = false;
   lookup: Lookup;
   projectCostTotal: number;
+  projectCostTotalUSD: number;
   public manager: ProjectAssociateModel[];
   private ServiceId: any;
   private InvestorId: any;
@@ -80,15 +83,22 @@ export class CertificateComponent implements OnInit {
     this.projectRenewalService
       .getRenewalByServiceApplicationId(this.ServiceApplicationId)
       .subscribe(result => {
-        if(result.ProjectRenewal[0] != null)
+        if(result.ProjectRenewal[0] != null && this.ServiceId ==18)
         {
           this.renewedTo=result.ProjectRenewal[0].RenewedTo;
+        }
+        else if (this.ServiceId == 13){
+          this.renewedTo=new Date();
+          this.renewedTo.setFullYear( this.renewedTo.getFullYear() + 1);
+          // var ethiopianDate = require('ethiopian-date');
+          // console.log(ethiopianDate.toEthiopian(this.date));
+          // ethiopianDate.toGregorian(YYYY, MM, DD)
         }
       }, error => this.errMsg.getError(error));
   }
   getDate() {
     const today = new Date();
-    this.date =  today;
+    this.date=today;
   }
 
   addMessage() {
@@ -168,6 +178,8 @@ export class CertificateComponent implements OnInit {
         this.projectCost = result;
         this.projectCostTotal = result.LandCost + result.BuildingCost + result.MachineryCost + result.TransportCost +
           result.OfficeEquipmentCost + result.OtherCapitalCost + result.InitialWorkingCapitalCost;
+        // console.log(this.projectCostTotal/result.ExchangeRate);
+        this.projectCostTotalUSD=this.projectCostTotal/result.ExchangeRate;
       });
   }
 

@@ -4,7 +4,7 @@ import {ProjectCancellationService} from '../../../../Services/project-cancellat
 import {ProjectProfileService} from '../../../../Services/project-profile.service';
 import {ProjectModel} from '../../../../model/project.model';
 import {DataSharingService} from '../../../../Services/data-sharing.service';
-import {MatSnackBar} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatSnackBar} from '@angular/material';
 import {AccountService} from '@custor/services/security/account.service';
 import {ActivatedRoute} from '@angular/router';
 import {ErrorMessage} from '@custor/services/errMessageService';
@@ -15,6 +15,7 @@ import {ConfigurationService} from '@custor/services/configuration.service';
 import {Lookup} from '../../../../model/lookupData';
 import {ServiceApplicationService} from '../../../../Services/service-application.service';
 import {ProjectCancellationModel} from "../../../../model/project/ProjectCancellation.model";
+import {NotificationComponent} from "../../notification/notification.component";
 
 @Component({
   selector: 'app-project-cancellation',
@@ -49,6 +50,7 @@ export class ProjectCancellationComponent implements OnInit {
               public snackbar: MatSnackBar,
               public route: ActivatedRoute,
               public errMsg: ErrorMessage,
+              public dialog: MatDialog,
               public toastr: ToastrService,
               public configService: ConfigurationService,
               public projectCancellationServices: ProjectCancellationService) {
@@ -114,7 +116,7 @@ export class ProjectCancellationComponent implements OnInit {
       .subscribe(result => {
          console.log(result);
         this.dataSharing.renewalIndex.next(2);
-        this.notification('Project cancellation saved');
+        this.notification('Project cancellation saved!');
       });
   }
 
@@ -174,5 +176,15 @@ export class ProjectCancellationComponent implements OnInit {
       .subscribe(result => {
         this.toastr.success('Application Completed successfully ', 'Success');
       });
+  }
+  addMessage() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data = {
+      ServiceApplicationId: this.ServiceApplicationId,
+      title: 'Message Title'
+    };
+    this.dialog.open(NotificationComponent, dialogConfig);
+
   }
 }
