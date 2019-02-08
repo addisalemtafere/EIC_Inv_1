@@ -45,8 +45,9 @@ export class CertificateComponent implements OnInit {
   viewCertificate = false;
   lookup: Lookup;
   projectCostTotal: number;
+  projectCostTotalUSD: number;
   public manager: ProjectAssociateModel[];
-  private ServiceId: any;
+  public ServiceId: any;
   private InvestorId: any;
   private workFlowId: any;
   public today: Date;
@@ -94,7 +95,8 @@ export class CertificateComponent implements OnInit {
     this.projectRenewalService
       .getRenewalByServiceApplicationId(this.ServiceApplicationId)
       .subscribe(result => {
-        if (result.ProjectRenewal[0] != null) {
+
+        if (result.ProjectRenewal[0] != null && this.ServiceId == 18) {
           this.renewedTo = result.ProjectRenewal[0].RenewedTo;
         }
       }, error => this.errMsg.getError(error));
@@ -111,6 +113,7 @@ export class CertificateComponent implements OnInit {
 
     const today = new Date();
     this.date = today;
+
   }
 
   addMessage() {
@@ -190,6 +193,8 @@ export class CertificateComponent implements OnInit {
         this.projectCost = result;
         this.projectCostTotal = result.LandCost + result.BuildingCost + result.MachineryCost + result.TransportCost +
           result.OfficeEquipmentCost + result.OtherCapitalCost + result.InitialWorkingCapitalCost;
+        // console.log(this.projectCostTotal/result.ExchangeRate);
+        // this.projectCostTotalUSD = this.projectCostTotal / result.ExchangeRate;
       });
   }
 

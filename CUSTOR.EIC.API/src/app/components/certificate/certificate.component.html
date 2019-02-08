@@ -204,7 +204,7 @@
               </tr>
               <tr>
                 <td class="t-header">9.የኢንቨስትመንቱ ካፒታል (USD)</td>
-                <td class="data value">{{projectCostTotal*27}}</td>
+                <td class="data value">{{projectCostTotalUSD}}</td>
               </tr>
               <tr>
                 <td class="t-header">10. የታቀደው የኤክስፖርት በመቶኛ</td>
@@ -345,7 +345,9 @@
               </tr>
               <tr>
                 <td class="t-header">9. Amount of Investment Capital（USD）</td>
+
                 <td class="data value">{{projectCostTotal}}</td>
+
               </tr>
               <tr>
                 <td class="t-header">10. Planned Export in Percent</td>
@@ -370,16 +372,14 @@
 
                 <td class="data value"><strong>{{ dateEthioNextYear}}</strong> ታድሷል</td>
               </tr>
-              <tr>
+              <tr *ngIf="ServiceId==13">
                 <td class="t-header">Valid Until</td>
                 <td class="data value"><strong>{{ dateGc | date}}</strong></td>
-                <!--=======-->
-                <!--<td class="data value" >{{ renewedTo | date:'mediumDate'}} ታድሷል</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                <!--<td class="t-header">Valid Until</td>-->
-                <!--<td class="data value">{{ renewedTo | date:'mediumDate'}}</td>-->
-                <!--&gt;>>>>>> b0f28765255525b6924af79e8f7407c62be3866e-->
+
+              <tr *ngIf="ServiceId==18">
+                <td class="t-header">Valid Until</td>
+                <td class="data value">{{ renewedTo | date:'mediumDate'}}</td>
+
               </tr>
               </tbody>
             </table>
