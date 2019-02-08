@@ -11,7 +11,8 @@ import {SharedModule} from '../../../../../@custor/modules/shared.module';
   imports: [
     CommonModule,
     KebeleRoutingModule,
-    SharedModule],
+    SharedModule
+  ],
   declarations: [ListKebeleComponent, EditKebeleComponent, KebeleComponent],
   exports: [ListKebeleComponent, EditKebeleComponent, KebeleComponent]
 })
