@@ -20,9 +20,11 @@ import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
+
 import {DateService} from "../../Services/date.service";
 
-// import {Ethiopic} from '../../../@custor/EthiopicDateTime.cs'
+import {ProjectRenewalService} from "../../Services/project-renewal.service";
+
 @Component({
   selector: 'app-certificate',
   templateUrl: './certificate.component.html',
@@ -30,6 +32,7 @@ import {DateService} from "../../Services/date.service";
 })
 export class CertificateComponent implements OnInit {
   date: any;
+  renewedTo: Date;
   formOfOwnerShipDescriptionAmharic: any;
   formOfOwnerShipDescriptionEnglish: any;
   investorDetailList: ServiceApplicationModel;
@@ -46,7 +49,7 @@ export class CertificateComponent implements OnInit {
   private ServiceId: any;
   private InvestorId: any;
   private workFlowId: any;
-  private today: Date;
+  public today: Date;
   public dateGc: Date;
   public todayEthioDate: any;
   public dateEc1: Date;
@@ -58,6 +61,7 @@ export class CertificateComponent implements OnInit {
               public errMsg: ErrorMessage,
               public route: ActivatedRoute,
               public projectService: ProjectProfileService,
+              public projectRenewalService: ProjectRenewalService,
               public serviceApplication: ServiceApplicationService,
               public dialog: MatDialog,
               public toast: ToastrService,
@@ -76,8 +80,24 @@ export class CertificateComponent implements OnInit {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
     this.getDate();
+
     this.getEthiopianDate();
 
+
+    if (this.ServiceApplicationId > 0) {
+      this.getServiceApplicationRenewal();
+    }
+  }
+
+  //no need to come all this data.
+  private getServiceApplicationRenewal() {
+    this.projectRenewalService
+      .getRenewalByServiceApplicationId(this.ServiceApplicationId)
+      .subscribe(result => {
+        if (result.ProjectRenewal[0] != null) {
+          this.renewedTo = result.ProjectRenewal[0].RenewedTo;
+        }
+      }, error => this.errMsg.getError(error));
   }
 
   getDate() {
@@ -88,6 +108,9 @@ export class CertificateComponent implements OnInit {
     var day = d.getDate();
     this.dateGc = new Date(year + 1, month, day)
 
+
+    const today = new Date();
+    this.date = today;
   }
 
   addMessage() {
