@@ -302,17 +302,17 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     if (this.hasValidationErrors()) {
       return;
     }
-    else if (this.CheckExistance()) {
-      return;
-    }
-    else {
-      this.loadingIndicator = true;
-      return this.IncentiveRequestService.saveIncentiveRequest(
-        this.getEditedIncentiveItem()).subscribe((incentiveRequestModel: IncentiveRequestModel) => {
-          this.saveCompleted(incentiveRequestModel);
-        },
-        err => this.handleError(err));
-    }
+    // else if (this.CheckExistance()) {
+    //   return;
+    // }
+    // else {
+    //   this.loadingIndicator = true;
+    //   return this.IncentiveRequestService.saveIncentiveRequest(
+    //     this.getEditedIncentiveItem()).subscribe((incentiveRequestModel: IncentiveRequestModel) => {
+    //       this.saveCompleted(incentiveRequestModel);
+    //     },
+    //     err => this.handleError(err));
+    // }
   }
 
   CheckExistance() {

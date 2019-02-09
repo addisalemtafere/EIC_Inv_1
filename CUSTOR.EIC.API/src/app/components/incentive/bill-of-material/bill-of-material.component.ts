@@ -240,37 +240,37 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       this.toastr.error('Please Select Batch of Construction Materials Incentive');
       return true;
     }
-    else if (this.CheckExistance()) {
-      return true;
-    }
-    else {
-      // this.loading = true;
-      this.errors = []; // Clear error
-      // Validate file size and allowed extensions
-      // console.log((!this.isValidFiles(files)));
-      if (files && files[0].size > 0 && (this.isValidFiles(files))) {
-        const formModel = this.documentForm.value;
-        this.documentForm.patchValue({
-          Name: files[0].name,
-          KeyWords: files[0],
-        });
-
-        this.billOfMaterilService
-          .uploadDocument(this.prepareSaveUser())
-          .subscribe(result => {
-            this.itemList = result;
-            this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result);
-            this.loading = false;
-            // this.dataSource.paginator = this.paginator;
-
-            this.itemList = result;
-            this.loading = false;
-          }, error => this.toast.error(this.errMsg.getError(error)));
-        // this.getServicePrerequisite(localStorage.getItem('ServiceId'));
-      } else {
-        this.toast.error('Error Occurred Please ', 'Error');
-      }//TODO BillofQuantity
-    }
+    // else if (this.CheckExistance()) {
+    //   return true;
+    // }
+    // else {
+    //   // this.loading = true;
+    //   this.errors = []; // Clear error
+    //   // Validate file size and allowed extensions
+    //   // console.log((!this.isValidFiles(files)));
+    //   if (files && files[0].size > 0 && (this.isValidFiles(files))) {
+    //     const formModel = this.documentForm.value;
+    //     this.documentForm.patchValue({
+    //       Name: files[0].name,
+    //       KeyWords: files[0],
+    //     });
+    //
+    //     this.billOfMaterilService
+    //       .uploadDocument(this.prepareSaveUser())
+    //       .subscribe(result => {
+    //         this.itemList = result;
+    //         this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result);
+    //         this.loading = false;
+    //         // this.dataSource.paginator = this.paginator;
+    //
+    //         this.itemList = result;
+    //         this.loading = false;
+    //       }, error => this.toast.error(this.errMsg.getError(error)));
+    //     // this.getServicePrerequisite(localStorage.getItem('ServiceId'));
+    //   } else {
+    //     this.toast.error('Error Occurred Please ', 'Error');
+    //   }//TODO BillofQuantity
+    // }
   }
 
   CheckExistance() {
