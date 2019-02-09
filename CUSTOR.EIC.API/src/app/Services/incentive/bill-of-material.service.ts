@@ -4,7 +4,7 @@ import {AppConfiguration} from '../../config/appconfig';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {BaseService} from '../Base.service';
 import {IncentiveBoMRequestItemModel} from '../../model/incentive/IncentiveBoMRequestItem.model';
-import {Observable} from '../../../../node_modules/rxjs/Rx';
+import {Observable} from '../../../../node_modules/rxjs';
 import {catchError} from 'rxjs/operators';
 import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
 
