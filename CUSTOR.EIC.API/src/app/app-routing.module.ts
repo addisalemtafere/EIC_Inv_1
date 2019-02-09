@@ -382,11 +382,11 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         loadChildren: 'app/components/investor/investor-profile/investor-profile.module#InvestorProfileModule',
         canActivate: [AuthGuard]
       },
-      // {
-      //   path: 'help',
-      //   component: HelpComponent,
-      //   canActivate: [AuthGuard]
-      // },
+      {
+        path: 'help',
+        loadChildren: 'app/components/help/help.module#HelpModule',
+        canActivate: [AuthGuard]
+      },
       {path: '', component: HomeComponent},
       {path: '**', component: NotFoundComponent},
     ])

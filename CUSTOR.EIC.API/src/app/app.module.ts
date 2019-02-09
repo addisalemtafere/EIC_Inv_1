@@ -60,7 +60,7 @@ import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.s
 import {AppComponent} from './app.component';
 
 
-import {NgxUiLoaderConfig} from "ngx-ui-loader";
+import {NgxUiLoaderConfig, NgxUiLoaderModule} from "ngx-ui-loader";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -109,6 +109,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NotificationsComponent,
     TaskDispatcherComponent,
     BaseComponent,
+    // HelpComponent,
     // CustomerServiceStarterComponent
     // AddressComponent,
     // HelpComponent,
@@ -116,11 +117,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   ],
 
   imports: [
-    //
-    // ThemePickerModule,
+    NgxUiLoaderModule,
     LangSwitcherModule,
     FooterModule,
-    // NotificationModule,
 
     SharedModule,
     HttpClientModule,

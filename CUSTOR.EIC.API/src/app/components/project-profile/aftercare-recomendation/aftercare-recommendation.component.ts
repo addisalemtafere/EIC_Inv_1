@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {id} from "@swimlane/ngx-charts/release/utils";
 import {FormBuilder} from "@angular/forms";
 import {MatSnackBar} from "@angular/material";
 import {AccountService} from "@custor/services/security/account.service";

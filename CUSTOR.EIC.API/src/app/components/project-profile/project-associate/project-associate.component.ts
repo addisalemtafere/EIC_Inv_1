@@ -1,6 +1,6 @@
 import {AfterContentChecked, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {FormService} from '@custor/validation/custom/form';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {ActivatedRoute, Params, Router} from '@angular/router';

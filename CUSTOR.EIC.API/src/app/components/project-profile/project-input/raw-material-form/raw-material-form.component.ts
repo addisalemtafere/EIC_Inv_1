@@ -1,6 +1,6 @@
 import {AfterContentChecked, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {FormService} from '@custor/validation/custom/form';
 import {ProjectProfileService} from '../../../../Services/project-profile.service';

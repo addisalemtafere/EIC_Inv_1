@@ -1,3 +1,5 @@
+
+import {throwError as observableThrowError} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
@@ -54,7 +56,7 @@ export abstract class BaseService<T> {
 
     // either applicationError in header or model error in body
     if (applicationError) {
-      return Observable.throw(applicationError);
+      return observableThrowError(applicationError);
     }
 
     let modelStateErrors = '';
@@ -69,6 +71,6 @@ export abstract class BaseService<T> {
     }
 
     modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
-    return Observable.throw(modelStateErrors || 'Server error');
+    return observableThrowError(modelStateErrors || 'Server error');
   }
 }
