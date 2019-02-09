@@ -353,42 +353,6 @@ const routes: Routes = [
     path: 'address/:id',
     loadChildren: 'app/components/project-profile/address/address.module#AddressModule'
 
-<<<<<<< HEAD
-      },
-      {
-        path: 'requested-items-list/:categoryId/:projectId/:requestId/:Quantity/:CurrencyType/:CurrencyRate/:Phase/:ServiceApplicationId/:ServiceId',
-        loadChildren: 'app/components/incentive/incentive-request/requested-items-list/requested-items-list.module#RequestedItemsListModule',
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'incentive-request-history/:projectId/:serviceApplicationId/:serviceId',
-        loadChildren: 'app/components/incentive/incentive-request/incentive-request-history/incentive-request-history.module#IncentiveRequestHistoryModule',
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'sparepart-balance/:projectId/:serviceApplicationId',
-        loadChildren: 'app/components/incentive/balance-sparepart/spare-part.module#SparePartModule',
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'incentive-detail/:projectId/:serviceApplicationId/:serviceId/:isForDetail',
-        loadChildren: 'app/components/incentive/incentive-detail/incentive-detail.module#IncentiveDetailModule',
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'investor-profile/:InvestorId',
-        loadChildren: 'app/components/investor/investor-profile/investor-profile.module#InvestorProfileModule',
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'help',
-        loadChildren: 'app/components/help/help.module#HelpModule',
-        canActivate: [AuthGuard]
-      },
-      {path: '', component: HomeComponent},
-      {path: '**', component: NotFoundComponent},
-    ])
-=======
   },
   {
     path: 'requested-items-list/:categoryId/:projectId/:requestId/:Quantity/:CurrencyType/:CurrencyRate/:Phase/:ServiceApplicationId/:ServiceId',
@@ -426,7 +390,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})
->>>>>>> add
   ],
   exports: [
     RouterModule
