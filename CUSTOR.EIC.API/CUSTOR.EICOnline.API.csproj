@@ -113,15 +113,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="CUSTORDBWEB6, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>bin\Debug\CUSTORDBWEB6.dll</HintPath>
+    <Reference Include="CUSTORDBWEB6">
+      <HintPath>..\..\..\..\Dec20\EIC_Inv_1-devfinal\CUSTOR.EIC.API\bin\Debug\netcoreapp2.1\CUSTORDBWEB6.dll</HintPath>
     </Reference>
   </ItemGroup>
 
 
   <Target Name="Build Angular" Condition="'$(Configuration)'=='Release'" BeforeTargets="Build">
-    <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high"/>
-    <Exec Command="ng build --prod --aot"/>
+    <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high" />
+    <Exec Command="ng build --prod --aot" />
   </Target>
 
 

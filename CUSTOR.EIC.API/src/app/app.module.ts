@@ -2,7 +2,6 @@ import {ErrorHandler, NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {AgmCoreModule} from '@agm/core';
 import {ToastrModule} from 'ngx-toastr';
 import {HomeComponent} from './components/home/home.component';
 import {FooterModule} from '@custor/components/shared/footer.component';
@@ -126,9 +125,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCKHGctDoGx1_YdAbRsPlJYQqlQeC6kR2E'
-    }),
+   
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
