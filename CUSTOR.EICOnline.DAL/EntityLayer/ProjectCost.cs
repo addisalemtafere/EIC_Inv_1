@@ -9,12 +9,19 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public int ProjectId { get; set; }
     public bool IsActual { get; set; }
     public decimal LandCost { get; set; }
+    public decimal LandCostInBirr { get; set; }
     public decimal BuildingCost { get; set; }
+    public decimal BuildingCostInBirr { get; set; }
     public decimal MachineryCost { get; set; }
+    public decimal MachineryCostInBirr { get; set; }
     public decimal TransportCost { get; set; }
+    public decimal TransportCostInBirr { get; set; }
     public decimal OfficeEquipmentCost { get; set; }
+    public decimal OfficeEquipmentCostInBirr { get; set; }
     public decimal OtherCapitalCost { get; set; }
+    public decimal OtherCapitalCostInBirr { get; set; }
     public decimal InitialWorkingCapitalCost { get; set; }
+    public decimal InitialWorkingCapitalCostInBirr { get; set; }
     public decimal EquityFinance { get; set; }
     public decimal LoanFinance { get; set; }
     public decimal OtherSourceFinance { get; set; }
@@ -49,12 +56,19 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public int ProjectId { get; set; }
     public bool IsActual { get; set; }
     public decimal LandCost { get; set; }
+    public decimal LandCostInBirr { get; set; }
     public decimal BuildingCost { get; set; }
+    public decimal BuildingCostInBirr { get; set; }
     public decimal MachineryCost { get; set; }
+    public decimal MachineryCostInBirr { get; set; }
     public decimal TransportCost { get; set; }
+    public decimal TransportCostInBirr { get; set; }
     public decimal OfficeEquipmentCost { get; set; }
+    public decimal OfficeEquipmentCostInBirr { get; set; }
     public decimal OtherCapitalCost { get; set; }
+    public decimal OtherCapitalCostInBirr { get; set; }
     public decimal InitialWorkingCapitalCost { get; set; }
+    public decimal InitialWorkingCapitalCostInBirr { get; set; }
     public decimal EquityFinance { get; set; }
     public decimal LoanFinance { get; set; }
     public decimal OtherSourceFinance { get; set; }

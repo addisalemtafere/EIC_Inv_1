@@ -702,8 +702,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           }
 
           if (investor != null) {
-            if (this.ServiceId ==  1235) {
-              console.log("test one at service 2"+ this.ServiceId)
+            if (this.ServiceId == 1235) {
+              console.log("test one at service 2" + this.ServiceId)
 
               this.router.navigate(['investor-tab/1235/' + 0 + '/' + investor.InvestorId + '/' + this.isNew + '/' + 0]);
               setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
@@ -743,7 +743,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   getKebeleByWoredaId(wordaId: any) {
     this.addressService.getKebelesByWoreda(wordaId)
       .subscribe(result => {
-        this.filteredKebeles = null
+        //this.filteredKebeles = null
         this.filteredKebeles = result;
       });
   }

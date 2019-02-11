@@ -200,7 +200,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.getAllActivityService();
     this.getAllInvestmentActivity();
     this.getAllSite();
-
   }
 
   getAllSector() {
@@ -354,7 +353,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
             // localStorage.setItem('ServiceApplicationId', result.ServiceApplication[0].ServiceApplicationId);
 
             this.router.navigate(['pro/' + this.projectId + '/' + result.ServiceApplication[0].ServiceApplicationId + '/' + this.ServiceId + '/' + result.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId + '/' + this.InvestorId]);
-
             this.notification('project  saved');
             this.saveAddress();
           });

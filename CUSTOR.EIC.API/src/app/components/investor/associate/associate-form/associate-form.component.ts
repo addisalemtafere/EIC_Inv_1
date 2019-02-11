@@ -226,7 +226,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.getAllZones();
     this.getAllWoredas();
     this.getInvestorTitle(89);
-    this.getAllKebeles();
+    // this.getAllKebeles();
     // this.getInvestorTitle();
     this.getAllNations();
   }

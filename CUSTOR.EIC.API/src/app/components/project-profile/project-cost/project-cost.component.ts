@@ -39,12 +39,19 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
   projectCost: ProjectCostModel;
   public formErrors = {
     LandCost: '',
+    LandCostInBirr: '',
     BuildingCost: '',
+    BuildingCostInBirr: '',
     MachineryCost: '',
+    MachineryCostInBirr: '',
     TransportCost: '',
+    TransportCostInBirr: '',
     OfficeEquipmentCost: '',
+    OfficeEquipmentCostInBirr: '',
     OtherCapitalCost: '',
+    OtherCapitalCostInBirr: '',
     InitialWorkingCapitalCost: '',
+    InitialWorkingCapitalCostInBirr: '',
     EquityFinance: '',
     LoanFinance: '',
     OtherSourceFinance: '',
@@ -172,12 +179,19 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
       ProjectId: new FormControl(this.projectId),
       workFlowId: new FormControl(this.workFlowId),
       LandCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
+      LandCostInBirr: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       BuildingCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
+      BuildingCostInBirr: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       MachineryCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
+      MachineryCostInBirr: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       TransportCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
+      TransportCostInBirr: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       OfficeEquipmentCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
+      OfficeEquipmentCostInBirr: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       OtherCapitalCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
+      OtherCapitalCostInBirr: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       InitialWorkingCapitalCost: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
+      InitialWorkingCapitalCostInBirr: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
       EquityFinance: new FormControl(0),
 
       LoanFinance: new FormControl(0),
@@ -192,7 +206,8 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
       ProjectStatus: new FormControl(''),
       ExchangeRate: new FormControl(''),
       Remark: new FormControl(''),
-      Total: new FormControl('')
+      Total: new FormControl(''),
+      TotalInBirr: new FormControl('')
     }, {validators: sumOfSourceFinanceValidator});
 
     this.projectCostForm.valueChanges.subscribe((data) => {
@@ -214,13 +229,20 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
       ProjectId: this.projectId,
       workFlowId: this.workFlowId,
       LandCost: formModel.LandCost,
+      LandCostInBirr: formModel.LandCostInBirr,
       BuildingCost: formModel.BuildingCost,
+      BuildingCostInBirr: formModel.BuildingCostInBirr,
       MachineryCost: formModel.MachineryCost,
+      MachineryCostInBirr: formModel.MachineryCostInBirr,
       TransportCost: formModel.TransportCost,
+      TransportCostInBirr: formModel.TransportCostInBirr,
       OfficeEquipmentCost: formModel.OfficeEquipmentCost,
+      OfficeEquipmentCostInBirr: formModel.OfficeEquipmentCostInBirr,
       ActualCostInForeign: formModel.ActualCostInForeign,
       OtherCapitalCost: formModel.OtherCapitalCost,
+      OtherCapitalCostInBirr: formModel.OtherCapitalCostInBirr,
       InitialWorkingCapitalCost: formModel.InitialWorkingCapitalCost,
+      InitialWorkingCapitalCostInBirr: formModel.InitialWorkingCapitalCostInBirr,
       EquityFinance: formModel.sourceOfFinance.EquityFinance,
       LoanFinance: formModel.sourceOfFinance.LoanFinance,
       OtherSourceFinance: formModel.sourceOfFinance.OtherSourceFinance,
@@ -276,6 +298,7 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
 
 
     this.sumAll();
+    this.sumAllInBirr();
 
   }
 
@@ -298,6 +321,21 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
 
   }
 
+  private sumAllInBirr() {
+    const totalInBirr = this.projectCostForm.get('LandCostInBirr').value +
+      this.projectCostForm.get('BuildingCostInBirr').value +
+      this.projectCostForm.get('MachineryCostInBirr').value +
+      this.projectCostForm.get('TransportCostInBirr').value +
+      this.projectCostForm.get('OfficeEquipmentCostInBirr').value +
+      this.projectCostForm.get('OtherCapitalCostInBirr').value +
+      this.projectCostForm.get('InitialWorkingCapitalCostInBirr').value;
+
+
+    this.projectCostForm.patchValue({
+      TotalInBirr: totalInBirr
+    });
+  }
+
   private sumAll() {
     const total = this.projectCostForm.get('LandCost').value +
       this.projectCostForm.get('BuildingCost').value +
@@ -313,6 +351,7 @@ export class ProjectCostComponent implements OnInit, OnDestroy, AfterContentChec
     });
   }
 }
+
 
 export const sumOfSourceFinanceValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
   const loanFinance: AbstractControl | null = control.get('LoanFinance');
