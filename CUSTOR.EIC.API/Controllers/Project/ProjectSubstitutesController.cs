@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,9 +47,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (id != projectSubstitute.ProjectSubstituteId) return BadRequest();
+            //if (id != projectSubstitute.ProjectSubstituteId) return BadRequest();
 
-            _context.Entry(projectSubstitute).State = EntityState.Modified;
+      var project = _context.ProjectSubstitute.First(s => s.ProjectSubstituteId == id);
+      _context.Entry(project).State = EntityState.Modified;
 
             try
             {

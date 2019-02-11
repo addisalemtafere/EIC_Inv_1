@@ -136,7 +136,7 @@ table tr > td.t-header, .caption {
 }
 
 table tr > td.data {
-  border-bottom: 1px solid #ccc !important;
+  border-bottom: 1px solid #CCC8AD !important;
 }
 
 //.data {
@@ -178,10 +178,14 @@ table td, table th {
 
 #basic .value {
   width: 250px;
+  text-transform: capitalize;
+
 }
 
 #basicEn .value {
   width: 150px;
+  text-transform: capitalize;
+
 }
 
 nobr {

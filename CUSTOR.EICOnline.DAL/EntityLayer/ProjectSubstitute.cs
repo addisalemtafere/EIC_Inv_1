@@ -15,8 +15,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public int Reason { get; set; }
 
     public string SubstituteRemark { get; set; }
-    public bool? IsActive { get; set; }
-    public bool IsDeleted { get; set; }
+		public bool? IsActive { get; set; }
+		public bool? IsApproved { get; set; }
+		public bool IsDeleted { get; set; }
     public DateTime EventDatetime { get; set; }
     public int CreatedUserId { get; set; }
     public string CreatedUserName { get; set; }

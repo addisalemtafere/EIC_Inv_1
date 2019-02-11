@@ -20,7 +20,11 @@ import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
 import {ActivatedRoute} from '@angular/router';
-// import {Ethiopic} from '../../../@custor/EthiopicDateTime.cs'
+
+import {DateService} from "../../Services/date.service";
+
+import {ProjectRenewalService} from "../../Services/project-renewal.service";
+
 @Component({
   selector: 'app-certificate',
   templateUrl: './certificate.component.html',
@@ -28,6 +32,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class CertificateComponent implements OnInit {
   date: any;
+  renewedTo: Date;
   formOfOwnerShipDescriptionAmharic: any;
   formOfOwnerShipDescriptionEnglish: any;
   investorDetailList: ServiceApplicationModel;
@@ -40,23 +45,32 @@ export class CertificateComponent implements OnInit {
   viewCertificate = false;
   lookup: Lookup;
   projectCostTotal: number;
+  projectCostTotalUSD: number;
   public manager: ProjectAssociateModel[];
-  private ServiceId: any;
+  public ServiceId: any;
   private InvestorId: any;
   private workFlowId: any;
-
+  public today: Date;
+  public dateGc: Date;
+  public todayEthioDate: any;
+  public dateEc1: Date;
+  public dd: Date;
+  public dateEthioNextYear: string;
   constructor(public certificateService: CertificateService,
               private projecAssService: ProjectAssociateService,
+
               public errMsg: ErrorMessage,
               public route: ActivatedRoute,
               public projectService: ProjectProfileService,
+              public projectRenewalService: ProjectRenewalService,
               public serviceApplication: ServiceApplicationService,
               public dialog: MatDialog,
               public toast: ToastrService,
               private projectCostService: ProjectCostService,
               public invactivityService: InvactivityService,
               private projectOutputService: ProjectOutputService,
-              private addressService: AddressService) {
+              private addressService: AddressService,
+              private dateService: DateService) {
     this.lookup = new Lookup();
   }
 
@@ -67,12 +81,39 @@ export class CertificateComponent implements OnInit {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
 
     this.getDate();
+
+    this.getEthiopianDate();
+
+
+    if (this.ServiceApplicationId > 0) {
+      this.getServiceApplicationRenewal();
+    }
+  }
+
+  //no need to come all this data.
+  private getServiceApplicationRenewal() {
+    this.projectRenewalService
+      .getRenewalByServiceApplicationId(this.ServiceApplicationId)
+      .subscribe(result => {
+
+        if (result.ProjectRenewal[0] != null && this.ServiceId == 18) {
+          this.renewedTo = result.ProjectRenewal[0].RenewedTo;
+        }
+      }, error => this.errMsg.getError(error));
   }
 
   getDate() {
+    var d = new Date();
+    this.today = d;
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    var day = d.getDate();
+    this.dateGc = new Date(year + 1, month, day)
+
+
     const today = new Date();
-    //EthiopicDateTime.
-    this.date =  today;
+    this.date = today;
+
   }
 
   addMessage() {
@@ -152,6 +193,8 @@ export class CertificateComponent implements OnInit {
         this.projectCost = result;
         this.projectCostTotal = result.LandCost + result.BuildingCost + result.MachineryCost + result.TransportCost +
           result.OfficeEquipmentCost + result.OtherCapitalCost + result.InitialWorkingCapitalCost;
+        // console.log(this.projectCostTotal/result.ExchangeRate);
+        // this.projectCostTotalUSD = this.projectCostTotal / result.ExchangeRate;
       });
   }
 
@@ -192,6 +235,7 @@ export class CertificateComponent implements OnInit {
         // console.log(result);
       });
   }
+
   private approve() {
     this.lookup.Code = 44449;
     this.serviceApplication.changeApplicationStatus(this.lookup, this.investorDetailList.ServiceApplicationId)
@@ -201,4 +245,18 @@ export class CertificateComponent implements OnInit {
   }
 
 
+  private getEthiopianDate() {
+    let subscription = this.dateService.getEthiopianDateNow()
+      .subscribe(data => {
+
+        this.todayEthioDate = data;
+        var d = this.todayEthioDate.split('/').reverse().join('-')
+        var d2 = new Date(d);
+
+        var year = d2.getFullYear() + 1;
+        var month = d2.getMonth() + 1;
+        var day = d2.getDate();
+        this.dateEthioNextYear = day + '/' + month + '/' + year;
+      });
+  }
 }

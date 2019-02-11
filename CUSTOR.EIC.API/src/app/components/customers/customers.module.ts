@@ -21,7 +21,8 @@ import { SharedModule } from '../../../@custor/modules/shared.module';
   imports: [
     HttpClientModule,
     CustomersRoutingModule,
-    SharedModule],
+    SharedModule
+  ],
   providers: [DatePipe],
   bootstrap: [CustomersComponent]
 })

@@ -19,8 +19,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public int ApprovedBy { get; set; }
     public DateTime ApprovedDate { get; set; }
     public string CancellationRemark { get; set; }
-    public bool? IsActive { get; set; }
-    public bool IsDeleted { get; set; }
+		public bool? IsActive { get; set; }
+		public bool? IsApproved { get; set; }
+		public bool IsDeleted { get; set; }
     public DateTime EventDatetime { get; set; }
     public int CreatedUserId { get; set; }
     public string CreatedUserName { get; set; }

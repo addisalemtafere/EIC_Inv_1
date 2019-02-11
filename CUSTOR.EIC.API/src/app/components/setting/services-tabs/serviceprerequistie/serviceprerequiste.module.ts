@@ -7,7 +7,7 @@ import {ServicePreRequisiteComponent} from './service.component';
 import {ListServiceComponent} from './list/list-service.component';
 import {EditServiceComponent} from './edit/edit-service.component';
 import {DatePipe} from '@angular/common';
-import {SharedModule} from '@custor/modules/shared.module';
+import {SharedModule} from "@custor/modules/shared.module";
 
 @NgModule({
   declarations: [ServicePreRequisiteComponent, ListServiceComponent, EditServiceComponent],
@@ -15,7 +15,8 @@ import {SharedModule} from '@custor/modules/shared.module';
   imports: [
     HttpClientModule,
     ServicePrerequsiteRoutingModule,
-    SharedModule],
+    SharedModule
+  ],
   providers: [DatePipe],
   // bootstrap: [ServiceComponent]
 })
