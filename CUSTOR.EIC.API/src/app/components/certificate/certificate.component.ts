@@ -191,8 +191,12 @@ export class CertificateComponent implements OnInit {
       .subscribe(result => {
         // console.log(result);
         this.projectCost = result;
-        this.projectCostTotal = result.LandCost + result.BuildingCost + result.MachineryCost + result.TransportCost +
+
+        this.projectCostTotalUSD = result.LandCost + result.BuildingCost + result.MachineryCost + result.TransportCost +
           result.OfficeEquipmentCost + result.OtherCapitalCost + result.InitialWorkingCapitalCost;
+
+        this.projectCostTotal = result.LandCostInBirr + result.BuildingCostInBirr + result.MachineryCostInBirr + result.TransportCostInBirr +
+          result.OfficeEquipmentCostInBirr + result.OtherCapitalCostInBirr + result.InitialWorkingCapitalCostInBirr;
         // console.log(this.projectCostTotal/result.ExchangeRate);
         // this.projectCostTotalUSD = this.projectCostTotal / result.ExchangeRate;
       });

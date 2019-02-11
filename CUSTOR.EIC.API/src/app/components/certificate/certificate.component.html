@@ -32,7 +32,7 @@
           <!--</div>-->
           <div class="block" fxFlex="60%">
 
-            <div id="logo" class="full-width" >
+            <div id="logo" class="full-width">
 
               <!--<div class="certificate-title">ኢትዮጵያ የኢንቨስትመንት ኮሚሽን</div>-->
               <!--<div class="certificate-titlet">Ethiopian Investment Commision</div>-->
@@ -64,7 +64,7 @@
                 <td class="s-head">
                   የፍቃድ ቁጥር <br> Permit No.
                 </td>
-                <td class="dta-head">EIC-IP/{{investorDetailList?.Project?.InvestmentPermitNo | number : '4.0-0' }}/10
+                <td class="dta-head">EIC-IP/{{investorDetailList?.Project?.InvestmentPermitNo}}/11
                 </td>
 
               </tr>
@@ -127,20 +127,18 @@
                 <td class="a-header">ክልል</td>
                 <td class="data value">{{investorAddressList?.Region.Description}}</td>
                 <td class="a-header">ዞን</td>
-                <td class="data value">{{investorAddressList?.Region.Zones[0].DescriptionEnglish }}</td>
+                <td class="data value">{{investorAddressList?.Region.Zones[0].Description }}</td>
               </tr>
               <tr>
                 <td class="a-header">ከተማ</td>
                 <td class="data value">--</td>
-                <td class="a-header">ክፍለ ከተማ</td>
-                <td class="data value">--</td>
+                <td class="a-header">ክፍለ ከተማ/ወረዳ</td>
+                <td class="data value">{{investorAddressList?.Region.Zones[0].Woredas[0].Description}}</td>
               </tr>
               <tr>
-                <td class="a-header">ቀበሌ/ወረዳ</td>
+                <td class="a-header">ወረዳ/ቀበሌ</td>
                 <td class="data value">
                   {{investorAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
-                  /
-                  {{investorAddressList?.Region.Zones[0].Woredas[0].Description}}
                 </td>
                 <td class="a-header">የቤት ቁጥር</td>
                 <td class="data value">{{investorAddressList?.HouseNo}}</td>
@@ -172,18 +170,16 @@
               <tr>
                 <td class="a-header">ከተማ</td>
                 <td class="data value">---</td>
-                <td class="a-header">ክፍለ ከተማ</td>
-                <td class="data value">---</td>
+                <td class="a-header">ክፍለ ከተማ/ወረዳ</td>
+                <td class="data value">{{investmentAddressList?.Region.Zones[0].Woredas[0].Description}}</td>
               </tr>
               <tr>
-                <td class="a-header">ቀበሌ/ወረዳ</td>
+                <td class="a-header">ወረዳ/ቀበሌ</td>
                 <td class="data value">
                   {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
-                  /
-                  {{investmentAddressList?.Region.Zones[0].Woredas[0].Description}}
                 </td>
                 <td class="a-header">የቤት ቁጥር</td>
-                <td class="data value">---</td>
+                <td class="data value">{{investmentAddressList?.HouseNo}}</td>
               </tr>
               </tbody>
             </table>
@@ -200,11 +196,11 @@
               <tbody>
               <tr>
                 <td class="t-header">8.የኢንቨስትመንቱ ካፒታል በኢት ብር</td>
-                <td class="data value">{{projectCostTotal}}</td>
+                <td class="data value">{{projectCostTotal |number }}</td>
               </tr>
               <tr>
                 <td class="t-header">9.የኢንቨስትመንቱ ካፒታል (USD)</td>
-                <td class="data value">{{projectCostTotalUSD}}</td>
+                <td class="data value">{{projectCostTotalUSD |number }}</td>
               </tr>
               <tr>
                 <td class="t-header">10. የታቀደው የኤክስፖርት በመቶኛ</td>
@@ -272,15 +268,13 @@
                 <td class="a-header">City</td>
                 <td class="data value">--</td>
                 <td class="a-header">Sub City</td>
-                <td class="data value">--</td>
+                <td class="data value">{{investorAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}</td>
               </tr>
 
               <tr>
-                <td class="a-header">Kebele/Woreda</td>
+                <td class="a-header">Woreda/Kebele</td>
                 <td class="data value">
                   {{investorAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
-                  /
-                  {{investorAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}
                 </td>
                 <td class="a-header">House No.</td>
                 <td class="data value">{{investorAddressList?.HouseNo}}</td>
@@ -312,15 +306,13 @@
               <tr>
                 <td class="a-header">City</td>
                 <td class="data value">--</td>
-                <td class="a-header">sub city</td>
-                <td class="data value">--</td>
+                <td class="a-header">Sub city/Woreda</td>
+                <td class="data value">{{investmentAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}</td>
               </tr>
               <tr>
-                <td class="a-header">Kebele/Woreda</td>
+                <td class="a-header">Woreda/Kebele</td>
                 <td class="data value">
                   {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
-                  /
-                  {{investmentAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}
                 </td>
                 <td class="a-header">House No.</td>
                 <td class="data value">{{investmentAddressList?.HouseNo}}</td>
@@ -341,12 +333,11 @@
               <tbody>
               <tr>
                 <td class="t-header">8. Amount of Investment Capital in ETB</td>
-                <td class="data value">{{projectCostTotal}}</td>
+                <td class="data value">{{projectCostTotal |number }}</td>
               </tr>
               <tr>
                 <td class="t-header">9. Amount of Investment Capital（USD）</td>
-
-                <td class="data value">{{projectCostTotal}}</td>
+                <td class="data value">{{projectCostTotalUSD |number }}</td>
 
               </tr>
               <tr>
