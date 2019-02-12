@@ -1,7 +1,7 @@
 .service-content {
-    background: whitesmoke;
-    height: 50px;
-    width: 320px;
+    background: white;
+    height: 15px;
+    width: 350px;
     margin-right: 10px;
     margin-bottom: 10px;
     transition: box-shadow 150ms ease-in-out;
@@ -21,7 +21,7 @@
             padding: 4px;
     }
     .h1 {
-        font-size: 12px;
+        font-size: 10px;
         text-align: left;
        flex-wrap: initial;
     }
@@ -40,10 +40,10 @@ mat-divider {
     border-top-color: #00bcd4;
   }
   h2 {
-    margin-bottom: 0px;
-    font-size:medium;
+    font-size:small;
     // color: #00bcd4;
     margin-bottom: 10px;
+    text-align: center;
   }
 
   .section-gap {
