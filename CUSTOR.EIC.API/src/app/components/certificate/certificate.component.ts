@@ -56,9 +56,9 @@ export class CertificateComponent implements OnInit {
   public dateEc1: Date;
   public dd: Date;
   public dateEthioNextYear: string;
+
   constructor(public certificateService: CertificateService,
               private projecAssService: ProjectAssociateService,
-
               public errMsg: ErrorMessage,
               public route: ActivatedRoute,
               public projectService: ProjectProfileService,
@@ -175,7 +175,16 @@ export class CertificateComponent implements OnInit {
           this.formOfOwnerShipDescriptionAmharic = 'የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ';
           this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR DOMESTIC';
         }
-
+        // if (this.investorDetailList.Investor.FormOfOwnership == 5) {
+        //   this.formOfOwnerShipDescriptionAmharic = '__________የተመዘገበ';
+        //   this.formOfOwnerShipDescriptionEnglish = 'Registered in __________';
+        // }
+        // else if (this.investorDetailList.Investor.LegalStatus != 1) {
+        //   this.formOfOwnerShipDescriptionAmharic = 'በኢትዮጵያ የተመዘገበ';
+        //   this.formOfOwnerShipDescriptionEnglish = 'Registered in Ethiopia';
+        // }else{
+        //
+        // }
       });
   }
 
