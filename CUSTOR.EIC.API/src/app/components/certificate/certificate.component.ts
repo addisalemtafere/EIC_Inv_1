@@ -156,6 +156,7 @@ export class CertificateComponent implements OnInit {
     this.certificateService.getOneById(id)
       .subscribe((result: ServiceApplicationModel) => {
         this.investorDetailList = result;
+        console.log(this.investorDetailList.Investor.TradeName);
         this.getInvestmentLocation(this.investorDetailList.ProjectId);
         this.getProjectCost(this.investorDetailList.ProjectId);
         this.getExportPercent(this.investorDetailList.ProjectId);
@@ -304,6 +305,13 @@ export class CertificateComponent implements OnInit {
   display: table;
   clear: both;
 }
+  .t-header {
+  text-align: left !important;
+  text-transform: capitalize !important;
+  font-size: 10px !important;
+  font-weight: bolder !important;
+  color: black;
+}
 
 .c-container {
   background-color: white !important;
@@ -311,12 +319,16 @@ export class CertificateComponent implements OnInit {
   padding: 5px;
   color: #000000 !important;
   font-family: Nyala !important;
-  font-size: 12px !important;
+  font-size: 11px !important;
   font-weight: normal !important;
   font-style: normal !important;
  
 }
-
+.notice{
+ color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 12px !important;
+}
 header {
   margin-bottom: 1px;
 }
@@ -354,117 +366,75 @@ header {
 #sub-header > table > tbody > tr > td {
   text-align: left !important;
 }
-
-#sub-header > table > tbody > tr > td.dta-head {
-  border-bottom: 1px solid black !important;
+.dta-head {
+  border-bottom: 1px dotted black !important;
+   color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 12px !important;
 }
 
-table > tbody > tr > td.a-header {
+.a-header {
+  color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 11px !important;
+  font-weight: bolder !important;
+}
+.s-head{
   color: #000000 !important;
   font-family: Nyala !important;
   font-size: 12px !important;
-  font-weight: normal !important;
-  font-style: normal !important;
 }
-
+.c-subtitle {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
 
 
 #project div,
 #company div {
   white-space: nowrap;
 }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  margin-bottom: 0px;
-}
-
-table tr:nth-child(2n-1) td {
-  background: white;
-}
-
-table tr > td.t-header, .caption {
-  text-align: left !important;
-  text-transform: capitalize !important;
-  font-size: 10px !important;
-  font-weight: bold !important;
-}
-
-table tr > td.data {
-  border-bottom: 1px solid #CCC8AD !important;
-}
-
-
-
-table th,
-table td {
-  text-align: center;
-}
-
-table .service,
-table .desc {
-  text-align: left;
-}
-
-table td.unit,
-table td.qty,
-table td.total {
-  font-size: 10px;
-}
-
-table td, table th {
-  border: none !important;
-  padding: 2px;
-}
-
 #notices {
   padding: 0px 5px !important;
 }
 
-#investmentCapital .value {
-  width: 200px;
-}
 
-#investmentCapitalEn .value {
-  width: 150px;
-}
 
-#basic .value {
-  width: 200px;
+
+
+ .value {
+ 
+  border-bottom: 1px dotted black !important;
   text-transform: capitalize;
-  font-size: 11px !important;
-    font-family: Nyala !important;
+  font-size: 12px !important;
+  font-family: Nyala !important;
+  text-align: center;
 
 }
-.value{
-font-size: 11px !important;
-}
-#basicEn .value {
-  width: 200px;
-  text-transform: capitalize;
 
-}
+
 
 nobr {
   white-space: nowrap;
 }
-
-table {
-  border: none !important;
-  border-spacing: 0px !important;
- 
-}
-#amharic #english {
-  display: flex; /* equal height of the children */
-}
-.investmentLocation{
- min-height: 110px;
+.caption {
+  text-align: left !important;
+  text-transform: capitalize !important;
+  font-family: Nyala !important;
+  font-size: 12px !important;
+  font-weight: bolder !important;
+  color: black;
 }
 
-.inner-row{
-display: table;
+
+#sub-header span {
+  color: #5D6975;
+  text-align: right;
+  width: 52px;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 10px;
 }
 
           </style>
