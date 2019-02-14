@@ -10,7 +10,7 @@
   padding: 5px;
   color: #000000 !important;
   font-family: Nyala !important;
-  font-size: 15px !important;
+  font-size: 12px !important;
   font-weight: normal !important;
   font-style: normal !important;
   //margin-right: 170px;
@@ -63,7 +63,7 @@ header {
 
 #sub-header {
   float: right;
-  width: 282px;
+  width: 200px;
   padding-right: 20px !important;
 }
 
@@ -81,7 +81,7 @@ header {
 table > tbody > tr > td.a-header {
   color: #000000 !important;
   font-family: Nyala !important;
-  font-size: 13px !important;
+  font-size: 14px !important;
   font-weight: normal !important;
   font-style: normal !important;
 }
@@ -137,11 +137,9 @@ table tr > td.t-header, .caption {
 
 table tr > td.data {
   border-bottom: 1px solid #CCC8AD !important;
+  font-size: 10px !important;
 }
 
-//.data {
-//  border: 1px solid #c4cbcc;
-//}
 
 table th,
 table td {
@@ -156,7 +154,7 @@ table .desc {
 table td.unit,
 table td.qty,
 table td.total {
-  font-size: 1.2em;
+  font-size: 10;
 }
 
 table td, table th {
@@ -173,7 +171,7 @@ table td, table th {
 }
 
 #investmentCapitalEn .value {
-  width: 200px;
+  width: 250px;
 }
 
 #basic .value {
