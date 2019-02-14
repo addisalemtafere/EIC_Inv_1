@@ -163,6 +163,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();
+      this.editMode = true;
+    } else {
+      this.editMode = false;
     }
   }
 

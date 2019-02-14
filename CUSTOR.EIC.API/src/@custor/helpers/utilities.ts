@@ -292,8 +292,8 @@ export class Utilities {
   }
 
   public static baseUrl() {
-    const base = 'http://40.117.47.168/';
-   // const base  = 'http://40.117.47.168/';
+    const base = 'http://localhost:5050/';
+   // const base  = 'http://localhost:5050/';
 
 
     // if (window.location.origin) {
