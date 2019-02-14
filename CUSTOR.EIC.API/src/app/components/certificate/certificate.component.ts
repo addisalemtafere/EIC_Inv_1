@@ -474,11 +474,12 @@ table {
 #amharic #english {
   display: flex; /* equal height of the children */
 }
-#investmentLocationAm{
- flex: 4;
+.investmentLocation{
+ min-height: 110px;
 }
-#investmentLocationEn{
- flex: 1;
+
+.inner-row{
+display: table;
 }
 
           </style>
