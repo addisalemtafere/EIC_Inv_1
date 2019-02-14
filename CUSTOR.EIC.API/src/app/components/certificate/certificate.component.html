@@ -99,7 +99,10 @@
               <tbody>
               <tr>
                 <td class="t-header">1.የግለሰቡ/የድርጅቱ ስም</td>
-                <td class="data value">{{investorDetailList?.Investor.InvestorName}}</td>
+                <td class="data value">
+                  {{titleAm}}
+                  {{investorDetailList?.Investor.InvestorName}}
+                </td>
               </tr>
               <tr>
                 <td class="t-header">2.ዜግነት</td>
@@ -112,6 +115,7 @@
               <tr>
                 <td class="t-header">4.የሥራ አስክያጅ ስም</td>
                 <td class="data value">
+                  {{titleManEn}}
                   {{manager[0].Associate?.FirstName}}
                   {{manager[0].Associate?.FatherName}}
                   {{manager[0].Associate?.GrandName}}
@@ -235,7 +239,10 @@
               <tbody>
               <tr>
                 <td class="t-header">1. Name Of Investor/Company</td>
-                <td class="data value">{{investorDetailList?.Investor.InvestorNameEng}}</td>
+                <td class="data value">
+                  {{titleEn}}
+                  {{investorDetailList?.Investor.InvestorNameEng}}
+                </td>
               </tr>
               <tr>
                 <td class="t-header">2. Nationality</td>
@@ -247,7 +254,9 @@
               </tr>
               <tr>
                 <td class="t-header">4. Name of General Manager</td>
-                <td class="data value">{{manager[0].Associate?.FirstNameEng}}
+                <td class="data value">
+                  {{titleManEn}}
+                  {{manager[0].Associate?.FirstNameEng}}
                   {{manager[0].Associate?.FatherNameEng}}
                   {{manager[0].Associate?.GrandNameEng}}
                 </td>

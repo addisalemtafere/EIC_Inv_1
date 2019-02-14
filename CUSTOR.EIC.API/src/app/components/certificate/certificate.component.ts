@@ -24,6 +24,7 @@ import {ActivatedRoute} from '@angular/router';
 import {DateService} from "../../Services/date.service";
 
 import {ProjectRenewalService} from "../../Services/project-renewal.service";
+import {LookupsService} from "../setting/lookup-tabs/lookups/lookups.service";
 
 @Component({
   selector: 'app-certificate',
@@ -56,6 +57,10 @@ export class CertificateComponent implements OnInit {
   public dateEc1: Date;
   public dd: Date;
   public dateEthioNextYear: string;
+  public titleAm: string;
+  public titleEn: string;
+  public titleManAm: string;
+  public titleManEn: string;
   constructor(public certificateService: CertificateService,
               private projecAssService: ProjectAssociateService,
 
@@ -66,6 +71,7 @@ export class CertificateComponent implements OnInit {
               public serviceApplication: ServiceApplicationService,
               public dialog: MatDialog,
               public toast: ToastrService,
+              private lookupsService: LookupsService,
               private projectCostService: ProjectCostService,
               public invactivityService: InvactivityService,
               private projectOutputService: ProjectOutputService,
@@ -153,6 +159,7 @@ export class CertificateComponent implements OnInit {
         this.getInvestmentLocation(this.investorDetailList.ProjectId);
         this.getProjectCost(this.investorDetailList.ProjectId);
         this.getExportPercent(this.investorDetailList.ProjectId);
+        this.getInvestorTitle(this.investorDetailList.Investor.Title)
         // console.log(result);
         // // console.log(this.investorDetailList.Investor.RegionId);
         this.getInvestorAddress(this.investorDetailList.InvestorId);
@@ -219,6 +226,7 @@ export class CertificateComponent implements OnInit {
     this.projecAssService.associateProject(ProjectId)
       .subscribe(result => {
         this.manager = result;
+        this.getManagerTitle(result[0].Associate.Title);
       });
 
   }
@@ -262,5 +270,21 @@ export class CertificateComponent implements OnInit {
         var day = d2.getDate();
         this.dateEthioNextYear = day + '/' + month + '/' + year;
       });
+  }
+
+  private getInvestorTitle(titleId: number) {
+    this.lookupsService.getLookup(titleId)
+      .subscribe(result => {
+        this.titleAm = result.Amharic;
+        this.titleEn = result.English;
+      })
+  }
+
+  private getManagerTitle(titleId: number) {
+    this.lookupsService.getLookup(titleId)
+      .subscribe(result => {
+        this.titleManAm = result.Amharic;
+        this.titleManEn = result.English;
+      })
   }
 }
