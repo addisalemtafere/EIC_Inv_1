@@ -25,6 +25,7 @@ export class Investor {
   GrandNameEng: string = null;
   Gender: string = null;
   Nationality: string = null;
+  BranchCountry: string = null;
   IsEthiopianOrigin = false;
   // IsDiaspora = false;
   Tin?: string = null;

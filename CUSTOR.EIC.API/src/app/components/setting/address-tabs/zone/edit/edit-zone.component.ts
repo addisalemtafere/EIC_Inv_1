@@ -134,9 +134,9 @@ export class EditZoneComponent implements OnInit, OnDestroy {
   initForm() {
     this.zoneForm = this.fb.group({
       cDescription: ['', Validators.compose([Validators.required, Validators.maxLength(20),
-        Validators.pattern('^([ \u1200-\u137F 0-9])+$')])],
+        Validators.pattern('^([ \u1200-\u137F 0-9 -])+$')])],
       cDescriptionEnglish: ['', Validators.compose([Validators.required, Validators.maxLength(30),
-        Validators.pattern('^[a-zA-Z /,0-9]+$')])],
+        Validators.pattern('^[a-zA-Z -/,0-9]+$')])],
       cRegion: [0, Validators.required],
       cId: ['', Validators.compose([Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+$')])]
     });

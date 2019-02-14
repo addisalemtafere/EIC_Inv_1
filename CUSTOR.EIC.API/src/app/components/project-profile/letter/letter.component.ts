@@ -314,15 +314,15 @@ export class LetterComponent implements OnInit {
     //console.log(this.incentiveRequestModelList)
     this.ShowSave = true;
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g,
-      this.projectModel.Investor.FirstNameEng.toUpperCase() +
-      ' ' + this.projectModel.Investor.FatherNameEng.toUpperCase() +
-      ' ' + this.projectModel.Investor.GrandNameEng.toUpperCase());
+      this.projectModel.Investor.FirstName.toUpperCase() +
+      ' ' + this.projectModel.Investor.FatherName.toUpperCase() +
+      ' ' + this.projectModel.Investor.GrandName.toUpperCase());
     this.LetterContent = this.LetterContent.replace(/{{StartDate}}/g,
       new Date(this.projectModel.StartDate).getMonth() +
       '/' + new Date(this.projectModel.StartDate).getDay() + '/' + new Date(this.projectModel.StartDate).getFullYear());
 
     this.LetterContent = this.LetterContent.replace(/{{InvActivity}}/g,
-      this.projectModel.InvestmentActivity.DescriptionEnglish.toUpperCase());
+      this.projectModel.InvestmentActivity.Description);
     this.LetterContent = this.LetterContent.replace(/{{InvestmentPermitNo}}/g,
       this.projectModel.InvestmentPermitNo);
     this.LetterContent = this.LetterContent.replace(/{{ExemptionYear}}/g,

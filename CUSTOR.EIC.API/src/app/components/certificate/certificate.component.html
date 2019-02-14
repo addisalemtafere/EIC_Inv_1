@@ -13,9 +13,13 @@
 
 <mat-card class="margin-2 margin-top-20" *ngIf="viewCertificate">
   <mat-card-header>
-    <div fxFlex="70"></div>
+    <div fxFlex="50"></div>
     <div fxFlex="25" style="float: right;">
       <button class="custom-button " (click)="generatePDF()">Print</button>
+      <!--<button class="custom-button " (click)="Print()">Print</button>-->
+    </div>
+    <div fxFlex="25" style="float: right;">
+      <button mat-raised-button="" color="primary" (click)="editInvestor()">Edit Investor</button>
       <!--<button class="custom-button " (click)="Print()">Print</button>-->
     </div>
   </mat-card-header>
@@ -103,7 +107,17 @@
               </tr>
               <tr>
                 <td class="t-header">2.ዜግነት</td>
-                <td class="data value">{{investorDetailList?.Investor.Nationality | countryPipe : 0}}</td>
+                <td class="data value"
+                    *ngIf="investorDetailList.Investor.LegalStatus != 1 && investorDetailList.Investor.FormOfOwnership != 5">
+                  {{NationalityAmharic}}
+                </td>
+                <td class="data value"
+                    *ngIf="investorDetailList.Investor.LegalStatus == 1 && investorDetailList.Investor.FormOfOwnership != 5">
+                  {{investorDetailList?.Investor.Nationality | countryPipe : 0}}
+                </td>
+                <td class="data value" *ngIf="investorDetailList.Investor.FormOfOwnership == 5">
+                  በ{{investorDetailList?.Investor.BranchCountry | originpipe : 0}} የተመዘገበ
+                </td>
               </tr>
               <tr>
                 <td class="t-header">3.የንግድ ስም</td>
@@ -239,7 +253,17 @@
               </tr>
               <tr>
                 <td class="t-header">2. Nationality</td>
-                <td class="data value">{{investorDetailList?.Investor.Nationality | countryPipe : 1}}</td>
+                <td class="data value"
+                    *ngIf="investorDetailList.Investor.LegalStatus != 1 && investorDetailList.Investor.FormOfOwnership != 5">
+                  {{NationalityEnglish}}
+                </td>
+                <td class="data value"
+                    *ngIf="investorDetailList.Investor.LegalStatus == 1 && investorDetailList.Investor.FormOfOwnership != 5">
+                  {{investorDetailList?.Investor.Nationality | countryPipe : 1}}
+                </td>
+                <td class="data value" *ngIf="investorDetailList.Investor.FormOfOwnership == 5">
+                  Registered in {{investorDetailList?.Investor.BranchCountry | originpipe : 1}}
+                </td>
               </tr>
               <tr>
                 <td class="t-header">3. Trade Name</td>
@@ -337,12 +361,7 @@
               </tr>
               <tr>
                 <td class="t-header">9. Amount of Investment Capital（USD）</td>
-<<<<<<< HEAD
-                <td class="data value">{{projectCostTotalUSD}}</td>
-=======
                 <td class="data value">{{projectCostTotalUSD |number }}</td>
->>>>>>> 83dfe25def6a3c36a841813b0d611f2fa7e5d4ff
-
               </tr>
               <tr>
                 <td class="t-header">10. Planned Export in Percent</td>

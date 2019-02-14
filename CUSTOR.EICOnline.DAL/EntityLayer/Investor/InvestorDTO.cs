@@ -52,6 +52,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public int? Gender { get; set; }
         public int? FormOfOwnership { get; set; }
         public int? Nationality { get; set; }
+        public int? BranchCountry { get; set; }
         public bool IsDiaspora { get; set; }
         public bool IsEthiopianOrigin { get; set; }
         public string Tin { get; set; }

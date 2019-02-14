@@ -19,11 +19,12 @@ import {ServiceApplicationService} from '../../Services/service-application.serv
 import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {DateService} from "../../Services/date.service";
 
 import {ProjectRenewalService} from "../../Services/project-renewal.service";
+import {Investor} from "../../model/investor";
 
 @Component({
   selector: 'app-certificate',
@@ -56,6 +57,8 @@ export class CertificateComponent implements OnInit {
   public dateEc1: Date;
   public dd: Date;
   public dateEthioNextYear: string;
+  public NationalityAmharic: string;
+  public NationalityEnglish: string;
 
   constructor(public certificateService: CertificateService,
               private projecAssService: ProjectAssociateService,
@@ -66,6 +69,7 @@ export class CertificateComponent implements OnInit {
               public serviceApplication: ServiceApplicationService,
               public dialog: MatDialog,
               public toast: ToastrService,
+              public router: Router,
               private projectCostService: ProjectCostService,
               public invactivityService: InvactivityService,
               private projectOutputService: ProjectOutputService,
@@ -179,12 +183,11 @@ export class CertificateComponent implements OnInit {
         //   this.formOfOwnerShipDescriptionAmharic = '__________የተመዘገበ';
         //   this.formOfOwnerShipDescriptionEnglish = 'Registered in __________';
         // }
-        // else if (this.investorDetailList.Investor.LegalStatus != 1) {
-        //   this.formOfOwnerShipDescriptionAmharic = 'በኢትዮጵያ የተመዘገበ';
-        //   this.formOfOwnerShipDescriptionEnglish = 'Registered in Ethiopia';
-        // }else{
-        //
-        // }
+        // else
+        if (this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5) {
+          this.NationalityAmharic = 'በኢትዮጵያ የተመዘገበ';
+          this.NationalityEnglish = 'Registered in Ethiopia';
+        }
       });
   }
 
@@ -271,5 +274,10 @@ export class CertificateComponent implements OnInit {
         var day = d2.getDate();
         this.dateEthioNextYear = day + '/' + month + '/' + year;
       });
+  }
+
+  editInvestor() {
+    // console.log(this.investors);
+    this.router.navigate(['/investor-profile/' + this.InvestorId], {relativeTo: this.route});
   }
 }

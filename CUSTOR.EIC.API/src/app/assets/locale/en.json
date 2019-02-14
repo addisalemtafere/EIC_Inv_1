@@ -154,7 +154,7 @@
       "FatherNameEng": "Father (English)",
       "GrandNameEng": "Grand Father (English)",
       "Nationality": "Nationality",
-      "NationalityCompany": "Country of Incorporation",
+      "BranchCountry": "Country of Incorporation",
       "CompanyName": "Company Name (Amharic)",
       "CompanyNameEng": "Company Name (English)",
       "Gender": "Gender",

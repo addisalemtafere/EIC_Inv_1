@@ -28,6 +28,7 @@ import {CustomsbranchPipe} from '../../app/pipe/customsbranch-pipe';
 import {LetterLookupPipe} from '../../app/pipe/letter-lookup.pipe';
 import {LookupReasonPipe} from '../../app/pipe/lookup-reason-pipe.pipe';
 import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
+import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
 
 @NgModule({
   imports: [
@@ -72,6 +73,7 @@ import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
     AccessDeniedComponent,
     // CustomerServiceStarterComponent,
     LookupPipe,
+    OriginPipe,
     LookuptypePipe,
     CustomsbranchPipe,
     LookupReasonPipe,
@@ -100,6 +102,7 @@ import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
     AccessDeniedComponent,
     // CustomerServiceStarterComponent,
     LookupPipe,
+    OriginPipe,
     LookuptypePipe,
     CustomsbranchPipe,
     LookupReasonPipe,
