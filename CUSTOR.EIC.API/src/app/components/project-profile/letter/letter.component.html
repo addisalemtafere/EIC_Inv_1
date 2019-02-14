@@ -3,14 +3,15 @@
 
 
     <div fxFlex="25" style="float: right;">
-      <div fxFlex="25" style="float: right;">
+      <div fxFlex="25" style="float: right;margin-right: 20px;">
         <span *ngIf="ShowSave">
-        <button class="custom-button " (click)="onSubmit()">Save</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
         <mat-divider></mat-divider>
           </span>
       </div>
       <span *ngIf="isForDetails">
-      <button class="custom-button" *ngIf="enableButtonGenerate" (click)="generatePDF()">Generate Letter</button>
+      <button mat-raised-button="" color="primary" *ngIf="enableButtonGenerate"
+              (click)="generatePDF()">Generate Letter</button>
         </span>
       <mat-divider></mat-divider>
     </div>

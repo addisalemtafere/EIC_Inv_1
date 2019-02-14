@@ -15,7 +15,7 @@
   <mat-card-header>
     <div fxFlex="70"></div>
     <div fxFlex="25" style="float: right;">
-      <button class="custom-button " (click)="generatePDF()">Print</button>
+      <button mat-raised-button="" color="primary" (click)="generatePDF()">Print</button>
       <!--<button class="custom-button " (click)="Print()">Print</button>-->
     </div>
   </mat-card-header>
@@ -76,7 +76,7 @@
               </tr>
               <tr>
                 <td class="s-head">
-                  የግብር ከፋይ መለያ ቁጥር /TIN
+                  የግብር ከፋይ መለያ ቁጥር TIN
                 </td>
                 <td class="dta-head">{{investorDetailList?.Investor.Tin}}</td>
               </tr>
@@ -337,11 +337,9 @@
               </tr>
               <tr>
                 <td class="t-header">9. Amount of Investment Capital（USD）</td>
-<<<<<<< HEAD
-                <td class="data value">{{projectCostTotalUSD}}</td>
-=======
+
                 <td class="data value">{{projectCostTotalUSD |number }}</td>
->>>>>>> 83dfe25def6a3c36a841813b0d611f2fa7e5d4ff
+
 
               </tr>
               <tr>

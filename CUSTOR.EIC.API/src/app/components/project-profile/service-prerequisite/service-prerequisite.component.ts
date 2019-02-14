@@ -25,7 +25,6 @@ import {Investor} from '../../../model/investor';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
 
 import {ActivatedRoute} from "@angular/router";
-import {ConfigurationService} from "@custor/services/configuration.service";
 import {AppConfiguration} from "../../../config/appconfig";
 
 
@@ -47,7 +46,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   // @Input() fileExt = 'JPG, GIF, PNG,Pdf';
   @Input() fileExt = 'Pdf';
   @Input() maxFiles = 5;
-  @Input() maxSize = 2; // 5MB
+  @Input() maxSize = 100; // 5MB
   @Output() uploadStatus = new EventEmitter();
 
   selectedFile: File = null;

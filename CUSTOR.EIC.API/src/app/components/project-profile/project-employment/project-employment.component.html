@@ -63,7 +63,7 @@
 
         <div fxLayout="row wrap">
           <span class="padding-10">Permanent</span>
-          <div class="block" fxFlex>
+          <div class="block" [fxFlex]="">
             <mat-form-field>
               <input name="PermanentFemale"
                      matInput formControlName="PermanentFemale"
@@ -75,7 +75,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="block" fxFlex>
+          <div class="block" [fxFlex]="">
             <mat-form-field>
               <input name="PermanentMale"
                      matInput formControlName="PermanentMale"
@@ -101,7 +101,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="block" fxFlex="">
+          <div class="block" [fxFlex]="">
             <mat-form-field>
               <input formControlName="PermanentForeignMale"
                      matInput
@@ -113,7 +113,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="block" fxFlex="">
+          <div class="block" [fxFlex]="">
             <mat-form-field style="width: 50px!important;">
               <input formControlName="TotalPermanent"
                      value="{{pf.value*1+pff.value*1+pm.value*1+pfm.value*1}}"
