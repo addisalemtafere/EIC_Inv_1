@@ -287,4 +287,190 @@ export class CertificateComponent implements OnInit {
         this.titleManEn = result.English;
       })
   }
+
+  printTest(): void {
+    let printContents, popupWin;
+    printContents = document.getElementById('certificate').innerHTML;
+    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin.document.open();
+    popupWin.document.write(`
+
+      <html>
+        <head>
+          <title>Print tab</title>
+          <style>
+          .clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.c-container {
+  background-color: white !important;
+  border: 1px solid #c4cbcc;
+  padding: 5px;
+  color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 12px !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+ 
+}
+
+header {
+  margin-bottom: 1px;
+}
+
+
+
+
+#project span {
+  color: #5D6975;
+  text-align: right;
+  width: 52px;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 12px;
+}
+
+#sub-header span {
+  color: #5D6975;
+  text-align: right;
+  width: 40px;
+  margin-right: 2px;
+  display: inline-block;
+  font-size: 12px;
+}
+
+#sub-header {
+  float: right;
+  width: 250px;
+  padding-right: 20px !important;
+}
+
+#sub-header > span {
+}
+
+#sub-header > table > tbody > tr > td {
+  text-align: left !important;
+}
+
+#sub-header > table > tbody > tr > td.dta-head {
+  border-bottom: 1px solid black !important;
+}
+
+table > tbody > tr > td.a-header {
+  color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 12px !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+}
+
+
+
+#project div,
+#company div {
+  white-space: nowrap;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 0px;
+}
+
+table tr:nth-child(2n-1) td {
+  background: white;
+}
+
+table tr > td.t-header, .caption {
+  text-align: left !important;
+  text-transform: capitalize !important;
+  font-size: 10px !important;
+  font-weight: bold !important;
+}
+
+table tr > td.data {
+  border-bottom: 1px solid #CCC8AD !important;
+}
+
+
+
+table th,
+table td {
+  text-align: center;
+}
+
+table .service,
+table .desc {
+  text-align: left;
+}
+
+table td.unit,
+table td.qty,
+table td.total {
+  font-size: 10px;
+}
+
+table td, table th {
+  border: none !important;
+  padding: 2px;
+}
+
+#notices {
+  padding: 0px 5px !important;
+}
+
+#investmentCapital .value {
+  width: 200px;
+}
+
+#investmentCapitalEn .value {
+  width: 150px;
+}
+
+#basic .value {
+  width: 200px;
+  text-transform: capitalize;
+  font-size: 11px !important;
+    font-family: Nyala !important;
+
+}
+.value{
+font-size: 11px !important;
+}
+#basicEn .value {
+  width: 200px;
+  text-transform: capitalize;
+
+}
+
+nobr {
+  white-space: nowrap;
+}
+
+table {
+  border: none !important;
+  border-spacing: 0px !important;
+ 
+}
+#amharic #english {
+  display: flex; /* equal height of the children */
+}
+#investmentLocationAm{
+ flex: 4;
+}
+#investmentLocationEn{
+ flex: 1;
+}
+
+          </style>
+        </head>
+    <body onload="window.print();window.close()">${printContents}</body>
+      </html>
+`);
+    popupWin.document.close();
+  }
 }

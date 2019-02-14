@@ -15,7 +15,7 @@
   <mat-card-header>
     <div fxFlex="70"></div>
     <div fxFlex="25" style="float: right;">
-      <button mat-raised-button="" color="primary" (click)="generatePDF()">Print</button>
+      <button mat-raised-button="" color="primary" (click)="printTest()">Print</button>
       <!--<button class="custom-button " (click)="Print()">Print</button>-->
     </div>
   </mat-card-header>
@@ -24,7 +24,7 @@
     </mat-card-title>
     <div id="certificate" class="c-container">
       <header class="clearfix">
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em" style="margin-top: 175px">
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2em" style="margin-top: 150px">
           <!--<div class="block" fxFlex="20%">-->
           <!--<div id="company" class="clearfix logo-image">-->
           <!--<img width="100" src="/assets/logo/EIC.jpg">-->
@@ -40,8 +40,8 @@
 
               <!--<div style="margin-top: 5px" class="c-subtitle">የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ</div>-->
               <!--<div class="c-subtitle">INVESTMENT PERMIT FOR DOMESTIC</div>-->
-              <div style="margin-left: 200px" class="c-subtitle">{{formOfOwnerShipDescriptionAmharic}}</div>
-              <div style="margin-left: 200px" class="c-subtitle">{{formOfOwnerShipDescriptionEnglish}}</div>
+              <div class="c-subtitle">{{formOfOwnerShipDescriptionAmharic}}</div>
+              <div class="c-subtitle">{{formOfOwnerShipDescriptionEnglish}}</div>
             </div>
           </div>
           <!--<div class="block" fxFlex="20%">-->
@@ -76,7 +76,8 @@
               </tr>
               <tr>
                 <td class="s-head">
-                  የግብር ከፋይ መለያ ቁጥር TIN
+                  የግብር ከፋይ መለያ ቁጥር <br>
+                  TIN
                 </td>
                 <td class="dta-head">{{investorDetailList?.Investor.Tin}}</td>
               </tr>
@@ -92,7 +93,7 @@
       </header>
 
       <div class="main" style="border-top: 1px solid #c4cbcc;margin-bottom: 10px;">
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2em">
+        <div class="row" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2em">
 
           <div id="amharic" class="block" fxFlex="48.5%">
             <table id="basic" class="full-width">
@@ -187,7 +188,7 @@
               </tr>
               </tbody>
             </table>
-            <table class="full-width">
+            <table id="investmentLocationAm" class="full-width">
               <caption class="caption">7.የኢንቨስትመንት የስራ መስክ</caption>
               <tbody>
               <tr>
@@ -303,7 +304,7 @@
               </tbody>
             </table>
 
-            <table class="full-width">
+            <table id="investmentLocationEn" class="full-width">
               <caption class="caption">6. Investment Location</caption>
               <tbody>
               <tr>
