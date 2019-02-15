@@ -99,6 +99,7 @@ export class CertificateComponent implements OnInit {
         if (result.ProjectRenewal[0] != null && this.ServiceId == 18) {
           this.renewedTo = result.ProjectRenewal[0].RenewedTo;
         }
+
       }, error => this.errMsg.getError(error));
   }
 
