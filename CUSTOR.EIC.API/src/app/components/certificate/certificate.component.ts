@@ -19,11 +19,11 @@ import {ServiceApplicationService} from '../../Services/service-application.serv
 import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
-import {ActivatedRoute} from '@angular/router';
-
+import {ActivatedRoute, Router} from '@angular/router';
 import {DateService} from "../../Services/date.service";
-
 import {ProjectRenewalService} from "../../Services/project-renewal.service";
+import {Investor} from "../../model/investor";
+import {LookupsService} from "../setting/lookup-tabs/lookups/lookups.service";
 
 @Component({
   selector: 'app-certificate',
@@ -56,9 +56,15 @@ export class CertificateComponent implements OnInit {
   public dateEc1: Date;
   public dd: Date;
   public dateEthioNextYear: string;
+  public NationalityAmharic: string;
+  public NationalityEnglish: string;
+  public titleAm: string;
+  public titleEn: string;
+  public titleManAm: string;
+  public titleManEn: string;
+
   constructor(public certificateService: CertificateService,
               private projecAssService: ProjectAssociateService,
-
               public errMsg: ErrorMessage,
               public route: ActivatedRoute,
               public projectService: ProjectProfileService,
@@ -66,6 +72,8 @@ export class CertificateComponent implements OnInit {
               public serviceApplication: ServiceApplicationService,
               public dialog: MatDialog,
               public toast: ToastrService,
+              public router: Router,
+              private lookupsService: LookupsService,
               private projectCostService: ProjectCostService,
               public invactivityService: InvactivityService,
               private projectOutputService: ProjectOutputService,
@@ -151,9 +159,11 @@ export class CertificateComponent implements OnInit {
     this.certificateService.getOneById(id)
       .subscribe((result: ServiceApplicationModel) => {
         this.investorDetailList = result;
+        console.log(this.investorDetailList.Investor.TradeName);
         this.getInvestmentLocation(this.investorDetailList.ProjectId);
         this.getProjectCost(this.investorDetailList.ProjectId);
         this.getExportPercent(this.investorDetailList.ProjectId);
+        this.getInvestorTitle(this.investorDetailList.Investor.Title)
         // console.log(result);
         // // console.log(this.investorDetailList.Investor.RegionId);
         this.getInvestorAddress(this.investorDetailList.InvestorId);
@@ -176,7 +186,15 @@ export class CertificateComponent implements OnInit {
           this.formOfOwnerShipDescriptionAmharic = 'የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ';
           this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR DOMESTIC';
         }
-
+        // if (this.investorDetailList.Investor.FormOfOwnership == 5) {
+        //   this.formOfOwnerShipDescriptionAmharic = '__________የተመዘገበ';
+        //   this.formOfOwnerShipDescriptionEnglish = 'Registered in __________';
+        // }
+        // else
+        if (this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5) {
+          this.NationalityAmharic = 'በኢትዮጵያ የተመዘገበ';
+          this.NationalityEnglish = 'Registered in Ethiopia';
+        }
       });
   }
 
@@ -220,6 +238,7 @@ export class CertificateComponent implements OnInit {
     this.projecAssService.associateProject(ProjectId)
       .subscribe(result => {
         this.manager = result;
+        this.getManagerTitle(result[0].Associate.Title);
       });
 
   }
@@ -263,5 +282,197 @@ export class CertificateComponent implements OnInit {
         var day = d2.getDate();
         this.dateEthioNextYear = day + '/' + month + '/' + year;
       });
+  }
+
+
+  editInvestor() {
+    // console.log(this.investors);
+    this.router.navigate(['/investor-profile/' + this.InvestorId], {relativeTo: this.route});
+  }
+  private getInvestorTitle(titleId: number) {
+    this.lookupsService.getLookup(titleId)
+      .subscribe(result => {
+        this.titleAm = result.Amharic;
+        this.titleEn = result.English;
+      })
+  }
+
+  private getManagerTitle(titleId: number) {
+    this.lookupsService.getLookup(titleId)
+      .subscribe(result => {
+        this.titleManAm = result.Amharic;
+        this.titleManEn = result.English;
+      })
+  }
+
+  printTest(): void {
+    let printContents, popupWin;
+    printContents = document.getElementById('certificate').innerHTML;
+    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin.document.open();
+    popupWin.document.write(`
+
+      <html>
+        <head>
+          <title>Print tab</title>
+          <style>
+          .clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+  .t-header {
+  text-align: left !important;
+  text-transform: capitalize !important;
+  font-size: 10px !important;
+  font-weight: bolder !important;
+  color: black;
+}
+
+.c-container {
+  background-color: white !important;
+  border: 1px solid #c4cbcc;
+  padding: 5px;
+  color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 11px !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+ 
+}
+.notice{
+ color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 12px !important;
+}
+header {
+  margin-bottom: 1px;
+}
+
+
+
+
+#project span {
+  color: #5D6975;
+  text-align: right;
+  width: 52px;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 12px;
+}
+
+#sub-header span {
+  color: #5D6975;
+  text-align: right;
+  width: 40px;
+  margin-right: 2px;
+  display: inline-block;
+  font-size: 12px;
+}
+
+#sub-header {
+  float: right;
+  width: 250px;
+  padding-right: 5px !important;
+}
+
+#sub-header > span {
+}
+
+#sub-header > table > tbody > tr > td {
+  text-align: left !important;
+}
+.dta-head {
+  border-bottom: 1px dotted rgba(3,16,11,0.76) !important;
+   color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 12px !important;
+  width: 60%;
+}
+#sub-header > table > tbody > tr > td.dta-head {
+  text-align: center !important;
+
+}
+.a-header {
+  color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 11px !important;
+  font-weight: bolder !important;
+}
+.s-head{
+  color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 12px !important;
+  width: 40%;
+}
+.c-subtitle {
+  font-size: 14px;
+  /*font-weight: bold;*/
+  text-align: center;
+  padding: 2px;
+}
+
+
+#project div,
+#company div {
+  white-space: nowrap;
+}
+#notices {
+  padding: 0px 20px !important;
+}
+ .value {
+ 
+  border-bottom: 1px dotted rgba(3,16,11,0.76) !important;
+  text-transform: capitalize;
+  font-size: 12px !important;
+  font-family: Nyala !important;
+  text-align: center;
+
+}
+
+
+
+nobr {
+  white-space: nowrap;
+}
+.caption {
+  text-align: left !important;
+  text-transform: capitalize !important;
+  font-family: Nyala !important;
+  font-size: 12px !important;
+  font-weight: bolder !important;
+  color: black;
+}
+
+
+#sub-header span {
+  color: #5D6975;
+  text-align: right;
+  width: 350px;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 10px;
+}
+.row1{
+  padding: 2px;
+}
+.rowlast{
+  margin-bottom: 10px;
+  margin-top: 25px;
+}
+.renewDate{
+  font-size: 20px;
+}
+.renewDate {
+  font-size: 25px !important;
+  font-weight:bold ;
+}
+
+          </style>
+        </head>
+    <body onload="window.print();window.close()">${printContents}</body>
+      </html>
+`);
+    popupWin.document.close();
   }
 }

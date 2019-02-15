@@ -51,7 +51,6 @@ export class ZoneService {
   }
 
   saveZone(zoneModel: Zone): Observable<Zone> {
-
     return this.httpClient.post<Zone>(this.config.urls.url('zone'), zoneModel).pipe(
       map(ZoneData => {
         this.zoneModel = ZoneData;

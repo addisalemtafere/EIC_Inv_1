@@ -10,7 +10,7 @@
   padding: 5px;
   color: #000000 !important;
   font-family: Nyala !important;
-  font-size: 15px !important;
+  font-size: 12px !important;
   font-weight: normal !important;
   font-style: normal !important;
   //margin-right: 170px;
@@ -63,8 +63,8 @@ header {
 
 #sub-header {
   float: right;
-  width: 282px;
-  padding-right: 20px !important;
+  width: 350px;
+  padding-right: 5px !important;
 }
 
 #sub-header > span {
@@ -75,13 +75,13 @@ header {
 }
 
 #sub-header > table > tbody > tr > td.dta-head {
-  border-bottom: 1px solid black !important;
+  border-bottom: 1px dotted rgba(3,16,11,0.76) !important;
 }
 
 table > tbody > tr > td.a-header {
   color: #000000 !important;
   font-family: Nyala !important;
-  font-size: 13px !important;
+  font-size: 14px !important;
   font-weight: normal !important;
   font-style: normal !important;
 }
@@ -95,6 +95,10 @@ table > tbody > tr > td.a-header {
 }
 
 .c-subtitle {
+  font-size: 14px;
+  //font-weight: bold;
+  text-align: center;
+  padding: 2px;
 }
 
 #TIN {
@@ -122,7 +126,7 @@ table tr:nth-child(2n-1) td {
   background: white;
 }
 
-table tr > td.t-header, .caption {
+.t-header {
   text-align: left !important;
   //color: #222d32;
   //font-weight: bold;
@@ -130,18 +134,16 @@ table tr > td.t-header, .caption {
   text-transform: capitalize !important;
 
   font-family: Nyala !important;
-  font-size: 15px !important;
-  font-weight: bold !important;
+  font-size: 14px !important;
+  font-weight: bolder !important;
   font-style: normal !important;
 }
 
 table tr > td.data {
-  border-bottom: 1px solid #CCC8AD !important;
+  border-bottom: 1px dotted rgba(3,16,11,0.76) !important;
+  font-size: 16px !important;
 }
 
-//.data {
-//  border: 1px solid #c4cbcc;
-//}
 
 table th,
 table td {
@@ -156,7 +158,7 @@ table .desc {
 table td.unit,
 table td.qty,
 table td.total {
-  font-size: 1.2em;
+  font-size: 13px;
 }
 
 table td, table th {
@@ -165,7 +167,14 @@ table td, table th {
 }
 
 #notices {
-  padding: 0px 20px !important;
+  margin: 0px 20px !important;
+}
+
+.notice {
+  color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 13px !important;
+  font-weight: lighter;
 }
 
 #investmentCapital .value {
@@ -173,7 +182,7 @@ table td, table th {
 }
 
 #investmentCapitalEn .value {
-  width: 200px;
+  width: 250px;
 }
 
 #basic .value {
@@ -183,7 +192,7 @@ table td, table th {
 }
 
 #basicEn .value {
-  width: 150px;
+  width: 250px;
   text-transform: capitalize;
 
 }
@@ -195,4 +204,57 @@ nobr {
 table {
   border: none !important;
   border-spacing: 0px !important;
+}
+
+.value {
+  border-bottom: 1px dotted rgba(3,16,11,0.76) !important;
+  text-transform: capitalize;
+  font-size: 16px !important;
+  font-family: Nyala !important;
+  text-align: center;
+
+}
+
+.caption {
+  text-align: left !important;
+  text-transform: capitalize !important;
+  font-family: Nyala !important;
+  font-size: 14px !important;
+  font-weight: bolder !important;
+  color: black;
+}
+
+.dta-head {
+  border-bottom: 1px dotted black !important;
+  color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 16px !important;
+  width: 60%;
+
+}
+
+#sub-header > table > tbody > tr > td.dta-head {
+  text-align: center !important;
+
+}
+
+.s-head {
+  color: #000000 !important;
+  font-family: Nyala !important;
+  font-size: 16px !important;
+  width: 40%;
+}
+
+.rowlast {
+  margin-bottom: 10px;
+  margin-top: 25px;
+}
+
+.row1 {
+  padding: 2px;
+}
+
+.renewDate {
+  font-size: 25px !important;
+  font-weight: bold !important;;
 }
