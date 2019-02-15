@@ -14,8 +14,12 @@
 <mat-card class="margin-2 margin-top-20" *ngIf="viewCertificate">
   <mat-card-header>
     <div fxFlex="70"></div>
-    <div fxFlex="25" style="float: right;">
+    <div fxFlex="15" style="float: right;">
       <button mat-raised-button="" color="primary" (click)="printTest()">Print</button>
+      <!--<button class="custom-button " (click)="Print()">Print</button>-->
+    </div>
+    <div fxFlex="15" style="float: right;">
+      <button mat-raised-button="" color="primary" (click)="generatePDF()">Export To Pdf</button>
       <!--<button class="custom-button " (click)="Print()">Print</button>-->
     </div>
   </mat-card-header>
@@ -24,7 +28,7 @@
     </mat-card-title>
     <div id="certificate" class="c-container">
       <header class="clearfix">
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2em" style="margin-top: 150px">
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2em" style="margin-top: 135px">
           <!--<div class="block" fxFlex="20%">-->
           <!--<div id="company" class="clearfix logo-image">-->
           <!--<img width="100" src="/assets/logo/EIC.jpg">-->
@@ -92,8 +96,8 @@
         </div>
       </header>
 
-      <div class="main" style="border-top: 1px solid #c4cbcc;margin-bottom: 10px;">
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+      <div class="main" style="border-top: 1px dotted #4b4f56;margin-top: 10px;">
+        <div  style="margin-top: 10px;" class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
           <div class="block" fxFlex="">
             <span class="caption">1.የግለሰቡ/የድርጅቱ ስም</span>
           </div>
@@ -113,7 +117,7 @@
           </div>
 
         </div>
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
           <div class="block" fxFlex="">
             <span class="caption">2.ዜግነት</span>
           </div>
@@ -130,7 +134,7 @@
           </div>
 
         </div>
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
           <div class="block" fxFlex="">
             <span class="caption">3.የንግድ ስም</span>
           </div>
@@ -154,7 +158,7 @@
 
         </div>
         <!--manger detial-->
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
           <div class="block" fxFlex="">
             <span class="caption">4.የሥራ አስክያጅ ስም</span>
 
@@ -181,7 +185,7 @@
           </div>
 
         </div>
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
 
 
           <div class="block" fxFlex="">
@@ -267,7 +271,8 @@
 
 
         </div>
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
 
 
           <div class="block" fxFlex="">
@@ -329,70 +334,8 @@
 
 
         </div>
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
 
-
-          <div class="block" fxFlex="">
-            <table class="full-width investmentLocation">
-              <caption class="caption">6.የኢንቨስትመንቱ አድራሻ</caption>
-              <tbody>
-              <tr>
-                <td class="a-header">ክልል</td>
-                <td class="data value">{{investmentAddressList?.Region.Description}}</td>
-                <td class="a-header">ዞን</td>
-                <td class="data value">{{investmentAddressList?.Region.Zones[0].Description}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">ከተማ</td>
-                <td class="data value">---</td>
-                <td class="a-header">ክፍለ ከተማ/ወረዳ</td>
-                <td class="data value">{{investmentAddressList?.Region.Zones[0].Woredas[0].Description}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">ወረዳ/ቀበሌ</td>
-                <td class="data value">
-                  {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
-                </td>
-                <td class="a-header">የቤት ቁጥር</td>
-                <td class="data value">{{investmentAddressList?.HouseNo}}</td>
-              </tr>
-              </tbody>
-            </table>
-
-
-          </div>
-          <div class="block" fxFlex="">
-            <table class="full-width investmentLocation">
-              <caption class="caption">6. Investment Location</caption>
-              <tbody>
-              <tr>
-                <td class="a-header">Region</td>
-                <td class="data value">{{investmentAddressList?.Region.DescriptionEnglish}}</td>
-                <td class="a-header">Zone</td>
-                <td class="data value">{{investmentAddressList?.Region.Zones[0].DescriptionEnglish}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">City</td>
-                <td class="data value">--</td>
-                <td class="a-header">Sub city/Woreda</td>
-                <td class="data value">{{investmentAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">Woreda/Kebele</td>
-                <td class="data value">
-                  {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
-                </td>
-                <td class="a-header">House No.</td>
-                <td class="data value">{{investmentAddressList?.HouseNo}}</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-
-
-        </div>
-
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
 
           <div class="block" fxFlex="">
             <span class="caption">7.የኢንቨስትመንት የስራ መስክ</span>
@@ -413,7 +356,7 @@
         </div>
 
         <!--//investment capital-->
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
 
           <div class="block" fxFlex="">
             <span class="caption">8.የኢንቨስትመንቱ ካፒታል በኢት ብር</span>
@@ -434,7 +377,7 @@
         </div>
 
         <!--invesment capital in USD-->
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
 
           <div class="block" fxFlex="">
             <span class="caption">9.የኢንቨስትመንቱ ካፒታል (USD)</span>
@@ -455,7 +398,7 @@
         </div>
 
         <!--export market share-->
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
 
           <div class="block" fxFlex="">
             <span class="caption">10. የታቀደው የኤክስፖርት በመቶኛ</span>
@@ -476,7 +419,7 @@
         </div>
 
         <!--renewed -->
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+        <div id="reDate" class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
 
           <div class="block" fxFlex="">
             <span class="t-header">
@@ -494,7 +437,7 @@
 
 
         </div>
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+        <div class="rowlast row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
 
           <div class="block" fxFlex="">
             <table class="full-width">
@@ -519,15 +462,23 @@
                 <td class="t-header">እስከ
                 </td>
 
-                <td class="data value" style="width: 300px"><strong>{{ dateEthioNextYear}}</strong> ታድሷል</td>
+                <td class="renewDate data value" style="width: 300px">
+                  <span class="renewDate"> {{ dateEthioNextYear}} ታድሷል</span>
+
+                </td>
               </tr>
               <tr *ngIf="ServiceId==13">
                 <td class="t-header">Valid Until</td>
-                <td class="data value" style="width: 300px"><strong>{{ dateGc | date}}</strong></td>
+                <td class=" renewDate data value" style="width: 300px">
+                  <span class="renewDate">   {{ dateGc | date}}</span>
+
+                </td>
 
               <tr *ngIf="ServiceId==18">
                 <td class="t-header">Valid Until</td>
-                <td class="data value" style="width: 300px">{{ renewedTo | date:'mediumDate'}}</td>
+                <td class=" data value" style="width: 300px">
+                  <span class="renewDate">{{ renewedTo | date:'mediumDate'}}</span>
+                </td>
 
               </tr>
               </tbody>
@@ -538,16 +489,16 @@
         </div>
 
 
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2em">
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2em">
           <div id="notices">
-            <div>ማሳሰቢያ/Notice:</div>
+            <div style="font-weight: bold;">ማሳሰቢያ/Notice:</div>
             <div class="notice">
               1. ይህ የኢንቨስትመንት ፈቃድ ባለሃብቱ የምርት ውጤቱን ወይም አገልግሎቱን ለገበያ ማቅረብ እስከጀመረበት ጊዜ ድረስ በዓመቱ መታደስ
               አለበት::<br>
               This permit shall be renewed annually until the investor commences the marketing of his product or
               services
             </div>
-            <div class="notice" style="margin-top: 10px !important;">
+            <div class="notice" style="margin-top: 20px !important;">
               2. ኢንቨስተሩ ማምረት ወይም አገልግልግሎት መስጠት ከመጀመሩ በፊት የንግድ ምዝገባ ና ፈቃድ ማውጣት አለበት ::<br>
               The Investor is required to obtain trade registration and license of the enterprise prior to the
               commencement of operation .

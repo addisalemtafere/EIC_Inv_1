@@ -357,7 +357,7 @@ header {
 #sub-header {
   float: right;
   width: 250px;
-  padding-right: 20px !important;
+  padding-right: 5px !important;
 }
 
 #sub-header > span {
@@ -367,12 +367,16 @@ header {
   text-align: left !important;
 }
 .dta-head {
-  border-bottom: 1px dotted black !important;
+  border-bottom: 1px dotted rgba(3,16,11,0.76) !important;
    color: #000000 !important;
   font-family: Nyala !important;
   font-size: 12px !important;
+  width: 60%;
 }
+#sub-header > table > tbody > tr > td.dta-head {
+  text-align: center !important;
 
+}
 .a-header {
   color: #000000 !important;
   font-family: Nyala !important;
@@ -383,11 +387,13 @@ header {
   color: #000000 !important;
   font-family: Nyala !important;
   font-size: 12px !important;
+  width: 40%;
 }
 .c-subtitle {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
+  /*font-weight: bold;*/
   text-align: center;
+  padding: 2px;
 }
 
 
@@ -396,16 +402,11 @@ header {
   white-space: nowrap;
 }
 #notices {
-  padding: 0px 5px !important;
+  padding: 0px 20px !important;
 }
-
-
-
-
-
  .value {
  
-  border-bottom: 1px dotted black !important;
+  border-bottom: 1px dotted rgba(3,16,11,0.76) !important;
   text-transform: capitalize;
   font-size: 12px !important;
   font-family: Nyala !important;
@@ -431,10 +432,24 @@ nobr {
 #sub-header span {
   color: #5D6975;
   text-align: right;
-  width: 52px;
+  width: 350px;
   margin-right: 10px;
   display: inline-block;
   font-size: 10px;
+}
+.row1{
+  padding: 2px;
+}
+.rowlast{
+  margin-bottom: 10px;
+  margin-top: 25px;
+}
+.renewDate{
+  font-size: 20px;
+}
+.renewDate {
+  font-size: 25px !important;
+  font-weight:bold ;
 }
 
           </style>
