@@ -62,11 +62,7 @@ import {AppComponent} from './app.component';
 import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-  "bgsColor": "#04a162",
-  "bgsOpacity": 0.5,
-  "bgsPosition": "bottom-left",
-  "bgsSize": 90,
-  "bgsType": "double-bounce",
+
   "blur": 65,
   "fgsColor": "#0c97a8",
   "fgsPosition": "center-center",
