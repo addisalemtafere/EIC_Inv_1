@@ -11,6 +11,10 @@
     <!-- <app-theme-picker></app-theme-picker> -->
     <!--<app-lang-switcher></app-lang-switcher>-->
     <button *ngIf="isLogged==='false'" mat-button (click)="DoLogin()">
+      <mat-icon class="mat-18">my_location</mat-icon>
+      <span>Contact</span>
+    </button>
+    <button *ngIf="isLogged==='false'" mat-button (click)="DoLogin()">
       <mat-icon>lock_open</mat-icon>
       <span>{{'mainMenu.Login' | translate}}</span>
     </button>
