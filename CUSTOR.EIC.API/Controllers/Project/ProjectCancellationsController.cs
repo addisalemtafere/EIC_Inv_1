@@ -23,7 +23,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
         {
             _context = context;
         }
-   
+
 
     // DELETE: api/ProjectCancellations/5
     [HttpDelete("{id}")]
@@ -88,7 +88,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
         public async Task<IActionResult> PutProjectCancellationAsync([FromRoute] int id,
             [FromBody] ProjectCancellation projectCancellation)
         {
-           
+
             var project = _context.ProjectCancellation.First(s => s.ProjectCancellationId== id);
             project.IsApproved = projectCancellation.IsApproved;
       project.ProjectId = projectCancellation.ProjectId;
@@ -107,10 +107,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
       {
         await _context.SaveChangesAsync();
 
-        
+
 
         //  return null;
-        return CreatedAtAction("GetProjectInput", new { id = projectCancellation.ProjectCancellationId }, project);
+        return CreatedAtAction("GetProjectCancellation", new { id = projectCancellation.ProjectCancellationId }, project);
     }
           catch (DbUpdateConcurrencyException)
           {
@@ -119,7 +119,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
             throw;
           }
 }
-    
+
 
     private bool ProjectCancellationExists(int id)
         {
