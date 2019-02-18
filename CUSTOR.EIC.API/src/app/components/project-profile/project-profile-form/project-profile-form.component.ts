@@ -1,8 +1,8 @@
-import {AfterContentChecked, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterContentChecked, Component, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ProjectModel} from '../../../model/Project.model';
 import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {AddressModel} from '../../../model/address/Address.model';
 import {AddressService} from '../../../Services/Address/address.service';

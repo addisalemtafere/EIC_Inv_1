@@ -314,7 +314,7 @@ export class CertificateComponent implements OnInit {
 
       <html>
         <head>
-          <title>Print tab</title>
+          <title>EIC</title>
           <style>
           .clearfix:after {
   content: "";
