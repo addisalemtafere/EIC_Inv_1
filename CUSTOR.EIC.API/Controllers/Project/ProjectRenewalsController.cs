@@ -54,7 +54,7 @@ namespace CUSTOR.EICOnline.API.Controllers
       try
       {
         await context.SaveChangesAsync();
-        return CreatedAtAction("GetProjectInput", new { id = projectRenewal.ProjectRenewalId }, updated);
+        return CreatedAtAction("GetProjectRenewals", new { id = projectRenewal.ProjectRenewalId }, updated);
       }
       catch (DbUpdateConcurrencyException)
       {
