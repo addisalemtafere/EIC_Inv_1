@@ -53,9 +53,9 @@ namespace CUSTOR.EICOnline.API.Controllers.Business
             editedCompanyClearance.IsActive = true;
             companyClearance.IsDeleted = false;
             companyClearance.ObjectId = new System.Guid();
-            companyClearance.CreatedBy = "Aklile";
+            companyClearance.CreatedBy = "";
             companyClearance.CreatedDate = DateTime.Today;
-            companyClearance.UpdatedBy = "Aklile";
+            companyClearance.UpdatedBy = "";
             companyClearance.UpdatedDate = DateTime.Today;
           var workFlowId = companyClearance.workFlowId;
           if (workFlowId.HasValue)
