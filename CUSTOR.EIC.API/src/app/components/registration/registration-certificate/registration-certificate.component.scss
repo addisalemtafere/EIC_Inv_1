@@ -207,7 +207,7 @@ table {
 }
 
 .value {
-  border-bottom: 1px dotted rgba(3,16,11,0.76) !important;
+  border-bottom: 1px dotted rgba(3, 16, 11, 0.76) !important;
   text-transform: capitalize;
   font-size: 16px !important;
   font-family: Nyala !important;
@@ -257,4 +257,18 @@ table {
 .renewDate {
   font-size: 25px !important;
   font-weight: bold !important;;
+}
+
+.reg-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+
+}
+
+.reg-sm-title {
+  text-align: center;
+  font-size: 15px;
+  font-weight: bolder;
 }

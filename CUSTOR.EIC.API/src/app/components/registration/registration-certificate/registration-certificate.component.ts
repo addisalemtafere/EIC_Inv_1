@@ -364,6 +364,20 @@ nobr {
   font-weight:bold ;
 }
 
+
+.reg-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+
+}
+
+.reg-sm-title {
+  text-align: center;
+  font-size: 15px;
+  font-weight: bolder;
+}
           </style>
         </head>
     <body onload="window.print();window.close()">${printContents}</body>
