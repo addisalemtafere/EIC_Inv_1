@@ -59,34 +59,34 @@ import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.s
 import {AppComponent} from './app.component';
 
 
-import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
-
-const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-  "bgsColor": "#04a162",
-  "bgsOpacity": 0.5,
-  "bgsPosition": "center-center",
-  "bgsSize": 90,
-  "bgsType": "double-bounce",
-  "blur": 65,
-  "fgsColor": "#0c97a8",
-  "fgsPosition": "center-center",
-  "fgsSize": 90,
-  "fgsType": "double-bounce",
-  "gap": 24,
-  "logoPosition": "center-center",
-  "logoSize": 120,
-  "logoUrl": "",
-  "overlayColor": "rgba(40, 40, 40, 0.8)",
-  "pbColor": "#0c97a8",
-  "pbDirection": "ltr",
-  "pbThickness": 5,
-  "hasProgressBar": true,
-  "text": "Loading",
-  "textColor": "#0c97a8",
-  "textPosition": "center-center",
-  "threshold": 100,
-
-};
+// import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
+//
+// const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+//   "bgsColor": "#04a162",
+//   "bgsOpacity": 0.5,
+//   "bgsPosition": "center-center",
+//   "bgsSize": 90,
+//   "bgsType": "double-bounce",
+//   "blur": 65,
+//   "fgsColor": "#0c97a8",
+//   "fgsPosition": "center-center",
+//   "fgsSize": 90,
+//   "fgsType": "double-bounce",
+//   "gap": 24,
+//   "logoPosition": "center-center",
+//   "logoSize": 120,
+//   "logoUrl": "",
+//   "overlayColor": "rgba(40, 40, 40, 0.8)",
+//   "pbColor": "#0c97a8",
+//   "pbDirection": "ltr",
+//   "pbThickness": 5,
+//   "hasProgressBar": true,
+//   "text": "Loading",
+//   "textColor": "#0c97a8",
+//   "textPosition": "center-center",
+//   "threshold": 100,
+//
+// };
 
 @NgModule({
   declarations: [
@@ -143,9 +143,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // ImageUploadModule.forRoot(),
     EditorModule,
 
-    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxUiLoaderRouterModule, // import this module for showing loader automatically when navigating between app routes
-    NgxUiLoaderHttpModule
+    // NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    // NgxUiLoaderRouterModule, // import this module for showing loader automatically when navigating between app routes
+    // NgxUiLoaderHttpModule
 
   ],
   entryComponents: [
