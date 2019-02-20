@@ -123,6 +123,9 @@
           </div>
           <div class="block full-width value" fxFlex="">
             <span class="data">{{investorDetailList?.Investor.Nationality | countryPipe : 0}}</span>
+            <span *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5" class="data">
+             {{NationalityAmharic}}
+            </span>
 
           </div>
           <div class="block" fxFlex="">
@@ -130,7 +133,9 @@
           </div>
           <div class="block full-width value" fxFlex="">
             <span class="data ">{{investorDetailList?.Investor.Nationality | countryPipe : 1}}</span>
-
+            <span *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5" class="data">
+             {{NationalityEnglish}}
+            </span>
           </div>
 
         </div>
@@ -165,7 +170,7 @@
           </div>
           <div class="block full-width value" fxFlex="">
             <span class="data">
-              {{titleManEn}}
+              {{titleManAm}}
               {{manager[0].Associate?.FirstName}}
               {{manager[0].Associate?.FatherName}}
               {{manager[0].Associate?.GrandName}}
