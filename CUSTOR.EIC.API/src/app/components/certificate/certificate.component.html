@@ -122,7 +122,8 @@
             <span class="caption">2.ዜግነት</span>
           </div>
           <div class="block full-width value" fxFlex="">
-            <span class="data">{{investorDetailList?.Investor.Nationality | countryPipe : 0}}</span>
+            <span class="data" *ngIf="this.investorDetailList.Investor.LegalStatus == 1">
+              {{investorDetailList?.Investor.Nationality | countryPipe : 0}}</span>
             <span
               *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5"
               class="data">
@@ -136,7 +137,7 @@
             <span class="caption">2. Nationality</span>
           </div>
           <div class="block full-width value" fxFlex="">
-            <span class="data ">{{investorDetailList?.Investor.Nationality | countryPipe : 1}}</span>
+            <span class="data " *ngIf="this.investorDetailList.Investor.LegalStatus == 1">{{investorDetailList?.Investor.Nationality | countryPipe : 1}}</span>
             <span
               *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5"
               class="data">
