@@ -217,7 +217,7 @@ export class AppConfiguration {
     IncentiveRequestDetailofSparePart: 'api/IncentiveRequestDetail/getSparePart',
     incentiveRequestsDetailByProjectId: 'api/IncentiveRequestDetail/DetailByProjectId',
 
-    CompanyClearances: 'api/CoChangeApplicationStatusmpanyClearances',
+    CompanyClearances: 'api/CompanyClearances',
     CompanyClearanceByInvestorId: 'api/CompanyClearances/getCompanyClearanceByInvestorId',
     SaveFinalApprovedName: 'api/CompanyClearances/SaveFinalApprovedName',
 

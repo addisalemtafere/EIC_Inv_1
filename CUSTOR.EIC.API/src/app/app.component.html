@@ -1,6 +1,6 @@
 <div id="app_container" [class.is-mobile]="mobileQuery.matches" class="nav-container">
 
-  <mat-toolbar style="margin-bottom: 16px"  color="primary" class="mat-elevation-z8 app-toolbar">
+  <mat-toolbar style="margin-bottom: 5px"  color="primary" class="mat-elevation-z3 app-toolbar">
     <button mat-icon-button>
       <mat-icon>menu</mat-icon>
     </button>
@@ -10,6 +10,16 @@
     <span class="app-toolbar-spacer"></span>
     <!-- <app-theme-picker></app-theme-picker> -->
     <!--<app-lang-switcher></app-lang-switcher>-->
+    <a *ngIf="isLogged==='false'" mat-button
+       routerLink="/">
+      <mat-icon class="mat-18">home</mat-icon>
+      <span>Home</span>
+    </a>
+    <a *ngIf="isLogged==='false'" mat-button
+    routerLink="/contact">
+      <mat-icon class="mat-18">my_location</mat-icon>
+      <span>Contact</span>
+    </a>
     <button *ngIf="isLogged==='false'" mat-button (click)="DoLogin()">
       <mat-icon>lock_open</mat-icon>
       <span>{{'mainMenu.Login' | translate}}</span>

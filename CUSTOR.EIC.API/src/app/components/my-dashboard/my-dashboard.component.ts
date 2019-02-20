@@ -347,7 +347,8 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
       .subscribe(result => {
           // console.log(result);
           this.investors = result;
-          // console.log(result);
+          console.log("investo=");
+          console.log(this.investors);
           if (this.investors.length === 0 || this.investors[0].IsActive == false) {
             if (this.investors.length !== 0) {
               console.log('Profile incomlete1')

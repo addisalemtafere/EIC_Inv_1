@@ -64,7 +64,7 @@ import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoader
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
   "bgsOpacity": 0.5,
-  "bgsPosition": "bottom-left",
+  "bgsPosition": "center-center",
   "bgsSize": 90,
   "bgsType": "double-bounce",
   "blur": 65,

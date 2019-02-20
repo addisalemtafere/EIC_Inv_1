@@ -109,6 +109,15 @@ namespace CUSTOR.EICOnline.DAL
                     {
                         Context.Associate.Update(ass);
                         Context.SaveChanges();
+                        
+                        if (postedAssociate.InvestorId>0)
+                        {
+                            {
+                                var investoProfile = Context.Investors.First(s => s.InvestorId == postedAssociate.InvestorId);
+                                investoProfile.IsActive = true;
+                                Context.Entry(investoProfile).State = EntityState.Modified;
+                            }  
+                        }
                     }
                     else
                     {

@@ -123,14 +123,28 @@
           </div>
           <div class="block full-width value" fxFlex="">
             <span class="data">{{investorDetailList?.Investor.Nationality | countryPipe : 0}}</span>
-
+            <span
+              *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5"
+              class="data">
+             {{NationalityAmharic}}
+            </span>
+            <span class="data" *ngIf="investorDetailList.Investor.FormOfOwnership == 5">
+              በ{{investorDetailList?.Investor.BranchCountry | originpipe : 0}} የተመዘገበ
+            </span>
           </div>
           <div class="block" fxFlex="">
             <span class="caption">2. Nationality</span>
           </div>
           <div class="block full-width value" fxFlex="">
             <span class="data ">{{investorDetailList?.Investor.Nationality | countryPipe : 1}}</span>
-
+            <span
+              *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5"
+              class="data">
+             {{NationalityEnglish}}
+            </span>
+            <span class="data " *ngIf="investorDetailList.Investor.FormOfOwnership == 5">
+              Registered in {{investorDetailList?.Investor.BranchCountry | originpipe : 1}}
+            </span>
           </div>
 
         </div>
@@ -153,9 +167,7 @@
             <span class="data" *ngIf="investorDetailList?.Investor.TradeName==undefined">
              --
             </span>
-
           </div>
-
         </div>
         <!--manger detial-->
         <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
@@ -165,7 +177,7 @@
           </div>
           <div class="block full-width value" fxFlex="">
             <span class="data">
-              {{titleManEn}}
+              {{titleManAm}}
               {{manager[0].Associate?.FirstName}}
               {{manager[0].Associate?.FatherName}}
               {{manager[0].Associate?.GrandName}}
