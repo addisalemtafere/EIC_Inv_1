@@ -418,6 +418,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       AssignedUserId: [this.accountService.currentUser.Id],
       CreatedUserId: [this.accountService.currentUser.Id],
       ProjectStage: ['', Validators.required],
+      InvestmentPermitNo: [''],
       'address': new FormGroup({
         ParentId: new FormControl(),
         RegionId: new FormControl(),
