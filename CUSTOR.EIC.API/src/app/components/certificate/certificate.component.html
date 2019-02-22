@@ -1,5 +1,7 @@
+
 <mat-card class="margin-2 simple-card">
   <mat-card-header>
+
     <mat-card-subtitle class="sub-title"></mat-card-subtitle>
     <button mat-raised-button="" color="primary" (click)="generateCertification()">
       Generate
@@ -8,20 +10,55 @@
     <button style="margin-left: 20px;" mat-raised-button="" color="primary" (click)="addMessage()">
       Send Message
     </button>
+
+    <div fxFlex="30"></div>
+    <!--<div style="float: right" class="block" fxFlex="20">-->
+
+      <!--<mat-form-field>-->
+        <!--<mat-select color="primary" class="full-width" placeholder="Select you want to edit" [(value)]="selected">-->
+          <!--<mat-option value="0">Edit Investor</mat-option>-->
+          <!--<mat-option value="1">Edit Manager</mat-option>-->
+          <!--<mat-option value="2">Edit Project</mat-option>-->
+        <!--</mat-select>-->
+      <!--</mat-form-field>-->
+
+    <!--</div>-->
+    <!--<div style="float: right" class="block" fxFlex="15">-->
+      <!--<button mat-raised-button="" color="primary" (click)="editData()">Edit</button>-->
+
+
+    <!--</div>-->
   </mat-card-header>
 </mat-card>
 
 <mat-card class="margin-2 margin-top-20" *ngIf="viewCertificate">
+
   <mat-card-header>
-    <div fxFlex="70"></div>
     <div fxFlex="15" style="float: right;">
       <button mat-raised-button="" color="primary" (click)="printTest()">Print</button>
       <!--<button class="custom-button " (click)="Print()">Print</button>-->
     </div>
-    <div fxFlex="15" style="float: right;">
-      <button mat-raised-button="" color="primary" (click)="generatePDF()">Export To Pdf</button>
+    <div fxFlex="40">
+
+    </div>
+    <div fxFlex="15">
+      <button mat-raised-button="" color="primary" (click)="editData(0)">Edit Investor</button>
       <!--<button class="custom-button " (click)="Print()">Print</button>-->
     </div>
+    <div fxFlex="15">
+      <button mat-raised-button="" color="primary" (click)="editData(1)">Edit Managers</button>
+      <!--<button class="custom-button " (click)="Print()">Print</button>-->
+    </div>
+    <div fxFlex="15">
+      <button mat-raised-button="" color="primary" (click)="editData(2)">Edit Projects</button>
+      <!--<button class="custom-button " (click)="Print()">Print</button>-->
+    </div>
+
+    <!--<div fxFlex="15" style="float: right;">-->
+    <!--<button mat-raised-button="" color="primary" (click)="generatePDF()">Export To Pdf</button>-->
+    <!--&lt;!&ndash;<button class="custom-button " (click)="Print()">Print</button>&ndash;&gt;-->
+    <!--</div>-->
+
   </mat-card-header>
   <mat-card-content>
     <mat-card-title>
