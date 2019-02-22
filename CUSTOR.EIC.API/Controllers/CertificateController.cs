@@ -30,6 +30,7 @@ namespace CUSTOR.EICOnline.API.Controllers
                 return _context.ServiceApplication
                     .Include(s => s.Investor)
                     .Include(s => s.Project)
+                    .Include(s => s.Service)
                     .SingleOrDefault(m => m.ServiceApplicationId == id);
             }catch(Exception ex)
             {

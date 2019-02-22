@@ -91,6 +91,11 @@
                 </td>
                 <td class="dta-head">{{investorDetailList?.Investor.RegistrationNumber}}</td>
               </tr>
+              <tr>
+                <td class="s-head" *ngIf="this.investorDetailList.ServiceId == 1023">
+                  ማስፋፊያ/Expansion
+                </td>
+              </tr>
             </table>
           </div>
         </div>
@@ -137,7 +142,7 @@
             <span class="caption">2. Nationality</span>
           </div>
           <div class="block full-width value" fxFlex="">
-            <span class="data " *ngIf="this.investorDetailList.Investor.LegalStatus == 1">{{investorDetailList?.Investor.Nationality | countryPipe : 1}}</span>
+            <span class="data" *ngIf="this.investorDetailList.Investor.LegalStatus == 1">{{investorDetailList?.Investor.Nationality | countryPipe : 1}}</span>
             <span
               *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5"
               class="data">
