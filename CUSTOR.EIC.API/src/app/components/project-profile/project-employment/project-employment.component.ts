@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProjectEmploymentModel} from '../../../model/ProjectEmployment.model';
 import {ProjectEmploymentService} from '../../../Services/project-employment.service';
 import {ToastrService} from 'ngx-toastr';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {DataSharingService} from '../../../Services/data-sharing.service';
 import {MatSnackBar} from '@angular/material';
 import {FormService} from '@custor/validation/custom/form';

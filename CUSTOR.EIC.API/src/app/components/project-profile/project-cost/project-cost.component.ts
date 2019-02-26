@@ -13,7 +13,7 @@ import {MatSnackBar} from '@angular/material';
 
 import {ProjectCostService} from '../../../Services/project-cost.service';
 import {DataSharingService} from '../../../Services/data-sharing.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {FormService} from '@custor/validation/custom/form';
 import {ActivatedRoute, Params} from '@angular/router';
 import {ProjectProfileService} from '../../../Services/project-profile.service';

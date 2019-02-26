@@ -1,8 +1,7 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 
-import {Subject} from 'rxjs/Subject';
-import {Subscription} from 'rxjs/Subscription';
+import {Subject, Subscription} from 'rxjs';
 
 import {AppTranslationService} from '../../../../@custor/services/translation.service';
 import {AccountService} from '../../../../@custor/services/security/account.service';
