@@ -22,8 +22,9 @@ import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DateService} from "../../Services/date.service";
 import {ProjectRenewalService} from "../../Services/project-renewal.service";
-import {Investor} from "../../model/investor";
 import {LookupsService} from "../setting/lookup-tabs/lookups/lookups.service";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {DataSharingService} from "../../Services/data-sharing.service";
 
 @Component({
   selector: 'app-certificate',
@@ -63,9 +64,14 @@ export class CertificateComponent implements OnInit {
   public titleManAm: string;
   public titleManEn: string;
 
+  editForm: FormGroup;
+  selected: string;
+
+  arr: string[] = [];
   constructor(public certificateService: CertificateService,
               private projecAssService: ProjectAssociateService,
               public errMsg: ErrorMessage,
+              public dataSharing: DataSharingService,
               public route: ActivatedRoute,
               public projectService: ProjectProfileService,
               public projectRenewalService: ProjectRenewalService,
@@ -73,6 +79,7 @@ export class CertificateComponent implements OnInit {
               public dialog: MatDialog,
               public toast: ToastrService,
               public router: Router,
+              public fb: FormBuilder,
               private lookupsService: LookupsService,
               private projectCostService: ProjectCostService,
               public invactivityService: InvactivityService,
@@ -80,6 +87,10 @@ export class CertificateComponent implements OnInit {
               private addressService: AddressService,
               private dateService: DateService) {
     this.lookup = new Lookup();
+    this.arr.push("Edit Investor");
+    this.arr.push("option2");
+    this.arr.push("option3");
+    this.selected = 'option2';
   }
 
   ngOnInit() {
@@ -96,6 +107,7 @@ export class CertificateComponent implements OnInit {
     if (this.ServiceApplicationId > 0) {
       this.getServiceApplicationRenewal();
     }
+    this.intEditForm();
   }
 
   //no need to come all this data.
@@ -305,6 +317,30 @@ export class CertificateComponent implements OnInit {
       })
   }
 
+  editData(typedata: any) {
+    switch (typedata) {
+      case 0:
+        this.router.navigate(['investor-profile/' + this.InvestorId]);
+        break;
+
+      case 1:
+        this.router.navigate(['associate/list']);
+
+        break;
+
+      case 2:
+        setTimeout(() => this.dataSharing.steeperIndex.next(10), 0);
+        setTimeout(() => this.dataSharing.currentIndex.next(10), 0);
+        this.router.navigate(['pro/' + this.investorDetailList.ProjectId + '/' + this.ServiceApplicationId + '/' + this.ServiceId + '/' + this.workFlowId + '/' + this.InvestorId]);
+        break;
+      default:
+        alert('Please Select one of them tou want edit')
+
+    }
+  }
+
+
+
   printTest(): void {
     let printContents, popupWin;
     printContents = document.getElementById('certificate').innerHTML;
@@ -474,5 +510,11 @@ nobr {
       </html>
 `);
     popupWin.document.close();
+  }
+
+  private intEditForm() {
+    this.editForm = this.fb.group({
+      selectedValue: new FormControl()
+    })
   }
 }
