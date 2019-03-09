@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Address;
+using CUSTOR.EICOnline.DAL.EntityLayer;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +16,11 @@ namespace CUSTOR.EICOnline.API.Controllers.Address
   public class ZonesController
   {
     private readonly ZoneRepo _ZoneRepo;
+    private readonly ApplicationDbContext _context;
 
-    public ZonesController(ZoneRepo zoneRepo)
+    public ZonesController(ApplicationDbContext context,ZoneRepo zoneRepo)
     {
+      _context = context;
       _ZoneRepo = zoneRepo;
     }
 
@@ -56,7 +59,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Address
       //   throw new ApiException("Model binding failed.", 500);
       //if (!_ZoneRepo.Validate(postedZone))
       //    throw new ApiException(_ZoneRepo.ErrorMessage, 500, _ZoneRepo.ValidationErrors);
-
+      _context.Zones.Add(postedZone);
       if (!await _ZoneRepo.SaveAsync(postedZone))
         throw new ApiException(_ZoneRepo.ErrorMessage);
       return postedZone;
