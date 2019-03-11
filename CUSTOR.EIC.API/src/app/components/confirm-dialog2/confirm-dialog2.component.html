@@ -1,0 +1,11 @@
+<div style="width: 300px">
+  <h1 matDialogTitle style="color: steelblue;">{{confirmMessage}}</h1>
+  <mat-divider>
+  </mat-divider>
+  <div mat-dialog-content style="color: #ff6c31;font-size: 17px;margin: 10px;"></div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions class="pt-24">
+    <button mat-raised-button class="mat-accent mr-16" (click)="dialogRef.close(true)">Yes</button>
+    <button mat-raised-button color="warn" (click)="dialogRef.close(false)">NO</button>
+  </div>
+</div>
