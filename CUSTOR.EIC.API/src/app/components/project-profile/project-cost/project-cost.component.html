@@ -303,7 +303,23 @@
             </div>
 
           </div>
-          <div class="block" fxFlex="75">
+          <div *ngIf="canViewTasks" fxLayout="column" class="block" fxFlex="25">
+            <div class="block" fxFlex="">
+              <mat-form-field>
+                <input
+                  formControlName="ActualCostInForeign"
+                  type="number"
+                  matInput
+                  placeholder="Actual Cost In Foreign"
+                />
+                <!--<mat-error align="start" *ngIf="formErrors.EquityFinance" class="form__error">-->
+                <!--{{ formErrors.EquityFinance }}-->
+                <!--</mat-error>-->
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="block" fxFlex="50">
             <mat-form-field class="full-width">
               <mat-label>Remark :</mat-label>
               <textarea matInput formControlName="Remark" rows="4"></textarea>

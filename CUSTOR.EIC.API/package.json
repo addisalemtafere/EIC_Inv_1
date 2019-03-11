@@ -2,6 +2,8 @@
   "name": "eiconline",
   "version": "0.0.0",
   "scripts": {
+    "build-client": "node --max_old_space_size=10000 ./node_modules/@angular/cli/bin/ng build --prod --aot",
+
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",

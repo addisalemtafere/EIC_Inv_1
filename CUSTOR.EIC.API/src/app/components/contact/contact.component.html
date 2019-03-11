@@ -1,40 +1,53 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      <h2>Our Address (አድራሻችን)</h2>
+      <h2 style="font-weight: bolder;">Our Address (አድራሻችን)</h2>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-
     <div class="container" style="margin: auto; width: 1000px">
-
       <mat-divider></mat-divider>
-      <div fxLayout="row" fxLayoutAlign="" class="content" style="margin-top: 0px; margin-bottom: 100px">
-        <div class="blocks" fxFlex="70%" fxFlexOffset="10px">
+      <div
+        fxLayout="row"
+        fxLayoutAlign=""
+        class="content"
+        style="margin-top: 0px; margin-bottom: 100px"
+      >
+        <div class="col-md-5 address" style="margin-left: 5px;width: 1000px;">
+          <p>Email:<a href="mailto:info@eic.gov.et"> info@eic.gov.et</a></p>
 
+          <p>
+            Website:<a href="www.investethiopia.gov.et">
+              www.investethiopia.gov.et</a
+            >
+          </p>
+
+          <p>
+            Mobile: <a href="tel:(+251) 11 551 0033"> (+251) 11 551 0033</a>
+          </p>
+          <p>
+            Tel: <a href="tel:(+251) 11 551 4396"> (+251) 11 551 4396</a> <br />
+          </p>
+          <br />
+
+          <div>
+            <p>P.O. Box 2313</p>
+            <p>Addis Ababa, Ethiopia</p>
+          </div>
         </div>
-        <div class="blocks" fxFlex="30%" fxFlexOffset="10px" style="vertical-align: top">
+
+        <!-- <div class="blocks" fxFlex="70%" fxFlexOffset="10px">
+
+        </div> -->
+        <div
+          class="blocks"
+          fxFlex="100%"
+          fxFlexOffset="10px"
+          style="vertical-align: top"
+        >
           <!---->
-          <mat-card style="width: 250px; height: 320px; margin-right:20px">
-            <mat-card-header>
-              <h4>Our Contact Address</h4>
-            </mat-card-header>
-            <mat-card-content>
-              <div class="col-md-5 address" style="margin-left: 5px">
-                Email:<a href="mailto:info@eic.gov.et"> info@eic.gov.et</a>
-                <br>Website: <a href="www.investethiopia.gov.et"> www.investethiopia.gov.et</a>
-                <br> Mobile: <a href="tel:(+251) 11 551 0033"> (+251) 11 551 0033</a>
-                <br> Tel: <a href="tel:(+251) 11 551 4396"> (+251) 11 551 4396</a> <br>
-                <br> P.O. Box 2313
-                <br> Addis Ababa, Ethiopia
-              </div>
-            </mat-card-content>
-          </mat-card>
         </div>
       </div>
     </div>
-
-
   </mat-card-content>
-
 </mat-card>
