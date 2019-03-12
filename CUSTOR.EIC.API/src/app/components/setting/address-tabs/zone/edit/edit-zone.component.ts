@@ -161,6 +161,7 @@ export class EditZoneComponent implements OnInit, OnDestroy {
            })
          return;
        }*/
+
       this.loadingIndicator = true;
     }
     return this.zonesService.saveZone(
@@ -203,6 +204,7 @@ export class EditZoneComponent implements OnInit, OnDestroy {
       Description: formModel.cDescription,
       DescriptionEnglish: formModel.cDescriptionEnglish,
       Region: null,
-    };
+  }
+    ;
   }
 }

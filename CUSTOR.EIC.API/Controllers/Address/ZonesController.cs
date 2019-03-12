@@ -59,7 +59,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Address
       //   throw new ApiException("Model binding failed.", 500);
       //if (!_ZoneRepo.Validate(postedZone))
       //    throw new ApiException(_ZoneRepo.ErrorMessage, 500, _ZoneRepo.ValidationErrors);
-      _context.Zones.Add(postedZone);
+
+//      _context.Zones.Add(postedZone);
+//      await _context.SaveChangesAsync();
+
       if (!await _ZoneRepo.SaveAsync(postedZone))
         throw new ApiException(_ZoneRepo.ErrorMessage);
       return postedZone;
