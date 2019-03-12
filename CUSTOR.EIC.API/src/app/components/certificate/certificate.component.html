@@ -1,4 +1,3 @@
-
 <mat-card class="margin-2 simple-card">
   <mat-card-header>
 
@@ -14,17 +13,17 @@
     <div fxFlex="30"></div>
     <!--<div style="float: right" class="block" fxFlex="20">-->
 
-      <!--<mat-form-field>-->
-        <!--<mat-select color="primary" class="full-width" placeholder="Select you want to edit" [(value)]="selected">-->
-          <!--<mat-option value="0">Edit Investor</mat-option>-->
-          <!--<mat-option value="1">Edit Manager</mat-option>-->
-          <!--<mat-option value="2">Edit Project</mat-option>-->
-        <!--</mat-select>-->
-      <!--</mat-form-field>-->
+    <!--<mat-form-field>-->
+    <!--<mat-select color="primary" class="full-width" placeholder="Select you want to edit" [(value)]="selected">-->
+    <!--<mat-option value="0">Edit Investor</mat-option>-->
+    <!--<mat-option value="1">Edit Manager</mat-option>-->
+    <!--<mat-option value="2">Edit Project</mat-option>-->
+    <!--</mat-select>-->
+    <!--</mat-form-field>-->
 
     <!--</div>-->
     <!--<div style="float: right" class="block" fxFlex="15">-->
-      <!--<button mat-raised-button="" color="primary" (click)="editData()">Edit</button>-->
+    <!--<button mat-raised-button="" color="primary" (click)="editData()">Edit</button>-->
 
 
     <!--</div>-->
@@ -145,7 +144,7 @@
           </div>
           <div class="block full-width value" fxFlex="">
             <span class="data">
-              {{titleAm}}              {{investorDetailList?.Investor.InvestorName}}
+              {{titleAm}} {{investorDetailList?.Investor.InvestorName}}
             </span>
           </div>
           <div class="block" fxFlex="">
@@ -164,12 +163,20 @@
             <span class="caption">2.ዜግነት</span>
           </div>
           <div class="block full-width value" fxFlex="">
+<<<<<<< HEAD
             <span class="data" *ngIf="this.investorDetailList.Investor.LegalStatus == 1">
               {{investorDetailList?.Investor.Nationality | countryPipe : 0}}</span>
             <span
               *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5"
               class="data">
              {{NationalityAmharic}}
+=======
+            <span class="data">{{investorDetailList?.Investor.Nationality | countryPipe : 0}}</span>
+            <span
+              *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5"
+              class="data">
+              {{NationalityAmharic}}
+>>>>>>> 5239d50c8d20da9ef7f2b3a187e67cfb5f4ce20c
             </span>
             <span class="data" *ngIf="investorDetailList.Investor.FormOfOwnership == 5">
               በ{{investorDetailList?.Investor.BranchCountry | originpipe : 0}} የተመዘገበ
@@ -179,11 +186,19 @@
             <span class="caption">2. Nationality</span>
           </div>
           <div class="block full-width value" fxFlex="">
+<<<<<<< HEAD
             <span class="data" *ngIf="this.investorDetailList.Investor.LegalStatus == 1">{{investorDetailList?.Investor.Nationality | countryPipe : 1}}</span>
             <span
               *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5"
               class="data">
              {{NationalityEnglish}}
+=======
+            <span class="data ">{{investorDetailList?.Investor.Nationality | countryPipe : 1}}</span>
+            <span
+              *ngIf="this.investorDetailList.Investor.LegalStatus != 1 && this.investorDetailList.Investor.FormOfOwnership != 5"
+              class="data">
+              {{NationalityEnglish}}
+>>>>>>> 5239d50c8d20da9ef7f2b3a187e67cfb5f4ce20c
             </span>
             <span class="data " *ngIf="investorDetailList.Investor.FormOfOwnership == 5">
               Registered in {{investorDetailList?.Investor.BranchCountry | originpipe : 1}}
@@ -198,7 +213,7 @@
           <div class="block full-width value" fxFlex="">
             <span class="data">{{investorDetailList?.Investor.TradeName}}</span>
             <span class="data" *ngIf="investorDetailList?.Investor.TradeName==undefined">
-             --
+              --
             </span>
 
           </div>
@@ -208,7 +223,7 @@
           <div class="block full-width value" fxFlex="">
             <span class="data">{{investorDetailList?.Investor.TradeName}}</span>
             <span class="data" *ngIf="investorDetailList?.Investor.TradeName==undefined">
-             --
+              --
             </span>
           </div>
         </div>
@@ -231,7 +246,7 @@
 
           </div>
           <div class="block full-width value" fxFlex="">
- <span class="data ">
+            <span class="data ">
               {{titleManEn}}
               {{manager[0].Associate?.FirstNameEng}}
               {{manager[0].Associate?.FatherNameEng}}
@@ -247,38 +262,38 @@
             <table class="full-width">
               <caption class="caption">5.የባለሃብቱ/የድርጅቱ አድራሻ</caption>
               <tbody>
-              <tr>
-                <td class="a-header">ክልል</td>
-                <td class="data value">{{investorAddressList?.Region.Description}}</td>
-                <td class="a-header">ዞን</td>
-                <td class="data value">{{investorAddressList?.Region.Zones[0].Description }}</td>
-              </tr>
-              <tr>
-                <td class="a-header">ከተማ</td>
-                <td class="data value">--</td>
-                <td class="a-header">ክፍለ ከተማ/ወረዳ</td>
-                <td class="data value">{{investorAddressList?.Region.Zones[0].Woredas[0].Description}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">ወረዳ/ቀበሌ</td>
-                <td class="data value">
-                  {{investorAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
-                </td>
-                <td class="a-header">የቤት ቁጥር</td>
-                <td class="data value">{{investorAddressList?.HouseNo}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">ፖ.ሳ.ቁ</td>
-                <td class="data value">{{investorAddressList?.Pobox}}</td>
-                <td class="a-header">ስልክ ቁጥር</td>
-                <td class="data value">{{investorAddressList?.TeleNo}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">ፋክስ</td>
-                <td class="data value">{{investorAddressList?.Fax}}</td>
-                <td class="a-header">ኢ-ሜይል</td>
-                <td class="data value">{{investorAddressList?.Email}}</td>
-              </tr>
+                <tr>
+                  <td class="a-header">ክልል</td>
+                  <td class="data value">{{investorAddressList?.Region.Description}}</td>
+                  <td class="a-header">ዞን</td>
+                  <td class="data value">{{investorAddressList?.Region.Zones[0].Description }}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">ከተማ</td>
+                  <td class="data value">--</td>
+                  <td class="a-header">ክፍለ ከተማ/ወረዳ</td>
+                  <td class="data value">{{investorAddressList?.Region.Zones[0].Woredas[0].Description}}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">ወረዳ/ቀበሌ</td>
+                  <td class="data value">
+                    {{investorAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
+                  </td>
+                  <td class="a-header">የቤት ቁጥር</td>
+                  <td class="data value">{{investorAddressList?.HouseNo}}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">ፖ.ሳ.ቁ</td>
+                  <td class="data value">{{investorAddressList?.Pobox}}</td>
+                  <td class="a-header">ስልክ ቁጥር</td>
+                  <td class="data value">{{investorAddressList?.TeleNo}}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">ፋክስ</td>
+                  <td class="data value">{{investorAddressList?.Fax}}</td>
+                  <td class="a-header">ኢ-ሜይል</td>
+                  <td class="data value">{{investorAddressList?.Email}}</td>
+                </tr>
               </tbody>
             </table>
 
@@ -287,39 +302,39 @@
             <table class="full-width">
               <caption class="caption">5. Address of Investor/Company</caption>
               <tbody>
-              <tr>
-                <td class="a-header">Region</td>
-                <td class="data value">{{investorAddressList?.Region.DescriptionEnglish}}</td>
-                <td class="a-header">Zone</td>
-                <td class="data value">{{investorAddressList?.Woreda.Zone.DescriptionEnglish }}</td>
-              </tr>
-              <tr>
-                <td class="a-header">City</td>
-                <td class="data value">--</td>
-                <td class="a-header">Sub City</td>
-                <td class="data value">{{investorAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}</td>
-              </tr>
+                <tr>
+                  <td class="a-header">Region</td>
+                  <td class="data value">{{investorAddressList?.Region.DescriptionEnglish}}</td>
+                  <td class="a-header">Zone</td>
+                  <td class="data value">{{investorAddressList?.Woreda.Zone.DescriptionEnglish }}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">City</td>
+                  <td class="data value">--</td>
+                  <td class="a-header">Sub City</td>
+                  <td class="data value">{{investorAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}</td>
+                </tr>
 
-              <tr>
-                <td class="a-header">Woreda/Kebele</td>
-                <td class="data value">
-                  {{investorAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
-                </td>
-                <td class="a-header">House No.</td>
-                <td class="data value">{{investorAddressList?.HouseNo}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">P.O.Box</td>
-                <td class="data value">{{investorAddressList?.Pobox}}</td>
-                <td class="a-header">Tel.No</td>
-                <td class="data value">{{investorAddressList?.TeleNo}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">Fax</td>
-                <td class="data value">{{investorAddressList?.Fax}}</td>
-                <td class="a-header">E-mail</td>
-                <td class="data value">{{investorAddressList?.Email}}</td>
-              </tr>
+                <tr>
+                  <td class="a-header">Woreda/Kebele</td>
+                  <td class="data value">
+                    {{investorAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
+                  </td>
+                  <td class="a-header">House No.</td>
+                  <td class="data value">{{investorAddressList?.HouseNo}}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">P.O.Box</td>
+                  <td class="data value">{{investorAddressList?.Pobox}}</td>
+                  <td class="a-header">Tel.No</td>
+                  <td class="data value">{{investorAddressList?.TeleNo}}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">Fax</td>
+                  <td class="data value">{{investorAddressList?.Fax}}</td>
+                  <td class="a-header">E-mail</td>
+                  <td class="data value">{{investorAddressList?.Email}}</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -334,26 +349,26 @@
             <table class="full-width investmentLocation">
               <caption class="caption">6.የኢንቨስትመንቱ አድራሻ</caption>
               <tbody>
-              <tr>
-                <td class="a-header">ክልል</td>
-                <td class="data value">{{investmentAddressList?.Region.Description}}</td>
-                <td class="a-header">ዞን</td>
-                <td class="data value">{{investmentAddressList?.Region.Zones[0].Description}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">ከተማ</td>
-                <td class="data value">---</td>
-                <td class="a-header">ክፍለ ከተማ/ወረዳ</td>
-                <td class="data value">{{investmentAddressList?.Region.Zones[0].Woredas[0].Description}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">ወረዳ/ቀበሌ</td>
-                <td class="data value">
-                  {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
-                </td>
-                <td class="a-header">የቤት ቁጥር</td>
-                <td class="data value">{{investmentAddressList?.HouseNo}}</td>
-              </tr>
+                <tr>
+                  <td class="a-header">ክልል</td>
+                  <td class="data value">{{investmentAddressList?.Region.Description}}</td>
+                  <td class="a-header">ዞን</td>
+                  <td class="data value">{{investmentAddressList?.Region.Zones[0].Description}}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">ከተማ</td>
+                  <td class="data value">---</td>
+                  <td class="a-header">ክፍለ ከተማ/ወረዳ</td>
+                  <td class="data value">{{investmentAddressList?.Region.Zones[0].Woredas[0].Description}}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">ወረዳ/ቀበሌ</td>
+                  <td class="data value">
+                    {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
+                  </td>
+                  <td class="a-header">የቤት ቁጥር</td>
+                  <td class="data value">{{investmentAddressList?.HouseNo}}</td>
+                </tr>
               </tbody>
             </table>
 
@@ -363,26 +378,26 @@
             <table class="full-width investmentLocation">
               <caption class="caption">6. Investment Location</caption>
               <tbody>
-              <tr>
-                <td class="a-header">Region</td>
-                <td class="data value">{{investmentAddressList?.Region.DescriptionEnglish}}</td>
-                <td class="a-header">Zone</td>
-                <td class="data value">{{investmentAddressList?.Region.Zones[0].DescriptionEnglish}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">City</td>
-                <td class="data value">--</td>
-                <td class="a-header">Sub city/Woreda</td>
-                <td class="data value">{{investmentAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}</td>
-              </tr>
-              <tr>
-                <td class="a-header">Woreda/Kebele</td>
-                <td class="data value">
-                  {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
-                </td>
-                <td class="a-header">House No.</td>
-                <td class="data value">{{investmentAddressList?.HouseNo}}</td>
-              </tr>
+                <tr>
+                  <td class="a-header">Region</td>
+                  <td class="data value">{{investmentAddressList?.Region.DescriptionEnglish}}</td>
+                  <td class="a-header">Zone</td>
+                  <td class="data value">{{investmentAddressList?.Region.Zones[0].DescriptionEnglish}}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">City</td>
+                  <td class="data value">--</td>
+                  <td class="a-header">Sub city/Woreda</td>
+                  <td class="data value">{{investmentAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}</td>
+                </tr>
+                <tr>
+                  <td class="a-header">Woreda/Kebele</td>
+                  <td class="data value">
+                    {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
+                  </td>
+                  <td class="a-header">House No.</td>
+                  <td class="data value">{{investmentAddressList?.HouseNo}}</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -479,14 +494,14 @@
           <div class="block" fxFlex="">
             <span class="t-header">
               በኢንቨስትመንት አዋጅ ቁጥር 769/2004 መሰረት ዛሬ <strong>{{todayEthioDate}}</strong> አዲስ አበባ
-                  ተሰጠ ።</span>
+              ተሰጠ ።</span>
           </div>
 
 
           <div class="block" fxFlex="">
             <span class="t-header">
               This Permit is issued as per the Investment Proclamation
-                  in Addis Ababa this day <strong>{{today | date}}</strong>
+              in Addis Ababa this day <strong>{{today | date}}</strong>
             </span>
           </div>
 
@@ -497,14 +512,14 @@
           <div class="block" fxFlex="">
             <table class="full-width">
               <tbody>
-              <tr>
-                <td class="t-header">የሃላፊ ስም/Name of Official</td>
-                <td style="width: 300px" class="data value"></td>
-              </tr>
-              <tr>
-                <td class="t-header">ፊርማ/Signature</td>
-                <td style="width: 300px" class="data value"></td>
-              </tr>
+                <tr>
+                  <td class="t-header">የሃላፊ ስም/Name of Official</td>
+                  <td style="width: 300px" class="data value"></td>
+                </tr>
+                <tr>
+                  <td class="t-header">ፊርማ/Signature</td>
+                  <td style="width: 300px" class="data value"></td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -513,27 +528,27 @@
           <div class="block" fxFlex="">
             <table class="full-width">
               <tbody>
-              <tr>
-                <td class="t-header">እስከ
-                </td>
+                <tr>
+                  <td class="t-header">እስከ
+                  </td>
 
-                <td class="renewDate data value" style="width: 300px">
-                  <span class="renewDate"> {{ dateEthioNextYear}} ታድሷል</span>
-                </td>
-              </tr>
-              <tr *ngIf="ServiceId==13">
-                <td class="t-header">Valid Until</td>
-                <td class=" renewDate data value" style="width: 300px">
-                  <span class="renewDate">   {{ dateGc | date}}</span>
+                  <td class="renewDate data value" style="width: 300px">
+                    <span class="renewDate"> {{ dateEthioNextYear}} ታድሷል</span>
+                  </td>
+                </tr>
+                <tr *ngIf="ServiceId==13 || ServiceId==1023 ">
+                  <td class="t-header">Valid Until</td>
+                  <td class=" renewDate data value" style="width: 300px">
+                    <span class="renewDate"> {{ dateGc | date}}</span>
 
-                </td>
+                  </td>
 
-              <tr *ngIf="ServiceId==18">
-                <td class="t-header">Valid Until</td>
-                <td class=" data value" style="width: 300px">
-                  <span class="renewDate">{{ renewedTo | date:'mediumDate'}}</span>
-                </td>
-              </tr>
+                <tr *ngIf="ServiceId==18">
+                  <td class="t-header">Valid Until</td>
+                  <td class=" data value" style="width: 300px">
+                    <span class="renewDate">{{ renewedTo | date:'mediumDate'}}</span>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

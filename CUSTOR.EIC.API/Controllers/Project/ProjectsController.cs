@@ -200,7 +200,7 @@ namespace EIC.Investment.API.Controllers
       editedProject.ProjectStatus = 9;
       //editedProject.ProjectStage = 3;
       editedProject.SiteId = 3;
-      editedProject.InvestmentPermitNo = perminumber;
+      // editedProject.InvestmentPermitNo = perminumber;
 
       var serviceApplication = new ServiceApplication
       {
@@ -240,8 +240,8 @@ namespace EIC.Investment.API.Controllers
       };
       if (!editedProject.IsSelfService)
       {
-        squence.LastSquence = lastSe;
-        _context.Entry(squence).State = EntityState.Modified;
+        // squence.LastSquence = lastSe;
+        // _context.Entry(squence).State = EntityState.Modified;
 
         serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
         project.ServiceApplication.Add(serviceApplication);
