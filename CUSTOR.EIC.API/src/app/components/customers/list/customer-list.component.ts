@@ -35,7 +35,8 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   constructor(private http: HttpClient,
     private custService: CustomerService,
     private errMsg: ErrorMessage,
-    private toastr: ToastrService, public dialog: MatDialog,
+    private toastr: ToastrService,
+    public dialog: MatDialog,
     private router: Router, private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();

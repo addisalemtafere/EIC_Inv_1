@@ -108,7 +108,7 @@
               <mat-label>Region :</mat-label>
               <mat-select formControlName="RegionId"
                           (selectionChange)="filterRegion($event.value)">
-                <mat-option value="0">--</mat-option>
+                <!--<mat-option value="0">&#45;&#45;</mat-option>-->
                 <mat-option *ngFor="let region of regions" [value]="region.RegionId">
                   {{region.Description}}
                 </mat-option>
@@ -120,7 +120,7 @@
             <mat-form-field>
               <mat-label>Zone :</mat-label>
               <mat-select formControlName="ZoneId" (selectionChange)="filterZone($event.value)">
-                <mat-option value="0">--</mat-option>
+                <!--<mat-option value="0">&#45;&#45;</mat-option>-->
                 <mat-option *ngFor="let zone of filteredZones" [value]="zone.ZoneId">
                   {{zone.Description}}
                 </mat-option>
@@ -132,7 +132,7 @@
             <mat-form-field>
               <mat-label>Woreda :</mat-label>
               <mat-select formControlName="WoredaId" (selectionChange)="getKebeleByWoredaId($event.value)">
-                <mat-option value="0">--</mat-option>
+                <!--<mat-option value="0">&#45;&#45;</mat-option>-->
 
                 <mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">
                   {{w.Description}}
@@ -235,7 +235,7 @@
         <mat-form-field class="full-width">
           <mat-label>Activity *:</mat-label>
           <mat-select formControlName="ActivityId" (selectionChange)="filterInvestmentActivity($event.value)">
-            <mat-option value="0">--</mat-option>
+            <!--<mat-option value="0">&#45;&#45;</mat-option>-->
             <mat-option *ngFor="let activity of filterActivityLIst " [value]="activity.ActivityId">
               {{activity.DescriptionEnglish}}
             </mat-option>
@@ -249,7 +249,7 @@
         <mat-form-field class="full-width">
           <mat-label>Investment activity *:</mat-label>
           <mat-select formControlName="InvActivityId">
-            <mat-option value="0">--</mat-option>
+            <!--<mat-option value="0">&#45;&#45;</mat-option>-->
             <mat-option *ngFor="let inActivity of filterInvestmentActivityList" [value]="inActivity.InvActivityId">
               {{inActivity.DescriptionEnglish}}
             </mat-option>

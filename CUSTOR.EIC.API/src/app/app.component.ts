@@ -151,7 +151,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   ngOnInit() {
 
     this.ngxService.start(); // start foreground loading with 'default' id
-    // this.ngxService.stop(); // start foreground loading with 'default' id
+    // Stop the foreground loading after 5s
 
 
     this.checkInvestor();
@@ -314,10 +314,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     if (localStorage.getItem('InvestorId') !== null || localStorage.getItem('profile-completed') == 'false') {
       if (localStorage.getItem('profile-completed') == 'false') {
         this.router.navigate(['investor-profile', localStorage.getItem('InvestorId')]);
-
       }
       else {
-        this.router.navigate(['investor-profile/0']);
+        this.router.navigate(['investor-profile/' + localStorage.getItem('InvestorId')]);
       }
     } else {
       this.router.navigate(['/investor/edit', localStorage.getItem('InvestorId')]);

@@ -23,7 +23,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
         {
             _context = context;
         }
-   
+
 
     // DELETE: api/ProjectCancellations/5
     [HttpDelete("{id}")]
@@ -88,15 +88,18 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
         public async Task<IActionResult> PutProjectCancellationAsync([FromRoute] int id,
             [FromBody] ProjectCancellation projectCancellation)
         {
-           
+
             var project = _context.ProjectCancellation.First(s => s.ProjectCancellationId== id);
             project.IsApproved = projectCancellation.IsApproved;
+      project.ProjectId = projectCancellation.ProjectId;
             if (project.IsApproved == true)
             {
         var proStatus = _context.Project.First(e => e.ProjectId == project.ProjectId);
-        proStatus.ProjectId = project.ProjectId;
-        _context.Entry(proStatus).State = EntityState.Modified;
-            }
+        proStatus.ProjectStatus=4;
+        _context.Project.Update(proStatus);
+        _context.SaveChanges();
+        //_context.Entry(proStatus).State = EntityState.Modified;
+      }
             project.CancellationDate = projectCancellation.CancellationDate;
             project.CancellationReason = projectCancellation.CancellationReason;
             _context.Entry(project).State = EntityState.Modified;
@@ -104,10 +107,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
       {
         await _context.SaveChangesAsync();
 
-        
+
 
         //  return null;
-        return CreatedAtAction("GetProjectInput", new { id = projectCancellation.ProjectCancellationId }, project);
+        return CreatedAtAction("GetProjectCancellation", new { id = projectCancellation.ProjectCancellationId }, project);
     }
           catch (DbUpdateConcurrencyException)
           {
@@ -116,7 +119,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
             throw;
           }
 }
-    
+
 
     private bool ProjectCancellationExists(int id)
         {

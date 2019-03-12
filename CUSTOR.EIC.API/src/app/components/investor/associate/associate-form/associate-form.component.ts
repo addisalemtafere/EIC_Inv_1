@@ -226,7 +226,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.getAllZones();
     this.getAllWoredas();
     this.getInvestorTitle(89);
-    this.getAllKebeles();
+    // this.getAllKebeles();
     // this.getInvestorTitle();
     this.getAllNations();
   }
@@ -290,8 +290,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
       cFatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      cGrandNameEng: ['', [Validators.compose([Validators.minLength(2),
-        Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
+      cGrandNameEng: [''],
       cFirstName: [''],
       cFatherName: [''],
       cGrandName: [''],

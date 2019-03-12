@@ -3,6 +3,11 @@
   <mat-card>
     <mat-card-subtitle class="sub-title">
       Project Cancellation
+          <button class="margin-10 certificate-title" mat-raised-button=""
+                  (click)="addMessage()" color="primary">
+            Add Message
+          </button>
+
       <mat-divider></mat-divider>
     </mat-card-subtitle>
 
@@ -79,10 +84,11 @@
           <!--{{editMode ? 'Update' : 'Save'}}
           </button>-->
           <button *ngIf="!isInvestor" mat-raised-button (click)="approve()" color="primary" type="button">
-          <mat-icon class="mat-18">done</mat-icon>
-          <span>Approve</span>
+            <mat-icon class="mat-18">done</mat-icon>
+            <span>Approve</span>
           </button>
         </div>
+
       </div>
     </mat-card-content>
   </mat-card>

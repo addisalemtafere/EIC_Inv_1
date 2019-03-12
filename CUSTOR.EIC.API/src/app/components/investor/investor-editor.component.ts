@@ -245,8 +245,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     return this.investorForm.get('cCompanyNameEng');
   }
 
-  get nationalityCompany() {
-    return this.investorForm.get('cNationalityCompany');
+  get BranchCountry() {
+    return this.investorForm.get('cBranchCountry');
   }
 
   get email() {
@@ -335,8 +335,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
           this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          this.grandNameEng.setValidators([Validators.compose([Validators.minLength(2),
-            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+          this.grandNameEng.setValidators(Validators.pattern(ALPHABET_WITHSPACE_REGEX));
           this.nationality.setValidators([Validators.required]);
           this.gender.setValidators([Validators.required]);
 
@@ -527,7 +526,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       cFatherName: [''],
       cGrandName: [''],
       cNationality: ['1'], // Ethiopian
-      cNationalityCompany: [''],
+      cBranchCountry: [''],
       cCompanyName: [''],
       cCompanyNameEng: [''],
       cGender: [''],
@@ -573,7 +572,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       cFatherNameEng: this.investor.FatherNameEng || '',
       cGrandNameEng: this.investor.GrandNameEng || '',
       cNationality: this.investor.Nationality == null ? '' : this.investor.Nationality.toString(),
-      cNationalityCompany: this.investor.Nationality == null ? '' : this.investor.Nationality.toString(),
+      cBranchCountry: this.investor.BranchCountry == null ? '' : this.investor.BranchCountry.toString(),
       cGender: this.investor.Gender == null ? '' : this.investor.Gender.toString(),
       cCompanyName: this.investor.FirstName || '',
       cCompanyNameEng: this.investor.FirstNameEng || '',
@@ -648,7 +647,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.investorForm.get('cGender').patchValue('1');
     }
     if (!this.branch) {
-      this.investorForm.get('cNationalityCompany').patchValue('0');
+      this.investorForm.get('cBranchCountry').patchValue('0');
     }
     if (!this.investorForm.valid) {
       // // console.log('error!!');
@@ -657,7 +656,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     const lStatus: number = this.legalStatus.value;
     const fOwnership: number = this.FormOfOwnershipV.value;
 
-    const natCompany: number = this.investorForm.get('cNationalityCompany').value;
+    const natCompany: number = this.investorForm.get('cBranchCountry').value;
     if (fOwnership.toString() === '5' && natCompany < 1) {
       this.toastr.error('Please select the country of incorporation of the parent company');
       return;
@@ -702,8 +701,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           }
 
           if (investor != null) {
-            if (this.ServiceId ==  1235) {
-              console.log("test one at service 2"+ this.ServiceId)
+            if (this.ServiceId == 1235) {
+              console.log("test one at service 2" + this.ServiceId)
 
               this.router.navigate(['investor-tab/1235/' + 0 + '/' + investor.InvestorId + '/' + this.isNew + '/' + 0]);
               setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
@@ -743,7 +742,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   getKebeleByWoredaId(wordaId: any) {
     this.addressService.getKebelesByWoreda(wordaId)
       .subscribe(result => {
-        this.filteredKebeles = null
+        //this.filteredKebeles = null
         this.filteredKebeles = result;
       });
   }
@@ -835,9 +834,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
     this.branch = (id === '5');
     if (this.branch) {
-      this.nationalityCompany.setValidators([Validators.required]);
+      this.BranchCountry.setValidators([Validators.required]);
     } else {
-      this.nationalityCompany.clearValidators();
+      this.BranchCountry.clearValidators();
     }
   }
 
@@ -918,7 +917,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       FirstNameEng: this.isCompany ? formModel.cCompanyNameEng : formModel.cFirstNameEng,
       FatherNameEng: this.isCompany ? '' : formModel.cFatherNameEng,
       GrandNameEng: this.isCompany ? '' : formModel.cGrandNameEng,
-      Nationality: this.isCompany ? formModel.cNationalityCompany : formModel.cNationality,
+      Nationality: this.isCompany ? formModel.cNationality : formModel.cNationality,
+      BranchCountry: this.isCompany ? formModel.cBranchCountry : formModel.cBranchCountry,
       Gender: this.isCompany ? null : formModel.cGender,
       Tin: formModel.cTin,
       RegistrationDate: formModel.cRegDate,

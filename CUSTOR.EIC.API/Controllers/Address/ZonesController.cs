@@ -49,7 +49,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Address
       return _ZoneRepo.GetZone(id);
     }
 
-    [HttpPost("api/Zone")]
+    [HttpPost("api/zone")]
     public async Task<Zone> saveZone([FromBody] Zone postedZone)
     {
       //if (!ModelState.IsValid)

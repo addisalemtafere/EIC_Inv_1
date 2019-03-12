@@ -1,8 +1,8 @@
-import {AfterContentChecked, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterContentChecked, Component, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ProjectModel} from '../../../model/Project.model';
 import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {AddressModel} from '../../../model/address/Address.model';
 import {AddressService} from '../../../Services/Address/address.service';
@@ -163,6 +163,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();
+      this.editMode = true;
+    } else {
+      this.editMode = false;
     }
   }
 
@@ -200,7 +203,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.getAllActivityService();
     this.getAllInvestmentActivity();
     this.getAllSite();
-
   }
 
   getAllSector() {
@@ -354,7 +356,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
             // localStorage.setItem('ServiceApplicationId', result.ServiceApplication[0].ServiceApplicationId);
 
             this.router.navigate(['pro/' + this.projectId + '/' + result.ServiceApplication[0].ServiceApplicationId + '/' + this.ServiceId + '/' + result.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId + '/' + this.InvestorId]);
-
             this.notification('project  saved');
             this.saveAddress();
           });
@@ -417,6 +418,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       AssignedUserId: [this.accountService.currentUser.Id],
       CreatedUserId: [this.accountService.currentUser.Id],
       ProjectStage: ['', Validators.required],
+      InvestmentPermitNo: [''],
       'address': new FormGroup({
         ParentId: new FormControl(),
         RegionId: new FormControl(),

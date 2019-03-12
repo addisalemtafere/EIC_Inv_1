@@ -2,7 +2,6 @@ import {ErrorHandler, NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {AgmCoreModule} from '@agm/core';
 import {ToastrModule} from 'ngx-toastr';
 import {HomeComponent} from './components/home/home.component';
 import {FooterModule} from '@custor/components/shared/footer.component';
@@ -60,19 +59,20 @@ import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.s
 import {AppComponent} from './app.component';
 
 
-import {NgxUiLoaderConfig} from "ngx-ui-loader";
+import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
+import { ConfirmDialog2Component } from './components/confirm-dialog2/confirm-dialog2.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
   "bgsOpacity": 0.5,
-  "bgsPosition": "bottom-left",
+  "bgsPosition": "center-center",
   "bgsSize": 90,
-  "bgsType": "three-strings",
+  "bgsType": "double-bounce",
   "blur": 65,
   "fgsColor": "#0c97a8",
   "fgsPosition": "center-center",
-  "fgsSize": 120,
-  "fgsType": "three-strings",
+  "fgsSize": 90,
+  "fgsType": "double-bounce",
   "gap": 24,
   "logoPosition": "center-center",
   "logoSize": 120,
@@ -85,7 +85,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "text": "Loading",
   "textColor": "#0c97a8",
   "textPosition": "center-center",
-  "threshold": 500,
+  "threshold": 100,
 
 };
 
@@ -109,6 +109,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NotificationsComponent,
     TaskDispatcherComponent,
     BaseComponent,
+    ConfirmDialog2Component,
     // CustomerServiceStarterComponent
     // AddressComponent,
     // HelpComponent,
@@ -126,9 +127,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCKHGctDoGx1_YdAbRsPlJYQqlQeC6kR2E'
-    }),
+
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -145,14 +144,17 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // MatButtonModule,
     // ImageUploadModule.forRoot(),
     EditorModule,
-    // app
 
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxUiLoaderRouterModule, // import this module for showing loader automatically when navigating between app routes
+    NgxUiLoaderHttpModule
 
   ],
   entryComponents: [
     NotificationComponent,
     NotificationsComponent,
     TaskDispatcherComponent,
+    ConfirmDialog2Component,
     // ServiceInitComponent,
 
   ],

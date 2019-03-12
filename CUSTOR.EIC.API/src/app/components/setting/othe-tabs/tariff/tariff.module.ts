@@ -21,7 +21,8 @@ import {SharedModule} from '../../../../../@custor/modules/shared.module';
   imports: [
     CommonModule,
     TariffRoutingModule,
-    SharedModule],
+    SharedModule
+  ],
   // providers: [DatePipe],
   // bootstrap: [TariffComponent]
 })

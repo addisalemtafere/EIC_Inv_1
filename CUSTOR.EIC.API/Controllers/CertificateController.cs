@@ -27,11 +27,29 @@ namespace CUSTOR.EICOnline.API.Controllers
         {
             try
             {
+                var serviceApplication = _context.ServiceApplication.First(p => p.ServiceApplicationId == id);
+
+                var project = _context.Project.First(p => p.ProjectId == serviceApplication.ProjectId);
+                var squence = _context.Squences.FirstOrDefault();
+                var lastSe = squence.LastSquence + 1;
+
+                var perminumber = lastSe.ToString();
+                squence.LastSquence = lastSe;
+
+                if (project.InvestmentPermitNo == "")
+                {
+                    _context.Entry(squence).State = EntityState.Modified;
+
+                    project.InvestmentPermitNo = perminumber;
+                    _context.Entry(project).State = EntityState.Modified;
+                }
+
                 return _context.ServiceApplication
                     .Include(s => s.Investor)
                     .Include(s => s.Project)
                     .SingleOrDefault(m => m.ServiceApplicationId == id);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return null;
             }

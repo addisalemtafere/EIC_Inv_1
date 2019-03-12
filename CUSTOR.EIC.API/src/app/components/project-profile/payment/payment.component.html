@@ -31,8 +31,8 @@
 </mat-card>
 <mat-card class="margin-2 margin-top-20" *ngIf="paid">
   <mat-card-header>
-    <button class="margin-10" mat-raised-button="" (click)="generatePDF()" color="primary">Print</button>
-    <!--<button class="margin-10" mat-raised-button="" (click)="Print()" color="primary">Print</button>-->
+    <button class="margin-10" mat-raised-button="" (click)="print()" color="primary">Print</button>
+    <button class="margin-10" mat-raised-button="" (click)="generatePDF()" color="primary">Export As Pdf</button>
   </mat-card-header>
 
   <mat-card-content class="payment" id="payment">
@@ -46,7 +46,7 @@
         <tr>
           <td class="title-head">{{'payment.investorName'| translate}}</td>
 
-          <td style="    padding-right: 588px;" colspan="2">{{investorName}}</td>
+          <td style="width: 60%" colspan="2">{{investorName}}</td>
           <td class="title-head">{{'payment.paymentDate' | translate}} :{{today | date}}</td>
         </tr>
         <tr>

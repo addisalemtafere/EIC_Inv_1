@@ -11,7 +11,8 @@ import { SharedModule } from '../../../../../@custor/modules/shared.module';
   imports: [
     CommonModule,
     SectorRoutingModule,
-    SharedModule],
+    SharedModule
+  ],
   declarations: [ListSectorComponent, EditSectorComponent, SectorComponent],
   exports: [ListSectorComponent, EditSectorComponent, SectorComponent],
   //  providers: [DatePipe],

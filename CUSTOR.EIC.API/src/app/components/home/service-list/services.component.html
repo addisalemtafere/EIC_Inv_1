@@ -1,7 +1,6 @@
- 
-<div class="section-gap" style="width:90%; margin:auto"> 
+<div class="section-gap" style="width:90%; margin:auto">
   <div class="container">
-    <mat-toolbar  style="height:170px; background-color: #1e88e5" class="section-title-toolbar">
+    <mat-toolbar  style="height:170px; background-color: #01579b" class="section-title-toolbar">
       <mat-toolbar-row>
         <div fxLayoutAlign="space-between" class="toolbar-title">
           <!-- <div class="block-title" > -->
@@ -14,29 +13,34 @@
 
       </mat-toolbar-row>
       <mat-toolbar-row>
-         
+
       </mat-toolbar-row>
     </mat-toolbar>
         <div class="service-card-gap px-4">
             <div fxLayout="row wrap" class="col-gap">
                   <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="33" fxFlex.lg="33" fxFlex.xl="33" *ngFor="let customerService of services">
-                    <mat-card style="background-color: oldlace">                         
+                    <mat-card style="background-color: whitesmoke">
                           <div style="margin: auto">
-                            <a class="pointer" style="color:#1e88e5" (click)="goServiceDetail(customerService.Title,customerService.Id)">
-                              <h2 class="mb-2" style="font-weight: bold">{{customerService.Title}}</h2>
+                            <a class="pointer" style="color:#1565c0"
+                               (click)="goServiceDetail(customerService.Title,customerService.Id)">
+                              <h2 class="mb-2"
+                                  style="    font-weight: bold;    font-size: 17px;    color: #01579b;    text-decoration: underline;">
+                                {{customerService.Title}}</h2>
                             </a>
-                            <span style="margin-right:15px; font-size: smaller">{{customerService.Desc}}</span>
+                            <span
+                              style="margin-right:15px;                               font-size: 12px;    font-weight: bold;">{{customerService.Desc}}</span>
                             <br>
-                            <!-- <div style="text-align: center">
-                                <a mat-mini-fab (click)="goServiceDetail(customerService.Title,customerService.Id)" style="background-color:#1e88e5">Info</a>
+                            <div style="text-align: center">
+                              <a mat-mini-fab (click)="goServiceDetail(customerService.Title,customerService.Id)"
+                                 style="background-color:#01579b">Info</a>
                             </div>
-                             -->
+
                             <!-- <button mat-fab color="primary">
                               <i class="material-icons">info</i>
                             </button> -->
                           </div>
-                       
-                  </mat-card>
+
+                    </mat-card>
               </div>
             </div>
           </div>
@@ -45,4 +49,3 @@
   </div>
 </div>
 
-  

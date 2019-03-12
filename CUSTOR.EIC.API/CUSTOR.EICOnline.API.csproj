@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <!--<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
@@ -18,6 +18,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -118,10 +119,9 @@
     </Reference>
   </ItemGroup>
 
-
   <Target Name="Build Angular" Condition="'$(Configuration)'=='Release'" BeforeTargets="Build">
-    <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high"/>
-    <Exec Command="ng build --prod --aot"/>
+    <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high" />
+    <Exec Command="npm run build-client" />
   </Target>
 
 

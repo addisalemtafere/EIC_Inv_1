@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {SharedModule} from '@custor/modules/shared.module';
 import {AppointmentRouting} from './appointment-routing';
 import {AppointmentComponent} from './appointment.component';
+import {SharedModule} from "@custor/modules/shared.module";
 
 @NgModule({
   imports: [CommonModule,

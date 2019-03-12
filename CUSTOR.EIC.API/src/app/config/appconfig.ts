@@ -217,7 +217,7 @@ export class AppConfiguration {
     IncentiveRequestDetailofSparePart: 'api/IncentiveRequestDetail/getSparePart',
     incentiveRequestsDetailByProjectId: 'api/IncentiveRequestDetail/DetailByProjectId',
 
-    CompanyClearances: 'api/CoChangeApplicationStatusmpanyClearances',
+    CompanyClearances: 'api/CompanyClearances',
     CompanyClearanceByInvestorId: 'api/CompanyClearances/getCompanyClearanceByInvestorId',
     SaveFinalApprovedName: 'api/CompanyClearances/SaveFinalApprovedName',
 
@@ -281,7 +281,7 @@ export class AppConfiguration {
   // put config variables here
 
   constructor() {
-    this.urls.baseUrl = 'http://40.117.47.168/';
-   // this.urls.baseUrl = 'http://40.117.47.168/';
+    this.urls.baseUrl = 'http://localhost:5000 /';
+   // this.urls.baseUrl = 'http://localhost:5000 /';
   }
 }

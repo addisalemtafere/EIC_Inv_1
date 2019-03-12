@@ -383,10 +383,13 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         canActivate: [AuthGuard]
       },
       // {
-      //   path: 'help',
-      //   component: HelpComponent,
+      //   path: 'help',        component: HelpComponent,
       //   canActivate: [AuthGuard]
       // },
+      {
+        path: 'contact',
+        loadChildren: 'app/components/contact/contact.module#ContactModule'
+      },
       {path: '', component: HomeComponent},
       {path: '**', component: NotFoundComponent},
     ])
