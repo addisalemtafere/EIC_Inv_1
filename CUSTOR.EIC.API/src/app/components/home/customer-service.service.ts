@@ -91,7 +91,9 @@ export class CustomerServicesService {
 
   getPrerequisites(id): Observable<any> {
     const endpointUrl = `${this.presUrl}/${id}`;
-    // // console.log (endpointUrl);
+    console.log (endpointUrl);
+    console.log("i am here in requirment")
+
     return this.httpClient.get<ServicePrerequisite[]>(endpointUrl).pipe(
       map(pre => {
         this.checkLists = pre;
