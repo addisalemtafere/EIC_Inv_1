@@ -4,12 +4,12 @@
     "anonymousAuthentication": true,
     "iis": {
 <<<<<<< HEAD
-      "applicationUrl": "http://40.117.47.168",
+      "applicationUrl": "http://localhost:5000",
       "sslPort": 0
     },
     "iisExpress": {
 
-      "applicationUrl": "http://40.117.47.168",
+      "applicationUrl": "http://localhost:5000",
 
 =======
       "applicationUrl": "http://localhost:5000 ",
@@ -26,7 +26,7 @@
       "commandName": "IIS",
       "launchBrowser": true,
 <<<<<<< HEAD
-      "launchUrl": "http://40.117.47.168",
+      "launchUrl": "http://localhost:5000",
 =======
       "launchUrl": "http://localhost:5000 ",
 >>>>>>> 5239d50c8d20da9ef7f2b3a187e67cfb5f4ce20c
@@ -41,7 +41,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
 <<<<<<< HEAD
-      "applicationUrl": "http://40.117.47.168/"
+      "applicationUrl": "http://localhost:5000/"
 =======
       "applicationUrl": "http://localhost:5000 /"
 >>>>>>> 5239d50c8d20da9ef7f2b3a187e67cfb5f4ce20c
