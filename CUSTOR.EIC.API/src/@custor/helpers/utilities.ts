@@ -296,6 +296,7 @@ export class Utilities {
    // const base  = 'http://localhost:5000 /';
 
 
+
     // if (window.location.origin) {
     //     base = window.location.origin;
     // } else {
