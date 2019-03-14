@@ -1,5 +1,6 @@
+
+import {switchMap,  map, filter, catchError, mergeMap } from 'rxjs/operators';
 import { throwError as observableThrowError, Observable, Subject } from 'rxjs';
-import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -49,10 +50,10 @@ export class EndpointFactory {
       .append('client_id', 'einvest_spa')
       .append('grant_type', 'refresh_token');
 
-    return this.http.post<T>(this.loginUrl, params, { headers: header })
-      .catch(error => {
+    return this.http.post<T>(this.loginUrl, params, { headers: header }).pipe(
+      catchError(error => {
         return this.handleError(error, () => this.getRefreshLoginEndpoint());
-      });
+      }));
   }
 
   protected getRequestHeaders(): { headers: HttpHeaders | { [header: string]: string | string[]; } } {
@@ -75,14 +76,14 @@ export class EndpointFactory {
 
       this.isRefreshingLogin = true;
 
-      return this.authService.refreshLogin()
-        .mergeMap(data => {
+      return this.authService.refreshLogin().pipe(
+        mergeMap(data => {
           this.isRefreshingLogin = false;
           this.resumeTasks(true);
 
           return continuation();
-        })
-        .catch(refreshLoginError => {
+        }),
+        catchError(refreshLoginError => {
           this.isRefreshingLogin = false;
           this.resumeTasks(false);
 
@@ -93,7 +94,7 @@ export class EndpointFactory {
           } else {
             return observableThrowError(refreshLoginError || 'server error');
           }
-        });
+        }),);
     }
 
     if (error.url && error.url.toLowerCase().includes(this.loginUrl.toLowerCase())) {
@@ -110,9 +111,9 @@ export class EndpointFactory {
       this.taskPauser = new Subject();
     }
 
-    return this.taskPauser.switchMap(continueOp => {
+    return this.taskPauser.pipe(switchMap(continueOp => {
       return continueOp ? continuation() : observableThrowError('session expired');
-    });
+    }));
   }
 
   private resumeTasks(continueOp: boolean) {

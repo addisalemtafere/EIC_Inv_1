@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatStepper} from '@angular/material';
 import {DataSharingService} from '../../../Services/data-sharing.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {InvestorService} from '../../investor/investor.service';
 import {ToastrService} from 'ngx-toastr';
 

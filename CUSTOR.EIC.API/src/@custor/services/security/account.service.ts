@@ -1,18 +1,17 @@
-import { Observable, Subject } from 'rxjs/Rx';
-import { forkJoin as observableForkJoin } from 'rxjs';
+import {Observable, Subject, forkJoin as observableForkJoin} from 'rxjs';
 
-import { mergeMap, tap } from 'rxjs/operators';
+import {mergeMap, tap} from 'rxjs/operators';
 
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { AccountEndpoint } from './account-endpoint.service';
-import { AuthService } from './auth.service';
-import { User } from '../../../app/model/security/user.model';
-import { Role } from '../../../app/model/security/role.model';
-import { Permission, PermissionValues } from '../../../app/model/security/permission.model';
-import { UserEdit } from '../../../app/model/security/user-edit.model';
-import { AppConfiguration } from '../../../app/config/appconfig';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {AccountEndpoint} from './account-endpoint.service';
+import {AuthService} from './auth.service';
+import {User} from '../../../app/model/security/user.model';
+import {Role} from '../../../app/model/security/role.model';
+import {Permission, PermissionValues} from '../../../app/model/security/permission.model';
+import {UserEdit} from '../../../app/model/security/user-edit.model';
+import {AppConfiguration} from '../../../app/config/appconfig';
 
 export type RolesChangedOperation = 'add' | 'delete' | 'modify';
 

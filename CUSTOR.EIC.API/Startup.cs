@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,8 +31,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
-
-//using CUSTOR.API.ExceptionMiddleware;
 
 namespace EICOnline.API
 {
@@ -53,14 +52,20 @@ namespace EICOnline.API
     {
       //services.ConfigureIISIntegration();
 
-
-      services.AddMvc();
       try
       {
         services.AddMvc(options =>
-          {
-            options.Filters.Add(typeof(ModelValidationAttribute)); // add global modelstate filter
-          })
+        {
+          options.Filters.Add(typeof(ModelValidationAttribute)); // add global modelstate filter
+          options.EnableEndpointRouting = false;
+
+        })
+          .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+           .ConfigureApiBehaviorOptions(options =>
+           {
+             options
+               .SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
+           })
           .AddJsonOptions(opt =>
           {
             var resolver = opt.SerializerSettings.ContractResolver;
@@ -71,6 +76,7 @@ namespace EICOnline.API
               res.NamingStrategy = null;
             }
           });
+
         var connectionString = Configuration["ConnectionStrings:DefaultConnection"];
         var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
@@ -207,7 +213,7 @@ namespace EICOnline.API
         //services.AddMvc();
         services.AddSwaggerGen(c =>
         {
-          c.SwaggerDoc("v1", new Info {Title = IdentityServerConfig.ApiFriendlyName, Version = "v1"});
+          c.SwaggerDoc("v1", new Info { Title = IdentityServerConfig.ApiFriendlyName, Version = "v1" });
 
           //c.OperationFilter<AuthorizeCheckOperationFilter>();
 
@@ -221,6 +227,10 @@ namespace EICOnline.API
               {IdentityServerConfig.ApiName, IdentityServerConfig.ApiFriendlyName}
             }
           });
+          // Set the comments path for the Swagger JSON and UI.
+          var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+          var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+          c.IncludeXmlComments(xmlPath);
         });
 
         Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
@@ -407,6 +417,7 @@ namespace EICOnline.API
         c.OAuthClientSecret("no_password"); //Leaving it blank doesn't work
         c.OAuthAppName("Swagger UI");
       });
+
 
       app.UseMvc(routes =>
       {
