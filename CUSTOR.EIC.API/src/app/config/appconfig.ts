@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AppConfiguration {
@@ -282,6 +282,6 @@ export class AppConfiguration {
 
   constructor() {
     this.urls.baseUrl = 'http://localhost:5000/';
-   // this.urls.baseUrl = 'http://localhost:5000 /';
+    // this.urls.baseUrl = 'http://localhost:5000 /';
   }
 }
