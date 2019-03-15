@@ -18,11 +18,12 @@ export class ConfigurationService {
   public static readonly appVersion: string = '1.0';
 
   // public baseUrl = environment.baseUrl || Utilities.baseUrl();
-  public baseUrl = 'http://localhost:5000 /';
+
+  public baseUrl = 'http://localhost:5000/';
   // public tokenUrl = environment.tokenUrl || environment.baseUrl || Utilities.baseUrl();
-  public tokenUrl = 'http://localhost:5000 ';
+  public tokenUrl = 'http://localhost:5000';
   public loginUrl = environment.loginUrl;
-  public fallbackBaseUrl = 'http://localhost:5000 ';
+  public fallbackBaseUrl = 'http://localhost:5000';
 
   public static readonly defaultLanguage: string = 'et';
   public static readonly defaultHomeUrl: string = '/';

@@ -16,6 +16,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             ServiceWorkflow = new HashSet<ServiceWorkflow>();
             ServiceWorkflowHistories = new HashSet<ServiceWorkflowHistory>();
             Document = new HashSet<Document>();
+            Service = new Service();
         }
 
         public int ServiceApplicationId { get; set; }

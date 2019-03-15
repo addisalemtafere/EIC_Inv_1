@@ -292,8 +292,9 @@ export class Utilities {
   }
 
   public static baseUrl() {
-    const base = 'http://localhost:5000 /';
+    const base = 'http://localhost:5000/';
    // const base  = 'http://localhost:5000 /';
+
 
 
     // if (window.location.origin) {

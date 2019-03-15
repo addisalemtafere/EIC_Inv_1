@@ -754,9 +754,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.filteredKebeles = null;
     this.filteredWoredas = null;
     this.filteredZones = null;
-    if (!this.zones) {
-      return;
-    }
+    // if (!this.zones) {
+    //   return;
+    // }
     this.filteredZones = this.zones.filter((item) => {
       return item.RegionId === regionCode;
     });

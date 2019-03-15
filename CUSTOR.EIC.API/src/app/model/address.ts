@@ -15,7 +15,7 @@ export class Zone {
   public RegionId: string;
   public Description: string;
   public DescriptionEnglish: string;
-  public Region: Region;
+  public Region?: Region;
 
   constructor(ZoneId?: string, RegionId?: string, Description?: string, DescriptionEnglish?: string, RegionName?: Region) {
     this.ZoneId = ZoneId;
