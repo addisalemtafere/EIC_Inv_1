@@ -33,8 +33,8 @@ namespace EICOnline.API
       host.Run();
     }
     public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-          WebHost.CreateDefaultBuilder(args)
-            .UseStartup<Startup>();
+      WebHost.CreateDefaultBuilder(args)
+        .UseStartup<Startup>();
     //.UseContentRoot(Directory.GetCurrentDirectory())
     //.UseIISIntegration()
     //.ConfigureKestrel((context, options) =>
@@ -43,5 +43,3 @@ namespace EICOnline.API
     //});
   }
 }
-
-

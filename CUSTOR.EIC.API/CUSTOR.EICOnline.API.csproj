@@ -45,9 +45,9 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
-  <Target Name="Build Angular" Condition="'$(Configuration)'=='Release'" BeforeTargets="Build">
-    <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high" />
-    <Exec Command="npm run build-client" />
-  </Target>
+  <!--<Target Name="Build Angular" Condition="'$(Configuration)'=='Release'" BeforeTargets="Build">-->
+    <!--<Message Text="* * * * * * Building Angular App * * * * * *" Importance="high" />-->
+    <!--<Exec Command="npm run build-client" />-->
+  <!--</Target>-->
 
 </Project>
