@@ -161,6 +161,7 @@ export class EditZoneComponent implements OnInit, OnDestroy {
            })
          return;
        }*/
+
       this.loadingIndicator = true;
     }
     return this.zonesService.saveZone(
@@ -198,11 +199,13 @@ export class EditZoneComponent implements OnInit, OnDestroy {
   private getEditedZone(): Zone {
     const formModel = this.zoneForm.value;
     return {
+      isNew: this.isNewZone ? true : false,
       ZoneId: formModel.cId,
       RegionId: formModel.cRegion,
       Description: formModel.cDescription,
       DescriptionEnglish: formModel.cDescriptionEnglish,
       Region: null,
-    };
+  }
+    ;
   }
 }

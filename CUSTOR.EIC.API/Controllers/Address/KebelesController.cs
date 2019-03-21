@@ -74,9 +74,16 @@ namespace CUSTOR.EICOnline.API.Controllers.Address
       //    throw new ApiException("Model binding failed.", 500);
       //if (!_KebebeleRepo.Validate(postedKebele))
       //    throw new ApiException(_KebebeleRepo.ErrorMessage, 500, _KebebeleRepo.ValidationErrors);
-
-      if (!await _KebebeleRepo.SaveAsync(postedKebele))
-        throw new ApiException(_KebebeleRepo.ErrorMessage);
+      if (postedKebele.isNew)
+      {
+        if (!await _KebebeleRepo.SaveAsyncForAddress(postedKebele))
+          throw new ApiException(_KebebeleRepo.ErrorMessage);
+      }
+      else
+      {
+        if (!await _KebebeleRepo.SaveAsync(postedKebele))
+          throw new ApiException(_KebebeleRepo.ErrorMessage);
+      }
       return postedKebele;
     }
 
