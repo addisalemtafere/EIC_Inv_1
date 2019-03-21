@@ -62,9 +62,17 @@ namespace CUSTOR.EICOnline.API.Controllers.Address
       //    throw new ApiException("Model binding failed.", 500);
       //if (!_WoredaRepo.Validate(postedWoreda))
       //    throw new ApiException(_WoredaRepo.ErrorMessage, 500, _WoredaRepo.ValidationErrors);
+      if (postedWoreda.isNew)
+      {
+        if (!await _WoredaRepo.SaveAsyncForAddress(postedWoreda))
+          throw new ApiException(_WoredaRepo.ErrorMessage);
+      }
+      else
+      {
+        if (!await _WoredaRepo.SaveAsync(postedWoreda))
+          throw new ApiException(_WoredaRepo.ErrorMessage);
+      }
 
-      if (!await _WoredaRepo.SaveAsync(postedWoreda))
-        throw new ApiException(_WoredaRepo.ErrorMessage);
       return postedWoreda;
     }
 

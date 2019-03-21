@@ -12,7 +12,7 @@ namespace CUSTOR.EICOnline.DAL
 
     [Key]
     public string ZoneId { get; set; }
-
+    public bool isNew { get; set; }
     public string RegionId { get; set; }
     public string Description { get; set; }
     public string DescriptionEnglish { get; set; }
