@@ -1,4 +1,4 @@
-http://40.117.47.168 /api/subsectors
+http://localhost:5000 /api/subsectors
 
 ###
-http://40.117.47.168 /api/services
+http://localhost:5000 /api/services
