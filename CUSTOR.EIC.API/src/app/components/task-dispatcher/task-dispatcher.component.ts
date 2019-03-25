@@ -48,9 +48,9 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
   }
 
   getAllOfficer() {
-    alert(this.authService.currentUser.SiteCode)
+    // alert(this.authService.currentUser.SiteCode)
     this.accountService.getUsers().subscribe(result => {
-      alert(result[0].SiteCode);
+      // alert(result[0].SiteCode);
       this.filterUser(result)
     });
 

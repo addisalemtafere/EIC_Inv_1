@@ -1,0 +1,1 @@
+update aspnetuser set emailconfirmed=1;
