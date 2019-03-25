@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
-// import {Config, Data} from 'plotly.js/dist/plotly.js';
 import {ServiceApplicationService} from '../../Services/service-application.service';
 import {Permission} from '../../model/security/permission.model';
 import {AccountService} from '@custor/services/security/account.service';

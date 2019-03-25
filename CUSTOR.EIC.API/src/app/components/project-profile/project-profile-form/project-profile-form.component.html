@@ -145,7 +145,7 @@
             <mat-form-field>
               <mat-label>Kebele :</mat-label>
               <mat-select formControlName="KebeleId">
-                <mat-option value="0">--</mat-option>
+                <!-- <mat-option value="0">--</mat-option> -->
                 <mat-option *ngFor="let k of filteredKebeles" [value]="k.KebeleId">
                   {{k.Description}}
                 </mat-option>

@@ -1,12 +1,12 @@
-import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {HomeComponent} from './components/home/home.component';
-import {AuthService} from '@custor/services/security/auth.service';
-import {AuthGuard} from '@custor/services/security/auth-guard.service';
-import {NotFoundComponent} from './components/not-found/not-found.component';
-import {ConfirmComponent} from './components/auth/register/confirm.component';
-import {LoginComponent} from './components/auth/login/login.component';
-import {AccessDeniedComponent} from './components/denied/denied.component';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { AuthService } from '@custor/services/security/auth.service';
+import { AuthGuard } from '@custor/services/security/auth-guard.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ConfirmComponent } from './components/auth/register/confirm.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { AccessDeniedComponent } from './components/denied/denied.component';
 
 
 @NgModule({
@@ -288,7 +288,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         canActivate: [AuthGuard]
       },
 
-      {path: 'confirm', component: ConfirmComponent},
+      { path: 'confirm', component: ConfirmComponent },
       {
         path: 'lookups',
         loadChildren: 'app/components/setting/lookup-tabs/lookups/lookups.module#LookupsModule',
@@ -382,16 +382,17 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         loadChildren: 'app/components/investor/investor-profile/investor-profile.module#InvestorProfileModule',
         canActivate: [AuthGuard]
       },
-      // {
-      //   path: 'help',        component: HelpComponent,
-      //   canActivate: [AuthGuard]
-      // },
+      {
+        path: 'help',
+        loadChildren: 'app/components/help/help.module#HelpModule',
+        canActivate: [AuthGuard]
+      },
       {
         path: 'contact',
         loadChildren: 'app/components/contact/contact.module#ContactModule'
       },
-      {path: '', component: HomeComponent},
-      {path: '**', component: NotFoundComponent},
+      { path: '', component: HomeComponent },
+      { path: '**', component: NotFoundComponent },
     ])
   ],
   exports: [
