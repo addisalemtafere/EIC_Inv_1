@@ -276,7 +276,7 @@ namespace EIC.Investment.API.Controllers
           CurrentStatusId = 44450,
           IsSelfService = true,
           IsPaid = true,
-          http://localhost:5050 = DateTime.Now,
+          StartDate  = DateTime.Now,
           CreatedUserId = 1,
           IsActive = false,
           CreatedUserName = serviceApplication.CreatedUserName,
@@ -298,7 +298,7 @@ namespace EIC.Investment.API.Controllers
           CurrentStatusId = 44450,
           IsSelfService = true,
           IsPaid = true,
-          http://localhost:5050 = DateTime.Now,
+          StartDate  = DateTime.Now,
           CreatedUserId = 1,
           IsActive = false,
           CreatedUserName = serviceApplication.CreatedUserName,
@@ -366,7 +366,7 @@ namespace EIC.Investment.API.Controllers
         CurrentStatusId = 44446,
         IsSelfService = true,
         IsPaid = true,
-        http://localhost:5050 = DateTime.Now,
+        StartDate  = DateTime.Now,
         CreatedUserId = 1,
         IsActive = false,
         CreatedUserName = serviceApplication.CreatedUserName,
@@ -428,7 +428,7 @@ namespace EIC.Investment.API.Controllers
           .Include(s => s.ServiceWorkflow)
           .Where(m => m.ServiceId == searchDto.ServiceId &&
                       m.CurrentStatusId == searchDto.status &&
-                      m.http://localhost:5050 == searchDto.SpecDate).AsEnumerable();
+                      m.StartDate  == searchDto.SpecDate).AsEnumerable();
       else if (searchDto.ServiceId.HasValue && searchDto.status.HasValue)
         serviceApplications = _context.ServiceApplication
           .Include(s => s.ServiceWorkflow)
