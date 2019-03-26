@@ -1,0 +1,337 @@
+<app-page-header title="Registration" icon="person"></app-page-header>
+<div [@fadeInOut] class="page-content mat-elevation-z8">
+  <mat-progress-bar *ngIf="loadingIndicator" mode="query"></mat-progress-bar>
+  <form #form="ngForm" [formGroup]="registrationForm" novalidate (ngSubmit)="onSubmit()"
+        fxLayout="column"
+        autocomplete="off">
+
+    <div id="divRegistrationInfo" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+      <mat-form-field [fxFlex] [fxFlex]="32">
+        <mat-label>{{'registration.editor.CompanyNameAmharic' | translate}}</mat-label>
+        <input matInput formControlName="cCompanyNameAmharic" required/>
+        <mat-error *ngIf="companyNameAmharic.hasError('required')">
+          {{'common.validation.Required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="!companyNameAmharic.hasError('required') && companyNameAmharic.hasError('minlength')">
+          Name should be at least 2 characters long
+        </mat-error>
+        <mat-error *ngIf="!companyNameAmharic.hasError('required') && !companyNameAmharic.hasError('minlength')">
+          {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+        </mat-error>
+        <mat-error *ngIf="!companyNameAmharic.hasError('required') && !companyNameAmharic.hasError('minlength')
+                            && companyNameAmharic.hasError('pattern')">
+          {{'common.validation.UseEthiopicOnly' | translate}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field [fxFlex] [fxFlex]="32">
+        <mat-label>{{'registration.editor.CompanyNameEnglish' | translate}}</mat-label>
+        <input matInput formControlName="cCompanyNameEnglish" required/>
+        <mat-error *ngIf="companyNameEnglish.hasError('required')">
+          {{'common.validation.Required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="!companyNameEnglish.hasError('required') && companyNameEnglish.hasError('minlength')">
+          {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+        </mat-error>
+        <mat-error *ngIf="!companyNameEnglish.hasError('required') && !companyNameEnglish.hasError('minlength')
+                         && companyNameEnglish.hasError('pattern')">
+          {{'common.validation.UseLatinOnly' | translate}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field [fxFlex] [fxFlex]="32">
+        <mat-label>{{'registration.editor.CompanyNameRegional' | translate}}</mat-label>
+        <input matInput formControlName="cCompanyNameRegional" required/>
+        <mat-error *ngIf="companyNameRegional.hasError('required')">
+          {{'common.validation.Required' | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em">
+      <mat-form-field fxFlex="14">
+        <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
+        <input matInput formControlName="cTin" NaturalNumberOnlyDir/>
+        <mat-error *ngIf="tin.hasError('maxlength')">
+          {{'common.validation.MinLengthChar' | translate: {'min':'10'} }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex fxFlex="14">
+        <mat-label name="lblRegNumber">{{'registration.editor.RegNumber' | translate}}</mat-label>
+        <input matInput formControlName="cRegNumber"/>
+        <mat-error *ngIf="regNumber.hasError('minlength')">
+          {{'common.validation.MinLengthChar' | translate: {'min':'10'} }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex fxFlex="15">
+        <mat-label name="lblRegDate">{{'registration.editor.RegDate' | translate}}</mat-label>
+        <input [matDatepicker]="cRegDate" matInput formControlName="cRegDate"/>
+        <mat-datepicker-toggle matSuffix [for]="cRegDate"></mat-datepicker-toggle>
+        <mat-datepicker #cRegDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field fxFlex fxFlex="14">
+        <mat-label name="lblPaidCapital">{{'registration.editor.PaidCapital' | translate}}</mat-label>
+        <input matInput formControlName="cPaidCapital"/>
+      </mat-form-field>
+      <mat-form-field fxFlex fxFlex="15">
+        <mat-label name="lblSighnedCapital">{{'registration.editor.SighnedCapital' | translate}}</mat-label>
+        <input matInput formControlName="cSighnedCapital" />
+      </mat-form-field>
+      <mat-form-field fxFlex fxFlex="14">
+        <mat-label name="lblSingleShareValue">{{'registration.editor.SingleShareValue' | translate}}</mat-label>
+        <input matInput formControlName="cSingleShareValue"/>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+
+      <mat-checkbox formControlName="cWithForighners">{{'registration.editor.IsWithForighner' | translate}}
+      </mat-checkbox>
+
+      <mat-form-field fxFlex  fxFlex="16">
+        <mat-label name="lblEthiopiansShare">{{'registration.editor.EthiopiansShare' | translate}}</mat-label>
+        <input matInput formControlName="cEthiopiansShare" />
+      </mat-form-field>
+      <mat-form-field fxFlex  fxFlex="32">
+        <mat-label>{{'registration.editor.BudgetCatagory' | translate}}</mat-label>
+        <mat-select formControlName="cBudgetYearCatagory">
+          <mat-option *ngFor="let budgetYearType of budgetYearTypes" [value]="budgetYearType.Code">
+            {{budgetYearType.Description}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>{{'registration.editor.RegistrationStatus' | translate}}</mat-label>
+        <mat-select formControlName="cRegistrationStatus">
+          <mat-option *ngFor="let status of regStatus" [value]="status.Id">
+            {{status.Desc}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div id="divCommercialRepresentative" *ngIf="isCommercialRepresentative">
+      <div id="divRepresentativeName" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.RepresentativeNameAmharic' | translate}}</mat-label>
+          <input matInput formControlName="cRepresentativeNameAmharic" required/>
+          <mat-error *ngIf="representativeNameAmharic.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error
+            *ngIf="!representativeNameAmharic.hasError('required') && representativeNameAmharic.hasError('minlength')">
+            {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+          </mat-error>
+          <mat-error *ngIf="!representativeNameAmharic.hasError('required') && !representativeNameAmharic.hasError('minlength')
+                         && representativeNameAmharic.hasError('pattern')">
+            {{'common.validation.UseEthiopicOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.RepresentativeNameEnglish' | translate}}</mat-label>
+          <input matInput formControlName="cRepresentativeNameEnglish" required/>
+          <mat-error *ngIf="representativeNameEnglish.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error
+            *ngIf="!representativeNameEnglish.hasError('required') && representativeNameEnglish.hasError('minlength')">
+            Name should be at least 2 characters long
+          </mat-error>
+          <mat-error
+            *ngIf="!representativeNameEnglish.hasError('required') && !representativeNameEnglish.hasError('minlength')">
+            {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+          </mat-error>
+          <mat-error *ngIf="!representativeNameEnglish.hasError('required') && !representativeNameEnglish.hasError('minlength')
+                            && representativeNameEnglish.hasError('pattern')">
+            {{'common.validation.UseLatinOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.RepresentativeNameRegional' | translate}}</mat-label>
+          <input matInput formControlName="cRepresentativeNameRegional" required/>
+        </mat-form-field>
+      </div>
+
+      <div id="divRepresentativeManagerName" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.RepresentativeManagerNameAmharic' | translate}}</mat-label>
+          <input matInput formControlName="cRepresentativeManagerNameAmharic" required/>
+          <mat-error *ngIf="representativeManagerNameAmharic.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error
+            *ngIf="!representativeManagerNameAmharic.hasError('required') && representativeManagerNameAmharic.hasError('minlength')">
+            {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+          </mat-error>
+          <mat-error *ngIf="!representativeManagerNameAmharic.hasError('required') && !representativeManagerNameAmharic.hasError('minlength')
+                         && representativeManagerNameAmharic.hasError('pattern')">
+            {{'common.validation.UseEthiopicOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.RepresentativeManagerNameEnglish' | translate}}</mat-label>
+          <input matInput formControlName="cRepresentativeManagerNameEnglish" required/>
+          <mat-error *ngIf="representativeManagerNameEnglish.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error
+            *ngIf="!representativeManagerNameEnglish.hasError('required') && representativeManagerNameEnglish.hasError('minlength')">
+            Name should be at least 2 characters long
+          </mat-error>
+          <mat-error
+            *ngIf="!representativeManagerNameEnglish.hasError('required') && !representativeManagerNameEnglish.hasError('minlength')">
+            {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+          </mat-error>
+          <mat-error *ngIf="!representativeManagerNameEnglish.hasError('required') && !representativeManagerNameEnglish.hasError('minlength')
+                            && representativeNameEnglish.hasError('pattern')">
+            {{'common.validation.UseLatinOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.RepresentativeManagerNameRegional' | translate}}</mat-label>
+          <input matInput formControlName="cRepresentativeManagerNameRegional" required/>
+        </mat-form-field>
+      </div>
+
+
+      <div id="divMainOfficeCountry" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.MainOfficeCountryNameAmharic' | translate}}</mat-label>
+          <input matInput formControlName="cMainOfficeCountryNameAmharic" required/>
+          <mat-error *ngIf="mainOfficeCountryNameAmharic.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error
+            *ngIf="!mainOfficeCountryNameAmharic.hasError('required') && mainOfficeCountryNameAmharic.hasError('minlength')">
+            {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+          </mat-error>
+          <mat-error *ngIf="!mainOfficeCountryNameAmharic.hasError('required') && !mainOfficeCountryNameAmharic.hasError('minlength')
+                         && mainOfficeCountryNameAmharic.hasError('pattern')">
+            {{'common.validation.UseEthiopicOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.MainOfficeCountryNameEnglish' | translate}}</mat-label>
+          <input matInput formControlName="cMainOfficeCountryNameEnglish" required/>
+          <mat-error *ngIf="mainOfficeCountryNameEnglish.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error
+            *ngIf="!mainOfficeCountryNameEnglish.hasError('required') && mainOfficeCountryNameEnglish.hasError('minlength')">
+            Name should be at least 2 characters long
+          </mat-error>
+          <mat-error
+            *ngIf="!mainOfficeCountryNameEnglish.hasError('required') && !mainOfficeCountryNameEnglish.hasError('minlength')">
+            {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+          </mat-error>
+          <mat-error *ngIf="!mainOfficeCountryNameEnglish.hasError('required') && !mainOfficeCountryNameEnglish.hasError('minlength')
+                            && representativeNameEnglish.hasError('pattern')">
+            {{'common.validation.UseLatinOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.MainOfficeCountryNameRegional' | translate}}</mat-label>
+          <input matInput formControlName="cMainOfficeCountryNameRegional" required/>
+        </mat-form-field>
+      </div>
+
+
+      <div id="divMainOfficeAddress" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.MainOfficeAddressAmharic' | translate}}</mat-label>
+          <input matInput formControlName="cMainOfficeAddressAmharic" required/>
+          <mat-error *ngIf="mainOfficeAddressAmharic.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error
+            *ngIf="!mainOfficeAddressAmharic.hasError('required') && mainOfficeAddressAmharic.hasError('minlength')">
+            {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+          </mat-error>
+          <mat-error *ngIf="!mainOfficeAddressAmharic.hasError('required') && !mainOfficeAddressAmharic.hasError('minlength')
+                         && mainOfficeAddressAmharic.hasError('pattern')">
+            {{'common.validation.UseEthiopicOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.MainOfficeAddressEnglish' | translate}}</mat-label>
+          <input matInput formControlName="cMainOfficeAddressEnglish" required/>
+          <mat-error *ngIf="mainOfficeAddressEnglish.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error
+            *ngIf="!mainOfficeAddressEnglish.hasError('required') && mainOfficeAddressEnglish.hasError('minlength')">
+            Name should be at least 2 characters long
+          </mat-error>
+          <mat-error
+            *ngIf="!mainOfficeAddressEnglish.hasError('required') && !mainOfficeAddressEnglish.hasError('minlength')">
+            {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+          </mat-error>
+          <mat-error *ngIf="!mainOfficeAddressEnglish.hasError('required') && !mainOfficeAddressEnglish.hasError('minlength')
+                            && mainOfficeAddressEnglish.hasError('pattern')">
+            {{'common.validation.UseLatinOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field [fxFlex]="32">
+          <mat-label>{{'registration.editor.MainOfficeAddressRegional' | translate}}</mat-label>
+          <input matInput formControlName="cMainOfficeAddressRegional" required/>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+        <div  fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em">
+          <mat-form-field fxFlex fxFlex="100">
+            <mat-select placeholder="ዘርፍ *" formControlName="cMajorDivision" multiple>
+              <mat-option *ngFor="let MajorDivision of majorDivisions" [value]="MajorDivision.Id">{{MajorDivision.Description}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+    <!--<mat-card class="border" style="margin-top: 20px;">-->
+      <!--<mat-card-subtitle class="sub-title">{{RegistrationName.Value}} የተሰማራባቸው መስኮች-->
+        <!--<mat-divider></mat-divider>-->
+      <!--</mat-card-subtitle>-->
+
+      <!--<div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">-->
+
+
+          <!--<div formGroupName="Catagory">-->
+            <!--<mat-selection-list aria-colcount="2" formControlName="cMajorDivision" dense [required]="true">-->
+              <!--<h3 matSubheader>ዘርፍ *:</h3>-->
+              <!--<mat-list-option aria-colcount="2" [checkboxPosition]="left" *ngFor="let MajorDivision of majorDivisions"-->
+                               <!--[value]="MajorDivision.Id">-->
+                <!--{{MajorDivision.Description}}-->
+              <!--</mat-list-option>-->
+            <!--</mat-selection-list>-->
+
+           <!-- <mat-form-field>
+              <mat-select placeholder="ዘርፍ *" [formControl]="majorDivisions"multiple>
+                <mat-select-trigger>
+                  {{majorDivisions.value ? majorDivisions.value[0] : ''}}
+                  <span *ngIf="majorDivisions.value?.length > 1" class="additional-selection">
+                      (+{{majorDivisions.value.length - 1}} {{majorDivisions.value?.length === 2 ? 'other' : 'others'}})
+                  </span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let MajorDivision of majorDivisions" [value]="MajorDivision.Id">{{MajorDivision.Description}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>-->
+      <!--</div>-->
+      <!--<mat-card-content>-->
+      <!--</mat-card-content>-->
+    <!--</mat-card>-->
+
+
+    <div mat-dialog-actions style="margin: 15px; text-align: center">
+      <button mat-raised-button type="submit" color="primary" style="margin-right: 10px">
+        {{'common.commands.Save' | translate}}
+      </button>
+      <button mat-raised-button (click)="onBack()" color="warn" type="button">
+        {{'common.commands.Cancel' | translate}}
+      </button>
+    </div>
+
+    <!--<pre>
+      {{registrationForm.value | json}}
+    </pre>-->
+  </form>
+</div>
+

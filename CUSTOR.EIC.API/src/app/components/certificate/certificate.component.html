@@ -505,20 +505,20 @@
                 </td>
 
                 <td class="renewDate data value" style="width: 300px">
-                  <span class="renewDate"> {{ dateEthioNextYear}} ታድሷል</span>
+                  <span class="renewDate"> {{ todayEthioDateRenewal}} ታድሷል</span>
                 </td>
               </tr>
-              <tr *ngIf="ServiceId==13">
-                <td class="t-header">Valid Until</td>
-                <td class=" renewDate data value" style="width: 300px">
-                  <span class="renewDate">   {{ dateGc | date}}</span>
+              <tr>
+                <!--<td class="t-header">Valid Until</td>-->
+                <!--<td class=" renewDate data value" style="width: 300px">-->
+                  <!--<span class="renewDate">   {{ dateGc | date}}</span>-->
 
-                </td>
+                <!--</td>-->
 
-              <tr *ngIf="ServiceId==18">
+              <!--<tr *ngIf="ServiceId==18">-->
                 <td class="t-header">Valid Until</td>
                 <td class=" data value" style="width: 300px">
-                  <span class="renewDate">{{ renewedTo | date:'mediumDate'}}</span>
+                  <span class="renewDate">{{ renewedToGC | date:'mediumDate'}}</span>
                 </td>
               </tr>
               </tbody>

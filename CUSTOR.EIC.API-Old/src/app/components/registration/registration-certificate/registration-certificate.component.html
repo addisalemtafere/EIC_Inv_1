@@ -1,0 +1,394 @@
+<mat-card class="margin-2 simple-card">
+  <mat-card-header>
+    <mat-card-subtitle class="sub-title"></mat-card-subtitle>
+    <button mat-raised-button="" color="primary" (click)="generateCertification()">
+      Generate
+      Certificate
+    </button>
+    <!--<button style="margin-left: 20px;" mat-raised-button="" color="primary" (click)="addMessage()">-->
+    <!--Send Message-->
+    <!--</button>-->
+
+  </mat-card-header>
+</mat-card>
+<mat-card class="margin-2 margin-top-20" *ngIf="viewCertificate">
+  <mat-card-header>
+    <div fxFlex="70"></div>
+    <div fxFlex="15" style="float: right;">
+      <button mat-raised-button="" color="primary" (click)="print()">Print</button>
+    </div>
+    <div fxFlex="15" style="float: right;">
+      <button mat-raised-button="" color="primary" (click)="generatePDF()">Export As Pdf</button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-card-title>
+    </mat-card-title>
+    <div id="reg-certificate" class="c-container">
+      <header class="clearfix">
+
+        <!--<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">-->
+          <!--<div class="block" fxFlex="20%">-->
+            <!--<div id="company" class="clearfix logo-image">-->
+              <!--<img width="100" src="/assets/logo/Trade.gif">-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="block" fxFlex="60%">-->
+            <!--<div id="logo" class="full-width">-->
+              <!--<div class="certificate-title">ንግድና ኢንዱስትሪ ሚኒስቴር</div>-->
+              <!--<div class="certificate-titlet">Ministry of Trade and Industry</div>-->
+              <!--<div style="margin-top: 5px" class="c-subtitle">የንግድ ምዝገባ</div>-->
+              <!--<div class="c-subtitle">Commertial Registration</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="block" fxFlex="20%">-->
+            <!--<div class="logo-image" id="project">-->
+              <!--<img width="100" src="/assets/images/et.png">-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+
+        <div style="float: right;padding-top: 100px" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
+
+          <div id="sub-header" class="block" style="font-size: 13px">
+            <table>
+              <tr>
+                <td class="s-head">
+                  የመዝገብ ቁጥር/File No.
+                </td>
+                <td class="dta-head">{{investor?.RegistrationNumber}}</td>
+              </tr>
+              <tr>
+                <td class="s-head">
+                  የግብር ከፋይ መለያ ቁጥር/TIN
+                </td>
+                <td class="dta-head">{{investor?.Tin}}</td>
+              </tr>
+              <tr>
+                <td class="s-head">
+                  የንግድ ምዝገባ ቁጥር
+                </td>
+                <td class="dta-head">MOT/{{investor.RegistrationNumber }}/10
+                </td>
+
+              </tr>
+              <tr>
+                <td class="s-head">
+                  Principal Registration No
+                </td>
+                <td class="dta-head"></td>
+              </tr>
+              <tr>
+                <td class="s-head">
+                  የቀድሞው የምዝገባ ቁጥር <br>
+                </td>
+                <td class="dta-head"></td>
+              </tr>
+              <tr>
+                <td class="s-head">
+                  የቀድሞው የምዝገባ ቀን <br> Previous Registration Date
+                </td>
+                <td class="dta-head"></td>
+              </tr>
+              <tr>
+                <td class="s-head">
+                  የቀድሞው መጀመሪያ የተመዘገበበት ቀን <br> First Registration Date
+                </td>
+                <td class="dta-head"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </header>
+      <div class="main" style="border-top: 1px dotted #4b4f56;margin-top: 10px;">
+        <div style="margin: 20px;" class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+          <div class="block" fxFlex="">
+            <div class="reg-title">ንግድ ምዝገባ ምስክር ወረቀት</div>
+            <div class="reg-sm-title">በንግድ ምዝገባና የፈቃድ አዋጅ ቁጥር 980/2008 መሰረት <br> የተሰጠ</div>
+          </div>
+
+          <div class="block" fxFlex="">
+            <div class="reg-title">Commercial Registration Certificate</div>
+            <div class="reg-sm-title">Issued under  Commercial registration and Business <br>
+            License Proc No. 980/2008</div>
+          </div>
+
+
+        </div>
+        <div style="" class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+          <div class="block" fxFlex="">
+            <span class="caption">1.የግለሰቡ/የድርጅቱ ስም</span>
+          </div>
+          <div class="block full-width value" fxFlex="">
+            <span class="data">
+             {{investor.FirstName}}
+                  {{investor.FatherName}}
+                  {{investor.GrandName}}
+            </span>
+          </div>
+          <div class="block" fxFlex="">
+            <span class="caption">1. Owner/ Company Name</span>
+          </div>
+          <div class="block full-width value" fxFlex="">
+            <span class="data">
+                {{investor.FirstNameEng}}
+                  {{investor.FatherNameEng}}
+                  {{investor.GrandNameEng}}
+            </span>
+          </div>
+
+        </div>
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+          <div class="block" fxFlex="">
+            <span class="caption">2. ዜግነት</span>
+          </div>
+          <div class="block full-width value" fxFlex="">
+            <span class="data">
+              {{investor.Nationality | countryPipe : 0 }}
+            </span>
+
+          </div>
+          <div class="block" fxFlex="">
+            <span class="caption">2. Nationality</span>
+          </div>
+          <div class="block full-width value" fxFlex="">
+            <span class="data ">
+{{investor.Nationality | countryPipe : 1}}
+            </span>
+
+          </div>
+
+        </div>
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+          <div class="block" fxFlex="">
+            <span class="caption">3. የሥራ አስክያጅ ስም</span>
+          </div>
+          <div class="block full-width value" fxFlex="">
+            <span class="data">
+  {{manager[0].FirstName}}
+                  {{manager[0].FatherName}}
+                  {{manager[0].GrandName}}
+            </span>
+            <!--<span class="data" *ngIf="investorDetailList?.Investor.TradeName==undefined">-->
+            <!--&#45;&#45;-->
+            <!--</span>-->
+
+          </div>
+          <div class="block" fxFlex="">
+            <span class="caption">3. Name of General Manager</span>
+          </div>
+          <div class="block full-width value" fxFlex="">
+            <span class="data">
+
+               {{manager[0].FirstNameEng}}
+                  {{manager[0].FatherNameEng}}
+                  {{manager[0].GrandNameEng}}
+            </span>
+            <!--<span class="data" *ngIf="investorDetailList?.Investor.TradeName==undefined">-->
+            <!--&#45;&#45;-->
+            <!--</span>-->
+
+          </div>
+
+        </div>
+
+
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+
+
+          <div class="block" fxFlex="">
+            <table class="full-width">
+              <caption class="caption">4. የንግድ ድርጅቱ አድራሻ</caption>
+              <tbody>
+              <tr>
+                <td class="a-header">ክልል</td>
+                <td class="data value">{{investorAddressList?.Region.Description}}</td>
+                <td class="a-header">ዞን</td>
+                <td class="data value">{{investorAddressList?.Region.Zones[0].DescriptionEnglish }}</td>
+              </tr>
+              <tr>
+                <td class="a-header">ከተማ</td>
+                <td class="data value">--</td>
+                <td class="a-header">ክፍለ ከተማ</td>
+                <td class="data value">--</td>
+              </tr>
+              <tr>
+                <td class="a-header">ቀበሌ/ወረዳ</td>
+                <td class="data value">
+                  {{investorAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
+                  /
+                  {{investorAddressList?.Region.Zones[0].Woredas[0].Description}}
+                </td>
+                <td class="a-header">የቤት ቁጥር</td>
+                <td class="data value">{{investorAddressList?.HouseNo}}</td>
+              </tr>
+              <tr>
+                <td class="a-header">ፖ ሳ ቁ</td>
+                <td class="data value">{{investorAddressList?.Pobox}}</td>
+                <td class="a-header">ስልክ ቁጥር</td>
+                <td class="data value">{{investorAddressList?.TeleNo}}</td>
+              </tr>
+              <tr>
+                <td class="a-header">ፋክስ</td>
+                <td class="data value">{{investorAddressList?.Fax}}</td>
+                <td class="a-header">ኢ-ሜይል</td>
+                <td class="data value">{{investorAddressList?.Email}}</td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+          <div class="block" fxFlex="">
+            <table class="full-width">
+              <caption class="caption">4. Business Address</caption>
+              <tbody>
+              <tr>
+                <td class="a-header">Region</td>
+                <td class="data value">{{investorAddressList?.Region.DescriptionEnglish}}</td>
+                <td class="a-header">Zone</td>
+                <td class="data value">{{investorAddressList?.Woreda.Zone.DescriptionEnglish }}</td>
+              </tr>
+              <tr>
+                <td class="a-header">City</td>
+                <td class="data value">--</td>
+                <td class="a-header">Sub City</td>
+                <td class="data value">--</td>
+              </tr>
+
+              <tr>
+                <td class="a-header">Kebele/Woreda</td>
+                <td class="data value">
+                  {{investorAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
+                  /
+                  {{investorAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}
+                </td>
+                <td class="a-header">House No.</td>
+                <td class="data value">{{investorAddressList?.HouseNo}}</td>
+              </tr>
+              <tr>
+                <td class="a-header">P.O.Box</td>
+                <td class="data value">{{investorAddressList?.Pobox}}</td>
+                <td class="a-header">Tel.No</td>
+                <td class="data value">{{investorAddressList?.TeleNo}}</td>
+              </tr>
+              <tr>
+                <td class="a-header">Fax</td>
+                <td class="data value">{{investorAddressList?.Fax}}</td>
+                <td class="a-header">E-mail</td>
+                <td class="data value">{{investorAddressList?.Email}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+
+          <div class="block" fxFlex="">
+            <span class="caption">5. ካፒታል በኢት ብር</span>
+          </div>
+          <div class="block full-width value" fxFlex="">
+            <span class="data ">{{investor?.PaidCapital}}</span>
+
+          </div>
+
+          <div class="block" fxFlex="">
+            <span class="caption">5. Amount of Capital</span>
+          </div>
+          <div class="block full-width value" fxFlex="">
+            <span class="data ">{{investor?.PaidCapital}}</span>
+
+          </div>
+
+        </div>
+        <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+
+
+          <div class="block full-width value" fxFlex="">
+            <table class="full-width">
+              <caption class="caption">6. የተስማራባቸው የንግድ ሥራዎች</caption>
+              <tbody>
+
+              <tr *ngFor="let vv of MajorDivisionList">
+
+                <td style="text-align: start !important;padding-left: 20px;">
+                  {{vv.Description}}
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+          <div class="block full-width value" fxFlex="">
+            <table class="full-width">
+              <caption class="caption">6. Type of activities engaged</caption>
+              <tbody>
+
+              <tr *ngFor="let vv of MajorDivisionList">
+
+                <td style="text-align: start !important;padding-left: 20px;">
+                  {{vv.EnglishDescription}}
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+
+          </div>
+
+        </div>
+
+        <div id="reDate" class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
+
+          <div class="block" fxFlex="">
+            <span class="t-header">
+              <table class="full-width">
+              <tr>
+                <td style="font-size: 14px"> በግብር ከፋይ መለያ ቁጥር {{investor?.Tin}} የተመዘገበ መሆኑን እናረጋግጣለን ::
+                </td>
+              </tr>
+            </table>
+
+            <table class="full-width">
+              <tr>
+                <td> ይህ የምዝገባ የምስክር ወረቀት ዛሬ {{date | date}} በአዲስ አበባ
+                  ተሰጠ ።
+                </td>
+              </tr>
+            </table>
+            </span>
+          </div>
+
+
+          <div class="block" fxFlex="">
+            <span class="t-header">
+              has duly been registered under TIN {{investor?.Tin}} <br>
+                  This Registration Certification is issued in {{date | date}} <br>
+                  on Addis Ababa
+            </span>
+          </div>
+
+
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em" style="font-size: 12px;">
+          <div id="notices">
+            <div>ማሳሰቢያ/Notice:</div>
+            <!--<div>1. ይህ የንግድ ምዝገባ በአዋጅ ቁጥር 686/2002 መሠረት በየበጀት ዓመቱ ከሐምሌ 1 ቀን እስከ ታህሳስ 30 ቀን ድረስ ያለቅጣት የሚታደስ ሲሆን፤ ከጥር 1 ቀን-->
+            <!--እስከ ሰኔ 30 ቀን ድረስ በአዋጅ በተቀመጠው የሚታደስ ይሆናል።<br>-->
+            <!--This License Shall be renewed annually in accordance with Regulation no 686/2002 from 1 July to December-->
+            <!--30 E.C with out penalty and with penalty from first January to June 30 E.C-->
+            <!--</div>-->
+            <div style="margin-top: 10px !important;">
+              1. ይህ የንግድ ምዝገባ የምስክር ወረቀት በዋስትና ወይም በእዳ ሊያዝ አይችልም።<br>
+              The holder of this License is forbidden for surety ship or debt.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

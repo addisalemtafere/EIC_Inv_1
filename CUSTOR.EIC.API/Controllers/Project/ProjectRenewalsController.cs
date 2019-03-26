@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
@@ -23,13 +24,23 @@ namespace CUSTOR.EICOnline.API.Controllers
             context = ctx;
         }
 
-        [HttpGet]
-        public IEnumerable<ProjectRenewal> GetProjectRenewals()
-        {
-            return context.ProjectRenewal;
-        }
+    [HttpGet]
+    public IEnumerable<ProjectRenewal> GetProjectRenewals()
+    {
+      return context.ProjectRenewal;
+    }
+    // By Gebre
+    [HttpGet("{id}")]
+    public  IEnumerable<ProjectRenewal> GetProjectRenewalsByProjectId([FromRoute] int id)
+    {
+      var projectRenewal = context.ProjectRenewal
+        .Where(p => p.ProjectId == id && p.IsApproved == true).OrderByDescending(x => x.ProjectRenewalId).AsEnumerable();
+        int num = projectRenewal.Count();
+      return projectRenewal;
 
-        [HttpPost]
+    }
+
+    [HttpPost]
         public async Task<IActionResult> PostProject([FromBody] ProjectRenewal projectRenewal)
         {
             var editProjectRenewal = projectRenewal;

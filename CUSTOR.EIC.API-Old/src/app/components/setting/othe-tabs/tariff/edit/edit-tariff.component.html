@@ -1,0 +1,108 @@
+<mat-toolbar mat-dialog-title>
+  <h1 mat-dialog-title>
+    <mat-icon>create</mat-icon>
+    {{('tariff.Header' | translate)}}
+  </h1>
+</mat-toolbar>
+<mat-card class="mat-elevation-z8" fxFlex="70">
+  <br/>
+  <mat-card-content>
+    <form #form="ngForm" [formGroup]="tariffForm" novalidate (ngSubmit)="onSubmit()" fxLayout="column"
+          style="font-family: Calibri;font-size: 14px"
+          autocomplete="off">
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+        <mat-form-field>
+          <mat-label>{{'tariff.AccountCode' | translate}}</mat-label>
+          <input matInput formControlName="cAccCode" required maxlength="4"/>
+          <mat-error *ngIf="AccCode.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="AccCode.hasError('pattern')">
+            {{'common.validation.NumberOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'tariff.TariffName' | translate}}</mat-label>
+          <input matInput formControlName="cName" required/>
+          <mat-error *ngIf="Name.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="Name.hasError('maxlength')">
+            {{'common.validation.MaxLengthChar' | translate: {'max':'20'} }}
+          </mat-error>
+          <mat-error *ngIf="Name.hasError('pattern')">
+            {{'common.validation.UseEthiopicOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'tariff.TariffNameEnglish' | translate}}</mat-label>
+          <input matInput formControlName="cNameEnglish"/>
+          <mat-error *ngIf="NameEnglish.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="NameEnglish.hasError('maxlength')">
+            {{'common.validation.MaxLengthChar' | translate: {'max':'200'} }}
+          </mat-error>
+          <mat-error *ngIf="NameEnglish.hasError('pattern')">
+            {{'common.validation.UseLatinOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'tariff.Fee' | translate}}</mat-label>
+          <input matInput formControlName="cFee" maxlength="4"/>
+          <mat-error *ngIf="Fee.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="Fee.hasError('pattern')">
+            {{'common.validation.NumberOnly' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <br>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+        <mat-form-field>
+          <mat-label>{{'tariff.IncrementalFee' | translate}}</mat-label>
+          <input matInput formControlName="cIncrementalFee" maxlength="4"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'tariff.Quantity' | translate}}</mat-label>
+          <mat-select formControlName="cQuantity" [compareWith]="compareIds" required>
+            <option value="0">--Select--</option>
+            <mat-option *ngFor="let quantity of quantitys" [value]="quantity.Id">
+              <span>{{quantity.DescriptionEnglish}}</span>
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="Quantity.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'tariff.TariffMode' | translate}}</mat-label>
+          <mat-select formControlName="cTariffModeId" [compareWith]="compareIds" required>
+            <mat-option *ngFor="let tariffMOde of tariffModes" [value]="tariffMOde.Id">
+              <span>{{tariffMOde.DescriptionEnglish}}</span>
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="TariffMode.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <div fxFlex.gt-sm="0 1 calc(50% - 0.5em)">
+          <mat-checkbox formControlName="cIsActive">
+            Is Active?
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="separator" style="width: 500px"></div>
+      <div mat-dialog-actions fxLayoutGap=".5em">
+        <button [disabled]="form.invalid" mat-raised-button type="submit" color="primary" style="margin: 15px;">
+          Save
+        </button>
+        <button mat-raised-button (click)="onBack()" color="warn" type="button">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
