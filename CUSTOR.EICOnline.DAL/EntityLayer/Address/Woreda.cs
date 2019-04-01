@@ -19,6 +19,7 @@ namespace CUSTOR.EICOnline.DAL
     public DateTime? EventDatetime { get; set; }
     public string UpdatedUsername { get; set; }
     public DateTime? UpdatedEventDatetime { get; set; }
+    public bool isNew { get; set; }
 
     public Zone Zone { get; set; }
     public ICollection<Kebele> Kebeles { get; set; }

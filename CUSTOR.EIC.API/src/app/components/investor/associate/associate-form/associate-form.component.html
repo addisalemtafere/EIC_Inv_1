@@ -180,7 +180,7 @@
               <mat-label>{{'investors.editor.Zone' | translate}}</mat-label>
               <mat-select formControlName="ZoneId" (selectionChange)="filterZone($event.value)">
                 <!-- <option value="0">--</option> -->
-                <mat-option value="0">--</mat-option>
+                <!-- <mat-option value="0">--</mat-option> -->
                 <mat-option *ngFor="let zone of filteredZones" [value]="zone.ZoneId">
                   <span>{{zone.Description}}</span>
                 </mat-option>
@@ -193,7 +193,7 @@
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.Woreda' | translate}}</mat-label>
               <mat-select formControlName="WoredaId" (selectionChange)="filterWoreda($event.value)">
-                <option value="0">--</option>
+                <!-- <option value="0">--</option> -->
                 <mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">
                   <span>{{w.Description}}</span>
                 </mat-option>
@@ -206,7 +206,7 @@
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.Kebele' | translate}}</mat-label>
               <mat-select formControlName="KebeleId">
-                <mat-option value="0">--</mat-option>
+                <!-- <mat-option value="0">--</mat-option> -->
                 <mat-option *ngFor="let keb of filteredKebeles" [value]="keb.KebeleId">
                   <span>{{keb.Description}}</span>
                 </mat-option>

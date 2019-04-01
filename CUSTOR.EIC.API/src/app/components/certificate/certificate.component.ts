@@ -197,7 +197,6 @@ export class CertificateComponent implements OnInit {
     this.certificateService.getOneById(id)
       .subscribe((result: ServiceApplicationModel) => {
         this.investorDetailList = result;
-        console.log(this.investorDetailList.Investor.TradeName);
         this.getInvestmentLocation(this.investorDetailList.ProjectId);
         this.getProjectCost(this.investorDetailList.ProjectId);
         this.getExportPercent(this.investorDetailList.ProjectId);
@@ -220,7 +219,11 @@ export class CertificateComponent implements OnInit {
         } else if (this.investorDetailList.Investor.FormOfOwnership == 4) {
           this.formOfOwnerShipDescriptionAmharic = 'የውጭ ባለሃብት (በቅንጅት) የኢንቨስትመንት ፈቃድ';
           this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR JOINT INVESTMENT';
-        } else {
+        } else if (this.investorDetailList.Investor.FormOfOwnership == 5) {
+          this.formOfOwnerShipDescriptionAmharic = 'የውጭ ሃገር ኢንቨስተር የኢንቨስትመንት ፈቃድ';
+          this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR FOREIGN INVESTOR';
+        }
+        else {
           this.formOfOwnerShipDescriptionAmharic = 'የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ';
           this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR DOMESTIC';
         }
@@ -339,6 +342,7 @@ export class CertificateComponent implements OnInit {
     // console.log(this.investors);
     this.router.navigate(['/investor-profile/' + this.InvestorId], {relativeTo: this.route});
   }
+
   private getInvestorTitle(titleId: number) {
     this.lookupsService.getLookup(titleId)
       .subscribe(result => {

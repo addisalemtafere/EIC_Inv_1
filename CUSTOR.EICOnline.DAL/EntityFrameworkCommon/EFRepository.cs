@@ -81,7 +81,59 @@ namespace CUSTOR.EntityFrameworkCommon
 
       return await Task.FromResult<T>(record);
     }
+    public async Task<bool> SaveAsyncForAddress(TEntity entity = null)
+    {
+      if (entity != null)
+      {
+        if (AutoValidate && !Validate(entity))
+          return false;
 
+        var entry = Context.Entry(entity);
+        if (entry.State == EntityState.Detached)
+        {
+          Context.Attach(entity);
+          TEntity record = null;
+          try
+          {
+            object id = Context.GetEntityKey(entity).FirstOrDefault();
+            //object s = Context.GetEntityKey(entity)[0];
+            try
+            {
+              if (Convert.ToInt32(id) > 0)//to-do should be improved
+                record = DbSet.Find(id);
+            }
+            catch
+            {
+              record = DbSet.Find(id);
+            }
+          }
+          catch
+          {
+            //do nothing
+          }
+
+          entry.State = record != null ? EntityState.Added : EntityState.Added;
+        }
+      }
+
+      int result = -1;
+      try
+      {
+        result = await Context.SaveChangesAsync();
+        if (result == -1)
+          return false;
+      }
+      catch (Exception ex)
+      {
+        SetError(ex.GetBaseException());
+        return false;
+      }
+
+      if (result == -1)
+        return false;
+
+      return true;
+    }
     public async Task<bool> SaveAsync(TEntity entity = null)
     {
       if (entity != null)

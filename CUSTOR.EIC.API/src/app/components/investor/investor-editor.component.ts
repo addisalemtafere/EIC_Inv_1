@@ -601,17 +601,20 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
     // Set dropdown values
     setTimeout(() => {
-      this.AllowCascading = false;
       if (this.investor.ZoneId != null) {
         this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.investor.ZoneId);
       }
+    }, 100);
+    setTimeout(() => {
       if (this.investor.RegionId != null) {
         this.filteredZones = this.zones.filter((item) => item.RegionId === this.investor.RegionId);
       }
+    }, 100);
+    setTimeout(() => {
       if (this.investor.WoredaId != null) {
         this.getKebeleByWoredaId(this.investor.WoredaId);
       }
-    }, 200);
+    }, 100);
 
     this.investorForm.get('address').patchValue({
       RegionId: this.investor.RegionId == null ? '' : this.investor.RegionId.toString(),
@@ -675,6 +678,19 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.toastr.error('TIN must be 10 digits long');
       return;
     }
+    // if (this.investorForm.get('ZoneId').value < 1) {
+    //   this.toastr.error('Please select zone');
+    //   return;
+    // }
+    // if (this.investorForm.get('WoredaId').value < 1) {
+    //   this.toastr.error('Please select woreda');
+    //   return;
+    // }
+    // if (this.investorForm.get('KebeleId').value < 1) {
+    //   this.toastr.error('Please select kebele');
+    //   return;
+    // }
+
     this.loadingIndicator = true;
     return this.custService.saveInvestor(this.getEditedInvestor())
       .subscribe((investor) => {
@@ -748,22 +764,22 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   filterRegion(regionCode: string) {
-    if (!regionCode || !this.AllowCascading) {
+    if (!regionCode ) {
       return;
     }
     this.filteredKebeles = null;
     this.filteredWoredas = null;
     this.filteredZones = null;
-    if (!this.zones) {
-      return;
-    }
+    // if (!this.zones) {
+    //   return;
+    // }
     this.filteredZones = this.zones.filter((item) => {
       return item.RegionId === regionCode;
     });
   }
 
   filterZone(zoneCode: string) {
-    if (!zoneCode || !this.AllowCascading) {
+    if (!zoneCode ) {
       return;
     }
     this.filteredKebeles = null;
@@ -774,7 +790,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   filterWoreda(woredaCode: string) {
-    if (!woredaCode || !this.AllowCascading) {
+    if (!woredaCode ) {
       return;
     }
     this.getKebeleByWoredaId(woredaCode);

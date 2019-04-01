@@ -240,9 +240,9 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       this.toastr.error('Please Select Batch of Construction Materials Incentive');
       return true;
     }
-    else if (this.CheckExistance()) {
-      return true;
-    }
+    // else if (this.CheckExistance()) {
+    //   return true;
+    // }
     else {
       // this.loading = true;
       this.errors = []; // Clear error

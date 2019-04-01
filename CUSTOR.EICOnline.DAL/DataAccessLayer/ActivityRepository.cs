@@ -6,6 +6,8 @@ using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
 using Microsoft.EntityFrameworkCore;
 
+
+
 namespace CUSTOR.EICOnline.DAL
 {
     public class ActivityRepository : EFRepository<ApplicationDbContext, Activity>

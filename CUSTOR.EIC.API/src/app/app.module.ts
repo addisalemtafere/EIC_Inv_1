@@ -60,6 +60,7 @@ import {AppComponent} from './app.component';
 
 
 import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
+import { ConfirmDialog2Component } from './components/confirm-dialog2/confirm-dialog2.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -108,6 +109,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NotificationsComponent,
     TaskDispatcherComponent,
     BaseComponent,
+    ConfirmDialog2Component,
     // CustomerServiceStarterComponent
     // AddressComponent,
     // HelpComponent,
@@ -152,6 +154,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NotificationComponent,
     NotificationsComponent,
     TaskDispatcherComponent,
+    ConfirmDialog2Component,
     // ServiceInitComponent,
 
   ],

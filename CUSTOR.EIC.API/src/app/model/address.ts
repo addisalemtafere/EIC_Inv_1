@@ -12,10 +12,11 @@ export class Region {
 
 export class Zone {
   public ZoneId: string;
+  public isNew: boolean;
   public RegionId: string;
   public Description: string;
   public DescriptionEnglish: string;
-  public Region: Region;
+  public Region?: Region;
 
   constructor(ZoneId?: string, RegionId?: string, Description?: string, DescriptionEnglish?: string, RegionName?: Region) {
     this.ZoneId = ZoneId;
@@ -30,6 +31,7 @@ export class Woreda {
   public RegionId: string;
   public ZoneId: string;
   public WoredaId: string;
+  public isNew: boolean;
   public Description: string;
   public DescriptionEnglish: string;
   public Region: Region;
@@ -56,6 +58,7 @@ export class Kebele {
   public Region: Region;
   public Zone: Zone;
   public Woreda: Woreda;
+  public isNew: boolean;
 
   constructor(RegionId?: string, ZoneId?: string, KebeleId?: string, WoredaId?: string, Description?: string, DescriptionEnglish?: string, RegionName?: Region, ZoneName?: Zone, WoredaName?: Woreda) {
     this.RegionId = RegionId;
