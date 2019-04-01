@@ -127,7 +127,7 @@ export class CertificateComponent implements OnInit {
           if (result.ProjectRenewal[0] !== null) {
             this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
             // this.getEthiopianDateDate();
-          } else if (this.ServiceId === 13) {
+          } else if (this.ServiceId === 13 || this.ServiceId === 1023) {
             this.renewal = new ProjectRenewalModel();
             this.renewal.RenewedFrom = new Date();
             this.renewal.RenewedTo = this.dateGc;

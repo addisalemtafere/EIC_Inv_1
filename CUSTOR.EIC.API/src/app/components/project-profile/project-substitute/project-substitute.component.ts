@@ -27,6 +27,7 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
     // {'type': 'Own Interest'},
     // {'type': 'by law'},
     {'type': 'Lose'},
+    {'type': 'Damage'},
     // {'type': 'By Authority'},
     // {'type': 'Sales'},
     // {'type': 'Late Renewal'}
