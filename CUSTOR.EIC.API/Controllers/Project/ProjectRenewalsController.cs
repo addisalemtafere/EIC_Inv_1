@@ -34,7 +34,7 @@ namespace CUSTOR.EICOnline.API.Controllers
     public  IEnumerable<ProjectRenewal> GetProjectRenewalsByProjectId([FromRoute] int id)
     {
       var projectRenewal = context.ProjectRenewal
-        .Where(p => p.ProjectId == id).OrderByDescending(x => x.ProjectRenewalId).AsEnumerable();
+        .Where(p => p.ProjectId == id && p.IsApproved == true).OrderByDescending(x => x.ProjectRenewalId).AsEnumerable();
         int num = projectRenewal.Count();
       return projectRenewal;
       // && p.IsApproved == true
