@@ -301,9 +301,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     if (id < 1) {
       this.isNewInvestor = true;
       this.isCompany = false;
-
       this.title = 'Create a new Investor';
-
       return;
     }
     if (id) {
@@ -424,7 +422,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getInvestor(id)
       .subscribe(result => {
           this.investor = result;
-          this.fillAddressLookups();
           this.updateForm();
           console.log(this.investor.RegistrationCatagories);
           this.investorForm.patchValue({

@@ -371,9 +371,19 @@
           Report
         </a>
       </mat-nav-list>
-      <mat-nav-list>
-        <a mat-list-item routerLinkActive="active" routerLink="/help">
-          <mat-icon>info</mat-icon>
+      <mat-nav-list *ngIf="!isInvestor">
+        <a mat-list-item routerLinkActive="active"
+           tinfoarget="_blank"
+           href="/help">
+          <mat-icon></mat-icon>
+          Help
+        </a>
+      </mat-nav-list>
+      <mat-nav-list *ngIf="isInvestor">
+        <a mat-list-item routerLinkActive="active"
+           tinfoarget="_blank"
+           href="/Help">
+          <mat-icon></mat-icon>
           Help
         </a>
       </mat-nav-list>

@@ -101,6 +101,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Business\" />
+    <Folder Include="Help" />
     <Folder Include="obj\" />
     <Folder Include="ViewModels\project\" />
     <Folder Include="ViewModels\Validations\" />
