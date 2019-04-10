@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog, MatDialogConfig} from "@angular/material";
+import {VideoViewerComponent} from "./video-viewer/video-viewer.component";
 
 @Component({
   selector: 'app-help',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HelpComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog,) {
+  }
 
   ngOnInit() {
   }
 
+  viewVideo(videoType: string) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      videoType: videoType,
+      title: 'video'
+    };
+    this.dialog.open(VideoViewerComponent, dialogConfig);
+  }
 }

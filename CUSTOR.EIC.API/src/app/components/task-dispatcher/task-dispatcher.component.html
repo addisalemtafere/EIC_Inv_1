@@ -13,7 +13,7 @@
   <div fxFlex="70" style="float: right;">
 
     <span class="summary"><span class="completed-summery">user</span>
-    task Summery of this Month
+      task Summery of this Month
     </span>
     <!--<span class="completed-summery">date</span>-->
     <span class="summary">completed:
@@ -21,7 +21,7 @@
     </span>
     <span class="summary">pending:
       <span matBadgePosition="center after" matBadgeColor="accent" style="padding: 5px;"
-            matBadge="{{pendingTask}}"></span>
+        matBadge="{{pendingTask}}"></span>
     </span>
   </div>
 
@@ -31,25 +31,28 @@
 
   <table style="height: 220px;display: block;overflow: auto;" class="scrollbar table full-width">
     <thead>
-    <th>No</th>
-    <th>Service Name</th>
-    <th>Assigned Date</th>
-    <th>Status</th>
-    <th>End Date</th>
-    <th>Assigned UserName</th>
+      <th>No</th>
+      <th>Service Name</th>
+      <th>Assigned Date</th>
+      <th>Status</th>
+      <th>End Date</th>
+      <th>Assigned UserName</th>
     </thead>
     <tbody style="overflow: auto;">
-    <tr *ngFor="let todo of todoList;let i=index;">
-      <td>{{i+1}}</td>
-      <td>{{todo?.ServiceApplication[0]?.ServiceId | servicePipe}}</td>
-      <td>{{todo.AssignedDate | date}}</td>
-      <td>
-        <span class="error" *ngIf="todo.CurrentStatusId===0">incomplete</span>
-        <span class="alert-success" *ngIf="todo.CurrentStatusId!==0">complete</span>
-      </td>
-      <td>{{todo.EndDate | date}}</td>
-      <td>{{todo.CreatedUserName}}</td>
-    </tr>
+      <tr *ngFor="let todo of todoList;let i=index;">
+        <td>{{i+1}}</td>
+        <td>{{todo?.ServiceApplication[0]?.ServiceId | servicePipe}}</td>
+        <td>{{todo.AssignedDate | date}}</td>
+        <td>
+          <span class="error" *ngIf="todo.CurrentStatusId===44450">Drafted</span>
+          <span class="error" *ngIf="todo.CurrentStatusId===44446">Submitted</span>
+          <span class="error" *ngIf="todo.CurrentStatusId===44447">Apprive</span>
+          <span class="error" *ngIf="todo.CurrentStatusId===44448">Pending</span>
+          <span class="alert-success" *ngIf="todo.CurrentStatusId===44449">complete</span>
+        </td>
+        <td>{{todo.EndDate | date}}</td>
+        <td>{{todo.CreatedUserName}}</td>
+      </tr>
     </tbody>
   </table>
 </div>
@@ -69,4 +72,3 @@
   </div>
 
 </div>
-
