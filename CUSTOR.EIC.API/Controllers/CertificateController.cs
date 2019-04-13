@@ -62,8 +62,8 @@ namespace CUSTOR.EICOnline.API.Controllers
         {
             var address = _context.Address.FirstOrDefault(a => a.ParentId == id);
             return _context.Kebeles.Include(w => w.Woreda)
-                .ThenInclude(z => z.Zone)
-                .ThenInclude(r => r.Region)
+                //.ThenInclude(z => z.Zone)
+                //.ThenInclude(r => r.Region)
                 .Where(x => x.KebeleId == address.KebeleId).FirstOrDefault();
             //.Include(In => In.Investor);
         }

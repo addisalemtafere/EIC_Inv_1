@@ -72,7 +72,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public string TownId { get; set; }
     public string ZoneId { get; set; }
     public string WoredaId { get; set; }
+    public string WoredaEngId { get; set; }
     public string KebeleId { get; set; }
+    public string KebeleEngId { get; set; }
     public string HouseNo { get; set; }
     public string TeleNo { get; set; }
     public string Pobox { get; set; }
@@ -92,10 +94,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public DateTime? UpdatedDate { get; set; }
     public string UpdatedBy { get; set; }
     public Guid? ObjectId { get; set; }
-    public Kebele Kebele { get; set; }
+    //public Kebele Kebele { get; set; }
     public Region Region { get; set; }
     public Town Town { get; set; }
-    public Woreda Woreda { get; set; }
+    //public Woreda Woreda { get; set; }
     public Zone Zone { get; set; }
     //public ICollection<Associate> Associate { get; set; }
     //public ICollection<Investor> Investor { get; set; }

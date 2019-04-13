@@ -132,5 +132,6 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public bool HasBusinessLicense { get; set; }
         public string BusinessLicenseNo { get; set; }
         public bool IsOromiaSpecialZone { get; set; }
+        
     }
 }

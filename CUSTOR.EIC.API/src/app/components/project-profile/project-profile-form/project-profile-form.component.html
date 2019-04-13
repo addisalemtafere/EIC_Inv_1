@@ -59,7 +59,7 @@
         </div>
         <div class="blocks" fxFlex>
           <mat-form-field>
-            <mat-label>Project Stage *:</mat-label>
+            <mat-label>Project Stage:</mat-label>
             <mat-select formControlName="ProjectStage" required>
               <option value="0">--Select--</option>
               <mat-option *ngFor="let status of projectStage" [value]="status.Id">
@@ -119,7 +119,7 @@
           <div class="block" fxFlex="">
             <mat-form-field>
               <mat-label>Zone :</mat-label>
-              <mat-select formControlName="ZoneId" (selectionChange)="filterZone($event.value)">
+              <mat-select formControlName="ZoneId">
                 <!--<mat-option value="0">&#45;&#45;</mat-option>-->
                 <mat-option *ngFor="let zone of filteredZones" [value]="zone.ZoneId">
                   {{zone.Description}}
@@ -129,30 +129,56 @@
             </mat-form-field>
           </div>
           <div class="block" fxFlex="">
-            <mat-form-field>
-              <mat-label>Woreda :</mat-label>
-              <mat-select formControlName="WoredaId" (selectionChange)="getKebeleByWoredaId($event.value)">
-                <!--<mat-option value="0">&#45;&#45;</mat-option>-->
+            <!--<mat-form-field>-->
+              <!--<mat-label>Woreda :</mat-label>-->
+              <!--<mat-select formControlName="WoredaId" (selectionChange)="getKebeleByWoredaId($event.value)">-->
+                <!--&lt;!&ndash;<mat-option value="0">&#45;&#45;</mat-option>&ndash;&gt;-->
 
-                <mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">
-                  {{w.Description}}
-                </mat-option>
-              </mat-select>
+                <!--<mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">-->
+                  <!--{{w.Description}}-->
+                <!--</mat-option>-->
+              <!--</mat-select>-->
+              <!--<mat-error align="start" *ngIf="formErrors.Woreda">{{ formErrors.Woreda }}</mat-error>-->
+            <!--</mat-form-field>-->
+            <mat-form-field fxLayoutGap="4em">
+              <mat-label>{{'investors.editor.WoredaAmharic' | translate}}</mat-label>
+              <input matInput formControlName="WoredaId"/>
               <mat-error align="start" *ngIf="formErrors.Woreda">{{ formErrors.Woreda }}</mat-error>
             </mat-form-field>
           </div>
           <div class="block" fxFlex="">
-            <mat-form-field>
-              <mat-label>Kebele :</mat-label>
-              <mat-select formControlName="KebeleId">
-                <mat-option value="0">--</mat-option>
-                <mat-option *ngFor="let k of filteredKebeles" [value]="k.KebeleId">
-                  {{k.Description}}
-                </mat-option>
-              </mat-select>
+            <mat-form-field fxLayoutGap="4em">
+              <mat-label>{{'investors.editor.WoredaEnglish' | translate}}</mat-label>
+              <input matInput formControlName="WoredaEngId"/>
+              <mat-error align="start" *ngIf="formErrors.WoredaEng">{{ formErrors.WoredaEng }}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="block" fxFlex="">
+            <mat-form-field fxLayoutGap="4em">
+              <mat-label>{{'investors.editor.KebeleAmharic' | translate}}</mat-label>
+              <input matInput formControlName="KebeleId"/>
               <mat-error align="start" *ngIf="formErrors.Kebele">{{ formErrors.Kebele }}</mat-error>
             </mat-form-field>
           </div>
+          <div class="block" fxFlex="">
+            <mat-form-field fxLayoutGap="4em">
+              <mat-label>{{'investors.editor.KebeleEnglish' | translate}}</mat-label>
+              <input matInput formControlName="KebeleEngId"/>
+              <mat-error align="start" *ngIf="formErrors.KebeleEng">{{ formErrors.KebeleEng }}</mat-error>
+            </mat-form-field>
+          </div>
+          <!--<div class="block" fxFlex="">-->
+            <!--<mat-form-field>-->
+              <!--<mat-label>Kebele :</mat-label>-->
+              <!--<mat-select formControlName="KebeleId">-->
+                <!--<mat-option value="0">&#45;&#45;</mat-option>-->
+                <!--<mat-option *ngFor="let k of filteredKebeles" [value]="k.KebeleId">-->
+                  <!--{{k.Description}}-->
+                <!--</mat-option>-->
+              <!--</mat-select>-->
+              <!--<mat-error align="start" *ngIf="formErrors.Kebele">{{ formErrors.Kebele }}</mat-error>-->
+            <!--</mat-form-field>-->
+          <!--</div>-->
 
         </div>
         <div fxLayout="row" fxLayoutAlign="start start" class="content" fxLayout.lt-sm="column" fxLayoutGap="1em">

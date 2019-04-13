@@ -7,7 +7,7 @@ namespace CUSTOR.EICOnline.DAL
   {
     public Zone()
     {
-      Woredas = new List<Woreda>();
+      //Woredas = new List<Woreda>();
     }
 
     [Key]
@@ -22,7 +22,7 @@ namespace CUSTOR.EICOnline.DAL
     //public DateTime? UpdatedEventDatetime { get; set; }
 
     public Region Region { get; set; }
-    public ICollection<Woreda> Woredas { get; set; }
+    //public ICollection<Woreda> Woredas { get; set; }
   }
 
   public partial class ZoneViewModel

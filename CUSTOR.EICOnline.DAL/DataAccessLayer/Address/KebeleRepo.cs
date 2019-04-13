@@ -141,8 +141,8 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
             {
                 string id = rId.ToString();
                 kebele = Context.Kebeles
-                    .Include(r => r.Woreda)
-                    .ThenInclude(z => z.Zone)
+                    //.Include(r => r.Woreda)
+                    //.ThenInclude(z => z.Zone)
                     .Where(x => x.KebeleId == id).FirstOrDefault();
             }
             catch (Exception ex)

@@ -64,7 +64,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
         public async Task<List<Woreda>> GetWoredas(int page = 0, int pageSize = 15)
         {
             IQueryable<Woreda> woreda = Context.Woredas
-                .Include(z => z.Zone)
+                //.Include(z => z.Zone)
                 .OrderBy(zo => zo.WoredaId);
             if (page > 0)
             {
@@ -123,8 +123,8 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
             {
                 string id = rId.ToString();
                 woreda = Context.Woredas
-                    .Include(r => r.Zone)
-                    .Include(r => r.Kebeles)
+                    //.Include(r => r.Zone)
+                    //.Include(r => r.Kebeles)
                     .Where(x => x.WoredaId == id).FirstOrDefault();
             }
             catch (Exception ex)

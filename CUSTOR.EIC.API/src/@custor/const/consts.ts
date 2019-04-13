@@ -49,7 +49,7 @@ export const ProjectStatus: any[] = [
   {'Id': '6', 'Description': 'ተዘግቷል', 'DescriptionEnglish': 'Closed'},
   {'Id': '7', 'Description': 'ተዛውሯል', 'DescriptionEnglish': 'Transfer'},
   {'Id': '8', 'Description': 'የማይንቀሳቀስ', 'DescriptionEnglish': 'Not Active'},
-  {'Id': '9', 'Description': 'active', 'DescriptionEnglish': 'Active'}
+  {'Id': '9', 'Description': 'በስራ ላይ', 'DescriptionEnglish': 'Active'}
 ];
 export const Quarter: any[] = [
   {'Id': '1', 'Description': 'I', 'DescriptionEnglish': 'I'},

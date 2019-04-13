@@ -37,8 +37,8 @@ namespace EIC.Investment.API.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var address = await _context.Address
-                .Include(a => a.Kebele)
-                .Include(a => a.Woreda)
+//                .Include(a => a.Kebele)
+//                .Include(a => a.Woreda)
                 .Include(a => a.Zone)
                 .Include(a => a.Region)
                 .FirstAsync(m => m.ParentId == id);

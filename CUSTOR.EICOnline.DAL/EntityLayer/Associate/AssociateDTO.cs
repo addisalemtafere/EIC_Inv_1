@@ -33,7 +33,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string RegionId { get; set; }
         public string ZoneId { get; set; }
         public string WoredaId { get; set; }
+        public string WoredaEngId { get; set; }
         public string KebeleId { get; set; }
+        public string KebeleEngId { get; set; }
         public string HouseNo { get; set; }
         public string TeleNo { get; set; }
         public string Pobox { get; set; }
