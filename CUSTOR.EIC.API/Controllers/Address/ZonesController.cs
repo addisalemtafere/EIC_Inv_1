@@ -18,7 +18,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Address
     private readonly ZoneRepo _ZoneRepo;
     private readonly ApplicationDbContext _context;
 
-    public ZonesController(ApplicationDbContext context,ZoneRepo zoneRepo)
+    public ZonesController(ApplicationDbContext context, ZoneRepo zoneRepo)
     {
       _context = context;
       _ZoneRepo = zoneRepo;
@@ -35,7 +35,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Address
     [Route("api/Zones/ByParentId/{id}")]
     public async Task<IEnumerable<Zone>> GetZonesByParent(string id, int page = -1, int pageSize = 10)
     {
-      return await _ZoneRepo.GetZonesByParent(id,page, pageSize);
+      return await _ZoneRepo.GetZonesByParent(id, page, pageSize);
     }
 
     [HttpGet]
@@ -60,11 +60,17 @@ namespace CUSTOR.EICOnline.API.Controllers.Address
       //if (!_ZoneRepo.Validate(postedZone))
       //    throw new ApiException(_ZoneRepo.ErrorMessage, 500, _ZoneRepo.ValidationErrors);
 
-//      _context.Zones.Add(postedZone);
-//      await _context.SaveChangesAsync();
+      if (postedZone.isNew)
+      {
+        if (!await _ZoneRepo.SaveAsyncForAddress(postedZone))
+          throw new ApiException(_ZoneRepo.ErrorMessage);
+      }
+      else
+      {
+        if (!await _ZoneRepo.SaveAsync(postedZone))
+          throw new ApiException(_ZoneRepo.ErrorMessage);
+      }
 
-      if (!await _ZoneRepo.SaveAsync(postedZone))
-        throw new ApiException(_ZoneRepo.ErrorMessage);
       return postedZone;
     }
 

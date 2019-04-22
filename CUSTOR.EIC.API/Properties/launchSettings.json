@@ -3,35 +3,30 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost:5000",
+      "applicationUrl": "http://localhost:5050",
       "sslPort": 0
     },
     "iisExpress": {
-
-      "applicationUrl": "http://localhost:5000",
-
+      "applicationUrl": "http://localhost:5050",
       "sslPort": 0
     }
   },
   "profiles": {
     "IIS Express": {
-      "commandName": "IIS",
+      "commandName": "Project",
       "launchBrowser": true,
-
-      "launchUrl": "http://localhost:5000",
+      "launchUrl": "http://localhost:5050",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "EICOnline": {
-      "commandName": "IIS",
+      "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-
-      "applicationUrl": "http://localhost:5000/"
-
+      "applicationUrl": "http://localhost:5050/"
     }
   }
 }

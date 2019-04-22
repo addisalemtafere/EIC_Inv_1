@@ -292,8 +292,8 @@ export class Utilities {
   }
 
   public static baseUrl() {
-    const base = 'http://localhost:5000/';
-   // const base  = 'http://localhost:5000 /';
+    const base = 'http://localhost:5050/';
+   // const base  = 'http://localhost:5050 /';
 
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
@@ -201,7 +202,9 @@ namespace EIC.Investment.API.Controllers
       //editedProject.ProjectStage = 3;
       editedProject.SiteId = 3;
       // editedProject.InvestmentPermitNo = perminumber;
-
+      DateTime datTimeNow = DateTime.Now;
+      string format = "yyyy-MM-dd HH:mm:ss";
+      string sDateTime = datTimeNow.ToString(format);
       var serviceApplication = new ServiceApplication
       {
         InvestorId = project.InvestorId,

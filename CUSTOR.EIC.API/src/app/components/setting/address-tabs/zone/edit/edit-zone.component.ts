@@ -199,6 +199,7 @@ export class EditZoneComponent implements OnInit, OnDestroy {
   private getEditedZone(): Zone {
     const formModel = this.zoneForm.value;
     return {
+      isNew: this.isNewZone ? true : false,
       ZoneId: formModel.cId,
       RegionId: formModel.cRegion,
       Description: formModel.cDescription,
