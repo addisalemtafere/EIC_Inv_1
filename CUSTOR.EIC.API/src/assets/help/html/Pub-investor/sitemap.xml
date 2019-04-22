@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+  xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+  
+    <url>
+      <loc>First_Topic.htm</loc>
+      <lastmod>2019-04-09</lastmod>
+      <changefreq></changefreq>
+    </url>
+  
+    <url>
+      <loc>Introduction.htm</loc>
+      <lastmod>2019-04-09</lastmod>
+      <changefreq></changefreq>
+    </url>
+  
+    <url>
+      <loc>Account_creation.htm</loc>
+      <lastmod>2019-04-09</lastmod>
+      <changefreq></changefreq>
+    </url>
+  
+    <url>
+      <loc>Customer_Registration.htm</loc>
+      <lastmod>2019-04-09</lastmod>
+      <changefreq></changefreq>
+    </url>
+  
+    <url>
+      <loc>New_Investment_Permit.htm</loc>
+      <lastmod>2019-04-09</lastmod>
+      <changefreq></changefreq>
+    </url>
+  
+    <url>
+      <loc>Renewal_of_IP.htm</loc>
+      <lastmod>2019-04-09</lastmod>
+      <changefreq></changefreq>
+    </url>
+  
+    <url>
+      <loc>IP_Cancellation.htm</loc>
+      <lastmod>2019-04-09</lastmod>
+      <changefreq></changefreq>
+    </url>
+  
+    <url>
+      <loc>IP_Expanssion.htm</loc>
+      <lastmod>2019-04-09</lastmod>
+      <changefreq></changefreq>
+    </url>
+  
+    <url>
+      <loc>Incentives_Management.htm</loc>
+      <lastmod>2019-04-09</lastmod>
+      <changefreq></changefreq>
+    </url>
+  
+    <url>
+      <loc>Duty_Free_Exeption.htm</loc>
+      <lastmod>2019-04-09</lastmod>
+      <changefreq></changefreq>
+    </url>
+  
+
+</urlset>
