@@ -27,6 +27,7 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
     // {'type': 'Own Interest'},
     // {'type': 'by law'},
     {'type': 'Lose'},
+    {'type': 'Damage'},
     // {'type': 'By Authority'},
     // {'type': 'Sales'},
     // {'type': 'Late Renewal'}
@@ -71,7 +72,7 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
     this.projectsubstituteForm = this.fb.group({
       ProjectId: new FormControl(this.ProjectId),
       ServiceId: this.ServiceId,
-      Reason: ['',Validators.required],
+      Reason: ['', Validators.required],
       SubstituteRemark: new FormControl(),
       InvestorId: this.InvestorId,
       ServiceApplicationId: this.ServiceApplicationId
@@ -79,7 +80,7 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
   }
 
   onSubmit() {
-console.log("Submitted!")
+console.log('Submitted!')
     this.substituteService.create(this.projectsubstituteForm.value)
       .subscribe(result => {
         this.dataSharing.renewalIndex.next(2);

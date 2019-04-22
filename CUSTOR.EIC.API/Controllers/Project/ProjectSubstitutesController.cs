@@ -2,13 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL.EntityLayer;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CUSTOR.EICOnline.API.Controllers.Project
 {
-    [Produces("application/json")]
+  [ServiceFilter(typeof(ApiExceptionFilter))]
+  [EnableCors("CorsPolicy")]
+  [Produces("application/json")]
     [Route("api/ProjectSubstitutes")]
     public class ProjectSubstitutesController : Controller
     {
@@ -50,6 +54,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
             //if (id != projectSubstitute.ProjectSubstituteId) return BadRequest();
 
       var project = _context.ProjectSubstitute.First(s => s.ProjectSubstituteId == id);
+      project.IsApproved = true;
       _context.Entry(project).State = EntityState.Modified;
 
             try
@@ -77,10 +82,9 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
             var postProjectSubstitute = projectSubstitute;
             postProjectSubstitute.CreatedUserId = 1;
             postProjectSubstitute.IsActive = false;
-
-
+            postProjectSubstitute.IsApproved = false;
+            postProjectSubstitute.EventDatetime = DateTime.Now;
             await _context.SaveChangesAsync();
-
             _context.ProjectSubstitute.Add(postProjectSubstitute);
             await _context.SaveChangesAsync();
 
