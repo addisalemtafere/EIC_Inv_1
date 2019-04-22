@@ -216,6 +216,7 @@ export class CertificateComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.investmentAddressList = result;
+        console.log("WoredEng"+this.investorAddressList.WoredaEngId);
       }, error => this.errMsg.getError(error));
   }
 
@@ -261,7 +262,8 @@ export class CertificateComponent implements OnInit {
     this.addressService.getAddress(InvestorId)
       .subscribe((result: AddressModel) => {
         this.investorAddressList = result;
-        // console.log(result);
+        console.log(this.investorAddressList.WoredaEngId);
+        console.log(this.investorAddressList.Zone.DescriptionEnglish);
       }, error => this.errMsg.getError(error));
 
   }

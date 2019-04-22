@@ -306,12 +306,12 @@
                   <td class="a-header">Region</td>
                   <td class="data value">{{investorAddressList?.Region.DescriptionEnglish}}</td>
                   <td class="a-header">Zone</td>
-                  <td class="data value">{{investorAddressList?.Woreda.Zone.DescriptionEnglish }}</td>
+                  <td class="data value">{{investorAddressList?.Zone.DescriptionEnglish }}</td>
                 </tr>
                 <tr>
                   <td class="a-header">City</td>
                   <td class="data value">--</td>
-                  <td class="a-header">Sub City</td>
+                  <td class="a-header">Sub City/Woreda</td>
                   <td class="data value">{{investorAddressList?.WoredaEngId}}</td>
                 </tr>
 
@@ -353,18 +353,18 @@
                   <td class="a-header">ክልል</td>
                   <td class="data value">{{investmentAddressList?.Region.Description}}</td>
                   <td class="a-header">ዞን</td>
-                  <td class="data value">{{investmentAddressList?.Region.Zones[0].Description}}</td>
+                  <td class="data value">{{investmentAddressList?.Zone.Description}}</td>
                 </tr>
                 <tr>
                   <td class="a-header">ከተማ</td>
                   <td class="data value">---</td>
                   <td class="a-header">ክፍለ ከተማ/ወረዳ</td>
-                  <td class="data value">{{investmentAddressList?.Region.Zones[0].Woredas[0].Description}}</td>
+                  <td class="data value">{{investmentAddressList?.WoredaId}}</td>
                 </tr>
                 <tr>
                   <td class="a-header">ወረዳ/ቀበሌ</td>
                   <td class="data value">
-                    {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
+                    {{investmentAddressList?.KebeleId}}
                   </td>
                   <td class="a-header">የቤት ቁጥር</td>
                   <td class="data value">{{investmentAddressList?.HouseNo}}</td>
@@ -388,12 +388,12 @@
                   <td class="a-header">City</td>
                   <td class="data value">--</td>
                   <td class="a-header">Sub city/Woreda</td>
-                  <td class="data value">{{investmentAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}</td>
+                  <td class="data value">{{investmentAddressList?.WoredaEngId}}</td>
                 </tr>
                 <tr>
                   <td class="a-header">Woreda/Kebele</td>
                   <td class="data value">
-                    {{investmentAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
+                    {{investmentAddressList?.KebeleEngId}}
                   </td>
                   <td class="a-header">House No.</td>
                   <td class="data value">{{investmentAddressList?.HouseNo}}</td>
