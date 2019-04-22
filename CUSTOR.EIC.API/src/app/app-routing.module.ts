@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { AuthService } from '@custor/services/security/auth.service';
-import { AuthGuard } from '@custor/services/security/auth-guard.service';
-import { NotFoundComponent } from './components/not-found/not-found.component';
-import { ConfirmComponent } from './components/auth/register/confirm.component';
-import { LoginComponent } from './components/auth/login/login.component';
-import { AccessDeniedComponent } from './components/denied/denied.component';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
+import {HomeComponent} from './components/home/home.component';
+import {AuthService} from '@custor/services/security/auth.service';
+import {AuthGuard} from '@custor/services/security/auth-guard.service';
+import {NotFoundComponent} from './components/not-found/not-found.component';
+import {ConfirmComponent} from './components/auth/register/confirm.component';
+import {LoginComponent} from './components/auth/login/login.component';
+import {AccessDeniedComponent} from './components/denied/denied.component';
 
 
 @NgModule({
@@ -384,8 +384,7 @@ import { AccessDeniedComponent } from './components/denied/denied.component';
       },
       {
         path: 'help',
-        loadChildren: 'app/components/help/help.module#HelpModule',
-        canActivate: [AuthGuard]
+        loadChildren: 'app/components/help/help.module#HelpModule'
       },
       {
         path: 'contact',
