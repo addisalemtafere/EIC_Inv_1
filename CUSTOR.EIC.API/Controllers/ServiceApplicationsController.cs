@@ -145,9 +145,9 @@ namespace EIC.Investment.API.Controllers
             _context.ServiceWorkflowHistories.Add(serviceWorkflowHistory);
 
 
-            var toDoTask = _context.TodoTask.First(p => p.ServiceApplicationId == id);
-            toDoTask.CurrentStatusId = 44446;
-            _context.Entry(toDoTask).State = EntityState.Modified;
+//            var toDoTask = _context.TodoTask.First(p => p.ServiceApplicationId == id);
+//            toDoTask.CurrentStatusId = 44446;
+//            _context.Entry(toDoTask).State = EntityState.Modified;
 
             try
             {
