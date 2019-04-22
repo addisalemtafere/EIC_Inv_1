@@ -4,6 +4,7 @@ import {Injectable} from '@angular/core';
 export class AppConfiguration {
   urls = {
     baseUrl: './',
+    ethiodateurl: 'api/EthiopianDate',
     customers: 'api/customers/',
     investors: 'api/investors/',
     customer: 'api/customer/',

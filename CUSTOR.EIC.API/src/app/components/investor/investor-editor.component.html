@@ -47,7 +47,7 @@
         <mat-form-field fxLayoutGap="4em" [fxFlex]="30" *ngIf="branch">
           <mat-label>{{'investors.editor.BranchCountry' | translate}}</mat-label>
           <mat-select formControlName="cBranchCountry" [compareWith]="compareIds">
-            <mat-option value="0">--</mat-option>
+            <!-- <mat-option value="0">--</mat-option> -->
             <mat-option *ngFor="let country of countryListWithOutEthipia" [value]="country.LookupId">
               <span>{{country.English}}</span>
             </mat-option>
@@ -234,7 +234,7 @@
               <mat-select formControlName="RegionId" (selectionChange)="filterRegion($event.value)"
                           [compareWith]="compareIds" required>
                 <!-- <option value="0">--Select--</option> -->
-                <mat-option value="0">--</mat-option>
+                <!-- <mat-option value="0">--</mat-option> -->
                 <mat-option *ngFor="let region of regions" [value]="region.RegionId">
                   <span>{{region.Description}}</span>
                 </mat-option>
@@ -250,7 +250,7 @@
                           <!--(selectionChange)="filterZone($event.value)"    -->
 
                 <!-- <option value="0">--Select--</option> -->
-                <mat-option value="0">--</mat-option>
+                <!-- <mat-option value="0">--</mat-option> -->
                 <mat-option *ngFor="let zone of filteredZones" [value]="zone.ZoneId">
                   <span>{{zone.Description}}</span>
                 </mat-option>
@@ -295,6 +295,7 @@
               <input matInput formControlName="WoredaId"/>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
+
               <mat-label>{{'investors.editor.WoredaEnglish' | translate}}</mat-label>
               <input matInput formControlName="WoredaEngId"/>
             </mat-form-field>

@@ -528,27 +528,51 @@
           <div class="block" fxFlex="">
             <table class="full-width">
               <tbody>
-                <tr>
-                  <td class="t-header">እስከ
-                  </td>
+<!--<<<<<<< HEAD-->
+              <tr>
+                <td class="t-header">እስከ
+                </td>
 
-                  <td class="renewDate data value" style="width: 300px">
-                    <span class="renewDate"> {{ dateEthioNextYear}} ታድሷል</span>
-                  </td>
-                </tr>
-                <tr *ngIf="ServiceId==13 || ServiceId==1023 ">
-                  <td class="t-header">Valid Until</td>
-                  <td class=" renewDate data value" style="width: 300px">
-                    <span class="renewDate"> {{ dateGc | date}}</span>
+                <td class="renewDate data value" style="width: 300px">
+                  <span class="renewDate"> {{ todayEthioDateRenewal}} ታድሷል</span>
+                </td>
+              </tr>
+              <tr>
+                <!--<td class="t-header">Valid Until</td>-->
+                <!--<td class=" renewDate data value" style="width: 300px">-->
+                  <!--<span class="renewDate">   {{ dateGc | date}}</span>-->
 
-                  </td>
+                <!--</td>-->
 
-                <tr *ngIf="ServiceId==18">
-                  <td class="t-header">Valid Until</td>
-                  <td class=" data value" style="width: 300px">
-                    <span class="renewDate">{{ renewedTo | date:'mediumDate'}}</span>
-                  </td>
-                </tr>
+              <!--<tr *ngIf="ServiceId==18">-->
+                <td class="t-header">Valid Until</td>
+                <td class=" data value" style="width: 300px">
+                  <span class="renewDate">{{ renewedToGC | date:'mediumDate'}}</span>
+                </td>
+              </tr>
+<!--=======-->
+                <!--<tr>-->
+                  <!--<td class="t-header">እስከ-->
+                  <!--</td>-->
+
+                  <!--<td class="renewDate data value" style="width: 300px">-->
+                    <!--<span class="renewDate"> {{ dateEthioNextYear}} ታድሷል</span>-->
+                  <!--</td>-->
+                <!--</tr>-->
+                <!--<tr *ngIf="ServiceId==13 || ServiceId==1023 ">-->
+                  <!--<td class="t-header">Valid Until</td>-->
+                  <!--<td class=" renewDate data value" style="width: 300px">-->
+                    <!--<span class="renewDate"> {{ dateGc | date}}</span>-->
+
+                  <!--</td>-->
+
+                <!--<tr *ngIf="ServiceId==18">-->
+                  <!--<td class="t-header">Valid Until</td>-->
+                  <!--<td class=" data value" style="width: 300px">-->
+                    <!--<span class="renewDate">{{ renewedTo | date:'mediumDate'}}</span>-->
+                  <!--</td>-->
+                <!--</tr>-->
+<!--&gt;>>>>>> fd1f810871efd852481b3950f51a4a65d6ec6571-->
               </tbody>
             </table>
           </div>

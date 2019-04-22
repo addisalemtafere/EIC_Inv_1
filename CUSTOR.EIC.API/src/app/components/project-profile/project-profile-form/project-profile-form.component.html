@@ -129,17 +129,6 @@
             </mat-form-field>
           </div>
           <div class="block" fxFlex="">
-            <!--<mat-form-field>-->
-              <!--<mat-label>Woreda :</mat-label>-->
-              <!--<mat-select formControlName="WoredaId" (selectionChange)="getKebeleByWoredaId($event.value)">-->
-                <!--&lt;!&ndash;<mat-option value="0">&#45;&#45;</mat-option>&ndash;&gt;-->
-
-                <!--<mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">-->
-                  <!--{{w.Description}}-->
-                <!--</mat-option>-->
-              <!--</mat-select>-->
-              <!--<mat-error align="start" *ngIf="formErrors.Woreda">{{ formErrors.Woreda }}</mat-error>-->
-            <!--</mat-form-field>-->
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.WoredaAmharic' | translate}}</mat-label>
               <input matInput formControlName="WoredaId"/>

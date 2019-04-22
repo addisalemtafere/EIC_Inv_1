@@ -15,7 +15,7 @@
     <Company>CUSTOR</Company>
     <Version>1.2.0</Version>
     <StartupObject>EICOnline.API.Program</StartupObject>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
 

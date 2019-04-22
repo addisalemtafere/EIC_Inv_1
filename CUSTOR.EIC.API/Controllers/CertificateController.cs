@@ -36,12 +36,13 @@ namespace CUSTOR.EICOnline.API.Controllers
                 var perminumber = lastSe.ToString();
                 squence.LastSquence = lastSe;
 
-                if (project.InvestmentPermitNo == "")
+                if (project.InvestmentPermitNo == "" || project.InvestmentPermitNo==null)
                 {
                     _context.Entry(squence).State = EntityState.Modified;
 
                     project.InvestmentPermitNo = perminumber;
                     _context.Entry(project).State = EntityState.Modified;
+                    _context.SaveChanges();
                 }
 
                 return _context.ServiceApplication
