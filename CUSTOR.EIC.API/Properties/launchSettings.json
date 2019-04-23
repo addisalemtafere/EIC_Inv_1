@@ -7,17 +7,15 @@
       "sslPort": 0
     },
     "iisExpress": {
+
       "applicationUrl": "http://40.117.47.168",
+
       "sslPort": 0
     }
   },
   "profiles": {
     "IIS Express": {
-<<<<<<< HEAD
-      "commandName": "Project",
-=======
       "commandName": "IISExpress",
->>>>>>> 6646bc7d708b29a222dc4e2660da285f9220be5f
       "launchBrowser": true,
       "launchUrl": "http://40.117.47.168",
       "environmentVariables": {
@@ -25,7 +23,7 @@
       }
     },
     "EICOnline": {
-      "commandName": "IISExpress",
+      "commandName": "IIS",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
