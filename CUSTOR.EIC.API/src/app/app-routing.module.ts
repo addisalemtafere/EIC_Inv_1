@@ -300,6 +300,11 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         canActivate: [AuthGuard]
       },
       {
+        path: 'currency',
+        loadChildren: 'app/components/setting/lookup-tabs/currency-setting/currency-setting.module#CurrencySettingModule',
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'lookup-tab',
         loadChildren: 'app/components/setting/lookup-tabs/lookup.module#LookupModule',
         canActivate: [AuthGuard]
