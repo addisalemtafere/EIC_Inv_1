@@ -1,9 +1,4 @@
-import {
-  AfterContentChecked,
-  Component,
-  OnDestroy,
-  OnInit
-} from "@angular/core";
+import {AfterContentChecked, Component, OnDestroy, OnInit} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -13,27 +8,23 @@ import {
   ValidatorFn,
   Validators
 } from "@angular/forms";
-import { ProjectCostModel } from "../../../model/ProjectCost.model";
-import { MatSnackBar } from "@angular/material";
+import {ProjectCostModel} from "../../../model/ProjectCost.model";
+import {MatSnackBar} from "@angular/material";
 
-import { ProjectCostService } from "../../../Services/project-cost.service";
-import { DataSharingService } from "../../../Services/data-sharing.service";
-import { Subscription } from "rxjs/Subscription";
-import { FormService } from "@custor/validation/custom/form";
-import { ActivatedRoute, Params } from "@angular/router";
-import { ProjectProfileService } from "../../../Services/project-profile.service";
-import { ErrorMessage } from "@custor/services/errMessageService";
-import { ToastrService } from "ngx-toastr";
-import {
-  CurrencyType,
-  ProjectStatusModel,
-  QuarterModel
-} from "../../../model/lookupData";
-import { CurrencyTypes, ProjectStatus, Quarter } from "@custor/const/consts";
-import { determineId } from "@custor/helpers/compare";
-import { ApplicationSettingService } from "../../../Services/application-setting.service";
-import { Permission } from "app/model/security/permission.model";
-import { AccountService } from "../../../../@custor/services/security/account.service";
+import {ProjectCostService} from "../../../Services/project-cost.service";
+import {DataSharingService} from "../../../Services/data-sharing.service";
+import {Subscription} from "rxjs/Subscription";
+import {FormService} from "@custor/validation/custom/form";
+import {ActivatedRoute} from "@angular/router";
+import {ProjectProfileService} from "../../../Services/project-profile.service";
+import {ErrorMessage} from "@custor/services/errMessageService";
+import {ToastrService} from "ngx-toastr";
+import {CurrencyType, ProjectStatusModel, QuarterModel} from "../../../model/lookupData";
+import {CurrencyTypes, ProjectStatus, Quarter} from "@custor/const/consts";
+import {determineId} from "@custor/helpers/compare";
+import {ApplicationSettingService} from "../../../Services/application-setting.service";
+import {Permission} from "app/model/security/permission.model";
+import {AccountService} from "../../../../@custor/services/security/account.service";
 
 @Component({
   selector: "app-project-cost",
@@ -267,13 +258,17 @@ export class ProjectCostComponent
         OtherSourceFinance: new FormControl(0),
         OtherSourceDescription: new FormControl(0),
 
-        ActualCostInForeign: new FormControl(""),
+        ActualCostInForeign: new FormControl(''),
+        ExchangeRate: new FormControl('', Validators.compose([
+          Validators.min(20),
+          Validators.max(30)
+        ])),
         Unit: new FormControl("1"),
         Quarter: new FormControl(""),
         CapitalRegistrationDatetime: new FormControl(""),
         ReagistrationYear: new FormControl(""),
         ProjectStatus: new FormControl(""),
-        ExchangeRate: new FormControl(""),
+        // ExchangeRate: new FormControl(""),
         Remark: new FormControl(""),
         Total: new FormControl(""),
         TotalInBirr: new FormControl("")
@@ -312,6 +307,7 @@ export class ProjectCostComponent
       OfficeEquipmentCost: formModel.OfficeEquipmentCost,
       OfficeEquipmentCostInBirr: formModel.OfficeEquipmentCostInBirr,
       ActualCostInForeign: formModel.ActualCostInForeign,
+      // ETBExchangeRate: formModel.ETBExchangeRate,
       OtherCapitalCost: formModel.OtherCapitalCost,
       OtherCapitalCostInBirr: formModel.OtherCapitalCostInBirr,
       InitialWorkingCapitalCost: formModel.InitialWorkingCapitalCost,
@@ -363,9 +359,9 @@ export class ProjectCostComponent
     // this.projectCostForm.patchValue({
     //   workFlowId: localStorage.getItem('workFlowId')
     // });
-    this.projectCostForm.patchValue({
-      ExchangeRate: this.ExchangeRate
-    });
+    // this.projectCostForm.patchValue({
+    //   ExchangeRate: this.ExchangeRate
+    // });
 
     this.sumAll();
     this.sumAllInBirr();

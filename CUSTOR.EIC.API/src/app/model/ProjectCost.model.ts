@@ -3,6 +3,7 @@ export class ProjectCostModel {
   ProjectId: number;
   IsActual?: boolean;
   ActualCostInForeign: number;
+  // ETBExchangeRate: number;
   LandCost: number;
   LandCostInBirr: number;
   BuildingCost: number;
