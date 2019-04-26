@@ -27,6 +27,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public decimal OtherSourceFinance { get; set; }
     public string OtherSourceDescription { get; set; }
     public decimal? ActualCostInForeign { get; set; }
+//    public decimal? ETBExchangeRate { get; set; }
     public int Unit { get; set; }
     public decimal ExchangeRate { get; set; }
     public string Remark { get; set; }
