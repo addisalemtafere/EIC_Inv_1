@@ -260,8 +260,8 @@ export class ProjectCostComponent
 
         ActualCostInForeign: new FormControl(''),
         ExchangeRate: new FormControl('', Validators.compose([
-          Validators.min(20),
-          Validators.max(30)
+          Validators.min(26),
+          Validators.max(35)
         ])),
         Unit: new FormControl("1"),
         Quarter: new FormControl(""),
