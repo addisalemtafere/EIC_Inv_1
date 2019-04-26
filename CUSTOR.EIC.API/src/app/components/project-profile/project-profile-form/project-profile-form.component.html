@@ -60,7 +60,7 @@
         <div class="blocks" fxFlex>
           <mat-form-field>
             <mat-label>Project Stage:</mat-label>
-            <mat-select formControlName="ProjectStage" required [compareWith]="compareIds">
+            <mat-select formControlName="ProjectStage" required >
               <option value="0">--Select--</option>
               <mat-option *ngFor="let status of projectStage" [value]="status.Id">
                 <span>{{status.DescriptionEnglish}}</span>
