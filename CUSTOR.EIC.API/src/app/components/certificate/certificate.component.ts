@@ -113,9 +113,9 @@ export class CertificateComponent implements OnInit {
     this.getDate();
     this.getEthiopianDate();
     console.log(this.ServiceApplicationId);
-    if (this.ServiceApplicationId > 0) {
+    // if (this.ServiceApplicationId > 0) {
       this.getServiceApplicationRenewal();
-    }
+    // }
     this.intEditForm();
   }
 
@@ -336,7 +336,7 @@ export class CertificateComponent implements OnInit {
      this.dateService.getEthiopianDate(this.day, this.month, this.year)
       .subscribe(data => {
         this.todayEthioDateRenewal = data;
-        // console.log('Date = ' + this.todayEthioDate);
+        console.log('Date = ' + this.todayEthioDateRenewal);
       });
   }
 ///////////////
