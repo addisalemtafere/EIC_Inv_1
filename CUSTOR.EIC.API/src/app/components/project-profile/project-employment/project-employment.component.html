@@ -213,7 +213,7 @@
           <div class="block" fxFlex>
             <mat-form-field>
               <input name="PermanentFemale"
-                     matInput formControlName="PermanentFemale"
+                     matInput formControlName="CurrentPermanentFemale"
                      type="number"
                      #pf
                      placeholder="Female * :">
@@ -225,7 +225,7 @@
           <div class="block" fxFlex>
             <mat-form-field>
               <input name="PermanentMale"
-                     matInput formControlName="PermanentMale"
+                     matInput formControlName="CurrentPermanentMale"
                      placeholder="Male * :"
                      #pm
                      type="number">
@@ -237,7 +237,7 @@
           </div>
           <div class="block" fxFlex="">
             <mat-form-field>
-              <input formControlName="PermanentForeignFemale"
+              <input formControlName="CurrentPermanentForeignFemale"
                      type="number"
                      matInput
                      #pff
@@ -250,7 +250,7 @@
           </div>
           <div class="block" fxFlex="">
             <mat-form-field>
-              <input formControlName="PermanentForeignMale"
+              <input formControlName="CurrentPermanentForeignMale"
                      matInput
                      type="number"
                      #pfm
@@ -262,7 +262,7 @@
           </div>
           <div class="block" fxFlex="">
             <mat-form-field style="width: 50px!important;">
-              <input formControlName="TotalPermanent"
+              <input formControlName="CurrentTotalPermanent"
                      value="{{pf.value*1+pff.value*1+pm.value*1+pfm.value*1}}"
                      type="number"
                      #totalPermanent
@@ -280,7 +280,7 @@
               <input name="TemporaryFemale"
                      matInput
                      #Tf
-                     formControlName="TemporaryFemale"
+                     formControlName="CurrentTemporaryFemale"
                      placeholder="Female * :"
                      type="number">
               <mat-error align="start" *ngIf="formErrors.TemporaryFemale" class="form__error">{{
@@ -290,7 +290,7 @@
           </div>
           <div class="block" fxFlex="">
             <mat-form-field>
-              <input formControlName="TemporaryMale"
+              <input formControlName="CurrentTemporaryMale"
                      #TM
                      type="number"
                      matInput placeholder="male * :">
@@ -301,7 +301,7 @@
           </div>
           <div class="block" fxFlex="">
             <mat-form-field>
-              <input formControlName="TemporaryForeignFemale"
+              <input formControlName="CurrentTemporaryForeignFemale"
                      #TFF
                      type="number"
                      matInput placeholder="Foreign Female * :">
@@ -314,7 +314,7 @@
           </div>
           <div class="block" fxFlex="">
             <mat-form-field>
-              <input formControlName="TemporaryForeignMale"
+              <input formControlName="CurrentTemporaryForeignMale"
                      #TFM
                      type="number"
                      matInput placeholder="Foreign Male * :">
@@ -326,7 +326,7 @@
           </div>
           <div class="block" fxFlex="">
             <mat-form-field style="width: 50px!important;">
-              <input formControlName="TotalTempo"
+              <input formControlName="CurrentTotalTempo"
                      type="number"
                      #TotalTempo
                      value="{{Tf.value*1+TM.value*1+TFF.value*1+TFM.value*1}}"
@@ -341,7 +341,7 @@
             <mat-label>Total Employee</mat-label>
             <input matInput
                    value="{{TotalTempo.value*1+totalPermanent.value*1}}"
-                   formControlName="totalEmployee"
+                   formControlName="CurrenttotalEmployee"
                    type="number">
           </mat-form-field>
         </div>

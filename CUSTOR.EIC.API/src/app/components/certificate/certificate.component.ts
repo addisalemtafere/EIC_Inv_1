@@ -26,9 +26,6 @@ import {LookupsService} from "../setting/lookup-tabs/lookups/lookups.service";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {DataSharingService} from "../../Services/data-sharing.service";
 import {ProjectRenewalModel} from '../../model/ProjectRenewal.model';
-import {log} from 'util';
-import {count} from 'rxjs-compat/operator/count';
-import {filter} from 'rxjs-compat/operator/filter';
 
 @Component({
   selector: 'app-certificate',
@@ -121,13 +118,21 @@ export class CertificateComponent implements OnInit {
 
   // no need to come all this data.
   private getServiceApplicationRenewal() {
-         this.projectRenewalService
+    // console.log('date1' + this.renewedToGC);
+
+    this.projectRenewalService
         .getRenewalByServiceApplicationId(this.ServiceApplicationId)
         .subscribe(result => {
-          if (result.ProjectRenewal[0] !== null) {
+          console.log(result.ProjectRenewal[0]);
+
+          if ( result.ProjectRenewal[0] != undefined) {
+            console.log('date' + this.renewedToGC);
+
             this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
             // this.getEthiopianDateDate();
-          } else if (this.ServiceId === 13 ) {
+          } else if(this.ServiceId==13) {
+            console.log('this.ServiceId' + this.ServiceId);
+
             this.renewal = new ProjectRenewalModel();
             this.renewal.RenewedFrom = new Date();
             this.renewal.RenewedTo = this.dateGc;
@@ -136,10 +141,13 @@ export class CertificateComponent implements OnInit {
             this.renewal.ProjectId = this.projectId;
             this.renewal.ProjectStatus = 9;
             this.renewal.IsApproved = true;
-            console.log(this.renewal);
+            // console.log(this.renewal);
+            // this.renewedToGC = this.dateGc;
+            console.log('newIP' + this.renewedToGC);
+
             this.projectRenewalService.create(this.renewal).
             subscribe(results => {
-              // this.getEthiopianDateDate();
+              console.log('renewal' + results[0]);
             });
             console.log('Done!');
           }
