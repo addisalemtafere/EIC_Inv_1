@@ -288,7 +288,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         canActivate: [AuthGuard]
       },
 
-      {path: 'confirm', component: ConfirmComponent},
+      { path: 'confirm', component: ConfirmComponent },
       {
         path: 'lookups',
         loadChildren: 'app/components/setting/lookup-tabs/lookups/lookups.module#LookupsModule',
@@ -297,6 +297,11 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
       {
         path: 'lookuptypes',
         loadChildren: 'app/components/setting/lookup-tabs/lookuptypes/lookuptypes.module#LookupTypesModule',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'currency',
+        loadChildren: 'app/components/setting/lookup-tabs/currency-setting/currency-setting.module#CurrencySettingModule',
         canActivate: [AuthGuard]
       },
       {
@@ -382,16 +387,16 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         loadChildren: 'app/components/investor/investor-profile/investor-profile.module#InvestorProfileModule',
         canActivate: [AuthGuard]
       },
-      // {
-      //   path: 'help',        component: HelpComponent,
-      //   canActivate: [AuthGuard]
-      // },
+      {
+        path: 'help',
+        loadChildren: 'app/components/help/help.module#HelpModule'
+      },
       {
         path: 'contact',
         loadChildren: 'app/components/contact/contact.module#ContactModule'
       },
-      {path: '', component: HomeComponent},
-      {path: '**', component: NotFoundComponent},
+      { path: '', component: HomeComponent },
+      { path: '**', component: NotFoundComponent },
     ])
   ],
   exports: [

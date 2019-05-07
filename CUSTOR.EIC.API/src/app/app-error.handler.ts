@@ -9,6 +9,7 @@ export class AppErrorHandler extends ErrorHandler {
         super();
     }
 
+
     handleError(error: any) {
         // if (this.alertService == null) {
         //    this.alertService = this.injector.get(AlertService);

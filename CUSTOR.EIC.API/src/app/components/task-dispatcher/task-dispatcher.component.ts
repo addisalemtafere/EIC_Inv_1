@@ -1,11 +1,12 @@
-import {AfterContentChecked, Component, OnInit} from '@angular/core';
-import {AccountService} from '@custor/services/security/account.service';
-import {User} from '../../model/security/user.model';
-import {MatDialogRef, MatTableDataSource} from '@angular/material';
-import {TodoTaskService} from '../../Services/todo-task.service';
-import {TodoTaskModel} from '../../model/TodoTask.model';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {DataSharingService} from '../../Services/data-sharing.service';
+import { AuthService } from '@custor/services/security/auth.service';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { AccountService } from '@custor/services/security/account.service';
+import { User } from '../../model/security/user.model';
+import { MatDialogRef, MatTableDataSource } from '@angular/material';
+import { TodoTaskService } from '../../Services/todo-task.service';
+import { TodoTaskModel } from '../../model/TodoTask.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DataSharingService } from '../../Services/data-sharing.service';
 
 @Component({
   selector: 'app-task-dispatcher',
@@ -25,10 +26,11 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
   public pendingTask: number | 0;
 
   constructor(public accountService: AccountService,
-              private    dialogRef: MatDialogRef<TaskDispatcherComponent>,
-              public fb: FormBuilder,
-              public dataSharingService: DataSharingService,
-              public todoTask: TodoTaskService) {
+    private dialogRef: MatDialogRef<TaskDispatcherComponent>,
+    public fb: FormBuilder,
+    public authService: AuthService,
+    public dataSharingService: DataSharingService,
+    public todoTask: TodoTaskService) {
   }
 
   ngOnInit() {
@@ -46,10 +48,20 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
   }
 
   getAllOfficer() {
+    // alert(this.authService.currentUser.SiteCode)
     this.accountService.getUsers().subscribe(result => {
-      // console.log(result);
-      this.userList = result;
+      // alert(result[0].SiteCode);
+      this.filterUser(result)
     });
+
+
+  }
+
+  filterUser(user: User[]) {
+    this.userList = user.filter((item) => {
+      return item.SiteCode == this.authService.currentUser.SiteCode;
+    });
+    console.log(this.userList);
   }
 
   getUserDetail(userId: any, userName?: any) {

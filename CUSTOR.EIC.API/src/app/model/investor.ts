@@ -48,7 +48,9 @@ export class Investor {
   RegionId: string = null;
   ZoneId: string = null;
   WoredaId: string = null;
+  WoredaEngId: string = null;
   KebeleId: string = null;
+  KebeleEngId: string = null;
   HouseNo: string = null;
   TeleNo: string = null;
   Pobox: string = null;

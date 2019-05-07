@@ -4,6 +4,7 @@ import {Injectable} from '@angular/core';
 export class AppConfiguration {
   urls = {
     baseUrl: './',
+    ethiodateurl: 'api/EthiopianDate',
     customers: 'api/customers/',
     investors: 'api/investors/',
     customer: 'api/customer/',
@@ -282,6 +283,6 @@ export class AppConfiguration {
 
   constructor() {
     this.urls.baseUrl = 'http://localhost:5050/';
-   // this.urls.baseUrl = 'http://localhost:5050/';
+   // this.urls.baseUrl = 'http://localhost:5050 /';
   }
 }

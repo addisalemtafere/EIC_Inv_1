@@ -33,6 +33,8 @@ import {SectorModel} from '../../../model/sector';
 import {SubSectorModel} from '../../../model/subSector';
 import {Permission} from "../../../model/security/permission.model";
 import {ProjectStageModel} from "../../../model/lookupData";
+import {ProjectRenewalModel} from '../../../model/ProjectRenewal.model';
+import {ProjectRenewalService} from '../../../Services/project-renewal.service';
 
 @Component({
   selector: 'app-project-profile-form',
@@ -47,6 +49,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   public IsOromia: boolean = false;
   editMode = false;
   loading = false;
+  date: any;
+  public today: Date;
+  public dateGc: Date;
   project: ProjectModel;
   address: AddressModel;
   projectId: any;
@@ -62,7 +67,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   kebeles: KebeleModel[] = [];
   filteredKebeles: KebeleModel[] = [];
   projectStage: ProjectStageModel[] = [];
-
+  approve: ProjectRenewalModel;
   public formErrors = {
     ProjectName: 'at least three characters!',
     ProjectDescription: '',
@@ -74,7 +79,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     Region: '',
     Zone: '',
     Woreda: '',
+    WoredaEng: '',
     Kebele: '',
+    KebeleEng: '',
     SpecificAreaName: '',
     Remark: '',
     EnvironmentalImpact: '',
@@ -118,7 +125,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
               public snackbar: MatSnackBar,
               public activityService: ActivityService,
               public invactivityService: InvactivityService,
-              private dataSharing: DataSharingService) {
+              private dataSharing: DataSharingService,
+              public projectRenewalService: ProjectRenewalService) {
     // this.project = <ProjectModel>{};
     // this.address = <AddressModel>{};
   }
@@ -156,7 +164,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-
+    // this.getDate();
     this.fillAddressLookups();
     this.formBuild();
     this.updateDateRange();
@@ -186,7 +194,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        this.getKebeleByWoredaId(result.WoredaId);
+        //this.getKebeleByWoredaId(result.WoredaId);
         this.addressId = result.AddressId;
         this.projectForm.get('address').patchValue(result);
       }, error => this.errMsg.getError(error));
@@ -197,7 +205,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.loading = true;
     this.getRegions();
     this.getAllZones();
-    this.getAllWoredas();
+    // this.getAllWoredas();
     this.getAllSector();
     this.getAllSubSector();
     this.getAllActivityService();
@@ -347,6 +355,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.formService.markFormGroupTouched(this.projectForm);
     if (this.projectForm.valid) {
       if (!this.editMode) {
+
         this.projectProfileService.create(this.projectForm.value)
           .subscribe(result => {
             this.projectId = result.ProjectId;
@@ -354,7 +363,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
             // this.router.navigate(['pro/', this.projectId]);
             // localStorage.setItem('workFlowId', result.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId);
             // localStorage.setItem('ServiceApplicationId', result.ServiceApplication[0].ServiceApplicationId);
-
+            // this.Maprenewal();
             this.router.navigate(['pro/' + this.projectId + '/' + result.ServiceApplication[0].ServiceApplicationId + '/' + this.ServiceId + '/' + result.ServiceApplication[0].ServiceWorkflow[0].ServiceWorkflowId + '/' + this.InvestorId]);
             this.notification('project  saved');
             this.saveAddress();
@@ -424,7 +433,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         RegionId: new FormControl(),
         ZoneId: new FormControl(),
         WoredaId: new FormControl(),
+        WoredaEngId: new FormControl(),
         KebeleId: new FormControl(),
+        KebeleEngId: new FormControl(),
         SpecificAreaName: new FormControl(),
         IsIndustrialPark: new FormControl(),
         IndustrialParkId: new FormControl(),
@@ -457,8 +468,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     let projectSage: ProjectStageModel = new ProjectStageModel();
     ProjectStage.forEach(pair => {
       projectSage = {
-        'Id': pair.Id.toString(), 'DescriptionEnglish': pair.DescriptionEnglish,
-        'Description': pair.Description
+        Id: pair.Id.toString(),
+        DescriptionEnglish: pair.DescriptionEnglish,
+        Description: pair.Description
       };
       this.projectStage.push(projectSage);
     });
@@ -511,4 +523,5 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       return item.SiteCode !== 'OnlineSite';
     });
   }
+
 }

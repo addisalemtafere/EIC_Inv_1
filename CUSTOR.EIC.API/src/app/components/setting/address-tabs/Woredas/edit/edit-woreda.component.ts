@@ -239,7 +239,8 @@ export class EditWoredaComponent implements OnInit, OnDestroy {
   private getEditedWoreda(): Woreda {
     const formModel = this.woredaForm.value;
     return {
-      WoredaId: this.isNewWoreda ? '0' : this.woreda.WoredaId,
+      isNew: this.isNewWoreda ? true : false,
+      WoredaId: formModel.cCode,
       RegionId: formModel.cRegion,
       ZoneId: formModel.cZone,
       Description: formModel.cDescription,

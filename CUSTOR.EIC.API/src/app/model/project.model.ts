@@ -32,7 +32,7 @@ export class ProjectModel {
   public IsActive: boolean;
   public CreatedUserName: string;
   public BusinessLicenseNo: string;
-  public ProjectStage: number;
+  public ProjectStage: any;
   public ProjectStatus: number;
   public IsSelfService: boolean;
   public ProjectCost?: ProjectCostModel;

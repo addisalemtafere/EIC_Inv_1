@@ -22,6 +22,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 IsIndustrialPark = false,
                 IsMainOffice = true,
                 KebeleId = investorDTO.KebeleId,
+                KebeleEngId = investorDTO.KebeleEngId,
                 OtherAddress = investorDTO.OtherAddress,
                 ParentId = investorDTO.InvestorId,
                 RegionId = investorDTO.RegionId,
@@ -31,6 +32,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 TeleNo = investorDTO.TeleNo,
                 TownId = "-1",
                 WoredaId = investorDTO.WoredaId,
+                WoredaEngId = investorDTO.WoredaEngId,
                 ZoneId = investorDTO.ZoneId,
                 AddressId = investorDTO.AddressId
             };
@@ -115,11 +117,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 Fax = add.Fax,
                 HouseNo = add.HouseNo,
                 KebeleId = add.KebeleId,
+                KebeleEngId = add.KebeleEngId,
                 OtherAddress = add.OtherAddress,
                 RegionId = add.RegionId,
                 Pobox = add.Pobox,
                 TeleNo = add.TeleNo,
                 WoredaId = add.WoredaId,
+                WoredaEngId = add.WoredaEngId,
                 ZoneId = add.ZoneId,
                 AddressId = add.AddressId,
             };

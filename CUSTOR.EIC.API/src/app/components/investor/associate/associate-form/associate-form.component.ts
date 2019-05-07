@@ -224,7 +224,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     // caching
     this.getRegions();
     this.getAllZones();
-    this.getAllWoredas();
+    // this.getAllWoredas();
     this.getInvestorTitle(89);
     // this.getAllKebeles();
     // this.getInvestorTitle();
@@ -304,7 +304,9 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
         RegionId: new FormControl(),
         ZoneId: new FormControl(),
         WoredaId: new FormControl(),
+        WoredaEngId: new FormControl(),
         KebeleId: new FormControl(),
+        KebeleEngId: new FormControl(),
         OtherAddress: new FormControl(),
         CellPhoneNo: new FormControl(),
         // SpecificAreaName: new FormControl(),
@@ -337,27 +339,29 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
     this.AllowCascading = false;
     // Set dropdown values
-    setTimeout(() => {
-      if (this.associate.ZoneId != null) {
-        this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.associate.ZoneId);
-      }
-    }, 100);
+    // setTimeout(() => {
+    //   if (this.associate.ZoneId != null) {
+    //     this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.associate.ZoneId);
+    //   }
+    // }, 100);
     setTimeout(() => {
       if (this.associate.RegionId != null) {
         this.filteredZones = this.zones.filter((item) => item.RegionId === this.associate.RegionId);
       }
     }, 100);
-    setTimeout(() => {
-      if (this.associate.WoredaId != null) {
-        this.getKebeleByWoredaId(this.associate.WoredaId);
-      }
-    }, 100);
+    // setTimeout(() => {
+    //   if (this.associate.WoredaId != null) {
+    //     this.getKebeleByWoredaId(this.associate.WoredaId);
+    //   }
+    // }, 100);
 
     this.associateForm.get('address').patchValue({
       RegionId: this.associate.RegionId == null ? '' : this.associate.RegionId.toString(),
       ZoneId: this.associate.ZoneId == null ? '' : this.associate.ZoneId.toString(),
       WoredaId: this.associate.WoredaId == null ? '' : this.associate.WoredaId.toString(),
+      WoredaEngId: this.associate.WoredaEngId == null ? '' : this.associate.WoredaEngId.toString(),
       KebeleId: this.associate.KebeleId == null ? '' : this.associate.KebeleId.toString(),
+      KebeleEngId: this.associate.KebeleEngId == null ? '' : this.associate.KebeleEngId.toString(),
       HouseNo: this.associate.HouseNo || '',
       TeleNo: this.associate.TeleNo || '',
       Pobox: this.associate.Pobox || '',
@@ -442,7 +446,9 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       RegionId: add.RegionId,
       ZoneId: add.ZoneId,
       WoredaId: add.WoredaId,
+      WoredaEngId: add.WoredaEngId,
       KebeleId: add.KebeleId,
+      KebeleEngId: add.KebeleEngId,
       HouseNo: add.HouseNo,
       TeleNo: add.TeleNo,
       Pobox: add.Pobox,

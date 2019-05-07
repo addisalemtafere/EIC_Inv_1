@@ -18,7 +18,14 @@ namespace CUSTOR.EICOnline.API.Controllers
     public string GetEthiopianDateNow()
     {
       DateTime now = DateTime.Now;
+      Console.WriteLine("Now = " + now);
       string eDate = EthiopicDateTime.GetEthiopicDate(now.Day, now.Month, now.Year);
+      return eDate;
+    }
+    [HttpGet("{day}/{month}/{year}")]
+    public string GetEthiopianDate([FromRoute] int day, int month, int year)
+    {
+      string eDate = EthiopicDateTime.GetEthiopicDate(day, month, year);
       return eDate;
     }
   }

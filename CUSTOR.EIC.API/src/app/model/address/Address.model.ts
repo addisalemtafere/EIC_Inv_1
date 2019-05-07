@@ -14,6 +14,8 @@ export class AddressModel {
   public ZoneId: string;
   public WoredaId: string;
   public KebeleId: string;
+  public WoredaEngId: string;
+  public KebeleEngId: string;
   public HouseNo?: string;
   public TeleNo?: string;
   public Pobox?: string;
@@ -31,7 +33,7 @@ export class AddressModel {
 
   constructor(AddressId: number, ParentId: number, AddressType: number,
               IsMainOffice: boolean, SpecificAreaName: string, RegionId: string,
-              TownId: string, ZoneId: string, WoredaId: string, KebeleId: string,
+              TownId: string, ZoneId: string, WoredaId: string, KebeleId: string,WoredaEngId: string, KebeleEngId: string,
               HouseNo: string, TeleNo: string, Pobox: string, Fax: string,
               CellPhoneNo: string, Email: string, OtherAddress: string, Remark: string) {
     this.AddressId = AddressId;
@@ -44,6 +46,8 @@ export class AddressModel {
     this.ZoneId = ZoneId;
     this.WoredaId = WoredaId;
     this.KebeleId = KebeleId;
+    this.WoredaEngId = this.WoredaEngId;
+    this.KebeleEngId = this.KebeleEngId;
     this.HouseNo = HouseNo;
     this.TeleNo = TeleNo;
     this.Pobox = Pobox;

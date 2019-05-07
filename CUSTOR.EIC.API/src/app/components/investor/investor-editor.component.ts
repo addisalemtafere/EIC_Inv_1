@@ -301,9 +301,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     if (id < 1) {
       this.isNewInvestor = true;
       this.isCompany = false;
-
       this.title = 'Create a new Investor';
-
       return;
     }
     if (id) {
@@ -424,7 +422,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getInvestor(id)
       .subscribe(result => {
           this.investor = result;
-          this.fillAddressLookups();
           this.updateForm();
           console.log(this.investor.RegistrationCatagories);
           this.investorForm.patchValue({
@@ -452,7 +449,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     // caching
     this.getRegions();
     this.getAllZones();
-    this.getAllWoredas();
+    // this.getAllWoredas();
     this.getInvestorTitle(89);
     this.getCountryTitle(31);
     this.getAllNation();
@@ -546,7 +543,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         RegionId: new FormControl(),
         ZoneId: new FormControl(),
         WoredaId: new FormControl(),
+        WoredaEngId: new FormControl(),
         KebeleId: new FormControl(),
+        KebeleEngId: new FormControl(),
         OtherAddress: new FormControl(),
         CellPhoneNo: new FormControl(),
         // SpecificAreaName: new FormControl(),
@@ -600,24 +599,29 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.isNewInvestor = false;
 
     // Set dropdown values
+    // setTimeout(() => {
+    //   if (this.investor.ZoneId != null) {
+    //     this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.investor.ZoneId);
+    //   }
+    // }, 100);
     setTimeout(() => {
-      this.AllowCascading = false;
-      if (this.investor.ZoneId != null) {
-        this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.investor.ZoneId);
-      }
       if (this.investor.RegionId != null) {
         this.filteredZones = this.zones.filter((item) => item.RegionId === this.investor.RegionId);
       }
-      if (this.investor.WoredaId != null) {
-        this.getKebeleByWoredaId(this.investor.WoredaId);
-      }
-    }, 200);
+    }, 100);
+    // setTimeout(() => {
+    //   if (this.investor.WoredaId != null) {
+    //     this.getKebeleByWoredaId(this.investor.WoredaId);
+    //   }
+    // }, 100);
 
     this.investorForm.get('address').patchValue({
       RegionId: this.investor.RegionId == null ? '' : this.investor.RegionId.toString(),
       ZoneId: this.investor.ZoneId == null ? '' : this.investor.ZoneId.toString(),
       WoredaId: this.investor.WoredaId == null ? '' : this.investor.WoredaId.toString(),
+      WoredaEngId: this.investor.WoredaEngId == null ? '' : this.investor.WoredaEngId.toString(),
       KebeleId: this.investor.KebeleId == null ? '' : this.investor.KebeleId.toString(),
+      KebeleEngId: this.investor.KebeleEngId == null ? '' : this.investor.KebeleEngId.toString(),
       HouseNo: this.investor.HouseNo || '',
       TeleNo: this.investor.TeleNo || '',
       Pobox: this.investor.Pobox || '',
@@ -675,6 +679,19 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.toastr.error('TIN must be 10 digits long');
       return;
     }
+    // if (this.investorForm.get('ZoneId').value < 1) {
+    //   this.toastr.error('Please select zone');
+    //   return;
+    // }
+    // if (this.investorForm.get('WoredaId').value < 1) {
+    //   this.toastr.error('Please select woreda');
+    //   return;
+    // }
+    // if (this.investorForm.get('KebeleId').value < 1) {
+    //   this.toastr.error('Please select kebele');
+    //   return;
+    // }
+
     this.loadingIndicator = true;
     return this.custService.saveInvestor(this.getEditedInvestor())
       .subscribe((investor) => {
@@ -748,22 +765,22 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   filterRegion(regionCode: string) {
-    if (!regionCode || !this.AllowCascading) {
+    if (!regionCode ) {
       return;
     }
     this.filteredKebeles = null;
-    this.filteredWoredas = null;
-    this.filteredZones = null;
-    if (!this.zones) {
-      return;
-    }
+    // this.filteredWoredas = null;
+    // this.filteredZones = null;
+    // if (!this.zones) {
+    //   return;
+    // }
     this.filteredZones = this.zones.filter((item) => {
       return item.RegionId === regionCode;
     });
   }
 
   filterZone(zoneCode: string) {
-    if (!zoneCode || !this.AllowCascading) {
+    if (!zoneCode ) {
       return;
     }
     this.filteredKebeles = null;
@@ -774,7 +791,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   filterWoreda(woredaCode: string) {
-    if (!woredaCode || !this.AllowCascading) {
+    if (!woredaCode ) {
       return;
     }
     this.getKebeleByWoredaId(woredaCode);
@@ -943,7 +960,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       RegionId: add.RegionId,
       ZoneId: add.ZoneId,
       WoredaId: add.WoredaId,
+      WoredaEngId: add.WoredaEngId,
       KebeleId: add.KebeleId,
+      KebeleEngId: add.KebeleEngId,
       HouseNo: add.HouseNo,
       TeleNo: add.TeleNo,
       Pobox: add.Pobox,

@@ -7,6 +7,7 @@ namespace CUSTOR.EICOnline.DAL
   public partial class Kebele
   {
     public string KebeleId { get; set; }
+    public string KebeleEngId { get; set; }
     public string WoredaId { get; set; }
     public string Description { get; set; }
     public string DescriptionEnglish { get; set; }
@@ -14,7 +15,7 @@ namespace CUSTOR.EICOnline.DAL
     public DateTime? EventDatetime { get; set; }
     public string UpdatedUsername { get; set; }
     public DateTime? UpdatedEventDatetime { get; set; }
-
+    public bool isNew  { get; set; }
     public Woreda Woreda { get; set; }
   }
 
@@ -26,6 +27,7 @@ namespace CUSTOR.EICOnline.DAL
 
     [Key]
     public string KebeleId { get; set; }
+    public string KebeleEngId { get; set; }
 
     public string WoredaId { get; set; }
     public string Description { get; set; }

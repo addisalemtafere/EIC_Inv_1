@@ -6,6 +6,7 @@ using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EIC.Investment.API.Controllers.Controllers
 {
@@ -33,14 +34,14 @@ namespace EIC.Investment.API.Controllers.Controllers
     [Route("api/activityslookup")]
     public async Task<IEnumerable<Activity>> GetActivity()
     {
-      return await _ActivityRepo.GetActivitys();
+      return await context.Activity.ToListAsync();
     }
 
     [HttpGet]
     [Route("api/activitys")]
     public async Task<IEnumerable<Activity>> GetActivity(int page = -1, int pageSize = 10)
     {
-      return await _ActivityRepo.GetActivitys(page, pageSize);
+      return await context.Activity.ToListAsync();;
     }
 
     [HttpGet]
@@ -50,7 +51,8 @@ namespace EIC.Investment.API.Controllers.Controllers
       return await _ActivityRepo.GetActivitysByParent(id, page, pageSize);
     }
 
-    [HttpGet("api/activity/{id:int}")]
+    [HttpGet]
+    [Route("api/activity/{id:int}")]
     public Activity GetActivity(int id)
     {
       return _ActivityRepo.GetActivity(id);

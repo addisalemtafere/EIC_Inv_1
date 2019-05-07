@@ -62,7 +62,7 @@ export class ProjectRenewalTabComponent implements OnInit {
 
     dialogConfig.data = {
       ServiceApplicationId: this.ServiceApplicationId,
-      title: 'Angular For Beginners'
+      title: 'Add message'
     };
     // this.dialog.open(NotificationComponent);
     this.dialog.open(NotificationComponent, dialogConfig);

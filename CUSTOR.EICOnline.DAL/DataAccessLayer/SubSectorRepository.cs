@@ -18,7 +18,7 @@ namespace CUSTOR.EICOnline.DAL
         {
             IQueryable<SubSector> subsectors = Context.SubSector
                 //.Include(s => s.Sector)
-                .OrderBy(sub => sub.DescriptionEnglish);
+                .OrderBy(sub => sub.SubSectorId);
             if (page > 0)
             {
                 subsectors = subsectors

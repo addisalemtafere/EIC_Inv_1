@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
@@ -200,8 +201,10 @@ namespace EIC.Investment.API.Controllers
       editedProject.ProjectStatus = 9;
       //editedProject.ProjectStage = 3;
       editedProject.SiteId = 3;
-      editedProject.InvestmentPermitNo = perminumber;
-
+      // editedProject.InvestmentPermitNo = perminumber;
+      DateTime datTimeNow = DateTime.Now;
+      string format = "yyyy-MM-dd HH:mm:ss";
+      string sDateTime = datTimeNow.ToString(format);
       var serviceApplication = new ServiceApplication
       {
         InvestorId = project.InvestorId,
@@ -240,8 +243,8 @@ namespace EIC.Investment.API.Controllers
       };
       if (!editedProject.IsSelfService)
       {
-        squence.LastSquence = lastSe;
-        _context.Entry(squence).State = EntityState.Modified;
+        // squence.LastSquence = lastSe;
+        // _context.Entry(squence).State = EntityState.Modified;
 
         serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
         project.ServiceApplication.Add(serviceApplication);

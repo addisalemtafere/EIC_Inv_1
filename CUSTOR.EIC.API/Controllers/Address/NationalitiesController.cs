@@ -79,7 +79,7 @@ namespace EIC.Investment.API.Controllers
             _context.Nationality.Add(nationality);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetNationality", new {nationality.id}, nationality);
+            return CreatedAtAction("GetNationality", new { nationality.id }, nationality);
         }
 
         // DELETE: api/Nationalities/5

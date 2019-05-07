@@ -260,6 +260,7 @@ export class EditKebeleComponent implements OnInit, OnDestroy {
     const formModel = this.kebeleForm.value;
     // // console.log(this.kebele.InvKebeleId);
     return {
+      isNew: this.isNewKebele ? true : false,
       KebeleId: formModel.cKebele,
       WoredaId: formModel.cWoreda,
       RegionId: formModel.cRegion,

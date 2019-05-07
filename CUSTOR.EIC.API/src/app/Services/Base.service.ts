@@ -5,12 +5,14 @@ import {HttpClient} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 import {ErrorMessage} from '@custor/services/errMessageService';
+import {filter} from 'rxjs/internal/operators';
 
 @Injectable()
 export abstract class BaseService<T> {
   protected constructor(protected httpClient: HttpClient,
                         protected url: string,
                         protected errMsg: ErrorMessage) {
+
   }
 
   getAll(): Observable<T[]> {
