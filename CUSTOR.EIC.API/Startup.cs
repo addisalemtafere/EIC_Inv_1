@@ -209,6 +209,18 @@ namespace EICOnline.API
               .AllowAnyHeader()
               .AllowCredentials());
         });
+
+        var mappingConfig = new MapperConfiguration(mc =>
+        {
+          mc.AddProfile(new AutoMapperProfile());
+        });
+
+        IMapper mapper = mappingConfig.CreateMapper();
+        services.AddSingleton(mapper);
+
+//        services.AddMvc();
+
+
         // Add framework services.
         //services.AddMvc();
         services.AddSwaggerGen(c =>
@@ -361,6 +373,7 @@ namespace EICOnline.API
         //{
         //  options.ForwardClientCertificate = false;
         //});
+
       }
       catch (Exception ex)
       {

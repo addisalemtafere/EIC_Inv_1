@@ -34,19 +34,35 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             }
         }
 
-        public async Task<List<Service>> GetServices(int page = 0, int pageSize = 15)
+        public async Task<List<ServicesLookup>> GetServices(int page = 0, int pageSize = 15)
         {
-            IQueryable<Service> services = Context.Service
-                .Where(c => c.IsActive == true)
-                .OrderBy(prerequisite => prerequisite.ServiceId);
-            if (page > 0)
-            {
-                services = services
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize);
-            }
 
-            return await services.ToListAsync();
+
+
+            try
+            {
+                return await Context.Service
+                    .Where(c => c.IsActive == true)
+                    .OrderBy(prerequisite => prerequisite.ServiceId)
+                    .Select(s => new ServicesLookup
+                    {
+                        ServiceId = s.ServiceId,
+                        Name = s.Name,
+                        NameEnglish = s.NameEnglish,
+                        DisplayName = s.DisplayName,
+                        DisplayNameEnglish = s.DisplayNameEnglish,
+                        Abbreviation = s.Abbreviation,
+                        Icon = s.Icon,
+                        TypeOfService = s.TypeOfService
+                    })
+                    
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                SetError(ex);
+                return null;
+            }
         }
 
         public async Task<List<Service>> GetIncentiveServices(int page = 0, int pageSize = 15)

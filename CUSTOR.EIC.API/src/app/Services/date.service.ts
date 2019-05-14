@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 
 import {HttpClient} from '@angular/common/http';
 import {ConfigurationService} from '@custor/services/configuration.service';
-import {Observable} from 'rxjs';
+// import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {AppConfiguration} from '../config/appconfig';
 
