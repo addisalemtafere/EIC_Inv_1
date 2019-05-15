@@ -208,12 +208,16 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 entity.ToTable("Address", "dbo");
 
                 entity.HasIndex(e => e.KebeleId);
+                
+                entity.HasIndex(e => e.KebeleEngId);
 
                 entity.HasIndex(e => e.RegionId);
 
                 entity.HasIndex(e => e.TownId);
 
                 entity.HasIndex(e => e.WoredaId);
+                
+                entity.HasIndex(e => e.WoredaEngId);
 
                 entity.HasIndex(e => e.ZoneId);
 
@@ -246,7 +250,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.TownId).HasMaxLength(50);
 
-                entity.Property(e => e.WoredaId).HasMaxLength(50);
+                //entity.Property(e => e.WoredaId).HasMaxLength(50);
+                
+                //entity.Property(e => e.WoredaEngId).HasMaxLength(50);
 
                 entity.Property(e => e.ZoneId).HasMaxLength(50);
 
@@ -624,6 +630,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 entity.Property(e => e.KebeleId)
                     .HasMaxLength(50)
                     .ValueGeneratedNever();
+                
+//                entity.Property(e => e.KebeleEngId)
+//                    .HasMaxLength(50)
+//                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -639,14 +649,14 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.WoredaId)
-                    .IsRequired()
-                    .HasMaxLength(50);
+//                entity.Property(e => e.WoredaId)
+//                    .IsRequired()
+//                    .HasMaxLength(50);
 
-                entity.HasOne(d => d.Woreda)
-                    .WithMany(p => p.Kebeles)
-                    .HasForeignKey(d => d.WoredaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+//                entity.HasOne(d => d.Woreda)
+//                    .WithMany(p => p.Kebeles)
+//                    .HasForeignKey(d => d.WoredaId)
+//                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<LetterTemplate>(entity => { entity.ToTable("LetterTemplate", "dbo"); });
@@ -1662,35 +1672,35 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 //          .HasMaxLength(50)
                 //          .ValueGeneratedNever();
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.DescriptionAlias)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.DescriptionEnglish)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.DescriptionEnglishAlias)
-                    .IsRequired()
-                    .HasMaxLength(500);
-
-                entity.Property(e => e.DescriptionSort)
-                    .IsRequired()
-                    .HasMaxLength(500);
-
-                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
-
-                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
-
-                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.SectorId)
-                    .IsRequired()
-                    .HasMaxLength(50);
+//                entity.Property(e => e.Description)
+//                    .IsRequired()
+//                    .HasMaxLength(250);
+//
+//                entity.Property(e => e.DescriptionAlias)
+//                    .IsRequired()
+//                    .HasMaxLength(50);
+//
+//                entity.Property(e => e.DescriptionEnglish)
+//                    .IsRequired()
+//                    .HasMaxLength(250);
+//
+//                entity.Property(e => e.DescriptionEnglishAlias)
+//                    .IsRequired()
+//                    .HasMaxLength(500);
+//
+//                entity.Property(e => e.DescriptionSort)
+//                    .IsRequired()
+//                    .HasMaxLength(500);
+//
+//                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+//
+//                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+//
+//                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+//
+//                entity.Property(e => e.SectorId)
+////                    .IsRequired()
+//                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.Sector)
                     .WithMany(p => p.SubSector)
@@ -1879,11 +1889,11 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             {
                 entity.ToTable("Woreda", "dbo");
 
-                entity.HasIndex(e => e.ZoneId);
+                //entity.HasIndex(e => e.ZoneId);
 
-                //entity.Property(e => e.WoredaId)
-                //          .HasMaxLength(50)
-                //          .ValueGeneratedNever();
+                entity.Property(e => e.WoredaId)
+                                                                           .HasMaxLength(50)
+                                                                           .ValueGeneratedNever();
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -1903,10 +1913,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.HasOne(d => d.Zone)
-                    .WithMany(p => p.Woredas)
-                    .HasForeignKey(d => d.ZoneId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                //entity.HasOne(d => d.Zone)
+                    //.WithMany(p => p.Woredas)
+                    //.HasForeignKey(d => d.ZoneId)
+                   // .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Zone>(entity =>

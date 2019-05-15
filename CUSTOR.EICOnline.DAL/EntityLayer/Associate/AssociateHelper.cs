@@ -54,6 +54,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 IsIndustrialPark = false,
                 IsMainOffice = true,
                 KebeleId = AssociateDTO.KebeleId,
+                KebeleEngId = AssociateDTO.KebeleEngId,
                 OtherAddress = AssociateDTO.OtherAddress,
                 ParentId = AssociateDTO.AssociateId,
                 RegionId = AssociateDTO.RegionId,
@@ -63,9 +64,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 TeleNo = AssociateDTO.TeleNo,
                 TownId = "-1",
                 WoredaId = AssociateDTO.WoredaId,
+                WoredaEngId = AssociateDTO.WoredaEngId,
                 ZoneId = AssociateDTO.ZoneId,
                 AddressId = AssociateDTO.AddressId
-
             };
         }
         public static AssociateDTO GetAssociateDTO(Associate ass, Address add)

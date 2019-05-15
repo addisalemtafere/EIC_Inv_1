@@ -1,6 +1,6 @@
 import {AfterViewChecked, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription, Subject} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {DataSharingService} from '../../../Services/data-sharing.service';
 import {ProjectInputService} from '../../../Services/project-input.service';
@@ -8,7 +8,6 @@ import {ProjectRequirementService} from '../../../Services/project-requirement.s
 import {ProjectOutputService} from '../../../Services/project-output.service';
 import {ErrorStateMatcher, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {ProjectOutputModel} from '../../../model/ProjectOutput.model';
-import {Subject} from 'rxjs/Rx';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {FormService} from '@custor/validation/custom/form';
 import {ActivatedRoute, Params} from '@angular/router';

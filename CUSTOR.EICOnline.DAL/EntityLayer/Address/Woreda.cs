@@ -8,7 +8,7 @@ namespace CUSTOR.EICOnline.DAL
   {
     public Woreda()
     {
-      Kebeles = new List<Kebele>();
+      //Kebeles = new List<Kebele>();
     }
 
     public string WoredaId { get; set; }
@@ -21,8 +21,8 @@ namespace CUSTOR.EICOnline.DAL
     public DateTime? UpdatedEventDatetime { get; set; }
     public bool isNew { get; set; }
 
-    public Zone Zone { get; set; }
-    public ICollection<Kebele> Kebeles { get; set; }
+    //public Zone Zone { get; set; }
+    //public ICollection<Kebele> Kebeles { get; set; }
   }
 
   public partial class WoredaViewModel

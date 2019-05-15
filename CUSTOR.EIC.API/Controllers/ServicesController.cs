@@ -30,7 +30,7 @@ namespace EICOnline.Controllers
 
         [HttpGet]
         [Route("api/services/{lang}")]
-        public async Task<IEnumerable<Service>> GetServices()
+        public async Task<IEnumerable<ServicesLookup>> GetServices()
         {
             return await _ServicesRepo.GetServices();
         }
@@ -44,7 +44,7 @@ namespace EICOnline.Controllers
 
         [HttpGet]
         [Route("api/services")]
-        public async Task<IEnumerable<Service>> GetServices(int page = -1, int pageSize = 10)
+        public async Task<IEnumerable<ServicesLookup>> GetServices(int page = -1, int pageSize = 10)
         {
             return await _ServicesRepo.GetServices(page, pageSize);
         }

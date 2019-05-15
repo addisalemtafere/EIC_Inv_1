@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppConfiguration } from '../config/appconfig';
 import { BaseService } from './Base.service';
 import { DocumentModel } from '../model/Document.model';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { SearchModel } from '../model/search.model';
 import { catchError } from 'rxjs/operators';
 import { ErrorMessage } from '../../@custor/services/errMessageService';

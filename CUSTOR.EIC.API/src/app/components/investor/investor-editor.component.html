@@ -246,9 +246,9 @@
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.Zone' | translate}}</mat-label>
-              <mat-select formControlName="ZoneId" (selectionChange)="filterZone($event.value)"
-                          [compareWith]="compareIds"
-              >
+              <mat-select formControlName="ZoneId" [compareWith]="compareIds"        >
+                          <!--(selectionChange)="filterZone($event.value)"    -->
+
                 <!-- <option value="0">--Select--</option> -->
                 <!-- <mat-option value="0">--</mat-option> -->
                 <mat-option *ngFor="let zone of filteredZones" [value]="zone.ZoneId">
@@ -260,44 +260,60 @@
               <!--{{'common.validation.Required' | translate}}-->
               <!--</mat-error>-->
             </mat-form-field>
-            <mat-form-field fxLayoutGap="4em">
-              <mat-label>{{'investors.editor.Woreda' | translate}}</mat-label>
-              <mat-select formControlName="WoredaId" (selectionChange)="filterWoreda($event.value)"
-                          [compareWith]="compareIds">
-                <!-- <option value="0">--Select--</option> -->
-                <mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">
-                  <span>{{w.Description}}</span>
-                </mat-option>
-              </mat-select>
+            <!--<mat-form-field fxLayoutGap="4em">-->
+              <!--<mat-label>{{'investors.editor.Woreda' | translate}}</mat-label>-->
+              <!--<mat-select formControlName="WoredaId" (selectionChange)="filterWoreda($event.value)"-->
+                          <!--[compareWith]="compareIds">-->
+                <!--&lt;!&ndash; <option value="0">&#45;&#45;Select&#45;&#45;</option> &ndash;&gt;-->
+                <!--<mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">-->
+                  <!--<span>{{w.Description}}</span>-->
+                <!--</mat-option>-->
+              <!--</mat-select>-->
 
-              <!--<mat-error *ngIf="woreda.hasError('required')">-->
-              <!--{{'common.validation.Required' | translate}}-->
-              <!--</mat-error>-->
+              <!--&lt;!&ndash;<mat-error *ngIf="woreda.hasError('required')">&ndash;&gt;-->
+              <!--&lt;!&ndash;{{'common.validation.Required' | translate}}&ndash;&gt;-->
+              <!--&lt;!&ndash;</mat-error>&ndash;&gt;-->
+            <!--</mat-form-field>-->
+            <!---->
+            <!--<mat-form-field fxLayoutGap="4em">-->
+              <!--<mat-label>{{'investors.editor.Kebele' | translate}}</mat-label>-->
+              <!--<mat-select formControlName="KebeleId" [compareWith]="compareIds">-->
+                <!--&lt;!&ndash; <option value="0">&#45;&#45;Select&#45;&#45;</option> &ndash;&gt;-->
+                <!--<mat-option value="0">&#45;&#45;</mat-option>-->
+                <!--<mat-option *ngFor="let keb of filteredKebeles" [value]="keb.KebeleId">-->
+                  <!--<span>{{keb.Description}}</span>-->
+                <!--</mat-option>-->
+              <!--</mat-select>-->
+
+              <!--&lt;!&ndash;<mat-error *ngIf="kebele.hasError('required')">&ndash;&gt;-->
+              <!--&lt;!&ndash;{{'common.validation.Required' | translate}}&ndash;&gt;-->
+              <!--&lt;!&ndash;</mat-error>&ndash;&gt;-->
+            <!--</mat-form-field>-->
+
+            <mat-form-field fxLayoutGap="4em">
+              <mat-label>{{'investors.editor.WoredaAmharic' | translate}}</mat-label>
+              <input matInput formControlName="WoredaId"/>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
-              <mat-label>{{'investors.editor.Kebele' | translate}}</mat-label>
-              <mat-select formControlName="KebeleId" [compareWith]="compareIds">
-                <!-- <option value="0">--Select--</option> -->
-                <!-- <mat-option value="0">--</mat-option> -->
-                <mat-option *ngFor="let keb of filteredKebeles" [value]="keb.KebeleId">
-                  <span>{{keb.Description}}</span>
-                </mat-option>
-              </mat-select>
 
-              <!--<mat-error *ngIf="kebele.hasError('required')">-->
-              <!--{{'common.validation.Required' | translate}}-->
-              <!--</mat-error>-->
+              <mat-label>{{'investors.editor.WoredaEnglish' | translate}}</mat-label>
+              <input matInput formControlName="WoredaEngId"/>
             </mat-form-field>
+            <mat-form-field fxLayoutGap="4em">
+              <mat-label>{{'investors.editor.KebeleAmharic' | translate}}</mat-label>
+              <input matInput formControlName="KebeleId"/>
+            </mat-form-field>
+            <mat-form-field fxLayoutGap="4em">
+              <mat-label>{{'investors.editor.KebeleEnglish' | translate}}</mat-label>
+              <input matInput formControlName="KebeleEngId"/>
+            </mat-form-field>
+
+          </div>
+          <div id="divAddress2" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.HouseNo' | translate}}</mat-label>
               <input matInput formControlName="HouseNo"/>
-
-              <!--<mat-error *ngIf="houseNo.hasError('required')">-->
-              <!--{{'common.validation.Required' | translate}}-->
-              <!--</mat-error>-->
             </mat-form-field>
-          </div>
-          <div id="divAddress2" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.Email' | translate}}</mat-label>
               <input matInput formControlName="Email"/>
@@ -399,6 +415,9 @@
         {{'common.commands.Cancel' | translate}}
       </button>
     </div>
+    <pre>
+      <!--{{  investorForm.value | json }}-->
+    </pre>
   </form>
 </div>
 <!-- </div> -->

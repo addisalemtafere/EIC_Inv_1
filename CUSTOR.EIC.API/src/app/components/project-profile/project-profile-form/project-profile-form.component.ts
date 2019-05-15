@@ -79,7 +79,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     Region: '',
     Zone: '',
     Woreda: '',
+    WoredaEng: '',
     Kebele: '',
+    KebeleEng: '',
     SpecificAreaName: '',
     Remark: '',
     EnvironmentalImpact: '',
@@ -192,7 +194,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        this.getKebeleByWoredaId(result.WoredaId);
+        //this.getKebeleByWoredaId(result.WoredaId);
         this.addressId = result.AddressId;
         this.projectForm.get('address').patchValue(result);
       }, error => this.errMsg.getError(error));
@@ -203,7 +205,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.loading = true;
     this.getRegions();
     this.getAllZones();
-    this.getAllWoredas();
+    // this.getAllWoredas();
     this.getAllSector();
     this.getAllSubSector();
     this.getAllActivityService();
@@ -431,7 +433,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         RegionId: new FormControl(),
         ZoneId: new FormControl(),
         WoredaId: new FormControl(),
+        WoredaEngId: new FormControl(),
         KebeleId: new FormControl(),
+        KebeleEngId: new FormControl(),
         SpecificAreaName: new FormControl(),
         IsIndustrialPark: new FormControl(),
         IndustrialParkId: new FormControl(),
@@ -464,8 +468,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     let projectSage: ProjectStageModel = new ProjectStageModel();
     ProjectStage.forEach(pair => {
       projectSage = {
-        'Id': pair.Id.toString(), 'DescriptionEnglish': pair.DescriptionEnglish,
-        'Description': pair.Description
+        Id: pair.Id.toString(),
+        DescriptionEnglish: pair.DescriptionEnglish,
+        Description: pair.Description
       };
       this.projectStage.push(projectSage);
     });

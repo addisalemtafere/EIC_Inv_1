@@ -60,7 +60,6 @@ namespace CUSTOR.EICOnline.DAL
             try
             {
                 return await Context.Project.
-
                   Include(p => p.ServiceApplication)
                   .ThenInclude(s => s.ServiceWorkflow).
                   SingleOrDefaultAsync(m => m.ProjectId == id);

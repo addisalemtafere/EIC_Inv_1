@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProjectEmploymentModel} from '../../../model/ProjectEmployment.model';
 import {ProjectEmploymentService} from '../../../Services/project-employment.service';
 import {ToastrService} from 'ngx-toastr';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {DataSharingService} from '../../../Services/data-sharing.service';
 import {MatSnackBar} from '@angular/material';
 import {FormService} from '@custor/validation/custom/form';
@@ -71,7 +71,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
       this.getProjectStatus(this.projectId);
     }
     this.initStaticData('en');
-    if (this.projectId > 1 && this.ServiceId == '13') {
+    if (this.projectId > 1) {
       this.getEmployment();
     }
 
@@ -123,6 +123,18 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
       TemporaryForeignMale: ['', [Validators.required, Validators.min(0)]],
       TotalPermanent: [{value: '', disabled: true}],
       TotalTempo: [{value: '', disabled: true}],
+
+      CurrentPermanentFemale: [0, [Validators.required, Validators.min(0)]],
+      CurrentPermanentMale: [0, [Validators.required, Validators.min(0)]],
+      CurrentTemporaryFemale: [0, [Validators.required, Validators.min(0)]],
+      CurrentTemporaryMale: [0, [Validators.required, Validators.min(0)]],
+      CurrentPermanentForeignFemale: [0, [Validators.required, Validators.min(0)]],
+      CurrentPermanentForeignMale: [0, [Validators.required, Validators.min(0)]],
+      CurrentTemporaryForeignFemale: [0, [Validators.required, Validators.min(0)]],
+      CurrentTemporaryForeignMale: [0, [Validators.required, Validators.min(0)]],
+      CurrentTotalPermanent: [{value: '', disabled: true}],
+      CurrentTotalTempo: [{value: '', disabled: true}],
+
       Remark: [''],
       Quarter: [''],
       RegistrationYear: [''],

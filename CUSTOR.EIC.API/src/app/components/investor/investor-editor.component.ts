@@ -301,9 +301,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     if (id < 1) {
       this.isNewInvestor = true;
       this.isCompany = false;
-
       this.title = 'Create a new Investor';
-
       return;
     }
     if (id) {
@@ -424,7 +422,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getInvestor(id)
       .subscribe(result => {
           this.investor = result;
-          this.fillAddressLookups();
           this.updateForm();
           console.log(this.investor.RegistrationCatagories);
           this.investorForm.patchValue({
@@ -452,7 +449,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     // caching
     this.getRegions();
     this.getAllZones();
-    this.getAllWoredas();
+    // this.getAllWoredas();
     this.getInvestorTitle(89);
     this.getCountryTitle(31);
     this.getAllNation();
@@ -546,7 +543,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         RegionId: new FormControl(),
         ZoneId: new FormControl(),
         WoredaId: new FormControl(),
+        WoredaEngId: new FormControl(),
         KebeleId: new FormControl(),
+        KebeleEngId: new FormControl(),
         OtherAddress: new FormControl(),
         CellPhoneNo: new FormControl(),
         // SpecificAreaName: new FormControl(),
@@ -600,27 +599,29 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.isNewInvestor = false;
 
     // Set dropdown values
-    setTimeout(() => {
-      if (this.investor.ZoneId != null) {
-        this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.investor.ZoneId);
-      }
-    }, 100);
+    // setTimeout(() => {
+    //   if (this.investor.ZoneId != null) {
+    //     this.filteredWoredas = this.woredas.filter((item) => item.ZoneId === this.investor.ZoneId);
+    //   }
+    // }, 100);
     setTimeout(() => {
       if (this.investor.RegionId != null) {
         this.filteredZones = this.zones.filter((item) => item.RegionId === this.investor.RegionId);
       }
     }, 100);
-    setTimeout(() => {
-      if (this.investor.WoredaId != null) {
-        this.getKebeleByWoredaId(this.investor.WoredaId);
-      }
-    }, 100);
+    // setTimeout(() => {
+    //   if (this.investor.WoredaId != null) {
+    //     this.getKebeleByWoredaId(this.investor.WoredaId);
+    //   }
+    // }, 100);
 
     this.investorForm.get('address').patchValue({
       RegionId: this.investor.RegionId == null ? '' : this.investor.RegionId.toString(),
       ZoneId: this.investor.ZoneId == null ? '' : this.investor.ZoneId.toString(),
       WoredaId: this.investor.WoredaId == null ? '' : this.investor.WoredaId.toString(),
+      WoredaEngId: this.investor.WoredaEngId == null ? '' : this.investor.WoredaEngId.toString(),
       KebeleId: this.investor.KebeleId == null ? '' : this.investor.KebeleId.toString(),
+      KebeleEngId: this.investor.KebeleEngId == null ? '' : this.investor.KebeleEngId.toString(),
       HouseNo: this.investor.HouseNo || '',
       TeleNo: this.investor.TeleNo || '',
       Pobox: this.investor.Pobox || '',
@@ -768,8 +769,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       return;
     }
     this.filteredKebeles = null;
-    this.filteredWoredas = null;
-    this.filteredZones = null;
+    // this.filteredWoredas = null;
+    // this.filteredZones = null;
     // if (!this.zones) {
     //   return;
     // }
@@ -959,7 +960,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       RegionId: add.RegionId,
       ZoneId: add.ZoneId,
       WoredaId: add.WoredaId,
+      WoredaEngId: add.WoredaEngId,
       KebeleId: add.KebeleId,
+      KebeleEngId: add.KebeleEngId,
       HouseNo: add.HouseNo,
       TeleNo: add.TeleNo,
       Pobox: add.Pobox,

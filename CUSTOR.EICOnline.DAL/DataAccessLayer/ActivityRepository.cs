@@ -54,7 +54,7 @@ namespace CUSTOR.EICOnline.DAL
             {
                 int id = (int) ActivityId;
                 Act = Context.Activity
-                    .Include(s => s.SubSector)
+//                    .Include(s => s.SubSector)
                     .Where(Acts => Acts.ActivityId == id).FirstOrDefault();
             }
             catch (InvalidOperationException)

@@ -303,7 +303,7 @@
             </div>
 
           </div>
-          <div *ngIf="canViewTasks" fxLayout="column" class="block" fxFlex="25">
+          <div  fxLayout="column" class="block" fxFlex="25">
             <div class="block" fxFlex="">
               <mat-form-field>
                 <input
@@ -318,8 +318,28 @@
               </mat-form-field>
             </div>
           </div>
+          <div fxLayout="column" class="block" fxFlex="25">
+            <div class="block" fxFlex="">
+              <mat-form-field>
+                <input
+                  formControlName="ExchangeRate"
+                  type="number"
+                  matInput
+                  placeholder="ETB Exchange Rate"
+                />
+                <mat-error align="start" *ngIf="projectCostForm.get('ExchangeRate').hasError('min')"
+                           class="form__error">
+                  Minimum currency Rate must be 26
+                </mat-error>
+                <mat-error align="start" *ngIf="projectCostForm.get('ExchangeRate').hasError('max')"
+                           class="form__error">
+                  Maximum currency Rate must be 35
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
 
-          <div class="block" fxFlex="50">
+          <div class="block" fxFlex="25">
             <mat-form-field class="full-width">
               <mat-label>Remark :</mat-label>
               <textarea matInput formControlName="Remark" rows="4"></textarea>

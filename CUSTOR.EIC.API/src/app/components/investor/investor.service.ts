@@ -1,10 +1,10 @@
+
+import {throwError as observableThrowError, Observable} from 'rxjs';
 // import {catchError, map} from 'rxjs/operators';
 import {Injectable, Injector} from '@angular/core';
 import {Investor} from '../../model/investor';
 // import {AppConfiguration} from '../../config/appconfig';
 import {HttpClient} from '@angular/common/http';
-// import {Observable, Subject} from 'rxjs';
-import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {ConfigurationService} from '../../../@custor/services/configuration.service';
 import {EndpointFactory} from '../../../@custor/services/security/endpoint-factory.service';
@@ -95,7 +95,7 @@ export class InvestorService extends EndpointFactory {
     return this.httpClient.get<Investor[]>(this.investorsUrl, this.getRequestHeaders())
       .pipe(
         map(investorList => this.investorList = investorList),
-        catchError(err => Observable.throw(err || 'Server error')));
+        catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getLookupsByLang(lang: string): Observable<any> {
@@ -103,7 +103,7 @@ export class InvestorService extends EndpointFactory {
     return this.httpClient.get<Lookup[]>(endpointUrl, this.getRequestHeaders())
       .pipe(
         map(lList => this.lookupList = lList),
-        catchError(err => Observable.throw(err || 'Server error')));
+        catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getInvestor(id): Observable<any> {
@@ -114,7 +114,7 @@ export class InvestorService extends EndpointFactory {
         this.investor = cust;
         return this.investor;
       }),
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getInvestorByUserId(id): Observable<any> {
@@ -124,7 +124,7 @@ export class InvestorService extends EndpointFactory {
         this.investor = cust;
         return this.investor;
       }),
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
@@ -135,7 +135,7 @@ export class InvestorService extends EndpointFactory {
         this.investor = cust;
         return this.investor;
       }),
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
@@ -160,7 +160,7 @@ export class InvestorService extends EndpointFactory {
         map(inv => {
           return inv;
         }),
-        catchError(err => Observable.throw(err || 'Server error')));
+        catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
@@ -171,14 +171,14 @@ export class InvestorService extends EndpointFactory {
         // console.log(result);
         return result;
       }),
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
   getRegions(): Observable<any> {
     return this.httpClient.get<Region[]>(this.regionsUrl, this.getRequestHeaders()).pipe(
       map(regionList => this.regionList = regionList),
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
@@ -186,7 +186,7 @@ export class InvestorService extends EndpointFactory {
     const endpointUrl = `${this.regionsUrl}/${lang}`;
     return this.httpClient.get<Region[]>(endpointUrl, this.getRequestHeaders()).pipe(
       map(regionList => this.regionList = regionList),
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
@@ -195,7 +195,7 @@ export class InvestorService extends EndpointFactory {
     return this.httpClient.get<Zone[]>(endpointUrl)
       .pipe(
         map(zList => this.allZoneList = zList),
-        catchError(err => Observable.throw(err || 'Server error')));
+        catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
@@ -205,14 +205,14 @@ export class InvestorService extends EndpointFactory {
     return this.httpClient.get<Woreda[]>(endpointUrl, this.getRequestHeaders())
       .pipe(
         map(wList => this.allWoredaList = wList),
-        catchError(err => Observable.throw(err || 'Server error')));
+        catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
   getAllZones(): Observable<any> {
     return this.httpClient.get<Zone[]>(this.zonesUrl, this.getRequestHeaders()).pipe(
       map(zoneList => this.allZoneList = zoneList),
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
@@ -223,7 +223,7 @@ export class InvestorService extends EndpointFactory {
           this.zoneList = zoneList;
         }
       ),
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
@@ -231,14 +231,14 @@ export class InvestorService extends EndpointFactory {
     const endpointUrl = `${this.woredasUrl}/${id}`;
     return this.httpClient.get<Woreda[]>(endpointUrl, this.getRequestHeaders()).pipe(
       map(woredaList => this.woredaList = woredaList),
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
   getAllWoredas(): Observable<any> {
     return this.httpClient.get<Woreda[]>(this.woredasUrl, this.getRequestHeaders()).pipe(
       map(woredaList => this.allWoredaList = woredaList),
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
@@ -247,7 +247,7 @@ export class InvestorService extends EndpointFactory {
     return this.httpClient.get<Kebele[]>(endpointUrl, this.getRequestHeaders())
       .pipe(
         map(kebeleList => this.kebeleList = kebeleList),
-        catchError(err => Observable.throw(err || 'Server error')));
+        catchError(err => observableThrowError(err || 'Server error')));
 
   }
 
@@ -257,7 +257,7 @@ export class InvestorService extends EndpointFactory {
     return this.httpClient.get<Kebele[]>(endpointUrl, this.getRequestHeaders())
       .pipe(
         map(kList => this.allKebeleList = kList),
-        catchError(err => Observable.throw(err || 'Server error')));
+        catchError(err => observableThrowError(err || 'Server error')));
 
   }
 

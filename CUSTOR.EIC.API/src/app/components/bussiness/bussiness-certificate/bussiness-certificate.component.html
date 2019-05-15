@@ -150,14 +150,12 @@
                 <td class="a-header">ከተማ</td>
                 <td class="data value">--</td>
                 <td class="a-header">ክፍለ ከተማ</td>
-                <td class="data value">--</td>
+                <td class="data value">{{investorAddressList?.WoredaId}}</td>
               </tr>
               <tr>
                 <td class="a-header">ቀበሌ/ወረዳ</td>
                 <td class="data value">
-                  {{investorAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].Description}}
-                  /
-                  {{investorAddressList?.Region.Zones[0].Woredas[0].Description}}
+                  {{investorAddressList?.KebeleId}}
                 </td>
                 <td class="a-header">የቤት ቁጥር</td>
                 <td class="data value">{{investorAddressList?.HouseNo}}</td>
@@ -288,15 +286,13 @@
                 <td class="a-header">City</td>
                 <td class="data value">--</td>
                 <td class="a-header">Sub City</td>
-                <td class="data value">--</td>
+                <td class="data value">{{investorAddressList?.WoredaEngId}}</td>
               </tr>
 
               <tr>
                 <td class="a-header">Kebele/Woreda</td>
                 <td class="data value">
-                  {{investorAddressList?.Region.Zones[0].Woredas[0].Kebeles[0].DescriptionEnglish}}
-                  /
-                  {{investorAddressList?.Region.Zones[0].Woredas[0].DescriptionEnglish}}
+                  {{investorAddressList?.KebeleEngId}}
                 </td>
                 <td class="a-header">House No.</td>
                 <td class="data value">{{investorAddressList?.HouseNo}}</td>

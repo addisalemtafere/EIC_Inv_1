@@ -1,11 +1,9 @@
 import {NgModule} from "@angular/core";
 import {SharedModule} from "@custor/modules/shared.module";
 import {CommonModule} from "@angular/common";
-import {DashboardRoutingModule} from "../../my-dashboard/dashboard-routing.module";
-import {AppointmentModule} from "../../appointment/appointment.module";
-import {MyDashboardComponent} from "../../my-dashboard/my-dashboard.component";
 import {RouterModule, Routes} from "@angular/router";
 import {ProjectListComponent} from "./project-list.component";
+import {PaginationService} from "@custor/services/pagination.service";
 
 const route: Routes = [
   {path: '', component: ProjectListComponent}
@@ -22,7 +20,9 @@ const route: Routes = [
   exports: [
     ProjectListComponent,
     RouterModule
-  ]
+  ],
+
+  providers: [PaginationService]
 })
 export class ApplicationModule {
 

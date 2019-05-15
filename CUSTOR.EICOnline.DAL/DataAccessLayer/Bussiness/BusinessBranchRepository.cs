@@ -32,7 +32,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
                     objBussinessBranchVM.HouseNo = bussinessBranch.HouseNo;
                     objBussinessBranchVM.ParentId = bussinessBranch.ParentId.ToString();
                     objBussinessBranchVM.RegionName = bussinessBranch.Region.Description;
-                    objBussinessBranchVM.WoredaName = bussinessBranch.Woreda.Description;
+                    //objBussinessBranchVM.WoredaName = bussinessBranch.Woreda.Description;
                     objBussinessBranchVM.ZoneName = bussinessBranch.Zone.Description;
                     objBussinessBranchVMList.Add(objBussinessBranchVM);
                 }
@@ -90,7 +90,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
                     objBussinessBranchVM.HouseNo = bussinessBranch.HouseNo;
                     objBussinessBranchVM.ParentId = bussinessBranch.ParentId.ToString();
                     objBussinessBranchVM.RegionName = bussinessBranch.Region.Description;
-                    objBussinessBranchVM.WoredaName = bussinessBranch.Woreda.Description;
+//                    objBussinessBranchVM.WoredaName = bussinessBranch.Woreda.Description;
                     objBussinessBranchVM.ZoneName = bussinessBranch.Zone.Description;
                     objBussinessBranchVMList.Add(objBussinessBranchVM);
                 }

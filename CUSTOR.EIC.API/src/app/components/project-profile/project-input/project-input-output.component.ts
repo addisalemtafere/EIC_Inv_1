@@ -4,7 +4,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProjectRequirementService} from '../../../Services/project-requirement.service';
 import {ToastrService} from 'ngx-toastr';
 import {ProjectInputService} from '../../../Services/project-input.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {DataSharingService} from '../../../Services/data-sharing.service';
 import {ProjectInputModel} from '../../../model/ProjectInput.model';
 import {MatSnackBar} from '@angular/material';

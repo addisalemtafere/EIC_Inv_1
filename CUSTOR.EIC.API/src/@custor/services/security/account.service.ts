@@ -1,5 +1,4 @@
-import {Observable, Subject} from 'rxjs/Rx';
-import {forkJoin as observableForkJoin} from 'rxjs';
+import {Observable, Subject, forkJoin as observableForkJoin} from 'rxjs';
 
 import {mergeMap, tap} from 'rxjs/operators';
 

@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Permission } from '../../model/security/permission.model';
 import { Role } from '../../model/security/role.model';
 import { ToastrService } from 'ngx-toastr';
