@@ -3,32 +3,33 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://40.117.47.168",
+      "applicationUrl": "http://localhost:5050",
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://40.117.47.168",
+      "applicationUrl": "http://localhost:5050",
       "sslPort": 0
     }
   },
   "profiles": {
     "IIS Express": {
 
+
       "commandName": "IISExpress",
 
       "launchBrowser": true,
-      "launchUrl": "http://40.117.47.168",
+      "launchUrl": "http://localhost:5050",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "EICOnline": {
-      "commandName": "IISExpress",
+      "commandName": "IIS",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://40.117.47.168/"
+      "applicationUrl": "http://localhost:5050/"
     }
   }
 }

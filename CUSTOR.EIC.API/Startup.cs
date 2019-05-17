@@ -87,7 +87,7 @@ namespace EICOnline.API
         {
           // User settings
           options.User.RequireUniqueEmail = true;
-          options.SignIn.RequireConfirmedEmail = true; // sep 8
+          options.SignIn.RequireConfirmedEmail = false; // sep 8
 
           //    //// Password settings
           //    //options.Password.RequireDigit = true;
@@ -292,7 +292,7 @@ namespace EICOnline.API
         services.AddScoped<RegistrationRepository>();
         services.AddScoped<RegistrationCatagoryRepository>();
         services.AddScoped<BusinessLicensingGroupRepository>();
-
+        services.AddScoped<CountryRepository>();
 
         // Repositories
         services.AddScoped<IAccountManager, AccountManager>();

@@ -16,6 +16,16 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public int PermanentForeignMale { get; set; }
     public int TemporaryForeignFemale { get; set; }
     public int TemporaryForeignMale { get; set; }
+    
+    public int CurrentPermanentFemale { get; set; }
+    public int CurrentPermanentMale { get; set; }
+    public int CurrentTemporaryFemale { get; set; }
+    public int CurrentTemporaryMale { get; set; }
+    public int CurrentPermanentForeignFemale { get; set; }
+    public int CurrentPermanentForeignMale { get; set; }
+    public int CurrentTemporaryForeignFemale { get; set; }
+    public int CurrentTemporaryForeignMale { get; set; }
+    
     public string Remark { get; set; }
     public bool? IsActive { get; set; }
     public bool IsDeleted { get; set; }

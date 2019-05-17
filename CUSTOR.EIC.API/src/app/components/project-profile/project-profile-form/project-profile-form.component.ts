@@ -167,7 +167,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     // this.getDate();
     this.fillAddressLookups();
     this.formBuild();
-    this.updateDateRange();
+    //this.updateDateRange();
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();
@@ -468,8 +468,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     let projectSage: ProjectStageModel = new ProjectStageModel();
     ProjectStage.forEach(pair => {
       projectSage = {
-        'Id': pair.Id.toString(), 'DescriptionEnglish': pair.DescriptionEnglish,
-        'Description': pair.Description
+        Id: pair.Id.toString(),
+        DescriptionEnglish: pair.DescriptionEnglish,
+        Description: pair.Description
       };
       this.projectStage.push(projectSage);
     });

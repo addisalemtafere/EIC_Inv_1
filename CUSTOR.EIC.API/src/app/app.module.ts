@@ -61,6 +61,8 @@ import {AppComponent} from './app.component';
 
 import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
 import { ConfirmDialog2Component } from './components/confirm-dialog2/confirm-dialog2.component';
+import {CountryService} from "./Services/country.service";
+import {NationalityService} from "./Services/Nationalityservice";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -191,7 +193,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AppConfiguration,
     ErrorMessage,
     ServicePrerequisiteService,
-    CustomerServicesService
+    CustomerServicesService,
+    CountryService,
+    NationalityService
   ],
   bootstrap: [AppComponent]
 })
