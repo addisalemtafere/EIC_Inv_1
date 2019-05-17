@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CUSTOR.EICOnline.DAL.DataAccessLayer;
-using CUSTOR.EICOnline.DAL.EntityLayer.AllAddress;
 using CUSTOR.EICOnline.DAL.EntityLayer.business;
 using CUSTOR.EICOnline.DAL.EntityLayer.Incentive;
 using CUSTOR.Security;
@@ -135,6 +134,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbSet<Business> Businesses { get; set; }
         public DbSet<BusinessLicensingGroup> BusinessLicensingGroup { get; set; }
         public DbSet<tblBusinessBranch> tblBusinessBranch { get; set; }
+        public DbSet<Country> Country { get; set; }
+        public DbSet<CountryDTO> CountryDTO { get; set; }
+        public DbSet<NationalityDTO> NationalityDTO { get; set; }
 
         public override int SaveChanges()
         {
@@ -284,6 +286,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             modelBuilder.Entity<Letter>(entity => { entity.ToTable("Letter", "dbo"); });
             modelBuilder.Entity<CompanyName>(entity => { entity.ToTable("CompanyName", "dbo"); });
             modelBuilder.Entity<IncentiveRequestDetail>(entity => { entity.ToTable("IncentiveRequestDetail", "dbo"); });
+            modelBuilder.Entity<Country>(entity => { entity.ToTable("Country", "dbo"); });
 
             modelBuilder.Entity<ProjectStatusHistory>(entity => { entity.ToTable("ProjectStatusHistory", "dbo"); });
 

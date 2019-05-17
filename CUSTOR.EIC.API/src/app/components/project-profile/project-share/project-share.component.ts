@@ -81,6 +81,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   getNationalityCompositionsByProject() {
     this.nationalityCompositionService.NationalityCompositionsByProject(this.projectId).subscribe(result => {
       if (result.length > 0) {
+        console.log()
         this.nationalityCompositionData = result;
         this.dataSource = new MatTableDataSource<ProjectNationalityCompositionModel>(this.nationalityCompositionData);
         this.loading = false;

@@ -33,6 +33,8 @@ import {MajorDivision} from '../../model/catagory/MajorDivision.model';
 import {CatagoryService} from '../../Services/Catagory/Catagory.service';
 import {RegistrationCatagory} from '../../model/Registration/RegistrationCatagory';
 import {RegistrationCatagoryService} from '../../Services/Registration/RegistrationCatagory.service';
+import {CountryModel} from "../../model/Country";
+import {CountryService} from "../../Services/country.service";
 
 @Component({
   selector: 'app-edit-investor',
@@ -73,7 +75,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   TitleLookup: LookupsModel[];
   public nationList: NationalityModel[];
   originFlag = true;
-  public countryListWithOutEthipia: LookupsModel[];
+   public countryListWithOutEthipia: CountryModel[];
+  //public countryListWithOutEthipia: LookupsModel[];
   public branch = false;
   AllowCascading = true;
   @Input() errors: string[] = [];
@@ -91,6 +94,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               private router: Router,
               public dataSharing: DataSharingService,
               private lookUpService: LookUpService,
+              private countryService: CountryService,
               private addressService: AddressService,
               private registrationCatagoryService: RegistrationCatagoryService,
               private http: HttpClient, private accountService: AccountService,
@@ -451,7 +455,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.getAllZones();
     // this.getAllWoredas();
     this.getInvestorTitle(89);
-    this.getCountryTitle(31);
+    this.getCountryTitle();
     this.getAllNation();
     // this.getAllKebeles();
     // this.getInvestorTitle();
@@ -805,10 +809,22 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   }
 
-  getCountryTitle(id: any) {
-    this.lookUpService.getLookupByParentId(id)
+  // getCountryTitle(id:any) {
+  //   this.lookUpService.getLookupByParentId(id)
+  //     .subscribe(result => {
+  //       // // console.log(result);
+  //       this.countryListWithOutEthipia = result.filter((item) =>
+  //         item.English !== 'ETHIOPIA'
+  //       );
+  //
+  //     });
+  //
+  // }
+  getCountryTitle() {
+    console.log('Hi');
+    this.countryService.getAllCountry()
       .subscribe(result => {
-        // // console.log(result);
+       console.log(result);
         this.countryListWithOutEthipia = result.filter((item) =>
           item.English !== 'ETHIOPIA'
         );

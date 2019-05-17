@@ -261,7 +261,10 @@ export class AppConfiguration {
     followupedit: 'delete/followup',
     GetBussinessMajorCatagory: 'api/Business/GetBussinessMajorcata',
     GetBussinessCatagory: 'api/Business/GetBussinessCatagory',
-
+    Country: 'api/Country',
+    Countrys: 'api/Countrys',
+    National: 'api/Nationality',
+    Nationalities: 'api/Nationalitys',
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];
@@ -282,7 +285,7 @@ export class AppConfiguration {
   // put config variables here
 
   constructor() {
-    this.urls.baseUrl = 'http://40.117.47.168/';
-   // this.urls.baseUrl = 'http://40.117.47.168 /';
+    this.urls.baseUrl = 'http://localhost:5050/';
+    // this.urls.baseUrl = 'http://localhost:5050 /';
   }
 }

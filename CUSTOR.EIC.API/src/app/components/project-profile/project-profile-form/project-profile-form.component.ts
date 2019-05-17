@@ -167,7 +167,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     // this.getDate();
     this.fillAddressLookups();
     this.formBuild();
-    this.updateDateRange();
+    //this.updateDateRange();
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();

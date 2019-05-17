@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
-using CUSTOR.EICOnline.DAL.EntityLayer.AllAddress;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

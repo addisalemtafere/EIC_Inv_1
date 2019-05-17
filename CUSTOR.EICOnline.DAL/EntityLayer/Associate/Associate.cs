@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CUSTOR.EICOnline.DAL.EntityLayer.AllAddress;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
