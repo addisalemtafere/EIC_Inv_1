@@ -87,7 +87,7 @@ namespace EICOnline.API
         {
           // User settings
           options.User.RequireUniqueEmail = true;
-          options.SignIn.RequireConfirmedEmail = true; // sep 8
+          options.SignIn.RequireConfirmedEmail = false; // sep 8
 
           //    //// Password settings
           //    //options.Password.RequireDigit = true;

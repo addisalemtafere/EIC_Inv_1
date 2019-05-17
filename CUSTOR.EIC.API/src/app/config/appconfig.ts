@@ -280,12 +280,11 @@ export class AppConfiguration {
 
       return url;
     }
-  };
+  };c
 
   // put config variables here
 
   constructor() {
     this.urls.baseUrl = 'http://localhost:5050/';
-    // this.urls.baseUrl = 'http://localhost:5050 /';
   }
 }
