@@ -363,6 +363,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   formBuild() {
     this.searchForm = this.formBuilder.group({
       ServiceId: [],
+      Tin: [],
       status: [],
       SpecDate: [],
       FromDate: [],

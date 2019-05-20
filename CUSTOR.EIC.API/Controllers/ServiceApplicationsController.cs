@@ -426,42 +426,32 @@ namespace EIC.Investment.API.Controllers
     [HttpPost("Api/Search")]
     public IActionResult SearchProject([FromBody] SearchDto searchDto)
     {
-      object serviceApplications = null;
+      var query = _context.ServiceApplication as IQueryable<ServiceApplication>;
 
-      //var serviceApplications = _context.ServiceApplication.
-      //Include(p => p.Project).
-      //Where(
-      //  m => m.ServiceId == searchDto.ServiceId &&
-      //  m.IsActive == searchDto.status
+      if (!string.IsNullOrEmpty(searchDto.Tin))
+      {
+        var investor = _context.Investors.Where(s => s.Tin == searchDto.Tin)
+          .Select(s => new Investor
+          {InvestorId = s.InvestorId
+          }).FirstOrDefault();
+        query = query.Where(x => x.InvestorId ==investor.InvestorId);
 
-      //).
-      //AsEnumerable();
+      }
 
-      if (searchDto.ServiceId.HasValue && searchDto.status.HasValue && searchDto.SpecDate.HasValue)
-        serviceApplications = _context.ServiceApplication
-          .Include(s => s.ServiceWorkflow)
-          .Where(m => m.ServiceId == searchDto.ServiceId &&
-                      m.CurrentStatusId == searchDto.status &&
-                      m.StartDate == searchDto.SpecDate).AsEnumerable();
-      else if (searchDto.ServiceId.HasValue && searchDto.status.HasValue)
-        serviceApplications = _context.ServiceApplication
-          .Include(s => s.ServiceWorkflow)
-          .Where(m => m.ServiceId == searchDto.ServiceId &&
-                      m.CurrentStatusId == searchDto.status).AsEnumerable();
-      else if (searchDto.ServiceId.HasValue)
-        serviceApplications = _context.ServiceApplication
-          .Include(s => s.ServiceWorkflow)
-          .Where(
-            m => m.ServiceId == searchDto.ServiceId).AsEnumerable();
-      else if (searchDto.status.HasValue)
-        serviceApplications = _context.ServiceApplication
-          .Include(s => s.ServiceWorkflow)
-          .Where(m => m.CurrentStatusId == searchDto.status).AsEnumerable();
-      else
-        serviceApplications = _context.ServiceApplication
-          .Include(s => s.ServiceWorkflow);
 
-      return Ok(serviceApplications);
+      if (searchDto.ServiceId.HasValue)
+        query = query.Where(x => x.ServiceId == searchDto.ServiceId);
+
+      if (searchDto.status.HasValue)
+        query = query.Where(x => x.CurrentStatusId == searchDto.status);
+
+      if (searchDto.FromDate.HasValue && searchDto.ToDate.HasValue)
+        query = query.Where(x => x.StartDate < searchDto.ToDate && x.StartDate > searchDto.FromDate);
+
+      if (searchDto.SpecDate.HasValue)
+        query = query.Where(x => x.StartDate == searchDto.SpecDate);
+
+      return Ok(query.Include(s => s.ServiceWorkflow));
     }
 
     // DELETE: api/ServiceApplications/5
