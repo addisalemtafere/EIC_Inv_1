@@ -181,7 +181,7 @@ export class EditLookupsComponent implements OnInit, OnDestroy {
       LookUpTypeId: formModel.cLookUpTypeId,
       Amharic: formModel.cAmharic,
       English: formModel.cEnglish,
-      DescriptionEnglish: null
+      Description: null
     };
   }
 

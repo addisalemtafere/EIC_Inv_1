@@ -42,11 +42,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public virtual DbSet<DocumentVersion> DocumentVersion { get; set; }
         public virtual DbSet<IncentiveItem> IncentiveItem { get; set; }
         public virtual DbSet<IncentiveRequest> IncentiveRequest { get; set; }
+        public virtual DbSet<IncentiveRequestDTO> IncentiveRequestDTO { get; set; }
         public virtual DbSet<IncentiveRequestDocument> IncentiveRequestDocument { get; set; }
         public virtual DbSet<IncentiveRequestItem> IncentiveRequestItem { get; set; }
         public virtual DbSet<IncentiveRequestItemReconciliation> IncentiveRequestItemReconciliation { get; set; }
 
         public virtual DbSet<LetterTemplate> LetterTemplate { get; set; }
+        public virtual DbSet<LetterTemplateDTO> LetterTemplateDTO { get; set; }
         public virtual DbSet<LetterTemplateValue> LetterTemplateValue { get; set; }
         public virtual DbSet<Log> Log { get; set; }
         public virtual DbSet<LookupType> LookupType { get; set; }
@@ -67,7 +69,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public virtual DbSet<ProjectRequirement> ProjectRequirement { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Nationality> Nationality { get; set; }
+        public virtual DbSet<NationalDTO> NationalDTO { get; set; }
         public virtual DbSet<RoleClaim> RoleClaim { get; set; }
+        public virtual DbSet<ServiceAppDto> ServiceAppDto { get; set; }
         public virtual DbSet<ServiceApplication> ServiceApplication { get; set; }
 
         //public virtual DbSet<ServiceApplicationWorkflow> ServiceApplicationWorkflow { get; set; }
@@ -109,6 +113,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbSet<IncentiveLog> IncentiveLogs { get; set; }
         public DbSet<Squence> Squences { get; set; }
         public DbSet<IncentiveBoMRequestItem> IncentiveBoMRequestItem { get; set; }
+        public DbSet<IncentiveBoMRequestItemDTO> IncentiveBoMRequestItemDTO { get; set; }
         public DbSet<IncentiveTaxExemptionRequest> IncentiveTaxExemptionRequest { get; set; }
         public DbSet<ApplicationSetting> ApplicationSetting { get; set; }
         public DbSet<ProjectStatusHistory> ProjectStatusHistory { get; set; }

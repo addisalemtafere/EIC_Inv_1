@@ -15,13 +15,13 @@
       <ng-container matColumnDef="CustomsSiteId">
         <mat-header-cell *matHeaderCellDef fxFlex="25">Customs Branch</mat-header-cell>
         <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="25">
-          {{IncentiveRequestItemModes.CustomsSiteId | customsBranchPipe : 1}}
+          {{IncentiveRequestItemModes.CustomsSiteId}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="IncentiveCategory">
         <mat-header-cell *matHeaderCellDef fxFlex="25">Incentive Category</mat-header-cell>
         <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="25">
-          {{IncentiveRequestItemModes.IncentiveCategoryId | lookupTypePipe : 1}}
+          {{IncentiveRequestItemModes.IncentiveCategoryId}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="RequestDate">

@@ -3,13 +3,13 @@ export class LookupsModel {
   public LookUpTypeId: number;
   public Amharic: string;
   public English: string;
-  public DescriptionEnglish: string;
+  public Description: string;
 
-  constructor(LookupId?: number, LookUpTypeId?: number, Amharic?: string, English?: string, DescriptionEnglish?: string) {
+  constructor(LookupId?: number, LookUpTypeId?: number, Amharic?: string, English?: string, Description?: string) {
     this.LookupId = LookupId;
     this.LookUpTypeId = LookUpTypeId;
     this.Amharic = Amharic;
     this.English = English;
-    this.DescriptionEnglish = DescriptionEnglish;
+    this.Description = Description;
   }
 }

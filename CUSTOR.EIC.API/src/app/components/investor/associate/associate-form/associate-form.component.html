@@ -116,7 +116,7 @@
                   <mat-label>{{'investors.editor.Title' | translate}}</mat-label>
                   <mat-select formControlName="Title">
                     <mat-option *ngFor="let title of TitleLookup" [value]="title.LookupId">
-                      {{title.English}}
+                      {{title.Description}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -136,8 +136,8 @@
                 <mat-form-field fxLayoutGap="4em">
                   <mat-label>{{'investors.editor.Nationality' | translate}}</mat-label>
                   <mat-select formControlName="cNationality" [compareWith]="compareIds">
-                    <mat-option *ngFor="let country of nationList" [value]="country.id">
-                      <span>{{country.descriptionEnglish}}</span>
+                    <mat-option *ngFor="let country of nationList" [value]="country.code">
+                      <span>{{country.description}}</span>
                     </mat-option>
                   </mat-select>
                   <mat-error *ngIf="nationality.hasError('required')">

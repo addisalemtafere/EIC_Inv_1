@@ -96,7 +96,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   private addressList: AddressModel;
   public activity: ActivityModel[];
   public filterActivityLIst: ActivityModel[];
-
+  currentLang = 'en';
   public investmentActivity: InvActivityModel[];
   public filterInvestmentActivityList: InvActivityModel[];
   public filterSubSectorList: SubSectorModel[];
@@ -214,7 +214,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllSector() {
-    this.sectorService.getSectors()
+    this.sectorService.getSectors(this.currentLang)
       .subscribe(result => {
           this.sectorList = result;
         },
@@ -223,7 +223,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllSubSector() {
-    this.subSectorService.getSubSectors()
+    this.subSectorService.getSubSectors(this.currentLang)
       .subscribe(result => {
           this.subSectorList = result;
           this.filterSubSectorList = result;
@@ -232,7 +232,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllActivityService() {
-    this.activityService.getActivitys()
+    this.activityService.getActivitys(this.currentLang)
       .subscribe(result => {
         this.activity = result;
         this.filterActivityLIst = result;
@@ -240,7 +240,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllInvestmentActivity() {
-    this.invactivityService.getInActivitys()
+    this.invactivityService.getInActivitys(this.currentLang)
       .subscribe(result => {
         this.investmentActivity = result;
         this.filterInvestmentActivityList = result;
@@ -248,7 +248,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getRegions() {
-    this.addressService.getRegions()
+    this.addressService.getRegions(this.currentLang)
       .subscribe(result => {
           this.regions = result;
         },
@@ -256,7 +256,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllZones() {
-    this.addressService.getAllZones()
+    this.addressService.getAllZones(this.currentLang)
       .subscribe(result => {
           this.zones = result;
           this.filteredZones = result;
@@ -334,7 +334,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     if (!activityId) {
       return;
     }
-
     this.filterActivityLIst = this.activity.filter((item) => {
       return item.SubSectorId === activityId;
     });

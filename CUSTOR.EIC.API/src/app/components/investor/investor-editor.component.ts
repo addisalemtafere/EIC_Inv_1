@@ -36,6 +36,8 @@ import {RegistrationCatagoryService} from '../../Services/Registration/Registrat
 import {CountryModel} from "../../model/Country";
 import {CountryService} from "../../Services/country.service";
 
+// import {TranslationLoaderService} from '@custor/services/translation-loader.service';
+
 @Component({
   selector: 'app-edit-investor',
   templateUrl: './investor-editor.component.html',
@@ -68,14 +70,14 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   genders: Gender[] = [];
   legalStatuses: LegalStatus[] = [];
   isCompany: boolean;
-  currentLang = '';
+  currentLang = 'en';
   countryLookupType = 1;
   allPermissions: Permission[] = [];
   public investorTitle: Lookup[];
   TitleLookup: LookupsModel[];
   public nationList: NationalityModel[];
   originFlag = true;
-   public countryListWithOutEthipia: CountryModel[];
+  public countryListWithOutEthipia: CountryModel[];
   //public countryListWithOutEthipia: LookupsModel[];
   public branch = false;
   AllowCascading = true;
@@ -101,9 +103,11 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               private authService: AuthService,
               private custService: InvestorService,
               private catagoryService: CatagoryService,
-              private configService: ConfigurationService,
               private toastr: ToastrService,
+              private configService: ConfigurationService,
               private fb: FormBuilder) {
+    //this.translationLoaderService.loadTranslations(langEnglish, langEthiopic);
+    //this.currentLang = this.configService.language;
     this.checkAuthoriation();
     // create an empty object from the Investor model
     this.investor = <Investor>{};
@@ -490,8 +494,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       .subscribe(z => {
           this.zones = z;
           if (this.zones) {
-            // // console.log('Region ' + this.investor.RegionId);
-            // this.filterRegion(this.investor.RegionId);
           }
         },
         error => this.toastr.error(error));
@@ -769,7 +771,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   filterRegion(regionCode: string) {
-    if (!regionCode ) {
+    if (!regionCode) {
       return;
     }
     this.filteredKebeles = null;
@@ -784,7 +786,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   filterZone(zoneCode: string) {
-    if (!zoneCode ) {
+    if (!zoneCode) {
       return;
     }
     this.filteredKebeles = null;
@@ -795,14 +797,14 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   filterWoreda(woredaCode: string) {
-    if (!woredaCode ) {
+    if (!woredaCode) {
       return;
     }
     this.getKebeleByWoredaId(woredaCode);
   }
 
   getInvestorTitle(id: any) {
-    this.lookUpService.getLookupByParentId(id).subscribe(result => {
+    this.lookUpService.getLookupByParentId(id, this.currentLang).subscribe(result => {
       // // console.log(result);
       this.TitleLookup = result;
     });
@@ -821,10 +823,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   //
   // }
   getCountryTitle() {
-    console.log('Hi');
-    this.countryService.getAllCountry()
+    this.countryService.getAllCountry(this.currentLang)
       .subscribe(result => {
-       console.log(result);
         this.countryListWithOutEthipia = result.filter((item) =>
           item.English !== 'ETHIOPIA'
         );
@@ -874,9 +874,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   private getAllNation() {
-    this.addressService.getNationality()
+    this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
         this.nationList = result;
+        console.log(result)
       });
   }
 

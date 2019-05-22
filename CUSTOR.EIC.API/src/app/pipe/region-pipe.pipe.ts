@@ -7,6 +7,7 @@ import {AddressService} from '../Services/Address/address.service';
 })
 export class RegionPipePipe implements PipeTransform {
   allRegion: RegionModel[] = [];
+  currentlang: 'en';
 
   constructor(private addressService: AddressService) {
     this.getRegion();
@@ -25,7 +26,7 @@ export class RegionPipePipe implements PipeTransform {
   }
 
   getRegion() {
-    this.addressService.getRegions().subscribe(regions => {
+    this.addressService.getRegions(this.currentlang).subscribe(regions => {
       this.allRegion = regions;
     });
   }

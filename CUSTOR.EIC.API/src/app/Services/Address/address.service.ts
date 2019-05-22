@@ -1,16 +1,16 @@
-import { catchError, map } from 'rxjs/operators';
-import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { AppConfiguration } from '../../config/appconfig';
-import { KebeleModel } from '../../model/address/Kebele.model';
-import { WoredaModel } from '../../model/address/Woreda.model';
-import { ZoneModel } from '../../model/address/Zone.model';
-import { RegionModel } from '../../model/address/Region.model';
-import { AddressModel } from '../../model/address/Address.model';
-import { TownModel } from '../../model/address/Town.model';
-import { NationalityModel } from '../../model/address/NationalityModel';
-import { Observable } from 'rxjs/internal/Observable';
-import { ErrorMessage } from '../../../@custor/services/errMessageService';
+import {catchError, map} from 'rxjs/operators';
+import {Injectable, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {AppConfiguration} from '../../config/appconfig';
+import {KebeleModel} from '../../model/address/Kebele.model';
+import {WoredaModel} from '../../model/address/Woreda.model';
+import {ZoneModel} from '../../model/address/Zone.model';
+import {RegionModel, RegionModelDTO} from '../../model/address/Region.model';
+import {AddressModel} from '../../model/address/Address.model';
+import {TownModel} from '../../model/address/Town.model';
+import {NationalityModel} from '../../model/address/NationalityModel';
+import {Observable} from 'rxjs/internal/Observable';
+import {ErrorMessage} from '../../../@custor/services/errMessageService';
 
 @Injectable()
 export class AddressService implements OnInit {
@@ -23,13 +23,13 @@ export class AddressService implements OnInit {
   allZoneList: ZoneModel[];
   allTownList: TownModel[];
   allWoredaList: WoredaModel[];
-  regionList: RegionModel[];
+  regionList: RegionModel[]=[];
   NationList: NationalityModel[];
   lang: string;
 
   constructor(private httpClient: HttpClient,
-    private config: AppConfiguration,
-    private errMsg: ErrorMessage) {
+              private config: AppConfiguration,
+              private errMsg: ErrorMessage) {
 
   }
 
@@ -50,14 +50,14 @@ export class AddressService implements OnInit {
       catchError(this.errMsg.parseObservableResponseError));
   }
 
-  getRegions(): Observable<RegionModel[]> {
-    return this.httpClient.get<RegionModel[]>(this.config.urls.url('regions') + '/en').pipe(
+  getRegions(lang: any): Observable<RegionModel[]> {
+    return this.httpClient.get<RegionModel[]>(this.config.urls.url('regions', lang) ).pipe(
       map(regionList => this.regionList = regionList),
       catchError(this.errMsg.parseObservableResponseError));
   }
 
-  getAllZones(): Observable<ZoneModel[]> {
-    return this.httpClient.get<ZoneModel[]>(this.config.urls.url('zones') + '/en').pipe(
+  getAllZones(lang:any): Observable<ZoneModel[]> {
+    return this.httpClient.get<ZoneModel[]>(this.config.urls.url('zones', lang) ).pipe(
       map(zoneList => this.allZoneList = zoneList),
       catchError(this.errMsg.parseObservableResponseError));
   }
@@ -71,7 +71,7 @@ export class AddressService implements OnInit {
 
 
   getAllTowns(): Observable<TownModel[]> {
-    return this.httpClient.get<TownModel[]>(this.config.urls.url('towns')  + '/en').pipe(
+    return this.httpClient.get<TownModel[]>(this.config.urls.url('towns') + '/en').pipe(
       map(result => this.allTownList = result),
       catchError(this.errMsg.parseObservableResponseError));
   }
@@ -113,8 +113,8 @@ export class AddressService implements OnInit {
       catchError(this.errMsg.parseObservableResponseError));
   }
 
-  getNationality(): Observable<NationalityModel[]> {
-    return this.httpClient.get<NationalityModel[]>(this.config.urls.url('nationality')).pipe(
+  getNationality(lang: any): Observable<NationalityModel[]> {
+    return this.httpClient.get<NationalityModel[]>(this.config.urls.url('nationality', lang)).pipe(
       map(countryList => this.NationList = countryList),
       catchError(this.errMsg.parseObservableResponseError));
   }

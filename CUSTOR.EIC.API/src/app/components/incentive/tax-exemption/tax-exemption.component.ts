@@ -18,6 +18,7 @@ import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
 import {LookupsService} from '../../setting/lookup-tabs/lookups/lookups.service';
 import {ProjectModel} from '../../../model/project.model';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-tax-exemption',
@@ -53,7 +54,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   private ServiceApplicationId: number;
   private setSelectedValue: string;
   private ProjectId: any;
-
+  currentLang = '';
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               public route: ActivatedRoute,
@@ -68,7 +69,9 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
               private errMsg: ErrorMessage,
               public dialog: MatDialog,
               private toastr: ToastrService,
+              private configService: ConfigurationService,
               private fb: FormBuilder) {
+    this.currentLang = this.configService.language;
     this.TaxExemptionModel = <TaxExemptionModel>{};
     // initialize the form
     this.initForm();
@@ -178,7 +181,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   getItemLookup() {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpService
-      .getLookupByParentId(22)
+      .getLookupByParentId(this.currentLang,22)
       .subscribe(result => {
           this.Lookups = result;
         },

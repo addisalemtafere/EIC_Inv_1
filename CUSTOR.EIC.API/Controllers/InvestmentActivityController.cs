@@ -29,23 +29,25 @@ namespace EIC.Investment.API.Controllers.Controllers
       throw new InvalidOperationException("This is an unhandled exception");
     }
 
-    [HttpGet]
-    [Route("api/invactivityslookup")]
-    public async Task<IEnumerable<InvestmentActivity>> GetActivitInvestmentActivity()
-    {
-      return await _InvestmentActivityRepo.GetInvestmentActivitys();
-    }
+//    [HttpGet]
+//    [Route("api/invactivityslookup")]
+//    public async Task<IEnumerable<InvestmentActivity>> GetActivitInvestmentActivity()
+//    {
+//      return await _InvestmentActivityRepo.GetInvestmentActivitys();
+//    }
 
     [HttpGet]
-    [Route("api/invactivitys")]
-    public async Task<IEnumerable<InvestmentActivity>> GetAInvestmentActivity(int page = -1, int pageSize = 10)
+    [Route("api/invactivitys/{lang}")]
+    public async Task<IEnumerable<InvestmentActivityDTO>> GetAInvestmentActivity(string lang, int page = -1,
+      int pageSize = 10)
     {
-      return await _InvestmentActivityRepo.GetInvestmentActivitys(page, pageSize);
+      return await _InvestmentActivityRepo.GetInvestmentActivitys(lang, page, pageSize);
     }
 
     [HttpGet]
     [Route("api/invactivity/ByParent/{id}")]
-    public async Task<IEnumerable<InvestmentActivity>> GetAInvestmentActivityByParent(int id, int page = -1,int pageSize = 10)
+    public async Task<IEnumerable<InvestmentActivity>> GetAInvestmentActivityByParent(int id, int page = -1,
+      int pageSize = 10)
     {
       return await _InvestmentActivityRepo.GetInvestmentActivitysByParent(id, page, pageSize);
     }
@@ -73,10 +75,10 @@ namespace EIC.Investment.API.Controllers.Controllers
       if (!ModelState.IsValid)
         throw new ApiException("Model binding failed.", 500);
       //if (!_InvestmentActivityRepo.Validate(PostedInvestmentActivity))
-        //throw new ApiException(_InvestmentActivityRepo.ErrorMessage, 500, _InvestmentActivityRepo.ValidationErrors);
+      //throw new ApiException(_InvestmentActivityRepo.ErrorMessage, 500, _InvestmentActivityRepo.ValidationErrors);
 
-        if (!await _InvestmentActivityRepo.SaveAsync(PostedInvestmentActivity))
-          throw new ApiException(_InvestmentActivityRepo.ErrorMessage);
+      if (!await _InvestmentActivityRepo.SaveAsync(PostedInvestmentActivity))
+        throw new ApiException(_InvestmentActivityRepo.ErrorMessage);
       return PostedInvestmentActivity;
     }
 

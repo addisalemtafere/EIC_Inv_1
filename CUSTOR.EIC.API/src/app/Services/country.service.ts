@@ -16,8 +16,8 @@ export class CountryService {
     protected  errMsg: ErrorMessage) {
   }
 
-  getAllCountry(): Observable<CountryModel[]> {
-    return this.httpClient.get<CountryModel>(this.appConfig.urls.url('Countrys')).pipe(
+  getAllCountry(lang: any): Observable<CountryModel[]> {
+    return this.httpClient.get<CountryModel>(this.appConfig.urls.url('Countrys', lang)).pipe(
       map(result => {
         return result;
       }), catchError(this.errMsg.parseObservableResponseError));

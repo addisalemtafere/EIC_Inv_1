@@ -56,7 +56,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
             incentiveBoMRequestItem.UploadDate = DateTime.Now;
             if (incentiveBoMRequestItem.IsApproved)
             {
-                incentiveBoMRequestItem.IsApproved = false;                
+                incentiveBoMRequestItem.IsApproved = false;
                 _context.Entry(incentiveBoMRequestItem).State = EntityState.Modified;
             }
             else
@@ -125,10 +125,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         }
 
         [HttpGet]
-        [Route("ByProjectId/{id:int}")]
-        public async Task<IEnumerable<IncentiveBoMRequestItem>> GetIncentiveRequestsByServiceAppId(int id, int page = -1, int pageSize = 10)
+        [Route("ByProjectId/{id:int}/{lang}")]
+        public async Task<IEnumerable<IncentiveBoMRequestItemDTO>> GetIncentiveRequestsByServiceAppId(int id,string lang, int page = -1, int pageSize = 10)
         {
-            return await _itemsRepository.GetIncentiveBoMRequestItemByProjectId(id, page, pageSize);
+            return await _itemsRepository.GetIncentiveBoMRequestItemByProjectId(id,lang, page, pageSize);
         }
 
         // PUT: api/IncentiveBoMRequestItems/5

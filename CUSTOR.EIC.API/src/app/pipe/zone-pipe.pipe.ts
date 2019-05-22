@@ -7,6 +7,7 @@ import { AddressService } from '../Services/Address/address.service';
 })
 export class ZonePipePipe implements PipeTransform {
   zones: ZoneModel[] = [];
+  currentlang: 'en';
 
   constructor(private addressService: AddressService) {
     //  this.getAllZone();
@@ -14,7 +15,7 @@ export class ZonePipePipe implements PipeTransform {
 
   transform(code: any, args?: any): any {
     // console.log(code);
-    return this.addressService.getAllZones()
+    return this.addressService.getAllZones(this.currentlang)
       .subscribe(data => {
         this.zones = data;
         for (const zone of this.zones) {

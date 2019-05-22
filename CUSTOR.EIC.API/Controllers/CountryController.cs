@@ -31,10 +31,10 @@ namespace CUSTOR.EICOnline.API.Controllers
 
 
     [HttpGet]
-    [Route("api/Countrys")]
-    public async Task<IEnumerable<Country>> GetCountry(int page = -1, int pageSize = 10)
+    [Route("api/Countrys/{lang}")]
+    public async Task<IEnumerable<CountryDTO>> GetCountry(string lang, int page = -1, int pageSize = 10)
     {
-      return await _CountryRepo.GetCountrys(page, pageSize);
+      return await _CountryRepo.GetCountrys(lang, page, pageSize);
     }
 
     [HttpGet("api/Country/{id:int}")]
@@ -49,10 +49,10 @@ namespace CUSTOR.EICOnline.API.Controllers
       if (!ModelState.IsValid)
         throw new ApiException("Model binding failed.", 500);
 //      if (!_CountryRepo.Validate(PostedCountry))
-        //throw new ApiException(_CountryRepo.ErrorMessage, 500, _CountryRepo.ValidationErrors);
+      //throw new ApiException(_CountryRepo.ErrorMessage, 500, _CountryRepo.ValidationErrors);
 
-        if (!await _CountryRepo.SaveAsync(PostedCountry))
-          throw new ApiException(_CountryRepo.ErrorMessage);
+      if (!await _CountryRepo.SaveAsync(PostedCountry))
+        throw new ApiException(_CountryRepo.ErrorMessage);
       return PostedCountry;
     }
 

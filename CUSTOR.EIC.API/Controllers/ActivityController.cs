@@ -29,18 +29,18 @@ namespace EIC.Investment.API.Controllers.Controllers
       throw new InvalidOperationException("This is an unhandled exception");
     }
 
-    [HttpGet]
-    [Route("api/activityslookup")]
-    public async Task<IEnumerable<Activity>> GetActivity()
-    {
-      return await _ActivityRepo.GetActivitys();
-    }
+//    [HttpGet]
+//    [Route("api/activityslookup")]
+//    public async Task<IEnumerable<Activity>> GetActivity()
+//    {
+//      return await _ActivityRepo.GetActivitys();
+//    }
 
     [HttpGet]
-    [Route("api/activitys")]
-    public async Task<IEnumerable<Activity>> GetActivity(int page = -1, int pageSize = 10)
+    [Route("api/activitys/{lang}")]
+    public async Task<IEnumerable<ActivityDTO>> GetActivity(string lang, int page = -1, int pageSize = 10)
     {
-      return await _ActivityRepo.GetActivitys(page, pageSize);
+      return await _ActivityRepo.GetActivitys(lang, page, pageSize);
     }
 
     [HttpGet]

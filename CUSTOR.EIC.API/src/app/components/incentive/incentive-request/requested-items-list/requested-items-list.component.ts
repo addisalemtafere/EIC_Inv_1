@@ -19,6 +19,7 @@ import {IncentiveRequestDetailModel} from '../../../../model/IncentiveRequestDet
 import {IncentiveBoMRequestItemModel} from '../../../../model/incentive/IncentiveBoMRequestItem.model';
 import {ApplicationSettingService} from '../../../../Services/application-setting.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 
 @Component({
@@ -92,7 +93,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   private form: NgForm;
   private ExchangeRate: string;
   private CuurencyType: number;
-
+  currentLang = '';
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               public route: ActivatedRoute,
@@ -107,7 +108,9 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
               private errMsg: ErrorMessage,
               private toastr: ToastrService,
               public dialog: MatDialog,
+              private configService: ConfigurationService,
               private fb: FormBuilder) {
+    this.currentLang = this.configService.language;
     this.itemDetail = <IncentiveRequestDetailModel>{};
     // initialize the form
     this.initForm();
@@ -303,7 +306,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   getItemLookup(categoryCode: any) {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(categoryCode)
+      .getLookupByParentId(this.currentLang,categoryCode)
       .subscribe(result => {
           this.filterLookups = result;
         },

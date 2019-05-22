@@ -2,30 +2,59 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CUSTOR.EICOnline.DAL.DataAccessLayer;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CUSTOR.EICOnline.DAL
 {
     public class NationalityRepository : EFRepository<ApplicationDbContext, Nationality>
     {
-        public NationalityRepository(ApplicationDbContext context) : base(context)
+        private readonly IDistributedCache distributedCache;
+        private readonly Settings settings;
+
+        public NationalityRepository(ApplicationDbContext context, IDistributedCache _distributedCache,
+            IConfiguration _configuration) : base(context)
         {
+            settings = new Settings(_configuration);
+            distributedCache = _distributedCache;
         }
 
-        public async Task<List<Nationality>> GetNationalitys(int page = 0, int pageSize = 15)
+        public async Task<List<NationalDTO>> GetNationalitys(string lang, int page = 0, int pageSize = 15)
         {
-            IQueryable<Nationality> Nationalitys = Context.Nationality
-                .OrderBy(Nationality => Nationality.id);
-            if (page > 0)
+            IEnumerable<NationalDTO> Nationals = null;
+            string cacheKey = "NationalityKey";
+            var cachedNationals = await distributedCache.GetStringAsync(cacheKey);
+            if (cachedNationals != null)
             {
-                Nationalitys = Nationalitys
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize);
+                Nationals = JsonConvert.DeserializeObject<IEnumerable<NationalDTO>>(cachedNationals);
+            }
+            else
+            {
+                Nationals = await Context.Nationality
+                    .OrderBy(Nationality => Nationality.description)
+                    .Select(r => new NationalDTO
+                    {
+                        code = r.code,
+                        description = (lang == "et") ? r.description : r.descriptionEnglish
+                    }).ToListAsync();
+                if (page > 0)
+                {
+                    Nationals = Nationals
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize);
+                }
+
+                DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+                await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(Nationals), cacheOptions);
             }
 
-            return await Nationalitys.ToListAsync();
+            return Nationals.ToList();
         }
 
         public async Task<NationalityDTO> GetRecord(int Id)
@@ -35,13 +64,13 @@ namespace CUSTOR.EICOnline.DAL
             {
                 string query1 = $@"(select InvestorId,id,descriptionEnglish,description,code from Nationality
                                     Inner Join Investor ON Investor.Nationality=Nationality.Code)";
-    
+
                 Nationality = await Context.NationalityDTO
                     .Where(m => m.InvestorId == Id)
                     .FromSql(query1)
                     .FirstAsync();
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
                 SetError("Couldn't load Nationality - invalid Nationality id specified.");
                 return null;

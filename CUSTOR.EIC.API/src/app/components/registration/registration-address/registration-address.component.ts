@@ -64,6 +64,7 @@ export class RegistrationAddressComponent  implements OnInit, OnDestroy, AfterCo
   private registrationAddressList: AddressModel;
   private projectId: number;
   private addressId: number | undefined;
+  currentlang: 'en';
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -125,7 +126,7 @@ export class RegistrationAddressComponent  implements OnInit, OnDestroy, AfterCo
 
 
   getRegions() {
-    this.addressService.getRegions()
+    this.addressService.getRegions(this.currentlang)
       .subscribe(result => {
           this.regions = result;
         },
@@ -133,7 +134,7 @@ export class RegistrationAddressComponent  implements OnInit, OnDestroy, AfterCo
   }
 
   getAllZones() {
-    this.addressService.getAllZones()
+    this.addressService.getAllZones(this.currentlang)
       .subscribe(result => {
           this.zones = result;
           this.filteredZones = result;

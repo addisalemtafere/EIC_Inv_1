@@ -27,7 +27,7 @@ export class CountryPipe implements PipeTransform {
   }
 
   getNations() {
-    this.addressService.getNationality().subscribe(country => {
+    this.addressService.getNationality('en').subscribe(country => {
       this.allCountry = country;
       // // console.log(country);
     });

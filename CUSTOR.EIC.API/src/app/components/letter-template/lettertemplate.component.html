@@ -67,8 +67,7 @@ toolbar_items_size: 'small'}">
     <mat-table #table [dataSource]="dataSource">
       <ng-container matColumnDef="LetterType">
         <mat-header-cell *matHeaderCellDef fxFlex="50">Letter Type</mat-header-cell>
-        <mat-cell *matCellDef="let LetterTemplateModels" fxFlex="50"> {{LetterTemplateModels.LetterType | lookupPipe :
-          1}}
+        <mat-cell *matCellDef="let LetterTemplateModels" fxFlex="50"> {{LetterTemplateModels.LetterType}}
         </mat-cell>
       </ng-container>
       <!--<ng-container matColumnDef="Title" >-->

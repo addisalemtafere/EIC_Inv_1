@@ -44,7 +44,7 @@ export class AppConfiguration {
     employmentByProject: 'api/ProjectEmployments/ByProject',
     NationalityCompositions: 'api/ProjectNationalityCompositions',
     NationalityCompositionsByProject: 'api/ProjectNationalityCompositions/ByProject',
-    nationality: 'api/Nationalities',
+    nationality: 'api/Nationalities/ByLang',
     pRequirement: 'api/ProjectRequirements',
     pInput: 'api/ProjectInputs',
     InputsByProject: 'api/ProjectInputs/ByProject',
@@ -84,13 +84,13 @@ export class AppConfiguration {
 
     sectors: 'api/sectors',
     sector: 'api/sector',
-    subsectors: 'api/subsectors/',
+    subsectors: 'api/subsectors',
     subsector: 'api/subsector',
     subsectorByParent: 'api/subsector/ByParent',
-    activitys: 'api/activitys/',
+    activitys: 'api/activitys',
     activity: 'api/activity',
     activityByParent: 'api/activity/ByParent',
-    invactivitys: 'api/invactivitys/',
+    invactivitys: 'api/invactivitys',
     invactivity: 'api/invactivity',
     invactivityByParent: 'api/invactivity/ByParent',
     KebelesByWoreda: 'api/KebelesByWoreda',
@@ -201,7 +201,6 @@ export class AppConfiguration {
     letter: 'api/letter',
     letters: 'api/letters',
 
-
     incentiveRequests: 'api/incentiveRequests/ByIds',
     incentiveRequest: 'api/incentiveRequest',
     incentiveRequestsothers: 'api/incentiveRequests/ByOtherServiceAppId',
@@ -263,7 +262,7 @@ export class AppConfiguration {
     GetBussinessCatagory: 'api/Business/GetBussinessCatagory',
     Country: 'api/Country',
     Countrys: 'api/Countrys',
-    National: 'api/Nationality',
+    National: 'api/Nationalities/GetDTO',
     Nationalities: 'api/Nationalitys',
 
     url: (name, parm1?, parm2?, parm3?) => {
@@ -285,6 +284,6 @@ export class AppConfiguration {
   // put config variables here
 
   constructor() {
-    this.urls.baseUrl = 'http://localhost:5050/';
+    this.urls.baseUrl = 'http://localhost:5000/';
   }
 }

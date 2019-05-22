@@ -52,6 +52,7 @@ export class AddressComponent implements OnInit, OnDestroy, AfterContentChecked 
   private addressList: AddressModel;
   private projectId: number;
   private addressId: number | undefined;
+  currentLang = 'en';
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -112,7 +113,7 @@ export class AddressComponent implements OnInit, OnDestroy, AfterContentChecked 
 
 
   getRegions() {
-    this.addressService.getRegions()
+    this.addressService.getRegions(this.currentLang)
       .subscribe(result => {
           this.regions = result;
         },
@@ -120,7 +121,7 @@ export class AddressComponent implements OnInit, OnDestroy, AfterContentChecked 
   }
 
   getAllZones() {
-    this.addressService.getAllZones()
+    this.addressService.getAllZones(this.currentLang)
       .subscribe(result => {
           this.zones = result;
           this.filteredZones = result;

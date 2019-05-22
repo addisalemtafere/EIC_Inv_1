@@ -1,6 +1,7 @@
 ﻿using CUSTOR.EICOnline.DAL.EntityLayer.Incentive;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
@@ -48,5 +49,23 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public ServiceApplication ServiceApplication { get; set; }
         // public ICollection<IncentiveRequestDocument> IncentiveRequestDocument { get; set; }
         public ICollection<IncentiveRequestItem> IncentiveRequestItem { get; set; }
+    }
+    public class IncentiveRequestDTO
+    {
+        public IncentiveRequestDTO()
+        {
+            
+        }
+        [Key]
+        public int IncentiveRequestId { get; set; }
+        public int ServiceApplicationId { get; set; }
+        public int? ProjectId { get; set; }
+        public string CustomsSiteId { get; set; }
+        public string IncentiveCategoryId { get; set; }
+        public string InvoiceNo { get; set; }
+        public DateTime? RequestDate { get; set; }
+        public decimal? Amount { get; set; }
+        public int? Quantity { get; set; }
+        
     }
 }

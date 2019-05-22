@@ -18,8 +18,8 @@ export class LettertepmlateService {
   letterTemplateList: LetterTemplateModel[] = [];
   LetterTemplateModel: LetterTemplateModel;
 
-  getLetterTemplateList(): Observable<LetterTemplateModel[]> {
-    return this.httpClient.get<LetterTemplateModel[]>(this.config.urls.url('letterTemplates')).pipe(
+  getLetterTemplateList(lang:any): Observable<LetterTemplateModel[]> {
+    return this.httpClient.get<LetterTemplateModel[]>(this.config.urls.url('letterTemplates',lang)).pipe(
       map(letterTemplateList => this.letterTemplateList = letterTemplateList),
       catchError(this.errMsg.parseObservableResponseError));
   }

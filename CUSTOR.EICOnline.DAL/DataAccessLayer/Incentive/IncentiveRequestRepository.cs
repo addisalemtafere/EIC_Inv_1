@@ -100,10 +100,18 @@ namespace CUSTOR.EICOnline.DAL
 
             return IncentiveRequests.ToListAsync();
         }
-        public Task<List<IncentiveRequest>> GetIncentiveRequestsByServiceAppId(int id, int id1, int page = 0, int pageSize = 15)
+        public Task<List<IncentiveRequestDTO>> GetIncentiveRequestsByServiceAppId(int id, int id1,string lang, int page = 0, int pageSize = 15)
         {
-            IQueryable<IncentiveRequest> IncentiveRequests = Context.IncentiveRequest
-                .Where(Ince => Ince.ServiceApplicationId != id1 && Ince.ProjectId == id);
+            string FieldName = StaticDataHelper.GetFieldName(lang);
+            string FieldNameOther = StaticDataHelper.GetFieldNameOther(lang);
+            string query1 = $@"(select IncentiveRequestId,ServiceApplicationId,ProjectId,(Select {FieldName} from Lookup,IncentiveRequest Where LookUpTypeId='10783' AND Lookup.LookupId=IncentiveRequest.CustomsSiteId) as CustomsSiteId,
+                           (Select {FieldNameOther} from LookUpType,IncentiveRequest WHERE LookUpType.LookUpTypeId=IncentiveRequest.IncentiveCategoryId ) as IncentiveCategoryId,RequestDate,Amount,Quantity,InvoiceNo 
+                           from IncentiveRequest)";
+
+            IQueryable<IncentiveRequestDTO> IncentiveRequests = null;
+            IncentiveRequests =Context.IncentiveRequestDTO
+                .Where(Ince => Ince.ServiceApplicationId != id1 && Ince.ProjectId == id)
+                .FromSql(query1);
             if (page > 0)
             {
                 IncentiveRequests = IncentiveRequests

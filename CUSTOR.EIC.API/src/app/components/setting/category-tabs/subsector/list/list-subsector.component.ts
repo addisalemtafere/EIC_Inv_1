@@ -30,6 +30,7 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
   fillterssubsectorModels: SubSectorModel[] = [];
   sectorModels: SectorModel[] = [];
   private sectorId: any;
+  currentlang: 'en';
 
   constructor(private http: HttpClient,
               private subSectorService: SubsectorService,
@@ -56,7 +57,7 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
 
   getSubSectors() {
     this.loadingIndicator = true;
-    this.subSectorService.getSubSectors()
+    this.subSectorService.getSubSectors(this.currentlang)
       .subscribe(result => {
           this.subSectorModels = result;
           if (!this.subSectorModels) {

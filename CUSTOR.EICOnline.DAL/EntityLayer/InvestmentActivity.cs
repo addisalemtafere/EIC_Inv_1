@@ -46,4 +46,11 @@ namespace CUSTOR.EICOnline.DAL
 
     //public ICollection<SubSector> SubSector { get; set; }
   }
+
+  public partial class InvestmentActivityDTO
+  {
+    public int ActivityId { get; set; }
+    public int InvActivityId { get; set; }
+    public string Description { get; set; }
+  }
 }

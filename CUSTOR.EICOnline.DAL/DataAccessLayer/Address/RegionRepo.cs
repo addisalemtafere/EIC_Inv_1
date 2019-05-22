@@ -5,13 +5,23 @@ using System.Threading.Tasks;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
 {
     public class RegionRepo : EFRepository<ApplicationDbContext, Region>
     {
-        public RegionRepo(ApplicationDbContext context) : base(context)
-        { }
+        private readonly IDistributedCache distributedCache;
+        private readonly Settings settings;
+
+        public RegionRepo(ApplicationDbContext context, IDistributedCache _distributedCache,
+            IConfiguration _configuration) : base(context)
+        {
+            settings = new Settings(_configuration);
+            distributedCache = _distributedCache;
+        }
 
         public async Task<List<Region>> GetRegions()
         {
@@ -32,51 +42,40 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                 return null;
             }
         }
-        //public async Task<List<RegionViewModel>> GetRegion(string Id)
-        //{
-        //    try
-        //    {
-        //        return await Context.Regions
-        //            .Select(r => new RegionViewModel
-        //            {
-        //                RegionId = r.RegionId,
-        //                Description = r.Description,
-        //                DescriptionEnglish = r.DescriptionEnglish
-        //            })
-        //            .ToListAsync();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        SetError(ex);
-        //        return null;
-        //    }
-        //}
+
         public async Task<List<RegionViewModel>> GetRegions(string lang)
         {
-            try
+            IEnumerable<RegionViewModel> Regions = null;
+            string cacheKey = "RegionKey";
+            var cachedRegions = await distributedCache.GetStringAsync(cacheKey);
+            if (cachedRegions != null)
             {
-                return await Context.Regions
+                Regions = JsonConvert.DeserializeObject<IEnumerable<RegionViewModel>>(cachedRegions);
+            }
+            else
+            {
+                Regions = await Context.Regions
                     .Select(r => new RegionViewModel
                     {
                         RegionId = r.RegionId,
                         Description = (lang == "et") ? r.Description : r.DescriptionEnglish
                     })
                     .ToListAsync();
+
+                DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+                await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(Regions), cacheOptions);
             }
-            catch (Exception ex)
-            {
-                SetError(ex);
-                return null;
-            }
+
+            return Regions.ToList();
         }
 
         public async Task<Region> GetRegionsById(string Id)
         {
             try
             {
-                return await Context.Regions.
-                   Where(r=>r.RegionId==Id) 
-                   .FirstOrDefaultAsync();
+                return await Context.Regions.Where(r => r.RegionId == Id)
+                    .FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {
@@ -84,9 +83,9 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                 return null;
             }
         }
-     public async Task<bool> DeleteRegion(string id)
-        {
 
+        public async Task<bool> DeleteRegion(string id)
+        {
             var Region = await Context.Regions
                 .FirstOrDefaultAsync(region => region.RegionId == id);
             if (Region == null)
@@ -94,9 +93,9 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
                 SetError("Region does not exist");
                 return false;
             }
+
             Context.Regions.Remove(Region);
             return await SaveAsync();
-
         }
     }
 }

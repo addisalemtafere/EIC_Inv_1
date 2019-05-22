@@ -5,13 +5,22 @@ using System.Threading.Tasks;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
 {
     public class ZoneRepo : EFRepository<ApplicationDbContext, Zone>
     {
-        public ZoneRepo(ApplicationDbContext context) : base(context)
+        private readonly IDistributedCache distributedCache;
+        private readonly Settings settings;
+        
+        public ZoneRepo(ApplicationDbContext context, IDistributedCache _distributedCache,
+            IConfiguration _configuration) : base(context)
         {
+            settings = new Settings(_configuration);
+            distributedCache = _distributedCache;
         }
 
         public async Task<List<Zone>> GetZones(object rId)
@@ -110,19 +119,29 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Address
         {
             try
             {
-                //IQueryable<Zone> zones = Context.Zones;
-                //int i = zones.Where(x => x.RegionId == id).Count();
-                //return await zones.Where(x => x.RegionId == id).ToListAsync();
-                ////string id = rId.ToString();
-                return await Context.Zones
+                IEnumerable<ZoneViewModel> Zones = null;
+                string cacheKey = "ZoneKey";
+                var cachedZones = await distributedCache.GetStringAsync(cacheKey);
+                if (cachedZones != null)
+                {
+                    Zones = JsonConvert.DeserializeObject<IEnumerable<ZoneViewModel>>(cachedZones);
+                }
+                else
+                {
+                    Zones = await Context.Zones
                     .Select(z => new ZoneViewModel
-
                     {
                         ZoneId = z.ZoneId,
                         RegionId = z.RegionId,
                         Description = (lang == "et") ? z.Description : z.DescriptionEnglish
                     })
                     .ToListAsync();
+                    DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+                    await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(Zones), cacheOptions);
+                }
+
+                return Zones.ToList();
             }
             catch (Exception ex)
             {

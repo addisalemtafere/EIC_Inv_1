@@ -12,6 +12,7 @@ import {LookupsModel} from '../../model/lookups';
 import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs/index';
 import {LettertepmlateService} from './lettertepmlate.service';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-lettertemplate',
@@ -41,7 +42,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   Lookups: LookupsModel[];
   private form: NgForm;
   private tinymce: any;
-
+  private currentLang: string;
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               public route: ActivatedRoute,
@@ -51,7 +52,9 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
               private config: AppConfiguration,
               private LettertepmlateService: LettertepmlateService, private errMsg: ErrorMessage,
               private toastr: ToastrService,
+              private configService: ConfigurationService,
               private fb: FormBuilder) {
+              this.currentLang = this.configService.language;
     this.LetterTemplateModel = <LetterTemplateModel>{};
     // initialize the form
     this.initForm();
@@ -70,7 +73,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   }
 
   getIncentiveReaquestItmes() {
-    this.LettertepmlateService.getLetterTemplateList().subscribe(result => {
+    this.LettertepmlateService.getLetterTemplateList(this.currentLang).subscribe(result => {
       if (result.length > 0) {
         this.LetterTemplateModels = result;
         this.dataSource = new MatTableDataSource<LetterTemplateModel>(this.LetterTemplateModels);
@@ -82,7 +85,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   getItemLookup() {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(707)
+      .getLookupByParentId(this.currentLang,707)
       .subscribe(result => {
           this.Lookups = result;
         },

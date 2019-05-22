@@ -12,3 +12,8 @@ export class RegionModel {
     this.DescriptionEnglish = DescriptionEnglish;
   }
 }
+
+export class RegionModelDTO {
+  RegionId: string;
+  Description: string;
+}

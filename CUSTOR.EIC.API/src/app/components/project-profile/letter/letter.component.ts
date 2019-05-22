@@ -23,6 +23,7 @@ import {TaxExemptionModel} from '../../../model/incentive/TaxExemption.model';
 import {AddressModel} from '../../../model/address/Address.model';
 import {AddressService} from '../../../Services/Address/address.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-letter',
@@ -67,7 +68,7 @@ export class LetterComponent implements OnInit {
   public ProjectId: any;
   public ServiceApplicationId: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
-
+  private currentLang: string;
   displayedColumns = ['LetterType', 'RequestDate', 'Action'];
 
   constructor(
@@ -87,8 +88,10 @@ export class LetterComponent implements OnInit {
     public dialog: MatDialog,
     private errMsg: ErrorMessage,
     private lookUpsService: LookUpService,
+    private configService: ConfigurationService,
     private fb: FormBuilder
   ) {
+    this.currentLang = this.configService.language;
     this.letterModel = <LetterModel>{};
     this.initForm();
   }
@@ -158,7 +161,7 @@ export class LetterComponent implements OnInit {
   getReveuneLookup() {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(22)
+      .getLookupByParentId(this.currentLang,22)
       .subscribe(result => {
           this.Lookuprevenues = result;
         },
@@ -178,7 +181,7 @@ export class LetterComponent implements OnInit {
   getLookups() {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(707)
+      .getLookupByParentId(this.currentLang,707)
       .subscribe(result => {
           this.Lookups = result;
         },

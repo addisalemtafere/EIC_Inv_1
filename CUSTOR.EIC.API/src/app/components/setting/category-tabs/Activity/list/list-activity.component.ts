@@ -36,6 +36,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   fillterssubsectorModels: SubSectorModel[] = [];
   private sectorId: any;
   private subSectorId: any;
+  currentlang: 'en';
 
   constructor(private http: HttpClient,
               private subActivityService: ActivityService,
@@ -65,7 +66,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
 
   getActivitys() {
     this.loadingIndicator = true;
-    this.subActivityService.getActivitys()
+    this.subActivityService.getActivitys(this.currentlang)
       .subscribe(result => {
           this.activityModels = result;
           if (!this.activityModels) {
@@ -167,7 +168,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   }
 
   getSectors() {
-    this.sectorService.getSectors()
+    this.sectorService.getSectors(this.currentlang)
       .subscribe(result => {
           this.sectorModels = result;
         },
@@ -175,7 +176,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   }
 
   getSubSectors() {
-    this.subSectorService.getSubSectors()
+    this.subSectorService.getSubSectors(this.currentlang)
       .subscribe(result => {
           this.subsectorModels = result;
         },

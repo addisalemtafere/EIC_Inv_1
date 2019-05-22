@@ -34,11 +34,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string Amharic { get; set; }
         public string English { get; set; }
         public string DescriptionEnglish { get; set; }
-        //public string Username { get; set; }
-        //public string UpdatedUsername { get; set; }
-        //public DateTime? EventDatetime { get; set; }
-        //public DateTime? UpdatedEventDatetime { get; set; }
         public LookupType LookupType { get; set; }
 
+    }
+    public partial class LookupsModelDTO
+    {
+        [Key]
+        public int LookupId { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CUSTOR.EICOnline.DAL;
 
 namespace EIC.Investment.API.Controllers
 {
@@ -60,10 +61,10 @@ namespace EIC.Investment.API.Controllers
       return await _lookupRepo.GetRecord(id);
     }
 
-    [HttpGet("api/lookup/ByParentId/{id:int}")]
-    public async Task<ICollection<Lookups>> GetLookupByParentId(int id)
+    [HttpGet("api/lookup/ByParentId/{id:int}/{lang}")]
+    public async Task<IEnumerable<LookupsModelDTO>> GetLookupByParentId(string lang, int id)
     {
-      return await _lookupRepo.GetRecordByParent(id);
+      return await _lookupRepo.GetRecordByParent(lang, id);
     }
 
     [HttpPost("api/lookup")]

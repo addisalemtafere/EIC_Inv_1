@@ -57,12 +57,14 @@ import {BaseComponent} from './components/base-components/base.component';
 import {EditorModule} from '@tinymce/tinymce-angular';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
 import {AppComponent} from './app.component';
-
-
 import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
 import { ConfirmDialog2Component } from './components/confirm-dialog2/confirm-dialog2.component';
 import {CountryService} from "./Services/country.service";
 import {NationalityService} from "./Services/Nationalityservice";
+// import { TranslationLoaderService } from '@custor/services/translation-loader.service';
+import { TranslateService } from '@ngx-translate/core';
+
+// import {Pipe} from "@angular/core";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -100,7 +102,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NaturalNumberOnlyDirective,
     ConfirmComponent,
     ServiceListComponent,
-
     EnumKeyValueListPipe,
     DocumentPipePipe,
     NotificationComponent,
@@ -112,6 +113,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     TaskDispatcherComponent,
     BaseComponent,
     ConfirmDialog2Component,
+
     // CustomerServiceStarterComponent
     // AddressComponent,
     // HelpComponent,
@@ -195,7 +197,10 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ServicePrerequisiteService,
     CustomerServicesService,
     CountryService,
-    NationalityService
+    NationalityService,
+    // TranslationLoaderService,
+    AppTranslationService,
+    TranslateService
   ],
   bootstrap: [AppComponent]
 })

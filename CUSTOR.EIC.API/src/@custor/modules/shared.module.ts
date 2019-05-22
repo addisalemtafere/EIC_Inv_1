@@ -23,12 +23,8 @@ import {AccessDeniedComponent} from '../../app/components/denied/denied.componen
 import {NotFoundComponent} from '../../app/components/not-found/not-found.component';
 import {ServicePipePipe} from '../../app/pipe/service-pipe.pipe';
 import {LookuptypePipe} from '../../app/pipe/lookuptype.pipe.pipe';
-import {LookupPipe} from '../../app/pipe/lookup-pipe.pipe';
-import {CustomsbranchPipe} from '../../app/pipe/customsbranch-pipe';
-import {LetterLookupPipe} from '../../app/pipe/letter-lookup.pipe';
-import {LookupReasonPipe} from '../../app/pipe/lookup-reason-pipe.pipe';
-import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
-import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
+
+
 
 @NgModule({
   imports: [
@@ -72,13 +68,7 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     NotFoundComponent,
     AccessDeniedComponent,
     // CustomerServiceStarterComponent,
-    LookupPipe,
-    OriginPipe,
-    LookuptypePipe,
-    CustomsbranchPipe,
-    LookupReasonPipe,
-    LetterLookupPipe,
-    LookupPhasePipe
+    LookuptypePipe
 
   ],
   declarations: [
@@ -101,14 +91,7 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     NotFoundComponent,
     AccessDeniedComponent,
     // CustomerServiceStarterComponent,
-    LookupPipe,
-    OriginPipe,
-    LookuptypePipe,
-    CustomsbranchPipe,
-    LookupReasonPipe,
-    LetterLookupPipe,
-    LookupPhasePipe
-
+    LookuptypePipe
   ],
   entryComponents: [
     AngConfirmDialogComponent,

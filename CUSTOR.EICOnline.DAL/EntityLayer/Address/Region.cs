@@ -34,7 +34,6 @@ namespace CUSTOR.EICOnline.DAL
 
     [Key]
     public string RegionId { get; set; }
-
     public string Description { get; set; }
   }
 }

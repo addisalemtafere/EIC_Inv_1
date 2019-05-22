@@ -15,6 +15,7 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {InvestorService} from '../../investor/investor.service';
 import {Investor} from '../../../model/investor';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-project-share',
@@ -47,6 +48,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
+  currentLang = '';
 
   constructor(private formBuilder: FormBuilder,
               private snackbar: MatSnackBar,
@@ -58,7 +60,10 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
               private dataSharing: DataSharingService,
               private formService: FormService,
               private addressService: AddressService,
+              private configService: ConfigurationService,
               private nationalityCompositionService: ProjectNationalityCompositionService) {
+    this.currentLang = this.configService.language;
+
   }
 
   ngOnInit() {
@@ -146,7 +151,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   private getAllNation() {
-    this.addressService.getNationality()
+    this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
         this.nationList = result;
       });

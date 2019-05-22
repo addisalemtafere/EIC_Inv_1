@@ -93,6 +93,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
               private toastr: ToastrService,
               private formBuilder: FormBuilder,
               private formService: FormService) {
+    this.currentLang = this.configService.language;
   }
 
   get Phase() {
@@ -119,7 +120,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     }
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.ProjectId = this.route.snapshot.params['ProjectId'];
-    this.getBillOfMaterial(this.ServiceApplicationId);
+    this.getBillOfMaterial(this.ServiceApplicationId, this.currentLang);
     // this.getBillOfMaterial(this.ProjectId);
     this.initStaticData(this.currentLang);
 
@@ -131,7 +132,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   getItemLookup() {
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(10780)
+      .getLookupByParentId(this.currentLang, 10780)
       .subscribe(result => {
           this.Lookups = result;
         },
@@ -163,7 +164,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
         this.billOfMaterilService.create(this.billOfMaterialForm.value)
           .subscribe((result: IncentiveBoMRequestItemModel) => {
             this.notification('saved');
-            this.getBillOfMaterial(this.ServiceApplicationId);
+            this.getBillOfMaterial(this.ServiceApplicationId, this.currentLang);
             this.itemList.push(result);
             // this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
             // this.getBillOfMaterial();
@@ -222,9 +223,9 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       });
   }
 
-  getBillOfMaterial(ServiceApplicationId: any) {
+  getBillOfMaterial(ServiceApplicationId: any, lang: any) {
     this.loading = true;
-    this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId)
+    this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, lang)
       .subscribe(result => {
         this.itemList = result.IncentiveBoMRequestItem;
         // console.log(result);
@@ -356,7 +357,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   getLookup() {
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(10781)
+      .getLookupByParentId(this.currentLang, 10781)
       .subscribe(result => {
           this.PhaseLookups = result;
         },

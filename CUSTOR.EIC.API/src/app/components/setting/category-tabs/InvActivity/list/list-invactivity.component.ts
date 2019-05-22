@@ -41,6 +41,7 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
   filterActivityLIst: InvActivityModel[] = [];
   sectorModels: SectorModel[] = [];
   private activityId: any;
+  currentlang: 'en';
 
   constructor(private http: HttpClient,
               private subInActivityService: InvactivityService,
@@ -60,7 +61,7 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
   }
 
   getSectors() {
-    this.sectorService.getSectors()
+    this.sectorService.getSectors(this.currentlang)
       .subscribe(result => {
           this.sectorModels = result;
         },
@@ -78,7 +79,7 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
 
   getInvActivitys() {
     this.loadingIndicator = true;
-    this.subInActivityService.getInActivitys()
+    this.subInActivityService.getInActivitys(this.currentlang)
       .subscribe(result => {
           this.invactivityModels = result;
           if (!this.invactivityModels) {

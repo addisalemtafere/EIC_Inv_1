@@ -25,6 +25,7 @@ export class ListSectorComponent implements OnInit, AfterViewInit {
   loadingIndicator: boolean;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  currentlang: 'en';
 
   constructor(private http: HttpClient,
     private sectorService: SectorService,
@@ -48,7 +49,7 @@ export class ListSectorComponent implements OnInit, AfterViewInit {
   }
   getSectors() {
     this.loadingIndicator = true;
-    this.sectorService.getSectors()
+    this.sectorService.getSectors(this.currentlang)
       .subscribe(result => {
         this.sectorModels = result;
         if (!this.sectorModels) {

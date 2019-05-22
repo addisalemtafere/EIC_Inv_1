@@ -28,6 +28,7 @@ import {ToastrService} from 'ngx-toastr';
 import {Subscription} from 'rxjs/Subscription';
 import {Permission} from './model/security/permission.model';
 import {NgxUiLoaderService} from "ngx-ui-loader";
+// import {TranslationLoaderService} from "@custor/services/translation-loader.service";
 // import {NgxUiLoaderService} from "ngx-ui-loader";
 
 // import { ToastrService } from 'ngx-toastr';
@@ -72,6 +73,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
               public toastr: ToastrService,
               public incentiveLogService: IncentiveLogService,
               public serviceService: ServiceService,
+              // private translationLoaderService: TranslationLoaderService,
+
               changeDetectorRef: ChangeDetectorRef,
               media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -85,6 +88,19 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     this.CheckLoginStatus();
     this.m = new IncentiveLogModel();
     localStorage.setItem('loggIn', 'false');
+
+    // this.translationService.addLangs(['en', 'et']);
+    // this.translationService.setDefaultLang('et');
+    //this.translationLoaderService.loadTranslations(langEnglish, langEthiopic);
+    // Use a language
+    //this.translationService.use('et');
+    this.configurations.language = 'et';  // put the selection in config
+
+    // ??
+    setTimeout(() => {
+      this.translationService.setDefaultLanguage('en');
+      this.translationService.setDefaultLanguage('et');
+    });
 
   }
 

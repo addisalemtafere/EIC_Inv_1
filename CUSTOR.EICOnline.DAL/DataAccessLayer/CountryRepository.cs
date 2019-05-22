@@ -2,30 +2,59 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CUSTOR.EICOnline.DAL.DataAccessLayer;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CUSTOR.EICOnline.DAL
 {
     public class CountryRepository : EFRepository<ApplicationDbContext, Country>
     {
-        public CountryRepository(ApplicationDbContext context) : base(context)
+        private readonly IDistributedCache distributedCache;
+        private readonly Settings settings;
+
+        public CountryRepository(ApplicationDbContext context, IDistributedCache _distributedCache,
+            IConfiguration _configuration) : base(context)
         {
+            settings = new Settings(_configuration);
+            distributedCache = _distributedCache;
         }
 
-        public async Task<List<Country>> GetCountrys(int page = 0, int pageSize = 15)
+        public async Task<List<CountryDTO>> GetCountrys(string lang, int page = 0, int pageSize = 15)
         {
-            IQueryable<Country> Countrys = Context.Country
-                .OrderBy(Country => Country.Id);
-            if (page > 0)
+            IEnumerable<CountryDTO> Country = null;
+            string cacheKey = "CountryKey";
+            var cachedCountrys = await distributedCache.GetStringAsync(cacheKey);
+            if (cachedCountrys != null)
             {
-                Countrys = Countrys
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize);
+                Country = JsonConvert.DeserializeObject<IEnumerable<CountryDTO>>(cachedCountrys);
+            }
+            else
+            {
+                Country = await Context.Country
+                    .OrderBy(Coun => Coun.English)
+                    .Select(r => new CountryDTO
+                    {
+                        Id = r.Id,
+                        English = (lang == "et") ? r.Amharic : r.English
+                    }).ToListAsync();
+                if (page > 0)
+                {
+                    Country = Country
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize);
+                }
+
+                DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+                await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(Country), cacheOptions);
             }
 
-            return await Countrys.ToListAsync();
+            return Country.ToList();
         }
 
         public async Task<CountryDTO> GetRecord(int Id)
@@ -35,7 +64,7 @@ namespace CUSTOR.EICOnline.DAL
             {
                 string query1 = $@"(select InvestorId,id,Amharic,English from Country
                                     Inner Join Investor ON Investor.BranchCountry=Country.Id)";
-    
+
                 Country = await Context.CountryDTO
                     .Where(m => m.InvestorId == Id)
                     .FromSql(query1)

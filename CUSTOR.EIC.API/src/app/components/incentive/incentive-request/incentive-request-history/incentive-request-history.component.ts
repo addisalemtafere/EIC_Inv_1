@@ -14,7 +14,7 @@ import {ErrorMessage} from '@custor/services/errMessageService';
 import {LookUpService} from '../../../../Services/look-up.service';
 import {LookupsModel} from '../../../../model/lookups';
 import {AppConfiguration} from '../../../../config/appconfig';
-
+import {ConfigurationService} from '@custor/services/configuration.service';
 @Component({
   selector: 'app-incentive-request-history',
   templateUrl: './incentive-request-history.component.html',
@@ -55,6 +55,7 @@ export class IncentiveRequestHistoryComponent implements OnInit, OnDestroy, Afte
               private IncentiveRequestItemService: IncentiveRequestService,
               private errMsg: ErrorMessage,
               private toastr: ToastrService,
+              private configService: ConfigurationService,
               private fb: FormBuilder) {
     this.IncentiveRequestModel = <IncentiveRequestModel>{};
 
@@ -69,7 +70,7 @@ export class IncentiveRequestHistoryComponent implements OnInit, OnDestroy, Afte
   }
 
   getIncentiveReaquestItmes(projectId, serviceApplicationId) {
-    this.IncentiveRequestItemService.getIncentiveRequestslist(projectId, serviceApplicationId).subscribe(result => {
+    this.IncentiveRequestItemService.getIncentiveRequestslist(this.configService.language,projectId, serviceApplicationId).subscribe(result => {
       if (result.length > 0) {
         this.IncentiveRequestModels = result;
         this.dataSource = new MatTableDataSource<IncentiveRequestModel>(this.IncentiveRequestModels);

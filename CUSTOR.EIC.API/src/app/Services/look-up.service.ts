@@ -20,13 +20,14 @@ export class LookUpService extends BaseService<Lookup> {
     super(http, appConfig.urls.url('InvestorTitle'), errMsg);
   }
 
-  getLookupByParentId(id): Observable<LookupsModel[]> {
-    return this.httpClient.get<LookupsModel[]>(this.appConfig.urls.url('lookupByParentId', id)).pipe(
+  getLookupByParentId(id, lang): Observable<LookupsModel[]> {
+    return this.httpClient.get<LookupsModel[]>(this.appConfig.urls.url('lookupByParentId', id, lang)).pipe(
       map(result => {
         return result;
       }),
       catchError(this.errMsg.parseObservableResponseError));
   }
+
   getLookup(): Observable<LookupsModel[]> {
     return this.httpClient.get<LookupsModel[]>(this.appConfig.urls.url('lookup')).pipe(
       map(result => {
@@ -34,6 +35,7 @@ export class LookUpService extends BaseService<Lookup> {
       }),
       catchError(this.errMsg.parseObservableResponseError));
   }
+
   getLookupByParentIdandCode(id, code, code1): Observable<LookupsModel[]> {
     return this.httpClient.get<LookupsModel[]>(this.appConfig.urls.url('ByParentIdandByCode', id, code, code1)).pipe(
       map(result => {
@@ -41,6 +43,7 @@ export class LookUpService extends BaseService<Lookup> {
       }),
       catchError(this.errMsg.parseObservableResponseError));
   }
+
   // getAllLookup(): Observable<LookupsModel[]> {
   //   return this.httpClient.get<LookupsModel[]>(this.appConfig.urls.url('lookup')).pipe(
   //     map(result => {

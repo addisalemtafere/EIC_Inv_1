@@ -58,7 +58,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   genders: Gender[] = [];
   legalStatuses: LegalStatus[] = [];
   // isCompany: boolean;
-  currentLang = 'en';
+  currentLang = '';
   countryLookupType = 1;
   allPermissions: Permission[] = [];
   private addressList: AddressModel;
@@ -88,6 +88,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
               private configService: ConfigurationService,
               private toastr: ToastrService, private appConfig: AppConfiguration,
               private fb: FormBuilder) {
+    this.currentLang = this.configService.language;
     this.checkAuthoriation();
     // create an empty object from the associate model
     this.associate = <AssociateDTO>{};
@@ -211,7 +212,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   getInvestorTitle(id: any) {
-    this.lookUpService.getLookupByParentId(id).subscribe(result => {
+    this.lookUpService.getLookupByParentId(id, this.currentLang).subscribe(result => {
       // console.log(result);
       this.TitleLookup = result;
     });
@@ -232,7 +233,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   private getAllNations() {
-    this.addressService.getNationality()
+    this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
         this.nationList = result;
       });
