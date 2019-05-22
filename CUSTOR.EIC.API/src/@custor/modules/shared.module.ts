@@ -69,8 +69,8 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     ServicePipePipe,
     // ProjectListComponent,
 
-    NotFoundComponent,
-    AccessDeniedComponent,
+    // NotFoundComponent,
+    // AccessDeniedComponent,
     // CustomerServiceStarterComponent,
     LookupPipe,
     OriginPipe,
@@ -98,8 +98,8 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     ServicePipePipe,
     // ProjectListComponent,
 
-    NotFoundComponent,
-    AccessDeniedComponent,
+    // NotFoundComponent,
+    // AccessDeniedComponent,
     // CustomerServiceStarterComponent,
     LookupPipe,
     OriginPipe,
