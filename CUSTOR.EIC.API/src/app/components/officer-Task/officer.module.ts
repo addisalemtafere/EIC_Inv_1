@@ -8,6 +8,9 @@ import {CertificateComponent} from '../certificate/certificate.component';
 import {ServiceConfirmationModule} from '../project-profile/service-confirmation/ServiceConfirmation.module';
 import {ServiceInfoModule} from '../project-profile/service-info/serviceInfo.module';
 import {LetterModule} from '../project-profile/letter/letter.module';
+import {EditorModule} from "@tinymce/tinymce-angular";
+import {NotificationComponent} from "../project-profile/notification/notification.component";
+import {MessageModule} from "../project-profile/notification/message.module";
 
 @NgModule({
   imports: [
@@ -16,20 +19,24 @@ import {LetterModule} from '../project-profile/letter/letter.module';
     OfficerRoutingModule,
     ServiceConfirmationModule,
     ServiceInfoModule,
-    LetterModule
+    EditorModule,
+    LetterModule,
+    MessageModule
   ],
   declarations: [
     OfficerStepperComponent,
     CertificateComponent,
-    PaymentComponent
+    PaymentComponent,
+    // NotificationComponent
 
   ],
   exports: [
     OfficerStepperComponent,
     CertificateComponent,
-    PaymentComponent
-
-  ]
+    PaymentComponent,
+    NotificationComponent
+  ],
+  entryComponents: [NotificationComponent]
 })
 export class OfficerModule {
 }

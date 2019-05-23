@@ -10,7 +10,7 @@ import {OfficerModule} from "../../officer-Task/officer.module";
 import {ServiceConfirmationModule} from "../../project-profile/service-confirmation/ServiceConfirmation.module";
 import {CompanyClearanceFormComponent} from "../company-clearance-form/company-clearance-form.component";
 import {RegistrationCertificateComponent} from "../../registration/registration-certificate/registration-certificate.component";
-
+import {MessageModule} from "../../project-profile/notification/message.module";
 
 
 @NgModule({
@@ -23,8 +23,9 @@ import {RegistrationCertificateComponent} from "../../registration/registration-
     OfficerModule,
     ServiceConfirmationModule,
     ServiceInfoModule,
+    MessageModule
     // RegistrationModule
-  //
+    //
 
 
   ],

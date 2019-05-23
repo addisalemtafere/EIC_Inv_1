@@ -11,7 +11,6 @@ import {ConfigurationService} from '@custor/services/configuration.service';
 import {EndpointFactory} from '@custor/services/security/endpoint-factory.service';
 import {AccountService} from '@custor/services/security/account.service';
 import {AccountEndpoint} from '@custor/services/security/account-endpoint.service';
-import {ServiceStarterComponent} from './components/service-starter/service-starter.component';
 import {NumberOnlyDirective} from '../@custor/directives/number.directive';
 import {NaturalNumberOnlyDirective} from '../@custor/directives/naturalNumber.directive';
 import {InvestorService} from './components/investor/investor.service';
@@ -39,23 +38,18 @@ import {RegionService} from './components/setting/address-tabs/region/region.ser
 import {ZoneService} from './components/setting/address-tabs/zone/zone.service';
 import {WoredaService} from './components/setting/address-tabs/Woredas/woreda.service';
 import {KebeleService} from './components/setting/address-tabs/kebele/kebele.service';
-import {ConfirmComponent} from './components/auth/register/confirm.component';
 import {DocumentPipePipe} from './pipe/document-pipe.pipe';
-import {NotificationComponent} from './components/project-profile/notification/notification.component';
 
 import {CustomerServicesService} from './components/home/customer-service.service';
 import {SharedModule} from '@custor/modules/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NotificationsComponent} from './components/notifications/notifications.component';
-import {TaskDispatcherComponent} from './components/task-dispatcher/task-dispatcher.component';
 import {BaseComponent} from './components/base-components/base.component';
-import {EditorModule} from '@tinymce/tinymce-angular';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
 import {AppComponent} from './app.component';
 
 
 import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
-import {ConfirmDialog2Component} from './components/confirm-dialog2/confirm-dialog2.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -88,20 +82,20 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   declarations: [
     AppComponent,
     // HomeComponent,
-    ServiceStarterComponent,
+    // ServiceStarterComponent,
     NumberOnlyDirective,
     NaturalNumberOnlyDirective,
-    ConfirmComponent,
+    // ConfirmComponent,
 
     EnumKeyValueListPipe,
     DocumentPipePipe,
-    NotificationComponent,
+    // NotificationComponent,
     // ServiceInitComponent,
 
     NotificationsComponent,
-    TaskDispatcherComponent,
+
     BaseComponent,
-    ConfirmDialog2Component,
+    // ConfirmDialog2Component,
     // CustomerServiceStarterComponent
     // AddressComponent,
     // HelpComponent,
@@ -135,7 +129,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // MatIconModule,
     // MatButtonModule,
     // ImageUploadModule.forRoot(),
-    EditorModule,
+
 
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderRouterModule, // import this module for showing loader automatically when navigating between app routes
@@ -143,12 +137,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 
   ],
   entryComponents: [
-    NotificationComponent,
+    // NotificationComponent,
     NotificationsComponent,
-    TaskDispatcherComponent,
-    ConfirmDialog2Component,
-    // ServiceInitComponent,
+    // TaskDispatcherComponent,
 
+    // ServiceInitComponent,
+    // HomeComponent
   ],
   providers: [
     {provide: 'BASE_URL', useFactory: getBaseUrl},

@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {AuthService} from '@custor/services/security/auth.service';
 import {AuthGuard} from '@custor/services/security/auth-guard.service';
-import {ConfirmComponent} from './components/auth/register/confirm.component';
 
 
 @NgModule({
@@ -281,7 +280,10 @@ import {ConfirmComponent} from './components/auth/register/confirm.component';
         canActivate: [AuthGuard]
       },
 
-      {path: 'confirm', component: ConfirmComponent},
+      {
+        path: 'confirm',
+        loadChildren: 'app/components/auth/register/confirm.module#ConfirmModule'
+      },
       {
         path: 'lookups',
         loadChildren: 'app/components/setting/lookup-tabs/lookups/lookups.module#LookupsModule',

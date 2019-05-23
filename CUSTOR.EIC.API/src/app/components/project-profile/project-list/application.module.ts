@@ -4,6 +4,7 @@ import {CommonModule} from "@angular/common";
 import {RouterModule, Routes} from "@angular/router";
 import {ProjectListComponent} from "./project-list.component";
 import {PaginationService} from "@custor/services/pagination.service";
+import {TaskDispatcherComponent} from "../../task-dispatcher/task-dispatcher.component";
 
 const route: Routes = [
   {path: '', component: ProjectListComponent}
@@ -15,12 +16,14 @@ const route: Routes = [
     CommonModule,
     RouterModule.forChild(route)],
   declarations: [
-    ProjectListComponent
+    ProjectListComponent,
+    TaskDispatcherComponent
   ],
   exports: [
     ProjectListComponent,
     RouterModule
   ],
+  entryComponents: [TaskDispatcherComponent],
 
   providers: [PaginationService]
 })

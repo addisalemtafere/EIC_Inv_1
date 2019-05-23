@@ -89,7 +89,7 @@ export class CustomerServiceStarterComponent implements OnInit {
           this.startCustomerRegistrationService(serviceId, investorId);
           break;
         case 1023:
-          ;
+
 
           if (this.checkType()) {
             this.router.navigate(['/investor-project-list/' + serviceId]);
@@ -117,6 +117,7 @@ export class CustomerServiceStarterComponent implements OnInit {
     });
 
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+
     this.confirmDialogRef.afterClosed().subscribe(data => {
       this.result = data;
 
