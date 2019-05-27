@@ -18,8 +18,8 @@
           <mat-form-field fxLayoutGap="4em" [fxFlex]="20">
             <mat-label>Nationality * :</mat-label>
             <mat-select formControlName="Nationality">
-              <mat-option *ngFor="let nation of nationList" [value]="nation.id">
-                {{nation.descriptionEnglish}}
+              <mat-option *ngFor="let nation of nationList" [value]="nation.code">
+                {{nation.description}}
               </mat-option>
             </mat-select>
             <mat-error align="start" *ngIf="formErrors.Nationality" class="form__error">{{ formErrors.Nationality }}
