@@ -5,6 +5,7 @@ import {BalanceRoutingModule} from './balance-routing.module';
 import {BalanceComponent} from './balance.component';
 import {ServiceConfirmationModule} from '../../project-profile/service-confirmation/ServiceConfirmation.module';
 import {LetterModule} from '../../project-profile/letter/letter.module';
+import {MessageModule} from "../../project-profile/notification/message.module";
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import {LetterModule} from '../../project-profile/letter/letter.module';
     SharedModule,
     BalanceRoutingModule,
     ServiceConfirmationModule,
-    LetterModule
+    LetterModule,
+    MessageModule
   ],
   declarations: [
     BalanceComponent

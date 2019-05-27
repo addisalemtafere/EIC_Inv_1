@@ -46,7 +46,7 @@ export class OfficerStepperComponent implements OnInit {
 
     dialogConfig.data = {
       ServiceApplicationId: this.ServiceApplicationId,
-      title: 'Angular For Beginners'
+      title: 'License'
     };
     // this.dialog.open(NotificationComponent);
     this.dialog.open(NotificationComponent, dialogConfig);

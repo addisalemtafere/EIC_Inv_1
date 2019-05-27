@@ -5,12 +5,14 @@ import {SharedModule} from '@custor/modules/shared.module';
 import {IncentiveTabComponent} from './incentive-tab.component';
 import {IncentiveTabRoutingModule} from './incentive-tab-routing.module';
 import {ServiceConfirmationModule} from "../../project-profile/service-confirmation/ServiceConfirmation.module";
+import {MessageModule} from "../../project-profile/notification/message.module";
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    IncentiveTabRoutingModule
+    IncentiveTabRoutingModule,
+    MessageModule
   ],
   declarations: [IncentiveTabComponent],
   exports: [IncentiveTabComponent]

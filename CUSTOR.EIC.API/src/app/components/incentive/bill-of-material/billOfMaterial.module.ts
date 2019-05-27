@@ -6,6 +6,7 @@ import {BillOfMaterialComponent} from './bill-of-material.component';
 import {BillOfMaterialTabComponent} from './bill-of-material-tab/bill-of-material-tab.component';
 import {ServiceConfirmationModule} from '../../project-profile/service-confirmation/ServiceConfirmation.module';
 import {LetterModule} from '../../project-profile/letter/letter.module';
+import {MessageModule} from "../../project-profile/notification/message.module";
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import {LetterModule} from '../../project-profile/letter/letter.module';
     SharedModule,
     BillOfMaterialRoutingModule,
     ServiceConfirmationModule,
-    LetterModule
+    LetterModule,
+    MessageModule
   ],
   declarations: [
     BillOfMaterialComponent,

@@ -26,17 +26,13 @@ import {MessageModule} from "../project-profile/notification/message.module";
   declarations: [
     OfficerStepperComponent,
     CertificateComponent,
-    PaymentComponent,
-    // NotificationComponent
-
+    PaymentComponent
   ],
   exports: [
     OfficerStepperComponent,
     CertificateComponent,
-    PaymentComponent,
-    NotificationComponent
-  ],
-  entryComponents: [NotificationComponent]
+    PaymentComponent],
+  entryComponents: []
 })
 export class OfficerModule {
 }
