@@ -31,7 +31,8 @@ import {AppConfiguration} from "../../../config/appconfig";
 @Component({
   selector: 'app-service-prerequisite',
   templateUrl: './service-prerequisite.component.html',
-  styleUrls: ['./service-prerequisite.component.css']
+  styleUrls: ['./service-prerequisite.component.css'],
+  providers: [ServicePrerequisiteService, PreRequisiteDocumentService]
 })
 export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked {
   documentForm: FormGroup;

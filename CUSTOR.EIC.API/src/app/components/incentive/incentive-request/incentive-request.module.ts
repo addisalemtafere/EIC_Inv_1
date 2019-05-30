@@ -7,6 +7,7 @@ import {IncentiveRequestTabComponent} from './incentive-request-tab/incentive-re
 import {LetterModule} from '../../project-profile/letter/letter.module';
 import {ServiceConfirmationModule} from "../../project-profile/service-confirmation/ServiceConfirmation.module";
 import {MessageModule} from "../../project-profile/notification/message.module";
+import {ApplicationSettingService} from "../../../Services/application-setting.service";
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {MessageModule} from "../../project-profile/notification/message.module";
     MessageModule
   ],
   declarations: [IncentiveRequestComponent, IncentiveRequestTabComponent],
-  exports: [IncentiveRequestComponent, IncentiveRequestTabComponent]
+  exports: [IncentiveRequestComponent, IncentiveRequestTabComponent],
+  providers: [ApplicationSettingService]
 })
 export class IncentiveRequestModule {
 }

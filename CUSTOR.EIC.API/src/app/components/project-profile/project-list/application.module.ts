@@ -5,6 +5,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {ProjectListComponent} from "./project-list.component";
 import {PaginationService} from "@custor/services/pagination.service";
 import {TaskDispatcherComponent} from "../../task-dispatcher/task-dispatcher.component";
+import {TodoTaskService} from "../../../Services/todo-task.service";
 
 const route: Routes = [
   {path: '', component: ProjectListComponent}
@@ -25,7 +26,7 @@ const route: Routes = [
   ],
   entryComponents: [TaskDispatcherComponent],
 
-  providers: [PaginationService]
+  providers: [PaginationService, TodoTaskService]
 })
 export class ApplicationModule {
 

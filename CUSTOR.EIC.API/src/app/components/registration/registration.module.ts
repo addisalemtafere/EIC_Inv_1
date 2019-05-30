@@ -3,7 +3,11 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from '@custor/modules/shared.module';
 import {RegistrationComponent} from './registration.component';
 import {RegistrationRoutingModule} from './registration-routing.module';
-import { RegistrationCertificateComponent } from './registration-certificate/registration-certificate.component';
+import {BudgetYearTypeService} from "../../Services/Registration/BudgetYearType.service";
+import {RegistrationService} from "../../Services/Registration/Registration.service";
+import {RegistrationCatagoryService} from "../../Services/Registration/RegistrationCatagory.service";
+import {AssociateService} from "../../Services/associate.service";
+import {ProjectOutputService} from "../../Services/project-output.service";
 
 
 @NgModule({
@@ -14,11 +18,16 @@ import { RegistrationCertificateComponent } from './registration-certificate/reg
   ],
   declarations: [
     RegistrationComponent,
-   // RegistrationCertificateComponent
-    ],
-  exports: [
-
-
+    // RegistrationCertificateComponent
+  ],
+  exports: [],
+  providers: [
+    BudgetYearTypeService,
+    BudgetYearTypeService,
+    RegistrationService,
+    RegistrationCatagoryService,
+    AssociateService,
+    ProjectOutputService
   ]
 })
 export class RegistrationModule {

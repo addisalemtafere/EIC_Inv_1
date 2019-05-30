@@ -1,17 +1,15 @@
-import {AfterContentChecked, Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AfterContentChecked, Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {ProjectRequirementService} from '../../../Services/project-requirement.service';
 import {ToastrService} from 'ngx-toastr';
-import {ProjectInputService} from '../../../Services/project-input.service';
 import {Subscription} from 'rxjs';
 import {DataSharingService} from '../../../Services/data-sharing.service';
-import {ProjectInputModel} from '../../../model/ProjectInput.model';
 import {MatSnackBar} from '@angular/material';
 import {ProjectRequirementModel} from '../../../model/ProjectRequirement.model';
 import {FormService} from '../../../../@custor/validation/custom/form';
 import {ErrorMessage} from '../../../../@custor/services/errMessageService';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {ProjectStatusModel, QuarterModel} from '../../../model/lookupData';
 import {ProjectStatus, Quarter} from '@custor/const/consts';

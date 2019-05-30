@@ -7,9 +7,11 @@ import {CapitalRegistrationModel} from '../model/CapitalRegistration.model';
 import {catchError} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class CapitalRegistrationService extends BaseService<CapitalRegistrationModel> {
 
   constructor(

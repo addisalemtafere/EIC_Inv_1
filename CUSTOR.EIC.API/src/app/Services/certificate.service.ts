@@ -1,16 +1,18 @@
-import { Injectable } from '@angular/core';
-import { BaseService } from './Base.service';
-import { ServiceApplicationModel } from '../model/ServiceApplication.model';
-import { HttpClient } from '@angular/common/http';
-import { AppConfiguration } from '../config/appconfig';
-import { ErrorMessage } from '../../@custor/services/errMessageService';
-import { catchError, map } from 'rxjs/operators';
-import { KebeleModel } from '../model/address/Kebele.model';
-import { Observable } from 'rxjs/internal/Observable';
+import {Injectable} from '@angular/core';
+import {BaseService} from './Base.service';
+import {ServiceApplicationModel} from '../model/ServiceApplication.model';
+import {HttpClient} from '@angular/common/http';
+import {AppConfiguration} from '../config/appconfig';
+import {ErrorMessage} from '../../@custor/services/errMessageService';
+import {catchError, map} from 'rxjs/operators';
+import {KebeleModel} from '../model/address/Kebele.model';
+import {Observable} from 'rxjs/internal/Observable';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // {
+  //   providedIn: 'root'
+  // }
+)
 export class CertificateService extends BaseService<ServiceApplicationModel> {
   private kebeleList: KebeleModel[];
 

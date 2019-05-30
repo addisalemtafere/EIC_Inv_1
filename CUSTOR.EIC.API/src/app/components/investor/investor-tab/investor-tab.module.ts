@@ -11,6 +11,10 @@ import {ServiceConfirmationModule} from "../../project-profile/service-confirmat
 import {CompanyClearanceFormComponent} from "../company-clearance-form/company-clearance-form.component";
 import {RegistrationCertificateComponent} from "../../registration/registration-certificate/registration-certificate.component";
 import {MessageModule} from "../../project-profile/notification/message.module";
+import {BussinessService} from 'app/Services/bussiness/bussiness.service';
+import {AssociateService} from "../../../Services/associate.service";
+import {CertificateService} from "../../../Services/certificate.service";
+import {ProjectAssociateService} from "../../../Services/project-associate.service";
 
 
 @NgModule({
@@ -32,9 +36,12 @@ import {MessageModule} from "../../project-profile/notification/message.module";
   declarations: [
     InvestorTabComponent,
     CompanyClearanceFormComponent,
-    RegistrationCertificateComponent
+    RegistrationCertificateComponent,
   ],
-  exports: [InvestorTabComponent]
+  exports: [InvestorTabComponent],
+  providers: [
+    BussinessService, AssociateService, CertificateService, ProjectAssociateService
+  ]
 })
 export class InvestorTabModule {
 }

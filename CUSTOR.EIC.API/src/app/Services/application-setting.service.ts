@@ -5,9 +5,11 @@ import {ErrorMessage} from '@custor/services/errMessageService';
 import {AppConfiguration} from '../config/appconfig';
 import {HttpClient} from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // {
+  //   providedIn: 'root'
+  // }
+)
 export class ApplicationSettingService extends BaseService<ApplicationSettingModel> {
 
   constructor(

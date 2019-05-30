@@ -9,9 +9,11 @@ import {ServiceApplicationModel} from '../model/ServiceApplication.model';
 import {ProjectModel} from '../model/project.model';
 import {catchError} from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class ProjectRenewalService extends BaseService<ProjectRenewalModel> {
   constructor(
     protected http: HttpClient,

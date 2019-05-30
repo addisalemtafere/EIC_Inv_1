@@ -9,6 +9,7 @@ import {ServiceConfirmationModule} from '../service-confirmation/ServiceConfirma
 import {OfficerModule} from '../../officer-Task/officer.module';
 import {AftercareModule} from "../aftercare/aftercare.module";
 import {AftercareRecommModule} from "../aftercare-recomendation/AftercareRecommModule";
+import {ProjectSubstituteService} from "../../../Services/project-substitute.service";
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import {AftercareRecommModule} from "../aftercare-recomendation/AftercareRecommM
     AftercareRecommModule
   ],
   declarations: [ProjectSubstituteComponent, SubstituteTabComponent],
-  exports: [ProjectSubstituteComponent]
+  exports: [ProjectSubstituteComponent],
+  providers: [ProjectSubstituteService]
 })
 export class ProjectSubstituteModule {
 

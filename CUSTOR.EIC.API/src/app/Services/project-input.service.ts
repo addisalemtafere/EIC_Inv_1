@@ -6,11 +6,12 @@ import {AppConfiguration} from '../config/appconfig';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError} from 'rxjs/operators';
 import {ErrorMessage} from '../../@custor/services/errMessageService';
-import {ProjectRequirementModel} from '../model/ProjectRequirement.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class ProjectInputService extends BaseService<ProjectInputModel> {
   constructor(
     protected http: HttpClient,

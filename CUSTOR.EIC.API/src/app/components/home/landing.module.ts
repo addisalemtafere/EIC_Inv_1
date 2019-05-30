@@ -7,6 +7,7 @@ import {HomeComponent} from "./home.component";
 import {SharedModule} from "@custor/modules/shared.module";
 import {ServiceListComponent} from "./service-list/services.component";
 import {CustomerService} from "../customers/customerService";
+import {CustomerServicesService} from "./customer-service.service";
 
 export const routes = [
   {path: '', component: HomeComponent, pathMatch: 'full'}
@@ -25,7 +26,8 @@ export const routes = [
 
   ],
   providers: [
-    CustomerService
+    CustomerService,
+    CustomerServicesService
   ]
 })
 export class LandingModule {

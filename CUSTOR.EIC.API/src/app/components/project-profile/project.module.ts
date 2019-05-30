@@ -16,6 +16,16 @@ import {AssociateModule} from '../investor/associate/associate.module';
 import {ProjectAssociateComponent} from './project-associate/project-associate.component';
 import {UtilityModule} from './project-input/utility.module';
 import {ShareModule} from "./project-share/Share.module";
+import {ProjectEmploymentService} from "../../Services/project-employment.service";
+import {ActivityService} from "../setting/category-tabs/Activity/activity.service";
+import {SectorService} from "../../Services/Sector.service";
+import {KebeleService} from "../setting/address-tabs/kebele/kebele.service";
+import {SiteService} from "../../Services/site.service";
+import {AssociateService} from "../../Services/associate.service";
+import {ProjectAssociateService} from "../../Services/project-associate.service";
+import {ProjectInputService} from "../../Services/project-input.service";
+import {ProjectRenewalService} from "../../Services/project-renewal.service";
+import {ProjectRequirementService} from "../../Services/project-requirement.service";
 
 @NgModule({
   declarations: [
@@ -40,7 +50,19 @@ import {ShareModule} from "./project-share/Share.module";
     ShareModule,
     AssociateModule,
     UtilityModule
+  ],
+  providers: [
+    ProjectEmploymentService,
+    ActivityService,
+    SectorService,
+    SiteService,
+    AssociateService,
+    ProjectAssociateService,
+    ProjectInputService,
+    ProjectRenewalService,
+    ProjectRequirementService
   ]
+
 })
 export class ProjectModule {
 }

@@ -5,6 +5,7 @@ import {SharedModule} from '@custor/modules/shared.module';
 import {IncentiveServiceRoutingModule} from './incentiveServiceRouting.module';
 import {IncentiveServicesComponent} from './incentive-services.component';
 import {MessageModule} from "../../project-profile/notification/message.module";
+import {CustomerServicesService} from "../../home/customer-service.service";
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import {MessageModule} from "../../project-profile/notification/message.module";
     MessageModule
   ],
   declarations: [IncentiveServicesComponent],
-  exports: [IncentiveServicesComponent]
+  exports: [IncentiveServicesComponent],
+  providers: [CustomerServicesService]
 })
 export class IncentiveServiceModule {
 

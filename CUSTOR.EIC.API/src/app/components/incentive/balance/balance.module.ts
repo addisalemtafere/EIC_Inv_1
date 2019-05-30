@@ -6,6 +6,8 @@ import {BalanceComponent} from './balance.component';
 import {ServiceConfirmationModule} from '../../project-profile/service-confirmation/ServiceConfirmation.module';
 import {LetterModule} from '../../project-profile/letter/letter.module';
 import {MessageModule} from "../../project-profile/notification/message.module";
+import {FollowupService} from "../../../Services/followup/followup.service";
+import {BillOfMaterialService} from "../../../Services/incentive/bill-of-material.service";
 
 @NgModule({
   imports: [
@@ -21,7 +23,8 @@ import {MessageModule} from "../../project-profile/notification/message.module";
   ],
   exports: [
     BalanceComponent
-  ]
+  ],
+  providers: [BillOfMaterialService]
 })
 export class BalanceModule {
 
