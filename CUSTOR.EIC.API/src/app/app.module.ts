@@ -50,6 +50,7 @@ import {AppComponent} from './app.component';
 
 
 import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
+import {NumberDirective} from "./directive/number.directive";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -95,6 +96,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NotificationsComponent,
 
     BaseComponent,
+
+    NumberDirective,
     // ConfirmDialog2Component,
     // CustomerServiceStarterComponent
     // AddressComponent,

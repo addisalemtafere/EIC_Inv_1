@@ -60,7 +60,7 @@
         <div class="blocks" fxFlex>
           <mat-form-field>
             <mat-label>Project Stage:</mat-label>
-            <mat-select formControlName="ProjectStage" required >
+            <mat-select formControlName="ProjectStage" required>
               <option value="0">--Select--</option>
               <mat-option *ngFor="let status of projectStage" [value]="status.Id">
                 <span>{{status.DescriptionEnglish}}</span>
@@ -142,6 +142,10 @@
               <mat-error align="start" *ngIf="formErrors.WoredaEng">{{ formErrors.WoredaEng }}</mat-error>
             </mat-form-field>
           </div>
+
+
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start start" class="content" fxLayout.lt-sm="column" fxLayoutGap="1em">
           <div class="block" fxFlex="">
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.KebeleAmharic' | translate}}</mat-label>
@@ -156,22 +160,6 @@
               <mat-error align="start" *ngIf="formErrors.KebeleEng">{{ formErrors.KebeleEng }}</mat-error>
             </mat-form-field>
           </div>
-          <!--<div class="block" fxFlex="">-->
-            <!--<mat-form-field>-->
-              <!--<mat-label>Kebele :</mat-label>-->
-              <!--<mat-select formControlName="KebeleId">-->
-                <!--<mat-option value="0">&#45;&#45;</mat-option>-->
-                <!--<mat-option *ngFor="let k of filteredKebeles" [value]="k.KebeleId">-->
-                  <!--{{k.Description}}-->
-                <!--</mat-option>-->
-              <!--</mat-select>-->
-              <!--<mat-error align="start" *ngIf="formErrors.Kebele">{{ formErrors.Kebele }}</mat-error>-->
-            <!--</mat-form-field>-->
-          <!--</div>-->
-
-        </div>
-        <div fxLayout="row" fxLayoutAlign="start start" class="content" fxLayout.lt-sm="column" fxLayoutGap="1em">
-
           <div class="block" fxFlex="25">
             <mat-form-field>
               <mat-label>Specific Area Name :</mat-label>

@@ -288,8 +288,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     }
     if (regionCode == 4) {
       this.IsOromia = true;
-    }
-    else {
+    } else {
       this.IsOromia = false;
     }
     this.filteredZones = null;
@@ -413,7 +412,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       ServiceId: [this.ServiceId],
       ParentProjectId: ['0'],
       CreatedUserName: this.accountServices.currentUser.UserName,
-      ProjectDescription: ['', [Validators.required, Validators.minLength(2)]],
+      ProjectDescription: ['', [Validators.minLength(2)]],
       StartDate: ['', [Validators.required]],
       OperationDate: ['', Validators.required],
       SectorId: [''],
@@ -423,7 +422,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       InvActivityId: [''],
       EndingDate: ['', Validators.required],
       IsSelfService: [false],
-      EnvironmentalImpact: ['', [Validators.required, Validators.minLength(2)]],
+      EnvironmentalImpact: ['', [Validators.minLength(2)]],
       AssignedUserId: [this.accountService.currentUser.Id],
       CreatedUserId: [this.accountService.currentUser.Id],
       ProjectStage: ['', Validators.required],
