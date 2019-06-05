@@ -64,6 +64,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public virtual DbSet<ProjectInjunction> ProjectInjunction { get; set; }
         public virtual DbSet<ProjectInput> ProjectInput { get; set; }
         public virtual DbSet<ProjectNationalityComposition> ProjectNationalityComposition { get; set; }
+        public virtual DbSet<ProjectNationalityCompositionDTO> ProjectNationalityCompositionDTO { get; set; }
         public virtual DbSet<ProjectOutput> ProjectOutput { get; set; }
         public virtual DbSet<ProjectRenewal> ProjectRenewal { get; set; }
         public virtual DbSet<ProjectRequirement> ProjectRequirement { get; set; }
@@ -215,7 +216,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 entity.ToTable("Address", "dbo");
 
                 entity.HasIndex(e => e.KebeleId);
-                
+
                 entity.HasIndex(e => e.KebeleEngId);
 
                 entity.HasIndex(e => e.RegionId);
@@ -223,7 +224,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 entity.HasIndex(e => e.TownId);
 
                 entity.HasIndex(e => e.WoredaId);
-                
+
                 entity.HasIndex(e => e.WoredaEngId);
 
                 entity.HasIndex(e => e.ZoneId);
@@ -258,7 +259,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 entity.Property(e => e.TownId).HasMaxLength(50);
 
                 //entity.Property(e => e.WoredaId).HasMaxLength(50);
-                
+
                 //entity.Property(e => e.WoredaEngId).HasMaxLength(50);
 
                 entity.Property(e => e.ZoneId).HasMaxLength(50);
@@ -638,7 +639,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 entity.Property(e => e.KebeleId)
                     .HasMaxLength(50)
                     .ValueGeneratedNever();
-                
+
 //                entity.Property(e => e.KebeleEngId)
 //                    .HasMaxLength(50)
 //                    .ValueGeneratedNever();
@@ -1900,8 +1901,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 //entity.HasIndex(e => e.ZoneId);
 
                 entity.Property(e => e.WoredaId)
-                                                                           .HasMaxLength(50)
-                                                                           .ValueGeneratedNever();
+                    .HasMaxLength(50)
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -1922,9 +1923,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .HasMaxLength(50);
 
                 //entity.HasOne(d => d.Zone)
-                    //.WithMany(p => p.Woredas)
-                    //.HasForeignKey(d => d.ZoneId)
-                   // .OnDelete(DeleteBehavior.ClientSetNull);
+                //.WithMany(p => p.Woredas)
+                //.HasForeignKey(d => d.ZoneId)
+                // .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Zone>(entity =>

@@ -63,7 +63,7 @@ namespace CUSTOR.EICOnline.DAL
             try
             {
                 string query1 = $@"(select InvestorId,id,descriptionEnglish,description,code from Nationality
-                                    Inner Join Investor ON Investor.Nationality=Nationality.Code)";
+                                    Inner Join Investor ON Investor.Nationality=Nationality.Id)";
 
                 Nationality = await Context.NationalityDTO
                     .Where(m => m.InvestorId == Id)

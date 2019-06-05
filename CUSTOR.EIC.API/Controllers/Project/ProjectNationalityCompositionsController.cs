@@ -49,14 +49,17 @@ namespace EIC.Investment.API.Controllers
       return Ok(projectNationalityComposition);
     }
 
-    [HttpGet("ByProject/{id}")]
-    public async Task<IActionResult> GetByProjectID([FromRoute] int id)
+    [HttpGet("ByProject/{id}/{lang}")]
+    public async Task<IActionResult> GetByProjectID([FromRoute] int id, string lang)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
+      string FieldNameOther = StaticDataHelper.GetFieldNameOther(lang);
+      string query1 =$@"( Select ProjectNationalityCompositionId,ProjectId,(Select distinct {FieldNameOther} from Nationality WHERE ProjectNationalityComposition.Nationality=Nationality.id ) as strNationality,Nationality,Qty,SharePercent,Description from ProjectNationalityComposition)";
 
-      var projectNationalityComposition =
-        await _context.ProjectNationalityComposition.Where(m => m.ProjectId == id).ToListAsync();
-
+      var projectNationalityComposition = await _context.ProjectNationalityCompositionDTO
+        .Where(m => m.ProjectId == id)
+        .FromSql(query1)
+        .ToListAsync();
       if (projectNationalityComposition == null) return NotFound();
 
       return Ok(projectNationalityComposition);
@@ -97,10 +100,10 @@ namespace EIC.Investment.API.Controllers
 
     // POST: api/ProjectNationalityCompositions
     [HttpPost]
-    public async Task<IActionResult> PostProjectNationalityComposition(
+    public async Task<ProjectNationalityComposition> PostProjectNationalityComposition(
       [FromBody] ProjectNationalityComposition projectNationalityComposition)
     {
-      if (!ModelState.IsValid) return BadRequest(ModelState);
+//      if (!ModelState.IsValid) return BadRequest(ModelState);
 
       var editedComposition = projectNationalityComposition;
       editedComposition.CreatedUserId = 1;
@@ -117,7 +120,7 @@ namespace EIC.Investment.API.Controllers
       _context.ProjectNationalityComposition.Add(editedComposition);
       await _context.SaveChangesAsync();
 
-      return CreatedAtAction("GetProjectNationalityComposition", projectNationalityComposition);
+      return projectNationalityComposition; //CreatedAtAction("GetProjectNationalityComposition", projectNationalityComposition);
     }
 
     // DELETE: api/ProjectNationalityCompositions/5

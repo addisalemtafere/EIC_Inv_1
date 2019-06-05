@@ -18,7 +18,7 @@
           <mat-form-field fxLayoutGap="4em" [fxFlex]="20">
             <mat-label>Nationality * :</mat-label>
             <mat-select formControlName="Nationality">
-              <mat-option *ngFor="let nation of nationList" [value]="nation.code">
+              <mat-option *ngFor="let nation of nationList" [value]="nation.id">
                 {{nation.description}}
               </mat-option>
             </mat-select>
@@ -96,7 +96,7 @@
 
         <ng-container matColumnDef="Nationality">
           <mat-header-cell *matHeaderCellDef>Nationality</mat-header-cell>
-          <mat-cell *matCellDef="let nationalityCompositionData"> {{nationalityCompositionData.Nationality | countryPipe: 1            }}
+          <mat-cell *matCellDef="let nationalityCompositionData"> {{nationalityCompositionData.strNationality }}
           </mat-cell>
         </ng-container>
 

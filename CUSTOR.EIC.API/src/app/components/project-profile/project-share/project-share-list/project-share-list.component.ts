@@ -12,7 +12,7 @@ export class ProjectShareListComponent implements OnInit {
   public shareList: ProjectNationalityCompositionModel[];
   public plannedShareList: ProjectNationalityCompositionModel;
   private ProjectId: any;
-
+  currentLang = 'en';
   constructor(public shareService: ProjectNationalityCompositionService,
               private route: ActivatedRoute) {
   }

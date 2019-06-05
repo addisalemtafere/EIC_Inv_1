@@ -105,8 +105,9 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
               setTimeout(() => this.dataSharing.currentIndex.next(7), 0);
             }
             this.projectShareForm.addControl('ProjectNationalityCompositionId', new FormControl(''));
-            this.nationalityCompositionData.push(result);
-            this.dataSource = new MatTableDataSource<ProjectNationalityCompositionModel>(this.nationalityCompositionData);
+            this.getNationalityCompositionsByProject();
+            // this.nationalityCompositionData.push(result);
+            // this.dataSource = new MatTableDataSource<ProjectNationalityCompositionModel>(this.nationalityCompositionData);
             this.notification('saved');
             this.onClear();
           });
@@ -115,7 +116,8 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
           .subscribe(result => {
             this.notification('updated');
             this.nationalityCompositionData[this.shareEditIndex] = result;
-            this.dataSource = new MatTableDataSource<ProjectNationalityCompositionModel>(this.nationalityCompositionData);
+            this.getNationalityCompositionsByProject();
+            //this.dataSource = new MatTableDataSource<ProjectNationalityCompositionModel>(this.nationalityCompositionData);
             this.onClear();
           }, error => this.toastr.error(this.errMsg.getError(error)));
       }

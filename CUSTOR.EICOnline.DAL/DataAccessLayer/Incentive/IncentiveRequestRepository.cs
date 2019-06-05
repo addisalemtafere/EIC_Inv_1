@@ -86,20 +86,28 @@ namespace CUSTOR.EICOnline.DAL
             return await SaveAsync();
         }
 
-        public Task<List<IncentiveRequest>> GetIncentiveRequestsByServiceAppId(int id, int page = 0, int pageSize = 15)
+        public Task<List<IncentiveRequestDTO>> GetIncentiveRequestsByServiceAppIds(string lang,int id, int page = 0, int pageSize = 15)
         {
-            IQueryable<IncentiveRequest> IncentiveRequests = Context.IncentiveRequest
-              //  .Include(In => In.IncentiveRequestItem)
-                .Where(Ince => Ince.ServiceApplicationId == id);
+            string FieldNameOther = StaticDataHelper.GetFieldNameOther(lang);
+            string query1 = $@"(select IncentiveRequestId,ServiceApplicationId,ProjectId,(Select {FieldNameOther} from LookUpType,IncentiveRequest WHERE LookUpType.LookUpTypeId=IncentiveRequest.IncentiveCategoryId ) as IncentiveCategoryId,RequestDate,Amount,Quantity 
+                                from IncentiveRequest)";
+
+            IQueryable<IncentiveRequestDTO> IncentiveRequests = null;
+            IncentiveRequests =Context.IncentiveRequestDTO
+                .Where(Ince => Ince.ServiceApplicationId == id)
+                .FromSql(query1);
             if (page > 0)
             {
                 IncentiveRequests = IncentiveRequests
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
             }
 
             return IncentiveRequests.ToListAsync();
         }
+        
+        
+        
         public Task<List<IncentiveRequestDTO>> GetIncentiveRequestsByServiceAppId(int id, int id1,string lang, int page = 0, int pageSize = 15)
         {
             string FieldName = StaticDataHelper.GetFieldName(lang);
