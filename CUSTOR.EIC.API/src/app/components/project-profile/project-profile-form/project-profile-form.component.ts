@@ -186,6 +186,11 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
           this.projectIdEditing = project.ProjectId;
         }
         this.projectForm.patchValue(project);
+
+        this.projectForm.patchValue({
+          ProjectStage: project.ProjectStage.toString()
+        });
+
         this.getAddressData(project.ProjectId);
       }, error => this.errMsg.getError(error));
   }
