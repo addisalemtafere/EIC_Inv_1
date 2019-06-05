@@ -166,8 +166,11 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       .getInvestor(id)
       .subscribe(result => {
           this.associate = result;
-          this.fillAddressLookups();
-          this.updateForm();
+          console.log(result);
+          if (result.LegalStatus == 1) {
+            this.fillAddressLookups();
+            this.updateForm();
+          }
         },
         error => this.toastr.error(error));
     this.loadingIndicator = false;
@@ -182,8 +185,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
           if (result == null) {
             this.isNewInvestor = true;
             this.getInvestorById(id);
-          }
-          else {
+          } else {
             this.isNewInvestor = false;
             this.updateForm();
             this.associateId = id;
