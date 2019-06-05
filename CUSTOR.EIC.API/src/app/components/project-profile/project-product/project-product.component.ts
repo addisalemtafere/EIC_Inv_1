@@ -28,8 +28,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
   dataSource: any;
   productEditIndex: number;
   displayedColumns = [
-    'No', 'ProductName', 'ProductQty', 'DomesticMarketShare', 'ExportMarketShare', 'Remark',
-    'Action'
+    'No', 'ProductName', 'ProductQty', 'DomesticMarketShare', 'ExportMarketShare', 'Action'
   ];
   subscription: Subscription;
   formErrors = {
