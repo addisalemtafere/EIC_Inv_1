@@ -31,7 +31,9 @@ export class ServiceConfirmationComponent implements OnInit {
       .subscribe(result => {
         this.confirm = true;
         // console.log(result);
-        this.toastr.success('Application submitted successfully we will revise soon as well as  we will notify for any action required');
+        this.toastr.success('Application is submitted successfully.' +
+          ' We will verify your application and submitted documents ' +
+          'and notify you for any actions required');
       });
 
   }
