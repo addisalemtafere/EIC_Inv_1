@@ -4,6 +4,7 @@ import {IncentiveRequestHistoryComponent} from './incentive-request-history.comp
 import {SharedModule} from '@custor/modules/shared.module';
 import {IncentiveRequestHistoryRoutingModule} from './incentive-request-history-routing.module';
 import {ApplicationSettingService} from "../../../../Services/application-setting.service";
+import {ErrorMessage} from "@custor/services/errMessageService";
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import {ApplicationSettingService} from "../../../../Services/application-settin
     IncentiveRequestHistoryRoutingModule],
   declarations: [IncentiveRequestHistoryComponent],
   exports: [IncentiveRequestHistoryComponent],
-  providers: [ApplicationSettingService]
+  providers: [ApplicationSettingService, ErrorMessage]
 })
 export class IncentiveRequestHistoryModule {
 }

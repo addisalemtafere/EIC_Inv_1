@@ -8,6 +8,7 @@ import {LetterModule} from '../../project-profile/letter/letter.module';
 import {ServiceConfirmationModule} from "../../project-profile/service-confirmation/ServiceConfirmation.module";
 import {MessageModule} from "../../project-profile/notification/message.module";
 import {ApplicationSettingService} from "../../../Services/application-setting.service";
+import {ErrorMessage} from "@custor/services/errMessageService";
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ import {ApplicationSettingService} from "../../../Services/application-setting.s
   ],
   declarations: [IncentiveRequestComponent, IncentiveRequestTabComponent],
   exports: [IncentiveRequestComponent, IncentiveRequestTabComponent],
-  providers: [ApplicationSettingService]
+  providers: [ApplicationSettingService,ErrorMessage]
 })
 export class IncentiveRequestModule {
 }

@@ -28,7 +28,8 @@ import {ConfigurationService} from "@custor/services/configuration.service";
 @Component({
   selector: 'app-letter',
   templateUrl: './letter.component.html',
-  styleUrls: ['./letter.component.scss']
+  styleUrls: ['./letter.component.scss'],
+  providers:[ErrorMessage]
 })
 export class LetterComponent implements OnInit {
 

@@ -3,12 +3,12 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost:5000",
+      "applicationUrl": "http://localhost:5050",
       "sslPort": 0
     },
     "iisExpress": {
 <<<<<<< HEAD
-      "applicationUrl": "http://localhost:5000",
+      "applicationUrl": "http://localhost:5050",
 =======
       "applicationUrl": "http://localhost:5050",
 >>>>>>> d4da5b2d56a646e6fdd473fdbf27ab2781b51dfc
@@ -26,7 +26,7 @@
 >>>>>>> d4da5b2d56a646e6fdd473fdbf27ab2781b51dfc
 
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000",
+      "launchUrl": "http://localhost:5050",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -37,7 +37,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:5000/"
+      "applicationUrl": "http://localhost:5050/"
     }
   }
 }

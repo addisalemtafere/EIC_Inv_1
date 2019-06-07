@@ -90,7 +90,8 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
               public accountService: AccountService,
               public settingService: ApplicationSettingService,
               private IncentiveRequestItemService: IncentiveRequestDetailService,
-              private IncentiveRequestService: IncentiveRequestService, private errMsg: ErrorMessage,
+              private IncentiveRequestService: IncentiveRequestService,
+              private errMsg: ErrorMessage,
               private toastr: ToastrService,
               private configService: ConfigurationService,
               private fb: FormBuilder) {
@@ -333,7 +334,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
           else {
             return false;
           }
-         
+
         });//TODO Validation Jump
     }
     return false;
