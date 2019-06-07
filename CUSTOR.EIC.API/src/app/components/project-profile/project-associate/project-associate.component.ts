@@ -66,7 +66,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
 
-
+    console.log(this.projectId);
     this.getAllAssociate();
     // this.getAssociateByProject();
     if (this.projectId > 1) {
@@ -80,6 +80,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
     this.projectAssociateService.associateProject(this.projectId).subscribe(result => {
       if (result.length > 0) {
         this.associateData = result;
+        console.log(this.associateData);
         // this.dataSource = new MatTableDataSource<ProjectAssociateModel>(this.associateData);
         this.loading = false;
         this.updateList();
@@ -136,9 +137,10 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
 
 
   private getAllAssociate() {
-    this.associateService.getAssociateByInvestorId(+localStorage.getItem('InvestorId'))
+    this.associateService.getAssociateByInvestorId(this.InvestorId)
       .subscribe(result => {
         this.associateList = result;
+        console.log("ejhrr" + result);
         this.updateList();
       });
   }
