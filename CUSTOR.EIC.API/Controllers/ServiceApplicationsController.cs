@@ -6,6 +6,7 @@ using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using EIC.Investment.API.ViewModels.Dto;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -432,10 +433,26 @@ namespace EIC.Investment.API.Controllers
       {
         var investor = _context.Investors.Where(s => s.Tin == searchDto.Tin)
           .Select(s => new Investor
-          {InvestorId = s.InvestorId
+          {
+            InvestorId = s.InvestorId
           }).FirstOrDefault();
-        query = query.Where(x => x.InvestorId ==investor.InvestorId);
+        if (investor != null)
+        {
+          query = query.Where(x => x.InvestorId == investor.InvestorId);
+        }
 
+        if (investor == null)
+        {
+          var project = _context.Project.Where(s => s.InvestmentPermitNo == searchDto.Tin)
+            .Select(s => new Project
+            {
+              ProjectId = s.ProjectId
+            }).FirstOrDefault();
+          if (project != null)
+          {
+            query = query.Where(x => x.ProjectId == project.ProjectId);
+          }
+        }
       }
 
 
@@ -470,8 +487,8 @@ namespace EIC.Investment.API.Controllers
       return Ok(serviceApplication);
     }
 
-
-    [HttpGet("submitedForApproval/{id}")]
+    [
+      HttpGet("submitedForApproval/{id}")]
     public async Task<IActionResult> ApproveApplication([FromRoute] int id)
     {
       var application = _context.ServiceApplication.First(s => s.ServiceApplicationId == id);
@@ -490,8 +507,8 @@ namespace EIC.Investment.API.Controllers
       return Ok(application);
     }
 
-
-    [HttpGet("ApplicationGroupByServiceId")]
+    [
+      HttpGet("ApplicationGroupByServiceId")]
     public IEnumerable<ServiceGroup> Result()
     {
       var serviceGroup = new List<ServiceGroup>();
@@ -513,8 +530,8 @@ namespace EIC.Investment.API.Controllers
       return serviceGroup;
     }
 
-
-    [HttpGet("ProjectGroupByStage")]
+    [
+      HttpGet("ProjectGroupByStage")]
     public IEnumerable<ServiceGroup> AllProjectStatusBySector()
     {
       var serviceGroup = new List<ServiceGroup>();
@@ -535,8 +552,8 @@ namespace EIC.Investment.API.Controllers
       return serviceGroup;
     }
 
-
-    [HttpGet("ProjectGroupByEconomicSector")]
+    [
+      HttpGet("ProjectGroupByEconomicSector")]
     public IEnumerable<series> AllProjectByEconomicSector()
     {
       IEnumerable<series> series = _context.Query<series>().FromSql("sp_get_all_project_group_by_economic_sector")
@@ -545,7 +562,8 @@ namespace EIC.Investment.API.Controllers
       return series;
     }
 
-    [HttpGet("AllProjectByProjectStage")]
+    [
+      HttpGet("AllProjectByProjectStage")]
     public IEnumerable<series> AllProjectByProjectStage()
     {
       IEnumerable<series> series = _context.Query<series>().FromSql("sp_get_all_project_group_by_project_stage")
@@ -553,8 +571,8 @@ namespace EIC.Investment.API.Controllers
       return series;
     }
 
-
-    [HttpGet("ServiceApplicationWithInvestor/{id}")]
+    [
+      HttpGet("ServiceApplicationWithInvestor/{id}")]
     public async Task<ServiceApplication> GetServiceApplicationWithInvestor([FromRoute] int id)
     {
       var serviceApplication = await _context.ServiceApplication
@@ -563,7 +581,8 @@ namespace EIC.Investment.API.Controllers
       return serviceApplication;
     }
 
-    [HttpGet("ServiceApplicationById/{id}")]
+    [
+      HttpGet("ServiceApplicationById/{id}")]
     public async Task<ServiceApplication> GetServiceApplicationById([FromRoute] int id)
     {
       var serviceApplication = await
@@ -577,7 +596,6 @@ namespace EIC.Investment.API.Controllers
       return _context.ServiceApplication.Any(e => e.ServiceApplicationId == id);
     }
 
-
     //optimization
 //      [HttpGet("ByOfficerId2/{officerId}")]
 //      public IEnumerable<ServiceApplication> GetServiceApplicationByOfficerId2([FromRoute] string officerId)
@@ -589,7 +607,8 @@ namespace EIC.Investment.API.Controllers
 //          .OrderByDescending(s => s.ServiceApplicationId);
 //        return project;
 //      }
-    [HttpGet("ByOfficerId2/{officerId}")]
+    [
+      HttpGet("ByOfficerId2/{officerId}")]
     public async Task<PagedResult<ServiceApplication>> GetServiceApplicationByOfficerId2(
       [FromQuery] QueryParameters queryParameters, [FromRoute] String UserId)
     {
