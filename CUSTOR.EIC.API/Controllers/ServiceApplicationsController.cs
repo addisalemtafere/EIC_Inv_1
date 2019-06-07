@@ -10,6 +10,7 @@ using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EIC.Investment.API.Controllers
 {
@@ -176,9 +177,13 @@ namespace EIC.Investment.API.Controllers
       serviceApplication.CurrentStatusId = Convert.ToInt32(lookup.Code);
       _context.Entry(serviceApplication).State = EntityState.Modified;
 
-      var toDoTask = _context.TodoTask.First(p => p.ServiceApplicationId == id);
-      toDoTask.CurrentStatusId = Int32.Parse(lookup.Code);
-      _context.Entry(toDoTask).State = EntityState.Modified;
+      var toDoTask = _context.TodoTask.FirstOrDefault(p => p.ServiceApplicationId == id);
+
+      if (toDoTask != null)
+      {
+        toDoTask.CurrentStatusId = Int32.Parse(lookup.Code);
+        _context.Entry(toDoTask).State = EntityState.Modified;
+      }
 
       if (lookup.Code == "44449")
       {
