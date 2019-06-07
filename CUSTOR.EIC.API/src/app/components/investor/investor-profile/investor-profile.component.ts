@@ -3,6 +3,7 @@ import {DataSharingService} from "../../../Services/data-sharing.service";
 import {Subscription} from "rxjs";
 import {MatStepper} from "@angular/material";
 import {AccountService} from "@custor/services/security/account.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-investor-profile',
@@ -21,6 +22,7 @@ export class InvestorProfileComponent implements OnInit {
   public hasInvestor: string;
 
   constructor(private dataSharing: DataSharingService,
+              private router: Router,
               private accountService: AccountService) {
   }
 
@@ -56,5 +58,8 @@ export class InvestorProfileComponent implements OnInit {
     this.isInvestor = this.accountService.getUserType();
   }
 
+  toServiceList() {
+    this.router.navigate(['/service-list']);
+  }
 
 }

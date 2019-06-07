@@ -26,7 +26,7 @@
                       {{'common.validation.Required' | translate}}
                     </mat-error>
                     <mat-error *ngIf="firstNameEng.hasError('minlength')">
-                      {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+                      {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
                     </mat-error>
                     <mat-error *ngIf="!firstNameEng.hasError('required') && !firstNameEng.hasError('minlength')
                                                   && firstNameEng.hasError('pattern')">
@@ -40,7 +40,7 @@
                       {{'common.validation.Required' | translate}}
                     </mat-error>
                     <mat-error *ngIf="!fatherNameEng.hasError('required') && fatherNameEng.hasError('minlength')">
-                      {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+                      {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
                     </mat-error>
                     <mat-error *ngIf="!fatherNameEng.hasError('required') && !fatherNameEng.hasError('minlength')
                                                       && firstNameEng.hasError('pattern')">
@@ -66,12 +66,12 @@
                 <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
                   <mat-form-field fxFlex>
                     <mat-label>{{'investors.editor.FirstName' | translate}}</mat-label>
-                    <input matInput formControlName="cFirstName" required/>
+                    <input matInput formControlName="cFirstName"/>
                     <!--<mat-error *ngIf="firstName.hasError('required')">-->
                     <!--{{'common.validation.Required' | translate}}-->
                     <!--</mat-error>-->
                     <mat-error *ngIf="!firstName.hasError('required') && firstName.hasError('minlength')">
-                      {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+                      {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
                     </mat-error>
                     <mat-error *ngIf="!firstName.hasError('required') && !firstName.hasError('minlength')
                                                 && firstName.hasError('pattern')">
@@ -81,12 +81,12 @@
 
                   <mat-form-field fxFlex>
                     <mat-label>{{'investors.editor.FatherName' | translate}}</mat-label>
-                    <input matInput formControlName="cFatherName" required/>
+                    <input matInput formControlName="cFatherName"/>
                     <!--<mat-error *ngIf="fatherName.hasError('required')">-->
                     <!--{{'common.validation.Required' | translate}}-->
                     <!--</mat-error>-->
                     <mat-error *ngIf="!fatherName.hasError('required') && fatherName.hasError('minlength')">
-                      {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+                      {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
                     </mat-error>
                     <mat-error *ngIf="!fatherName.hasError('required') && !fatherName.hasError('minlength')
                                                     && fatherName.hasError('pattern')">
@@ -96,7 +96,7 @@
 
                   <mat-form-field fxFlex>
                     <mat-label>{{'investors.editor.GrandName' | translate}}</mat-label>
-                    <input matInput formControlName="cGrandName" required/>
+                    <input matInput formControlName="cGrandName"/>
                     <!--<mat-error *ngIf="grandName.hasError('required')">-->
                     <!--{{'common.validation.Required' | translate }}-->
                     <!--</mat-error>-->

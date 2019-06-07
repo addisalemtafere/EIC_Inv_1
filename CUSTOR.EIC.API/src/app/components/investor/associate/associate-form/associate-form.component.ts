@@ -75,6 +75,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   @Input() errors: string[] = [];
   private workFlowId: any;
   investor: Investor;
+  private assoId: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -115,12 +116,13 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.currentLang = this.configService.language;
     const id = this.activatedRoute.snapshot.params['InvestorId'];
     this.investorId = this.activatedRoute.snapshot.params['InvestorId'];
+    this.assoId = this.activatedRoute.snapshot.params['associateId'];
     this.workFlowId = this.activatedRoute.snapshot.params['workFlowId'];
 
     this.initStaticData(this.currentLang);
     this.fillAddressLookups();
     this.imgBase64 = '';
-    if (id < 1) {
+    if (id < 1 || this.assoId < 1) {
       this.isNewInvestor = true;
       // this.isCompany = false;
       this.associateId = 0;
@@ -167,8 +169,11 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       .getInvestor(id)
       .subscribe(result => {
           this.associate = result;
-          this.fillAddressLookups();
-          this.updateForm();
+          console.log(result);
+          if (result.LegalStatus == 1) {
+            this.fillAddressLookups();
+            this.updateForm();
+          }
         },
         error => this.toastr.error(error));
     this.loadingIndicator = false;
@@ -183,8 +188,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
           if (result == null) {
             this.isNewInvestor = true;
             this.getInvestorById(id);
-          }
-          else {
+          } else {
             this.isNewInvestor = false;
             this.updateForm();
             this.associateId = id;

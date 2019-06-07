@@ -261,7 +261,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
       // Check the extension exists
       const exists = extensions.includes(ext);
       if (!exists) {
-        this.errors.push('Error, Pdf Extension Only allowed to attach : ' + files[i].name);
+        this.errors.push('Only documents with .pdf extension are allowed : ' + files[i].name);
         // this.toast.error('Error ,Pdf Extension Only allowed to attach :' + files[i].name, 'Error');
 
       }

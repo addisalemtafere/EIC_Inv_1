@@ -42,9 +42,9 @@
                    matInput>
             <mat-error align="start" *ngIf="formErrors.SharePercent" class="form__error">{{ formErrors.SharePercent }}
             </mat-error>
-            <mat-error align="start" *ngIf="projectShareForm.get('SharePercent').hasError('value')" class="form__error">
-              Sum of all share percent is exceeded 100
-            </mat-error>
+            <!--            <mat-error align="start" *ngIf="projectShareForm.get('SharePercent').hasError('value')" class="form__error">-->
+            <!--              Sum of all share percent is exceeded 100-->
+            <!--            </mat-error>-->
             <mat-error align="start" *ngIf="projectShareForm.get('SharePercent').hasError('max')" class="form__error">
               Share percent can not exceeded 100
             </mat-error>
@@ -90,7 +90,7 @@
       <mat-table class="full-width" #table [dataSource]="dataSource">
         <ng-container style="width: 10px !important;" matColumnDef="No">
           <mat-header-cell style="width: 10px !important;" *matHeaderCellDef>No</mat-header-cell>
-          <mat-cell style="width: 10px !important;" *matCellDef="let nationalityCompositionData;let i=index;">{{i+1}}
+          <mat-cell style="width: 10px !important;" *matCellDef="let nationalityCompositionData;let i=index;">{{i + 1}}
           </mat-cell>
         </ng-container>
 

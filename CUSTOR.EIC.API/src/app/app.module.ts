@@ -57,6 +57,9 @@ import { TranslateService } from '@ngx-translate/core';
 // import {Pipe} from "@angular/core";
 
 
+import {NumberDirective} from "./directive/number.directive";
+
+
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
   "bgsOpacity": 0.5,
@@ -98,6 +101,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 
     NotificationsComponent,
     BaseComponent,
+    NumberDirective,
+    // ConfirmDialog2Component,
     // CustomerServiceStarterComponent
     // AddressComponent,
     // HelpComponent,
