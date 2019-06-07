@@ -26,6 +26,7 @@ namespace CUSTOR.EICOnline.DAL
 
         public async Task<List<SubSectorDTO>> GetSubSectors(string lang, int page = 0, int pageSize = 15)
         {
+
             IEnumerable<SubSectorDTO> SubSector = null;
             string cacheKey = "SubSectorKey";
             var cachedSectors = await distributedCache.GetStringAsync(cacheKey);

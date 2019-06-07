@@ -160,7 +160,7 @@
       <div class="spinner-container" *ngIf="loadingIndicator">
         <mat-progress-bar mode="query"></mat-progress-bar>
       </div>
-      <mat-table #table [dataSource]="dataSource">
+      <mat-table #tableProject [dataSource]="dataSourceProject">
         <ng-container matColumnDef="ProjectName">
           <mat-header-cell fxFlex="15" *matHeaderCellDef>Project Name</mat-header-cell>
           <mat-cell fxFlex="15" *matCellDef="let projectList">

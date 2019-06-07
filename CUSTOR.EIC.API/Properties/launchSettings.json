@@ -7,15 +7,23 @@
       "sslPort": 0
     },
     "iisExpress": {
+<<<<<<< HEAD
       "applicationUrl": "http://localhost:5000",
+=======
+      "applicationUrl": "http://localhost:5050",
+>>>>>>> d4da5b2d56a646e6fdd473fdbf27ab2781b51dfc
       "sslPort": 0
     }
   },
   "profiles": {
     "IIS Express": {
 
+<<<<<<< HEAD
 
       "commandName": "IISExpress",
+=======
+      "commandName": "Project",
+>>>>>>> d4da5b2d56a646e6fdd473fdbf27ab2781b51dfc
 
       "launchBrowser": true,
       "launchUrl": "http://localhost:5000",
@@ -24,7 +32,7 @@
       }
     },
     "EICOnline": {
-      "commandName": "IIS",
+      "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

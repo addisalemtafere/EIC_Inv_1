@@ -6,6 +6,7 @@ using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EIC.Investment.API.Controllers.Controllers
 {
@@ -29,12 +30,14 @@ namespace EIC.Investment.API.Controllers.Controllers
       throw new InvalidOperationException("This is an unhandled exception");
     }
 
+
 //    [HttpGet]
 //    [Route("api/activityslookup")]
 //    public async Task<IEnumerable<Activity>> GetActivity()
 //    {
 //      return await _ActivityRepo.GetActivitys();
 //    }
+
 
     [HttpGet]
     [Route("api/activitys/{lang}")]
@@ -50,7 +53,8 @@ namespace EIC.Investment.API.Controllers.Controllers
       return await _ActivityRepo.GetActivitysByParent(id, page, pageSize);
     }
 
-    [HttpGet("api/activity/{id:int}")]
+    [HttpGet]
+    [Route("api/activity/{id:int}")]
     public Activity GetActivity(int id)
     {
       return _ActivityRepo.GetActivity(id);

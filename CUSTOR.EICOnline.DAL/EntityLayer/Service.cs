@@ -55,11 +55,14 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     {
     }
 
-    [Key]
-    public int? ServiceId { get; set; }
+    public int ServiceId { get; set; }
 
-    public string ServiceName { get; set; }
-    public string ServiceNameEnglish { get; set; }
-    //public bool IsActive { get; set; }
+    public string Name { get; set; }
+    public string NameEnglish { get; set; }
+    public string DisplayName { get; set; }
+    public string DisplayNameEnglish { get; set; }
+    public string Abbreviation { get; set; }
+    public string Icon { get; set; }
+    public string TypeOfService { get; set; }
   }
 }

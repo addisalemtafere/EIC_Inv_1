@@ -1,16 +1,16 @@
-import {Injectable, Injector} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {AppConfiguration} from '../../config/appconfig';
-import {BaseService} from '../Base.service';
 import {ErrorMessage} from '@custor/services/errMessageService';
-import {IncentiveRequestModel} from '../../model/IncentiveRequest.model';
 import {RegistrationModel} from '../../model/Registration/RegistrationModel';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // {
+  //   providedIn: 'root'
+  // }
+)
 export class RegistrationService {
   constructor(private httpClient: HttpClient,
               public appConfig: AppConfiguration,
@@ -18,12 +18,13 @@ export class RegistrationService {
   }
 
   registrationMoedl: RegistrationModel;
- /* getRegistrationByTin(Tin: any): Observable<Registration> {
-    return this.httpClient.get<Registration>(this.appConfig.urls.url('GetRegistrationByTin') + '/' + Tin).pipe(
-      map((data: any) => data as Registration),
-      catchError(this.errMsg.parseObservableResponseError)
-    );
-  }*/
+
+  /* getRegistrationByTin(Tin: any): Observable<Registration> {
+     return this.httpClient.get<Registration>(this.appConfig.urls.url('GetRegistrationByTin') + '/' + Tin).pipe(
+       map((data: any) => data as Registration),
+       catchError(this.errMsg.parseObservableResponseError)
+     );
+   }*/
 
   getRegistrationByTin(Tin): Observable<RegistrationModel> {
     return this.httpClient.get<RegistrationModel>(this.config.urls.url('GetRegistrationByTin', Tin)).pipe(

@@ -1681,35 +1681,35 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 //          .HasMaxLength(50)
                 //          .ValueGeneratedNever();
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.DescriptionAlias)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.DescriptionEnglish)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.DescriptionEnglishAlias)
-                    .IsRequired()
-                    .HasMaxLength(500);
-
-                entity.Property(e => e.DescriptionSort)
-                    .IsRequired()
-                    .HasMaxLength(500);
-
-                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
-
-                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
-
-                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.SectorId)
-                    .IsRequired()
-                    .HasMaxLength(50);
+//                entity.Property(e => e.Description)
+//                    .IsRequired()
+//                    .HasMaxLength(250);
+//
+//                entity.Property(e => e.DescriptionAlias)
+//                    .IsRequired()
+//                    .HasMaxLength(50);
+//
+//                entity.Property(e => e.DescriptionEnglish)
+//                    .IsRequired()
+//                    .HasMaxLength(250);
+//
+//                entity.Property(e => e.DescriptionEnglishAlias)
+//                    .IsRequired()
+//                    .HasMaxLength(500);
+//
+//                entity.Property(e => e.DescriptionSort)
+//                    .IsRequired()
+//                    .HasMaxLength(500);
+//
+//                //entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
+//
+//                //entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+//
+//                //entity.Property(e => e.ObjectId).HasDefaultValueSql("(newid())");
+//
+//                entity.Property(e => e.SectorId)
+////                    .IsRequired()
+//                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.Sector)
                     .WithMany(p => p.SubSector)

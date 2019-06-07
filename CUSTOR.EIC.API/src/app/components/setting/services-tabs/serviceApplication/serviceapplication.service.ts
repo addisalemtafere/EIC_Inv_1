@@ -4,8 +4,9 @@ import {ErrorMessage} from '../../../../../@custor/services/errMessageService';
 import {AppConfiguration} from '../../../../config/appconfig';
 import {catchError, map} from 'rxjs/operators';
 import {ServiceApplicationModel} from '../../../../model/ServiceApplication.model';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {BaseService} from '../../../../Services/Base.service';
+import {QueryParametersModel} from "../../../../model/QueryParameters.model";
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,10 @@ export class ServiceapplicationService extends BaseService<ServiceApplicationMod
       catchError(this.errMsg.parseObservableResponseError));
   }
 
+
+
+
+
   finalForApprovalServiceApplications(id): Observable<ServiceApplicationModel[]> {
     return this.httpClient.get<ServiceApplicationModel>(this.config.urls.url('finalForApproval', id)).pipe(
       catchError(this.errMsg.parseObservableResponseError));
@@ -58,6 +63,16 @@ export class ServiceapplicationService extends BaseService<ServiceApplicationMod
 
   applicationStart(resource) {
     return this.httpClient.post(this.config.urls.url('ApplicationStart'), resource).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getServiceApplicationsByOfficerId2(id, managerParams: QueryParametersModel): Observable<any> {
+
+    const mParams = new HttpParams()
+      .append('PageCount', managerParams.PageSize.toString())
+      .append('PageNumber', managerParams.PageIndex.toString())
+      .append('Lang', managerParams.Lang);
+    return this.httpClient.get<any>(this.config.urls.url('ServiceApplicationsByOfficerId2', id), {params: mParams}).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
 }

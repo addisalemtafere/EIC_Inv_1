@@ -284,7 +284,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
           return true;
         }
       });
-
+      return false;
   }
 
   prepareSaveUser(): FormData {

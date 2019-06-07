@@ -1,3 +1,5 @@
+
+import {of as observableOf, Observable, Subscription} from 'rxjs';
 import {
   AfterContentChecked,
   AfterViewChecked,
@@ -15,7 +17,6 @@ import {ConfigurationService} from '../@custor/services/configuration.service';
 import {MatDialog, MatDialogConfig, MatExpansionPanel} from '@angular/material';
 import {AuthService} from '../@custor/services/security/auth.service';
 import {User} from './model/security/user.model';
-import {Observable} from 'rxjs/Observable';
 import {ServiceModel} from './model/Service.model';
 import {ServiceService} from './Services/service.service';
 import {DataSharingService} from './Services/data-sharing.service';
@@ -25,7 +26,6 @@ import {NotificationService} from './Services/notification.service';
 import {IncentiveLogModel} from './model/IncentiveLog.model';
 import {IncentiveLogService} from './Services/incentive-log.service';
 import {ToastrService} from 'ngx-toastr';
-import {Subscription} from 'rxjs/Subscription';
 import {Permission} from './model/security/permission.model';
 import {NgxUiLoaderService} from "ngx-ui-loader";
 // import {TranslationLoaderService} from "@custor/services/translation-loader.service";
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   mobileQuery: MediaQueryList;
   user: User;
   currentUsername = '';
-  isLoggedIn$: Observable<boolean> = Observable.of(true);
+  isLoggedIn$: Observable<boolean> = observableOf(true);
   isInvestor: boolean;
   serviceList: ServiceModel[] = [];
   numberOfNotification: any;
@@ -192,23 +192,23 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         if ((url.indexOf('dashboard') > 0)) {
 
           if (this.authService.isLoggedIn) {
-            setTimeout(() => this.isLoggedIn$ = Observable.of(true));
+            setTimeout(() => this.isLoggedIn$ = observableOf(true));
             this.countNotification(this.accountService.currentUser.Id);
             this.getUserType();
             // this.CheckLoginStatus();
 
           } else {
-            setTimeout(() => this.isLoggedIn$ = Observable.of(false));
+            setTimeout(() => this.isLoggedIn$ = observableOf(false));
           }
         } else {
           if (this.authService.isLoggedIn) {
-            setTimeout(() => this.isLoggedIn$ = Observable.of(true));
+            setTimeout(() => this.isLoggedIn$ = observableOf(true));
             this.countNotification(this.accountService.currentUser.Id);
             this.getUserType();
 
 
           } else {
-            setTimeout(() => this.isLoggedIn$ = Observable.of(false));
+            setTimeout(() => this.isLoggedIn$ = observableOf(false));
           }
         }
       }
@@ -234,7 +234,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
     }
 
-    this.isLoggedIn$ = Observable.of(false);
+    this.isLoggedIn$ = observableOf(false);
   }
 
   DoLogin() {
@@ -250,7 +250,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     this.clearLocalStorage();
     this.authService.logout();
     this.authService.redirectLogoutUser();
-    setTimeout(() => this.isLoggedIn$ = Observable.of(false));
+    setTimeout(() => this.isLoggedIn$ = observableOf(false));
     localStorage.setItem('loggIn', 'false');
 
   }
@@ -394,7 +394,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   public goToHome() {
     this.router.navigate(['/home'])
     this.authService.logout();
-    setTimeout(() => this.isLoggedIn$ = Observable.of(false));
+    setTimeout(() => this.isLoggedIn$ = observableOf(false));
 
   }
 }

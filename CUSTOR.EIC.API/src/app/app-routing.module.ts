@@ -1,12 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {HomeComponent} from './components/home/home.component';
 import {AuthService} from '@custor/services/security/auth.service';
 import {AuthGuard} from '@custor/services/security/auth-guard.service';
-import {NotFoundComponent} from './components/not-found/not-found.component';
-import {ConfirmComponent} from './components/auth/register/confirm.component';
-import {LoginComponent} from './components/auth/login/login.component';
-import {AccessDeniedComponent} from './components/denied/denied.component';
 
 
 @NgModule({
@@ -37,10 +32,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         loadChildren: 'app/components/management-dashboard/management.module#ManagementModule',
         canActivate: [AuthGuard]
       },
-      {
-        path: 'login',
-        component: LoginComponent
-      },
+
       {
         path: 'service-list',
         // component: CustomerServiceStarterComponent
@@ -283,12 +275,20 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         canActivate: [AuthGuard]
       },
       {
+        path: 'project-search/:ServiceId/:InvestorId/:ProjectId',
+        loadChildren: 'app/components/project-profile/project-search/project-search.module#ProjectSearchModule',
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'investor-project-list/:ServiceId',
         loadChildren: 'app/components/project-list-modal/InvestorProjectList.module#InvestorProjectListModule',
         canActivate: [AuthGuard]
       },
 
-      { path: 'confirm', component: ConfirmComponent },
+      {
+        path: 'confirm',
+        loadChildren: 'app/components/auth/register/confirm.module#ConfirmModule'
+      },
       {
         path: 'lookups',
         loadChildren: 'app/components/setting/lookup-tabs/lookups/lookups.module#LookupsModule',
@@ -328,7 +328,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
 
       {
         path: 'denied',
-        component: AccessDeniedComponent
+        loadChildren: 'app/components/denied/denied.module#DeniedModule'
       },
       {
         path: 'incentive-request-item/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
@@ -395,8 +395,14 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         path: 'contact',
         loadChildren: 'app/components/contact/contact.module#ContactModule'
       },
-      { path: '', component: HomeComponent },
-      { path: '**', component: NotFoundComponent },
+      {
+        path: 'login',
+        loadChildren: 'app/components/auth/login/login.module#LoginModule'
+      },
+
+      {path: '', loadChildren: 'app/components/home/landing.module#LandingModule'},
+
+      {path: '**', loadChildren: 'app/components/not-found/not-found.module#NotFoundModule'},
     ])
   ],
   exports: [

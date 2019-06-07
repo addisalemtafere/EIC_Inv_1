@@ -32,6 +32,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   title: string;
   serviceTitle: string;
   dataSource: any;
+  dataSourceProject: any;
   investorShow = true;
   loadingIndicator: boolean;
   loading = true;
@@ -102,9 +103,9 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
             });
           } else {
             this.loadingIndicator = false;
-            this.dataSource = new MatTableDataSource<Investor>(result);
+            this.dataSourceProject = new MatTableDataSource<Investor>(result);
             // console.log(result);
-            this.dataSource.paginator = this.paginator;
+            this.dataSourceProject.paginator = this.paginator;
           }
         },
         error => {
@@ -157,31 +158,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
     }
     else {
-      // localStorage.setItem('InvestorId', InvestorId);
-      this.router.navigate(['/search-browser/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
-
-      this.invName = investorName;
-      this.loadingIndicator = true;
-      this.projectService.getProjectByInvestorId(InvestorId)
-        .subscribe(result => {
-            this.projectList = result;
-            this.title = 'ProjectDetail';
-            if (this.projectList.length == 0) {
-              this.loadingIndicator = false;
-              this.toastr.info('No active project records were found to list', 'Info', {
-                closeButton: true,
-              });
-            } else {
-              this.loadingIndicator = false;
-              this.investorShow = false;
-              this.dataSource = new MatTableDataSource<ProjectModel>(result);
-              this.dataSource.paginator = this.paginator;
-            }
-          },
-          error => {
-            this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
-          });
-      this.loadingIndicator = false;
+      this.router.navigate(['/project-search/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
     }
   }
 

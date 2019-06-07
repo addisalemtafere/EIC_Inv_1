@@ -25,12 +25,14 @@ namespace CUSTOR.EICOnline.API.Controllers
     [HttpGet("{id}")]
     public ServiceApplication GetServiceApplication([FromRoute] int id)
     {
+
+      ServiceApplication serviceApplicationCertificate=null;
+
       try
       {
         var serviceApplication = _context.ServiceApplication.First(p => p.ServiceApplicationId == id);
-
         var project = _context.Project.First(p => p.ProjectId == serviceApplication.ProjectId);
-        var squence = _context.Squences.FirstOrDefault();
+        var squence = _context.Squences.First();
         var lastSe = squence.LastSquence + 1;
 
         var perminumber = lastSe.ToString();
@@ -39,17 +41,20 @@ namespace CUSTOR.EICOnline.API.Controllers
         if (project.InvestmentPermitNo == "" || project.InvestmentPermitNo == null)
         {
           _context.Entry(squence).State = EntityState.Modified;
+          _context.SaveChanges();
 
           project.InvestmentPermitNo = perminumber;
           _context.Entry(project).State = EntityState.Modified;
           _context.SaveChanges();
         }
 
-        return _context.ServiceApplication
-          .Include(s => s.Investor)
-          .Include(s => s.Project)
-          .Include(s => s.Service)
-          .SingleOrDefault(m => m.ServiceApplicationId == id);
+        serviceApplicationCertificate=  _context.ServiceApplication
+            .Include(s => s.Investor)
+            .Include(s => s.Project)
+            .Include(s => s.Service)
+            .SingleOrDefault(m => m.ServiceApplicationId == id);
+        return serviceApplicationCertificate;
+
       }
       catch (Exception ex)
       {

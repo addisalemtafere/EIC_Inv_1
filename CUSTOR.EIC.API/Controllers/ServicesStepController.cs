@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EIC.Investment.API.Controllers
 {
@@ -13,20 +15,27 @@ namespace EIC.Investment.API.Controllers
   [Produces("application/json")]
   public class ServicesStepController : Controller
   {
+    private readonly IMapper _mapper;
     private readonly ApplicationDbContext _context;
     private readonly ServiceStepperRepository _serviceStepperRepo;
 
-    public ServicesStepController(ApplicationDbContext context, ServiceStepperRepository ServiceStepperRepo)
+    public ServicesStepController(ApplicationDbContext context,
+      ServiceStepperRepository ServiceStepperRepo,
+      IMapper mapper)
     {
       _context = context;
       _serviceStepperRepo = ServiceStepperRepo;
+      _mapper = mapper;
     }
 
     [HttpGet]
     [Route("api/servicestepper")]
-    public IEnumerable<ServiceStep> GetServiceApplicationWorkflow()
+    [Produces(typeof(List<ServiceStepViewModel>))]
+    public async Task<IActionResult> GetServiceApplicationWorkflow()
     {
-      return _context.ServiceStep;
+      var serviceStep = _context.ServiceStep;
+      var result = _mapper.Map<ICollection<ServiceStepViewModel>>(serviceStep);
+      return Ok(result);
     }
 
     [HttpGet]

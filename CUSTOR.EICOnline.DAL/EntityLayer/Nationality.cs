@@ -25,7 +25,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         {
         }
         [Key]
-        public string code { get; set; }
+        public int id { get; set; }
         public string description { get; set; }
     }
 }

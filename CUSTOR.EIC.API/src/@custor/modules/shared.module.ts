@@ -23,7 +23,7 @@ import {AccessDeniedComponent} from '../../app/components/denied/denied.componen
 import {NotFoundComponent} from '../../app/components/not-found/not-found.component';
 import {ServicePipePipe} from '../../app/pipe/service-pipe.pipe';
 import {LookuptypePipe} from '../../app/pipe/lookuptype.pipe.pipe';
-
+import {ServicePrerequisiteService} from "../../app/components/setting/services-tabs/serviceprerequistie/servicePrerequisite.service";
 
 
 @NgModule({
@@ -65,8 +65,8 @@ import {LookuptypePipe} from '../../app/pipe/lookuptype.pipe.pipe';
     ServicePipePipe,
     // ProjectListComponent,
 
-    NotFoundComponent,
-    AccessDeniedComponent,
+    // NotFoundComponent,
+    // AccessDeniedComponent,
     // CustomerServiceStarterComponent,
     LookuptypePipe
 
@@ -88,8 +88,8 @@ import {LookuptypePipe} from '../../app/pipe/lookuptype.pipe.pipe';
     ServicePipePipe,
     // ProjectListComponent,
 
-    NotFoundComponent,
-    AccessDeniedComponent,
+    // NotFoundComponent,
+    // AccessDeniedComponent,
     // CustomerServiceStarterComponent,
     LookuptypePipe
   ],
@@ -97,7 +97,7 @@ import {LookuptypePipe} from '../../app/pipe/lookuptype.pipe.pipe';
     AngConfirmDialogComponent,
     AppDialogComponent
   ],
-  // providers: [DatePipe],
+  providers: [ServicePrerequisiteService],
 })
 export class SharedModule {
 }

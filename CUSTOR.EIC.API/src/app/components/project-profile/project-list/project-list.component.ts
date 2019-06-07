@@ -1,6 +1,6 @@
 import {AfterContentChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
-import {MatDialog, MatDialogConfig, MatPaginator, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatPaginator, MatTableDataSource, PageEvent} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DataSharingService} from '../../../Services/data-sharing.service';
 import {ServiceService} from '../../../Services/service.service';
@@ -17,6 +17,9 @@ import {Subscription} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {ApplicationStatus} from '@custor/const/consts';
 import {ApplicationStatusModel, ProjectStatusModel} from '../../../model/lookupData';
+import {QueryParametersModel} from "../../../model/QueryParameters.model";
+import {PaginationService} from "@custor/services/pagination.service";
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-project-list',
@@ -25,6 +28,9 @@ import {ApplicationStatusModel, ProjectStatusModel} from '../../../model/lookupD
 })
 export class ProjectListComponent implements OnInit, AfterContentChecked, AfterViewInit {
   // projectList: ProjectModel[];
+
+  pageEvent: PageEvent;
+  totalCount = 0;
   dataSource: any;
   subscribtion = new Subscription();
   loading = true;
@@ -50,6 +56,8 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
               private accountService: AccountService,
               private service: ServiceService,
               private toast: ToastrService,
+              private configService: ConfigurationService,
+              public paginationService: PaginationService,
               private formBuilder: FormBuilder,
               private formService: FormService) {
   }
@@ -355,6 +363,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   formBuild() {
     this.searchForm = this.formBuilder.group({
       ServiceId: [],
+      Tin: [],
       status: [],
       SpecDate: [],
       FromDate: [],
@@ -465,6 +474,47 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
 
+  }
+
+
+  getAllServiceApplicationByOfficerId2(officerId: any) {
+    this.dataSharing.assignTask.next(false);
+    this.serviceApplication.getServiceApplicationsByOfficerId2(officerId, this.getManagerParameters())
+      .subscribe(result => {
+        // this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result.Items);
+        // this.loading = false;
+        // this.serviceApplicationList = result.Items;
+        // console.log(result);
+        // this.dataSource.paginator = this.paginator;
+
+        console.log(result);
+        this.serviceApplicationList = result.Items;
+        if (!this.serviceApplicationList) {
+          this.toast.error('No records were found to list', 'Error', {
+            closeButton: true,
+          });
+        } else {
+          this.dataSource = new MatTableDataSource(this.serviceApplicationList);
+          if (this.totalCount === 0) {
+            this.totalCount = result.ItemsCount;
+          }
+        }
+
+      }, error => this.errMsg.getError(error));
+  }
+
+  private getManagerParameters(): QueryParametersModel {
+    const params = new QueryParametersModel();
+
+    params.PageIndex = this.paginationService.page;
+    params.PageSize = this.paginationService.pageCount;
+    params.Lang = this.configService.language;
+    return params;
+  }
+
+  switchPage(event: PageEvent) {
+    this.paginationService.change(event);
+    this.getAllServiceApplicationByOfficerId2(this.accountService.currentUser.Id);
   }
 
 

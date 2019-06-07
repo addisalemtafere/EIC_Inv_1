@@ -4,7 +4,7 @@ import {ProjectNationalityCompositionService} from '../../../Services/project-na
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AddressService} from '../../../Services/Address/address.service';
 import {NationalityModel} from '../../../model/address/NationalityModel';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {DataSharingService} from '../../../Services/data-sharing.service';
 import {ProjectNationalityCompositionModel} from '../../../model/ProjectNationalityComposition.model.';
 import {MatTableDataSource} from '@angular/material';

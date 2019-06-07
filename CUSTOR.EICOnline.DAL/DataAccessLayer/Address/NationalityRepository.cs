@@ -39,7 +39,7 @@ namespace CUSTOR.EICOnline.DAL
                     .OrderBy(Nationality => Nationality.description)
                     .Select(r => new NationalDTO
                     {
-                        code = r.code,
+                        id = r.id,
                         description = (lang == "et") ? r.description : r.descriptionEnglish
                     }).ToListAsync();
                 if (page > 0)

@@ -1,7 +1,8 @@
+
+import {throwError as observableThrowError, Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
 
 import {EndpointFactory} from './endpoint-factory.service';
 import {ConfigurationService} from '../configuration.service';
@@ -73,27 +74,27 @@ export class AccountEndpoint extends EndpointFactory {
   getUserEndpoint<T>(userId?: string): Observable<T> {
     const endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getUserByUserNameEndpoint<T>(userName: string): Observable<T> {
     const endpointUrl = `${this.userByUserNameUrl}/${userName}`;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getUsersEndpoint<T>(page?: number, pageSize?: number): Observable<T> {
     const endpointUrl = page && pageSize ? `${this.usersUrl}/${page}/${pageSize}` : this.usersUrl;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getNewUserEndpoint<T>(userObject: any): Observable<T> {
     // console.log(this.usersAddUrl);
     return this.http.post<T>(this.usersUrl, JSON.stringify(userObject), this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error'))
+      catchError(err => observableThrowError(err || 'Server error'))
     );
   }
 
@@ -101,7 +102,7 @@ export class AccountEndpoint extends EndpointFactory {
     // console.log(this.usersAddUrl);
     // console.log(JSON.stringify(userObject));
     return this.http.post<T>(this.usersAddUrl, JSON.stringify(userObject), this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error'))
+      catchError(err => observableThrowError(err || 'Server error'))
     );
   }
 
@@ -109,7 +110,7 @@ export class AccountEndpoint extends EndpointFactory {
     // console.log(this.selfRegisterUsersAddUrl);
     // console.log(JSON.stringify(userObject));
     return this.http.post<T>(this.selfRegisterUsersAddUrl, JSON.stringify(userObject), this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error'))
+      catchError(err => observableThrowError(err || 'Server error'))
     );
   }
 
@@ -117,7 +118,7 @@ export class AccountEndpoint extends EndpointFactory {
     const endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
 
     return this.http.put<T>(endpointUrl, JSON.stringify(userObject), this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getPatchUpdateUserEndpoint<T>(patch: {}, userId?: string): Observable<T>;
@@ -137,64 +138,64 @@ export class AccountEndpoint extends EndpointFactory {
     }
 
     return this.http.patch<T>(endpointUrl, JSON.stringify(patchDocument), this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getUserPreferencesEndpoint<T>(): Observable<T> {
     return this.http.get<T>(this.currentUserPreferencesUrl, this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getUpdateUserPreferencesEndpoint<T>(configuration: string): Observable<T> {
     return this.http.put<T>(this.currentUserPreferencesUrl, JSON.stringify(configuration), this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getUnblockUserEndpoint<T>(userId: string): Observable<T> {
     const endpointUrl = `${this.unblockUserUrl}/${userId}`;
 
     return this.http.put<T>(endpointUrl, null, this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getDeleteUserEndpoint<T>(userId: string): Observable<T> {
     const endpointUrl = `${this.usersUrl}/${userId}`;
 
     return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getRoleEndpoint<T>(roleId: string): Observable<T> {
     const endpointUrl = `${this.rolesUrl}/${roleId}`;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getRoleByRoleNameEndpoint<T>(roleName: string): Observable<T> {
     const endpointUrl = `${this.roleByRoleNameUrl}/${roleName}`;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getRolesEndpoint<T>(page?: number, pageSize?: number): Observable<T> {
     const endpointUrl = page && pageSize ? `${this.rolesUrl}/${page}/${pageSize}` : this.rolesUrl;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getNewRoleEndpoint<T>(roleObject: any): Observable<T> {
     return this.http.post<T>(this.rolesUrl, JSON.stringify(roleObject), this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getUpdateRoleEndpoint<T>(roleObject: any, roleId: string): Observable<T> {
     const endpointUrl = `${this.rolesUrl}/${roleId}`;
 
     return this.http.put<T>(endpointUrl, JSON.stringify(roleObject), this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getDeleteRoleEndpoint<T>(roleId: string): Observable<T> {
@@ -208,11 +209,11 @@ export class AccountEndpoint extends EndpointFactory {
 
   getPermissionsEndpoint<T>(): Observable<T> {
     return this.http.get<T>(this.permissionsUrl, this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 
   getResetPasswordEndpoint<T>(userObject: any): Observable<T> {
     return this.http.post<T>(this.resetUrl, JSON.stringify(userObject), this.getRequestHeaders()).pipe(
-      catchError(err => Observable.throw(err || 'Server error')));
+      catchError(err => observableThrowError(err || 'Server error')));
   }
 }

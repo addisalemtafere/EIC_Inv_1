@@ -4,9 +4,8 @@ using System.Text;
 
 namespace CUSTOR.EICOnline.DAL
 {
-    public static class StaticDataHelper
+    public  static class StaticDataHelper
     {
-
         public static string GetFieldName(string strLang)
         {
             string strResult = string.Empty;

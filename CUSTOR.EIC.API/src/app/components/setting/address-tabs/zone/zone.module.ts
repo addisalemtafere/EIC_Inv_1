@@ -6,6 +6,8 @@ import {ListZoneComponent} from './list/list-zone.component';
 import {EditZoneComponent} from './edit/edit-zone.component';
 import {ZoneComponent} from './zone.component';
 import {SharedModule} from '../../../../../@custor/modules/shared.module';
+import {RegionService} from "../region/region.service";
+import {ZoneService} from "./zone.service";
 
 @NgModule({
   imports: [
@@ -14,7 +16,8 @@ import {SharedModule} from '../../../../../@custor/modules/shared.module';
     SharedModule
   ],
   declarations: [ListZoneComponent, EditZoneComponent, ZoneComponent],
-  exports: [ListZoneComponent, EditZoneComponent, ZoneComponent]
+  exports: [ListZoneComponent, EditZoneComponent, ZoneComponent],
+  providers: [ZoneService]
 })
 export class ZoneModule {
 }
