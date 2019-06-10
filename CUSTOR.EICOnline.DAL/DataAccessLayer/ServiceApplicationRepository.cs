@@ -74,6 +74,7 @@ namespace CUSTOR.EICOnline.DAL
                 .Where(t => t.TodoTask.AssignedUserId == UserId)
                 .Include(s => s.ServiceWorkflow)
                 .Paging(queryParameter.PageCount, queryParameter.PageNumber)
+                .OrderByDescending(s => s.ServiceApplicationId)
                 .ToListAsync();
 
             return new PagedResult<ServiceApplication>()

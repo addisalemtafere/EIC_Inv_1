@@ -6,6 +6,8 @@ import {BillOfMaterialComponent} from './bill-of-material.component';
 import {BillOfMaterialTabComponent} from './bill-of-material-tab/bill-of-material-tab.component';
 import {ServiceConfirmationModule} from '../../project-profile/service-confirmation/ServiceConfirmation.module';
 import {LetterModule} from '../../project-profile/letter/letter.module';
+import {MessageModule} from "../../project-profile/notification/message.module";
+import {BillOfMaterialService} from "../../../Services/incentive/bill-of-material.service";
 
 @NgModule({
   imports: [
@@ -13,7 +15,8 @@ import {LetterModule} from '../../project-profile/letter/letter.module';
     SharedModule,
     BillOfMaterialRoutingModule,
     ServiceConfirmationModule,
-    LetterModule
+    LetterModule,
+    MessageModule
   ],
   declarations: [
     BillOfMaterialComponent,
@@ -21,7 +24,9 @@ import {LetterModule} from '../../project-profile/letter/letter.module';
   ],
   exports: [
     BillOfMaterialComponent,
-    BillOfMaterialTabComponent]
+    BillOfMaterialTabComponent
+  ],
+  providers: [BillOfMaterialService]
 })
 export class BillOfMaterialModule {
 

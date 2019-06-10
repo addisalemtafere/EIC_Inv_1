@@ -29,6 +29,7 @@ import {LetterLookupPipe} from '../../app/pipe/letter-lookup.pipe';
 import {LookupReasonPipe} from '../../app/pipe/lookup-reason-pipe.pipe';
 import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
 import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
+import {ServicePrerequisiteService} from "../../app/components/setting/services-tabs/serviceprerequistie/servicePrerequisite.service";
 
 @NgModule({
   imports: [
@@ -69,8 +70,8 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     ServicePipePipe,
     // ProjectListComponent,
 
-    NotFoundComponent,
-    AccessDeniedComponent,
+    // NotFoundComponent,
+    // AccessDeniedComponent,
     // CustomerServiceStarterComponent,
     LookupPipe,
     OriginPipe,
@@ -98,8 +99,8 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     ServicePipePipe,
     // ProjectListComponent,
 
-    NotFoundComponent,
-    AccessDeniedComponent,
+    // NotFoundComponent,
+    // AccessDeniedComponent,
     // CustomerServiceStarterComponent,
     LookupPipe,
     OriginPipe,
@@ -114,7 +115,7 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     AngConfirmDialogComponent,
     AppDialogComponent
   ],
-  // providers: [DatePipe],
+  providers: [ServicePrerequisiteService],
 })
 export class SharedModule {
 }

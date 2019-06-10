@@ -24,7 +24,6 @@ export class TaxExemptionTabComponent implements OnInit {
               public accountService: AccountService,
               private dialog: MatDialog,
               public route: ActivatedRoute,
-
               private toastr: ToastrService) {
   }
 

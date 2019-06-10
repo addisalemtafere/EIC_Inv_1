@@ -111,6 +111,12 @@ export class AssociateComponent implements OnInit, AfterViewInit {
 
   }
 
+  addInvestor() {
+    const invId = localStorage.getItem('InvestorId');
+    this.router.navigate(['/associate/form/', invId, 0], {relativeTo: this.route});
+
+  }
+
   confirmDelete(investor: AssociateModel) {
     this.confirmDialogRef = this.dialog.open(AngConfirmDialogComponent,
       {

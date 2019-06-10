@@ -5,9 +5,11 @@ import {HttpClient} from '@angular/common/http';
 import {AppConfiguration} from '../config/appconfig';
 import {ErrorMessage} from '@custor/services/errMessageService';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class ProjectStatusHistoryService extends BaseService<ProjectStatusHistoryModel> {
 
  constructor(

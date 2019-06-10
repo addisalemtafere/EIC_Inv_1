@@ -5,9 +5,11 @@ import { BaseService } from './Base.service';
 import { ErrorMessage } from '../../@custor/services/errMessageService';
 import { DocumentModel } from '../model/Document.model';
 
-@Injectable({
+@Injectable(
+  {
   providedIn: 'root'
-})
+}
+)
 export class ServiceDocumentsService extends BaseService<DocumentModel> {
   constructor(
     protected http: HttpClient,

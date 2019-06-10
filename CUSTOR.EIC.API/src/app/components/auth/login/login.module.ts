@@ -13,9 +13,14 @@ import {LoginRoutingModule} from './login-routing.module';
     LoginRoutingModule
   ],
   declarations: [
-    // LoginDialogComponent,
-    // LoginComponent,
-    // LoginControlComponent,
+    LoginComponent,
+    LoginControlComponent,
+    LoginDialogComponent,
+  ],
+  exports: [
+    LoginComponent,
+    LoginControlComponent,
+    LoginDialogComponent,
   ]
 })
 export class LoginModule {

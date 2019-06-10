@@ -20,7 +20,6 @@ import {TodoTaskModel} from '../../model/TodoTask.model';
 import {ServiceModel} from '../../model/Service.model';
 import {Permission} from '../../model/security/permission.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
-import {ActivityModel} from "../../model/activity";
 
 @Component({
   selector: 'app-search-browser',
@@ -155,33 +154,10 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     if (this.ServiceId == 13) {
       this.InvestorId = InvestorId;
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
-    }
-    else {
+    } else {
       // localStorage.setItem('InvestorId', InvestorId);
-      this.router.navigate(['/search-browser/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
+      this.router.navigate(['/project-search/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
 
-      this.invName = investorName;
-      this.loadingIndicator = true;
-      this.projectService.getProjectByInvestorId(InvestorId)
-        .subscribe(result => {
-            this.projectList = result;
-            this.title = 'ProjectDetail';
-            if (this.projectList.length == 0) {
-              this.loadingIndicator = false;
-              this.toastr.info('No active project records were found to list', 'Info', {
-                closeButton: true,
-              });
-            } else {
-              this.loadingIndicator = false;
-              this.investorShow = false;
-              this.dataSource = new MatTableDataSource<ProjectModel>(result);
-              this.dataSource.paginator = this.paginator;
-            }
-          },
-          error => {
-            this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
-          });
-      this.loadingIndicator = false;
     }
   }
 

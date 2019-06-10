@@ -7,9 +7,11 @@ import {TodoTaskModel} from '../model/TodoTask.model';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError} from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // {
+  //   providedIn: 'root'
+  // }
+)
 export class TodoTaskService extends BaseService<TodoTaskModel> {
 
   constructor(

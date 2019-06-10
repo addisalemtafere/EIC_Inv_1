@@ -8,9 +8,11 @@ import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class BillOfMaterialService extends BaseService<IncentiveBoMRequestItemModel> {
 
   constructor(

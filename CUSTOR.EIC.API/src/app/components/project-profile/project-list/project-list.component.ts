@@ -37,7 +37,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   searchForm: FormGroup;
   serviceList: ServiceModel[] = [];
   displayedColumns = [
-    'ServiceName', 'ProjectName', 'InvestorName', 'currentStatus', 'NextStep', 'Action'
+    'ServiceName', 'ProjectName', 'InvestorName', 'sDate', 'eDate', 'currentStatus', 'NextStep', 'Action', 'AssignedTo'
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isOfficer = false;
@@ -363,6 +363,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   formBuild() {
     this.searchForm = this.formBuilder.group({
       ServiceId: [],
+      Tin: [],
       status: [],
       SpecDate: [],
       FromDate: [],

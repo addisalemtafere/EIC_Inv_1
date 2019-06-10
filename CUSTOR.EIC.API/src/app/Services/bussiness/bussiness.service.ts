@@ -9,9 +9,11 @@ import {ErrorMessage} from '@custor/services/errMessageService';
 import {BussinessBranchModel} from '../../model/bussiness/BussinessBranch.model';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // {
+  //   providedIn: 'root'
+  // }
+)
 export class BussinessService {
   public bussinessdata: BussinessModel;
   public bussinessBranchdata: BussinessModel;

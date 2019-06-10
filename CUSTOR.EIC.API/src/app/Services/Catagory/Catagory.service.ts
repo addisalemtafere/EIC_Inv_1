@@ -8,17 +8,21 @@ import {BussinessModel} from '../../model/bussiness/BussinessModel.model';
 import {BussinessCatagory} from '../../model/bussiness/BussinessCatagory.model';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+  // {
+  //   providedIn: 'root'
+  // }
+)
 
-export class CatagoryService  {
-   constructor(private httpClient: HttpClient,
+export class CatagoryService {
+  constructor(private httpClient: HttpClient,
               private config: AppConfiguration,
               private errMsg: ErrorMessage) {
   }
-  public  bussinessdata: BussinessModel;
-   public  bussinesslicenceData: BussinessCatagory;
+
+  public bussinessdata: BussinessModel;
+  public bussinesslicenceData: BussinessCatagory;
+
   getMajorDivisionByTin(Tin: string) {
     return this.httpClient.get(this.config.urls.url('MajorDivisions', Tin)).pipe(
       map(result => {
@@ -81,6 +85,7 @@ export class CatagoryService  {
         return result;
       }), catchError(this.errMsg.parseObservableResponseError));
   }
+
   getRegistrationByTin(Tin: string) {
     return this.httpClient.get(this.config.urls.url('GetRegistration', Tin)).pipe(
       map(result => {

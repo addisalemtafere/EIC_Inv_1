@@ -33,7 +33,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   loading = true;
   searchForm: FormGroup;
   serviceList: ServiceModel[] = [];
-  displayedColumns = ['CaseNumber', 'ServiceName', 'currentStatus', 'NextStep', 'Action'];
+  displayedColumns = ['CaseNumber', 'ServiceName', 'sDate', 'eDate', 'currentStatus', 'NextStep', 'Action'];
   displayedColumnsNotification = ['subject', 'date', 'message', 'Action'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -103,8 +103,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     }
     if (serviceId === 1054) {
       this.router.navigate(['/bill-of-material/2' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
-    }
-    else if (serviceId === 13 || serviceId == 1023) {
+    } else if (serviceId === 13 || serviceId == 1023) {
       switch (step) {
         case 8:
           stepIndex = 1;
@@ -132,8 +131,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           break;
       }
       this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + investorId]);
-    }
-    else if (serviceId === 1235) {
+    } else if (serviceId === 1235) {
       switch (step) {
         case 1018:
           stepIndex = 2;
@@ -355,8 +353,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
 
               localStorage.setItem('profile-completed', 'false');
               this.router.navigate(['investor-profile', this.investors[0].InvestorId]);
-            }
-            else {
+            } else {
               console.log('Profile incomlete2')
 
               this.router.navigate(['investor-profile/0']);

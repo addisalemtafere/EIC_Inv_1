@@ -4,6 +4,7 @@ import {SharedModule} from '@custor/modules/shared.module';
 import {EmploymentRoutingModule} from './employment-routing.module';
 import {ProjectEmploymentListComponent} from './project-employment-list/project-employment-list.component';
 import {ProjectEmploymentComponent} from './project-employment.component';
+import {ProjectEmploymentService} from "../../../Services/project-employment.service";
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import {ProjectEmploymentComponent} from './project-employment.component';
     EmploymentRoutingModule
   ],
   declarations: [ProjectEmploymentListComponent, ProjectEmploymentComponent],
-  exports: [ProjectEmploymentListComponent, ProjectEmploymentComponent]
+  exports: [ProjectEmploymentListComponent, ProjectEmploymentComponent],
+  providers: [ProjectEmploymentService]
 })
 
 export class EmploymentModule {

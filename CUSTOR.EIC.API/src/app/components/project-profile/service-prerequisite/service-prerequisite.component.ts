@@ -31,7 +31,8 @@ import {AppConfiguration} from "../../../config/appconfig";
 @Component({
   selector: 'app-service-prerequisite',
   templateUrl: './service-prerequisite.component.html',
-  styleUrls: ['./service-prerequisite.component.css']
+  styleUrls: ['./service-prerequisite.component.css'],
+  providers: [ServicePrerequisiteService, PreRequisiteDocumentService]
 })
 export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked {
   documentForm: FormGroup;
@@ -260,7 +261,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
       // Check the extension exists
       const exists = extensions.includes(ext);
       if (!exists) {
-        this.errors.push('Error, Pdf Extension Only allowed to attach : ' + files[i].name);
+        this.errors.push('Only documents with .pdf extension are allowed : ' + files[i].name);
         // this.toast.error('Error ,Pdf Extension Only allowed to attach :' + files[i].name, 'Error');
 
       }

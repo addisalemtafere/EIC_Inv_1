@@ -1,20 +1,16 @@
 <div
   id="app_container"
   [class.is-mobile]="mobileQuery.matches"
-  class="nav-container"
->
+  class="nav-container">
   <mat-toolbar
     style="margin-bottom: 5px"
     color="primary"
-    class="mat-elevation-z3 app-toolbar"
-  >
-    <button mat-icon-button>
+    class="mat-elevation-z3 app-toolbar">
+    <button mat-icon-button *ngIf="isLogged !== 'false'">
       <mat-icon>menu</mat-icon>
     </button>
     <!-- <h1 class="app-name"><a routerLink="/">{{appTitle}}</a></h1> -->
-    <a style="margin-top: 12px" (click)="goToHome()"
-      ><img src="../assets/logo/eInvest.png"
-    /></a>
+    <a style="margin-top: 12px" (click)="goToHome()"    ><img src="../assets/logo/eInvest.png"/></a>
 
     <span class="app-toolbar-spacer"></span>
     <!-- <app-theme-picker></app-theme-picker> -->
@@ -40,18 +36,14 @@
     <button
       *ngIf="(isLoggedIn$ | async)"
       mat-button
-      (click)="viewNotification()"
-    >
-      <mat-icon matBadge="{{ numberOfNotification }}" matBadgeColor="warn"
-        >notifications</mat-icon
-      >
+      (click)="viewNotification()">
+      <mat-icon matBadge="{{ numberOfNotification }}" matBadgeColor="warn">notifications</mat-icon>
     </button>
 
     <button
       *ngIf="isLogged === 'false'"
       mat-button
-      (click)="router.navigateByUrl('/register')"
-    >
+      (click)="router.navigateByUrl('/register')">
       <mat-icon>person</mat-icon>
       <span>{{ "mainMenu.Register" | translate }}</span>
     </button>
@@ -64,8 +56,7 @@
       class="side-button"
       mat-button
       [matMenuTriggerFor]="accountMenu"
-      matTooltip="{{ 'mainMenu.UserAccount' | translate }}"
-    >
+      matTooltip="{{ 'mainMenu.UserAccount' | translate }}">
       <!--<mat-icon class="menu-button">account_circle</mat-icon>-->
       <mat-icon class="menu-button">more_vert</mat-icon>
       <!--<span>{{currentUsername}}</span>-->
@@ -78,8 +69,7 @@
       <button
         *ngIf="(isLoggedIn$ | async)"
         mat-menu-item
-        (click)="router.navigateByUrl('/manage-password/1')"
-      >
+        (click)="router.navigateByUrl('/manage-password/1')">
         <mat-icon>settings</mat-icon>
         <span>{{ "mainMenu.changePassword" | translate }}</span>
       </button>
@@ -93,8 +83,7 @@
   <mat-sidenav-container
     style="margin-top: 2px"
     class="app-sidenav-container"
-    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
-  >
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav
       *ngIf="(isLoggedIn$ | async)"
       #mainNav
@@ -102,39 +91,33 @@
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="56"
-      [opened]="!mobileQuery.matches"
-    >
+      [opened]="!mobileQuery.matches">
       <mat-nav-list>
         <a
           *ngIf="!isLogged"
           mat-list-item
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
-          routerLink="/login"
-        >
+          routerLink="/login">
           <mat-icon>dashboard</mat-icon>
-          {{ "mainMenu.Home" | translate }}</a
-        >
+          {{ "mainMenu.Home" | translate }}</a>
         <a
           *ngIf="isInvestor"
           mat-list-item
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
-          routerLink="/dashboard"
-        >
+          routerLink="/dashboard">
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
 
         <a
           *ngIf="
-            !isInvestor && !canViewReadOnlyData && !canManageLookupsPermission
-          "
+            !isInvestor && !canViewReadOnlyData && !canManageLookupsPermission          "
           mat-list-item
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
-          routerLink="/officer-dashboard"
-        >
+          routerLink="/officer-dashboard">
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
@@ -143,8 +126,7 @@
           mat-list-item
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
-          routerLink="/management-dashboard"
-        >
+          routerLink="/management-dashboard">
           <mat-icon class="mat-18">collections</mat-icon>
           Management Dashboard
         </a>
@@ -152,8 +134,7 @@
         <mat-expansion-panel
           *ngIf="isInvestor"
           #profile
-          [class.mat-elevation-z0]="!profile.expanded"
-        >
+          [class.mat-elevation-z0]="!profile.expanded">
           <mat-expansion-panel-header style="font-size: 16px;">
             <mat-panel-title>
               <mat-icon>reorder</mat-icon>
@@ -166,29 +147,22 @@
               *ngIf="isInvestor"
               mat-list-item
               routerLinkActive="active"
-              (click)="Investor()"
-            >
+              (click)="Investor()">
               <mat-icon color="primary" class="mat-18">account_circle</mat-icon>
-              {{ "mainMenu.InvestorProfile" | translate }}</a
-            >
-            <a
-              *ngIf="isInvestor"
-              (click)="toMangerList()"
-              mat-list-item
-              routerLinkActive="active"
-            >
+              {{ "mainMenu.InvestorProfile" | translate }}</a>
+            <a *ngIf="isInvestor"
+               (click)="toMangerList()"
+               mat-list-item
+               routerLinkActive="active">
               <mat-icon color="primary">people</mat-icon>
               {{ "mainMenu.associate" | translate }}</a
             >
-            <a
-              *ngIf="isInvestor"
-              (click)="toServiceList()"
-              mat-list-item
-              routerLinkActive="active"
-            >
+            <a *ngIf="isInvestor"
+               (click)="toServiceList()"
+               mat-list-item
+               routerLinkActive="active">
               <mat-icon color="primary" class="mat-18">view_list</mat-icon>
-              {{ "mainMenu.Services" | translate }}</a
-            >
+              {{ "mainMenu.Services" | translate }}</a>
           </mat-list>
         </mat-expansion-panel>
         <!--<a *ngIf="canViewTasks " mat-list-item routerLinkActive="active"-->
@@ -197,39 +171,31 @@
         <!--{{'mainMenu.customerRegistration' | translate}}-->
         <!--</a>-->
 
-        <a
-          *ngIf="isInvestor"
-          mat-list-item
-          routerLinkActive="active"
-          routerLink="/appointment"
-        >
+        <a *ngIf="isInvestor"
+           mat-list-item
+           routerLinkActive="active"
+           routerLink="/appointment">
           <mat-icon>announcement</mat-icon>
           Notifications
         </a>
-        <a
-          *ngIf="isInvestor"
-          mat-list-item
-          routerLinkActive="active"
-          routerLink="/draft-application"
-        >
+        <a *ngIf="isInvestor"
+           mat-list-item
+           routerLinkActive="active"
+           routerLink="/draft-application">
           <mat-icon>drafts</mat-icon>
           Draft Application
         </a>
-        <a
-          *ngIf="isInvestor"
-          mat-list-item
-          routerLinkActive="active"
-          routerLink="/archive-application"
-        >
+        <a *ngIf="isInvestor"
+           mat-list-item
+           routerLinkActive="active"
+           routerLink="/archive-application">
           <mat-icon>library_add</mat-icon>
           Archive application
         </a>
-        <a
-          *ngIf="isInvestor"
-          mat-list-item
-          routerLinkActive="active"
-          (click)="startService('1001', 'incentive Detail')"
-        >
+        <a *ngIf="isInvestor"
+           mat-list-item
+           routerLinkActive="active"
+           (click)="startService('1001', 'incentive Detail')">
           <mat-icon>library_add</mat-icon>
           Incentive Detail
         </a>
