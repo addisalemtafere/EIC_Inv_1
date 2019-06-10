@@ -48,13 +48,29 @@
                       {{serviceApplicationList?.ServiceNameEnglish | filterPipe: 50}}
                     </mat-cell>
                   </ng-container>
-                  <!--<ng-container matColumnDef="ProjectName">-->
-                  <!--<mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>-->
-                  <!--<mat-cell *matCellDef="let serviceApplicationList">-->
-
-                  <!--{{serviceApplicationList?.ProjectNameEnglish}}-->
-                  <!--</mat-cell>-->
-                  <!--</ng-container>-->
+<!--                  <ng-container fxFlex="20" matColumnDef="projectName">-->
+<!--                    <mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>-->
+<!--                    <mat-cell *matCellDef="let serviceApplicationList">-->
+<!--                      {{serviceApplicationList?.Project?.ProjectNameEnglish }}-->
+<!--                    </mat-cell>-->
+<!--                  </ng-container>-->
+                  <ng-container fxFlex="8" matColumnDef="sDate">
+                    <mat-header-cell *matHeaderCellDef>Start Date</mat-header-cell>
+                    <mat-cell style="    color: #e17d16;    font-weight: bolder !important;"
+                              *matCellDef="let serviceApplicationList"> {{serviceApplicationList?.StartDate | date: 'mediumDate'}}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container fxFlex="8" matColumnDef="eDate">
+                    <mat-header-cell *matHeaderCellDef>End Date</mat-header-cell>
+                    <mat-cell style="color: green;    font-weight: bolder;" *matCellDef="let serviceApplicationList">
+            <span *ngIf="serviceApplicationList?.EndDate!=null;">
+                {{serviceApplicationList?.EndDate | date: 'mediumDate'}}
+            </span>
+                      <span *ngIf="serviceApplicationList?.EndDate==null;">
+                --
+              </span>
+                    </mat-cell>
+                  </ng-container>
 
 
                   <ng-container matColumnDef="currentStatus">

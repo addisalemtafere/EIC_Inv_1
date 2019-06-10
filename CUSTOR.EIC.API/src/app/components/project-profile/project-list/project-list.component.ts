@@ -37,7 +37,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   searchForm: FormGroup;
   serviceList: ServiceModel[] = [];
   displayedColumns = [
-    'ServiceName', 'ProjectName', 'InvestorName', 'currentStatus', 'NextStep', 'Action'
+    'ServiceName', 'ProjectName', 'InvestorName', 'sDate','eDate', 'currentStatus', 'NextStep', 'Action'
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isOfficer = false;

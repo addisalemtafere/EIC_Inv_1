@@ -80,40 +80,52 @@
   <mat-card class="margin-2">
     <mat-card-content>
 
-      <div fxFlex="100%">
+      <div fxFlex="100">
 
         <div class="spinner-container" *ngIf="loading ">
           <mat-progress-bar mode="query"></mat-progress-bar>
         </div>
         <mat-table #table [dataSource]="dataSource">
 
-          <ng-container matColumnDef="ServiceName">
+          <ng-container fxFlex="8" matColumnDef="ServiceName">
             <mat-header-cell *matHeaderCellDef>Service Name</mat-header-cell>
             <mat-cell *matCellDef="let serviceApplicationList">
               {{serviceApplicationList?.ServiceNameEnglish }}
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="ProjectName">
-            <mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>
+          <ng-container fxFlex="20" matColumnDef="ProjectName">
+            <mat-header-cell class="full-width" *matHeaderCellDef>Project Name</mat-header-cell>
             <mat-cell *matCellDef="let serviceApplicationList">
               {{serviceApplicationList?.ProjectNameEnglish }}
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="InvestorName">
+          <ng-container fxFlex="20" matColumnDef="InvestorName">
             <mat-header-cell *matHeaderCellDef>Investor Name</mat-header-cell>
             <mat-cell *matCellDef="let serviceApplicationList">
               {{serviceApplicationList?.InvestorNameEnglish }}
             </mat-cell>
           </ng-container>
-          <!--<ng-container matColumnDef="Tin">-->
-          <!--<mat-header-cell *matHeaderCellDef>Tin</mat-header-cell>-->
-          <!--<mat-cell *matCellDef="let serviceApplicationList"> {{serviceApplicationList?.Investor?.Tin |-->
-          <!--filterPipe: 10}}-->
-          <!--</mat-cell>-->
-          <!--</ng-container>-->
+
+          <ng-container fxFlex="8" matColumnDef="sDate">
+            <mat-header-cell *matHeaderCellDef>Start Date</mat-header-cell>
+            <mat-cell style="    color: #e17d16;    font-weight: bolder !important;"
+                      *matCellDef="let serviceApplicationList"> {{serviceApplicationList?.StartDate | date: 'mediumDate'}}
+            </mat-cell>
+          </ng-container>
+          <ng-container fxFlex="8" matColumnDef="eDate">
+            <mat-header-cell *matHeaderCellDef>End Date</mat-header-cell>
+            <mat-cell style="color: green;    font-weight: bolder;" *matCellDef="let serviceApplicationList">
+            <span *ngIf="serviceApplicationList?.EndDate!=null;">
+                {{serviceApplicationList?.EndDate | date: 'mediumDate'}}
+            </span>
+              <span *ngIf="serviceApplicationList?.EndDate==null;">
+                --
+              </span>
+            </mat-cell>
+          </ng-container>
 
 
-          <ng-container matColumnDef="currentStatus">
+          <ng-container fxFlex="8" matColumnDef="currentStatus">
             <mat-header-cell *matHeaderCellDef>Current Status</mat-header-cell>
             <mat-cell *matCellDef="let serviceApplicationList">
                      <span class=" common-button-status drafted"
@@ -139,7 +151,7 @@
             </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="NextStep">
+          <ng-container fxFlex="8" matColumnDef="NextStep">
             <mat-header-cell fxFlex="10" *matHeaderCellDef>Next Step</mat-header-cell>
             <mat-cell fxFlex="10" *matCellDef="let serviceApplicationList;">
               <a class="pointer" style="color: #00bcd4;"
@@ -174,7 +186,7 @@
             </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="Action">
+          <ng-container fxFlex="15" matColumnDef="Action">
             <mat-header-cell [fxFlex]="32" *matHeaderCellDef>Action</mat-header-cell>
             <mat-cell [fxFlex]="32" *matCellDef="let serviceApplicationList; let i=index">
               <div>
