@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
+using CUSTOR.EICOnline.API.ViewModels.enums;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using EIC.Investment.API.ViewModels.Dto;
@@ -37,7 +38,7 @@ namespace EIC.Investment.API.Controllers
       return _context.ServiceApplication
         .Include(s => s.ServiceWorkflow)
         .OrderByDescending(s => s.ServiceApplicationId)
-        .Where(s => s.CurrentStatusId == 44446).ToList();
+        .Where(s => s.CurrentStatusId == (int) ApplicationStatus.Submitted).ToList();
 
       //.Include(In => In.Investor);
     }

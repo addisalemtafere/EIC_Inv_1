@@ -186,16 +186,12 @@
             </mat-cell>
           </ng-container>
 
-          <ng-container fxFlex="15" matColumnDef="Action">
-            <mat-header-cell [fxFlex]="32" *matHeaderCellDef>Action</mat-header-cell>
-            <mat-cell [fxFlex]="32" *matCellDef="let serviceApplicationList; let i=index">
+          <ng-container fxFlex="20" matColumnDef="Action">
+            <mat-header-cell fxFlex="20" *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell fxFlex="20" *matCellDef="let serviceApplicationList; let i=index">
               <div>
                 <span *ngIf="canViewTasks || canManageManageIncentiveAssignedServices">
-<!--                  <a class=" pointer a-link" color="accent"-->
-                  <!--                     matTooltip="Click here for detail of the project"-->
-                  <!--                     (click)="projectDetail(serviceApplicationList.ProjectId)">-->
-                  <!--                    <span>view</span>-->
-                  <!--                  </a>-->
+
                   <a class=" pointer a-link" color="accent"
                      matTooltip="Click here for detail of the project"
                      (click)="projectApprove(serviceApplicationList )">
@@ -207,7 +203,7 @@
                    <a class=" pointer" color="accent" matTooltip="Click Here for Managment"
                       (click)="assignUser(serviceApplicationList?.ServiceApplicationId)">
 
-                    <span mat-raised-button class="a-link" color=" primary">Manage</span>
+                    <span mat-raised-button class="a-link" color=" primary">Assign</span>
                   </a>
                   <a *ngIf="serviceApplicationList.TodoTaskId!==null" class="pointer" color="accent"
                      matTooltip="Click Here for detail">
@@ -215,9 +211,7 @@
                   </a>
 
                   <a *ngIf="serviceApplicationList.TodoTaskId===null" class="pointer" color="accent"
-                     matTooltip="Click Here for Approval"
-                     (click)="projectApprove(serviceApplicationList?.ServiceApplicationId,
-                     serviceApplicationList?.ServiceId)">
+                     matTooltip="Click Here for Approval">
                     <span class="no-assigned">
                     not assigned
                 </span>
@@ -227,6 +221,19 @@
               </div>
             </mat-cell>
           </ng-container>
+
+          <ng-container fxFlex="8" matColumnDef="AssignedTo">
+            <mat-header-cell *matHeaderCellDef>Assigned To</mat-header-cell>
+            <mat-cell style="color: green;    font-weight: bolder;" *matCellDef="let serviceApplicationList">
+            <span *ngIf="serviceApplicationList?.EndDate!=null;">
+                {{serviceApplicationList?.EndDate | date: 'mediumDate'}}
+            </span>
+              <span *ngIf="serviceApplicationList?.EndDate==null;">
+                --
+              </span>
+            </mat-cell>
+          </ng-container>
+
           <mat-header-row *matHeaderRowDef="displayedColumns">
           </mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;">
