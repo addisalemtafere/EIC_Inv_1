@@ -4,33 +4,37 @@ import {MatDialog, MatDialogRef, MatPaginator, MatTableDataSource} from '@angula
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {InvestorService} from '../investor/investor.service';
+
 import {AccountService} from '@custor/services/security/account.service';
 import {AuthService} from '@custor/services/security/auth.service';
 import {Utilities} from '@custor/helpers/utilities';
-import {Investor} from '../../model/investor';
-import {ProjectModel} from '../../model/project.model';
-import {DataSharingService} from '../../Services/data-sharing.service';
-import {ProjectProfileService} from '../../Services/project-profile.service';
-import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
-import {IncentiveLogService} from '../../Services/incentive-log.service';
-import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
-import {ServiceapplicationService} from '../setting/services-tabs/serviceApplication/serviceapplication.service';
-import {TodoTaskModel} from '../../model/TodoTask.model';
-import {ServiceModel} from '../../model/Service.model';
-import {Permission} from '../../model/security/permission.model';
-import {ErrorMessage} from '@custor/services/errMessageService';
+import {ServiceModel} from "../../../model/Service.model";
+import {AngConfirmDialogComponent} from "@custor/components/confirm-dialog/confirm-dialog.component";
+import {TodoTaskModel} from "../../../model/TodoTask.model";
+import {ServiceApplicationModel} from "../../../model/ServiceApplication.model";
+import {ProjectModel} from "../../../model/project.model";
+import {Investor} from "../../../model/investor";
+import {InvestorService} from "../../investor/investor.service";
+import {ProjectProfileService} from "../../../Services/project-profile.service";
+import {DataSharingService} from "../../../Services/data-sharing.service";
+import {ErrorMessage} from "@custor/services/errMessageService";
+import {ServiceapplicationService} from "../../setting/services-tabs/serviceApplication/serviceapplication.service";
+import {IncentiveLogService} from "../../../Services/incentive-log.service";
+import {Permission} from "../../../model/security/permission.model";
+
 
 @Component({
-  selector: 'app-search-browser',
-  templateUrl: './search-browser.component.html',
-  styleUrls: ['./search-browser.component.scss']
+  selector: 'app-project-search',
+  templateUrl: './project-search.component.html',
+  styleUrls: ['./project-search.component.scss']
 })
-export class SearchBrowserComponent implements OnInit, AfterContentChecked {
+
+export class ProjectSearchComponent implements OnInit, AfterContentChecked {
 
   title: string;
   serviceTitle: string;
   dataSource: any;
+  dataSourceProject: any;
   investorShow = true;
   loadingIndicator: boolean;
   loading = true;
@@ -81,71 +85,27 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   ngOnInit() {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.initForm();
-    this.getInvestors();
+    //this.getInvestors();
     this.title = localStorage.getItem('title');
     this.projectName = localStorage.getItem('projectName');
     this.investorName = localStorage.getItem('investorName');
+    this.select(this.InvestorId, this.investorName)
   }
 
-  search() {
-    this.loadingIndicator = true;
-    this.invService.searchInvestor(this.searchForm.value)
-      .subscribe(result => {
-          // console.log(result);
-          this.investors = result;
-          if (!this.investors) {
-            this.loadingIndicator = false;
-            this.toastr.error('No records were found to list', 'Error', {
-              closeButton: true,
-            });
-          } else {
-            this.loadingIndicator = false;
-            this.dataSource = new MatTableDataSource<Investor>(result);
-            // console.log(result);
-            this.dataSource.paginator = this.paginator;
-          }
-        },
-        error => {
-          this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
-        });
-    this.loadingIndicator = false;
-  }
+
 
   initForm() {
     this.searchForm = this.fb.group({
-      Tin: new FormControl(),
-      FirstNameEng: new FormControl(),
-      FatherNameEng: new FormControl(),
-      GrandNameEng: new FormControl()
+      // Tin: new FormControl(),
+      // FirstNameEng: new FormControl(),
+      // FatherNameEng: new FormControl(),
+      // GrandNameEng: new FormControl()
     });
   }
 
-  getInvestors() {
-    this.loadingIndicator = true;
-    this.invService.getInvestors()
-      .subscribe(result => {
-          // console.log(result);
-          this.investors = result;
-          if (!this.investors) {
-            this.loadingIndicator = false;
 
-            this.toastr.error('No records were found to list', 'Error', {
-              closeButton: true,
-            });
-          } else {
-            this.loadingIndicator = false;
-
-            this.dataSource = new MatTableDataSource<Investor>(result);
-            // console.log(result);
-            this.dataSource.paginator = this.paginator;
-          }
-        },
-        error => {
-          this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
-        });
-    this.loadingIndicator = false;
-  }
 
   select(InvestorId: any, investorName: any) {
     this.projectList = [];
@@ -154,13 +114,35 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     if (this.ServiceId == 13) {
       this.InvestorId = InvestorId;
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
-    } else {
-      // localStorage.setItem('InvestorId', InvestorId);
-      this.router.navigate(['/project-search/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
-
+    }
+    else {
+      this.invName = investorName;
+      this.loadingIndicator = true;
+      this.projectService.getProjectByInvestorId(InvestorId)
+        .subscribe(result => {
+            this.projectList = result;
+            this.title = 'ProjectDetail';
+            if (this.projectList.length == 0) {
+              this.loadingIndicator = false;
+              this.toastr.info('No active project records were found to list', 'Info', {
+                closeButton: true,
+              });
+            } else {
+              this.loadingIndicator = false;
+              this.investorShow = false;
+              this.dataSourceProject = new MatTableDataSource<ProjectModel>(result);
+              this.dataSourceProject.paginator = this.paginator;
+            }
+          },
+          error => {
+            this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
+          });
+      this.loadingIndicator = false;
     }
   }
-
+  projectDetail(id: number) {
+    this.router.navigate(['/service-detail', id]);
+  }
   editInvestor(investor: Investor) {
     if (investor) {
       this.router.navigate(['/investor/edit', investor.InvestorId], {relativeTo: this.route});
@@ -197,20 +179,11 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   back() {
     this.title = 'search';
     this.investorShow = true;
-    this.getInvestors();
+    //this.getInvestors();
+    this.router.navigate(['/search-browser/' + this.ServiceId + '/' + this.InvestorId + '/' + 0]);
   }
 
-  deleteProject(id: number) {
-    const response = confirm('Do you want to Delete this Project ?');
-    if (response === true) {
-      this.projectService.delete(id)
-        .subscribe(() => {
-        });
-      return true;
-    } else {
-      return false;
-    }
-  }
+
 
   editProject(projectId: number, serviceApplicationId: any, serviceId: any) {
 
@@ -220,9 +193,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
   }
 
-  projectDetail(id: number) {
-    this.router.navigate(['/service-detail', id]);
-  }
+
 
 // Todo Application must be Intiated
   goToService(InvestorId: any, investorName: any) {
@@ -241,11 +212,9 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   nextService(InvestorId: any, projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
+
     const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
-
     const investorId = this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
-    // console.log(serviceId);
-
     switch (serviceId) {
       case 13:
         this.router.navigate(['/pro/0/0/0/0/0']);//Fire

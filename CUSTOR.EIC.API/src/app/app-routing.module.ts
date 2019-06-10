@@ -396,7 +396,11 @@ import {AuthGuard} from '@custor/services/security/auth-guard.service';
       },
 
       {path: '', loadChildren: 'app/components/home/landing.module#LandingModule'},
-
+      {
+        path: 'project-search/:ServiceId/:InvestorId/:ProjectId',
+        loadChildren: 'app/components/project-profile/project-search/project-search.module#ProjectSearchModule',
+        canActivate: [AuthGuard]
+      },
       {path: '**', loadChildren: 'app/components/not-found/not-found.module#NotFoundModule'},
     ])
   ],
