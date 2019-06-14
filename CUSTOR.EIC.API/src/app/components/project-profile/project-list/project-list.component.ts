@@ -1,4 +1,4 @@
-import {AfterContentChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {MatDialog, MatDialogConfig, MatPaginator, MatTableDataSource, PageEvent} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -26,7 +26,9 @@ import {ConfigurationService} from "@custor/services/configuration.service";
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.css']
 })
-export class ProjectListComponent implements OnInit, AfterContentChecked, AfterViewInit {
+export class ProjectListComponent implements OnInit, AfterContentChecked, AfterViewInit, OnDestroy {
+
+
   // projectList: ProjectModel[];
 
   pageEvent: PageEvent;
@@ -45,6 +47,8 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   public serviceApplicationList: ServiceApplicationModel[];
   public assigned: boolean;
   public applicationStatus: ApplicationStatusModel[] = [];
+  private searchFlag: boolean;
+  private SaveForSearchNavigation: any;
 
   constructor(private projectProfileService: ProjectProfileService,
               private errMsg: ErrorMessage,
@@ -99,13 +103,13 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   ngOnInit() {
-
+    this.searchFlag = false;
     this.formBuild();
     // this.checkAuthorization();
     if (this.canManageTask) {
       this.getAllServiceApplication();
     } else {
-      this.getAllServiceApplicationByOfficerId(this.accountService.currentUser.Id);
+      this.getAllServiceApplicationByOfficerId2(this.accountService.currentUser.Id);
       this.isOfficer = true;
 
     }
@@ -376,13 +380,21 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
   getAllServiceApplication() {
     this.dataSharing.assignTask.next(false);
-    this.serviceApplication.getServiceAppliactions()
+    this.serviceApplication.getServiceAppliactions(this.getManagerParameters())
       .subscribe(result => {
-        this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result);
-        this.loading = false;
-        this.dataSource.paginator = this.paginator;
 
-        this.serviceApplicationList = result;
+        // console.log(result);
+        this.serviceApplicationList = result.Items;
+        if (!this.serviceApplicationList) {
+          this.toast.error('No records were found to list', 'Error', {
+            closeButton: true,
+          });
+        } else {
+          this.dataSource = new MatTableDataSource(this.serviceApplicationList);
+          if (this.totalCount === 0) {
+            this.totalCount = result.ItemsCount;
+          }
+        }
 
       }, error => this.errMsg.getError(error));
   }
@@ -401,25 +413,51 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   search() {
-    // this.serviceApplicationList = [];
+
+    let searchParam = this.searchForm.value;
+
+
+    // this.SaveForSearchNavigation = this.searchForm.value
+    this.searchFlag = true;
     this.dataSource = [];
-    this.projectProfileService.search(this.searchForm.value)
+
+    this.projectProfileService.search(searchParam)
       .subscribe((result) => {
-        // console.log(result);
+        console.log(result);
         this.filterData(result);
-        this.searchForm.reset();
+        // this.searchForm.reset();
       }, error => this.errMsg.getError(error));
+  }
+
+  cleaSearch() {
+    this.searchForm.reset();
   }
 
   filterData(data: any) {
     this.serviceApplicationList = [];
-    for (let i = 0; i < data.length; i++) {
-      this.serviceApplicationList.push(data[i]);
+    console.log(data.Items)
+    const data2 = data.Items;
+    for (let i = 0; i < data2.length; i++) {
+      this.serviceApplicationList.push(data2[i]);
+      console.log(this.serviceApplicationList)
+
     }
-    this.dataSource = new MatTableDataSource<ServiceApplicationModel>(this.serviceApplicationList);
+    // this.dataSource = new MatTableDataSource<ServiceApplicationModel>(this.serviceApplicationList);
     this.loading = false;
-    // console.log(this.serviceApplicationList);
-    // this.dataSource.paginator = this.paginator;
+    console.log(this.serviceApplicationList)
+
+    if (!this.serviceApplicationList) {
+      this.toast.error('No records were found to list', 'Error', {
+        closeButton: true,
+      });
+    } else {
+      this.dataSource = new MatTableDataSource(this.serviceApplicationList);
+
+      this.totalCount = data.ItemsCount;
+
+    }
+
+    this.loading = false;
   }
 
   assignUser(serviceApplicationId: any) {
@@ -472,7 +510,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource.paginator = this.paginator;
 
   }
 
@@ -481,12 +519,8 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     this.dataSharing.assignTask.next(false);
     this.serviceApplication.getServiceApplicationsByOfficerId2(officerId, this.getManagerParameters())
       .subscribe(result => {
-        // this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result.Items);
-        // this.loading = false;
-        // this.serviceApplicationList = result.Items;
-        // console.log(result);
-        // this.dataSource.paginator = this.paginator;
 
+        this.loading = false;
         console.log(result);
         this.serviceApplicationList = result.Items;
         if (!this.serviceApplicationList) {
@@ -514,7 +548,32 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
   switchPage(event: PageEvent) {
     this.paginationService.change(event);
-    this.getAllServiceApplicationByOfficerId2(this.accountService.currentUser.Id);
+    if (this.canManageTask) {
+      if (this.searchFlag) {
+        this.search();
+      } else {
+        this.getAllServiceApplication();
+
+      }
+
+    } else {
+      if (this.searchFlag) {
+        this.search();
+      } else {
+        this.getAllServiceApplicationByOfficerId2(this.accountService.currentUser.Id);
+
+      }
+      this.isOfficer = true;
+
+    }
+
+  }
+
+  ngOnDestroy(): void {
+
+    // this.paginationService.Page(1);
+
+    this.dataSource.paginator = null;
   }
 
 

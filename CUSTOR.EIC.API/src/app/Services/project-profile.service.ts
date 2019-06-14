@@ -22,7 +22,7 @@ export class ProjectProfileService extends BaseService<ProjectModel> {
     super(http, appConfig.urls.url('projects'), errMsg);
   }
 
-  search(resource: SearchModel): Observable<any[]> {
+  search(resource: SearchModel): Observable<any> {
     return this.httpClient.post(this.appConfig.urls.url('search'), resource).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }

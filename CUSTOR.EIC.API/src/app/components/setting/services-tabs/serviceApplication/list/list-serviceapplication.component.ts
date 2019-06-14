@@ -7,6 +7,9 @@ import {ErrorMessage} from '@custor/services/errMessageService';
 import {ToastrService} from 'ngx-toastr';
 import {ServiceApplicationModel} from '../../../../../model/ServiceApplication.model';
 import {ServiceapplicationService} from '../serviceapplication.service';
+import {QueryParametersModel} from "../../../../../model/QueryParameters.model";
+import {PaginationService} from "@custor/services/pagination.service";
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-list-serviceapplication',
@@ -29,6 +32,8 @@ export class ListServiceapplicationComponent implements OnInit, AfterViewInit {
   constructor(private http: HttpClient,
               private serviceApplicationService: ServiceapplicationService,
               private errMsg: ErrorMessage,
+              private configService: ConfigurationService,
+              public paginationService: PaginationService,
               private toastr: ToastrService, public dialog: MatDialog,
               private router: Router, private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
@@ -50,9 +55,10 @@ export class ListServiceapplicationComponent implements OnInit, AfterViewInit {
 
   getServiceApplications() {
     this.loadingIndicator = true;
-    this.serviceApplicationService.getServiceAppliactions()
+
+    this.serviceApplicationService.getServiceAppliactions(this.getManagerParameters())
       .subscribe(result => {
-          this.serviceApplicationModels = result;
+          this.serviceApplicationModels = result.Items;
           // console.log(this.serviceApplicationModels);
           if (!this.serviceApplicationModels) {
             this.toastr.error('No records were found to list', 'Error', {
@@ -83,5 +89,13 @@ export class ListServiceapplicationComponent implements OnInit, AfterViewInit {
     } else {
       this.router.navigate(['/orders/edit', 0]);
     }
+  }
+  private getManagerParameters(): QueryParametersModel {
+    const params = new QueryParametersModel();
+
+    params.PageIndex = this.paginationService.page;
+    params.PageSize = this.paginationService.pageCount;
+    params.Lang = this.configService.language;
+    return params;
   }
 }

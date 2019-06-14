@@ -4,7 +4,7 @@
     class="margin-2 border"
     [formGroup]="searchForm"
     novalidate #costF>
-    <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="4em">
+    <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
 
       <mat-form-field fxFlex="10">
         <mat-label>TIN or IP Number :</mat-label>
@@ -69,9 +69,13 @@
 
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="search()">
+      <button fxFlex="10" mat-raised-button color="primary" (click)="search()">
         <mat-icon class="mat-18">search</mat-icon>
         <span>Search</span>
+      </button>
+      <button fxFlex="2" mat-raised-button color="warn" (click)="cleaSearch()">
+        <mat-icon class="mat-48">cancel</mat-icon>
+                <span>Clear</span>
       </button>
     </div>
 
@@ -205,17 +209,7 @@
 
                     <span mat-raised-button class="a-link" color=" primary">Assign</span>
                   </a>
-                  <a *ngIf="serviceApplicationList.TodoTaskId!==null" class="pointer" color="accent"
-                     matTooltip="Click Here for detail">
-                    <span class="assigned">assigned</span>
-                  </a>
 
-                  <a *ngIf="serviceApplicationList.TodoTaskId===null" class="pointer" color="accent"
-                     matTooltip="Click Here for Approval">
-                    <span class="no-assigned">
-                    not assigned
-                </span>
-                  </a>
 
                 </span>
               </div>
@@ -224,12 +218,15 @@
 
           <ng-container fxFlex="8" matColumnDef="AssignedTo">
             <mat-header-cell *matHeaderCellDef>Assigned To</mat-header-cell>
-            <mat-cell style="color: green;    font-weight: bolder;" *matCellDef="let serviceApplicationList">
-            <span *ngIf="serviceApplicationList?.EndDate!=null;">
-                {{serviceApplicationList?.EndDate | date: 'mediumDate'}}
+            <mat-cell
+              *matCellDef="let serviceApplicationList">
+            <span style="color: #00bcd4;    font-weight: bolder !important;    text-transform: uppercase;"
+                  *ngIf="serviceApplicationList?.TodoTask?.AssignedUserName!=null;">
+                {{serviceApplicationList?.TodoTask?.AssignedUserName}}
             </span>
-              <span *ngIf="serviceApplicationList?.EndDate==null;">
-                --
+              <span style="color: red;    font-weight: bolder !important;    text-transform: uppercase;"
+                    *ngIf="serviceApplicationList?.TodoTaskId==null">
+                not assigned
               </span>
             </mat-cell>
           </ng-container>
