@@ -455,6 +455,10 @@ namespace EIC.Investment.API.Controllers
           {
             query = query.Where(x => x.ProjectId == project.ProjectId);
           }
+          else
+          {
+            return null;
+          }
         }
       }
 
@@ -472,8 +476,8 @@ namespace EIC.Investment.API.Controllers
         query = query.Where(x => x.StartDate == searchDto.SpecDate);
 
       List<ServiceApplication> result = query.Include(s => s.ServiceWorkflow)
-        .Paging(queryParameters.PageCount, queryParameters.PageNumber)
         .OrderByDescending(s => s.ServiceApplicationId)
+        .Paging(queryParameters.PageCount, queryParameters.PageNumber)
         .ToList();
 
 

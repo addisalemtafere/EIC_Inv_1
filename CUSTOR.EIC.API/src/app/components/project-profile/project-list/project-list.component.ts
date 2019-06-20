@@ -421,7 +421,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     this.searchFlag = true;
     this.dataSource = [];
 
-    this.projectProfileService.search(searchParam)
+    this.projectProfileService.search(searchParam, this.getManagerParameters())
       .subscribe((result) => {
         console.log(result);
         this.filterData(result);

@@ -72,11 +72,11 @@ namespace CUSTOR.EICOnline.DAL
             QueryParameters queryParameter, string UserId,int applicationStatus)
         {
             List<ServiceApplication> query = await Context.ServiceApplication
+                .OrderByDescending(s => s.ServiceApplicationId)
                 .Where(t => t.TodoTask.AssignedUserId == UserId && t.CurrentStatusId == applicationStatus )
                 .Include(s => s.ServiceWorkflow)
                 .Include(s => s.TodoTask)
                 .Paging(queryParameter.PageCount, queryParameter.PageNumber)
-                .OrderByDescending(s => s.ServiceApplicationId)
                 .ToListAsync();
 
             return new PagedResult<ServiceApplication>()
@@ -93,9 +93,10 @@ namespace CUSTOR.EICOnline.DAL
             List<ServiceApplication> query = await Context.ServiceApplication
                 .Include(s => s.ServiceWorkflow)
                 .Include(s => s.TodoTask)
+                .OrderByDescending(s => s.ServiceApplicationId)
                 .Where(s => s.CurrentStatusId == applicationStatus)
                 .Paging(queryParameter.PageCount, queryParameter.PageNumber)
-                .OrderByDescending(s => s.ServiceApplicationId)
+              
                 .ToListAsync();
                
 

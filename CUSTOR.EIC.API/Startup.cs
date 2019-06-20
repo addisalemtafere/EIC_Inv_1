@@ -218,11 +218,11 @@ namespace EICOnline.API
         IMapper mapper = mappingConfig.CreateMapper();
         services.AddSingleton(mapper);
 
-//        services.AddMvc();
+//        services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
 
 
         // Add framework services.
-        //services.AddMvc();
+        //services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
         services.AddSwaggerGen(c =>
         {
           c.SwaggerDoc("v1", new Info { Title = IdentityServerConfig.ApiFriendlyName, Version = "v1" });
