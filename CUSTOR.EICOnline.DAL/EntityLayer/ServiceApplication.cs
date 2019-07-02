@@ -31,11 +31,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string InvestorNameAmharic { get; set; }
         public string ProjectNameAmharic { get; set; }
         public string ProjectNameEnglish { get; set; }
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int CurrentStatusId { get; set; }
         public bool IsSelfService { get; set; }
         public bool IsPaid { get; set; }
+        
+        public bool IsApproved { get; set; }
         public string WindowNumber { get; set; }
         public string Remark { get; set; }
         public bool? IsActive { get; set; }
@@ -93,6 +95,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string InvestorNameAmharic { get; set; }
         public string ProjectNameAmharic { get; set; }
         public string ProjectNameEnglish { get; set; }
+                public bool IsApproved { get; set; }
+
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }

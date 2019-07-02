@@ -182,6 +182,12 @@ namespace EIC.Investment.API.Controllers
         _context.Entry(toDoTask).State = EntityState.Modified;
       }
 
+      if ((int) ApplicationStatus.Submitted == Convert.ToInt32(lookup.Code))
+      {
+        serviceApplication.IsApproved = true;
+        _context.Entry(serviceApplication).State = EntityState.Modified;
+      }
+
       if (lookup.Code == "44449")
       {
         var project = _context.Project.First(p => p.ProjectId == serviceApplication.ProjectId);

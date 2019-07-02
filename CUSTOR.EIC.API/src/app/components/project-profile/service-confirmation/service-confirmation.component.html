@@ -10,13 +10,10 @@
   <mat-card-content>
 
 
-    <div style="font-weight: bold;" *ngIf="confirm" fxLayout="row" fxLayoutAlign="center left " fxLayoutGap="2em">
+    <div style="font-weight: bold;" *ngIf="confirm && canManageTask" fxLayout="row" fxLayoutAlign="center left "
+         fxLayoutGap="2em">
       <div class="  block" fxFlex="100%">
-        <!--<div class="hdr-brk sub-title">Confirmation</div>-->
-        <!--<div style="padding: 20px">-->
-        <!--&lt;!&ndash;<strong>Dear customer; Thank you for Applying. <br>&ndash;&gt;-->
 
-        <!--&lt;!&ndash;Your application will be review soon and we get back for any feed back:</strong>&ndash;&gt;-->
 
         <!--</div>-->
         <div class="header-description">
@@ -75,6 +72,54 @@
       <!--</h3>-->
       <!--<mat-icon style="color: #f17117" class="mat-48">done</mat-icon>-->
       <!--</div>-->
+    </div>
+
+
+    <div style="font-weight: bold;" *ngIf="!canManageTask" fxLayout="row" fxLayoutAlign="center left "
+         fxLayoutGap="2em">
+      <div class="  block" fxFlex="100%">
+
+
+        <!--</div>-->
+        <div class="header-description">
+          <div style="height: 110px;" *ngIf="confirm" fxLayout="row" fxLayoutAlign="center center "
+               fxLayoutGap="2em">
+            <div fxFlex="30" class="thankYou" fxLayoutAlign="center right ">Thank</div>
+            <div fxFlex="10">
+        <span fxLayoutAlign="center center " class="circleBase type1">
+                  <mat-icon style="font-size: 30px !important;color: white" class="mat-48">thumb_up</mat-icon>
+
+        </span>
+
+            </div>
+            <div fxFlex="30" class="thankYou" fxLayoutAlign="center center ">You</div>
+          </div>
+          <div style="text-align: center">
+            Your application Case Number is: <span class="strongText">{{ServiceApplicationId}}</span>
+
+            <br>
+            Click <strong class="strongText">Submit</strong>
+            If you are done with your requests.<br>
+            <mat-icon color="warn" class="mat-18">warning</mat-icon>
+            If your application is not submitted, the application may
+            not reviewed by our staff.
+
+          </div>
+        </div>
+
+        <div style="padding-top: 100px" fxLayoutAlign="center center" class="" fxFlex="">
+          <button (click)="Approve()" style="margin: 10px;background-color: #0c97a8;"
+                  mat-raised-button>
+            <mat-icon style="color: white;font-weight: bolder" class="48">done</mat-icon>
+            <span style="margin: 10px;color: #f44336;font-weight: bolder;font-size: 19px;" class="agree">Approve</span>
+          </button>
+          <button (click)="back()" style="margin: 10px;" color="warn" mat-raised-button>
+            <mat-icon class="mat-18">close</mat-icon>
+            <span class="agree">close</span>
+          </button>
+        </div>
+      </div>
+
     </div>
   </mat-card-content>
 

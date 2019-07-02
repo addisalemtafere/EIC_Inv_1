@@ -75,7 +75,7 @@
       </button>
       <button fxFlex="2" mat-raised-button color="warn" (click)="cleaSearch()">
         <mat-icon class="mat-48">cancel</mat-icon>
-                <span>Clear</span>
+        <span>Clear</span>
       </button>
     </div>
 
@@ -158,9 +158,11 @@
           <ng-container fxFlex="8" matColumnDef="NextStep">
             <mat-header-cell fxFlex="10" *matHeaderCellDef>Next Step</mat-header-cell>
             <mat-cell fxFlex="10" *matCellDef="let serviceApplicationList;">
-              <a class="pointer" style="color: #00bcd4;"
-                 *ngIf="serviceApplicationList?.CurrentStatusId===44450 && serviceApplicationList.IsSelfService==false"
-                 (click)="nextStep(serviceApplicationList?.ServiceWorkflow[0]?.NextStepId,
+
+<span *ngIf="!serviceApplicationList.IsApproved">
+     <a class="pointer custom-button2" style=""
+        *ngIf="serviceApplicationList?.CurrentStatusId===44450 && serviceApplicationList.IsSelfService==false"
+        (click)="nextStep(serviceApplicationList?.ServiceWorkflow[0]?.NextStepId,
             serviceApplicationList.ProjectId,
             serviceApplicationList.ServiceApplicationId,
             serviceApplicationList.ServiceId,
@@ -170,10 +172,10 @@
              serviceApplicationList.InvestorNameEnglish,
                serviceApplicationList.ProjectNameEnglish)">
                 {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId | serviceStepPipe}}
-                <!--<mat-icon color="primary" class="mat-18">navigate_next</mat-icon>-->
-                {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId }}
+       <!--<mat-icon color="primary" class="mat-18">navigate_next</mat-icon>-->
+       {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId }}
               </a>
-              <a class="pointer" style="color: #00bcd4;"
+              <a class="pointer custom-button2" style=""
                  *ngIf="serviceApplicationList?.CurrentStatusId!==44450 && serviceApplicationList?.CurrentStatusId!==44449 && serviceApplicationList.IsSelfService==true"
                  (click)="nextStep(18,
             serviceApplicationList.ProjectId,
@@ -183,9 +185,28 @@
              serviceApplicationList?.ServiceWorkflow[0].ServiceWorkflowId,serviceApplicationList.InvestorId,
              serviceApplicationList.InvestorNameEnglish,
              serviceApplicationList.ProjectNameEnglish
-             )"> Next
+             )">
+                Review
               </a>
 
+</span>
+              <span *ngIf="serviceApplicationList.IsApproved">
+
+              <a class="pointer custom-button2" style=""
+                 *ngIf="serviceApplicationList?.CurrentStatusId!==44450 && serviceApplicationList?.CurrentStatusId!==44449 && serviceApplicationList.IsSelfService==true"
+                 (click)="nextStep(18,
+            serviceApplicationList.ProjectId,
+            serviceApplicationList.ServiceApplicationId,
+            serviceApplicationList.ServiceId,
+            serviceApplicationList.ServiceNameEnglish,
+             serviceApplicationList?.ServiceWorkflow[0].ServiceWorkflowId,serviceApplicationList.InvestorId,
+             serviceApplicationList.InvestorNameEnglish,
+             serviceApplicationList.ProjectNameEnglish
+             )">
+                Reviewed
+              </a>
+
+</span>
 
             </mat-cell>
           </ng-container>
@@ -193,7 +214,7 @@
           <ng-container fxFlex="20" matColumnDef="Action">
             <mat-header-cell fxFlex="20" *matHeaderCellDef>Action</mat-header-cell>
             <mat-cell fxFlex="20" *matCellDef="let serviceApplicationList; let i=index">
-              <div>
+              <div *ngIf="serviceApplicationList.IsApproved">
                 <span *ngIf="canViewTasks || canManageManageIncentiveAssignedServices">
 
                   <a class=" pointer a-link" color="accent"

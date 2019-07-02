@@ -3,6 +3,10 @@ import {ServiceapplicationService} from "../../setting/services-tabs/serviceAppl
 import {ActivatedRoute, Router} from "@angular/router";
 import {ErrorMessage} from "@custor/services/errMessageService";
 import {ToastrService} from "ngx-toastr";
+import {Permission} from "../../../model/security/permission.model";
+import {AccountService} from "@custor/services/security/account.service";
+import {Lookup} from "../../../model/lookupData";
+import {ServiceApplicationModel} from "../../../model/ServiceApplication.model";
 
 @Component({
   selector: 'app-service-confirmation',
@@ -12,22 +16,27 @@ import {ToastrService} from "ngx-toastr";
 export class ServiceConfirmationComponent implements OnInit {
   public ServiceApplicationId: any;
   public confirm = true;
+  lookup: Lookup;
+  private ServiceApplication: ServiceApplicationModel;
 
   constructor(public serviceApplicationsServices: ServiceapplicationService,
               public router: Router,
+              public toast: ToastrService,
+              public accountService: AccountService,
               private errMsg: ErrorMessage,
               private toastr: ToastrService,
               public route: ActivatedRoute,
   ) {
+    this.lookup = new Lookup();
   }
 
   ngOnInit() {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.getServiceApplication();
   }
 
   submitApplication() {
-    this.serviceApplicationsServices.finalForApprovalServiceApplications(
-      this.ServiceApplicationId)
+    this.serviceApplicationsServices.finalForApprovalServiceApplications(this.ServiceApplicationId)
       .subscribe(result => {
         this.confirm = true;
         // console.log(result);
@@ -38,7 +47,31 @@ export class ServiceConfirmationComponent implements OnInit {
 
   }
 
+  Approve() {
+    this.lookup.Code = 44447;
+    this.serviceApplicationsServices.changeApplicationStatus(this.lookup, this.ServiceApplicationId)
+      .subscribe(result => {
+        this.toast.success('Project approved successfully ', 'Success');
+      });
+
+  }
+
+
   back() {
     window.history.back();
+  }
+
+
+  get canManageTask() {
+    return this.accountService.getUserType();
+
+  }
+
+
+  private getServiceApplication() {
+    this.serviceApplicationsServices.getServiceAppliaction(this.ServiceApplicationId)
+      .subscribe(result => {
+        this.ServiceApplication = result;
+      })
   }
 }
