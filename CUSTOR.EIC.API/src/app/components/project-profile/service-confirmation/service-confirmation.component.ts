@@ -7,6 +7,8 @@ import {Permission} from "../../../model/security/permission.model";
 import {AccountService} from "@custor/services/security/account.service";
 import {Lookup} from "../../../model/lookupData";
 import {ServiceApplicationModel} from "../../../model/ServiceApplication.model";
+import {MatDialog, MatDialogConfig} from "@angular/material";
+import {NotificationComponent} from "../notification/notification.component";
 
 @Component({
   selector: 'app-service-confirmation',
@@ -21,6 +23,7 @@ export class ServiceConfirmationComponent implements OnInit {
 
   constructor(public serviceApplicationsServices: ServiceapplicationService,
               public router: Router,
+              public dialog: MatDialog,
               public toast: ToastrService,
               public accountService: AccountService,
               private errMsg: ErrorMessage,
@@ -53,6 +56,18 @@ export class ServiceConfirmationComponent implements OnInit {
       .subscribe(result => {
         this.toast.success('Project approved successfully ', 'Success');
       });
+
+  }
+
+  addMessage() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data = {
+      ServiceApplicationId: this.ServiceApplicationId,
+      title: 'License'
+    };
+    this.dialog.open(NotificationComponent, dialogConfig);
+
 
   }
 

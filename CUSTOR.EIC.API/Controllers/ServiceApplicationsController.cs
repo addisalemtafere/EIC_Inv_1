@@ -182,7 +182,7 @@ namespace EIC.Investment.API.Controllers
         _context.Entry(toDoTask).State = EntityState.Modified;
       }
 
-      if ((int) ApplicationStatus.Submitted == Convert.ToInt32(lookup.Code))
+      if ((int) ApplicationStatus.approved == Convert.ToInt32(lookup.Code))
       {
         serviceApplication.IsApproved = true;
         _context.Entry(serviceApplication).State = EntityState.Modified;
@@ -637,7 +637,7 @@ namespace EIC.Investment.API.Controllers
       [FromQuery] QueryParameters queryParameters, [FromRoute] string officerId)
     {
       return await _repository.GetAllServiceApplicationByOfficerId(queryParameters, officerId,
-        (int) ApplicationStatus.Submitted);
+        (int) ApplicationStatus.Submitted,(int) ApplicationStatus.Completed,(int) ApplicationStatus.approved);
     }
   }
 }

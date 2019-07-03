@@ -81,34 +81,39 @@
 
 
         <!--</div>-->
-        <div class="header-description">
-          <div style="height: 110px;" *ngIf="confirm" fxLayout="row" fxLayoutAlign="center center "
-               fxLayoutGap="2em">
-            <div fxFlex="30" class="thankYou" fxLayoutAlign="center right ">Thank</div>
-            <div fxFlex="10">
-        <span fxLayoutAlign="center center " class="circleBase type1">
-                  <mat-icon style="font-size: 30px !important;color: white" class="mat-48">thumb_up</mat-icon>
+<!--        <div class="header-description">-->
+<!--          <div style="height: 110px;" *ngIf="confirm" fxLayout="row" fxLayoutAlign="center center "-->
+<!--               fxLayoutGap="2em">-->
+<!--            <div fxFlex="30" class="thankYou" fxLayoutAlign="center right ">Thank</div>-->
+<!--            <div fxFlex="10">-->
+<!--        <span fxLayoutAlign="center center " class="circleBase type1">-->
+<!--                  <mat-icon style="font-size: 30px !important;color: white" class="mat-48">thumb_up</mat-icon>-->
 
-        </span>
+<!--        </span>-->
 
-            </div>
-            <div fxFlex="30" class="thankYou" fxLayoutAlign="center center ">You</div>
-          </div>
-          <div style="text-align: center">
-            Your application Case Number is: <span class="strongText">{{ServiceApplicationId}}</span>
+<!--            </div>-->
+<!--            <div fxFlex="30" class="thankYou" fxLayoutAlign="center center ">You</div>-->
+<!--          </div>-->
+<!--          <div style="text-align: center">-->
+<!--            Your application Case Number is: <span class="strongText">{{ServiceApplicationId}}</span>-->
 
-            <br>
-            Click <strong class="strongText">Submit</strong>
-            If you are done with your requests.<br>
-            <mat-icon color="warn" class="mat-18">warning</mat-icon>
-            If your application is not submitted, the application may
-            not reviewed by our staff.
+<!--            <br>-->
+<!--            Click <strong class="strongText">Submit</strong>-->
+<!--            If you are done with your requests.<br>-->
+<!--            <mat-icon color="warn" class="mat-18">warning</mat-icon>-->
+<!--            If your application is not submitted, the application may-->
+<!--            not reviewed by our staff.-->
 
-          </div>
-        </div>
+<!--          </div>-->
+<!--        </div>-->
 
         <div style="padding-top: 100px" fxLayoutAlign="center center" class="" fxFlex="">
-          <button (click)="Approve()" style="margin: 10px;background-color: #0c97a8;"
+<!--          <button (click)="Approve()" style="margin: 10px;background-color: #0c97a8;"-->
+<!--                  mat-raised-button>-->
+<!--            <mat-icon style="color: white;font-weight: bolder" class="48">done</mat-icon>-->
+<!--            <span style="margin: 10px;color: #f44336;font-weight: bolder;font-size: 19px;" class="agree">Approve</span>-->
+<!--          </button>-->
+          <button (click)="addMessage()" style="margin: 10px;background-color: #0c97a8;"
                   mat-raised-button>
             <mat-icon style="color: white;font-weight: bolder" class="48">done</mat-icon>
             <span style="margin: 10px;color: #f44336;font-weight: bolder;font-size: 19px;" class="agree">Approve</span>
