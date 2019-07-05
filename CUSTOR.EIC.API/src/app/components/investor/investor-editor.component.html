@@ -48,7 +48,7 @@
           <mat-label>{{'investors.editor.BranchCountry' | translate}}</mat-label>
           <mat-select formControlName="cBranchCountry" [compareWith]="compareIds">
             <!-- <mat-option value="0">--</mat-option> -->
-            <mat-option *ngFor="let country of countryListWithOutEthipia" [value]="country.LookupId">
+            <mat-option *ngFor="let country of countryListWithOutEthipia" [value]="country.Id">
               <span>{{country.English}}</span>
             </mat-option>
           </mat-select>

@@ -9,11 +9,9 @@ import {catchError, map} from 'rxjs/operators';
 import {AppConfiguration} from '../config/appconfig';
 
 
-@Injectable(
-//   {
-//   providedIn: 'root'
-// }
-)
+@Injectable({
+  providedIn: 'root'
+})
 export class DateService {
   url = 'api/EthiopianDate';
   urlETH = 'api/Ethiopic';

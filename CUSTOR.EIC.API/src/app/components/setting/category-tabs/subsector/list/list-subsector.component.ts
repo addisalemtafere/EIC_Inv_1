@@ -10,11 +10,13 @@ import {ErrorMessage} from '../../../../../../@custor/services/errMessageService
 import {Utilities} from '../../../../../../@custor/helpers/utilities';
 import {determineId} from '@custor/helpers/compare';
 import {SectorModel} from '../../../../../model/sector';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-list-subsector',
   templateUrl: './list-subsector.component.html',
-  styleUrls: ['./list-subsector.component.css']
+  styleUrls: ['./list-subsector.component.css'],
+  providers: [ConfigurationService]
 })
 export class ListSubsectorComponent implements OnInit, AfterViewInit {
   subSectorModels: SubSectorModel[];
@@ -30,9 +32,11 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
   fillterssubsectorModels: SubSectorModel[] = [];
   sectorModels: SectorModel[] = [];
   private sectorId: any;
+  private currentLang: string;
 
   constructor(private http: HttpClient,
               private subSectorService: SubsectorService,
+              private configService: ConfigurationService,
               private errMsg: ErrorMessage,
               private toastr: ToastrService, public dialog: MatDialog,
               private router: Router, private route: ActivatedRoute) {
@@ -50,13 +54,14 @@ export class ListSubsectorComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.getSector();
     // this.getSubSectors();
   }
 
   getSubSectors() {
     this.loadingIndicator = true;
-    this.subSectorService.getSubSectors()
+    this.subSectorService.getSubSectors(this.currentLang)
       .subscribe(result => {
           this.subSectorModels = result;
           if (!this.subSectorModels) {

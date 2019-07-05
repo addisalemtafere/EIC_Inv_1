@@ -56,15 +56,15 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-          <input placeholder="Request Date*" required
-                 formControlName="RequestDate"
-                 matInput
-                 [matDatepicker]="RequestDate">
-          <mat-datepicker-toggle matSuffix [for]="RequestDate"></mat-datepicker-toggle>
-          <mat-datepicker #RequestDate>
-          </mat-datepicker>
-          <mat-error align="start" *ngIf="formErrors.RequestDate">{{ formErrors.RequestDate }}</mat-error>
-        </mat-form-field>
+            <input placeholder="Request Date*" required
+                   formControlName="RequestDate"
+                   matInput
+                   [matDatepicker]="RequestDate">
+            <mat-datepicker-toggle matSuffix [for]="RequestDate"></mat-datepicker-toggle>
+            <mat-datepicker #RequestDate>
+            </mat-datepicker>
+            <mat-error align="start" *ngIf="formErrors.RequestDate">{{ formErrors.RequestDate }}</mat-error>
+          </mat-form-field>
           <mat-form-field style="width: 200px">
             <mat-label>{{'incentiverequest.CurrencyType' | translate}}</mat-label>
             <mat-select formControlName="CurrencyType" [compareWith]="compareIds" required>
@@ -145,7 +145,7 @@
       <ng-container matColumnDef="IncentiveCategory">
         <mat-header-cell *matHeaderCellDef fxFlex="35">Incentive Category</mat-header-cell>
         <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="35">
-          {{IncentiveRequestItemModes.IncentiveCategoryId | lookupTypePipe : 1}}
+          {{IncentiveRequestItemModes.IncentiveCategory}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="Amount">

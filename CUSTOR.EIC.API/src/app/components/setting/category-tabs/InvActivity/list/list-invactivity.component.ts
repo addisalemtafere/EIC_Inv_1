@@ -15,11 +15,13 @@ import {SubsectorService} from "../../subsector/subsector.service";
 import {ActivityService} from "../../Activity/activity.service";
 import {SubSectorModel} from "../../../../../model/subSector";
 import {SectorModel} from "../../../../../model/sector";
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-list-invactivity',
   templateUrl: './list-invactivity.component.html',
-  styleUrls: ['./list-invactivity.component.css']
+  styleUrls: ['./list-invactivity.component.css'],
+  providers: [ConfigurationService]
 })
 export class ListInvactivityComponent implements OnInit, AfterViewInit {
   activityModels: ActivityModel[];
@@ -41,10 +43,12 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
   filterActivityLIst: InvActivityModel[] = [];
   sectorModels: SectorModel[] = [];
   private activityId: any;
+  private currentLang: string;
 
   constructor(private http: HttpClient,
               private subInActivityService: InvactivityService,
               private sectorService: SectorService,
+              private configService: ConfigurationService,
               private subSectorService: SubsectorService,
               private subActivityService: ActivityService,
               private errMsg: ErrorMessage,
@@ -55,12 +59,13 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.getSectors();
     //this.getInvActivitys();
   }
 
   getSectors() {
-    this.sectorService.getSectors()
+    this.sectorService.getSectors(this.currentLang)
       .subscribe(result => {
           this.sectorModels = result;
         },
@@ -78,7 +83,7 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
 
   getInvActivitys() {
     this.loadingIndicator = true;
-    this.subInActivityService.getInActivitys()
+    this.subInActivityService.getInActivitys(this.currentLang)
       .subscribe(result => {
           this.invactivityModels = result;
           if (!this.invactivityModels) {

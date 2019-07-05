@@ -33,12 +33,14 @@ import {MajorDivision} from '../../model/catagory/MajorDivision.model';
 import {CatagoryService} from '../../Services/Catagory/Catagory.service';
 import {RegistrationCatagory} from '../../model/Registration/RegistrationCatagory';
 import {RegistrationCatagoryService} from '../../Services/Registration/RegistrationCatagory.service';
+import {CountryService} from "../../Services/country.service";
+import {CountryModel} from "../../model/Country";
 
 @Component({
   selector: 'app-edit-investor',
   templateUrl: './investor-editor.component.html',
   styleUrls: ['./investor-editor.component.scss'],
-  providers: [InvestorService],
+  providers: [InvestorService,CountryService],
   animations: [fadeInOut]
 })
 export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, AfterContentChecked {
@@ -66,14 +68,14 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   genders: Gender[] = [];
   legalStatuses: LegalStatus[] = [];
   isCompany: boolean;
-  currentLang = '';
+  currentLang = 'en';
   countryLookupType = 1;
   allPermissions: Permission[] = [];
   public investorTitle: Lookup[];
   TitleLookup: LookupsModel[];
   public nationList: NationalityModel[];
   originFlag = true;
-  public countryListWithOutEthipia: LookupsModel[];
+  public countryListWithOutEthipia: CountryModel[];
   public branch = false;
   AllowCascading = true;
   @Input() errors: string[] = [];
@@ -91,6 +93,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               private router: Router,
               public dataSharing: DataSharingService,
               private lookUpService: LookUpService,
+              private countryService: CountryService,
               private addressService: AddressService,
               private registrationCatagoryService: RegistrationCatagoryService,
               private http: HttpClient, private accountService: AccountService,
@@ -451,7 +454,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.getAllZones();
     // this.getAllWoredas();
     this.getInvestorTitle(89);
-    this.getCountryTitle(31);
+    this.getCountryTitle();
     this.getAllNation();
     // this.getAllKebeles();
     // this.getInvestorTitle();
@@ -798,17 +801,27 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   getInvestorTitle(id: any) {
-    this.lookUpService.getLookupByParentId(id).subscribe(result => {
+    this.lookUpService.getLookupByParentId(id, this.currentLang).subscribe(result => {
       // // console.log(result);
       this.TitleLookup = result;
     });
 
   }
 
-  getCountryTitle(id: any) {
-    this.lookUpService.getLookupByParentId(id)
+  // getCountryTitle(id: any) {
+  //   this.lookUpService.getLookupByParentId(id)
+  //     .subscribe(result => {
+  //       // // console.log(result);
+  //       this.countryListWithOutEthipia = result.filter((item) =>
+  //         item.English !== 'ETHIOPIA'
+  //       );
+  //
+  //     });
+  //
+  // }
+  getCountryTitle() {
+    this.countryService.getAllCountry(this.currentLang)
       .subscribe(result => {
-        // // console.log(result);
         this.countryListWithOutEthipia = result.filter((item) =>
           item.English !== 'ETHIOPIA'
         );
@@ -858,7 +871,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   private getAllNation() {
-    this.addressService.getNationality()
+    this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
         this.nationList = result;
       });

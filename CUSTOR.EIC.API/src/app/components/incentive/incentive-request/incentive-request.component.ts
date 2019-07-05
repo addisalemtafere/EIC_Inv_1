@@ -21,11 +21,13 @@ import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confi
 import {AccountService} from '@custor/services/security/account.service';
 import {IncentiveRequestDetailService} from './requested-items-list/requested-items-list.service';
 import {IncentiveBoMRequestItemModel} from '../../../model/incentive/IncentiveBoMRequestItem.model';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-incentive-request',
   templateUrl: './incentive-request.component.html',
-  styleUrls: ['./incentive-request.component.scss']
+  styleUrls: ['./incentive-request.component.scss'],
+  providers: [ConfigurationService]
 })
 export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterContentChecked {
   @ViewChild('form')
@@ -75,6 +77,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   private ProjectId: any;
   private ServiceApplicationId: any;
   private ServiceId: any;
+  private currentLang: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -87,6 +90,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
               public dialog: MatDialog,
               public accountService: AccountService,
               public settingService: ApplicationSettingService,
+              private configService: ConfigurationService,
               private IncentiveRequestItemService: IncentiveRequestDetailService,
               private IncentiveRequestService: IncentiveRequestService, private errMsg: ErrorMessage,
               private toastr: ToastrService,
@@ -143,6 +147,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.initForm();
     this.getIncentiveCategory();
     this.getCustomsLookup();
@@ -166,7 +171,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
 
   getLookup() {
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(10781)
+      .getLookupByParentId(10781, this.currentLang)
       .subscribe(result => {
           this.PhaseLookups = result;
         },
@@ -194,7 +199,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   getCustomsLookup() {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(10783)
+      .getLookupByParentId(10783, this.currentLang)
       .subscribe(result => {
           this.CustomsLookups = result;
         },
@@ -208,7 +213,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   getIncentiveReaquestItmesByServiceAppId(ServiceApplicationId) {
-    this.IncentiveRequestService.getIncentiveRequestByServiceApplicationId(ServiceApplicationId).subscribe(result => {
+    this.IncentiveRequestService.getIncentiveRequestByServiceApplicationId(ServiceApplicationId,this.currentLang).subscribe(result => {
       if (result.length > 0) {
         this.IncentiveRequestModels = result;
         this.dataSource = new MatTableDataSource<IncentiveRequestModel>(this.IncentiveRequestModels);
@@ -218,7 +223,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   getIncentiveReaquestItmes(projectId, serviceApplicationId) {
-    this.IncentiveRequestService.getIncentiveRequestslist(projectId, serviceApplicationId).subscribe(result => {
+    this.IncentiveRequestService.getIncentiveRequestslist(this.currentLang,projectId, serviceApplicationId).subscribe(result => {
       if (result.length > 1) {
         this.hasManyDetial = true;
       }
@@ -329,7 +334,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
           else {
             return false;
           }
-         
+
         });//TODO Validation Jump
     }
     return false;

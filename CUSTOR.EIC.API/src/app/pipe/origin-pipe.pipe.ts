@@ -27,7 +27,7 @@ export class OriginPipe implements PipeTransform {
 
   getLookups() {
 
-    this.lookUpService.getLookupByParentId(31).subscribe(result => {
+    this.lookUpService.getLookupByParentId(31,'en').subscribe(result => {
       this.allLookup = result;
     });
   }

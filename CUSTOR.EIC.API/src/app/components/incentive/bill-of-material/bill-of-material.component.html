@@ -140,7 +140,6 @@
             {{i+1}}
           </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="Description">
           <mat-header-cell fxFlex="30" *matHeaderCellDef>Description</mat-header-cell>
           <mat-cell fxFlex="30" *matCellDef="let itemList">
@@ -166,7 +165,7 @@
         </ng-container>
         <ng-container matColumnDef="RejectionReason">
           <mat-header-cell *matHeaderCellDef>Rejection Reason</mat-header-cell>
-          <mat-cell *matCellDef="let itemList"> {{itemList?.RejectionReason | lookupReasonPipe : 1}}
+          <mat-cell *matCellDef="let itemList"> {{itemList?.RejectionReason}}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="approval">
@@ -215,7 +214,6 @@
       </mat-table>
 
       <mat-paginator
-
         #paginator
         [pageSize]="8"
         [pageSizeOptions]="[8, 10, 20]">

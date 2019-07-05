@@ -11,18 +11,23 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
     public class TaxExemptionRepository : EFRepository<ApplicationDbContext, IncentiveTaxExemptionRequest>
     {
         public TaxExemptionRepository(ApplicationDbContext context) : base(context)
-        { }
-
-        public Task<List<IncentiveTaxExemptionRequest>> GetTaxExemptions(int id, int page = 0, int pageSize = 15)
         {
-            IQueryable<IncentiveTaxExemptionRequest> TaxExemptions = Context.IncentiveTaxExemptionRequest
-                .Where(tax => tax.ProjectId == id);
-            //.OrderBy(Let => Let.TaxExemptionId);
+        }
+
+        public Task<List<IncentiveTaxExemptionRequest>> GetTaxExemptions(string lang, int id, int page = 0,
+            int pageSize = 15)
+        {
+            string FieldName = StaticDataHelper.GetFieldName(lang);
+            string query1 =
+                $@"(select IncentiveTaxExemptionRequestID,IncentiveRequestId,ProjectId,RevenueBranch,(Select {FieldName} from Lookup Where LookUpTypeId='22' AND Lookup.LookupId=IncentiveTaxExemptionRequest.RevenueBranch) as RevenueBranchDescription,RequestDate,ExemptionYearRequested from IncentiveTaxExemptionRequest)";
+                IQueryable<IncentiveTaxExemptionRequest> TaxExemptions = Context.IncentiveTaxExemptionRequest
+                .Where(tax => tax.ProjectId == id)
+                .FromSql(query1);
             if (page > 0)
             {
                 TaxExemptions = TaxExemptions
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
             }
 
             return TaxExemptions.ToListAsync();
@@ -33,9 +38,9 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             IncentiveTaxExemptionRequest taxExemptions = null;
             try
             {
-                int id = (int)IncentiveRequestIteId;
+                int id = (int) IncentiveRequestIteId;
                 taxExemptions = Context.IncentiveTaxExemptionRequest
-                                       .Where(subss => subss.ProjectId == id).FirstOrDefault();
+                    .Where(subss => subss.ProjectId == id).FirstOrDefault();
             }
             catch (InvalidOperationException)
             {
@@ -46,6 +51,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             {
                 SetError(ex);
             }
+
             return taxExemptions;
         }
 
@@ -58,6 +64,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
                 SetError("TaxExemption does not exist");
                 return false;
             }
+
             Context.IncentiveTaxExemptionRequest.Remove(TaxExemption);
             return await SaveAsync();
         }

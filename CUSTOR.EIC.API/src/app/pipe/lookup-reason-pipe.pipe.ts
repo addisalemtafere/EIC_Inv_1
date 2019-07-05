@@ -29,7 +29,7 @@ export class LookupReasonPipe implements PipeTransform {
 
   getLookups() {
 
-    this.lookUpService.getLookupByParentId(10780).subscribe(result => {
+    this.lookUpService.getLookupByParentId(10780,'en').subscribe(result => {
       // console.log(result);
       this.allLookup = result;
     });

@@ -19,12 +19,14 @@ import {IncentiveRequestDetailModel} from '../../../../model/IncentiveRequestDet
 import {IncentiveBoMRequestItemModel} from '../../../../model/incentive/IncentiveBoMRequestItem.model';
 import {ApplicationSettingService} from '../../../../Services/application-setting.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 
 @Component({
   selector: 'app-requested-items-list',
   templateUrl: './requested-items-list.component.html',
-  styleUrls: ['./requested-items-list.component.scss']
+  styleUrls: ['./requested-items-list.component.scss'],
+  providers:[ConfigurationService]
 })
 export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterContentChecked, AfterViewInit {
   @ViewChild('form')
@@ -92,6 +94,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   private form: NgForm;
   private ExchangeRate: string;
   private CuurencyType: number;
+  private currentLang: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -100,6 +103,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
               private snackbar: MatSnackBar,
               private lookUpTypeService: LookupTypeService,
               public settingService: ApplicationSettingService,
+              private configService: ConfigurationService,
               private lookUpsService: LookUpService,
               private config: AppConfiguration,
               private IncentiveRequestItemService: IncentiveRequestDetailService,
@@ -176,6 +180,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.initForm();
     this.getExchangeRate();
     // to-do
@@ -303,7 +308,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
   getItemLookup(categoryCode: any) {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(categoryCode)
+      .getLookupByParentId(categoryCode, this.currentLang)
       .subscribe(result => {
           this.filterLookups = result;
         },
@@ -513,15 +518,14 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     this.editMode = true;
     this.IncentiveItemtEditIndex = index;
     this.itemDetail = this.items[index];
-    this.filterIncentiveCategory(this.itemDetail.IncentiveCategoryId);
-    // this.incentiveRequestItemForm.patchValue(this.itemDetail);
-
+    this.incentiveRequestItemForm.patchValue(this.itemDetail);
+    //this.filterIncentiveCategory(this.itemDetail.IncentiveCategoryId);
     if (this.itemDetail.IncentiveCategoryId === 10775) {
       this.vehicleTypeShow = true;
     } else {
       this.vehicleTypeShow = false;
     }
-    this.updateForm();
+    //this.updateForm();
   }
 
   deleteIncentiveItem(index: number, id: number) {
@@ -635,8 +639,8 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       ApprovedQty: formModel.ApprovedQty,
       Amount: formModel.Amount,
       RequestDate: formModel.RequestDate,
-      CurrencyType: formModel.CurrencyType,
-      CurrencyRate: formModel.ExRate,
+      CurrencyType: this.incentiveRequestItemForm.get('CurrencyType').value,//formModel.CurrencyType,
+      CurrencyRate: this.incentiveRequestItemForm.get('CurrencyRate').value,//formModel.ExRate,
       ChassisNo: formModel.ChassisNo,
       MotorNo: formModel.MotorNo,
       Description: formModel.Description,

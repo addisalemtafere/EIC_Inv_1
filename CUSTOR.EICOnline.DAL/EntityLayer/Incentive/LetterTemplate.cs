@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
@@ -11,5 +12,11 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public string CC { get; set; }
     public string LetterContent { get; set; }
     public Boolean? IsActive { get; set; }
+  }
+  public class LetterTemplateDTO
+  {
+    [Key]
+    public int LetterTemplateId { get; set; }
+    public string LetterType { get; set; }
   }
 }

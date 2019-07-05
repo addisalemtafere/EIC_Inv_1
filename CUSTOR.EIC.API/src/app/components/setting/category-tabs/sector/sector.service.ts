@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/index';
-import { catchError, map } from 'rxjs/operators';
-import { AppConfiguration } from '../../../../config/appconfig';
-import { SectorModel } from '../../../../model/sector';
-import { ErrorMessage } from '../../../../../@custor/services/errMessageService';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/index';
+import {catchError, map} from 'rxjs/operators';
+import {AppConfiguration} from '../../../../config/appconfig';
+import {SectorModel} from '../../../../model/sector';
+import {ErrorMessage} from '../../../../../@custor/services/errMessageService';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SectorService {
   constructor(private httpClient: HttpClient,
-    private config: AppConfiguration, private errMsg: ErrorMessage) {
+              private config: AppConfiguration, private errMsg: ErrorMessage) {
   }
+
   sectorList: SectorModel[] = [];
   // sectorModel: SectorModel = new SectorModel();
   // sectorList: SectorModel[];
@@ -32,13 +33,15 @@ export class SectorService {
         this.sectorModel = sectordata;
         return this.sectorModel;
       }),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
-  getSectors(): Observable<SectorModel[]> {
-    return this.httpClient.get<SectorModel[]>(this.config.urls.url('sectors')).pipe(
+
+  getSectors(lang: any): Observable<SectorModel[]> {
+    return this.httpClient.get<SectorModel[]>(this.config.urls.url('sectors') + '/' + lang).pipe(
       map(sectorList => this.sectorList = sectorList),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
+
   saveSector(sectorModel: SectorModel): Observable<SectorModel> {
 
     return this.httpClient.post<SectorModel>(this.config.urls.url('sector'), sectorModel).pipe(
@@ -46,7 +49,7 @@ export class SectorService {
         this.sectorModel = SectorData;
         return this.sectorModel;
       }),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
 
   deleteSector(sectorModel: SectorModel): Observable<any> {
@@ -54,6 +57,6 @@ export class SectorService {
       map(result => {
         return result;
       }),
-      catchError(this.errMsg.parsePromiseResponseError), );
+      catchError(this.errMsg.parsePromiseResponseError),);
   }
 }

@@ -37,6 +37,7 @@ export class ActivityService {
       }),
       catchError(this.errMsg.parseObservableResponseError),);
   }
+
   getActivityByParent(id): Observable<ActivityModel[]> {
     return this.httpClient.get<ActivityModel[]>(this.config.urls.url('activityByParent', id)).pipe(
       map((activityData: ActivityModel[]) => {
@@ -46,8 +47,8 @@ export class ActivityService {
       catchError(this.errMsg.parseObservableResponseError),);
   }
 
-  getActivitys(): Observable<ActivityModel[]> {
-    return this.httpClient.get<ActivityModel[]>(this.config.urls.url('activitys')).pipe(
+  getActivitys(lang: any): Observable<ActivityModel[]> {
+    return this.httpClient.get<ActivityModel[]>(this.config.urls.url('activitys') + lang).pipe(
       map(activityList => this.activityList = activityList),
       catchError(this.errMsg.parseObservableResponseError),);
   }

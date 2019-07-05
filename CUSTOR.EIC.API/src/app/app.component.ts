@@ -1,4 +1,3 @@
-
 import {of as observableOf, Observable, Subscription} from 'rxjs';
 import {
   AfterContentChecked,
@@ -260,7 +259,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     localStorage.setItem('title', title);
     if (serviceId == 1235) {
       this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
-
     }
     else {
       this.router.navigate(['/search-browser/' + serviceId + '/' + 0 + '/' + 0]);

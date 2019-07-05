@@ -5,32 +5,58 @@ using System.Threading.Tasks;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 
 namespace CUSTOR.EICOnline.DAL
 {
     public class ActivityRepository : EFRepository<ApplicationDbContext, Activity>
     {
-        public ActivityRepository(ApplicationDbContext context) : base(context)
+        private readonly IDistributedCache distributedCache;
+        private readonly Settings settings;
+
+        public ActivityRepository(ApplicationDbContext context, IDistributedCache _distributedCache,
+            IConfiguration _configuration) : base(context)
         {
+            settings = new Settings(_configuration);
+            distributedCache = _distributedCache;
         }
 
-        public async Task<List<Activity>> GetActivitys(int page = 0, int pageSize = 15)
+        public async Task<List<Activity>> GetActivitys(string lang, int page = 0, int pageSize = 15)
         {
-            IQueryable<Activity> Acts = Context.Activity
-                .Include(s => s.SubSector)
-                .OrderBy(Act => Act.ActivityId);
-            if (page > 0)
+            IEnumerable<Activity> Acts = null;
+            string cacheKey = "ActivityKey";
+            var cachedActivitys = await distributedCache.GetStringAsync(cacheKey);
+            if (cachedActivitys != null)
             {
-                Acts = Acts
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize);
+                Acts = JsonConvert.DeserializeObject<IEnumerable<Activity>>(cachedActivitys);
+            }
+            else
+            {
+                Acts = await Context.Activity
+                    .OrderBy(Act => Act.ActivityId)
+                    .Select(r => new Activity()
+                    {
+                        SubSectorId = r.SubSectorId,
+                        ActivityId = r.ActivityId,
+                        Description = (lang == "et") ? r.Description : r.DescriptionEnglish
+                    }).ToListAsync();
+                if (page > 0)
+                {
+                    Acts = Acts
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize);
+                }
+
+                DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+                await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(Acts), cacheOptions);
             }
 
-            return await Acts.ToListAsync();
+            return Acts.ToList();
         }
-
         public async Task<List<Activity>> GetActivitysByParent(int id,int page = 0, int pageSize = 15)
         {
             IQueryable<Activity> Acts = Context.Activity

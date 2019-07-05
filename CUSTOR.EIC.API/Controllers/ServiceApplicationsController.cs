@@ -76,13 +76,18 @@ namespace EIC.Investment.API.Controllers
     }
 
 
-    [HttpGet("ServiceApplicationBillOfMaterial/{id}")]
-    public async Task<ServiceApplication> GetServiceApplicationBillOfMaterial([FromRoute] int id)
+    [HttpGet("ServiceApplicationBillOfMaterial/{id}/{lang}")]
+    public async Task<IEnumerable<ServiceAppDto>> GetServiceApplicationBillOfMaterial([FromRoute] int id, string lang)
     {
-      var serviceApplication = await _context.ServiceApplication
-        .Include(pre => pre.IncentiveBoMRequestItem)
-        .SingleOrDefaultAsync(m => m.ServiceApplicationId == id);
-      return serviceApplication;
+      string FieldName = StaticDataHelper.GetFieldName(lang);
+      string query1 =
+        $@"(select IncentiveBoMRequestItemId,(Select {FieldName} from Lookup Where LookUpTypeId='10780' AND Lookup.LookupId=IncentiveBoMRequestItem.RejectionReason) as RejectionReason
+						   ,IncentiveBoMRequestItem.ServiceApplicationId,IncentiveBoMRequestItem.ProjectId,Description,HsCode,Quantity,MesurmentUnit,IsApproved from ServiceApplication
+						   Inner Join IncentiveBoMRequestItem ON IncentiveBoMRequestItem.ServiceApplicationId=ServiceApplication.ServiceApplicationId)";
+      IQueryable<ServiceAppDto> ServiceAppDto = _context.ServiceAppDto
+        .Where(m => m.ServiceApplicationId == id)
+        .FromSql(query1);
+      return ServiceAppDto;
     }
 
     [HttpGet("ServiceApplicationCancellation/{id}")]

@@ -29,7 +29,7 @@ export class CustomsbranchPipe implements PipeTransform {
 
   getLookups() {
 
-    this.lookUpService.getLookupByParentId(10783).subscribe(result => {
+    this.lookUpService.getLookupByParentId(10783,'en').subscribe(result => {
       // console.log(result);
       this.allLookup = result;
     });
