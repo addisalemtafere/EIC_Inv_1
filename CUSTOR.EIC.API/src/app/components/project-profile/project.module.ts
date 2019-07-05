@@ -26,6 +26,7 @@ import {ProjectAssociateService} from "../../Services/project-associate.service"
 import {ProjectInputService} from "../../Services/project-input.service";
 import {ProjectRenewalService} from "../../Services/project-renewal.service";
 import {ProjectRequirementService} from "../../Services/project-requirement.service";
+import {MessageModule} from "./notification/message.module";
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {ProjectRequirementService} from "../../Services/project-requirement.serv
     ProductModule,
     ShareModule,
     AssociateModule,
-    UtilityModule
+    UtilityModule,
+    MessageModule
   ],
   providers: [
     ProjectEmploymentService,

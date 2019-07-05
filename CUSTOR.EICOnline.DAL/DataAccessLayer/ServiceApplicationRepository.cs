@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
 using Microsoft.EntityFrameworkCore;
+using CUSTOR.EICOnline.DAL.Enum;
 
 namespace CUSTOR.EICOnline.DAL
 {
@@ -68,19 +69,43 @@ namespace CUSTOR.EICOnline.DAL
         }
 
         public async Task<PagedResult<ServiceApplication>> GetAllServiceApplicationByOfficerId(
-            QueryParameters queryParameter, String UserId)
+            QueryParameters queryParameter, string UserId, int applicationStatus, int applicationStatus2,
+            int applicationStatus3)
         {
-            IEnumerable<ServiceApplication> query = await Context.ServiceApplication
-                .Where(t => t.TodoTask.AssignedUserId == UserId)
-                .Include(s => s.ServiceWorkflow)
-                .Paging(queryParameter.PageCount, queryParameter.PageNumber)
+            List<ServiceApplication> query = await Context.ServiceApplication
                 .OrderByDescending(s => s.ServiceApplicationId)
+                .Where(t => t.TodoTask.AssignedUserId == UserId && t.CurrentStatusId == applicationStatus ||
+                            t.CurrentStatusId == applicationStatus2 || t.CurrentStatusId == applicationStatus3)
+                .Include(s => s.ServiceWorkflow)
+                .Include(s => s.TodoTask)
+                .Paging(queryParameter.PageCount, queryParameter.PageNumber)
                 .ToListAsync();
 
             return new PagedResult<ServiceApplication>()
             {
                 Items = query,
-                ItemsCount = Context.ServiceApplication.Count(t => t.TodoTask.AssignedUserId == UserId)
+                ItemsCount = Context.ServiceApplication.Count(t =>
+                    t.TodoTask.AssignedUserId == UserId && t.CurrentStatusId == applicationStatus ||
+                    t.CurrentStatusId == applicationStatus2 || t.CurrentStatusId == applicationStatus3)
+            };
+        }
+
+        public async Task<PagedResult<ServiceApplication>> GetAllServiceApplication(QueryParameters queryParameter,
+            int applicationStatus)
+        {
+            List<ServiceApplication> query = await Context.ServiceApplication
+                .Include(s => s.ServiceWorkflow)
+                .Include(s => s.TodoTask)
+                .OrderByDescending(s => s.ServiceApplicationId)
+                .Where(s => s.CurrentStatusId == applicationStatus)
+                .Paging(queryParameter.PageCount, queryParameter.PageNumber)
+                .ToListAsync();
+
+
+            return new PagedResult<ServiceApplication>()
+            {
+                Items = query,
+                ItemsCount = Context.ServiceApplication.Count(s => s.CurrentStatusId == applicationStatus)
             };
         }
     }

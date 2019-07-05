@@ -153,7 +153,7 @@
           <mat-form-field fxLayoutGap="4em" class="col4">
             <mat-label>{{'investors.editor.Title' | translate}}</mat-label>
             <mat-select formControlName="Title">
-<!--              <mat-option value="0">Select Title</mat-option>-->
+              <!--              <mat-option value="0">Select Title</mat-option>-->
               <mat-option *ngFor="let title of TitleLookup" [value]="title.LookupId">
                 {{title.English}}
               </mat-option>
@@ -372,7 +372,7 @@
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
         <mat-form-field fxFlex>
           <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
-          <input type="number" matInput formControlName="cTin" maxlength="10"/>
+          <input matInput formControlName="cTin" number maxlength="10"/>
           <mat-error *ngIf="tin.hasError('maxlength')">
             {{'common.validation.MaxLengthChar' | translate: {'max': '10'} }}
           </mat-error>

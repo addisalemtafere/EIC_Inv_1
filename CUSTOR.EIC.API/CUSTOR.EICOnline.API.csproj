@@ -1,7 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <Description>EIC Online Soluton</Description>
     <Copyright>Copyright © 2018 www.custor.net</Copyright>
@@ -14,9 +12,6 @@
     <AspNetCoreHostingModelV2>InProcess</AspNetCoreHostingModelV2>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
-
-
-
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <!--<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.0" />-->
@@ -35,25 +30,19 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="SendGrid" Version="9.10.0" />
     <!--<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />-->
-
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\CUSTOR.EICOnline.DAL\CUSTOR.EICOnline.DAL.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <TypeScriptCompile Include="src\app\ap-material.module.ts" />
   </ItemGroup>
-
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
-
   <Target Name="Build Angular" Condition="'$(Configuration)'=='Release'" BeforeTargets="Build">
     <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high" />
     <Exec Command="npm run build-client" />
   </Target>
-
 </Project>

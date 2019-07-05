@@ -4,7 +4,7 @@
     class="margin-2 border"
     [formGroup]="searchForm"
     novalidate #costF>
-    <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="4em">
+    <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
 
       <mat-form-field fxFlex="10">
         <mat-label>TIN or IP Number :</mat-label>
@@ -69,9 +69,13 @@
 
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="search()">
+      <button fxFlex="10" mat-raised-button color="primary" (click)="search()">
         <mat-icon class="mat-18">search</mat-icon>
         <span>Search</span>
+      </button>
+      <button fxFlex="2" mat-raised-button color="warn" (click)="cleaSearch()">
+        <mat-icon class="mat-48">cancel</mat-icon>
+        <span>Clear</span>
       </button>
     </div>
 
@@ -154,9 +158,11 @@
           <ng-container fxFlex="8" matColumnDef="NextStep">
             <mat-header-cell fxFlex="10" *matHeaderCellDef>Next Step</mat-header-cell>
             <mat-cell fxFlex="10" *matCellDef="let serviceApplicationList;">
-              <a class="pointer" style="color: #00bcd4;"
-                 *ngIf="serviceApplicationList?.CurrentStatusId===44450 && serviceApplicationList.IsSelfService==false"
-                 (click)="nextStep(serviceApplicationList?.ServiceWorkflow[0]?.NextStepId,
+
+<span *ngIf="!serviceApplicationList.IsApproved">
+     <a class="pointer custom-button2" style=""
+        *ngIf="serviceApplicationList?.CurrentStatusId===44450 && serviceApplicationList.IsSelfService==false"
+        (click)="nextStep(serviceApplicationList?.ServiceWorkflow[0]?.NextStepId,
             serviceApplicationList.ProjectId,
             serviceApplicationList.ServiceApplicationId,
             serviceApplicationList.ServiceId,
@@ -166,10 +172,10 @@
              serviceApplicationList.InvestorNameEnglish,
                serviceApplicationList.ProjectNameEnglish)">
                 {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId | serviceStepPipe}}
-                <!--<mat-icon color="primary" class="mat-18">navigate_next</mat-icon>-->
-                {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId }}
+       <!--<mat-icon color="primary" class="mat-18">navigate_next</mat-icon>-->
+       {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId }}
               </a>
-              <a class="pointer" style="color: #00bcd4;"
+              <a class="pointer custom-button2" style=""
                  *ngIf="serviceApplicationList?.CurrentStatusId!==44450 && serviceApplicationList?.CurrentStatusId!==44449 && serviceApplicationList.IsSelfService==true"
                  (click)="nextStep(18,
             serviceApplicationList.ProjectId,
@@ -179,9 +185,28 @@
              serviceApplicationList?.ServiceWorkflow[0].ServiceWorkflowId,serviceApplicationList.InvestorId,
              serviceApplicationList.InvestorNameEnglish,
              serviceApplicationList.ProjectNameEnglish
-             )"> Next
+             )">
+                Review
               </a>
 
+</span>
+              <span *ngIf="serviceApplicationList.IsApproved">
+
+              <a class="pointer custom-button2" style=""
+                 *ngIf="serviceApplicationList?.CurrentStatusId!==44450 && serviceApplicationList?.CurrentStatusId!==44449 && serviceApplicationList.IsSelfService==true"
+                 (click)="nextStep(18,
+            serviceApplicationList.ProjectId,
+            serviceApplicationList.ServiceApplicationId,
+            serviceApplicationList.ServiceId,
+            serviceApplicationList.ServiceNameEnglish,
+             serviceApplicationList?.ServiceWorkflow[0].ServiceWorkflowId,serviceApplicationList.InvestorId,
+             serviceApplicationList.InvestorNameEnglish,
+             serviceApplicationList.ProjectNameEnglish
+             )">
+                Reviewed
+              </a>
+
+</span>
 
             </mat-cell>
           </ng-container>
@@ -189,7 +214,7 @@
           <ng-container fxFlex="20" matColumnDef="Action">
             <mat-header-cell fxFlex="20" *matHeaderCellDef>Action</mat-header-cell>
             <mat-cell fxFlex="20" *matCellDef="let serviceApplicationList; let i=index">
-              <div>
+              <div *ngIf="serviceApplicationList.IsApproved">
                 <span *ngIf="canViewTasks || canManageManageIncentiveAssignedServices">
 
                   <a class=" pointer a-link" color="accent"
@@ -200,22 +225,12 @@
                   </a>
                 </span>
                 <span *ngIf="canManageTask">
-                   <a class=" pointer" color="accent" matTooltip="Click Here for Managment"
+                   <a class=" pointer" color="accent" matTooltip="Click Here for Management"
                       (click)="assignUser(serviceApplicationList?.ServiceApplicationId)">
 
-                    <span mat-raised-button class="a-link" color=" primary">Assign</span>
-                  </a>
-                  <a *ngIf="serviceApplicationList.TodoTaskId!==null" class="pointer" color="accent"
-                     matTooltip="Click Here for detail">
-                    <span class="assigned">assigned</span>
+                    <span mat-raised-button class="a-link" color="primary">Assign</span>
                   </a>
 
-                  <a *ngIf="serviceApplicationList.TodoTaskId===null" class="pointer" color="accent"
-                     matTooltip="Click Here for Approval">
-                    <span class="no-assigned">
-                    not assigned
-                </span>
-                  </a>
 
                 </span>
               </div>
@@ -224,12 +239,15 @@
 
           <ng-container fxFlex="8" matColumnDef="AssignedTo">
             <mat-header-cell *matHeaderCellDef>Assigned To</mat-header-cell>
-            <mat-cell style="color: green;    font-weight: bolder;" *matCellDef="let serviceApplicationList">
-            <span *ngIf="serviceApplicationList?.EndDate!=null;">
-                {{serviceApplicationList?.EndDate | date: 'mediumDate'}}
+            <mat-cell
+              *matCellDef="let serviceApplicationList">
+            <span style="color: #00bcd4;    font-weight: bolder !important;    text-transform: uppercase;"
+                  *ngIf="serviceApplicationList?.TodoTask?.AssignedUserName!=null;">
+                {{serviceApplicationList?.TodoTask?.AssignedUserName}}
             </span>
-              <span *ngIf="serviceApplicationList?.EndDate==null;">
-                --
+              <span style="color: red;    font-weight: bolder !important;    text-transform: uppercase;"
+                    *ngIf="serviceApplicationList?.TodoTaskId==null">
+                not assigned
               </span>
             </mat-cell>
           </ng-container>

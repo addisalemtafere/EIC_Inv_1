@@ -29,6 +29,7 @@ export class ServiceApplicationModel {
   public ProjectNameEnglish: string;
 
   public IsSelfService?: boolean;
+  public IsApproved?: boolean;
   public EndDate: string;
   public IsActive?: any;
   public IsPaid?: boolean;

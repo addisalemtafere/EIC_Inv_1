@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ProjectModel} from '../model/Project.model';
 import {AppConfiguration} from '../config/appconfig';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 import {AddressModel} from '../model/address/Address.model';
 import {BaseService} from './Base.service';
@@ -9,6 +9,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import {catchError} from 'rxjs/operators';
 import {SearchModel} from '../model/search.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
+import {QueryParametersModel} from "../model/QueryParameters.model";
 
 @Injectable()
 export class ProjectProfileService extends BaseService<ProjectModel> {
@@ -22,8 +23,12 @@ export class ProjectProfileService extends BaseService<ProjectModel> {
     super(http, appConfig.urls.url('projects'), errMsg);
   }
 
-  search(resource: SearchModel): Observable<any[]> {
-    return this.httpClient.post(this.appConfig.urls.url('search'), resource).pipe(
+  search(resource: SearchModel,managerParams: QueryParametersModel): Observable<any> {
+    const mParams = new HttpParams()
+      .append('PageCount', managerParams.PageSize.toString())
+      .append('PageNumber', managerParams.PageIndex.toString())
+      .append('Lang', managerParams.Lang);
+    return this.httpClient.post(this.appConfig.urls.url('search'), resource,{params: mParams}).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
 

@@ -205,25 +205,28 @@ namespace EIC.Investment.API.Controllers
       DateTime datTimeNow = DateTime.Now;
       string format = "yyyy-MM-dd HH:mm:ss";
       string sDateTime = datTimeNow.ToString(format);
-      var serviceApplication = new ServiceApplication
-      {
-        InvestorId = project.InvestorId,
-        CaseNumber = perminumber,
-        ServiceId = project.ServiceId,
-        CurrentStatusId = 44450,
-        IsSelfService = true,
-        IsPaid = true,
-        StartDate = DateTime.Now,
-        CreatedUserId = 1,
-        IsActive = false,
-        CreatedUserName = editedProject.CreatedUserName,
-        InvestorNameAmharic = investor.InvestorName,
-        InvestorNameEnglish = investor.InvestorNameEng,
-        ServiceNameAmharic = service.DisplayName,
-        ServiceNameEnglish = service.DisplayNameEnglish,
-        ProjectNameEnglish = project.ProjectName,
-        ProjectNameAmharic = project.ProjectName
-      };
+
+
+
+      var serviceApplication = new ServiceApplication();
+
+      serviceApplication.InvestorId = project.InvestorId;
+      serviceApplication.CaseNumber = perminumber;
+      serviceApplication.ServiceId = project.ServiceId;
+      serviceApplication.CurrentStatusId = 44450;
+      serviceApplication.IsSelfService = true;
+      serviceApplication.IsPaid = true;
+
+      serviceApplication.CreatedUserId = 1;
+      serviceApplication.IsActive = false;
+      serviceApplication.CreatedUserName = editedProject.CreatedUserName;
+      serviceApplication.InvestorNameAmharic = investor.InvestorName;
+      serviceApplication.InvestorNameEnglish = investor.InvestorNameEng;
+      serviceApplication.ServiceNameAmharic = service.DisplayName;
+      serviceApplication.ServiceNameEnglish = service.DisplayNameEnglish;
+      serviceApplication.ProjectNameEnglish = project.ProjectName;
+      serviceApplication.ProjectNameAmharic = project.ProjectName;
+
 
       var serviceWorkflow = new ServiceWorkflow
       {

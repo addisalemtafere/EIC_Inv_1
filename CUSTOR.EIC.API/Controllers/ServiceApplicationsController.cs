@@ -33,15 +33,11 @@ namespace EIC.Investment.API.Controllers
 
     // GET: api/ServiceApplications
     [HttpGet]
-    public IEnumerable<ServiceApplication> GetServiceApplication()
+    public async Task<PagedResult<ServiceApplication>> GetApplication([FromQuery] QueryParameters queryParameters)
     {
-      return _context.ServiceApplication
-        .Include(s => s.ServiceWorkflow)
-        .OrderByDescending(s => s.ServiceApplicationId)
-        .Where(s => s.CurrentStatusId == (int) ApplicationStatus.Submitted).ToList();
-
-      //.Include(In => In.Investor);
+      return await _repository.GetAllServiceApplication(queryParameters, (int) ApplicationStatus.Submitted);
     }
+
 
     [HttpGet("{id}")]
     public async Task<ServiceApplication> GetServiceApplication([FromRoute] int id)
@@ -189,6 +185,12 @@ namespace EIC.Investment.API.Controllers
       {
         toDoTask.CurrentStatusId = Int32.Parse(lookup.Code);
         _context.Entry(toDoTask).State = EntityState.Modified;
+      }
+
+      if ((int) ApplicationStatus.approved == Convert.ToInt32(lookup.Code))
+      {
+        serviceApplication.IsApproved = true;
+        _context.Entry(serviceApplication).State = EntityState.Modified;
       }
 
       if (lookup.Code == "44449")
@@ -436,7 +438,8 @@ namespace EIC.Investment.API.Controllers
 
 
     [HttpPost("Api/Search")]
-    public IActionResult SearchProject([FromBody] SearchDto searchDto)
+    public PagedResult<ServiceApplication> SearchProject([FromQuery] QueryParameters queryParameters,
+      [FromBody] SearchDto searchDto)
     {
       var query = _context.ServiceApplication as IQueryable<ServiceApplication>;
 
@@ -463,6 +466,10 @@ namespace EIC.Investment.API.Controllers
           {
             query = query.Where(x => x.ProjectId == project.ProjectId);
           }
+          else
+          {
+            return null;
+          }
         }
       }
 
@@ -479,8 +486,19 @@ namespace EIC.Investment.API.Controllers
       if (searchDto.SpecDate.HasValue)
         query = query.Where(x => x.StartDate == searchDto.SpecDate);
 
-      return Ok(query.Include(s => s.ServiceWorkflow));
+      List<ServiceApplication> result = query.Include(s => s.ServiceWorkflow)
+        .OrderByDescending(s => s.ServiceApplicationId)
+        .Paging(queryParameters.PageCount, queryParameters.PageNumber)
+        .ToList();
+
+
+      return new PagedResult<ServiceApplication>()
+      {
+        Items = result,
+        ItemsCount = query.Count()
+      };
     }
+
 
     // DELETE: api/ServiceApplications/5
     [HttpDelete("{id}")]
@@ -621,9 +639,10 @@ namespace EIC.Investment.API.Controllers
     [
       HttpGet("ByOfficerId2/{officerId}")]
     public async Task<PagedResult<ServiceApplication>> GetServiceApplicationByOfficerId2(
-      [FromQuery] QueryParameters queryParameters, [FromRoute] String UserId)
+      [FromQuery] QueryParameters queryParameters, [FromRoute] string officerId)
     {
-      return await _repository.GetAllServiceApplicationByOfficerId(queryParameters, UserId);
+      return await _repository.GetAllServiceApplicationByOfficerId(queryParameters, officerId,
+        (int) ApplicationStatus.Submitted,(int) ApplicationStatus.Completed,(int) ApplicationStatus.approved);
     }
   }
 }
