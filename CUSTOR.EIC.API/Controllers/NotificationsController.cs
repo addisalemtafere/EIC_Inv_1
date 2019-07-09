@@ -174,12 +174,12 @@ namespace CUSTOR.EICOnline.API.Controllers
       client.Host = "smtp.gmail.com";
       client.Port = 587;
       // setup Smtp authentication
-      var credentials = new NetworkCredential("addisalem12@gmail.com", "kataAddis1/21");
+      var credentials = new NetworkCredential("ethiopianinvestmentcommission@gmail.com", "EIC@admin2018");
       client.UseDefaultCredentials = false;
       client.Credentials = credentials;
       //can be obtained from your model
       var msg = new MailMessage();
-      msg.From = new MailAddress("addisalem12@gmail.com");
+      msg.From = new MailAddress("ethiopianinvestmentcommission@gmail.com");
       msg.To.Add(new MailAddress(destinationEmail));
 
       msg.Subject = "EIC Notifications";
