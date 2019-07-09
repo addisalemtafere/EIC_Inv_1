@@ -48,6 +48,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
     this.getServiceApplication(this.ServiceApplicationId);
     this.initForm();
     this.getAllService();
+
   }
 
   getServiceApplication(id: any) {
@@ -56,6 +57,9 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
         this.investorName = result.Investor.InvestorNameEng;
         // this.ServiceApplicationId = result.ServiceApplicationId;
         this.UserId = result.Investor.UserId;
+        console.log(result.Investor.UserId);
+        console.log(this.UserId);
+
         this.InvestorId = result.InvestorId;
         this.templateMessage = 'Dear ' +
           this.investorName +
@@ -69,17 +73,18 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
           ServiceApplicationId: this.ServiceApplicationId,
           Message: this.templateMessage,
         });
+        console.log(this.notificationForm.value);
       });
   }
 
   initForm() {
     this.notificationForm = this.fb.group({
       Subject: 'EIC Notification',
-      UserId: '',
+      UserId: this.UserId,
       ServiceApplicationId: this.ServiceApplicationId,
       CurrentStatus: '',
       Message: '',
-      ToUserId: '',
+      ToUserId: this.UserId,
       FromUserId: this.accountService.currentUser.FullName
 
     });
