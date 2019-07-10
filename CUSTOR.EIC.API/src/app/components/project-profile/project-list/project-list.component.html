@@ -41,6 +41,7 @@
         <input formControlName="SpecDate"
                placeholder="Sepecific Date"
                matInput
+               (dateChange)="formatDate()"
                [matDatepicker]="sDate">
         <mat-datepicker-toggle matSuffix [for]="sDate"></mat-datepicker-toggle>
         <mat-datepicker #sDate></mat-datepicker>
@@ -51,6 +52,7 @@
         <input formControlName="FromDate"
                placeholder="From Date"
                matInput
+               (dateChange)="formatDate()"
                [matDatepicker]="fDate">
         <mat-datepicker-toggle matSuffix [for]="fDate"></mat-datepicker-toggle>
         <mat-datepicker #fDate></mat-datepicker>
@@ -62,6 +64,7 @@
         <input formControlName="ToDate"
                placeholder="To Date"
                matInput
+               (dateChange)="formatDate()"
                [matDatepicker]="tDate">
         <mat-datepicker-toggle matSuffix [for]="tDate"></mat-datepicker-toggle>
         <mat-datepicker #tDate></mat-datepicker>
@@ -215,7 +218,9 @@
             <mat-header-cell fxFlex="20" *matHeaderCellDef>Action</mat-header-cell>
             <mat-cell fxFlex="20" *matCellDef="let serviceApplicationList; let i=index">
               <div *ngIf="serviceApplicationList.IsApproved">
-                <span *ngIf="canViewTasks || canManageManageIncentiveAssignedServices">
+
+              </div>
+              <span *ngIf="canViewTasks || canManageManageIncentiveAssignedServices">
 
                   <a class=" pointer a-link" color="accent"
                      matTooltip="Click here for detail of the project"
@@ -224,7 +229,7 @@
                     <span class="">Go</span>
                   </a>
                 </span>
-                <span *ngIf="canManageTask">
+              <span *ngIf="canManageTask">
                    <a class=" pointer" color="accent" matTooltip="Click Here for Management"
                       (click)="assignUser(serviceApplicationList?.ServiceApplicationId)">
 
@@ -233,7 +238,6 @@
 
 
                 </span>
-              </div>
             </mat-cell>
           </ng-container>
 

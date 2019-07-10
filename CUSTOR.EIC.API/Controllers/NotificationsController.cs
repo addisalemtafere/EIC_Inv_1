@@ -132,7 +132,7 @@ namespace CUSTOR.EICOnline.API.Controllers
       serviceApplication.CurrentStatusId = Convert.ToInt32(notification.CurrentStatus);
       if ((int) ApplicationStatus.approved == Convert.ToInt32(notification.CurrentStatus))
       {
-        serviceApplication.IsApproved = true;
+//        serviceApplication.IsApproved = true; //Todo
       }
 
       _context.Entry(serviceApplication).State = EntityState.Modified;
