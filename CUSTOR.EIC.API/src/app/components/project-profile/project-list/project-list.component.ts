@@ -414,12 +414,52 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
   search() {
 
-    let searchParam = this.searchForm.value;
+
+    let SpecDate1 = this.searchForm.get('SpecDate').value
+
+    console.log(SpecDate1);
+
+    if (SpecDate1 != null) {
+
+      let SpecDateUTCDate = Date.UTC(SpecDate1.getFullYear(), SpecDate1.getMonth(), SpecDate1.getDate()) - SpecDate1.getTimezoneOffset();
+      let specDate2 = new Date(SpecDateUTCDate);
+      this.searchForm.patchValue({
+        SpecDate: specDate2,
+      })
+    }
 
 
-    // this.SaveForSearchNavigation = this.searchForm.value
+    let FromDate1 = this.searchForm.get('FromDate').value;
+    if (FromDate1 != null) {
+
+      let FromDateUTCDate = Date.UTC(FromDate1.getFullYear(), FromDate1.getMonth(), FromDate1.getDate()) - FromDate1.getTimezoneOffset();
+      let FromDate2 = new Date(FromDateUTCDate);
+
+      this.searchForm.patchValue({
+        FromDate: FromDate2
+
+      })
+    }
+
+    let ToDate1 = this.searchForm.get('ToDate').value;
+
+    if (ToDate1 != null) {
+
+      let ToDateUTCDate = Date.UTC(ToDate1.getFullYear(), ToDate1.getMonth(), ToDate1.getDate()) - ToDate1.getTimezoneOffset();
+      let ToDate12 = new Date(ToDateUTCDate);
+
+      this.searchForm.patchValue({
+        ToDate: ToDate12
+      })
+    }
+
+
+    console.log(this.searchForm.value)
+
     this.searchFlag = true;
     this.dataSource = [];
+    let searchParam = this.searchForm.value;
+
 
     this.projectProfileService.search(searchParam, this.getManagerParameters())
       .subscribe((result) => {
@@ -430,6 +470,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   cleaSearch() {
+
     this.searchForm.reset();
   }
 
@@ -577,4 +618,26 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
 
+  formatDate() {
+    let SpecDate1 = this.searchForm.get('SpecDate').value;
+    let FromDate1 = this.searchForm.get('FromDate').value;
+    let ToDate1 = this.searchForm.get('ToDate').value;
+
+    let SpecDateUTCDate = Date.UTC(SpecDate1.getFullYear(), SpecDate1.getMonth(), SpecDate1.getDate()) - SpecDate1.getTimezoneOffset();
+    let FromDateUTCDate = Date.UTC(FromDate1.getFullYear(), FromDate1.getMonth(), SpecDate1.getDate()) - FromDate1.getTimezoneOffset();
+    let ToDateUTCDate = Date.UTC(ToDate1.getFullYear(), ToDate1.getMonth(), ToDate1.getDate()) - ToDate1.getTimezoneOffset();
+
+    let specDate2 = new Date(SpecDateUTCDate);
+    let FromDate2 = new Date(FromDateUTCDate);
+    let ToDate12 = new Date(ToDateUTCDate);
+
+
+    this.searchForm.patchValue({
+      SpecDate: specDate2,
+      FromDate: FromDate2,
+      ToDate: ToDate12
+
+    })
+
+  }
 }

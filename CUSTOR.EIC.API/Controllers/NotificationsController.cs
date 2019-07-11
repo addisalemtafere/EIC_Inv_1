@@ -132,7 +132,7 @@ namespace CUSTOR.EICOnline.API.Controllers
       serviceApplication.CurrentStatusId = Convert.ToInt32(notification.CurrentStatus);
       if ((int) ApplicationStatus.approved == Convert.ToInt32(notification.CurrentStatus))
       {
-        serviceApplication.IsApproved = true;
+//        serviceApplication.IsApproved = true; //Todo
       }
 
       _context.Entry(serviceApplication).State = EntityState.Modified;
@@ -174,23 +174,26 @@ namespace CUSTOR.EICOnline.API.Controllers
       client.Host = "smtp.gmail.com";
       client.Port = 587;
       // setup Smtp authentication
-      var credentials = new NetworkCredential("addisalem12@gmail.com", "kataAddis1/Dev");
+      var credentials = new NetworkCredential("ethiopianinvestmentcommission@gmail.com", "EIC@admin2018");
       client.UseDefaultCredentials = false;
       client.Credentials = credentials;
       //can be obtained from your model
       var msg = new MailMessage();
-      msg.From = new MailAddress("addisalem12@gmail.com");
+      msg.From = new MailAddress("ethiopianinvestmentcommission@gmail.com");
       msg.To.Add(new MailAddress(destinationEmail));
 
       msg.Subject = "EIC Notifications";
       msg.IsBodyHtml = true;
       msg.Body = string.Format("<html><head></head><body>" +
-                               "<b>Hello Dear Customer,</b><br>" +
+                               "<b>Dear   Customer,</b><br>" +
                                "<p>" + message + "<p/><br><br><br>" +
                                "I want to thank you for reading and wish you an awesome weekend <br><br> Kind Regards,<br><br>" +
-                               "<b>Ethipian Investment Commission Licensing Team </b><br><br>" +
-                               "<b>Ethipian Investment Commission Ethiopia</b> <br><br>" +
-                               "<a href='http://localhost:4200/login'>www.eic.com<a>" +
+                               "<b>Tel: +251 11 515 73 35 </b><br><br>" +
+                               "<b>E-mail: Haregewoin.Mirotaw@ethio-invest.com or haregmw@gmail.com</b><br><br>" +
+                               "<b>website: www.investethiopia.gov.et or www.theiguides.org/ethiopia </b><br><br>" +
+                               "<h3>Ethiopian Investment Commission Licensing Team </h3>" +
+                               "<h3>Ethiopian Investment Commission Ethiopia</h3>" +
+                               "<a href='http://www.invest-ethiopia.com/login'>Ethiopian Investment<a>" +
                                "</body>");
       try
       {

@@ -25,7 +25,8 @@ import {ErrorMessage} from '@custor/services/errMessageService';
   selector: 'app-search-browser',
   templateUrl: './search-browser.component.html',
   styleUrls: ['./search-browser.component.scss'],
-  providers:[AuthService]
+  providers:[]
+
 })
 export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
@@ -64,7 +65,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   private InvestorId: any;
 
   constructor(public fb: FormBuilder,
-              private http: HttpClient,
               private invService: InvestorService,
               private projectService: ProjectProfileService,
               private dataSharing: DataSharingService,

@@ -117,6 +117,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     BrowserAnimationsModule,
     AppRoutingModule,
 
+
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

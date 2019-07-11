@@ -189,7 +189,7 @@ namespace EIC.Investment.API.Controllers
 
       if ((int) ApplicationStatus.approved == Convert.ToInt32(lookup.Code))
       {
-        serviceApplication.IsApproved = true;
+//        serviceApplication.IsApproved = true;  //Todo
         _context.Entry(serviceApplication).State = EntityState.Modified;
       }
 
