@@ -98,7 +98,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.IncentiveRequestModel = <IncentiveRequestModel>{};
     // initialize the form
     this.initForm();
-    this.initStaticData('en');
+    this.initStaticData(this.currentLang);
   }
 
 
@@ -182,7 +182,6 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.settingService.getOneById(1)
       .subscribe(result => {
         this.ExchangeRate = result.Value;
-
       });
   }
 
@@ -213,7 +212,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   getIncentiveReaquestItmesByServiceAppId(ServiceApplicationId) {
-    this.IncentiveRequestService.getIncentiveRequestByServiceApplicationId(ServiceApplicationId,this.currentLang).subscribe(result => {
+    this.IncentiveRequestService.getIncentiveRequestByServiceApplicationId(ServiceApplicationId, this.currentLang).subscribe(result => {
       if (result.length > 0) {
         this.IncentiveRequestModels = result;
         this.dataSource = new MatTableDataSource<IncentiveRequestModel>(this.IncentiveRequestModels);
@@ -223,7 +222,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   getIncentiveReaquestItmes(projectId, serviceApplicationId) {
-    this.IncentiveRequestService.getIncentiveRequestslist(this.currentLang,projectId, serviceApplicationId).subscribe(result => {
+    this.IncentiveRequestService.getIncentiveRequestslist(this.currentLang, projectId, serviceApplicationId).subscribe(result => {
       if (result.length > 1) {
         this.hasManyDetial = true;
       }
@@ -289,7 +288,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       RequestDate: [new Date(), Validators.required],
       MotorNo: ['', Validators.required],
       InvoiceNo: ['', Validators.compose([Validators.required, Validators.maxLength(15)])],
-      ExchangeRate: [{value: '', disabled: true}],
+      ExchangeRate: [this.ExchangeRate, Validators.required],
     });
   }
 
@@ -300,6 +299,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   public onSubmit() {
+    console.log(this.ExchangeRate)
     // if (!this.incentiveRequestItemForm.valid) {
     //   return;
     // }

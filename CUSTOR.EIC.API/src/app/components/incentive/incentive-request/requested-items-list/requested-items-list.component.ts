@@ -26,7 +26,7 @@ import {ConfigurationService} from "@custor/services/configuration.service";
   selector: 'app-requested-items-list',
   templateUrl: './requested-items-list.component.html',
   styleUrls: ['./requested-items-list.component.scss'],
-  providers:[ConfigurationService]
+  providers: [ConfigurationService]
 })
 export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterContentChecked, AfterViewInit {
   @ViewChild('form')
@@ -501,6 +501,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     if (this.isNewIncentiveRequestItem) {
       this.IncentiveRequestItemService.saveIncentiveRequestItem(
         this.getEditedIncentiveItem()).subscribe((itemDetail: IncentiveRequestDetailModel) => {
+          console.log(itemDetail)
           this.saveCompleted(itemDetail);
         },
         err => this.handleError(err));
@@ -639,8 +640,8 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       ApprovedQty: formModel.ApprovedQty,
       Amount: formModel.Amount,
       RequestDate: formModel.RequestDate,
-      CurrencyType: this.incentiveRequestItemForm.get('CurrencyType').value,//formModel.CurrencyType,
-      CurrencyRate: this.incentiveRequestItemForm.get('CurrencyRate').value,//formModel.ExRate,
+      CurrencyType:1, //this.incentiveRequestItemForm.get('CurrencyType').value,//formModel.CurrencyType,
+      CurrencyRate:"27.68", //this.incentiveRequestItemForm.get('CurrencyRate').value,//formModel.ExRate,
       ChassisNo: formModel.ChassisNo,
       MotorNo: formModel.MotorNo,
       Description: formModel.Description,

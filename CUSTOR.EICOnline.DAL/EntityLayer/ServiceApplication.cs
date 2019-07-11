@@ -33,7 +33,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string ProjectNameAmharic { get; set; }
         public string ProjectNameEnglish { get; set; }
         public DateTime StartDate { get; set; }
+        //public DateTime? StartTime { get; set; }
         public DateTime? EndDate { get; set; }
+        //public DateTime? EndTime { get; set; }
         public int CurrentStatusId { get; set; }
         public bool IsSelfService { get; set; }
         public bool IsPaid { get; set; }

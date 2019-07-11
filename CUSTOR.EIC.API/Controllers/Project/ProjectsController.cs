@@ -216,6 +216,8 @@ namespace EIC.Investment.API.Controllers
       serviceApplication.CurrentStatusId = 44450;
       serviceApplication.IsSelfService = true;
       serviceApplication.IsPaid = true;
+      serviceApplication.StartDate = DateTime.Now;
+      serviceApplication.IsPaid = true;
 
       serviceApplication.CreatedUserId = 1;
       serviceApplication.IsActive = false;
