@@ -470,6 +470,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   cleaSearch() {
+
     this.searchForm.reset();
   }
 

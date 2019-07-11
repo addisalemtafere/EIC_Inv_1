@@ -18,16 +18,18 @@ import {IncentiveLogService} from "../../Services/incentive-log.service";
     SearchBrowserRoutingModule
   ],
   declarations: [SearchBrowserComponent],
-  providers: [AccountService,
-    DataSharingService,
-    AuthService, ErrorMessage,
-    ProjectProfileService,
-    ServiceapplicationService,
-    IncentiveLogService
+  exports: [SearchBrowserComponent],
+  providers: [
+    // AccountService,
+    // DataSharingService,
+    // AuthService, ErrorMessage,
+    // ProjectProfileService,
+    // ServiceapplicationService,
+    // IncentiveLogService
   ]
 })
 export class SearchBrowserModule {
 
 }
 
-console.log(this.ServiceApplicationId)
+

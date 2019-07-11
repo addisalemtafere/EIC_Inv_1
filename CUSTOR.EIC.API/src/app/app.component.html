@@ -10,7 +10,7 @@
       <mat-icon>menu</mat-icon>
     </button>
     <!-- <h1 class="app-name"><a routerLink="/">{{appTitle}}</a></h1> -->
-    <a style="margin-top: 12px" (click)="goToHome()"    ><img src="../assets/logo/eInvest.png"/></a>
+    <a style="margin-top: 12px" (click)="goToHome()"><img src="../assets/logo/eInvest.png"/></a>
 
     <span class="app-toolbar-spacer"></span>
     <!-- <app-theme-picker></app-theme-picker> -->
@@ -202,19 +202,15 @@
         <a
           *ngIf="canViewTasks"
           mat-list-item=""
-          (click)="startService('1001', 'capitalRegistration')"
-        >
+          (click)="startService('1001', 'capitalRegistration')"        >
           <mat-icon>reorder</mat-icon>
           {{ "mainMenu.capitalRegistration" | translate }}
         </a>
         <mat-expansion-panel
           *ngIf="
-            canManageManageIncentiveAssignedServices ||
-            canManageAssignedServicesPermission
-          "
+            canManageManageIncentiveAssignedServices ||            canManageAssignedServicesPermission          "
           #serv
-          [class.mat-elevation-z0]="!serv.expanded"
-        >
+          [class.mat-elevation-z0]="!serv.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>reorder</mat-icon>
@@ -223,11 +219,9 @@
           </mat-expansion-panel-header>
           <mat-list dense class="mat-expansion-panel-body">
             <mat-list-item *ngFor="let item of serviceList">
-              <a
-                (click)="startService(item.ServiceId, item.DisplayNameEnglish)"
-                mat-list-item
-                routerLinkActive="active"
-              >
+              <a (click)="startService(item.ServiceId, item.DisplayNameEnglish)"
+                 mat-list-item
+                 routerLinkActive="active">
                 <mat-icon color="primary">{{ item.Icon }}</mat-icon>
                 {{ item.DisplayNameEnglish | filterPipe: 14 }}
               </a>
@@ -237,8 +231,7 @@
         <a
           *ngIf="canManageManageAftercareData"
           mat-list-item=""
-          (click)="startService('1234', 'Aftercare')"
-        >
+          (click)="startService('1234', 'Aftercare')">
           <mat-icon>reorder</mat-icon>
           {{ "mainMenu.Aftercare" | translate }}
         </a>
@@ -246,8 +239,7 @@
         <mat-expansion-panel
           *ngIf="canManageSettings"
           #Category
-          [class.mat-elevation-z0]="!Category.expanded"
-        >
+          [class.mat-elevation-z0]="!Category.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>reorder</mat-icon>
@@ -258,46 +250,36 @@
           <mat-list dense class="mat-expansion-panel-body">
             <a mat-list-item routerLinkActive="active" routerLink="address">
               <mat-icon color="primary" class="mat-18">edit_location</mat-icon>
-              {{ "mainMenu.address" | translate }}</a
-            >
+              {{ "mainMenu.address" | translate }}</a>
             <a mat-list-item routerLinkActive="active" routerLink="category">
               <mat-icon color="primary" class="mat-18">subject</mat-icon>
               {{ "mainMenu.Category" | translate }}</a
             >
             <a mat-list-item routerLinkActive="active" routerLink="lookup-tab">
               <mat-icon color="primary" class="mat-18">subject</mat-icon>
-              {{ "mainMenu.lookup" | translate }}</a
-            >
+              {{ "mainMenu.lookup" | translate }}</a>
             <a
               mat-list-item
               routerLinkActive="active"
-              routerLink="services-tab"
-            >
+              routerLink="services-tab">
               <mat-icon color="primary" class="mat-18">room_service</mat-icon>
               {{ "mainMenu.Service" | translate }}
             </a>
             <a mat-list-item routerLinkActive="active" routerLink="other">
               <mat-icon color="primary" class="mat-18">settings</mat-icon>
-              {{ "mainMenu.site" | translate }}</a
-            >
-            <a
-              mat-list-item
-              routerLinkActive="active"
-              routerLink="lettertempalte"
-            >
+              {{ "mainMenu.site" | translate }}</a>
+            <a mat-list-item
+               routerLinkActive="active"
+               routerLink="lettertempalte">
               <mat-icon color="primary" class="mat-18">settings</mat-icon>
-              {{ "mainMenu.lettertemplate" | translate }}</a
-            >
+              {{ "mainMenu.lettertemplate" | translate }}</a>
           </mat-list>
         </mat-expansion-panel>
 
         <mat-expansion-panel
-          *ngIf="
-            (canManageRoles || canManageUsers || canManageAdmins) && !isInvestor
-          "
+          *ngIf="            (canManageRoles || canManageUsers || canManageAdmins) && !isInvestor          "
           #admin
-          [class.mat-elevation-z0]="!admin.expanded"
-        >
+          [class.mat-elevation-z0]="!admin.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>security</mat-icon>
@@ -306,17 +288,14 @@
           </mat-expansion-panel-header>
           <a *ngIf="canManageUsers" mat-list-item routerLink="/admin/users">
             <mat-icon>people</mat-icon>
-            {{ "mainMenu.Users" | translate }}</a
-          >
+            {{ "mainMenu.Users" | translate }}</a>
           <a
             *ngIf="canManageRoles"
             mat-list-item
             routerLinkActive="active"
-            routerLink="/admin/roles"
-          >
+            routerLink="/admin/roles">
             <mat-icon>security</mat-icon>
-            {{ "mainMenu.Roles" | translate }}</a
-          >
+            {{ "mainMenu.Roles" | translate }}</a>
         </mat-expansion-panel>
       </mat-nav-list>
 
@@ -324,8 +303,7 @@
         <a
           mat-list-item
           routerLinkActive="active"
-          routerLink="/search-browser/0/0/0"
-        >
+          routerLink="/search-browser/0/0/0">
           <mat-icon class="mat-18">group_work</mat-icon>
           Projects
         </a>
@@ -336,8 +314,8 @@
           mat-list-item
           routerLinkActive="active"
           target="_blank"
-          href="http://www.invest-ethiopia.com:9090/default.aspx"
-        >
+
+          href="http://www.invest-ethiopia.com:9090/default.aspx">
           <mat-icon class="mat-48">trending_up</mat-icon>
           Report
         </a>
