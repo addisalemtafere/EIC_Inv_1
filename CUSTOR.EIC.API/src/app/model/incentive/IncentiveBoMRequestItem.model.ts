@@ -14,6 +14,7 @@ export class IncentiveBoMRequestItemModel {
   public HsCode: string;
   public Quantity: number;
   public MesurmentUnit: string;
+  public RejectionReason: string;
   public IsApproved: Boolean;
   public IsDeleted: Boolean;
   public ApprovedQuantity?: number;

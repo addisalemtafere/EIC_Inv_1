@@ -1,19 +1,20 @@
-import { Injectable } from '@angular/core';
-import { catchError, map } from 'rxjs/operators';
-import { AppConfiguration } from '../../../../config/appconfig';
-import { Observable } from 'rxjs/index';
-import { HttpClient } from '@angular/common/http';
-import { SubSectorModel } from '../../../../model/subSector';
-import { SectorModel } from '../../../../model/sector';
-import { ErrorMessage } from '../../../../../@custor/services/errMessageService';
+import {Injectable} from '@angular/core';
+import {catchError, map} from 'rxjs/operators';
+import {AppConfiguration} from '../../../../config/appconfig';
+import {Observable} from 'rxjs/index';
+import {HttpClient} from '@angular/common/http';
+import {SubSectorModel} from '../../../../model/subSector';
+import {SectorModel} from '../../../../model/sector';
+import {ErrorMessage} from '../../../../../@custor/services/errMessageService';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubsectorService {
   constructor(private httpClient: HttpClient,
-    private config: AppConfiguration, private errMsg: ErrorMessage) {
+              private config: AppConfiguration, private errMsg: ErrorMessage) {
   }
+
   subsectorList: SubSectorModel[] = [];
   subSectorModel: SubSectorModel = new SubSectorModel();
   sectorModelList: SectorModel[] = [];
@@ -32,21 +33,24 @@ export class SubsectorService {
         this.subSectorModel = sectordata;
         return this.subSectorModel;
       }),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
+
   getSubSectorByParent(id): Observable<SubSectorModel[]> {
     return this.httpClient.get<SubSectorModel[]>(this.config.urls.url('subsectorByParent', id)).pipe(
       map(sectordata => {
         this.subsectorList = sectordata;
         return this.subsectorList;
       }),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
-  getSubSectors(): Observable<SubSectorModel[]> {
-    return this.httpClient.get<SubSectorModel[]>(this.config.urls.url('subsectors')).pipe(
+
+  getSubSectors(lang: any): Observable<SubSectorModel[]> {
+    return this.httpClient.get<SubSectorModel[]>(this.config.urls.url('subsectors') + lang).pipe(
       map(subsectorList => this.subsectorList = subsectorList),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
+
   saveSubSector(subSectorModel: SubSectorModel): Observable<SubSectorModel> {
 
     return this.httpClient.post<SubSectorModel>(this.config.urls.url('subsector'), subSectorModel).pipe(
@@ -54,7 +58,7 @@ export class SubsectorService {
         this.subSectorModel = SubSectorData;
         return this.subSectorModel;
       }),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
 
   deleteSubSector(subSectorModel: SubSectorModel): Observable<any> {
@@ -62,14 +66,15 @@ export class SubsectorService {
       map(result => {
         return result;
       }),
-      catchError(this.errMsg.parsePromiseResponseError), );
+      catchError(this.errMsg.parsePromiseResponseError),);
   }
+
   getSector(): Observable<SectorModel[]> {
     return this.httpClient.get<SectorModel[]>(this.config.urls.url('sectors')).pipe(
       map(serviceList => {
         this.sectorModelList = serviceList;
         return this.sectorModelList;
       }),
-      catchError(this.errMsg.parseObservableResponseError), );
+      catchError(this.errMsg.parseObservableResponseError),);
   }
 }

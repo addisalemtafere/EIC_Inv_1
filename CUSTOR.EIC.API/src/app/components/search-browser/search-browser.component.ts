@@ -25,7 +25,8 @@ import {ErrorMessage} from '@custor/services/errMessageService';
   selector: 'app-search-browser',
   templateUrl: './search-browser.component.html',
   styleUrls: ['./search-browser.component.scss'],
-  providers: []
+  providers:[]
+
 })
 export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
@@ -81,6 +82,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   ngOnInit() {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
+    console.log(this.ServiceId)
     this.initForm();
     this.getInvestors();
     this.title = localStorage.getItem('title');

@@ -44,7 +44,7 @@ export class AppConfiguration {
     employmentByProject: 'api/ProjectEmployments/ByProject',
     NationalityCompositions: 'api/ProjectNationalityCompositions',
     NationalityCompositionsByProject: 'api/ProjectNationalityCompositions/ByProject',
-    nationality: 'api/Nationalities',
+    nationality: 'api/Nationalities/ByLang',
     pRequirement: 'api/ProjectRequirements',
     pInput: 'api/ProjectInputs',
     InputsByProject: 'api/ProjectInputs/ByProject',
@@ -204,7 +204,6 @@ export class AppConfiguration {
     letter: 'api/letter',
     letters: 'api/letters',
 
-
     incentiveRequests: 'api/incentiveRequests/ByIds',
     incentiveRequest: 'api/incentiveRequest',
     incentiveRequestsothers: 'api/incentiveRequests/ByOtherServiceAppId',
@@ -264,7 +263,10 @@ export class AppConfiguration {
     followupedit: 'delete/followup',
     GetBussinessMajorCatagory: 'api/Business/GetBussinessMajorcata',
     GetBussinessCatagory: 'api/Business/GetBussinessCatagory',
-
+    Country: 'api/Country',
+    Countrys: 'api/Countrys',
+    National: 'api/Nationalities/GetDTO',
+    Nationalities: 'api/Nationalitys',
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];

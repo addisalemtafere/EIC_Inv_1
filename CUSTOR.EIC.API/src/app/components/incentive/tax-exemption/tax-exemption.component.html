@@ -13,7 +13,7 @@
               <option value="0">--Select--</option>
               <mat-option *ngFor="let revenuebranch of Lookups"
                           [value]="revenuebranch.LookupId">
-                <span> {{revenuebranch.Amharic}}</span>
+                <span> {{revenuebranch.English}}</span>
               </mat-option>
             </mat-select>
             <mat-error *ngIf="RevenueBranch.hasError('required')">
@@ -87,7 +87,7 @@
               Edit
             </a>
             <a class="pointer" mat--mini-fab color="warn" matTooltip="Click here to delete the tax exemption"
-               (click)="deleteTaxExemption(i,TaxExemptionModels.TaxExemptionID)">
+               (click)="deleteTaxExemption(i,TaxExemptionModels.IncentiveTaxExemptionRequestID)">
               <mat-icon color="warn">delete</mat-icon>
               Delete
             </a>

@@ -31,8 +31,8 @@ export class IncentiveRequestService {
     );
   }
 
-  getIncentiveRequestslist(projectId: any, ServiceApplicationId: any): Observable<IncentiveRequestModel[]> {
-    return this.httpClient.get<IncentiveRequestModel>(this.appConfig.urls.url('incentiveRequests', projectId, ServiceApplicationId)).pipe(
+  getIncentiveRequestslist(lang: any, projectId: any, ServiceApplicationId: any): Observable<IncentiveRequestModel[]> {
+    return this.httpClient.get<IncentiveRequestModel>(this.appConfig.urls.url('incentiveRequests', projectId, ServiceApplicationId, lang)).pipe(
       map((data: any) => data as IncentiveRequestModel),
       catchError(this.errMsg.parseObservableResponseError)
     );
@@ -45,8 +45,8 @@ export class IncentiveRequestService {
     );
   }
 
-  getIncentiveRequestByServiceApplicationId(id): Observable<IncentiveRequestModel[]> {
-    return this.httpClient.get<IncentiveRequestModel[]>(this.config.urls.url('incentiveRequestByServiceAppId', id)).pipe(
+  getIncentiveRequestByServiceApplicationId(id, lang): Observable<IncentiveRequestModel[]> {
+    return this.httpClient.get<IncentiveRequestModel[]>(this.config.urls.url('incentiveRequestByServiceAppId', id, lang)).pipe(
       map(incentiveRequestdata => {
         this.incentiveRequestList = incentiveRequestdata;
         return this.incentiveRequestList;

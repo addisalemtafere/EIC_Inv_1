@@ -1,18 +1,20 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { SectorModel } from '../../../../../model/sector';
-import { SectorService } from '../sector.service';
-import { ToastrService } from 'ngx-toastr';
-import { AngConfirmDialogComponent } from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
-import { ErrorMessage } from '../../../../../../@custor/services/errMessageService';
-import { Utilities } from '../../../../../../@custor/helpers/utilities';
+import {Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
+import {MatDialog, MatDialogRef, MatSort, MatPaginator, MatTableDataSource} from '@angular/material';
+import {Router, ActivatedRoute} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {SectorModel} from '../../../../../model/sector';
+import {SectorService} from '../sector.service';
+import {ToastrService} from 'ngx-toastr';
+import {AngConfirmDialogComponent} from '../../../../../../@custor/components/confirm-dialog/confirm-dialog.component';
+import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
+import {Utilities} from '../../../../../../@custor/helpers/utilities';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-list-sector',
   templateUrl: './list-sector.component.html',
-  styleUrls: ['./list-sector.component.css']
+  styleUrls: ['./list-sector.component.css'],
+  providers:[ConfigurationService]
 })
 export class ListSectorComponent implements OnInit, AfterViewInit {
   sectorModels: SectorModel[];
@@ -25,15 +27,18 @@ export class ListSectorComponent implements OnInit, AfterViewInit {
   loadingIndicator: boolean;
   dialogRef: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
+  private currentLang: string;
 
   constructor(private http: HttpClient,
-    private sectorService: SectorService,
-    private errMsg: ErrorMessage,
-    private toastr: ToastrService, public dialog: MatDialog,
-    private router: Router, private route: ActivatedRoute) {
+              private sectorService: SectorService,
+              private errMsg: ErrorMessage,
+              private configService: ConfigurationService,
+              private toastr: ToastrService, public dialog: MatDialog,
+              private router: Router, private route: ActivatedRoute) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource();
   }
+
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -44,21 +49,23 @@ export class ListSectorComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.getSectors();
   }
+
   getSectors() {
     this.loadingIndicator = true;
-    this.sectorService.getSectors()
+    this.sectorService.getSectors(this.currentLang)
       .subscribe(result => {
-        this.sectorModels = result;
-        if (!this.sectorModels) {
-          this.toastr.error('No records were found to list', 'Error', {
-            closeButton: true,
-          });
-        } else {
-          this.dataSource.data = this.sectorModels;
-        }
-      },
+          this.sectorModels = result;
+          if (!this.sectorModels) {
+            this.toastr.error('No records were found to list', 'Error', {
+              closeButton: true,
+            });
+          } else {
+            this.dataSource.data = this.sectorModels;
+          }
+        },
         err => {
           if (!this.errMsg.message) {
             this.toastr.error('Error! Please check if the Web serviceprerequistie is running');
@@ -68,13 +75,15 @@ export class ListSectorComponent implements OnInit, AfterViewInit {
         });
     this.loadingIndicator = false;
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
   editSector(sectorModel: SectorModel) {
     if (sectorModel) {
-      this.router.navigate(['/sectors/edit', sectorModel.SectorId], { relativeTo: this.route });
+      this.router.navigate(['/sectors/edit', sectorModel.SectorId], {relativeTo: this.route});
     } else {
       this.router.navigate(['/sectors/edit', 0]);
     }
@@ -93,9 +102,9 @@ export class ListSectorComponent implements OnInit, AfterViewInit {
       if (result) {
         this.sectorService.deleteSector(sectorModel)
           .subscribe(results => {
-            this.loadingIndicator = false;
-            this.dataSource.data = this.dataSource.data.filter(item => item !== sectorModel);
-          },
+              this.loadingIndicator = false;
+              this.dataSource.data = this.dataSource.data.filter(item => item !== sectorModel);
+            },
             error => {
               // tslint:disable-next-line:max-line-length
               this.toastr.error(

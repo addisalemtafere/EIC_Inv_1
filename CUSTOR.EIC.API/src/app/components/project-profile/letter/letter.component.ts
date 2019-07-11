@@ -23,6 +23,8 @@ import {TaxExemptionModel} from '../../../model/incentive/TaxExemption.model';
 import {AddressModel} from '../../../model/address/Address.model';
 import {AddressService} from '../../../Services/Address/address.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
+import {DateService} from "../../../Services/date.service";
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-letter',
@@ -39,6 +41,7 @@ export class LetterComponent implements OnInit {
   incentiveRequestModelList: IncentiveRequestModel[] = [];
   taxExemptionModel: TaxExemptionModel;
   addressList: AddressModel;
+  InvestoraddressList: AddressModel;
   public letterForm: FormGroup;
   content2 = '<p>some content</p>';
   LetterContent: string;
@@ -65,10 +68,15 @@ export class LetterComponent implements OnInit {
   RequestDate: any;
   public ServiceId: any;
   public ProjectId: any;
+  public InvestorId: any;
   public ServiceApplicationId: any;
+  public todayEthioDate: any;
+  public dateEthioNextYear: string;
+
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
 
   displayedColumns = ['LetterType', 'RequestDate', 'Action'];
+  private currentLang: string;
 
   constructor(
     private lettertepmlateService: LettertepmlateService,
@@ -76,6 +84,7 @@ export class LetterComponent implements OnInit {
     private projectProfileService: ProjectProfileService,
     private incentiveRequestService: IncentiveRequestService,
     private taxExemptionService: TaxExemptionService,
+    private configService: ConfigurationService,
     private addressService: AddressService,
     private config: AppConfiguration,
     private activatedRoute: ActivatedRoute,
@@ -87,6 +96,7 @@ export class LetterComponent implements OnInit {
     public dialog: MatDialog,
     private errMsg: ErrorMessage,
     private lookUpsService: LookUpService,
+    private dateService: DateService,
     private fb: FormBuilder
   ) {
     this.letterModel = <LetterModel>{};
@@ -98,8 +108,11 @@ export class LetterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.initForm();
+    this.getEthiopianDate()
     this.ProjectId = this.route.snapshot.params['projectId'] || this.route.snapshot.params['ProjectId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
     if (this.route.snapshot.params['isForDetail'] == 1) {
       this.getLetter();
       this.getLookups();
@@ -124,6 +137,7 @@ export class LetterComponent implements OnInit {
       }
       this.getReveuneLookup();
       this.getAddressData(this.ProjectId);
+      this.getInvestorAddressData(this.InvestorId);
     }
     // else if (this.ServiceId === '1046') {
     //
@@ -133,7 +147,7 @@ export class LetterComponent implements OnInit {
   }
 
   getLetter() {
-    this.letterService.getLetterLists(this.ProjectId)
+    this.letterService.getLetterLists(this.ProjectId, this.currentLang)
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
@@ -158,7 +172,7 @@ export class LetterComponent implements OnInit {
   getReveuneLookup() {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(22)
+      .getLookupByParentId(22, this.currentLang)
       .subscribe(result => {
           this.Lookuprevenues = result;
         },
@@ -178,7 +192,7 @@ export class LetterComponent implements OnInit {
   getLookups() {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(707)
+      .getLookupByParentId(707, this.currentLang)
       .subscribe(result => {
           this.Lookups = result;
         },
@@ -198,7 +212,7 @@ export class LetterComponent implements OnInit {
   }
 
   getIncentiveDetails() {
-    this.incentiveRequestService.getIncentiveRequestByServiceApplicationId(this.ServiceApplicationId)//34517
+    this.incentiveRequestService.getIncentiveRequestByServiceApplicationId(this.ServiceApplicationId, this.currentLang)//34517
       .subscribe(result => {
           if (result) {
             // console.log(this.incentiveRequestModelList);
@@ -213,6 +227,14 @@ export class LetterComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
+        //console.log(result);
+      }, error => this.errMsg.getError(error));
+  }
+
+  getInvestorAddressData(parent: any) {
+    this.addressService.getAddress(parent)
+      .subscribe((result: AddressModel) => {
+        this.InvestoraddressList = result;
         //console.log(result);
       }, error => this.errMsg.getError(error));
   }
@@ -310,17 +332,28 @@ export class LetterComponent implements OnInit {
     this.isNewLetter = true;
   }
 
+  private getEthiopianDate() {
+    let subscription = this.dateService.getEthiopianDateNow()
+      .subscribe(data => {
+
+        this.todayEthioDate = data;
+        var d = this.todayEthioDate.split('/').reverse().join('-')
+        // var d2 = new Date(d);
+        var d2 = new Date(d);
+        var year = d2.getFullYear() + 1;
+        var month = d2.getMonth() + 1;
+        var day = d2.getDate();
+        this.dateEthioNextYear = day + '/' + month + '/' + year;
+      });
+  }
+
   generatePDF() {
     //console.log(this.incentiveRequestModelList)
     this.ShowSave = true;
-    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g,
-      this.projectModel.Investor.FirstName.toUpperCase() +
-      ' ' + this.projectModel.Investor.FatherName.toUpperCase() +
-      ' ' + this.projectModel.Investor.GrandName.toUpperCase());
-    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameEng}}/g,
-      this.projectModel.Investor.FirstNameEng.toUpperCase() +
-      ' ' + this.projectModel.Investor.FatherNameEng.toUpperCase() +
-      ' ' + this.projectModel.Investor.GrandNameEng.toUpperCase());
+    console.log(this.letterTempalteModel.LetterContent)
+    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameAmh}}/g, this.projectModel.Investor.InvestorName);
+    console.log(this.projectModel.Investor.InvestorName)
+    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameEng}}/g, this.projectModel.Investor.InvestorNameEng.toUpperCase());
     this.LetterContent = this.LetterContent.replace(/{{StartDate}}/g,
       new Date(this.projectModel.StartDate).getMonth() +
       '/' + new Date(this.projectModel.StartDate).getDay() + '/' + new Date(this.projectModel.StartDate).getFullYear());
@@ -342,6 +375,9 @@ export class LetterComponent implements OnInit {
     //   formModel.ChassisNo);
     this.LetterContent = this.LetterContent.replace(/{{Capital}}/g,
       (this.projectModel.ProjectCost[0].OtherCapitalCost + this.projectModel.ProjectCost[0].EquityFinance + this.projectModel.ProjectCost[0].LoanFinance).toString());
+    console.log(this.projectModel)
+    this.LetterContent = this.LetterContent.replace(/{{CapitalInBirr}}/g,
+      (this.projectModel.ProjectCost[0].LandCostInBirr + this.projectModel.ProjectCost[0].BuildingCostInBirr + this.projectModel.ProjectCost[0].MachineryCostInBirr + this.projectModel.ProjectCost[0].TransportCostInBirr + this.projectModel.ProjectCost[0].OfficeEquipmentCostInBirr + this.projectModel.ProjectCost[0].OtherCapitalCostInBirr + this.projectModel.ProjectCost[0].InitialWorkingCapitalCostInBirr).toString());
     if (this.ServiceId == '1045') {
       this.LetterContent = this.LetterContent.replace(/{{OrgName}}/g,
         this.taxExemptionModel.RevenueBranchDescription);
@@ -349,6 +385,8 @@ export class LetterComponent implements OnInit {
 
     this.LetterContent = this.LetterContent.replace(/{{ReqDate}}/g,
       new Date().toDateString());
+    this.LetterContent = this.LetterContent.replace(/{{ReqDateAmh}}/g,
+      this.todayEthioDate);
 
     if (this.ServiceId !== '1045' && this.ServiceId !== '13') {
       this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
@@ -356,11 +394,9 @@ export class LetterComponent implements OnInit {
       );
     }
     this.LetterContent = this.LetterContent.replace(/{{TeleNo}}/g,
-      this.addressList.CellPhoneNo);
-
+      this.InvestoraddressList.CellPhoneNo);
     this.LetterContent = this.LetterContent.replace(/{{Region}}/g,
       this.addressList.Region.Description);
-
     this.LetterContent = this.LetterContent.replace(/{{RegionEng}}/g,
       this.addressList.Region.DescriptionEnglish);
     this.letterTempalteModel.LetterContent = this.LetterContent;

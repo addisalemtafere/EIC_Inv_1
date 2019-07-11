@@ -293,6 +293,7 @@ namespace EICOnline.API
         services.AddScoped<LetterRepository>();
         services.AddScoped<IncentiveRequestDetailRepository>();
         services.AddScoped<IncentiveRequestRepository>();
+        services.AddScoped<CountryRepository>();
 
         //Address
 

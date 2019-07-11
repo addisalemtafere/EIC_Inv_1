@@ -215,7 +215,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   getInvestorTitle(id: any) {
-    this.lookUpService.getLookupByParentId(id).subscribe(result => {
+    this.lookUpService.getLookupByParentId(id, this.currentLang).subscribe(result => {
       // console.log(result);
       this.TitleLookup = result;
     });
@@ -236,8 +236,9 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   private getAllNations() {
-    this.addressService.getNationality()
+    this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
+        console.log(result)
         this.nationList = result;
       });
   }
@@ -298,7 +299,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       cFirstName: [''],
       cFatherName: [''],
       cGrandName: [''],
-      cNationality: ['1'], // Ethiopian
+      cNationality: [''], // Ethiopian
       cGender: ['1'],
       Title: [''],
       workFlowId: this.workFlowId,
@@ -575,19 +576,27 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   get region() {
-    return this.associateForm.get('RegionId');
+    return this.associateForm.get('address').get('RegionId');
   }
 
   get zone() {
-    return this.associateForm.get('ZoneId');
+    return this.associateForm.get('address').get('ZoneId');
   }
 
   get woreda() {
-    return this.associateForm.get('WoredaId');
+    return this.associateForm.get('address').get('WoredaId');
+  }
+
+  get woredaEng() {
+    return this.associateForm.get('address').get('WoredaEngId');
   }
 
   get kebele() {
-    return this.associateForm.get('KebeleId');
+    return this.associateForm.get('address').get('KebeleId');
+  }
+
+  get kebeleEng() {
+    return this.associateForm.get('address').get('KebeleEngId');
   }
 
   get houseNumber() {

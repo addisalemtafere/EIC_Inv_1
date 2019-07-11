@@ -50,8 +50,8 @@ export class InvactivityService {
       catchError(this.errMsg.parseObservableResponseError),);
   }
 
-  getInActivitys(): Observable<InvActivityModel[]> {
-    return this.httpClient.get<InvActivityModel[]>(this.config.urls.url('invactivitys')).pipe(
+  getInActivitys(lang: any): Observable<InvActivityModel[]> {
+    return this.httpClient.get<InvActivityModel[]>(this.config.urls.url('invactivitys') + lang).pipe(
       map(invactivityList => this.invActivityModelList = invactivityList),
       catchError(this.errMsg.parseObservableResponseError),);
   }

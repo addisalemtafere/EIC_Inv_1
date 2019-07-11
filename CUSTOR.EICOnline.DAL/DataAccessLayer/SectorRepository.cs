@@ -5,26 +5,55 @@ using System.Threading.Tasks;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CUSTOR.EICOnline.DAL
 {
   public class SectorRepository : EFRepository<ApplicationDbContext, Sector>
   {
-    public SectorRepository(ApplicationDbContext context) : base(context)
-    { }
+    private readonly IDistributedCache distributedCache;
+    private readonly Settings settings;
 
-    public async Task<List<Sector>> GetSectors(int page = 0, int pageSize = 15)
+    public SectorRepository(ApplicationDbContext context, IDistributedCache _distributedCache,
+      IConfiguration _configuration) : base(context)
     {
-      IQueryable<Sector> sectors = Context.Sector
-          .OrderBy(sector => sector.SectorId);
-      if (page > 0)
+      settings = new Settings(_configuration);
+      distributedCache = _distributedCache;
+    }
+
+    public async Task<List<Sector>> GetSectors(string lang, int page = 0, int pageSize = 15)
+    {
+      IEnumerable<Sector> Sector = null;
+      string cacheKey = "SectorKey";
+      var cachedSectors = await distributedCache.GetStringAsync(cacheKey);
+      if (cachedSectors != null)
       {
-        sectors = sectors
-        .Skip((page - 1) * pageSize)
-        .Take(pageSize);
+        Sector = JsonConvert.DeserializeObject<IEnumerable<Sector>>(cachedSectors);
+      }
+      else
+      {
+        Sector =await Context.Sector
+          .OrderBy(sector => sector.SectorId)
+          .Select(r => new Sector
+          {
+            SectorId = r.SectorId,
+            DescriptionEnglish = (lang == "et") ? r.Description : r.DescriptionEnglish
+          }).ToListAsync();
+        if (page > 0)
+        {
+          Sector = Sector
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+        }
+
+        DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+          .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+        await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(Sector), cacheOptions);
       }
 
-      return await sectors.ToListAsync();
+      return  Sector.ToList();
     }
 
     public IEnumerable<Sector> GetSector(object SectorId)

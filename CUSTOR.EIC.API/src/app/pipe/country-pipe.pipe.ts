@@ -17,9 +17,9 @@ export class CountryPipe implements PipeTransform {
       if (country.id === code) {
         // // console.log(country.descriptionEnglish);
         if (en === 1) {
-          return country.descriptionEnglish;
+          return country.English;
         } else {
-          return country.description;
+          return country.Amharic;
         }
       }
     }
@@ -27,7 +27,7 @@ export class CountryPipe implements PipeTransform {
   }
 
   getNations() {
-    this.addressService.getNationality().subscribe(country => {
+    this.addressService.getNationality('en').subscribe(country => {
       this.allCountry = country;
       // // console.log(country);
     });

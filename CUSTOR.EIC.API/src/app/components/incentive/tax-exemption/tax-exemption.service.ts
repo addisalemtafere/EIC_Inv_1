@@ -21,8 +21,8 @@ export class TaxExemptionService {
               private config: AppConfiguration, private errMsg: ErrorMessage) {
   }
 
-  getTaxExemptionList(ProjectId: any): Observable<TaxExemptionModel[]> {
-    return this.httpClient.get<TaxExemptionModel[]>(this.config.urls.url('taxexemptions', ProjectId)).pipe(
+  getTaxExemptionList(ProjectId: any, lang: string): Observable<TaxExemptionModel[]> {
+    return this.httpClient.get<TaxExemptionModel[]>(this.config.urls.url('taxexemptions', ProjectId, lang)).pipe(
       map(taxExemptionList => this.taxExemptionList = taxExemptionList),
       catchError(this.errMsg.parseObservableResponseError));
   }
@@ -59,7 +59,7 @@ export class TaxExemptionService {
       catchError(this.errMsg.parseObservableResponseError));
   }
 
-  deleteTaxExemption(id:any): Observable<any> {
+  deleteTaxExemption(id: any): Observable<any> {
     return this.httpClient.delete<boolean>(this.config.urls.url('taxexemption', id)).pipe(
       map(result => {
         return result;
