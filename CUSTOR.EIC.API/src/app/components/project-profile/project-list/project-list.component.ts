@@ -414,6 +414,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
   search() {
 
+    this.paginationService.Page(1);
 
     let SpecDate1 = this.searchForm.get('SpecDate').value
 
@@ -612,7 +613,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
   ngOnDestroy(): void {
 
-    // this.paginationService.Page(1);
+    this.paginationService.Page(1);
 
     this.dataSource.paginator = null;
   }

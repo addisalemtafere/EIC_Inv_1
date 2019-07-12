@@ -641,8 +641,7 @@ namespace EIC.Investment.API.Controllers
     public async Task<PagedResult<ServiceApplication>> GetServiceApplicationByOfficerId2(
       [FromQuery] QueryParameters queryParameters, [FromRoute] string officerId)
     {
-      return await _repository.GetAllServiceApplicationByOfficerId(queryParameters, officerId,
-        (int) ApplicationStatus.Submitted,(int) ApplicationStatus.Completed,(int) ApplicationStatus.approved);
+      return await _repository.GetAllServiceApplicationByOfficerId(queryParameters, officerId,(int) ApplicationStatus.Submitted, (int) ApplicationStatus.Completed, (int) ApplicationStatus.approved);
     }
   }
 }

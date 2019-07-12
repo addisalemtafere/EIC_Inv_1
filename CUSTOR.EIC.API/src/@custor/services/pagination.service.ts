@@ -12,9 +12,8 @@ export class PaginationService {
     return this.paginationModel.pageIndex;
   }
 
-  set Page(index: any) {
+  Page(index: any) {
     this.paginationModel.pageIndex = index;
-
   }
 
   get selectItemsPerPage(): number[] {
