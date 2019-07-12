@@ -207,7 +207,6 @@ namespace EIC.Investment.API.Controllers
       string sDateTime = datTimeNow.ToString(format);
 
 
-
       var serviceApplication = new ServiceApplication();
 
       serviceApplication.InvestorId = project.InvestorId;
@@ -215,8 +214,7 @@ namespace EIC.Investment.API.Controllers
       serviceApplication.ServiceId = project.ServiceId;
       serviceApplication.CurrentStatusId = 44450;
       serviceApplication.IsSelfService = true;
-      serviceApplication.IsPaid = true;
-      serviceApplication.StartDate = DateTime.Now;
+      //serviceApplication.StartDate = Convert.ToDateTime(sDateTime.ToString());
       serviceApplication.IsPaid = true;
 
       serviceApplication.CreatedUserId = 1;
