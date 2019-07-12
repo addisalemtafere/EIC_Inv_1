@@ -74,8 +74,8 @@ namespace CUSTOR.EICOnline.DAL
         {
             List<ServiceApplication> query = await Context.ServiceApplication
                 .OrderByDescending(s => s.ServiceApplicationId)
-                .Where(t => t.TodoTask.AssignedUserId == UserId && t.CurrentStatusId == applicationStatus ||
-                            t.CurrentStatusId == applicationStatus2 || t.CurrentStatusId == applicationStatus3)
+                .Where(t => t.TodoTask.AssignedUserId == UserId && (t.CurrentStatusId == applicationStatus ||
+                            t.CurrentStatusId == applicationStatus2 || t.CurrentStatusId == applicationStatus3))
                 .Include(s => s.ServiceWorkflow)
                 .Include(s => s.TodoTask)
                 .Paging(queryParameter.PageCount, queryParameter.PageNumber)
@@ -85,8 +85,8 @@ namespace CUSTOR.EICOnline.DAL
             {
                 Items = query,
                 ItemsCount = Context.ServiceApplication.Count(t =>
-                    t.TodoTask.AssignedUserId == UserId && t.CurrentStatusId == applicationStatus ||
-                    t.CurrentStatusId == applicationStatus2 || t.CurrentStatusId == applicationStatus3)
+                    t.TodoTask.AssignedUserId == UserId && (t.CurrentStatusId == applicationStatus ||
+                    t.CurrentStatusId == applicationStatus2 || t.CurrentStatusId == applicationStatus3))
             };
         }
 

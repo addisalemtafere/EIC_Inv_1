@@ -208,8 +208,7 @@
         </a>
         <mat-expansion-panel
           *ngIf="
-            canManageManageIncentiveAssignedServices ||            canManageAssignedServicesPermission          "
-          #serv
+            canManageManageIncentiveAssignedServices || canManageAssignedServicesPermission "          #serv
           [class.mat-elevation-z0]="!serv.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
