@@ -662,9 +662,13 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     // put dummy values to avoid conditional validation issues
     if (this.isCompany) {
       this.investorForm.get('cFirstNameEng').patchValue('NA');
+      this.investorForm.get('cFirstName').patchValue('NA');
       this.investorForm.get('cFatherNameEng').patchValue('NA');
+      this.investorForm.get('cFatherName').patchValue('NA');
       this.investorForm.get('cGrandNameEng').patchValue('NA');
       this.investorForm.get('cGender').patchValue('1');
+      this.investorForm.get('cNationality').patchValue('1');
+      this.investorForm.get('Title').patchValue('1');
     }
     if (!this.branch) {
       this.investorForm.get('cBranchCountry').patchValue('0');
