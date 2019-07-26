@@ -318,9 +318,7 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     const ServiceId = this.ServiceId;
     this.InvestorId = projectList.InvestorId;
 
-    if (projectStatus !== 9) {
-      this.toastr.warning('Project Is Not Active');
-    } else {
+
 
       this.todoTask.AssignedUserId = this.accountService.currentUser.Id;
       this.todoTask.CreatedUserId = this.accountService.currentUser.Id;
@@ -349,7 +347,7 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
       }
       localStorage.setItem('projectName', projectName);
 
-    }
+
   }
 
   showIncentiveDetials(projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, projectName?: any) {

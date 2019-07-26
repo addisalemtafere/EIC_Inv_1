@@ -8,8 +8,10 @@ using CUSTOR.EICOnline.API.ViewModels.enums;
 using CUSTOR.EICOnline.DAL.DataAccessLayer;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.Security;
+using EICOnline.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace CUSTOR.EICOnline.API.Controllers
 {
@@ -19,11 +21,13 @@ namespace CUSTOR.EICOnline.API.Controllers
   {
     private readonly IAccountManager _accountManager;
     private readonly ApplicationDbContext _context;
+    private readonly IConfiguration _config;
 
-    public NotificationsController(ApplicationDbContext context, IAccountManager accountManager)
+    public NotificationsController(ApplicationDbContext context, IAccountManager accountManager, IConfiguration config)
     {
       _context = context;
       _accountManager = accountManager;
+      _config = config;
     }
 
     // GET: api/Notifications
@@ -166,44 +170,15 @@ namespace CUSTOR.EICOnline.API.Controllers
     }
 
 
-    public async Task<string> PostSendGmailAsync(string destinationEmail, string message)
+    public async Task<IActionResult> PostSendGmailAsync(string destinationEmail, string message)
     {
-      var client = new SmtpClient();
-      client.DeliveryMethod = SmtpDeliveryMethod.Network;
-      client.EnableSsl = true;
-      client.Host = "smtp.gmail.com";
-      client.Port = 587;
-      // setup Smtp authentication
-      var credentials = new NetworkCredential("ethiopianinvestmentcommission@gmail.com", "EIC@admin2018");
-      client.UseDefaultCredentials = false;
-      client.Credentials = credentials;
-      //can be obtained from your model
-      var msg = new MailMessage();
-      msg.From = new MailAddress("ethiopianinvestmentcommission@gmail.com");
-      msg.To.Add(new MailAddress(destinationEmail));
 
-      msg.Subject = "EIC Notifications";
-      msg.IsBodyHtml = true;
-      msg.Body = string.Format("<html><head></head><body>" +
-                               "<b>Dear   Customer,</b><br>" +
-                               "<p>" + message + "<p/><br><br><br>" +
-                               "I want to thank you for reading and wish you an awesome weekend <br><br> Kind Regards,<br><br>" +
-                               "<b>Tel: +251 11 515 73 35 </b><br><br>" +
-                               "<b>E-mail: Haregewoin.Mirotaw@ethio-invest.com or haregmw@gmail.com</b><br><br>" +
-                               "<b>website: www.investethiopia.gov.et or www.theiguides.org/ethiopia </b><br><br>" +
-                               "<h3>Ethiopian Investment Commission Licensing Team </h3>" +
-                               "<h3>Ethiopian Investment Commission Ethiopia</h3>" +
-                               "<a href='http://www.invest-ethiopia.com/login'>Ethiopian Investment<a>" +
-                               "</body>");
-      try
-      {
-        await client.SendMailAsync(msg);
-        return "OK";
-      }
-      catch (Exception ex)
-      {
-        return "error:" + ex;
-      }
+
+      var _emailSender = new EmailSendGrid(_config);
+      var strMessage = EmailTemplates.GetTestEmail("test", new DateTime());
+      await _emailSender.SendEmailAsync(destinationEmail, "Confirm your account", message);
+      return Ok();
+
     }
   }
 }

@@ -16,16 +16,16 @@ export class TestService implements OnInit {
   }
 
   getTest(): Observable<TestModel[]> {
-    return this.http.get<TestModel[]>('http://localhost:5000/api/Tests').pipe(
+    return this.http.get<TestModel[]>('http://40.117.47.168/api/Tests').pipe(
     );
   }
 
   create(resource: TestModel): Observable<TestModel[]> {
-    return this.http.post<TestModel[]>('http://localhost:5000/api/Tests', resource).pipe(
+    return this.http.post<TestModel[]>('http://40.117.47.168/api/Tests', resource).pipe(
     );
   }
 
   getTestById(id: number): Observable<TestModel[]> {
-    return this.http.get<TestModel[]>('http://localhost:5000/api/Tests/' + id).pipe();
+    return this.http.get<TestModel[]>('http://40.117.47.168/api/Tests/' + id).pipe();
   }
 }

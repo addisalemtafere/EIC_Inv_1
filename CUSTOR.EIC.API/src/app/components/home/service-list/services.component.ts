@@ -56,5 +56,6 @@ export class ServiceListComponent implements OnInit {
   goServiceDetail(title: string, id: any) {
     localStorage.setItem('title', title);
     this.router.navigate(['/requirement/' + id])
+
   }
 }
