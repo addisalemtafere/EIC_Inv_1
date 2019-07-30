@@ -129,10 +129,14 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       this.imgPhoto = '';
       return;
     }
-    if (id) {
+    if (id && this.assoId) {
       // to-do
       // get the selected investor either through @Input or shared service
+      this.getInvestor(this.assoId);
+
+    } else {
       this.getInvestor(id);
+
     }
 
   }
