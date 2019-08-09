@@ -98,7 +98,8 @@ export class EditLookupsComponent implements OnInit, OnDestroy {
       cAmharic: this.sublookups.Amharic == null ? '' : this.sublookups.Amharic.toString(),
       cEnglish: this.sublookups.English == null ? '' : this.sublookups.English.toString(),
       cLookUpTypeId: this.sublookups.LookUpTypeId,
-      cLookupId: this.sublookups.LookupId,
+      //
+      // : this.sublookups.LookupId,
     });
     // },4000);
 
@@ -112,7 +113,7 @@ export class EditLookupsComponent implements OnInit, OnDestroy {
       cEnglish: ['', Validators.compose([Validators.required, Validators.maxLength(200),
         Validators.pattern('^[a-zA-Z 0-9 /,]+$')])],
       cLookUpTypeId: [0, Validators.required],
-      cLookupId: ['', Validators.required],
+      //cLookupId: ['', Validators.required],
     });
   }
 
@@ -177,7 +178,7 @@ export class EditLookupsComponent implements OnInit, OnDestroy {
   private getEditedLookups(): LookupsModel {
     const formModel = this.subLookupsForm.value;
     return {
-      LookupId: this.isNewSubLookups ? null : this.sublookups.LookupId,
+      LookupId: this.isNewSubLookups ? 0 : this.sublookups.LookupId,
       LookUpTypeId: formModel.cLookUpTypeId,
       Amharic: formModel.cAmharic,
       English: formModel.cEnglish,

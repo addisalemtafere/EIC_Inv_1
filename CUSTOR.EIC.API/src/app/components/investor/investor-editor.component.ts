@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs';
 import {Utilities} from '@custor/helpers/utilities';
 
 import {Gender, LegalStatus, Lookup} from '../../model/lookupData';
-import {ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../const/consts';
+import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_REGEX, GENDERS, LEGAL_STATUS} from '../../const/consts';
 import {determineId} from '@custor/helpers/compare';
 import {ConfigurationService} from '@custor/services/configuration.service';
 import {ToastrService} from 'ngx-toastr';
@@ -86,7 +86,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   private ServiceId: any;
   private ServiceApplicationId: any;
   public isCommercialReg = false;
-
+  public isInvestor: boolean;
   private isNew: any;
 
   constructor(private route: ActivatedRoute,
@@ -296,10 +296,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.currentLang = this.configService.language;
     this.initStaticData('this.currentLang');
     this.initStaticDataOwnerShip(this.currentLang);
+    this.getUserType();
     this.fillAddressLookups();
     this.formControlValueChanged();
     this.getMajorDivisions();
-
     const id = this.route.snapshot.params['InvestorId'];
     if (this.ServiceId !== undefined || this.ServiceId == 1235) {
       this.isCommercialReg = true;
@@ -323,6 +323,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   }
 
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
+
   getMajorDivisions() {
     this.catagoryService.getMajorDivision()
       .subscribe(result => {
@@ -344,6 +348,13 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
           this.grandNameEng.setValidators(Validators.pattern(ALPHABET_WITHSPACE_REGEX));
+          if (!this.isInvestor)
+            this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+              Validators.pattern(ET_ALPHABET_REGEX)])]);
+          if (!this.isInvestor)
+            this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+              Validators.pattern(ET_ALPHABET_REGEX)])]);
+          this.grandName.setValidators(Validators.pattern(ET_ALPHABET_REGEX));
           this.nationality.setValidators([Validators.required]);
           this.gender.setValidators([Validators.required]);
           this.Title.setValidators([Validators.required]);
@@ -357,7 +368,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           this.isCompany = true;
         }
         this.regionn.setValidators([Validators.required]);
-      });
+      }
+    );
 
 
     this.isExistingCustomer.valueChanges.subscribe(
@@ -730,8 +742,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               console.log("test one at service")
               this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
 
-            }
-            else {
+            } else {
               this.router.navigate(['investor-profile/' + InvestorId1]);
             }
 

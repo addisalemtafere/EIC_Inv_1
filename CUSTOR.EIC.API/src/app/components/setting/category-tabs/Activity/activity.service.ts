@@ -71,6 +71,12 @@ export class ActivityService {
       catchError(this.errMsg.parsePromiseResponseError),);
   }
 
+  getSectors(lang: any): Observable<SectorModel[]> {
+    return this.httpClient.get<SectorModel[]>(this.config.urls.url('sectors') + '/' + lang).pipe(
+      map(sectorList => this.sectorModelList = sectorList),
+      catchError(this.errMsg.parseObservableResponseError),);
+  }
+
   getSector(): Observable<SectorModel[]> {
     return this.httpClient.get<SectorModel[]>(this.config.urls.url('sectors')).pipe(
       map(serviceList => {
@@ -80,8 +86,8 @@ export class ActivityService {
       catchError(this.errMsg.parseObservableResponseError),);
   }
 
-  getSubSector(): Observable<SubSectorModel[]> {
-    return this.httpClient.get<SubSectorModel[]>(this.config.urls.url('subsectors')).pipe(
+  getSubSector(lang: any): Observable<SubSectorModel[]> {
+    return this.httpClient.get<SubSectorModel[]>(this.config.urls.url('subsectors') + lang).pipe(
       map(subsector => {
         this.subSectorModelList = subsector;
         return this.subSectorModelList;

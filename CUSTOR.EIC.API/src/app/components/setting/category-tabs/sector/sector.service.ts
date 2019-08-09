@@ -42,6 +42,12 @@ export class SectorService {
       catchError(this.errMsg.parseObservableResponseError),);
   }
 
+  getAllSectors(): Observable<SectorModel[]> {
+    return this.httpClient.get<SectorModel[]>(this.config.urls.url('sectors')).pipe(
+      map(sectorList => this.sectorList = sectorList),
+      catchError(this.errMsg.parseObservableResponseError),);
+  }
+
   saveSector(sectorModel: SectorModel): Observable<SectorModel> {
 
     return this.httpClient.post<SectorModel>(this.config.urls.url('sector'), sectorModel).pipe(

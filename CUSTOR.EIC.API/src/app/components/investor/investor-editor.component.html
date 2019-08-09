@@ -100,38 +100,48 @@
             <!--<mat-error *ngIf="!grandNameEng.hasError('required') && grandNameEng.hasError('minlength')">-->
             <!--{{'common.validation.MinLengthChar' | translate: {'min':'2'} }}-->
             <!--</mat-error>-->
-            <!--<mat-error *ngIf="grandNameEng.hasError('pattern')">-->
-            <!--{{'common.validation.UseLatinOnly' | translate}}-->
-            <!--</mat-error>-->
+            <mat-error *ngIf="grandNameEng.hasError('pattern')">
+              {{'common.validation.UseLatinOnly' | translate}}
+            </mat-error>
           </mat-form-field>
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.FirstName' | translate}}</mat-label>
-            <input matInput formControlName="cFirstName" required/>
+            <input matInput formControlName="cFirstName" />
+            <span *ngIf="!isInvestor">
             <mat-error *ngIf="firstName.hasError('required')">
               {{'common.validation.Required' | translate}}
             </mat-error>
+            </span>
+            <span *ngIf="!isInvestor">
             <mat-error *ngIf="!firstName.hasError('required') && firstName.hasError('minlength')">
               {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
             </mat-error>
+            </span>
+            <span *ngIf="!isInvestor">
             <mat-error *ngIf="!firstName.hasError('required') && !firstName.hasError('minlength')
                             && firstName.hasError('pattern')">
               {{'common.validation.UseEthiopicOnly' | translate}}
             </mat-error>
+            </span>
           </mat-form-field>
 
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.FatherName' | translate}}</mat-label>
-            <input matInput formControlName="cFatherName" required/>
+            <input matInput formControlName="cFatherName" />
+            <span *ngIf="!isInvestor">
             <mat-error *ngIf="fatherName.hasError('required')">
               {{'common.validation.Required' | translate}}
             </mat-error>
+            </span>
             <mat-error *ngIf="!fatherName.hasError('required') && fatherName.hasError('minlength')">
               {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
             </mat-error>
+            <span *ngIf="!isInvestor">
             <mat-error *ngIf="!fatherName.hasError('required') && !fatherName.hasError('minlength')
                                 && fatherName.hasError('pattern')">
               {{'common.validation.UseEthiopicOnly' | translate}}
             </mat-error>
+            </span>
           </mat-form-field>
 
           <mat-form-field fxFlex>
@@ -143,9 +153,11 @@
             <!--<mat-error *ngIf="grandName.hasError('minlength')">-->
             <!--{{'common.validation.MinLengthChar' | translate: {'min':'2'} }}-->
             <!--</mat-error>-->
+            <span *ngIf="!isInvestor">
             <mat-error *ngIf="grandName.hasError('pattern')">
               {{'common.validation.UseEthiopicOnly' | translate}}
             </mat-error>
+            </span>
           </mat-form-field>
         </div>
 
@@ -244,7 +256,7 @@
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="regionn.hasError('required')">
-              {{'common.validation.Required' | translate}}
+                {{'common.validation.Required' | translate}}
               </mat-error>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
@@ -260,7 +272,7 @@
               </mat-select>
 
               <mat-error *ngIf="zone.hasError('required')">
-              {{'common.validation.Required' | translate}}
+                {{'common.validation.Required' | translate}}
               </mat-error>
             </mat-form-field>
             <!--<mat-form-field fxLayoutGap="4em">-->
@@ -343,7 +355,7 @@
               <mat-label>{{'investors.editor.PhoneDirect' | translate}}</mat-label>
               <input matInput formControlName="TeleNo"/>
               <!--<mat-error *ngIf="phoneDirect.hasError('required')">-->
-                <!--{{'common.validation.Required' | translate}}-->
+              <!--{{'common.validation.Required' | translate}}-->
               <!--</mat-error>-->
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">

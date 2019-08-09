@@ -18,7 +18,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
         {
             string FieldName = StaticDataHelper.GetFieldName(lang);
             string query1 =
-                $@"(select (Select {FieldName} from Lookup Where LookUpTypeId='707' AND Lookup.LookupId=LetterTemplate.LetterType) as LetterType,LetterTemplateId from LetterTemplate)";
+                $@"(select (Select {FieldName} from Lookup Where LookUpTypeId='707' AND Lookup.LookupId=LetterTemplate.LetterType) as LetterType,LetterTemplateId,LetterContent from LetterTemplate)";
 
             IQueryable<LetterTemplateDTO> LetterTemplates = Context.LetterTemplateDTO
                 .FromSql(query1);

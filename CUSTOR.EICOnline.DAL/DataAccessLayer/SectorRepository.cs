@@ -55,6 +55,39 @@ namespace CUSTOR.EICOnline.DAL
 
       return  Sector.ToList();
     }
+    public async Task<List<Sector>> GetAllSectors(int page = 0, int pageSize = 15)
+    {
+      IEnumerable<Sector> Sector = null;
+      string cacheKey = "SectorsKey";
+      var cachedSectors = await distributedCache.GetStringAsync(cacheKey);
+      if (cachedSectors != null)
+      {
+        Sector = JsonConvert.DeserializeObject<IEnumerable<Sector>>(cachedSectors);
+      }
+      else
+      {
+        Sector =await Context.Sector
+          .OrderBy(sector => sector.SectorId)
+          .Select(r => new Sector
+          {
+            SectorId = r.SectorId,
+            DescriptionEnglishAlias =r.DescriptionEnglishAlias,
+            DescriptionAlias = r.DescriptionAlias 
+          }).ToListAsync();
+        if (page > 0)
+        {
+          Sector = Sector
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+        }
+
+        DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+          .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+        await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(Sector), cacheOptions);
+      }
+
+      return  Sector.ToList();
+    }
 
     public IEnumerable<Sector> GetSector(object SectorId)
     {

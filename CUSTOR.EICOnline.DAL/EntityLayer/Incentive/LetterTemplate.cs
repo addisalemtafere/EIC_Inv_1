@@ -18,5 +18,6 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     [Key]
     public int LetterTemplateId { get; set; }
     public string LetterType { get; set; }
+    public string LetterContent { get; set; }
   }
 }

@@ -2,7 +2,7 @@ import {AfterContentChecked, AfterViewInit, Component, Input, OnDestroy, OnInit,
 import {AddressModel} from '../../../../model/address/Address.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../../../const/consts';
+import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_REGEX, GENDERS, LEGAL_STATUS} from '../../../../const/consts';
 import {KebeleModel} from '../../../../model/address/Kebele.model';
 import {Permission} from '../../../../model/security/permission.model';
 import {RegionModel} from '../../../../model/address/Region.model';
@@ -76,6 +76,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   private workFlowId: any;
   investor: Investor;
   private assoId: any;
+  public isInvestor: boolean;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -94,9 +95,17 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.associate = <AssociateDTO>{};
     // initialize the form
     this.initForm();
+    if (!this.isInvestor) {
+      this.ClearNameValidators();
+    }
     // console.log(this.accountService.currentUser.Roles);
   }
 
+  ClearNameValidators() {
+    this.firstName.clearValidators();
+    this.fatherName.clearValidators();
+
+  }
 
   checkAuthoriation() {
     // if (!this.canManageInvestors) {
@@ -117,7 +126,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.investorId = this.activatedRoute.snapshot.params['InvestorId'];
     this.assoId = this.activatedRoute.snapshot.params['associateId'];
     this.workFlowId = this.activatedRoute.snapshot.params['workFlowId'];
-
+    this.getUserType();
     this.initStaticData(this.currentLang);
     this.fillAddressLookups();
     this.imgBase64 = '';
@@ -139,6 +148,10 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
     }
 
+  }
+
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
   }
 
   private getPermissions() {
@@ -299,10 +312,12 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
       cFatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      cGrandNameEng: [''],
-      cFirstName: [''],
-      cFatherName: [''],
-      cGrandName: [''],
+      cGrandNameEng: ['', Validators.pattern(ALPHABET_WITHSPACE_REGEX)],
+      cFirstName: ['', Validators.compose([Validators.required, Validators.minLength(1),
+        Validators.pattern(ET_ALPHABET_REGEX)])],
+      cFatherName: ['', Validators.compose([Validators.required, Validators.minLength(1),
+        Validators.pattern(ET_ALPHABET_REGEX)])],
+      cGrandName: ['', Validators.pattern(ET_ALPHABET_REGEX)],
       cNationality: [''], // Ethiopian
       cGender: ['1'],
       Title: [''],

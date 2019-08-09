@@ -13,11 +13,13 @@ import {SectorModel} from '../../../../../model/sector';
 import {AppConfiguration} from '../../../../../config/appconfig';
 import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
 import {determineId} from '../../../../../../@custor/helpers/compare';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-edit-invactivity',
   templateUrl: './edit-invactivity.component.html',
-  styleUrls: ['./edit-invactivity.component.css']
+  styleUrls: ['./edit-invactivity.component.css'],
+  providers: [ConfigurationService]
 })
 export class EditInvactivityComponent implements OnInit, OnDestroy {
   @ViewChild('form')
@@ -41,11 +43,13 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
 
   invActivityForm: FormGroup;
   loadingIndicator: boolean;
+  private currentLang: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private http: HttpClient,
               private config: AppConfiguration,
+              private configService: ConfigurationService,
               private invactivityService: InvactivityService, private errMsg: ErrorMessage,
               private toastr: ToastrService,
               private fb: FormBuilder) {
@@ -56,6 +60,7 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     const id = this.activatedRoute.snapshot.params['id'];
     if (id < 1) {
       this.isNewInvActivity = true;
@@ -228,7 +233,7 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
   }
 
   getSubSectors() {
-    this.invactivityService.getSubSectors()
+    this.invactivityService.getSubSectors(this.currentLang)
       .subscribe(result => {
           this.subsectorModels = result;
           if (this.isNewInvActivity) {
@@ -251,7 +256,7 @@ export class EditInvactivityComponent implements OnInit, OnDestroy {
   }
 
   getActivitys() {
-    this.invactivityService.getActivitys()
+    this.invactivityService.getActivitys(this.currentLang)
       .subscribe(result => {
           this.activityModels = result;
           if (this.isNewInvActivity) {

@@ -1363,7 +1363,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(e => e.EndDate).HasColumnType("date");
+                //entity.Property(e => e.EndDate).HasColumnType("date");
 
                 entity.Property(e => e.EventDatetime).HasDefaultValueSql("(getdate())");
 
@@ -1373,7 +1373,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
                 entity.Property(e => e.Remark).HasMaxLength(1000);
 
-                entity.Property(e => e.StartDate).HasColumnType("date");
+                //entity.Property(e => e.StartDate).HasColumnType("date");
 
                 entity.Property(e => e.WindowNumber).HasMaxLength(50);
 

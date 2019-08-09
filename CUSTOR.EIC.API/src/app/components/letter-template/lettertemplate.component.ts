@@ -25,7 +25,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   incentiveRequestItemSub: Subscription;
   lookupSub: Subscription;
   title: string;
-  isNewIncentiveRequestItem = false;
+  isNewLetterTempalte = false;
   LetterTemplateModel: LetterTemplateModel;
   LetterTemplateModels: LetterTemplateModel[] = [];
   letterTemplateForm: FormGroup;
@@ -132,8 +132,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     this.editMode = true;
     this.letterTemplateItemtEditIndex = index;
     this.LetterTemplateModel = this.LetterTemplateModels[index];
-    // this.LetterContent = this.LetterTemplateModel.LetterContent.replace(/{{FullName}}/g, 'http://mydomain.com');
-    // this.LetterTemplateModel.LetterContent = this.LetterContent;
+    console.log(this.LetterTemplateModel)
     this.letterTemplateForm.patchValue(
       this.LetterTemplateModel
     );
@@ -189,7 +188,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   private getEditedLetterTemplate(): LetterTemplateModel {
     const formModel = this.letterTemplateForm.value;
     return {
-      LetterTemplateId: this.isNewIncentiveRequestItem ? 0 : this.LetterTemplateModel.LetterTemplateId,
+      LetterTemplateId: this.isNewLetterTempalte ? 0 : this.LetterTemplateModel.LetterTemplateId,
       LetterType: formModel.LetterType,
       LetterContent: formModel.LetterContent,
       IsActive: true,

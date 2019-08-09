@@ -65,6 +65,11 @@ namespace EIC.Investment.API.Controllers
     {
       return await _lookupRepo.GetRecordByParent(lang, id);
     }
+    [HttpGet("api/lookup/ByParentId/{id:int}")]
+    public async Task<IEnumerable<LookupsModel>> GetLookupByParent(int id)
+    {
+      return await _lookupRepo.GetRecordByParentId(id);
+    }
 
     [HttpPost("api/lookup")]
     public async Task<Lookups> SaveLookups([FromBody] Lookups PostedLookups)

@@ -63,11 +63,11 @@ namespace EIC.Investment.API.Controllers.Controllers
     {
       if (!ModelState.IsValid)
         throw new ApiException("Model binding failed.", 500);
-      if (!_ActivityRepo.Validate(PostedActivity))
-        //throw new ApiException(_ActivityRepo.ErrorMessage, 500, _ActivityRepo.ValidationErrors);
+      //if (!_ActivityRepo.Validate(PostedActivity))
+      //throw new ApiException(_ActivityRepo.ErrorMessage, 500, _ActivityRepo.ValidationErrors);
 
-        if (!await _ActivityRepo.SaveAsync(PostedActivity))
-          throw new ApiException(_ActivityRepo.ErrorMessage);
+      if (!await _ActivityRepo.SaveAsync(PostedActivity))
+        throw new ApiException(_ActivityRepo.ErrorMessage);
       return PostedActivity;
     }
 

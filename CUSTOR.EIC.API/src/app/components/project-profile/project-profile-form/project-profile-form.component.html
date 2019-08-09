@@ -223,7 +223,7 @@
           <mat-select formControlName="SubSectorId" (selectionChange)="filterActivity($event.value)">
             <mat-option value="0">--</mat-option>
             <mat-option *ngFor="let sub of filterSubSectorList" [value]="sub.SubSectorId">
-              {{sub.Description}}
+              {{sub.DescriptionEnglish}}
             </mat-option>
           </mat-select>
           <!--<mat-error align="start" *ngIf="formErrors.Zone">{{ formErrors.Zone }}</mat-error>-->
@@ -237,7 +237,7 @@
           <mat-select formControlName="ActivityId" (selectionChange)="filterInvestmentActivity($event.value)">
             <!--<mat-option value="0">&#45;&#45;</mat-option>-->
             <mat-option *ngFor="let activity of filterActivityLIst " [value]="activity.ActivityId">
-              {{activity.Description}}
+              {{activity.DescriptionEnglish}}
             </mat-option>
           </mat-select>
           <mat-error></mat-error>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
@@ -33,13 +34,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string ProjectNameAmharic { get; set; }
         public string ProjectNameEnglish { get; set; }
         public DateTime StartDate { get; set; }
-        //public DateTime? StartTime { get; set; }
+        //public string StartTime { get; set; }
         public DateTime? EndDate { get; set; }
-        //public DateTime? EndTime { get; set; }
+        //public string EndTime { get; set; }
         public int CurrentStatusId { get; set; }
         public bool IsSelfService { get; set; }
         public bool IsPaid { get; set; }
-        
+
 //        public bool IsApproved { get; set; }
         public string WindowNumber { get; set; }
         public string Remark { get; set; }
@@ -97,16 +98,17 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string InvestorNameEnglish { get; set; }
         public string InvestorNameAmharic { get; set; }
         public string ProjectNameAmharic { get; set; }
+
         public string ProjectNameEnglish { get; set; }
 //                public bool IsApproved { get; set; }
 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }
+
     public partial class ServiceAppDto
     {
-        [Key]
-        public int IncentiveBoMRequestItemId { get; set; }
+        [Key] public int IncentiveBoMRequestItemId { get; set; }
         public int ServiceApplicationId { get; set; }
         public int? ProjectId { get; set; }
         public string Description { get; set; }

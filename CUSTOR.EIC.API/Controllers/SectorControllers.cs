@@ -43,6 +43,13 @@ namespace EIC.Investment.API.Controllers.Controllers
       return await _SectorRepo.GetSectors(lang, page, pageSize);
     }
 
+    [HttpGet]
+    [Route("api/sectors")]
+    public async Task<IEnumerable<Sector>> GetSectors(int page = -1, int pageSize = 10)
+    {
+      return await _SectorRepo.GetAllSectors(page, pageSize);
+    }
+
     [HttpGet("api/sector/{id:int}")]
     public async Task<Sector> GetSector(int id)
     {
@@ -54,11 +61,11 @@ namespace EIC.Investment.API.Controllers.Controllers
     {
       if (!ModelState.IsValid)
         throw new ApiException("Model binding failed.", 500);
-      if (!_SectorRepo.Validate(PostedSector))
-        //throw new ApiException(_SectorRepo.ErrorMessage, 500, _SectorRepo.ValidationErrors);
+      //if (!_SectorRepo.Validate(PostedSector))
+      //throw new ApiException(_SectorRepo.ErrorMessage, 500, _SectorRepo.ValidationErrors);
 
-        if (!await _SectorRepo.SaveAsync(PostedSector))
-          throw new ApiException(_SectorRepo.ErrorMessage);
+      if (!await _SectorRepo.SaveAsync(PostedSector))
+        throw new ApiException(_SectorRepo.ErrorMessage);
       return PostedSector;
     }
 

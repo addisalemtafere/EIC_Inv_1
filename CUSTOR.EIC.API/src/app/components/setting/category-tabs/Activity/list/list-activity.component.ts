@@ -172,7 +172,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   }
 
   getSectors() {
-    this.sectorService.getSectors(this.currentLang)
+    this.sectorService.getAllSectors()
       .subscribe(result => {
           this.sectorModels = result;
         },

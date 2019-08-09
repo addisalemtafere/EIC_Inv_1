@@ -134,6 +134,7 @@ namespace EIC.Investment.API.Controllers
         _context.ServiceApplication.First(p => p.ServiceApplicationId == id);
       serviceApplication.IsActive = true;
       serviceApplication.EndDate = DateTime.Now;
+      //serviceApplication.EndTime = DateTime.Now.ToLongTimeString();
       serviceApplication.CurrentStatusId = 44446;
       _context.Entry(serviceApplication).State = EntityState.Modified;
 
@@ -305,6 +306,8 @@ namespace EIC.Investment.API.Controllers
           IsSelfService = true,
           IsPaid = true,
           StartDate = DateTime.Now,
+          //StartTime = DateTime.Now.ToLongTimeString(),
+
           CreatedUserId = 1,
           IsActive = false,
           CreatedUserName = serviceApplication.CreatedUserName,
@@ -327,6 +330,8 @@ namespace EIC.Investment.API.Controllers
           IsSelfService = true,
           IsPaid = true,
           StartDate = DateTime.Now,
+          //StartTime = DateTime.Now.ToLongTimeString(),
+
           CreatedUserId = 1,
           IsActive = false,
           CreatedUserName = serviceApplication.CreatedUserName,
@@ -395,6 +400,8 @@ namespace EIC.Investment.API.Controllers
         IsSelfService = true,
         IsPaid = true,
         StartDate = DateTime.Now,
+        //StartTime = DateTime.Now.ToLongTimeString(),
+
         CreatedUserId = 1,
         IsActive = false,
         CreatedUserName = serviceApplication.CreatedUserName,

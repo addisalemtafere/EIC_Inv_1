@@ -350,9 +350,8 @@ export class LetterComponent implements OnInit {
   generatePDF() {
     //console.log(this.incentiveRequestModelList)
     this.ShowSave = true;
-    console.log(this.letterTempalteModel.LetterContent)
-    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameAmh}}/g, this.projectModel.Investor.InvestorName);
-    console.log(this.projectModel.Investor.InvestorName)
+    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g, this.projectModel.Investor.InvestorName);
+    //console.log(this.projectModel.Investor.InvestorName)
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameEng}}/g, this.projectModel.Investor.InvestorNameEng.toUpperCase());
     this.LetterContent = this.LetterContent.replace(/{{StartDate}}/g,
       new Date(this.projectModel.StartDate).getMonth() +

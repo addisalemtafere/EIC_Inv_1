@@ -41,7 +41,7 @@ namespace CUSTOR.EICOnline.DAL
                     {
                         SubSectorId = r.SubSectorId,
                         ActivityId = r.ActivityId,
-                        Description = (lang == "et") ? r.Description : r.DescriptionEnglish
+                        DescriptionEnglish = (lang == "et") ? r.Description : r.DescriptionEnglish
                     }).ToListAsync();
                 if (page > 0)
                 {
@@ -80,7 +80,7 @@ namespace CUSTOR.EICOnline.DAL
             {
                 int id = (int) ActivityId;
                 Act = Context.Activity
-//                    .Include(s => s.SubSector)
+                   .Include(s => s.SubSector)
                     .Where(Acts => Acts.ActivityId == id).FirstOrDefault();
             }
             catch (InvalidOperationException)

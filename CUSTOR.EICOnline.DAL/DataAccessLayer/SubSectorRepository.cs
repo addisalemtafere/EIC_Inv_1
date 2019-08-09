@@ -41,7 +41,7 @@ namespace CUSTOR.EICOnline.DAL
                     {
                         SectorId = r.SectorId,
                         SubSectorId = r.SubSectorId,
-                        Description = (lang == "et") ? r.Description : r.DescriptionEnglish
+                        DescriptionEnglish = (lang == "et") ? r.Description : r.DescriptionEnglish
                     }).ToListAsync();
                 if (page > 0)
                 {

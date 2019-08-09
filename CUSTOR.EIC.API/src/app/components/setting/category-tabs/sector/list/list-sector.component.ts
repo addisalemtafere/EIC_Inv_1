@@ -55,7 +55,7 @@ export class ListSectorComponent implements OnInit, AfterViewInit {
 
   getSectors() {
     this.loadingIndicator = true;
-    this.sectorService.getSectors(this.currentLang)
+    this.sectorService.getAllSectors()
       .subscribe(result => {
           this.sectorModels = result;
           if (!this.sectorModels) {

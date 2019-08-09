@@ -14,7 +14,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     {
         private readonly IDistributedCache distributedCache;
         private readonly Settings settings;
-        public LookupRepository(ApplicationDbContext context,IDistributedCache _distributedCache, IConfiguration _configuration) : base(context)
+
+        public LookupRepository(ApplicationDbContext context, IDistributedCache _distributedCache,
+            IConfiguration _configuration) : base(context)
         {
             settings = new Settings(_configuration);
             context = context;
@@ -152,7 +154,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         }
 
 
-        public async Task<IEnumerable<LookupsModel>> GetRecordByParent(string lang,int LookupId)
+        public async Task<IEnumerable<LookupsModel>> GetRecordByParent(string lang, int LookupId)
         {
             IEnumerable<LookupsModel> lookups = null;
             string cacheKey = "Lookups: " + LookupId;
@@ -179,6 +181,36 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
             return lookups;
         }
+
+        public async Task<IEnumerable<LookupsModel>> GetRecordByParentId(int LookupId)
+        {
+            IEnumerable<LookupsModel> lookups = null;
+            string cacheKey = "Lookups: " + LookupId;
+            var cachedLookups = await distributedCache.GetStringAsync(cacheKey);
+            if (cachedLookups != null)
+            {
+                lookups = JsonConvert.DeserializeObject<IEnumerable<LookupsModel>>(cachedLookups);
+            }
+            else
+            {
+                lookups = await Context.Lookup
+                    .Where(l => l.LookUpTypeId == LookupId)
+                    .Select(l => new LookupsModel
+                    {
+                        LookupId = l.LookupId,
+                        English = l.English,
+                        Amharic = l.Amharic
+                    })
+                    .ToListAsync();
+
+                DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+                await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(lookups), cacheOptions);
+            }
+
+            return lookups;
+        }
+
         public async Task<bool> DeleteLookup(int id)
         {
             var Lookup = await Context.Lookup

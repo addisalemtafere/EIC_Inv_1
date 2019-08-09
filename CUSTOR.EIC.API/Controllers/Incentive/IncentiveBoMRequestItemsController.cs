@@ -74,6 +74,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
           p.ServiceApplicationId == incentiveBoMRequestItem.ServiceApplicationId);
         serviceApplication.IsActive = true;
         serviceApplication.EndDate = DateTime.Now;
+        //serviceApplication.EndTime = DateTime.Now.ToLongTimeString();
         serviceApplication.CurrentStatusId = 44447;
         _context.Entry(serviceApplication).State = EntityState.Modified;
 
