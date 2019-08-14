@@ -12,6 +12,7 @@ using EICOnline.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace CUSTOR.EICOnline.API.Controllers
 {
@@ -20,14 +21,19 @@ namespace CUSTOR.EICOnline.API.Controllers
   public class NotificationsController : Controller
   {
     private readonly IAccountManager _accountManager;
+    private readonly IOptions<SmtpConfig> _smtpConfig;
     private readonly ApplicationDbContext _context;
     private readonly IConfiguration _config;
 
-    public NotificationsController(ApplicationDbContext context, IAccountManager accountManager, IConfiguration config)
+
+    public NotificationsController(ApplicationDbContext context, IAccountManager accountManager,
+      IOptions<SmtpConfig> smtpConfig,
+      IConfiguration config)
     {
       _context = context;
       _accountManager = accountManager;
       _config = config;
+      _smtpConfig = smtpConfig;
     }
 
     // GET: api/Notifications
@@ -186,16 +192,16 @@ namespace CUSTOR.EICOnline.API.Controllers
     {
       var client = new SmtpClient();
       client.DeliveryMethod = SmtpDeliveryMethod.Network;
-      client.EnableSsl = true;
-      client.Host = "smtp.gmail.com";
-      client.Port = 587;
+      client.EnableSsl = _smtpConfig.Value.UseSSL;
+      client.Host = _smtpConfig.Value.Host;
+      client.Port = _smtpConfig.Value.Port;
       // setup Smtp authentication
-      var credentials = new NetworkCredential("ethiopianinvestmentcommission@gmail.com", "EIC@admin2018");
+      var credentials = new NetworkCredential(_smtpConfig.Value.Username, _smtpConfig.Value.Password);
       client.UseDefaultCredentials = false;
       client.Credentials = credentials;
       //can be obtained from your model
       var msg = new MailMessage();
-      msg.From = new MailAddress("ethiopianinvestmentcommission@gmail.com");
+      msg.From = new MailAddress(_smtpConfig.Value.EmailAddress);
       msg.To.Add(new MailAddress(destinationEmail));
 
       msg.Subject = "EIC Notifications";

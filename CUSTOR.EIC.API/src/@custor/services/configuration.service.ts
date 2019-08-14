@@ -18,11 +18,11 @@ export class ConfigurationService {
   public static readonly appVersion: string = '1.0';
 
   // public baseUrl = environment.baseUrl || Utilities.baseUrl();
-  public baseUrl = '40.117.47.168/';
+  public baseUrl = 'http://localhost:5050/';
   // public tokenUrl = environment.tokenUrl || environment.baseUrl || Utilities.baseUrl();
-  public tokenUrl = '40.117.47.168';
+  public tokenUrl = 'http://localhost:5050';
   public loginUrl = environment.loginUrl;
-  public fallbackBaseUrl = '40.117.47.168';
+  public fallbackBaseUrl = 'http://localhost:5050';
 
   public static readonly defaultLanguage: string = 'et';
   public static readonly defaultHomeUrl: string = '/';

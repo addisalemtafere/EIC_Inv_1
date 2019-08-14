@@ -55,17 +55,16 @@ namespace EICOnline.API
       try
       {
         services.AddMvc(options =>
-        {
-          options.Filters.Add(typeof(ModelValidationAttribute)); // add global modelstate filter
-          options.EnableEndpointRouting = false;
-
-        })
+          {
+            options.Filters.Add(typeof(ModelValidationAttribute)); // add global modelstate filter
+            options.EnableEndpointRouting = false;
+          })
           .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-           .ConfigureApiBehaviorOptions(options =>
-           {
-             options
-               .SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
-           })
+          .ConfigureApiBehaviorOptions(options =>
+          {
+            options
+              .SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
+          })
           .AddJsonOptions(opt =>
           {
             var resolver = opt.SerializerSettings.ContractResolver;
@@ -210,10 +209,7 @@ namespace EICOnline.API
               .AllowCredentials());
         });
 
-        var mappingConfig = new MapperConfiguration(mc =>
-        {
-          mc.AddProfile(new AutoMapperProfile());
-        });
+        var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutoMapperProfile()); });
 
         IMapper mapper = mappingConfig.CreateMapper();
         services.AddSingleton(mapper);
@@ -225,7 +221,7 @@ namespace EICOnline.API
         //services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
         services.AddSwaggerGen(c =>
         {
-          c.SwaggerDoc("v1", new Info { Title = IdentityServerConfig.ApiFriendlyName, Version = "v1" });
+          c.SwaggerDoc("v1", new Info {Title = IdentityServerConfig.ApiFriendlyName, Version = "v1"});
 
           //c.OperationFilter<AuthorizeCheckOperationFilter>();
 
@@ -375,6 +371,7 @@ namespace EICOnline.API
         //  options.ForwardClientCertificate = false;
         //});
 
+        services.Configure<SmtpConfig>(Configuration.GetSection("SmtpConfig"));
       }
       catch (Exception ex)
       {
@@ -407,10 +404,7 @@ namespace EICOnline.API
 
       // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
       // specifying the Swagger JSON endpoint.
-      app.UseSwaggerUI(c =>
-      {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-      });
+      app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
 
       //Configure Cors
       app.UseCors("CorsPolicy");
