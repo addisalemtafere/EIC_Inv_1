@@ -13,6 +13,7 @@ import { ProjectListModalComponent } from '../../project-list-modal/project-list
 import { ServiceApplicationModel } from '../../../model/ServiceApplication.model';
 import { ServiceApplicationService } from '../../../Services/service-application.service';
 import { NotificationComponent } from 'app/components/project-profile/notification/notification.component';
+import {ApplicationStatusEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-customer-service-list',
@@ -141,7 +142,7 @@ export class CustomerServiceStarterComponent implements OnInit {
     this.serviceApplication.ServiceId = serviceId;
     this.serviceApplication.InvestorId = investorId;
     this.serviceApplication.CaseNumber = '1';
-    this.serviceApplication.CurrentStatusId = 44450;
+    this.serviceApplication.CurrentStatusId = ApplicationStatusEnum.Drafted;
     this.serviceApplication.IsSelfService = true;
     this.serviceApplication.IsPaid = true;
     this.serviceApplication.CreatedUserId = 1;

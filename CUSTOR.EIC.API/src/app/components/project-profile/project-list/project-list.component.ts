@@ -20,6 +20,7 @@ import {ApplicationStatusModel, ProjectStatusModel} from '../../../model/lookupD
 import {QueryParametersModel} from "../../../model/QueryParameters.model";
 import {PaginationService} from "@custor/services/pagination.service";
 import {ConfigurationService} from "@custor/services/configuration.service";
+import {ApplicationStatusEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-project-list',
@@ -640,5 +641,30 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
     })
 
+  }
+
+  getClassType(statusId: number) {
+
+    let className;
+
+    switch (statusId) {
+      case  ApplicationStatusEnum.approved :
+        className = 'approved'
+        break;
+      case ApplicationStatusEnum.Completed:
+        className = 'Completed'
+        break;
+      case ApplicationStatusEnum.Drafted:
+        className = 'Drafted'
+        break;
+      case ApplicationStatusEnum.Pending:
+        className = 'Pending'
+        break;
+      case ApplicationStatusEnum.Submitted:
+        className = 'Submitted'
+        break;
+
+    }
+    return className;
   }
 }

@@ -21,6 +21,7 @@ import {ErrorMessage} from "@custor/services/errMessageService";
 import {ServiceapplicationService} from "../../setting/services-tabs/serviceApplication/serviceapplication.service";
 import {IncentiveLogService} from "../../../Services/incentive-log.service";
 import {Permission} from "../../../model/security/permission.model";
+import {ApplicationStatusEnum} from "../../../enum/enums";
 
 
 @Component({
@@ -329,7 +330,7 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
       this.serviceApplication.ServiceId = this.ServiceId;
       this.serviceApplication.InvestorId = this.InvestorId;
       this.serviceApplication.CaseNumber = '1';
-      this.serviceApplication.CurrentStatusId = 44450;
+      this.serviceApplication.CurrentStatusId = ApplicationStatusEnum.Drafted;
       this.serviceApplication.IsSelfService = true;
       this.serviceApplication.IsPaid = true;
       this.serviceApplication.CreatedUserId = 1;

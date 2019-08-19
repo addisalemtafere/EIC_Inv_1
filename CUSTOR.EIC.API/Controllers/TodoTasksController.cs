@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
+using CUSTOR.EICOnline.API.ViewModels.enums;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -46,7 +47,7 @@ namespace CUSTOR.EICOnline.API.Controllers
     {
       var now = DateTime.Now;
       var todoTask = _context.TodoTask.Count(m => m.AssignedUserId == id && m.AssignedDate.Month >= now.Month  &&
-                                                  m.CurrentStatusId == 44449);
+                                                  m.CurrentStatusId ==(int) ApplicationStatus.Completed);
 
       return todoTask;
     }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CUSTOR.API.ModelValidationAttribute;
 using Microsoft.AspNetCore.Identity;
 using CUSTOR.Security;
 using CUSTOR.EICOnline.DAL.Enum;
@@ -16,8 +17,9 @@ using CUSTOR.EICOnline.DAL.Enum;
 namespace EICOnline.Controllers
 {
   //[Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme)]
-  [ServiceFilter(typeof(ApiExceptionFilter))]
+  [ServiceFilter(typeof(ApiExceptionFilter), Order = 2)]
   [EnableCors("CorsPolicy")]
+  [ServiceFilter(typeof(ModelValidationAttribute), Order = 1)]
   public class InvestorController : Controller
   {
     private readonly ApplicationDbContext context;

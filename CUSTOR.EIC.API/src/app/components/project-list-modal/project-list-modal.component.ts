@@ -12,6 +12,7 @@ import {Investor} from '../../model/investor';
 import {ServiceapplicationService} from '../setting/services-tabs/serviceApplication/serviceapplication.service';
 import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
+import {ApplicationStatusEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-project-list-modal',
@@ -98,7 +99,7 @@ export class ProjectListModalComponent implements OnInit {
       this.serviceApplication.ServiceId = this.ServiceId;
       this.serviceApplication.InvestorId = InvestorId;
       this.serviceApplication.CaseNumber = '1';
-      this.serviceApplication.CurrentStatusId = 44450;
+      this.serviceApplication.CurrentStatusId = ApplicationStatusEnum.Drafted;
       this.serviceApplication.IsSelfService = true;
       this.serviceApplication.IsPaid = true;
       this.serviceApplication.CreatedUserId = 1;
@@ -134,8 +135,7 @@ export class ProjectListModalComponent implements OnInit {
         this.getProjectDetails(projectId);
         if (this.ExemptionYear == 0) {
           this.toastr.error('This project does not have the right to take tax Exemption incentive', 'Not Allowed');
-        }
-        else if (this.projectModel.ProjectStatus === 4) {
+        } else if (this.projectModel.ProjectStatus === 4) {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         } else {
           this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);

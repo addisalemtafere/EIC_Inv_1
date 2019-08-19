@@ -20,12 +20,13 @@ import {TodoTaskModel} from '../../model/TodoTask.model';
 import {ServiceModel} from '../../model/Service.model';
 import {Permission} from '../../model/security/permission.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
+import {ApplicationStatusEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-search-browser',
   templateUrl: './search-browser.component.html',
   styleUrls: ['./search-browser.component.scss'],
-  providers:[]
+  providers: []
 
 })
 export class SearchBrowserComponent implements OnInit, AfterContentChecked {
@@ -364,7 +365,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.serviceApplication.ServiceId = this.ServiceId;
       this.serviceApplication.InvestorId = this.InvestorId;
       this.serviceApplication.CaseNumber = '1';
-      this.serviceApplication.CurrentStatusId = 44450;
+      this.serviceApplication.CurrentStatusId = ApplicationStatusEnum.Drafted;
       this.serviceApplication.IsSelfService = true;
       this.serviceApplication.IsPaid = true;
       this.serviceApplication.CreatedUserId = 1;
