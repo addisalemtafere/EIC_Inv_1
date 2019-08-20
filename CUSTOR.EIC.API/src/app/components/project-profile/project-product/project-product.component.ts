@@ -83,7 +83,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
     this.projectId = this.route.snapshot.params['ProjectId'];
 
     // if (this.ServiceId === '1234') {
-    if (this.ServiceId == ServiceEnum.AfterCare) {
+    if (+this.ServiceId == ServiceEnum.AfterCare) {
       this.getProjectStatus(this.projectId);
     }
 
