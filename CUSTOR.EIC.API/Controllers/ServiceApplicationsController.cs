@@ -145,7 +145,7 @@ namespace EIC.Investment.API.Controllers
       serviceWorkflowHistory.ToStatusId = 3;
       serviceWorkflowHistory.PerformedByRoleId = 3;
       serviceWorkflowHistory.NextStepId = 9;
-      serviceWorkflowHistory.ServiceId = 13;
+      serviceWorkflowHistory.ServiceId = (int) ServiceEnum.NewIP;
       serviceWorkflowHistory.LegalStatusId = 3;
       serviceWorkflowHistory.CreatedUserId = 1;
       serviceWorkflowHistory.IsActive = true;
@@ -325,7 +325,8 @@ namespace EIC.Investment.API.Controllers
         {
           InvestorId = serviceApplication.InvestorId,
           CaseNumber = perminumber,
-          ServiceId = 1235,
+//          ServiceId = 1235,
+          ServiceId = (int) ServiceEnum.CommercialRegistration,
           CurrentStatusId = (int) ApplicationStatus.Drafted,
           IsSelfService = true,
           IsPaid = true,

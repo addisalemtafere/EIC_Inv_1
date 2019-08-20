@@ -18,7 +18,7 @@ import {Investor} from '../../model/investor';
 import {ToastrService} from 'ngx-toastr';
 import {InvestorService} from '../investor/investor.service';
 import {Permission} from '../../model/security/permission.model';
-import {ApplicationStatusEnum} from "../../enum/enums";
+import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-my-dashboard',
@@ -95,17 +95,21 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     localStorage.setItem('title', 'New Ip');
     const investorId = localStorage.getItem('InvestorId');
 
-    if (serviceId === 1045) {
+    // if (serviceId === 1045) {
+    if (serviceId === ServiceEnum.TaxHolidayIncentive) {
       this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
-    } else if (serviceId === 1046) {
+      // } else if (serviceId === 1046) {
+    } else if (serviceId === ServiceEnum.DutyFreeIncentive) {
       this.router.navigate(['/incentive-request-item/' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
     }
-    if (serviceId === 1047) {
+    // if (serviceId === 1047) {
+    if (serviceId === ServiceEnum.UploadingOfConstructionMaterial) {
       this.router.navigate(['/bill-of-material/1/' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
     }
-    if (serviceId === 1054) {
+    // if (serviceId === 1054) {
+    if (serviceId === ServiceEnum.UploadingOfRawMaterial) {
       this.router.navigate(['/bill-of-material/2' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workFlowId]);
-    } else if (serviceId === 13 || serviceId == 1023) {
+    } else if (serviceId === ServiceEnum.NewIP || serviceId == ServiceEnum.Expansion) {
       switch (step) {
         case 8:
           stepIndex = 1;
@@ -133,7 +137,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           break;
       }
       this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + investorId]);
-    } else if (serviceId === 1235) {
+    } else if (serviceId === ServiceEnum.CapitalRegistration) {
       switch (step) {
         case 1018:
           stepIndex = 2;
@@ -250,32 +254,32 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
 
     switch (serviceId) {
-      case 13 :
-      case 1023:
+      case ServiceEnum.NewIP :
+      case ServiceEnum.Expansion:
         this.router.navigate(['/service-detail', projectId]);
         break;
-      case 18:
+      case ServiceEnum.Renewal:
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
-      case 19:
+      case ServiceEnum.CancellationOfIP:
         this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1027:
+      case ServiceEnum.SubstituteIP:
         this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1045:
+      case ServiceEnum.TaxHolidayIncentive:
         this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1046:
+      case ServiceEnum.DutyFreeIncentive:
         this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1047:
+      case ServiceEnum.UploadingOfConstructionMaterial:
         this.router.navigate(['/bill-of-material/1/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1054:
+      case ServiceEnum.UploadingOfRawMaterial:
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1235:
+      case ServiceEnum.CommercialRegistration:
         switch (step) {
           case 1018:
             stepIndex = 2;
@@ -294,7 +298,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.router.navigate(['investor-tab/' + serviceId + '/' + ServiceApplicationId + '/' + investorId + '/' + 0 + '/' + workFlowId]);
 
         break;
-      case 1236:
+      case ServiceEnum.BusinessLicense:
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId + '/' + 0]);
         break;
       default:

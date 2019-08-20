@@ -12,7 +12,7 @@ import {Investor} from '../../model/investor';
 import {ServiceapplicationService} from '../setting/services-tabs/serviceApplication/serviceapplication.service';
 import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
-import {ApplicationStatusEnum} from "../../enum/enums";
+import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-project-list-modal',
@@ -90,8 +90,8 @@ export class ProjectListModalComponent implements OnInit {
 
   go(projectId: any, applicationId: any, ServiceId: any, InvestorId: any) {
 
-    if (+this.ServiceId == 1023) {
-      this.router.navigate(['pro/' + projectId + '/' + 0 + '/' + 1023 + '/' + 0 + '/' + InvestorId]);
+    if (+this.ServiceId == ServiceEnum.Expansion) {
+      this.router.navigate(['pro/' + projectId + '/' + 0 + '/' + ServiceEnum.Expansion + '/' + 0 + '/' + InvestorId]);
       localStorage.setItem('ParentProjectId', projectId);
     } else {
 
@@ -122,16 +122,20 @@ export class ProjectListModalComponent implements OnInit {
     const investorId = localStorage.getItem('InvestorId');
     switch (serviceId) {
 
-      case '1047':
+      // case '1047':
+      case ServiceEnum.UploadingOfConstructionMaterial:
         this.router.navigate(['bill-of-material/1/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      case '1054':
+      // case '1054':
+      case ServiceEnum.UploadingOfRawMaterial:
         this.router.navigate(['bill-of-material/2/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      case '1046':
+      // case '1046':
+      case ServiceEnum.DutyFreeIncentive:
         this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      case '1045':
+      // case '1045':
+      case ServiceEnum.TaxHolidayIncentive:
         this.getProjectDetails(projectId);
         if (this.ExemptionYear == 0) {
           this.toastr.error('This project does not have the right to take tax Exemption incentive', 'Not Allowed');
@@ -141,22 +145,28 @@ export class ProjectListModalComponent implements OnInit {
           this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         }
         break;
-      case '1236':
+      // case '1236':
+      case ServiceEnum.BusinessLicense:
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId + '/' + workflowId + '/' + 0]);
         break;
-      case '18':
+      // case '18':
+      case ServiceEnum.Renewal:
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      case '19':
+      // case '19':
+      case ServiceEnum.CancellationOfIP:
         this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      case '1023':
+      // case '1023':
+      case ServiceEnum.Expansion:
         this.router.navigate(['pro/' + projectId + '/' + applicationId + '/' + serviceId + '/' + 0 + '/' + investorId]);
         break;
-      case '1027':
+      // case '1027':
+      case ServiceEnum.SubstituteIP:
         this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      case '1028':
+      // case '1028':
+      case ServiceEnum.AmendmentOfIP:
         this.router.navigate(['pro/' + projectId + '/' + applicationId + '/' + serviceId + '/' + 0 + '/' + investorId]);
         break;
 

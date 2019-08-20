@@ -129,7 +129,7 @@
               </tr>
               <tr>
                 <td style="font-size: 21px !important;font-weight: bolder;" class="s-head"
-                    *ngIf="this.investorDetailList.ServiceId == 1023">
+                    *ngIf="this.investorDetailList.ServiceId == serviceEnum.Expansion">
                   ማስፋፊያ/Expansion
                 </td>
               </tr>
@@ -165,7 +165,8 @@
           </div>
           <div class="block full-width value" fxFlex="">
 
-            <span class="data" *ngIf="this.investorDetailList.Investor.LegalStatus == 1 && this.investorDetailList.Investor.FormOfOwnership != 5">
+            <span class="data"
+                  *ngIf="this.investorDetailList.Investor.LegalStatus == 1 && this.investorDetailList.Investor.FormOfOwnership != 5">
               <!--{{investorDetailList?.Investor.Nationality | countryPipe : 0}}-->
               {{NationalityList.description}}
             </span>
@@ -184,7 +185,8 @@
           </div>
           <div class="block full-width value" fxFlex="">
 
-            <span class="data" *ngIf="this.investorDetailList.Investor.LegalStatus == 1 && this.investorDetailList.Investor.FormOfOwnership != 5">
+            <span class="data"
+                  *ngIf="this.investorDetailList.Investor.LegalStatus == 1 && this.investorDetailList.Investor.FormOfOwnership != 5">
               <!--{{investorDetailList?.Investor.Nationality | countryPipe : 1}}-->
               {{NationalityList.descriptionEnglish}}
             </span>

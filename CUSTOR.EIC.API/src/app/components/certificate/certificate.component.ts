@@ -30,7 +30,7 @@ import {NationalityModel} from "../../model/address/NationalityModel";
 import {NationalityService} from "../../Services/Nationalityservice";
 import {CountryModel} from "../../model/Country";
 import {CountryService} from "../../Services/country.service";
-import {ApplicationStatusEnum} from "../../enum/enums";
+import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-certificate',
@@ -79,6 +79,7 @@ export class CertificateComponent implements OnInit {
   public titleManEn: string;
   NationalityList: NationalityModel;
   CountryList: CountryModel;
+  public serviceEnum = ServiceEnum
 
   editForm: FormGroup;
   selected: string;
@@ -141,7 +142,7 @@ export class CertificateComponent implements OnInit {
 
           this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
           // this.getEthiopianDateDate();
-        } else if (this.ServiceId == 13 || this.ServiceId == 1023) {
+        } else if (this.ServiceId == ServiceEnum.NewIP || this.ServiceId == ServiceEnum.Expansion) {
           console.log('this.ServiceId' + this.ServiceId);
 
           this.renewal = new ProjectRenewalModel();
@@ -248,8 +249,7 @@ export class CertificateComponent implements OnInit {
         } else if (this.investorDetailList.Investor.FormOfOwnership == 5) {
           this.formOfOwnerShipDescriptionAmharic = 'የውጭ ሃገር ኢንቨስተር የኢንቨስትመንት ፈቃድ';
           this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR FOREIGN INVESTOR';
-        }
-        else {
+        } else {
           this.formOfOwnerShipDescriptionAmharic = 'የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ';
           this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR DOMESTIC';
         }

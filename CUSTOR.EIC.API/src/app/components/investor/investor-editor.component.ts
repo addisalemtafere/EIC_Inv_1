@@ -35,6 +35,7 @@ import {RegistrationCatagory} from '../../model/Registration/RegistrationCatagor
 import {RegistrationCatagoryService} from '../../Services/Registration/RegistrationCatagory.service';
 import {CountryService} from "../../Services/country.service";
 import {CountryModel} from "../../model/Country";
+import {ServiceEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-edit-investor',
@@ -301,7 +302,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.formControlValueChanged();
     this.getMajorDivisions();
     const id = this.route.snapshot.params['InvestorId'];
-    if (this.ServiceId !== undefined || this.ServiceId == 1235) {
+    if (this.ServiceId !== undefined || this.ServiceId == ServiceEnum.CommercialRegistration) {
       this.isCommercialReg = true;
     }
     // console.log(this.ServiceId);

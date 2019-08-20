@@ -20,7 +20,7 @@ import {ApplicationStatusModel, ProjectStatusModel} from '../../../model/lookupD
 import {QueryParametersModel} from "../../../model/QueryParameters.model";
 import {PaginationService} from "@custor/services/pagination.service";
 import {ConfigurationService} from "@custor/services/configuration.service";
-import {ApplicationStatusEnum} from "../../../enum/enums";
+import {ApplicationStatusEnum, ServiceEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-project-list',
@@ -150,14 +150,14 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     setTimeout(() => this.dataSharing.isNew.next(true), 0);
 
     switch (serviceId) {
-      case 13 || 1023 || 1028:
-        // this.router.navigate(['/officer']);
+      case ServiceEnum.NewIP || ServiceEnum.Expansion || ServiceEnum.AmendmentOfIP:
         this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
         break;
-      case 18:
+      case ServiceEnum.Renewal:
         this.router.navigate(['/project-renewal', serviceApplicationId]);
         break;
-      case 19:
+
+      case ServiceEnum.CancellationOfIP:
         this.router.navigate(['/project-cancellation', serviceApplicationId], {relativeTo: this.route});
         break;
 
@@ -220,38 +220,37 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
     switch (serviceId) {
-      case 13:
-      case 1023:
+      case ServiceEnum.NewIP:
+      case ServiceEnum.Expansion:
         this.router.navigate(['/officer/' + serviceId + '/' + investorId + '/' + id + '/' + workFlowId + '/' + projectId]);
 
         break;
-      case 18:
+      case ServiceEnum.Renewal:
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 19:
+      case ServiceEnum.CancellationOfIP:
         this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1027:
+      case ServiceEnum.SubstituteIP:
         this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1045:
+      case ServiceEnum.TaxHolidayIncentive:
         this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1046:
+      case ServiceEnum.DutyFreeIncentive:
         this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1047:
+      case ServiceEnum.UploadingOfConstructionMaterial:
         this.router.navigate(['/bill-of-material/1/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1054:
+      case ServiceEnum.UploadingOfRawMaterial:
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1235:
-
+      case ServiceEnum.CommercialRegistration:
         this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId + '/' + 0 + '/' + workFlowId]);
 
         break;
-      case 1236:
+      case ServiceEnum.BusinessLicense:
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId + '/' + 0]);
         break;
       default:
@@ -319,39 +318,37 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
 
     switch (serviceId) {
-      case 13:
-      case 1023:
+      case ServiceEnum.NewIP:
+      case ServiceEnum.Expansion:
         this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + InvestorId]);
 
         break;
-      case 18:
+      case ServiceEnum.Renewal:
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 19:
+      case ServiceEnum.CancellationOfIP:
         this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1027:
+      case ServiceEnum.SubstituteIP:
         this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1045:
+      case ServiceEnum.TaxHolidayIncentive:
         this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1046:
+      case ServiceEnum.DutyFreeIncentive:
         this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1047:
+      case ServiceEnum.UploadingOfConstructionMaterial:
         this.router.navigate(['/bill-of-material/1/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1054:
+      case ServiceEnum.UploadingOfRawMaterial:
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1235:
-
-
+      case ServiceEnum.CommercialRegistration:
         this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId + '/' + 0 + '/' + workFlowId]);
-
         break;
-      case 1236:
+
+      case ServiceEnum.BusinessLicense:
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId + '/' + 0]);
         break;
       default:

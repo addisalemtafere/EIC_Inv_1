@@ -1,19 +1,19 @@
-import { ConfirmDialog2Component } from './../../confirm-dialog2/confirm-dialog2.component';
-import { Component, OnInit } from '@angular/core';
-import { ServiceModel } from '../../../model/Service.model';
-import { ToastrService } from 'ngx-toastr';
-import { fadeInOut } from '../../../../@custor/services/animations';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
-import { ServiceService } from '../../../Services/service.service';
-import { DataSharingService } from '../../../Services/data-sharing.service';
-import { IncentiveLogModel } from '../../../model/IncentiveLog.model';
-import { AccountService } from '@custor/services/security/account.service';
-import { ProjectListModalComponent } from '../../project-list-modal/project-list-modal.component';
-import { ServiceApplicationModel } from '../../../model/ServiceApplication.model';
-import { ServiceApplicationService } from '../../../Services/service-application.service';
-import { NotificationComponent } from 'app/components/project-profile/notification/notification.component';
-import {ApplicationStatusEnum} from "../../../enum/enums";
+import {ConfirmDialog2Component} from './../../confirm-dialog2/confirm-dialog2.component';
+import {Component, OnInit} from '@angular/core';
+import {ServiceModel} from '../../../model/Service.model';
+import {ToastrService} from 'ngx-toastr';
+import {fadeInOut} from '../../../../@custor/services/animations';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MatDialog, MatSnackBar, MatDialogConfig} from '@angular/material';
+import {ServiceService} from '../../../Services/service.service';
+import {DataSharingService} from '../../../Services/data-sharing.service';
+import {IncentiveLogModel} from '../../../model/IncentiveLog.model';
+import {AccountService} from '@custor/services/security/account.service';
+import {ProjectListModalComponent} from '../../project-list-modal/project-list-modal.component';
+import {ServiceApplicationModel} from '../../../model/ServiceApplication.model';
+import {ServiceApplicationService} from '../../../Services/service-application.service';
+import {NotificationComponent} from 'app/components/project-profile/notification/notification.component';
+import {ApplicationStatusEnum, ServiceEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-customer-service-list',
@@ -64,32 +64,30 @@ export class CustomerServiceStarterComponent implements OnInit {
       const investorId = +localStorage.getItem('InvestorId');
 
       switch (serviceId) {
-        case 13:
+        case ServiceEnum.NewIP:
           this.router.navigate(['pro/' + 0 + '/' + 0 + '/' + serviceId + '/' + 0 + '/' + investorId]);
           break;
 
-        case 1045:
-        case 1054:
-        case 1046:
-        case 1047:
-
-        case 18:
-        case 19:
-
-        case 1027:
-        case 1028:
+        case ServiceEnum.TaxHolidayIncentive:
+        case ServiceEnum.UploadingOfRawMaterial:
+        case ServiceEnum.DutyFreeIncentive:
+        case ServiceEnum.UploadingOfConstructionMaterial:
+        case ServiceEnum.Renewal:
+        case ServiceEnum.CancellationOfIP:
+        case ServiceEnum.SubstituteIP:
+        case ServiceEnum.AmendmentOfIP:
         case 1237:
           this.router.navigate(['/investor-project-list/' + serviceId]);
           break;
 
-        case 1236:
+        case ServiceEnum.BusinessLicense:
           this.router.navigate(['/business-tab/' + serviceId + '/' + investorId + '/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
           break;
 
-        case 1235:
+        case ServiceEnum.CommercialRegistration:
           this.startCustomerRegistrationService(serviceId, investorId);
           break;
-        case 1023:
+        case ServiceEnum.Expansion:
 
 
           if (this.checkType()) {
@@ -99,7 +97,7 @@ export class CustomerServiceStarterComponent implements OnInit {
           }
           break;
         default:
-          this.router.navigate(['/notfound'], { relativeTo: this.route });
+          this.router.navigate(['/notfound'], {relativeTo: this.route});
           break;
       }
       this.dialog.closeAll();
@@ -110,7 +108,6 @@ export class CustomerServiceStarterComponent implements OnInit {
   }
 
   checkType(): boolean {
-
 
 
     this.confirmDialogRef = this.dialog.open(ConfirmDialog2Component, {

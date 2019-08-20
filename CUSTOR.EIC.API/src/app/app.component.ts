@@ -27,6 +27,7 @@ import {IncentiveLogService} from './Services/incentive-log.service';
 import {ToastrService} from 'ngx-toastr';
 import {Permission} from './model/security/permission.model';
 import {NgxUiLoaderService} from "ngx-ui-loader";
+import {ServiceEnum} from "./enum/enums";
 // import {NgxUiLoaderService} from "ngx-ui-loader";
 
 // import { ToastrService } from 'ngx-toastr';
@@ -259,7 +260,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     localStorage.setItem('title', title);
     console.log("i am here search browser 22")
 
-    if (serviceId == 1235) {
+    if (serviceId == ServiceEnum.NewIP) {
       console.log("i am here");
       this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
     } else {

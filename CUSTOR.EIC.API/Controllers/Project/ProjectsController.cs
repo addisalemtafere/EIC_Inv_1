@@ -243,7 +243,7 @@ namespace EIC.Investment.API.Controllers
           FromStatusId = 3,
           ToStatusId = 5,
           PerformedByRoleId = 1,
-          NextStepId = 13,
+          NextStepId = (int) ServiceEnum.NewIP,
           GenerateEmail = true,
           GenerateLetter = true,
           IsDocumentRequired = true,
