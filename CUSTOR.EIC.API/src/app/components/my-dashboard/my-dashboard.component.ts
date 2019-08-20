@@ -18,6 +18,7 @@ import {Investor} from '../../model/investor';
 import {ToastrService} from 'ngx-toastr';
 import {InvestorService} from '../investor/investor.service';
 import {Permission} from '../../model/security/permission.model';
+import {ApplicationStatusEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-my-dashboard',
@@ -42,6 +43,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   formErrors: {};
   public dataSourceNotitification: MatTableDataSource<NotificationModel>;
   private investors: Investor[];
+  public applicationStatusEnum = ApplicationStatusEnum;
 
   constructor(private projectProfileService: ProjectProfileService,
               private errMsg: ErrorMessage,
@@ -412,6 +414,30 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
       // this.alertService.error('You are not allowed to access this page');
       this.router.navigate(['denied']);
     }
+  }
+
+
+  getClassType(statusId: number) {
+
+    let className;
+    switch (statusId) {
+      case  ApplicationStatusEnum.approved :
+        className = 'Approved'
+        break;
+      case ApplicationStatusEnum.Completed:
+        className = 'Completed'
+        break;
+      case ApplicationStatusEnum.Drafted:
+        className = 'drafted'
+        break;
+      case ApplicationStatusEnum.Pending:
+        className = 'Pending'
+        break;
+      case ApplicationStatusEnum.Submitted:
+        className = 'Submitted'
+        break;
+    }
+    return className;
   }
 }
 

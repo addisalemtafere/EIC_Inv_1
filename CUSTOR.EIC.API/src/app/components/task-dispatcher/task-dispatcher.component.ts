@@ -7,6 +7,7 @@ import {TodoTaskService} from '../../Services/todo-task.service';
 import {TodoTaskModel} from '../../model/TodoTask.model';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {DataSharingService} from '../../Services/data-sharing.service';
+import {ApplicationStatusEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-task-dispatcher',
@@ -66,7 +67,7 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
     console.log(this.userList);
   }
 
-  getUserDetail(user:User) {
+  getUserDetail(user: User) {
     console.log(user);
     console.log(user.FullName)
     // console.log(userId);
@@ -123,6 +124,30 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
       CreatedUserId: this.accountService.currentUser.Id,
       CreatedUserName: this.accountService.currentUser.UserName,
     });
+  }
+
+
+  getClassType(statusId: number) {
+
+    let className;
+    switch (statusId) {
+      case  ApplicationStatusEnum.approved :
+        className = 'Approved'
+        break;
+      case ApplicationStatusEnum.Completed:
+        className = 'Completed'
+        break;
+      case ApplicationStatusEnum.Drafted:
+        className = 'drafted'
+        break;
+      case ApplicationStatusEnum.Pending:
+        className = 'Pending'
+        break;
+      case ApplicationStatusEnum.Submitted:
+        className = 'Submitted'
+        break;
+    }
+    return className;
   }
 
 

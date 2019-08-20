@@ -46,8 +46,8 @@ namespace CUSTOR.EICOnline.API.Controllers
     public int CountCompletedTask([FromRoute] string id)
     {
       var now = DateTime.Now;
-      var todoTask = _context.TodoTask.Count(m => m.AssignedUserId == id && m.AssignedDate.Month >= now.Month  &&
-                                                  m.CurrentStatusId ==(int) ApplicationStatus.Completed);
+      var todoTask = _context.TodoTask.Count(m => m.AssignedUserId == id && m.AssignedDate.Month >= now.Month &&
+                                                  m.CurrentStatusId == (int) ApplicationStatus.Completed);
 
       return todoTask;
     }
@@ -56,7 +56,9 @@ namespace CUSTOR.EICOnline.API.Controllers
     public int CountPendingTask([FromRoute] string id)
     {
       var now = DateTime.Now;
-      var todoTask = _context.TodoTask.Count(m => m.AssignedUserId == id && m.AssignedDate.Month >= now.Month && m.CurrentStatusId == 44448);
+      var todoTask = _context.TodoTask.Count(m =>
+        m.AssignedUserId == id && m.AssignedDate.Month >= now.Month &&
+        m.CurrentStatusId == (int) ApplicationStatus.Pending);
 
       return todoTask;
     }

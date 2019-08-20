@@ -23,6 +23,7 @@ import {ToastrService} from "ngx-toastr";
 import {Investor} from '../../../model/investor';
 import {AssociateService} from '../../../Services/associate.service';
 import {AssociateModel} from '../../../model/associate.model';
+import {ApplicationStatusEnum} from "../../../enum/enums";
 
 
 @Component({
@@ -102,7 +103,6 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
       doc.output('dataurlnewwindow');
     });
   }
-
 
 
   getInvestorDetail(id: any) {
@@ -189,7 +189,8 @@ export class RegistrationCertificateComponent implements OnInit, AfterViewChecke
   }
 
   private approve() {
-    this.lookup.Code = 44449;
+    // this.lookup.Code = 44449;
+    this.lookup.Code = ApplicationStatusEnum.Completed;
     const ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.serviceApplication.changeInvestorApplicationStatus(this.lookup, ServiceApplicationId)
       .subscribe(result => {
