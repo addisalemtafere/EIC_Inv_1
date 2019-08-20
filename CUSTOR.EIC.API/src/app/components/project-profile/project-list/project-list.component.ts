@@ -50,6 +50,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   public applicationStatus: ApplicationStatusModel[] = [];
   private searchFlag: boolean;
   private SaveForSearchNavigation: any;
+  public applicationS = ApplicationStatusEnum;
 
   constructor(private projectProfileService: ProjectProfileService,
               private errMsg: ErrorMessage,
@@ -65,6 +66,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
               public paginationService: PaginationService,
               private formBuilder: FormBuilder,
               private formService: FormService) {
+    // this.applicationS = ApplicationStatusEnum;
   }
 
   get canManageTask() {
@@ -646,16 +648,15 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   getClassType(statusId: number) {
 
     let className;
-
     switch (statusId) {
       case  ApplicationStatusEnum.approved :
-        className = 'approved'
+        className = 'Approved'
         break;
       case ApplicationStatusEnum.Completed:
         className = 'Completed'
         break;
       case ApplicationStatusEnum.Drafted:
-        className = 'Drafted'
+        className = 'drafted'
         break;
       case ApplicationStatusEnum.Pending:
         className = 'Pending'
@@ -663,7 +664,6 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
       case ApplicationStatusEnum.Submitted:
         className = 'Submitted'
         break;
-
     }
     return className;
   }

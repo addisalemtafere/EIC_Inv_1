@@ -10,6 +10,7 @@ import {Investor} from '../../../model/investor';
 import {InvestorService} from '../investor.service';
 import {ServiceApplicationService} from "../../../Services/service-application.service";
 import {ServiceApplicationModel} from "../../../model/ServiceApplication.model";
+import {ApplicationStatusEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-investor-tab',
@@ -152,26 +153,25 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
       })
   }
 
-  public applicationStatus(ServiceApplicationId: string) {
+  public applicationStatus(ServiceApplicationId: any) {
     switch (ServiceApplicationId) {
-      case '44450': //Drafted
+      case ApplicationStatusEnum.Drafted: //Drafted
         this.enable = true;
         break;
-      case '44446': //Submitted
+      case  ApplicationStatusEnum.Submitted: //Submitted
         this.enable = false;
 
         break;
-      case '44447': //Approved
+      case ApplicationStatusEnum.approved: //Approved
         this.enable = false;
 
         break;
-      case '44448': //Pending
+      case ApplicationStatusEnum.Pending: //Pending
         this.enable = true;
 
         break
-      case '44449': //Completed
+      case ApplicationStatusEnum.Completed: //Completed
         this.enable = false;
-
         break;
 
     }

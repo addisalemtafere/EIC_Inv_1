@@ -9,6 +9,7 @@ import {Lookup} from "../../../model/lookupData";
 import {ServiceApplicationModel} from "../../../model/ServiceApplication.model";
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import {NotificationComponent} from "../notification/notification.component";
+import {ApplicationStatusEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-service-confirmation',
@@ -51,7 +52,8 @@ export class ServiceConfirmationComponent implements OnInit {
   }
 
   Approve() {
-    this.lookup.Code = 44447;
+    // this.lookup.Code = 44447;
+    this.lookup.Code = ApplicationStatusEnum.approved;
     this.serviceApplicationsServices.changeApplicationStatus(this.lookup, this.ServiceApplicationId)
       .subscribe(result => {
         this.toast.success('Project approved successfully ', 'Success');

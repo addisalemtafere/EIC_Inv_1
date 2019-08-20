@@ -30,6 +30,7 @@ import {NationalityModel} from "../../model/address/NationalityModel";
 import {NationalityService} from "../../Services/Nationalityservice";
 import {CountryModel} from "../../model/Country";
 import {CountryService} from "../../Services/country.service";
+import {ApplicationStatusEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-certificate',
@@ -247,8 +248,7 @@ export class CertificateComponent implements OnInit {
         } else if (this.investorDetailList.Investor.FormOfOwnership == 5) {
           this.formOfOwnerShipDescriptionAmharic = 'የውጭ ሃገር ኢንቨስተር የኢንቨስትመንት ፈቃድ';
           this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR FOREIGN INVESTOR';
-        }
-        else {
+        } else {
           this.formOfOwnerShipDescriptionAmharic = 'የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ';
           this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR DOMESTIC';
         }
@@ -336,7 +336,8 @@ export class CertificateComponent implements OnInit {
   }
 
   private approve() {
-    this.lookup.Code = 44449;
+    // this.lookup.Code = 44449;
+    this.lookup.Code = ApplicationStatusEnum.Completed;
     this.serviceApplication.changeApplicationStatus(this.lookup, this.investorDetailList.ServiceApplicationId)
       .subscribe(result => {
         this.toast.success('Project approved successfully ', 'Success');
