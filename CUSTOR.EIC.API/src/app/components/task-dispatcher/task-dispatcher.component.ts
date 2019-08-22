@@ -69,7 +69,7 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
 
   getUserDetail(user: User) {
     console.log(user);
-    console.log(user.FullName)
+    console.log(user.FullName);
     // console.log(userId);
     this.assignedUserId = user.Id;
     this.assignedUserName = user.FullName;
@@ -132,19 +132,19 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
     let className;
     switch (statusId) {
       case  ApplicationStatusEnum.approved :
-        className = 'Approved'
+        className = 'Approved';
         break;
       case ApplicationStatusEnum.Completed:
-        className = 'Completed'
+        className = 'Completed';
         break;
       case ApplicationStatusEnum.Drafted:
-        className = 'drafted'
+        className = 'drafted';
         break;
       case ApplicationStatusEnum.Pending:
-        className = 'Pending'
+        className = 'Pending';
         break;
       case ApplicationStatusEnum.Submitted:
-        className = 'Submitted'
+        className = 'Submitted';
         break;
     }
     return className;

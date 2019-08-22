@@ -728,7 +728,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.loadingIndicator = true;
     return this.custService.saveInvestor(this.getEditedInvestor())
       .subscribe((investor) => {
-          console.log(investor)
+          console.log(investor);
           this.isNew = this.getEditedInvestor().IsExistingCustomer == true ? 1 : 0;
 
           // const IsExistingCustomer = this.route.snapshot.params['IsExistingCustomer'];
@@ -740,7 +740,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             const workFlowId = this.route.snapshot.params['workFlowId'];
             this.toastr.success('Record saved successfully!');
             if (this.ServiceId == 1235) {
-              console.log("test one at service")
+              console.log("test one at service");
               this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
 
             } else {
@@ -751,7 +751,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
           if (investor != null) {
             if (this.ServiceId == 1235) {
-              console.log("test one at service 2" + this.ServiceId)
+              console.log("test one at service 2" + this.ServiceId);
 
               this.router.navigate(['investor-tab/1235/' + 0 + '/' + investor.InvestorId + '/' + this.isNew + '/' + 0]);
               setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);

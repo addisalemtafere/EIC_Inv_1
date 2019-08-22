@@ -132,7 +132,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     this.editMode = true;
     this.letterTemplateItemtEditIndex = index;
     this.LetterTemplateModel = this.LetterTemplateModels[index];
-    console.log(this.LetterTemplateModel)
+    console.log(this.LetterTemplateModel);
     this.letterTemplateForm.patchValue(
       this.LetterTemplateModel
     );

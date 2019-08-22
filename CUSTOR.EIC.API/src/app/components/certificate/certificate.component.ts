@@ -79,7 +79,7 @@ export class CertificateComponent implements OnInit {
   public titleManEn: string;
   NationalityList: NationalityModel;
   CountryList: CountryModel;
-  public serviceEnum = ServiceEnum
+  public serviceEnum = ServiceEnum;
 
   editForm: FormGroup;
   selected: string;
@@ -176,7 +176,7 @@ export class CertificateComponent implements OnInit {
     var year = d.getFullYear();
     var month = d.getMonth();
     var day = d.getDate();
-    this.dateGc = new Date(year + 1, month, day)
+    this.dateGc = new Date(year + 1, month, day);
     const today = new Date();
     this.date = today;
 
@@ -227,7 +227,7 @@ export class CertificateComponent implements OnInit {
         this.getInvestmentNationality(this.investorDetailList.InvestorId);
         this.getInvestmentBranchCountry(this.investorDetailList.InvestorId);
         this.getExportPercent(this.investorDetailList.ProjectId);
-        this.getInvestorTitle(this.investorDetailList.Investor.Title)
+        this.getInvestorTitle(this.investorDetailList.Investor.Title);
         // console.log(result);
         // // console.log(this.investorDetailList.Investor.RegionId);
         this.getInvestorAddress(this.investorDetailList.InvestorId);
@@ -350,7 +350,7 @@ export class CertificateComponent implements OnInit {
       .subscribe(data => {
 
         this.todayEthioDate = data;
-        var d = this.todayEthioDate.split('/').reverse().join('-')
+        var d = this.todayEthioDate.split('/').reverse().join('-');
         // var d2 = new Date(d);
         var d2 = new Date(d);
         var year = d2.getFullYear() + 1;
@@ -362,7 +362,7 @@ export class CertificateComponent implements OnInit {
 
   /// BY Gebre H.
   private getEthiopianDateDate() {
-    const d = this.renewedToGC.split('/').reverse().join('-')
+    const d = this.renewedToGC.split('/').reverse().join('-');
     const d2 = new Date(d);
     this.year = d2.getFullYear();
     this.month = d2.getMonth() + 1;

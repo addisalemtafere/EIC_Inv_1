@@ -42,7 +42,7 @@ export class AftercareComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.ProjectId = this.route.snapshot.params['ProjectId'];
-    console.log(this.ProjectId)
+    console.log(this.ProjectId);
     this.getSteps();
     // this.getAllProject();
     this.title = localStorage.getItem('title');

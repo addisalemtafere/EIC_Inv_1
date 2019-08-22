@@ -416,7 +416,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
     this.paginationService.Page(1);
 
-    let SpecDate1 = this.searchForm.get('SpecDate').value
+    let SpecDate1 = this.searchForm.get('SpecDate').value;
 
     console.log(SpecDate1);
 
@@ -455,7 +455,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     }
 
 
-    console.log(this.searchForm.value)
+    console.log(this.searchForm.value);
 
     this.searchFlag = true;
     this.dataSource = [];
@@ -477,7 +477,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
   filterData(data: any) {
     this.serviceApplicationList = [];
-    console.log(data.Items)
+    console.log(data.Items);
     const data2 = data.Items;
     for (let i = 0; i < data2.length; i++) {
       this.serviceApplicationList.push(data2[i]);
@@ -486,7 +486,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     }
     // this.dataSource = new MatTableDataSource<ServiceApplicationModel>(this.serviceApplicationList);
     this.loading = false;
-    console.log(this.serviceApplicationList)
+    console.log(this.serviceApplicationList);
 
     if (!this.serviceApplicationList) {
       this.toast.error('No records were found to list', 'Error', {
@@ -647,19 +647,19 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     let className;
     switch (statusId) {
       case  ApplicationStatusEnum.approved :
-        className = 'Approved'
+        className = 'Approved';
         break;
       case ApplicationStatusEnum.Completed:
-        className = 'Completed'
+        className = 'Completed';
         break;
       case ApplicationStatusEnum.Drafted:
-        className = 'drafted'
+        className = 'drafted';
         break;
       case ApplicationStatusEnum.Pending:
-        className = 'Pending'
+        className = 'Pending';
         break;
       case ApplicationStatusEnum.Submitted:
-        className = 'Submitted'
+        className = 'Submitted';
         break;
     }
     return className;

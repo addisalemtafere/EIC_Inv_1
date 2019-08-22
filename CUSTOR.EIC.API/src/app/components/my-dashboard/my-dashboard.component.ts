@@ -355,12 +355,12 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
           console.log(this.investors);
           if (this.investors.length === 0 || this.investors[0].IsActive == false) {
             if (this.investors.length !== 0) {
-              console.log('Profile incomlete1')
+              console.log('Profile incomlete1');
 
               localStorage.setItem('profile-completed', 'false');
               this.router.navigate(['investor-profile', this.investors[0].InvestorId]);
             } else {
-              console.log('Profile incomlete2')
+              console.log('Profile incomlete2');
 
               this.router.navigate(['investor-profile/0']);
             }
@@ -426,19 +426,19 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     let className;
     switch (statusId) {
       case  ApplicationStatusEnum.approved :
-        className = 'Approved'
+        className = 'Approved';
         break;
       case ApplicationStatusEnum.Completed:
-        className = 'Completed'
+        className = 'Completed';
         break;
       case ApplicationStatusEnum.Drafted:
-        className = 'drafted'
+        className = 'drafted';
         break;
       case ApplicationStatusEnum.Pending:
-        className = 'Pending'
+        className = 'Pending';
         break;
       case ApplicationStatusEnum.Submitted:
-        className = 'Submitted'
+        className = 'Submitted';
         break;
     }
     return className;

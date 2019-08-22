@@ -111,7 +111,7 @@ export class LetterComponent implements OnInit {
   ngOnInit() {
     this.currentLang = this.configService.language;
     this.initForm();
-    this.getEthiopianDate()
+    this.getEthiopianDate();
     this.ProjectId = this.route.snapshot.params['projectId'] || this.route.snapshot.params['ProjectId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     if (this.route.snapshot.params['isForDetail'] == 1) {
@@ -339,7 +339,7 @@ export class LetterComponent implements OnInit {
       .subscribe(data => {
 
         this.todayEthioDate = data;
-        var d = this.todayEthioDate.split('/').reverse().join('-')
+        var d = this.todayEthioDate.split('/').reverse().join('-');
         // var d2 = new Date(d);
         var d2 = new Date(d);
         var year = d2.getFullYear() + 1;
@@ -376,7 +376,7 @@ export class LetterComponent implements OnInit {
     //   formModel.ChassisNo);
     this.LetterContent = this.LetterContent.replace(/{{Capital}}/g,
       (this.projectModel.ProjectCost[0].OtherCapitalCost + this.projectModel.ProjectCost[0].EquityFinance + this.projectModel.ProjectCost[0].LoanFinance).toString());
-    console.log(this.projectModel)
+    console.log(this.projectModel);
     this.LetterContent = this.LetterContent.replace(/{{CapitalInBirr}}/g,
       (this.projectModel.ProjectCost[0].LandCostInBirr + this.projectModel.ProjectCost[0].BuildingCostInBirr + this.projectModel.ProjectCost[0].MachineryCostInBirr + this.projectModel.ProjectCost[0].TransportCostInBirr + this.projectModel.ProjectCost[0].OfficeEquipmentCostInBirr + this.projectModel.ProjectCost[0].OtherCapitalCostInBirr + this.projectModel.ProjectCost[0].InitialWorkingCapitalCostInBirr).toString());
     if (this.ServiceId == ServiceEnum.TaxHolidayIncentive) {

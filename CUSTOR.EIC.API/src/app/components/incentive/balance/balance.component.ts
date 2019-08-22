@@ -205,7 +205,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, this.currentLang)
       .subscribe(result => {
         //this.itemList = result;
-        console.log(result)
+        console.log(result);
         if (this.itemList.length > 0) {
           this.showDetail = true;
           this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);

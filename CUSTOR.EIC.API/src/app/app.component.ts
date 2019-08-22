@@ -258,7 +258,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   public startService(serviceId: any, title: string) {
     localStorage.setItem('title', title);
-    console.log("i am here search browser 22")
+    console.log("i am here search browser 22");
 
     if (serviceId == ServiceEnum.NewIP) {
       console.log("i am here");
@@ -376,7 +376,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   public goToHome() {
-    this.router.navigate(['/home'])
+    this.router.navigate(['/home']);
     this.authService.logout();
     setTimeout(() => this.isLoggedIn$ = observableOf(false));
 

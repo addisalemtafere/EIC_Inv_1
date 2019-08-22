@@ -225,7 +225,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllSector() {
-    console.log(this.currentLang)
+    console.log(this.currentLang);
     this.sectorService.getSectors(this.currentLang)
       .subscribe(result => {
           this.sectorList = result;

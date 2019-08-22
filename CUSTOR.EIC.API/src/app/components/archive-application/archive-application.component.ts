@@ -86,19 +86,19 @@ export class ArchiveApplicationComponent implements OnInit {
     let className;
     switch (statusId) {
       case  ApplicationStatusEnum.approved :
-        className = 'Approved'
+        className = 'Approved';
         break;
       case ApplicationStatusEnum.Completed:
-        className = 'Completed'
+        className = 'Completed';
         break;
       case ApplicationStatusEnum.Drafted:
-        className = 'drafted'
+        className = 'drafted';
         break;
       case ApplicationStatusEnum.Pending:
-        className = 'Pending'
+        className = 'Pending';
         break;
       case ApplicationStatusEnum.Submitted:
-        className = 'Submitted'
+        className = 'Submitted';
         break;
     }
     return className;

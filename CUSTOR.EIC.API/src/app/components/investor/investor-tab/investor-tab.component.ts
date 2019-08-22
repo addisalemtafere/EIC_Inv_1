@@ -55,7 +55,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    console.log(this.nextIndex)
+    console.log(this.nextIndex);
     this.subscription = this.dataSharing.steeperIndex
       .subscribe(index => {
         this.registrationIndex = index;
@@ -120,7 +120,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
 
         this.isNew = result.IsExistingCustomer;
 
-        this.isNewListener = (this.isNew == true) ? 1 : 0
+        this.isNewListener = (this.isNew == true) ? 1 : 0;
 
         const ServiceApplicationId1 = this.route.snapshot.params['ServiceApplicationId'];
         const workFlowId = this.route.snapshot.params['workFlowId'];
@@ -147,7 +147,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   private ServiceApplication(id: any) {
     this.serviceAppService.getServiceApplicationById(id)
       .subscribe(status => {
-        console.log(status)
+        console.log(status);
         this.serviceApplication = status;
         this.applicationStatus(this.serviceApplication.ServiceApplicationId)
       })
@@ -169,7 +169,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
       case ApplicationStatusEnum.Pending: //Pending
         this.enable = true;
 
-        break
+        break;
       case ApplicationStatusEnum.Completed: //Completed
         this.enable = false;
         break;

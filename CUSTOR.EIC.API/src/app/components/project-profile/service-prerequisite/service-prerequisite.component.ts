@@ -132,7 +132,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
   upload(i: number, files: FileList) {
     this.errors = []; // Clear error
-    console.log(this.workFlowId)
+    console.log(this.workFlowId);
     // console.log((!this.isValidFiles(files)));
     if (files && files[0].size > 0 && (this.isValidFiles(files))) {
       this.documentForm.patchValue({

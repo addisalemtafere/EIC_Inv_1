@@ -83,7 +83,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   ngOnInit() {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
-    console.log(this.ServiceId)
+    console.log(this.ServiceId);
     this.initForm();
     this.getInvestors();
     this.title = localStorage.getItem('title');
