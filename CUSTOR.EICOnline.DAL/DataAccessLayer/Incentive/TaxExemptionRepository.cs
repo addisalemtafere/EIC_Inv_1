@@ -19,7 +19,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
         {
             string FieldName = StaticDataHelper.GetFieldName(lang);
             string query1 =
-                $@"(select IncentiveTaxExemptionRequestID,IncentiveRequestId,ProjectId,RevenueBranch,(Select {FieldName} from Lookup Where LookUpTypeId='22' AND Lookup.LookupId=IncentiveTaxExemptionRequest.RevenueBranch) as RevenueBranchDescription,RequestDate,ExemptionYearRequested from IncentiveTaxExemptionRequest)";
+                $@"(select IncentiveTaxExemptionRequestID,IncentiveRequestId,ProjectId,RevenueBranch,(Select {FieldName} from Lookup Where LookUpTypeId='22' AND Lookup.LookupId=IncentiveTaxExemptionRequest.RevenueBranch) as RevenueBranchDescription,RequestDate,ExemptionYearRequested,CreatedUserName,FileNo,BusinessLicenseNo from IncentiveTaxExemptionRequest)";
                 IQueryable<IncentiveTaxExemptionRequest> TaxExemptions = Context.IncentiveTaxExemptionRequest
                 .Where(tax => tax.ProjectId == id)
                 .FromSql(query1);

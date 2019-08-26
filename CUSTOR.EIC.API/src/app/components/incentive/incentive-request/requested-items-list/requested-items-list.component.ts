@@ -20,6 +20,7 @@ import {IncentiveBoMRequestItemModel} from '../../../../model/incentive/Incentiv
 import {ApplicationSettingService} from '../../../../Services/application-setting.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
 import {ConfigurationService} from "@custor/services/configuration.service";
+import {AccountService} from "@custor/services/security/account.service";
 
 
 @Component({
@@ -103,6 +104,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
               private snackbar: MatSnackBar,
               private lookUpTypeService: LookupTypeService,
               public settingService: ApplicationSettingService,
+              private accountService: AccountService,
               private configService: ConfigurationService,
               private lookUpsService: LookUpService,
               private config: AppConfiguration,
@@ -647,7 +649,8 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       Description: formModel.Description,
       ProjectId: +this.projectId, // formModel.ProjectId,
       Balance: this.getNewBalance(formModel.Balance, formModel.ApprovedQty),
-      MeasurementUnit: formModel.MeasurementUnit
+      MeasurementUnit: formModel.MeasurementUnit,
+      CreatedUserName: this.accountService.currentUser.Id
     };
   }
 }

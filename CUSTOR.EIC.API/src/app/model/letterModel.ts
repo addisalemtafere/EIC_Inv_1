@@ -6,6 +6,7 @@ export class LetterModel {
   public RequestDate?: Date;
   public LetterNo?: string;
   public LetterContent: string;
+  public UserName?: string;
   //public Attachment: number;
 
 }

@@ -138,12 +138,28 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     return this.incentiveRequestItemForm.get('InvoiceNo');
   }
 
+  get FileNo() {
+    return this.incentiveRequestItemForm.get('FileNo');
+  }
+
   get Phase() {
     return this.incentiveRequestItemForm.get('Phase');
   }
 
   get IncentiveCategoryId() {
     return this.incentiveRequestItemForm.get('IncentiveCategoryId');
+  }
+
+  get IsExporter() {
+    return this.incentiveRequestItemForm.get('IsExporter');
+  }
+
+  get IsBankPermit() {
+    return this.incentiveRequestItemForm.get('IsBankPermit');
+  }
+
+  get Exchenge() {
+    return this.incentiveRequestItemForm.get('ExchengeRate');
   }
 
   ngOnInit() {
@@ -182,6 +198,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.settingService.getOneById(1)
       .subscribe(result => {
         this.ExchangeRate = result.Value;
+        this.incentiveRequestItemForm.patchValue({
+          ExchangeRate: this.ExchangeRate
+        });
       });
   }
 
@@ -270,6 +289,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       Quantity: this.IncentiveRequestModel.Quantity == null ? 0 : this.IncentiveRequestModel.Quantity,
       CustomsSiteId: this.IncentiveRequestModel.CustomsSiteId == null ? 0 : this.IncentiveRequestModel.CustomsSiteId,
       Phase: this.IncentiveRequestModel.Phase == null ? 0 : this.IncentiveRequestModel.Phase,
+      IsBankPermit: this.IncentiveRequestModel.IsBankPermit == false ? 0 : this.IncentiveRequestModel.IsBankPermit,
+      IsExporter: this.IncentiveRequestModel.IsExporter == false ? 0 : this.IncentiveRequestModel.IsExporter,
+      FileNo: this.IncentiveRequestModel.FileNo == null ? 0 : this.IncentiveRequestModel.FileNo,
       // IsApproved: this.IncentiveRequestModel.IsApproved
     });
     // // console.log(this.IncentiveRequestModel);
@@ -289,6 +311,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       MotorNo: ['', Validators.required],
       InvoiceNo: ['', Validators.compose([Validators.required, Validators.maxLength(15)])],
       ExchangeRate: [this.ExchangeRate, Validators.required],
+      IsExporter: [false, Validators.required],
+      IsBankPermit: [false, Validators.required],
+      FileNo: ['', Validators.required],
     });
   }
 
@@ -299,7 +324,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   public onSubmit() {
-    console.log(this.ExchangeRate)
+    //console.log(this.ExchangeRate)
     // if (!this.incentiveRequestItemForm.valid) {
     //   return;
     // }
@@ -330,8 +355,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
           if (this.BOMItems.length === 0) {
             this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
             return true;
-          }
-          else {
+          } else {
             return false;
           }
 
@@ -346,7 +370,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     this.IncentiveItemtEditIndex = index;
     this.IncentiveRequestModel = this.IncentiveRequestModels[index];
     this.incentiveRequestItemForm.patchValue(this.IncentiveRequestModel);
-    this.isNewIncentiveRequestItem = true;
+    this.isNewIncentiveRequestItem = false;
   }
 
   hasValidationErrors() {
@@ -368,6 +392,10 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     }
     if (this.CurrencyType.value === 0 || this.CurrencyType.value === null) {
       this.toastr.error('Please Select Currency Type');
+      return true;
+    }
+    if (this.Exchenge.value == null || this.Exchenge.value == "") {
+      this.toastr.error('Please Enter ExchangeRate');
       return true;
     }
     if (this.Amount.value === 0 || this.Amount.value === null) {
@@ -437,9 +465,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   ngAfterContentChecked(): void {
-    this.incentiveRequestItemForm.patchValue({
-      ExchangeRate: this.ExchangeRate
-    });
+
   }
 
   addDetail(inRequest: IncentiveRequestModel) {
@@ -499,6 +525,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       RequestDate: formModel.RequestDate,
       InvoiceNo: formModel.InvoiceNo,
       Phase: formModel.Phase,
+      IsExporter: formModel.IsExporter,
+      IsBankPermit: formModel.IsBankPermit,
+      FileNo: formModel.FileNo,
       ProjectId: this.ProjectId,
       ServiceApplicationId: this.ServiceApplicationId
     };

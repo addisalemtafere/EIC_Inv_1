@@ -25,6 +25,7 @@ import {AddressService} from '../../../Services/Address/address.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
 import {DateService} from "../../../Services/date.service";
 import {ConfigurationService} from "@custor/services/configuration.service";
+import {AccountService} from "@custor/services/security/account.service";
 
 @Component({
   selector: 'app-letter',
@@ -88,6 +89,7 @@ export class LetterComponent implements OnInit {
     private addressService: AddressService,
     private config: AppConfiguration,
     private activatedRoute: ActivatedRoute,
+    private accountService: AccountService,
     private router: Router,
     public route: ActivatedRoute,
     private http: HttpClient,
@@ -473,6 +475,7 @@ export class LetterComponent implements OnInit {
       LetterContent: formModel.LetterContent,
       // Attachment: formModel.Attachment,
       RequestDate: new Date(),
+      UserName: this.accountService.currentUser.Id,
       ProjectId: this.ProjectId
     };
   }

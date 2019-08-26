@@ -10,5 +10,6 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DateTime? RequestDate { get; set; }
         public string LetterNo { get; set; }
         public string LetterContent { get; set; }        
+        public string UserName { get; set; }        
     }
 }

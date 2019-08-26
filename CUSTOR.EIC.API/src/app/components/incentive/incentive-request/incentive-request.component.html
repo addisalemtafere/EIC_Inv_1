@@ -49,7 +49,7 @@
               {{'common.validation.Required' | translate}}
             </mat-error>
             <mat-error *ngIf="Quantity.hasError('maxlength')">
-              {{'common.validation.MaxLengthChar' | translate: {'max':'6'} }}
+              {{'common.validation.MaxLengthChar' | translate: {'max': '6'} }}
             </mat-error>
             <mat-error *ngIf="Quantity.hasError('pattern')">
               {{'common.validation.NumberOnly' | translate}}
@@ -85,7 +85,7 @@
               {{'common.validation.Required' | translate}}
             </mat-error>
             <mat-error *ngIf="Amount.hasError('maxlength')">
-              {{'common.validation.MaxLengthChar' | translate: {'max':'10'} }}
+              {{'common.validation.MaxLengthChar' | translate: {'max': '10'} }}
             </mat-error>
             <mat-error *ngIf="Amount.hasError('pattern')">
               {{'common.validation.NumberOnly' | translate}}
@@ -95,8 +95,8 @@
             <input formControlName="ExchangeRate"
                    type="text"
                    matInput placeholder="Exchange Rate  :">
-            <!--<mat-error align="start" *ngIf="formErrors.ExchangeRate" class="form__error">{{ formErrors.ExchangeRate }}-->
-            <!--</mat-error>-->
+            <mat-error align="start" *ngIf="formErrors.ExchangeRate" class="form__error">{{ formErrors.ExchangeRate }}
+            </mat-error>
           </mat-form-field>
           <mat-form-field style="width: 200px">
             <mat-label>{{'incentiverequest.InvoiceNo' | translate}}</mat-label>
@@ -106,9 +106,26 @@
               {{'common.validation.Required' | translate}}
             </mat-error>
             <mat-error *ngIf="InvoiceNo.hasError('maxlength')">
-              {{'common.validation.MaxLengthChar' | translate: {'max':'15'} }}
+              {{'common.validation.MaxLengthChar' | translate: {'max': '35'} }}
             </mat-error>
           </mat-form-field>
+          <mat-form-field style="width: 200px">
+            <mat-label>{{'incentiverequest.FileNo' | translate}}</mat-label>
+            <input type="text" matInput
+                   formControlName="FileNo">
+            <mat-error *ngIf="FileNo.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+            <mat-error *ngIf="FileNo.hasError('maxlength')">
+              {{'common.validation.MaxLengthChar' | translate: {'max': '15'} }}
+            </mat-error>
+          </mat-form-field>
+          <mat-checkbox formControlName="IsBankPermit">
+            Is Bank Permit?
+          </mat-checkbox>
+          <mat-checkbox formControlName="IsExporter">
+           Is Exporter?
+          </mat-checkbox>
           <span *ngIf="showPhase">
           <mat-form-field>
           <mat-label>{{'incentiverequest.Phase' | translate}}</mat-label>

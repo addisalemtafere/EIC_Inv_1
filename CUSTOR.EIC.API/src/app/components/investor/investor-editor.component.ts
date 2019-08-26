@@ -612,8 +612,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       IsExistingCustomer: this.investor.IsExistingCustomer || '',
       cMajorDivision: this.investor.RegistrationCatagories || '',
 
-      /*  cTradeNameEng: this.investor.TradeNameEnglish || '',
-        cTradeName: this.investor.TradeName || '',*/
+      cTradeNameEng: this.investor.TradeNameEnglish || '',
+        cTradeName: this.investor.TradeName || '',
       Title: this.investor.Title || '',
       FormOfOwnership: this.investor.FormOfOwnership == null ? '' : this.investor.FormOfOwnership.toString(),
       cIsEthiopianOrigin: this.investor.IsEthiopianOrigin,
@@ -779,13 +779,13 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       }, error => this.toastr.error(error));
   }
 
-  /*get tradeName() {
+  get tradeName() {
     return this.investorForm.get('cTradeName');
   }
 
   get tradeNameEng() {
     return this.investorForm.get('cTradeNameEng');
-  }*/
+  }
 
   getKebeleByWoredaId(wordaId: any) {
     this.addressService.getKebelesByWoreda(wordaId)
@@ -981,8 +981,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       Tin: formModel.cTin,
       RegistrationDate: formModel.cRegDate,
       RegistrationNumber: formModel.cRegNumber,
-      /*TradeName: formModel.cTradeName,
-      TradeNameEnglish: formModel.cTradeNameEng,*/
+      TradeName: formModel.cTradeName,
+      TradeNameEnglish: formModel.cTradeNameEng,
       PaidCapital: formModel.cPaidCapital,
       SighnedCapital: formModel.cSighnedCapital,
 

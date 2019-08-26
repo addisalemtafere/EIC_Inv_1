@@ -355,7 +355,6 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
               this.router.navigate(['investor-profile', this.investors[0].InvestorId]);
             } else {
               console.log('Profile incomlete2')
-
               this.router.navigate(['investor-profile/0']);
             }
 
