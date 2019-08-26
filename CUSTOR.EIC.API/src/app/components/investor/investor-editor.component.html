@@ -414,14 +414,6 @@
           <mat-label name="lblRegNumber">{{'investors.editor.RegNumber' | translate}}</mat-label>
           <input matInput formControlName="cRegNumber" NaturalNumberOnlyDir/>
         </mat-form-field>
-        <mat-form-field fxFlex>
-          <mat-label name="lblTradeNameEnglish">{{'investors.editor.TradeNameEng' | translate}}</mat-label>
-          <input matInput formControlName="cTradeNameEng"/>
-        </mat-form-field>
-        <mat-form-field fxFlex>
-          <mat-label name="lblTradeName">{{'investors.editor.TradeName' | translate}}</mat-label>
-          <input matInput formControlName="cTradeName" />
-        </mat-form-field>
         <mat-form-field fxFlex *ngIf="isNewCustomer && isCommercialReg">
           <mat-label name="lblRegDate">{{'investors.editor.RegDate' | translate}}</mat-label>
           <input [matDatepicker]="cRegDate" matInput formControlName="cRegDate"/>

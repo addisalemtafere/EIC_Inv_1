@@ -412,7 +412,7 @@ export class CertificateComponent implements OnInit {
         this.router.navigate(['pro/' + this.investorDetailList.ProjectId + '/' + this.ServiceApplicationId + '/' + this.ServiceId + '/' + this.workFlowId + '/' + this.InvestorId]);
         break;
       default:
-        alert('Please Select one of them tou want edit')
+        alert('Please Select one of them you want edit')
 
     }
   }
