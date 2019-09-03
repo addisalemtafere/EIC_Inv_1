@@ -33,6 +33,28 @@ export const STATUS: any[] =
     {'Id': '1', 'Description': 'የተዘጋ', 'DescriptionEnglish': 'Closed'}
 
   ];
+export const LOOK_UP_TYPES = {
+  TITLES: '89',
+  BUDGET_CATEGORY: '96',
+  COUNTRY :''
+};
+// : any[] = [
+//   { Id: 1, Label: 'Capital', Path: 'principal-update/capital' },
+//   { Id: 2, Label: 'business area', Path: 'principal-update/capital' },
+//   { Id: 3, Label: 'address', Path: 'principal-update/capital' },
+//   { Id: 4, Label: 'manager', Path: 'principal-update/capital' }
+
+// ];
+export const URLS_LABELS : any [] = [
+  { Id: '0', Label: 'address'},
+  { Id: '1', Label: 'regions'},
+  { Id: '2', Label: 'zones'},
+  { Id: '3', Label: 'towns'},
+  { Id: '4', Label: 'woredas'},
+  { Id: '5', Label: 'kebeles'},
+  { Id: '6', Label: 'nationality'},
+];
+
 
 export const CUSTOMER_SERVICE: any[] =
   [

@@ -100,7 +100,8 @@
           [routerLinkActiveOptions]="{ exact: true }"
           routerLink="/login">
           <mat-icon>dashboard</mat-icon>
-          {{ "mainMenu.Home" | translate }}</a>
+          {{ "mainMenu.Home" | translate }}
+        </a>
         <a
           *ngIf="isInvestor"
           mat-list-item
@@ -150,6 +151,7 @@
               (click)="Investor()">
               <mat-icon color="primary" class="mat-18">account_circle</mat-icon>
               {{ "mainMenu.InvestorProfile" | translate }}</a>
+              
             <a *ngIf="isInvestor"
                (click)="toMangerList()"
                mat-list-item
@@ -178,6 +180,7 @@
           <mat-icon>announcement</mat-icon>
           Notifications
         </a>
+     
         <a *ngIf="isInvestor"
            mat-list-item
            routerLinkActive="active"
@@ -198,6 +201,12 @@
            (click)="startService('1001', 'incentive Detail')">
           <mat-icon>library_add</mat-icon>
           Incentive Detail
+        </a>
+        <a mat-list-item 
+        routerLinkActive="active" 
+        routerLink="/amendment">
+          <mat-icon>amendment</mat-icon>
+          {{ "mainMenu.Amendment" | translate }}
         </a>
         <a
           *ngIf="canViewTasks"
