@@ -95,7 +95,7 @@ namespace CUSTOR.EICOnline.DAL
             string FieldNameOther = StaticDataHelper.GetFieldNameOther(lang);
             string query1 =
                 $@"(select Distinct IncentiveRequestId,ServiceApplicationId,ProjectId,(Select Distinct {FieldNameOther} from LookUpType WHERE LookUpType.LookUpTypeId=IncentiveRequest.IncentiveCategoryId ) as IncentiveCategory,IncentiveCategoryId,Amount,
-                    Quantity,InvoiceNo,CustomsSiteId,RequestDate,CurrencyRate,CurrencyType,'' as CustomsSite,IsExporter,IsBankPermit,FileNo
+                    Quantity,InvoiceNo,CustomsSiteId,RequestDate,CurrencyRate,CurrencyType,'' as CustomsSite,IsExporter,IsBankPermit,FileNo,Phase
                     from IncentiveRequest)";
             
             IQueryable<IncentiveRequestDTO> IncentiveRequests = Context.IncentiveRequestDTO

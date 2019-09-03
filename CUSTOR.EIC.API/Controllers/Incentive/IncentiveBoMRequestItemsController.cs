@@ -281,7 +281,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       }
     }
 
-    [HttpGet("GetByProjectId/{id:int}")]
+    [HttpGet("GetByProjectId/{id:int}/{lang}")]
     public IEnumerable<IncentiveBomDto> GetByProjectId(int id)
     {
       var ProjectId = new SqlParameter("@ProjectId", id);

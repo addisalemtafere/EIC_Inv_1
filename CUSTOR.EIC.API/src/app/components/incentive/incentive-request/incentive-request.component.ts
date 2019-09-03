@@ -59,6 +59,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     CustomsSiteId: '',
     RequestDate: '',
     InvoiceNo: '',
+    ExchangeRate: '',
   };
   loadingIndicator: boolean;
   currencyTypes: CurrencyType[] = [];
@@ -159,7 +160,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   }
 
   get Exchenge() {
-    return this.incentiveRequestItemForm.get('ExchengeRate');
+    return this.incentiveRequestItemForm.get('ExchangeRate');
   }
 
   ngOnInit() {
@@ -330,12 +331,15 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     // }
 
     if (this.hasValidationErrors()) {
+      console.log('here')
       return;
     }
+
     // else if (this.CheckExistance()) {
     //   return;
     // }
     else {
+
       this.loadingIndicator = true;
       return this.IncentiveRequestService.saveIncentiveRequest(
         this.getEditedIncentiveItem()).subscribe((incentiveRequestModel: IncentiveRequestModel) => {
@@ -394,7 +398,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       this.toastr.error('Please Select Currency Type');
       return true;
     }
-    if (this.Exchenge.value == null || this.Exchenge.value == "") {
+    if (this.Exchenge.value == null || this.Exchenge.value == 0) {
       this.toastr.error('Please Enter ExchangeRate');
       return true;
     }
@@ -514,6 +518,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
 
   private getEditedIncentiveItem(): IncentiveRequestModel {
     const formModel = this.incentiveRequestItemForm.value;
+
     return {
       IncentiveRequestId: this.isNewIncentiveRequestItem ? 0 : this.IncentiveRequestModel.IncentiveRequestId,
       IncentiveCategoryId: formModel.IncentiveCategoryId,

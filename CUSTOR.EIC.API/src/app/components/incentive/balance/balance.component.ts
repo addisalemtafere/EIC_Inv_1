@@ -204,7 +204,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, this.currentLang)
       .subscribe(result => {
-        //this.itemList = result;
+        this.itemList = result;
         console.log(result)
         if (this.itemList.length > 0) {
           this.showDetail = true;
@@ -212,6 +212,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
           this.loading = false;
           this.dataSource.paginator = this.paginator;
         } else {
+          this.dataSource = null;
           this.showDetail = false;
         }
 
