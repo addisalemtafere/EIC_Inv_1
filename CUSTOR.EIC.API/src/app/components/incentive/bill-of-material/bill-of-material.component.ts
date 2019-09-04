@@ -162,6 +162,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       if (!this.editMode) {
         this.billOfMaterialForm.removeControl('IncentiveBoMRequestItemId');
         //this.prepareSaveUser();
+
         this.billOfMaterilService.create(this.billOfMaterialForm.value)
           .subscribe((result: IncentiveBoMRequestItemModel) => {
             this.notification('saved');

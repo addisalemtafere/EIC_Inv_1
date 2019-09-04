@@ -30,6 +30,7 @@ import {NationalityModel} from "../../model/address/NationalityModel";
 import {NationalityService} from "../../Services/Nationalityservice";
 import {CountryModel} from "../../model/Country";
 import {CountryService} from "../../Services/country.service";
+import {ProjectModel} from "../../model/project.model";
 
 @Component({
   selector: 'app-certificate',
@@ -58,6 +59,8 @@ export class CertificateComponent implements OnInit {
   projectCostTotalUSD: number;
   public len: number;
   public manager: ProjectAssociateModel[];
+  public Project: ProjectModel;
+  public ProjectDate: any;
   public renewal: ProjectRenewalModel;
   public ServiceId: any;
   private InvestorId: any;
@@ -68,6 +71,7 @@ export class CertificateComponent implements OnInit {
   public todayEthioDate: any;
   public dateEc1: Date;
   public todayEthioDateRenewal: any;
+  public EthioStartDate: any;
   public dd: Date;
   public dateEthioNextYear: string;
   public NationalityAmharic: string;
@@ -226,6 +230,7 @@ export class CertificateComponent implements OnInit {
         this.getInvestmentBranchCountry(this.investorDetailList.InvestorId);
         this.getExportPercent(this.investorDetailList.ProjectId);
         this.getInvestorTitle(this.investorDetailList.Investor.Title)
+        this.getProjectStartDate(this.investorDetailList.ProjectId);
         // console.log(result);
         // // console.log(this.investorDetailList.Investor.RegionId);
         this.getInvestorAddress(this.investorDetailList.InvestorId);
@@ -247,8 +252,7 @@ export class CertificateComponent implements OnInit {
         } else if (this.investorDetailList.Investor.FormOfOwnership == 5) {
           this.formOfOwnerShipDescriptionAmharic = 'የውጭ ሃገር ኢንቨስተር የኢንቨስትመንት ፈቃድ';
           this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR FOREIGN INVESTOR';
-        }
-        else {
+        } else {
           this.formOfOwnerShipDescriptionAmharic = 'የሃገር ውስጥ ባለሃብት የኢንቨስትመንት ፈቃድ';
           this.formOfOwnerShipDescriptionEnglish = 'INVESTMENT PERMIT FOR DOMESTIC';
         }
@@ -317,6 +321,16 @@ export class CertificateComponent implements OnInit {
 
   }
 
+  getProjectStartDate(ProjectId: any) {
+    console.log('here');
+    this.projectService.ProjectsDetail(ProjectId)
+      .subscribe(result => {
+        this.Project = result;
+        this.getEthiopianDateDate1();
+      });
+
+  }
+
   getInvestorAddress(InvestorId: any) {
     this.addressService.getAddress(InvestorId)
       .subscribe((result: AddressModel) => {
@@ -369,6 +383,21 @@ export class CertificateComponent implements OnInit {
     this.dateService.getEthiopianDate(this.day, this.month, this.year)
       .subscribe(data => {
         this.todayEthioDateRenewal = data;
+        // console.log('Date = ' + this.todayEthioDate);
+      });
+  }
+
+  private getEthiopianDateDate1() {
+    this.ProjectDate = this.Project.StartDate;
+    const d = this.Project.StartDate.split('/').reverse().join('-')
+    const d2 = new Date(d);
+    this.year = d2.getFullYear();
+    this.month = d2.getMonth();
+    this.day = d2.getDate();
+    console.log('Result=' + this.day + ' and ' + this.month + ' and ' + this.year);
+    this.dateService.getEthiopianDate(this.day, this.month, this.year)
+      .subscribe(data => {
+        this.EthioStartDate = data;
         // console.log('Date = ' + this.todayEthioDate);
       });
   }
