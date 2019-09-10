@@ -396,7 +396,6 @@ export class LetterComponent implements OnInit {
         this.incentiveRequestModelList[0].CustomsSite);
       this.LetterContent = this.LetterContent.replace(/{{ChassisNo}}/g,
         this.incentiveRequestModelList[0].ChassisNo);
-      console.log(this.incentiveRequestModelList)
     }
     this.LetterContent = this.LetterContent.replace(/{{TeleNo}}/g,
       this.InvestoraddressList.CellPhoneNo);

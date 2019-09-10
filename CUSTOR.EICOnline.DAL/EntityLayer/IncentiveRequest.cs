@@ -84,4 +84,29 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string ChassisNo { get; set; }
         public int? Phase { get; set; }
     }
+
+    public class IncentiveRequestsDTO
+    {
+        public IncentiveRequestsDTO()
+        {
+        }
+
+        [Key] public int IncentiveRequestId { get; set; }
+        public int ServiceApplicationId { get; set; }
+        public int? ProjectId { get; set; }
+        public string IncentiveCategory { get; set; }
+        public int IncentiveCategoryId { get; set; }
+        public decimal? Amount { get; set; }
+        public int? Quantity { get; set; }
+        public string InvoiceNo { get; set; }
+        public int CustomsSiteId { get; set; }
+        public string CustomsSite { get; set; }
+        public DateTime? RequestDate { get; set; }
+        public decimal? CurrencyRate { get; set; }
+        public int? CurrencyType { get; set; }
+        public bool? IsBankPermit { get; set; }
+        public bool? IsExporter { get; set; }
+        public string FileNo { get; set; }
+        public int? Phase { get; set; }
+    }
 }

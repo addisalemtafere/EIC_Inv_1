@@ -33,7 +33,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
 
     [HttpGet]
     [Route("api/IncentiveRequest/ByServiceAppId/{id:int}/{lang}")]
-    public async Task<IEnumerable<IncentiveRequestDTO>> GetIncentiveRequestsByServiceAppId(string lang, int id,
+    public async Task<IEnumerable<IncentiveRequestsDTO>> GetIncentiveRequestsByServiceAppId(string lang, int id,
       int page = -1,
       int pageSize = 10)
     {
