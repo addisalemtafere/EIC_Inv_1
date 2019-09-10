@@ -81,6 +81,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public bool? IsBankPermit { get; set; }
         public bool? IsExporter { get; set; }
         public string FileNo { get; set; }
+        public string ChassisNo { get; set; }
         public int? Phase { get; set; }
     }
 }

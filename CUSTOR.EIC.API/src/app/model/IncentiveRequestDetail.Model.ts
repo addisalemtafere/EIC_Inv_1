@@ -25,4 +25,5 @@ export class IncentiveRequestDetailModel {
   public UpdatedEventDatetime?: Date;
   public UpdatedUserId?: number;
   public UpdatedUserName?: string;
+  public CustomsSite?: string;
 }

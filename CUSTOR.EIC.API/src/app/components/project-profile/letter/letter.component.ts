@@ -353,7 +353,7 @@ export class LetterComponent implements OnInit {
     //console.log(this.incentiveRequestModelList)
     this.ShowSave = true;
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g, this.projectModel.Investor.InvestorName);
-    //console.log(this.projectModel.Investor.InvestorName)
+    console.log(this.projectModel.Investor.InvestorName)
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameEng}}/g, this.projectModel.Investor.InvestorNameEng.toUpperCase());
     this.LetterContent = this.LetterContent.replace(/{{StartDate}}/g,
       new Date(this.projectModel.StartDate).getMonth() +
@@ -391,8 +391,12 @@ export class LetterComponent implements OnInit {
 
     if (this.ServiceId !== '1045' && this.ServiceId !== '13') {
       this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
-        this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
-      );
+        this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo);
+      this.LetterContent = this.LetterContent.replace(/{{CustomsSite}}/g,
+        this.incentiveRequestModelList[0].CustomsSite);
+      this.LetterContent = this.LetterContent.replace(/{{ChassisNo}}/g,
+        this.incentiveRequestModelList[0].ChassisNo);
+      console.log(this.incentiveRequestModelList)
     }
     this.LetterContent = this.LetterContent.replace(/{{TeleNo}}/g,
       this.InvestoraddressList.CellPhoneNo);
@@ -404,7 +408,6 @@ export class LetterComponent implements OnInit {
     this.letterForm.patchValue({
       LetterContent: this.LetterContent
     });
-
   }
 
   deleteLetter(index: number, id: number) {

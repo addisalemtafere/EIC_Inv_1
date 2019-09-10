@@ -499,6 +499,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
         return;
       }
     }
+
     this.loadingIndicator = true;
     if (this.isNewIncentiveRequestItem) {
       this.IncentiveRequestItemService.saveIncentiveRequestItem(

@@ -210,6 +210,7 @@ export class AppConfiguration {
     incentiveRequestsByProjectId: 'api/incentiveRequests/ByProjectId',
 
     IncentiveRequestDetail: 'api/IncentiveRequestDetail',
+    IncentiveRequestDetailByServiceApp: 'api/IncentiveRequestDetail',
     IncentiveRequestDetails: 'api/IncentiveRequestDetails',
     IncentiveBoMRequestItems: 'api/IncentiveBoMRequestItems',
 

@@ -94,9 +94,10 @@ namespace CUSTOR.EICOnline.DAL
         {
             string FieldNameOther = StaticDataHelper.GetFieldNameOther(lang);
             string query1 =
-                $@"(select Distinct IncentiveRequestId,ServiceApplicationId,ProjectId,(Select Distinct {FieldNameOther} from LookUpType WHERE LookUpType.LookUpTypeId=IncentiveRequest.IncentiveCategoryId ) as IncentiveCategory,IncentiveCategoryId,Amount,
-                    Quantity,InvoiceNo,CustomsSiteId,RequestDate,CurrencyRate,CurrencyType,'' as CustomsSite,IsExporter,IsBankPermit,FileNo,Phase
-                    from IncentiveRequest)";
+                $@"(select Distinct IncentiveRequest.IncentiveRequestId,ServiceApplicationId,IncentiveRequest.ProjectId,(Select Distinct {FieldNameOther} from LookUpType WHERE LookUpType.LookUpTypeId=IncentiveRequest.IncentiveCategoryId ) as IncentiveCategory,IncentiveRequest.IncentiveCategoryId,IncentiveRequest.Amount,
+                    IncentiveRequest.Quantity,InvoiceNo,CustomsSiteId,IncentiveRequest.RequestDate,IncentiveRequest.CurrencyRate,IncentiveRequest.CurrencyType,(Select Distinct Amharic from LookUp WHERE LookUp.LookUpId=IncentiveRequest.CustomsSiteId ) as CustomsSite,IsExporter,IsBankPermit,FileNo,Phase,ChassisNo               
+					from IncentiveRequest
+					INNER JOIN IncentiveRequestDetail ON IncentiveRequestDetail.IncentiveRequestId=IncentiveRequest.IncentiveRequestId)";
             
             IQueryable<IncentiveRequestDTO> IncentiveRequests = Context.IncentiveRequestDTO
                 .Where(Ince => Ince.ServiceApplicationId == id)
@@ -117,9 +118,10 @@ namespace CUSTOR.EICOnline.DAL
             string FieldName = StaticDataHelper.GetFieldName(lang);
             string FieldNameOther = StaticDataHelper.GetFieldNameOther(lang);
             string query1 =
-                $@"(select distinct IncentiveRequestId,ServiceApplicationId,ProjectId,(Select distinct {FieldName} from Lookup Where LookUpTypeId='10783' AND Lookup.LookupId=IncentiveRequest.CustomsSiteId) as CustomsSite ,IncentiveCategoryId,CustomsSiteId,
-                           (Select distinct {FieldNameOther} from LookUpType WHERE LookUpType.LookUpTypeId=IncentiveRequest.IncentiveCategoryId ) as IncentiveCategory,RequestDate,Amount,Quantity,InvoiceNo,CurrencyRate,CurrencyType,IsExporter,IsBankPermit,FileNo
-                           from IncentiveRequest)";
+                $@"(select distinct IncentiveRequest.IncentiveRequestId,ServiceApplicationId,IncentiveRequest.ProjectId,(Select distinct {FieldName} from Lookup Where LookUpTypeId='10783' AND Lookup.LookupId=IncentiveRequest.CustomsSiteId) as CustomsSite ,IncentiveRequest.IncentiveCategoryId,CustomsSiteId,
+                           (Select distinct {FieldNameOther} from LookUpType WHERE LookUpType.LookUpTypeId=IncentiveRequest.IncentiveCategoryId ) as IncentiveCategory,IncentiveRequest.RequestDate,IncentiveRequest.Amount,IncentiveRequest.Quantity,InvoiceNo,IncentiveRequest.CurrencyRate,IncentiveRequest.CurrencyType,IsExporter,IsBankPermit,FileNo,ChassisNo,Phase
+                           from IncentiveRequest
+						   INNER JOIN IncentiveRequestDetail ON IncentiveRequestDetail.IncentiveRequestId=IncentiveRequest.IncentiveRequestId)";
 
             IQueryable<IncentiveRequestDTO> IncentiveRequests = null;
             IncentiveRequests = Context.IncentiveRequestDTO

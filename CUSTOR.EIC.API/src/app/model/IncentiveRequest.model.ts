@@ -18,6 +18,8 @@ export class IncentiveRequestModel {
   public IsBankPermit: boolean;
   public IsExporter: boolean;
   public FileNo: string;
+  public CustomsSite?: string;
+  public ChassisNo?: string;
   public IncentiveItemRequest?: IncentiveRequestItemModel[];
 
 }

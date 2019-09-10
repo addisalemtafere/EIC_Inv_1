@@ -79,6 +79,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
   private ServiceApplicationId: any;
   private ServiceId: any;
   private currentLang: string;
+  private CategoryId: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -331,15 +332,10 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     // }
 
     if (this.hasValidationErrors()) {
-      console.log('here')
       return;
-    }
-
-    // else if (this.CheckExistance()) {
-    //   return;
-    // }
-    else {
-
+    } else if (this.CheckExistance()) {
+      return;
+    } else {
       this.loadingIndicator = true;
       return this.IncentiveRequestService.saveIncentiveRequest(
         this.getEditedIncentiveItem()).subscribe((incentiveRequestModel: IncentiveRequestModel) => {
@@ -354,7 +350,6 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       this.IncentiveRequestItemService
         .getIncentiveBoMRequestDetails(this.ProjectId, this.incentiveRequestItemForm.get('IncentiveCategoryId').value, this.incentiveRequestItemForm.get('Phase').value)
         .subscribe((items) => {
-          // console.log(this.BOMItems);
           this.BOMItems = items;
           if (this.BOMItems.length === 0) {
             this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
@@ -362,10 +357,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
           } else {
             return false;
           }
-
-        });//TODO Validation Jump
+        });
     }
-    return false;
+    //return false
   }
 
 
@@ -406,14 +400,11 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       this.toastr.error('Please Enter Amount');
       return true;
     }
-
     if (this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10778' || this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10782') {
-
       if (this.Phase.value == 0 || this.Phase.value == null) {
         this.toastr.error('Please Enter Incentive Request Batch Number');
         return true;
       }
-
     }
   }
 
