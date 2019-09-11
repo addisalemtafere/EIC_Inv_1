@@ -114,6 +114,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string Description { get; set; }
         public string HsCode { get; set; }
         public decimal Quantity { get; set; }
+        public decimal Balance { get; set; }
         public string MesurmentUnit { get; set; }
         public string RejectionReason { get; set; }
         public bool IsApproved { get; set; }

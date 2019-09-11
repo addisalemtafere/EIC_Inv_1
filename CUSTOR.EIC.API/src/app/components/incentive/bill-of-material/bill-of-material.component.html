@@ -96,7 +96,7 @@
           <span *ngIf="!isInvestor">
           <mat-form-field [fxFlex]="20">
             <mat-label>{{'billofmaterrial.RejectionReason' | translate}}</mat-label>
-            <mat-select formControlName="RejectionReason" required>
+            <mat-select formControlName="RejectionReason" >
               <option value="0">--Select--</option>
               <mat-option *ngFor="let RejectionReason of Lookups"
                           [value]="RejectionReason.LookupId">

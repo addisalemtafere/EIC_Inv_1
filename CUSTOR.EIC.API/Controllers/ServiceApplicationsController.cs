@@ -77,7 +77,7 @@ namespace EIC.Investment.API.Controllers
     {
       string FieldName = StaticDataHelper.GetFieldName(lang);
       string query1 =
-        $@"(select IncentiveBoMRequestItemId,(Select {FieldName} from Lookup Where LookUpTypeId='10780' AND Lookup.LookupId=IncentiveBoMRequestItem.RejectionReason) as RejectionReason
+        $@"(select IncentiveBoMRequestItemId,(Select {FieldName} from Lookup Where LookUpTypeId='10780' AND Lookup.LookupId=IncentiveBoMRequestItem.RejectionReason) as RejectionReason,Balance
 						   ,IncentiveBoMRequestItem.ServiceApplicationId,IncentiveBoMRequestItem.ProjectId,Description,HsCode,Quantity,MesurmentUnit,IsApproved from ServiceApplication
 						   Inner Join IncentiveBoMRequestItem ON IncentiveBoMRequestItem.ServiceApplicationId=ServiceApplication.ServiceApplicationId)";
       IQueryable<ServiceAppDto> ServiceAppDto = _context.ServiceAppDto

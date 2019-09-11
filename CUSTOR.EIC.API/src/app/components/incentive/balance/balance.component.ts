@@ -33,7 +33,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     'No', 'Description', 'HsCode', 'Quantity', 'MesurmentUnit', 'Balance'
   ];
   displayedGroupedColumns = [
-    'No', 'IncentiveCategory', 'UploadDate', 'UploadQuantity', 'Phase', 'Action'
+    'No', 'IncentiveCategory', 'UploadDate', 'UploadQuantity', 'strPhase', 'Action'
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   errors: Array<string> = [];

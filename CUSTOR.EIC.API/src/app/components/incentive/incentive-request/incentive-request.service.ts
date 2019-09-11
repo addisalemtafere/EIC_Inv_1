@@ -46,7 +46,7 @@ export class IncentiveRequestService {
   }
 
   getIncentiveRequestByServiceApplicationId(id, lang): Observable<IncentiveRequestModel[]> {
-    return this.httpClient.get<IncentiveRequestModel[]>(this.config.urls.url('incentiveRequestByServiceAppIds', id, lang)).pipe(
+    return this.httpClient.get<IncentiveRequestModel[]>(this.config.urls.url('incentiveRequestByServiceAppId', id, lang)).pipe(
       map(incentiveRequestdata => {
         this.incentiveRequestList = incentiveRequestdata;
         return this.incentiveRequestList;
