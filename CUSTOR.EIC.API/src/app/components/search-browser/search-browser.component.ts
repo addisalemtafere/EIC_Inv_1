@@ -25,7 +25,7 @@ import {ErrorMessage} from '@custor/services/errMessageService';
   selector: 'app-search-browser',
   templateUrl: './search-browser.component.html',
   styleUrls: ['./search-browser.component.scss'],
-  providers:[]
+  providers: []
 
 })
 export class SearchBrowserComponent implements OnInit, AfterContentChecked {
@@ -343,7 +343,10 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  startApplication(projectList: ProjectModel) {
+  startApplication(projectList
+                     :
+                     ProjectModel
+  ) {
 
     const projectName = projectList.ProjectName;
     const projectId = projectList.ProjectId;
@@ -385,7 +388,16 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  showIncentiveDetials(projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, projectName?: any) {
+  showIncentiveDetials(projectId
+                         :
+                         any, ServiceApplicationId
+                         :
+                         any, ServiceId
+                         :
+                         any, projectStatus
+                         :
+                         any, projectName ?: any
+  ) {
     if (projectStatus !== 9) {
       this.toastr.warning('Project Is Not Active');
     } else {
@@ -394,7 +406,10 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue
+                :
+                string
+  ) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue.replace(/[\W_]/g, '');
@@ -403,7 +418,9 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  ngAfterContentChecked(): void {
+  ngAfterContentChecked()
+    :
+    void {
     this.serviceTitle = localStorage.getItem('title');
     this.title = localStorage.getItem('title');
     this.projectName = localStorage.getItem('projectName');

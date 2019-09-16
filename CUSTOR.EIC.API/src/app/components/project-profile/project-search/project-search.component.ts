@@ -95,7 +95,6 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
   }
 
 
-
   initForm() {
     this.searchForm = this.fb.group({
       // Tin: new FormControl(),
@@ -106,7 +105,6 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
   }
 
 
-
   select(InvestorId: any, investorName: any) {
     this.projectList = [];
     this.ServiceId = this.route.snapshot.params['ServiceId'];
@@ -114,8 +112,7 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     if (this.ServiceId == 13) {
       this.InvestorId = InvestorId;
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
-    }
-    else {
+    } else {
       this.invName = investorName;
       this.loadingIndicator = true;
       this.projectService.getProjectByInvestorId(InvestorId)
@@ -140,9 +137,11 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
       this.loadingIndicator = false;
     }
   }
+
   projectDetail(id: number) {
     this.router.navigate(['/service-detail', id]);
   }
+
   editInvestor(investor: Investor) {
     if (investor) {
       this.router.navigate(['/investor/edit', investor.InvestorId], {relativeTo: this.route});
@@ -184,7 +183,6 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
   }
 
 
-
   editProject(projectId: number, serviceApplicationId: any, serviceId: any) {
 
     setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
@@ -192,7 +190,6 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     setTimeout(() => this.dataSharing.isNew.next(true), 0);
     this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
   }
-
 
 
 // Todo Application must be Intiated
@@ -258,8 +255,17 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
         break;
       case 1045:
         if (projectStatus !== 4) {
-          this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
-          localStorage.setItem('ParentProjectId', projectId);
+          this.projectProfileService.projectsDetailForLetter(projectId)
+            .subscribe(result => {
+              console.log(result);
+              if (result.InvestmentActivity.InAddisOromiaAreas <= 0) {
+                this.toastr.error('This project does not have tax exemption privilege', 'Error', {});
+                return true;
+              } else {
+                this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+                localStorage.setItem('ParentProjectId', projectId);
+              }
+            })
         } else {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
@@ -319,33 +325,32 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     this.InvestorId = projectList.InvestorId;
 
 
+    this.todoTask.AssignedUserId = this.accountService.currentUser.Id;
+    this.todoTask.CreatedUserId = this.accountService.currentUser.Id;
+    this.todoTask.CreatedUserName = this.accountService.currentUser.UserName;
+    this.todoTask.IsActive = false;
 
-      this.todoTask.AssignedUserId = this.accountService.currentUser.Id;
-      this.todoTask.CreatedUserId = this.accountService.currentUser.Id;
-      this.todoTask.CreatedUserName = this.accountService.currentUser.UserName;
-      this.todoTask.IsActive = false;
-
-      this.serviceApplication.ProjectId = projectId;
-      this.serviceApplication.ServiceId = this.ServiceId;
-      this.serviceApplication.InvestorId = this.InvestorId;
-      this.serviceApplication.CaseNumber = '1';
-      this.serviceApplication.CurrentStatusId = 44450;
-      this.serviceApplication.IsSelfService = true;
-      this.serviceApplication.IsPaid = true;
-      this.serviceApplication.CreatedUserId = 1;
-      this.serviceApplication.IsActive = false;
-      this.serviceApplication.todoTask = this.todoTask;
-      console.log(this.ServiceId);
-      if (this.ServiceId != 1237) {
-        this.serviceApplicationService
-          .applicationStart(this.serviceApplication)
-          .subscribe(result => {
-            this.nextService(this.InvestorId, projectId, result.ServiceApplicationId, ServiceId, projectStatus, result.ServiceWorkflow[0].ServiceWorkflowId);
-          });
-      } else {
-        this.router.navigate(['incentive-detail/' + projectId + '/' + 0 + '/' + 0 + '/' + 1]);
-      }
-      localStorage.setItem('projectName', projectName);
+    this.serviceApplication.ProjectId = projectId;
+    this.serviceApplication.ServiceId = this.ServiceId;
+    this.serviceApplication.InvestorId = this.InvestorId;
+    this.serviceApplication.CaseNumber = '1';
+    this.serviceApplication.CurrentStatusId = 44450;
+    this.serviceApplication.IsSelfService = true;
+    this.serviceApplication.IsPaid = true;
+    this.serviceApplication.CreatedUserId = 1;
+    this.serviceApplication.IsActive = false;
+    this.serviceApplication.todoTask = this.todoTask;
+    console.log(this.ServiceId);
+    if (this.ServiceId != 1237) {
+      this.serviceApplicationService
+        .applicationStart(this.serviceApplication)
+        .subscribe(result => {
+          this.nextService(this.InvestorId, projectId, result.ServiceApplicationId, ServiceId, projectStatus, result.ServiceWorkflow[0].ServiceWorkflowId);
+        });
+    } else {
+      this.router.navigate(['incentive-detail/' + projectId + '/' + 0 + '/' + 0 + '/' + 1]);
+    }
+    localStorage.setItem('projectName', projectName);
 
 
   }
