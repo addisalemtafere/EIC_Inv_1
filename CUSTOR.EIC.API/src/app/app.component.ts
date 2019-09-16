@@ -1,4 +1,3 @@
-
 import {of as observableOf, Observable, Subscription} from 'rxjs';
 import {
   AfterContentChecked,
@@ -258,12 +257,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   public startService(serviceId: any, title: string) {
     localStorage.setItem('title', title);
-    if (serviceId == 1235) {
-      this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
+    console.log("i am here search browser 22")
 
-    }
-    else {
-      this.router.navigate(['/search-browser/' + serviceId + '/' + 0 + '/' + 0]);
+    if (serviceId == 1235) {
+      console.log("i am here");
+      this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
+    } else {
+      this.router.navigate(['search-browser/' + serviceId + '/' + 0 + '/' + 0]);
+
     }
   }
 
@@ -314,8 +315,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     if (localStorage.getItem('InvestorId') !== null || localStorage.getItem('profile-completed') == 'false') {
       if (localStorage.getItem('profile-completed') == 'false') {
         this.router.navigate(['investor-profile', localStorage.getItem('InvestorId')]);
-      }
-      else {
+      } else {
         this.router.navigate(['investor-profile/' + localStorage.getItem('InvestorId')]);
       }
     } else {
@@ -333,8 +333,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
       if (localStorage.getItem('InvestorId') !== null) {
         this.router.navigate(['investor-profile', localStorage.getItem('InvestorId')]);
 
-      }
-      else {
+      } else {
         this.router.navigate(['investor-profile/0']);
       }
 

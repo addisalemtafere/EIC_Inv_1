@@ -12,18 +12,20 @@ import {LookupsModel} from '../../model/lookups';
 import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs/index';
 import {LettertepmlateService} from './lettertepmlate.service';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-lettertemplate',
   templateUrl: './lettertemplate.component.html',
-  styleUrls: ['./lettertemplate.component.scss']
+  styleUrls: ['./lettertemplate.component.scss'],
+  providers:[ConfigurationService]
 })
 export class LettertemplateComponent implements OnInit, OnDestroy {
   @ViewChild('form')
   incentiveRequestItemSub: Subscription;
   lookupSub: Subscription;
   title: string;
-  isNewIncentiveRequestItem = false;
+  isNewLetterTempalte = false;
   LetterTemplateModel: LetterTemplateModel;
   LetterTemplateModels: LetterTemplateModel[] = [];
   letterTemplateForm: FormGroup;
@@ -41,6 +43,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   Lookups: LookupsModel[];
   private form: NgForm;
   private tinymce: any;
+  private currentLang: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -48,6 +51,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
               private http: HttpClient,
               private snackbar: MatSnackBar,
               private lookUpsService: LookUpService,
+              private configService: ConfigurationService,
               private config: AppConfiguration,
               private LettertepmlateService: LettertepmlateService, private errMsg: ErrorMessage,
               private toastr: ToastrService,
@@ -55,10 +59,11 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     this.LetterTemplateModel = <LetterTemplateModel>{};
     // initialize the form
     this.initForm();
-    this.initStaticData('en');
+    this.initStaticData(this.currentLang);
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.initForm();
     this.getIncentiveReaquestItmes();
     this.getItemLookup();
@@ -70,7 +75,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   }
 
   getIncentiveReaquestItmes() {
-    this.LettertepmlateService.getLetterTemplateList().subscribe(result => {
+    this.LettertepmlateService.getLetterTemplateList(this.currentLang).subscribe(result => {
       if (result.length > 0) {
         this.LetterTemplateModels = result;
         this.dataSource = new MatTableDataSource<LetterTemplateModel>(this.LetterTemplateModels);
@@ -82,7 +87,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   getItemLookup() {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(707)
+      .getLookupByParentId(707, this.currentLang)
       .subscribe(result => {
           this.Lookups = result;
         },
@@ -127,8 +132,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     this.editMode = true;
     this.letterTemplateItemtEditIndex = index;
     this.LetterTemplateModel = this.LetterTemplateModels[index];
-    // this.LetterContent = this.LetterTemplateModel.LetterContent.replace(/{{FullName}}/g, 'http://mydomain.com');
-    // this.LetterTemplateModel.LetterContent = this.LetterContent;
+    console.log(this.LetterTemplateModel)
     this.letterTemplateForm.patchValue(
       this.LetterTemplateModel
     );
@@ -184,7 +188,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   private getEditedLetterTemplate(): LetterTemplateModel {
     const formModel = this.letterTemplateForm.value;
     return {
-      LetterTemplateId: this.isNewIncentiveRequestItem ? 0 : this.LetterTemplateModel.LetterTemplateId,
+      LetterTemplateId: this.isNewLetterTempalte ? 0 : this.LetterTemplateModel.LetterTemplateId,
       LetterType: formModel.LetterType,
       LetterContent: formModel.LetterContent,
       IsActive: true,

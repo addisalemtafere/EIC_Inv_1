@@ -83,6 +83,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness
                     IsSelfService = true,
                     IsPaid = true,
                     StartDate = DateTime.Now,
+                    //StartTime = DateTime.Now.ToShortTimeString(),
                     CreatedUserId = 1,
                     IsActive = false,
                     CreatedUserName = "",

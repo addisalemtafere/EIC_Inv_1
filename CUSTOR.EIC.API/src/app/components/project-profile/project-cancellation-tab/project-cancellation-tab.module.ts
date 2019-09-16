@@ -10,6 +10,8 @@ import {ProjectCancellationComponent} from './project-cancellation/project-cance
 import {LetterModule} from '../letter/letter.module';
 import {ServicePrerequisiteModule} from '../service-prerequisite/ServicePrerequisiteModule';
 import {AftercareRecommModule} from "../aftercare-recomendation/AftercareRecommModule";
+import {ProjectAssociateService} from "../../../Services/project-associate.service";
+import {ProjectCancellationService} from "../../../Services/project-cancellation.service";
 
 @NgModule({
   imports: [
@@ -26,7 +28,8 @@ import {AftercareRecommModule} from "../aftercare-recomendation/AftercareRecommM
   declarations: [
     ProjectCancellationTabComponent,
     ProjectCancellationComponent
-  ]
+  ],
+  providers: [ProjectCancellationService]
 })
 export class ProjectCancellationTabModule {
 

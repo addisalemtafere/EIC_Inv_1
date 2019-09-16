@@ -7,9 +7,11 @@ import {ProjectAssociateModel} from '../model/ProjectAssociate.model';
 import {catchError} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class ProjectAssociateService extends BaseService<ProjectAssociateModel> {
 
   constructor(

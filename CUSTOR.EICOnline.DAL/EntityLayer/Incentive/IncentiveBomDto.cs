@@ -9,6 +9,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public int ServiceApplicationId { get; set; }
         public int ProjectId { get; set; }
         public string Description { get; set; }
+        public string strPhase { get; set; }
         public int Quantity { get; set; }
         public int? Phase { get; set; }
         public DateTime? UploadDate { get; set; }

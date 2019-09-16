@@ -35,11 +35,13 @@ import {Permission} from "../../../model/security/permission.model";
 import {ProjectStageModel} from "../../../model/lookupData";
 import {ProjectRenewalModel} from '../../../model/ProjectRenewal.model';
 import {ProjectRenewalService} from '../../../Services/project-renewal.service';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-project-profile-form',
   templateUrl: './project-profile-form.component.html',
-  styleUrls: ['./project-profile-form.component.css']
+  styleUrls: ['./project-profile-form.component.css'],
+  providers:[ConfigurationService]
 })
 export class ProjectProfileFormComponent implements OnInit, AfterContentChecked {
   @ViewChild('costF') costForm: NgForm;
@@ -105,6 +107,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
+  private currentLang: string;
 
 
   constructor(private route: ActivatedRoute,
@@ -120,6 +123,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
               private errMsg: ErrorMessage,
               private sectorService: SectorService,
               private subSectorService: SubsectorService,
+              private configService: ConfigurationService,
               private siteService: SiteService,
               public formService: FormService,
               public snackbar: MatSnackBar,
@@ -159,6 +163,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
@@ -186,6 +191,11 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
           this.projectIdEditing = project.ProjectId;
         }
         this.projectForm.patchValue(project);
+
+        this.projectForm.patchValue({
+          ProjectStage: project.ProjectStage.toString()
+        });
+
         this.getAddressData(project.ProjectId);
       }, error => this.errMsg.getError(error));
   }
@@ -214,7 +224,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllSector() {
-    this.sectorService.getSectors()
+    console.log(this.currentLang)
+    this.sectorService.getSectors(this.currentLang)
       .subscribe(result => {
           this.sectorList = result;
         },
@@ -223,7 +234,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllSubSector() {
-    this.subSectorService.getSubSectors()
+    this.subSectorService.getSubSectors(this.currentLang)
       .subscribe(result => {
           this.subSectorList = result;
           this.filterSubSectorList = result;
@@ -232,7 +243,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllActivityService() {
-    this.activityService.getActivitys()
+    this.activityService.getActivitys(this.currentLang)
       .subscribe(result => {
         this.activity = result;
         this.filterActivityLIst = result;
@@ -240,7 +251,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllInvestmentActivity() {
-    this.invactivityService.getInActivitys()
+    this.invactivityService.getInActivitys(this.currentLang)
       .subscribe(result => {
         this.investmentActivity = result;
         this.filterInvestmentActivityList = result;
@@ -288,8 +299,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     }
     if (regionCode == 4) {
       this.IsOromia = true;
-    }
-    else {
+    } else {
       this.IsOromia = false;
     }
     this.filteredZones = null;
@@ -413,7 +423,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       ServiceId: [this.ServiceId],
       ParentProjectId: ['0'],
       CreatedUserName: this.accountServices.currentUser.UserName,
-      ProjectDescription: ['', [Validators.required, Validators.minLength(2)]],
+      ProjectDescription: ['', [Validators.minLength(2)]],
       StartDate: ['', [Validators.required]],
       OperationDate: ['', Validators.required],
       SectorId: [''],
@@ -423,7 +433,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       InvActivityId: [''],
       EndingDate: ['', Validators.required],
       IsSelfService: [false],
-      EnvironmentalImpact: ['', [Validators.required, Validators.minLength(2)]],
+      EnvironmentalImpact: ['', [Validators.minLength(2)]],
       AssignedUserId: [this.accountService.currentUser.Id],
       CreatedUserId: [this.accountService.currentUser.Id],
       ProjectStage: ['', Validators.required],

@@ -20,8 +20,8 @@ export class LookUpService extends BaseService<Lookup> {
     super(http, appConfig.urls.url('InvestorTitle'), errMsg);
   }
 
-  getLookupByParentId(id): Observable<LookupsModel[]> {
-    return this.httpClient.get<LookupsModel[]>(this.appConfig.urls.url('lookupByParentId', id)).pipe(
+  getLookupByParentId(id, lang): Observable<LookupsModel[]> {
+    return this.httpClient.get<LookupsModel[]>(this.appConfig.urls.url('lookupByParentId', id, lang)).pipe(
       map(result => {
         return result;
       }),

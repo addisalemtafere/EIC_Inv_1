@@ -20,12 +20,13 @@ import {TodoTaskModel} from '../../model/TodoTask.model';
 import {ServiceModel} from '../../model/Service.model';
 import {Permission} from '../../model/security/permission.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
-import {ActivityModel} from "../../model/activity";
 
 @Component({
   selector: 'app-search-browser',
   templateUrl: './search-browser.component.html',
-  styleUrls: ['./search-browser.component.scss']
+  styleUrls: ['./search-browser.component.scss'],
+  providers: []
+
 })
 export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
@@ -64,7 +65,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   private InvestorId: any;
 
   constructor(public fb: FormBuilder,
-              private http: HttpClient,
               private invService: InvestorService,
               private projectService: ProjectProfileService,
               private dataSharing: DataSharingService,
@@ -82,6 +82,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   ngOnInit() {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
+    console.log(this.ServiceId)
     this.initForm();
     this.getInvestors();
     this.title = localStorage.getItem('title');
@@ -155,33 +156,10 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     if (this.ServiceId == 13) {
       this.InvestorId = InvestorId;
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
-    }
-    else {
+    } else {
       // localStorage.setItem('InvestorId', InvestorId);
-      this.router.navigate(['/search-browser/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
+      this.router.navigate(['/project-search/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
 
-      this.invName = investorName;
-      this.loadingIndicator = true;
-      this.projectService.getProjectByInvestorId(InvestorId)
-        .subscribe(result => {
-            this.projectList = result;
-            this.title = 'ProjectDetail';
-            if (this.projectList.length == 0) {
-              this.loadingIndicator = false;
-              this.toastr.info('No active project records were found to list', 'Info', {
-                closeButton: true,
-              });
-            } else {
-              this.loadingIndicator = false;
-              this.investorShow = false;
-              this.dataSource = new MatTableDataSource<ProjectModel>(result);
-              this.dataSource.paginator = this.paginator;
-            }
-          },
-          error => {
-            this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
-          });
-      this.loadingIndicator = false;
     }
   }
 
@@ -366,7 +344,10 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  startApplication(projectList: ProjectModel) {
+  startApplication(projectList
+                     :
+                     ProjectModel
+  ) {
 
     const projectName = projectList.ProjectName;
     const projectId = projectList.ProjectId;
@@ -408,7 +389,16 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  showIncentiveDetials(projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, projectName?: any) {
+  showIncentiveDetials(projectId
+                         :
+                         any, ServiceApplicationId
+                         :
+                         any, ServiceId
+                         :
+                         any, projectStatus
+                         :
+                         any, projectName ?: any
+  ) {
     if (projectStatus !== 9) {
       this.toastr.warning('Project Is Not Active');
     } else {
@@ -417,7 +407,10 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue
+                :
+                string
+  ) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue.replace(/[\W_]/g, '');
@@ -426,7 +419,9 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  ngAfterContentChecked(): void {
+  ngAfterContentChecked()
+    :
+    void {
     this.serviceTitle = localStorage.getItem('title');
     this.title = localStorage.getItem('title');
     this.projectName = localStorage.getItem('projectName');

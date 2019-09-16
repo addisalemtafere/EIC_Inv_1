@@ -4,7 +4,7 @@
 
   </div>
   <div class="block" fxFlex="15">
-    <button (click)="toServiceList()"
+    <button *ngIf="serviceApplicationList.length>0" (click)="toServiceList()"
             style="margin-left: 2px;"
             color="primary"
             mat-raised-button>
@@ -13,7 +13,7 @@
   </div>
 </div>
 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0">
-  <div class="mini-label">All Applications</div>
+  <!--  <div class="mini-label">All Applications</div>-->
 </div>
 
 <mat-sidenav-container>
@@ -23,16 +23,13 @@
   <!-- CENTER -->
   <div class="center" fxFlex>
     <div class="grid-container">
-      <!-- <h1 class="mat-h1">Dashboard</h1> -->
+      <div *ngIf="serviceApplicationList.length>0" class="mini-label">All Applications</div>
       <mat-grid-list cols="2" *ngIf="serviceApplicationList.length>0;else serviceList;" rowHeight="300px">
 
         <mat-grid-tile [colspan]="2" [rowspan]="1">
 
           <mat-card class="dashboard-card padding-0 box" style="overflow: auto;">
-            <!--<mat-card-header style=" background-color: whitesmoke">-->
-            <!--<mat-checkbox (change)="search()" [checked]="isChecked" color="primary">Not completed Only-->
-            <!--</mat-checkbox>-->
-            <!--</mat-card-header>-->
+
             <mat-card-content style="top: 0px !important;" class="dashboard-card-content">
               <div fxFlex="100%">
                 <div class="spinner-container" *ngIf="loading ">
@@ -40,7 +37,7 @@
                 </div>
                 <mat-table #table [dataSource]="dataSource">
                   <ng-container matColumnDef="CaseNumber">
-                    <mat-header-cell  *matHeaderCellDef>Case Number</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef>Case Number</mat-header-cell>
                     <mat-cell *matCellDef="let serviceApplicationList">
                       {{serviceApplicationList?.CaseNumber}}
                     </mat-cell>
@@ -51,13 +48,29 @@
                       {{serviceApplicationList?.ServiceNameEnglish | filterPipe: 50}}
                     </mat-cell>
                   </ng-container>
-                  <!--<ng-container matColumnDef="ProjectName">-->
-                  <!--<mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>-->
-                  <!--<mat-cell *matCellDef="let serviceApplicationList">-->
-
-                  <!--{{serviceApplicationList?.ProjectNameEnglish}}-->
-                  <!--</mat-cell>-->
-                  <!--</ng-container>-->
+<!--                  <ng-container fxFlex="20" matColumnDef="projectName">-->
+<!--                    <mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>-->
+<!--                    <mat-cell *matCellDef="let serviceApplicationList">-->
+<!--                      {{serviceApplicationList?.Project?.ProjectNameEnglish }}-->
+<!--                    </mat-cell>-->
+<!--                  </ng-container>-->
+                  <ng-container fxFlex="8" matColumnDef="sDate">
+                    <mat-header-cell *matHeaderCellDef>Start Date</mat-header-cell>
+                    <mat-cell style="    color: #e17d16;    font-weight: bolder !important;"
+                              *matCellDef="let serviceApplicationList"> {{serviceApplicationList?.StartDate | date: 'mediumDate'}}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container fxFlex="8" matColumnDef="eDate">
+                    <mat-header-cell *matHeaderCellDef>End Date</mat-header-cell>
+                    <mat-cell style="color: green;    font-weight: bolder;" *matCellDef="let serviceApplicationList">
+            <span *ngIf="serviceApplicationList?.EndDate!=null;">
+                {{serviceApplicationList?.EndDate | date: 'mediumDate'}}
+            </span>
+                      <span *ngIf="serviceApplicationList?.EndDate==null;">
+                --
+              </span>
+                    </mat-cell>
+                  </ng-container>
 
 
                   <ng-container matColumnDef="currentStatus">
@@ -245,6 +258,6 @@
 </mat-sidenav-container>
 <ng-template #serviceList>
 
-  <!--<app-customer-service-list></app-customer-service-list>-->
+  <app-customer-service-list></app-customer-service-list>
 
 </ng-template>

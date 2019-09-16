@@ -30,6 +30,7 @@ export class ServiceApplicationModel {
   public ProjectNameEnglish: string;
 
   public IsSelfService?: boolean;
+  public IsApproved?: boolean;
   public EndDate: string;
   public Remark: string;
   public IsActive?: any;

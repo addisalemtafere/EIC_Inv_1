@@ -23,7 +23,7 @@ export class ListLookupsComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns = ['LookupId', 'LookupTypes', 'Amharic', 'English', 'actions'];
+  displayedColumns = ['LookupId', 'Amharic', 'English', 'actions'];
 
   dataSource: MatTableDataSource<LookupsModel>;
   loadingIndicator: boolean;
@@ -70,6 +70,7 @@ export class ListLookupsComponent implements OnInit, AfterViewInit {
   }
 
   filterLookup(lookupCode: number) {
+    console.log(lookupCode)
     if (!lookupCode) {
       return;
     }

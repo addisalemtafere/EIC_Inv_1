@@ -4,13 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
     public class LookupRepository : EFRepository<ApplicationDbContext, Lookups>
     {
-        public LookupRepository(ApplicationDbContext context) : base(context)
+        private readonly IDistributedCache distributedCache;
+        private readonly Settings settings;
+
+        public LookupRepository(ApplicationDbContext context, IDistributedCache _distributedCache,
+            IConfiguration _configuration) : base(context)
         {
+            settings = new Settings(_configuration);
+            context = context;
+            distributedCache = _distributedCache;
         }
 
         public async Task<List<Lookup>> GetAllLookups()
@@ -144,23 +154,58 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         }
 
 
-        public async Task<ICollection<Lookups>> GetRecordByParent(object LookupId)
+        public async Task<IEnumerable<LookupsModel>> GetRecordByParent(string lang, int LookupId)
         {
-            ICollection<Lookups> lookups = null;
-            try
+            IEnumerable<LookupsModel> lookups = null;
+            string cacheKey = "Lookups: " + LookupId;
+            var cachedLookups = await distributedCache.GetStringAsync(cacheKey);
+            if (cachedLookups != null)
             {
-                int id = (int) LookupId;
+                lookups = JsonConvert.DeserializeObject<IEnumerable<LookupsModel>>(cachedLookups);
+            }
+            else
+            {
                 lookups = await Context.Lookup
-                    .Where(look => look.LookUpTypeId == id).ToListAsync();
+                    .Where(l => l.LookUpTypeId == LookupId)
+                    .Select(l => new LookupsModel
+                    {
+                        LookupId = l.LookupId,
+                        English = (lang == "et") ? l.Amharic : l.English
+                    })
+                    .ToListAsync();
+
+                DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+                await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(lookups), cacheOptions);
             }
-            catch (InvalidOperationException)
+
+            return lookups;
+        }
+
+        public async Task<IEnumerable<LookupsModel>> GetRecordByParentId(int LookupId)
+        {
+            IEnumerable<LookupsModel> lookups = null;
+            string cacheKey = "Lookups: " + LookupId;
+            var cachedLookups = await distributedCache.GetStringAsync(cacheKey);
+            if (cachedLookups != null)
             {
-                SetError("Couldn't load Lookup - invalid Lookup id specified.");
-                return null;
+                lookups = JsonConvert.DeserializeObject<IEnumerable<LookupsModel>>(cachedLookups);
             }
-            catch (Exception ex)
+            else
             {
-                SetError(ex);
+                lookups = await Context.Lookup
+                    .Where(l => l.LookUpTypeId == LookupId)
+                    .Select(l => new LookupsModel
+                    {
+                        LookupId = l.LookupId,
+                        English = l.English,
+                        Amharic = l.Amharic
+                    })
+                    .ToListAsync();
+
+                DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+                await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(lookups), cacheOptions);
             }
 
             return lookups;

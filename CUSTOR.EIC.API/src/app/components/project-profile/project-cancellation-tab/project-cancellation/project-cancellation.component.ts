@@ -20,7 +20,8 @@ import {NotificationComponent} from "../../notification/notification.component";
 @Component({
   selector: 'app-project-cancellation',
   templateUrl: './project-cancellation.component.html',
-  styleUrls: ['./project-cancellation.component.scss']
+  styleUrls: ['./project-cancellation.component.scss'],
+  providers: [ConfigurationService]
 })
 export class ProjectCancellationComponent implements OnInit {
   projectCancellationForm: FormGroup;

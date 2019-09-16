@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
@@ -35,7 +36,19 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
   }
 
-
+  public class IncentiveBoMRequestItemDTO
+  {
+    public IncentiveBoMRequestItemDTO()
+    {
+    }
+    [Key]
+    public int IncentiveBoMRequestItemId { get; set; }
+    public string Phase { get; set; }
+    public string Description { get; set; }
+    public DateTime? UploadDate { get; set; }
+    public decimal Quantity { get; set; }
+    public int ProjectId { get; set; }
+  }
 
 
 

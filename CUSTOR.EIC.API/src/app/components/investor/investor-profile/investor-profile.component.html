@@ -22,19 +22,27 @@
     </ng-template>
   </mat-tab>
 
-  <mat-tab *ngIf="isInvestor" [disabled]="nextIndex<3"
-           label="Message">
+  <mat-tab *ngIf="isInvestor" [disabled]="nextIndex<3" label="Message">
     <ng-template matTabContent>
 
 
-      <app-page-header title="Confirm" icon="error"></app-page-header>
-      <div [@fadeInOut] class="page-content mat-elevation-z8 margin-2" fxLayout="column" fxLayoutAlign="center center">
+      <!--      <app-page-header title="Confirm" icon="error"></app-page-header>-->
+      <div [@fadeInOut] style="width: 400px;    height: 228px;" class="page-content mat-elevation-z8 margin-2"
+           fxLayout="column"
+           fxLayoutAlign="center center">
 
         <div fxLayout="row" fxLayoutAlign="space-around center" class="content">
           <div class="info-nag">
             <div class="info-split info-info"><i></i></div>
-            <div class="info-text">Dear customer; Thank you for registering. <br>
-              Your Profile registration is completed now you can apply for new investment permit!!
+            <div class="success-info info-text">
+              Dear customer; Thank you for registering.<br>
+              Your Profile Registration is Complete. You can now apply for different online services!!
+            </div>
+            <div class="success-info info-text">
+              <button color="primary" mat-raised-button (click)="toServiceList()">
+                <mat-icon class="mat-18">link</mat-icon>
+                Go to Service List
+              </button>
             </div>
             <br>
           </div>

@@ -13,11 +13,13 @@ import {determineId} from '@custor/helpers/compare';
 import {SectorModel} from '../../../../../model/sector';
 import {SubsectorService} from '../../subsector/subsector.service';
 import {SectorService} from '../../sector/sector.service';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-activity-list',
   templateUrl: './list-activity.component.html',
-  styleUrls: ['./list-activity.component.css']
+  styleUrls: ['./list-activity.component.css'],
+  providers: [ConfigurationService]
 })
 export class ListActivityComponent implements OnInit, AfterViewInit {
   activityModels: ActivityModel[];
@@ -36,10 +38,12 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   fillterssubsectorModels: SubSectorModel[] = [];
   private sectorId: any;
   private subSectorId: any;
+  private currentLang: string;
 
   constructor(private http: HttpClient,
               private subActivityService: ActivityService,
               private sectorService: SectorService,
+              private configService: ConfigurationService,
               private subSectorService: SubsectorService,
               private errMsg: ErrorMessage,
               private toastr: ToastrService, public dialog: MatDialog,
@@ -58,6 +62,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.getSectors();
     // this.getSubSectors();
     // this.getActivitys();
@@ -65,7 +70,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
 
   getActivitys() {
     this.loadingIndicator = true;
-    this.subActivityService.getActivitys()
+    this.subActivityService.getActivitys(this.currentLang)
       .subscribe(result => {
           this.activityModels = result;
           if (!this.activityModels) {
@@ -167,7 +172,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   }
 
   getSectors() {
-    this.sectorService.getSectors()
+    this.sectorService.getAllSectors()
       .subscribe(result => {
           this.sectorModels = result;
         },
@@ -175,7 +180,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
   }
 
   getSubSectors() {
-    this.subSectorService.getSubSectors()
+    this.subSectorService.getSubSectors(this.currentLang)
       .subscribe(result => {
           this.subsectorModels = result;
         },

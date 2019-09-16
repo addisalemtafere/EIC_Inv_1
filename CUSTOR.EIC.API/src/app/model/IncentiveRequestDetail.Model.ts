@@ -15,7 +15,7 @@ export class IncentiveRequestDetailModel {
   public ChassisNo?: string;
   public Balance: number;
   public CurrencyType: number;
-  public CurrencyRate: number;
+  public CurrencyRate: string;
   public MeasurementUnit: string;
   public IsDeleted?: boolean;
   public IsApproved?: boolean;
@@ -25,4 +25,5 @@ export class IncentiveRequestDetailModel {
   public UpdatedEventDatetime?: Date;
   public UpdatedUserId?: number;
   public UpdatedUserName?: string;
+  public CustomsSite?: string;
 }

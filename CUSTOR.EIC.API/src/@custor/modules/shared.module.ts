@@ -10,7 +10,7 @@ import {UserEditorComponent} from '../../app/admin/users/user-editor.component';
 import {AppDialogComponent} from '../components/app-dialog/app-dialog.component';
 import {GroupByPipe} from '../pipes/group-by.pipe';
 import {CommonModule} from '@angular/common';
-import {CountryPipe} from '../../app/pipe/country-pipe.pipe';
+// import {CountryPipe} from '../../app/pipe/country-pipe.pipe';
 import {RegionPipePipe} from '../../app/pipe/region-pipe.pipe';
 import {ZonePipePipe} from '../../app/pipe/zone-pipe.pipe';
 import {FilterPipePipe} from '../../app/pipe/filter-pipe.pipe';
@@ -22,13 +22,14 @@ import {ServiceStepPipePipe} from '../../app/pipe/service-step-pipe.pipe';
 import {AccessDeniedComponent} from '../../app/components/denied/denied.component';
 import {NotFoundComponent} from '../../app/components/not-found/not-found.component';
 import {ServicePipePipe} from '../../app/pipe/service-pipe.pipe';
-import {LookuptypePipe} from '../../app/pipe/lookuptype.pipe.pipe';
+//import {LookuptypePipe} from '../../app/pipe/lookuptype.pipe.pipe';
 import {LookupPipe} from '../../app/pipe/lookup-pipe.pipe';
-import {CustomsbranchPipe} from '../../app/pipe/customsbranch-pipe';
-import {LetterLookupPipe} from '../../app/pipe/letter-lookup.pipe';
-import {LookupReasonPipe} from '../../app/pipe/lookup-reason-pipe.pipe';
+//import {CustomsbranchPipe} from '../../app/pipe/customsbranch-pipe';
+//import {LetterLookupPipe} from '../../app/pipe/letter-lookup.pipe';
+//import {LookupReasonPipe} from '../../app/pipe/lookup-reason-pipe.pipe';
 import {LookupPhasePipe} from '../../app/pipe/lookup-phase-pipe';
-import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
+//import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
+import {ServicePrerequisiteService} from "../../app/components/setting/services-tabs/serviceprerequistie/servicePrerequisite.service";
 
 @NgModule({
   imports: [
@@ -61,7 +62,7 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     RegionPipePipe,
     WoredaPipePipe,
     ZonePipePipe,
-    CountryPipe,
+    //CountryPipe,
     FilterPipePipe,
     EnabledControlDirective,
     ServicePrerequisiteComponent,
@@ -69,15 +70,15 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     ServicePipePipe,
     // ProjectListComponent,
 
-    NotFoundComponent,
-    AccessDeniedComponent,
+    // NotFoundComponent,
+    // AccessDeniedComponent,
     // CustomerServiceStarterComponent,
     LookupPipe,
-    OriginPipe,
-    LookuptypePipe,
-    CustomsbranchPipe,
-    LookupReasonPipe,
-    LetterLookupPipe,
+    //OriginPipe,
+    //LookuptypePipe,
+    //CustomsbranchPipe,
+    //LookupReasonPipe,
+    //LetterLookupPipe,
     LookupPhasePipe
 
   ],
@@ -90,7 +91,7 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     RegionPipePipe,
     WoredaPipePipe,
     ZonePipePipe,
-    CountryPipe,
+    // CountryPipe,
     FilterPipePipe,
     EnabledControlDirective,
     ServicePrerequisiteComponent,
@@ -98,15 +99,15 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     ServicePipePipe,
     // ProjectListComponent,
 
-    NotFoundComponent,
-    AccessDeniedComponent,
+    // NotFoundComponent,
+    // AccessDeniedComponent,
     // CustomerServiceStarterComponent,
     LookupPipe,
-    OriginPipe,
-    LookuptypePipe,
-    CustomsbranchPipe,
-    LookupReasonPipe,
-    LetterLookupPipe,
+    //OriginPipe,
+    //LookuptypePipe,
+    //CustomsbranchPipe,
+    //LookupReasonPipe,
+    //LetterLookupPipe,
     LookupPhasePipe
 
   ],
@@ -114,7 +115,7 @@ import {OriginPipe} from "../../app/pipe/origin-pipe.pipe";
     AngConfirmDialogComponent,
     AppDialogComponent
   ],
-  // providers: [DatePipe],
+  providers: [ServicePrerequisiteService],
 })
 export class SharedModule {
 }

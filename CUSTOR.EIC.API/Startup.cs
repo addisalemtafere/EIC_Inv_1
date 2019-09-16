@@ -218,11 +218,11 @@ namespace EICOnline.API
         IMapper mapper = mappingConfig.CreateMapper();
         services.AddSingleton(mapper);
 
-//        services.AddMvc();
+//        services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
 
 
         // Add framework services.
-        //services.AddMvc();
+        //services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
         services.AddSwaggerGen(c =>
         {
           c.SwaggerDoc("v1", new Info { Title = IdentityServerConfig.ApiFriendlyName, Version = "v1" });
@@ -293,6 +293,7 @@ namespace EICOnline.API
         services.AddScoped<LetterRepository>();
         services.AddScoped<IncentiveRequestDetailRepository>();
         services.AddScoped<IncentiveRequestRepository>();
+        services.AddScoped<CountryRepository>();
 
         //Address
 
@@ -395,9 +396,21 @@ namespace EICOnline.API
       EmailTemplates.Initialize(env, config);
 
       if (env.IsDevelopment())
-        app.UseDeveloperExceptionPage();
+//        app.UseDeveloperExceptionPage();
+        app.ConfigureExceptionHandler();
+
       else
-        app.UseExceptionHandler("/Home/Error");
+        app.ConfigureExceptionHandler();
+
+      // Enable middleware to serve generated Swagger as a JSON endpoint.
+      app.UseSwagger();
+
+      // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+      // specifying the Swagger JSON endpoint.
+      app.UseSwaggerUI(c =>
+      {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+      });
 
       //Configure Cors
       app.UseCors("CorsPolicy");

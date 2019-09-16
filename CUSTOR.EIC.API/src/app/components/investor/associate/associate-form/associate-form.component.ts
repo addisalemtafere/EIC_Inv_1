@@ -2,7 +2,7 @@ import {AfterContentChecked, AfterViewInit, Component, Input, OnDestroy, OnInit,
 import {AddressModel} from '../../../../model/address/Address.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../../../const/consts';
+import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_REGEX, GENDERS, LEGAL_STATUS} from '../../../../const/consts';
 import {KebeleModel} from '../../../../model/address/Kebele.model';
 import {Permission} from '../../../../model/security/permission.model';
 import {RegionModel} from '../../../../model/address/Region.model';
@@ -75,6 +75,8 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   @Input() errors: string[] = [];
   private workFlowId: any;
   investor: Investor;
+  private assoId: any;
+  public isInvestor: boolean;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -93,9 +95,17 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.associate = <AssociateDTO>{};
     // initialize the form
     this.initForm();
+    if (!this.isInvestor) {
+      this.ClearNameValidators();
+    }
     // console.log(this.accountService.currentUser.Roles);
   }
 
+  ClearNameValidators() {
+    this.firstName.clearValidators();
+    this.fatherName.clearValidators();
+
+  }
 
   checkAuthoriation() {
     // if (!this.canManageInvestors) {
@@ -114,12 +124,13 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.currentLang = this.configService.language;
     const id = this.activatedRoute.snapshot.params['InvestorId'];
     this.investorId = this.activatedRoute.snapshot.params['InvestorId'];
+    this.assoId = this.activatedRoute.snapshot.params['associateId'];
     this.workFlowId = this.activatedRoute.snapshot.params['workFlowId'];
-
+    this.getUserType();
     this.initStaticData(this.currentLang);
     this.fillAddressLookups();
     this.imgBase64 = '';
-    if (id < 1) {
+    if (id < 1 || this.assoId < 1) {
       this.isNewInvestor = true;
       // this.isCompany = false;
       this.associateId = 0;
@@ -127,12 +138,20 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       this.imgPhoto = '';
       return;
     }
-    if (id) {
+    if (id && this.assoId) {
       // to-do
       // get the selected investor either through @Input or shared service
+      this.getInvestor(this.assoId);
+
+    } else {
       this.getInvestor(id);
+
     }
 
+  }
+
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
   }
 
   private getPermissions() {
@@ -166,8 +185,11 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       .getInvestor(id)
       .subscribe(result => {
           this.associate = result;
-          this.fillAddressLookups();
-          this.updateForm();
+          console.log(result);
+          if (result.LegalStatus == 1) {
+            this.fillAddressLookups();
+            this.updateForm();
+          }
         },
         error => this.toastr.error(error));
     this.loadingIndicator = false;
@@ -182,8 +204,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
           if (result == null) {
             this.isNewInvestor = true;
             this.getInvestorById(id);
-          }
-          else {
+          } else {
             this.isNewInvestor = false;
             this.updateForm();
             this.associateId = id;
@@ -211,7 +232,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   getInvestorTitle(id: any) {
-    this.lookUpService.getLookupByParentId(id).subscribe(result => {
+    this.lookUpService.getLookupByParentId(id, this.currentLang).subscribe(result => {
       // console.log(result);
       this.TitleLookup = result;
     });
@@ -232,8 +253,9 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   private getAllNations() {
-    this.addressService.getNationality()
+    this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
+        console.log(result)
         this.nationList = result;
       });
   }
@@ -290,11 +312,13 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
       cFatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      cGrandNameEng: [''],
-      cFirstName: [''],
-      cFatherName: [''],
-      cGrandName: [''],
-      cNationality: ['1'], // Ethiopian
+      cGrandNameEng: ['', Validators.pattern(ALPHABET_WITHSPACE_REGEX)],
+      cFirstName: ['', Validators.compose([Validators.required, Validators.minLength(1),
+        Validators.pattern(ET_ALPHABET_REGEX)])],
+      cFatherName: ['', Validators.compose([Validators.required, Validators.minLength(1),
+        Validators.pattern(ET_ALPHABET_REGEX)])],
+      cGrandName: ['', Validators.pattern(ET_ALPHABET_REGEX)],
+      cNationality: [''], // Ethiopian
       cGender: ['1'],
       Title: [''],
       workFlowId: this.workFlowId,
@@ -571,19 +595,27 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   get region() {
-    return this.associateForm.get('RegionId');
+    return this.associateForm.get('address').get('RegionId');
   }
 
   get zone() {
-    return this.associateForm.get('ZoneId');
+    return this.associateForm.get('address').get('ZoneId');
   }
 
   get woreda() {
-    return this.associateForm.get('WoredaId');
+    return this.associateForm.get('address').get('WoredaId');
+  }
+
+  get woredaEng() {
+    return this.associateForm.get('address').get('WoredaEngId');
   }
 
   get kebele() {
-    return this.associateForm.get('KebeleId');
+    return this.associateForm.get('address').get('KebeleId');
+  }
+
+  get kebeleEng() {
+    return this.associateForm.get('address').get('KebeleEngId');
   }
 
   get houseNumber() {

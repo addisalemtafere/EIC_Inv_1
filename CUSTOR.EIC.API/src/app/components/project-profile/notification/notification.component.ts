@@ -1,4 +1,4 @@
-import {AfterContentChecked, AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
+import {AfterContentChecked, AfterContentInit, AfterViewChecked, Component, Inject, OnInit} from '@angular/core';
 import {AccountService} from '../../../../@custor/services/security/account.service';
 import {ServiceApplicationModel} from '../../../model/ServiceApplication.model';
 import {ServiceApplicationService} from '../../../Services/service-application.service';
@@ -15,7 +15,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss']
 })
-export class NotificationComponent implements OnInit, AfterContentChecked {
+export class NotificationComponent implements OnInit, AfterContentChecked, AfterContentInit {
   userName: string;
   investorName: string;
   UserId: string;
@@ -45,9 +45,10 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
     // this.workFlowId = this.route.snapshot.params['workFlowId'];
     // this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.userName = this.accountService.currentUser.FullName;
-    this.getServiceApplication(this.ServiceApplicationId);
+    // this.getServiceApplication(this.ServiceApplicationId);
     this.initForm();
     this.getAllService();
+
   }
 
   getServiceApplication(id: any) {
@@ -56,6 +57,9 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
         this.investorName = result.Investor.InvestorNameEng;
         // this.ServiceApplicationId = result.ServiceApplicationId;
         this.UserId = result.Investor.UserId;
+        console.log(result.Investor.UserId);
+        console.log(this.UserId);
+
         this.InvestorId = result.InvestorId;
         this.templateMessage = 'Dear ' +
           this.investorName +
@@ -69,17 +73,18 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
           ServiceApplicationId: this.ServiceApplicationId,
           Message: this.templateMessage,
         });
+        console.log(this.notificationForm.value);
       });
   }
 
   initForm() {
     this.notificationForm = this.fb.group({
       Subject: 'EIC Notification',
-      UserId: '',
+      UserId: this.UserId,
       ServiceApplicationId: this.ServiceApplicationId,
       CurrentStatus: '',
       Message: '',
-      ToUserId: '',
+      ToUserId: this.UserId,
       FromUserId: this.accountService.currentUser.FullName
 
     });
@@ -116,6 +121,12 @@ export class NotificationComponent implements OnInit, AfterContentChecked {
 
   ngAfterContentChecked(): void {
     // console.log("notifications")
+    // this.getServiceApplication(this.ServiceApplicationId);
+
+  }
+
+  ngAfterContentInit(): void {
+    this.getServiceApplication(this.ServiceApplicationId);
 
   }
 

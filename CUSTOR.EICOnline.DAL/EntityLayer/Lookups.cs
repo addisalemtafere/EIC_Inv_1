@@ -8,8 +8,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         {
         }
 
-        [Key]
-        public int LookupId { get; set; }
+        [Key] public int LookupId { get; set; }
         public int LookUpTypeId { get; set; }
         public string Amharic { get; set; }
         public string English { get; set; }
@@ -19,7 +18,6 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         //public DateTime? EventDatetime { get; set; }
         //public DateTime? UpdatedEventDatetime { get; set; }
         public LookupType LookupType { get; set; }
-
     }
 
     public partial class LookupsModel
@@ -28,17 +26,19 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         {
         }
 
-        [Key]
-        public int LookupId { get; set; }
+        [Key] public int LookupId { get; set; }
         public int LookUpTypeId { get; set; }
         public string Amharic { get; set; }
         public string English { get; set; }
+
         public string DescriptionEnglish { get; set; }
+
         //public string Username { get; set; }
         //public string UpdatedUsername { get; set; }
         //public DateTime? EventDatetime { get; set; }
         //public DateTime? UpdatedEventDatetime { get; set; }
         public LookupType LookupType { get; set; }
-
     }
+
+    
 }

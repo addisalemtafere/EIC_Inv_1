@@ -5,9 +5,11 @@ import {BaseService} from "../../../../../CUSTOR.EIC.API/src/app/Services/Base.s
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class FollowupService extends BaseService<FollowUpModel> {
   followups: FollowUpModel;
 

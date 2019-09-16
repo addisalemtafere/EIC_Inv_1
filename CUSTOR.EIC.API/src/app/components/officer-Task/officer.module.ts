@@ -8,6 +8,15 @@ import {CertificateComponent} from '../certificate/certificate.component';
 import {ServiceConfirmationModule} from '../project-profile/service-confirmation/ServiceConfirmation.module';
 import {ServiceInfoModule} from '../project-profile/service-info/serviceInfo.module';
 import {LetterModule} from '../project-profile/letter/letter.module';
+import {EditorModule} from "@tinymce/tinymce-angular";
+import {NotificationComponent} from "../project-profile/notification/notification.component";
+import {MessageModule} from "../project-profile/notification/message.module";
+import {CertificateService} from "../../Services/certificate.service";
+import {DateService} from "../../Services/date.service";
+import {OrderService} from "../../Services/Order.service";
+import {ProjectAssociateService} from "../../Services/project-associate.service";
+import {ProjectOutputService} from "../../Services/project-output.service";
+import {ProjectRenewalService} from "../../Services/project-renewal.service";
 
 @NgModule({
   imports: [
@@ -16,19 +25,27 @@ import {LetterModule} from '../project-profile/letter/letter.module';
     OfficerRoutingModule,
     ServiceConfirmationModule,
     ServiceInfoModule,
-    LetterModule
+    EditorModule,
+    LetterModule,
+    MessageModule
   ],
   declarations: [
     OfficerStepperComponent,
     CertificateComponent,
     PaymentComponent
-
   ],
   exports: [
     OfficerStepperComponent,
     CertificateComponent,
-    PaymentComponent
-
+    PaymentComponent],
+  entryComponents: [],
+  providers: [
+    CertificateService,
+    DateService,
+    OrderService,
+    ProjectAssociateService,
+    ProjectOutputService,
+    ProjectRenewalService
   ]
 })
 export class OfficerModule {

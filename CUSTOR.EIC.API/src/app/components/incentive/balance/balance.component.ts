@@ -33,7 +33,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     'No', 'Description', 'HsCode', 'Quantity', 'MesurmentUnit', 'Balance'
   ];
   displayedGroupedColumns = [
-    'No', 'IncentiveCategory', 'UploadDate', 'UploadQuantity','Phase', 'Action'
+    'No', 'IncentiveCategory', 'UploadDate', 'UploadQuantity', 'strPhase', 'Action'
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   errors: Array<string> = [];
@@ -92,12 +92,12 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.initForm();
     this.addForm();
     // this.currentCategoryId = this.route.snapshot.params['type'];
-     this.ServiceId = this.route.snapshot.params['serviceId'];
-     this.ServiceApplicationId = this.route.snapshot.params['serviceApplicationId'];
-     this.ProjectId = this.route.snapshot.params['projectId'];
+    this.ServiceId = this.route.snapshot.params['serviceId'];
+    this.ServiceApplicationId = this.route.snapshot.params['serviceApplicationId'];
+    this.ProjectId = this.route.snapshot.params['projectId'];
     // if (this.currentCategoryId === '10778') {
-      // this.getBillOfMaterial(this.ServiceApplicationId);
-      this.getBillOfMaterial(this.ProjectId);
+    // this.getBillOfMaterial(this.ServiceApplicationId);
+    this.getBillOfMaterial(this.ProjectId);
     // }
     this.initStaticData(this.currentLang);
 
@@ -180,7 +180,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
 
   getBillOfMaterial(ProjectId: any) {
     this.loading = true;
-    this.billOfMaterilService.getBillOfMaterialByProjectId(ProjectId)
+    this.billOfMaterilService.getBillOfMaterialByProjectId(ProjectId, this.currentLang)
       .subscribe(result => {
         this.itemList = result;
         this.bomListDataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
@@ -202,15 +202,17 @@ export class BalanceComponent implements OnInit, AfterViewInit {
 
   getBillOfMaterialByServiceApplicationId(ServiceApplicationId: any) {
     this.loading = true;
-    this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId)
+    this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, this.currentLang)
       .subscribe(result => {
-        this.itemList = result.IncentiveBoMRequestItem;
+        this.itemList = result;
+        console.log(result)
         if (this.itemList.length > 0) {
           this.showDetail = true;
-          this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result.IncentiveBoMRequestItem);
+          this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
           this.loading = false;
           this.dataSource.paginator = this.paginator;
         } else {
+          this.dataSource = null;
           this.showDetail = false;
         }
 

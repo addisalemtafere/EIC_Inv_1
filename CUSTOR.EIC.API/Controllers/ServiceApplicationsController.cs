@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
+using CUSTOR.EICOnline.API.ViewModels.enums;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using EIC.Investment.API.ViewModels.Dto;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EIC.Investment.API.Controllers
 {
@@ -30,15 +33,11 @@ namespace EIC.Investment.API.Controllers
 
     // GET: api/ServiceApplications
     [HttpGet]
-    public IEnumerable<ServiceApplication> GetServiceApplication()
+    public async Task<PagedResult<ServiceApplication>> GetApplication([FromQuery] QueryParameters queryParameters)
     {
-      return _context.ServiceApplication
-        .Include(s => s.ServiceWorkflow)
-        .OrderByDescending(s => s.ServiceApplicationId)
-        .Where(s => s.CurrentStatusId == 44446).ToList();
-
-      //.Include(In => In.Investor);
+      return await _repository.GetAllServiceApplication(queryParameters, (int) ApplicationStatus.Submitted);
     }
+
 
     [HttpGet("{id}")]
     public async Task<ServiceApplication> GetServiceApplication([FromRoute] int id)
@@ -86,13 +85,18 @@ namespace EIC.Investment.API.Controllers
       //return serviceApplication;
     }
 
-    [HttpGet("ServiceApplicationBillOfMaterial/{id}")]
-    public async Task<ServiceApplication> GetServiceApplicationBillOfMaterial([FromRoute] int id)
+    [HttpGet("ServiceApplicationBillOfMaterial/{id}/{lang}")]
+    public async Task<IEnumerable<ServiceAppDto>> GetServiceApplicationBillOfMaterial([FromRoute] int id, string lang)
     {
-      var serviceApplication = await _context.ServiceApplication
-        .Include(pre => pre.IncentiveBoMRequestItem)
-        .SingleOrDefaultAsync(m => m.ServiceApplicationId == id);
-      return serviceApplication;
+      string FieldName = StaticDataHelper.GetFieldName(lang);
+      string query1 =
+        $@"(select IncentiveBoMRequestItemId,(Select {FieldName} from Lookup Where LookUpTypeId='10780' AND Lookup.LookupId=IncentiveBoMRequestItem.RejectionReason) as RejectionReason,Balance
+						   ,IncentiveBoMRequestItem.ServiceApplicationId,IncentiveBoMRequestItem.ProjectId,Description,HsCode,Quantity,MesurmentUnit,IsApproved from ServiceApplication
+						   Inner Join IncentiveBoMRequestItem ON IncentiveBoMRequestItem.ServiceApplicationId=ServiceApplication.ServiceApplicationId)";
+      IQueryable<ServiceAppDto> ServiceAppDto = _context.ServiceAppDto
+        .Where(m => m.ServiceApplicationId == id)
+        .FromSql(query1);
+      return ServiceAppDto;
     }
 
     [HttpGet("ServiceApplicationCancellation/{id}")]
@@ -143,6 +147,7 @@ namespace EIC.Investment.API.Controllers
         _context.ServiceApplication.First(p => p.ServiceApplicationId == id);
       serviceApplication.IsActive = true;
       serviceApplication.EndDate = DateTime.Now;
+      //serviceApplication.EndTime = DateTime.Now.ToLongTimeString();
       serviceApplication.CurrentStatusId = 44446;
       _context.Entry(serviceApplication).State = EntityState.Modified;
 
@@ -188,9 +193,19 @@ namespace EIC.Investment.API.Controllers
       serviceApplication.CurrentStatusId = Convert.ToInt32(lookup.Code);
       _context.Entry(serviceApplication).State = EntityState.Modified;
 
-      var toDoTask = _context.TodoTask.First(p => p.ServiceApplicationId == id);
-      toDoTask.CurrentStatusId = Int32.Parse(lookup.Code);
-      _context.Entry(toDoTask).State = EntityState.Modified;
+      var toDoTask = _context.TodoTask.FirstOrDefault(p => p.ServiceApplicationId == id);
+
+      if (toDoTask != null)
+      {
+        toDoTask.CurrentStatusId = Int32.Parse(lookup.Code);
+        _context.Entry(toDoTask).State = EntityState.Modified;
+      }
+
+      if ((int) ApplicationStatus.approved == Convert.ToInt32(lookup.Code))
+      {
+//        serviceApplication.IsApproved = true;  //Todo
+        _context.Entry(serviceApplication).State = EntityState.Modified;
+      }
 
       if (lookup.Code == "44449")
       {
@@ -305,6 +320,8 @@ namespace EIC.Investment.API.Controllers
           IsSelfService = true,
           IsPaid = true,
           StartDate = DateTime.Now,
+          //StartTime = DateTime.Now.ToLongTimeString(),
+
           CreatedUserId = 1,
           IsActive = false,
           CreatedUserName = serviceApplication.CreatedUserName,
@@ -328,6 +345,8 @@ namespace EIC.Investment.API.Controllers
           IsSelfService = true,
           IsPaid = true,
           StartDate = DateTime.Now,
+          //StartTime = DateTime.Now.ToLongTimeString(),
+
           CreatedUserId = 1,
           IsActive = false,
           CreatedUserName = serviceApplication.CreatedUserName,
@@ -397,6 +416,8 @@ namespace EIC.Investment.API.Controllers
         IsSelfService = true,
         IsPaid = true,
         StartDate = DateTime.Now,
+        //StartTime = DateTime.Now.ToLongTimeString(),
+
         CreatedUserId = 1,
         IsActive = false,
         CreatedUserName = serviceApplication.CreatedUserName,
@@ -440,45 +461,67 @@ namespace EIC.Investment.API.Controllers
 
 
     [HttpPost("Api/Search")]
-    public IActionResult SearchProject([FromBody] SearchDto searchDto)
+    public PagedResult<ServiceApplication> SearchProject([FromQuery] QueryParameters queryParameters,
+      [FromBody] SearchDto searchDto)
     {
-      object serviceApplications = null;
+      var query = _context.ServiceApplication as IQueryable<ServiceApplication>;
 
-      //var serviceApplications = _context.ServiceApplication.
-      //Include(p => p.Project).
-      //Where(
-      //  m => m.ServiceId == searchDto.ServiceId &&
-      //  m.IsActive == searchDto.status
+      if (!string.IsNullOrEmpty(searchDto.Tin))
+      {
+        var investor = _context.Investors.Where(s => s.Tin == searchDto.Tin)
+          .Select(s => new Investor
+          {
+            InvestorId = s.InvestorId
+          }).FirstOrDefault();
+        if (investor != null)
+        {
+          query = query.Where(x => x.InvestorId == investor.InvestorId);
+        }
 
-      //).
-      //AsEnumerable();
+        if (investor == null)
+        {
+          var project = _context.Project.Where(s => s.InvestmentPermitNo == searchDto.Tin)
+            .Select(s => new Project
+            {
+              ProjectId = s.ProjectId
+            }).FirstOrDefault();
+          if (project != null)
+          {
+            query = query.Where(x => x.ProjectId == project.ProjectId);
+          }
+          else
+          {
+            return null;
+          }
+        }
+      }
 
-      if (searchDto.ServiceId.HasValue && searchDto.status.HasValue && searchDto.SpecDate.HasValue)
-        serviceApplications = _context.ServiceApplication
-          .Include(s => s.ServiceWorkflow)
-          .Where(m => m.ServiceId == searchDto.ServiceId &&
-                      m.CurrentStatusId == searchDto.status &&
-                      m.StartDate == searchDto.SpecDate).AsEnumerable();
-      else if (searchDto.ServiceId.HasValue && searchDto.status.HasValue)
-        serviceApplications = _context.ServiceApplication
-          .Include(s => s.ServiceWorkflow)
-          .Where(m => m.ServiceId == searchDto.ServiceId &&
-                      m.CurrentStatusId == searchDto.status).AsEnumerable();
-      else if (searchDto.ServiceId.HasValue)
-        serviceApplications = _context.ServiceApplication
-          .Include(s => s.ServiceWorkflow)
-          .Where(
-            m => m.ServiceId == searchDto.ServiceId).AsEnumerable();
-      else if (searchDto.status.HasValue)
-        serviceApplications = _context.ServiceApplication
-          .Include(s => s.ServiceWorkflow)
-          .Where(m => m.CurrentStatusId == searchDto.status).AsEnumerable();
-      else
-        serviceApplications = _context.ServiceApplication
-          .Include(s => s.ServiceWorkflow);
 
-      return Ok(serviceApplications);
+      if (searchDto.ServiceId.HasValue)
+        query = query.Where(x => x.ServiceId == searchDto.ServiceId);
+
+      if (searchDto.status.HasValue)
+        query = query.Where(x => x.CurrentStatusId == searchDto.status);
+
+      if (searchDto.FromDate.HasValue && searchDto.ToDate.HasValue)
+        query = query.Where(x => x.StartDate < searchDto.ToDate && x.StartDate > searchDto.FromDate);
+
+      if (searchDto.SpecDate.HasValue)
+        query = query.Where(x => x.StartDate == searchDto.SpecDate);
+
+      List<ServiceApplication> result = query.Include(s => s.ServiceWorkflow)
+        .OrderByDescending(s => s.ServiceApplicationId)
+        .Paging(queryParameters.PageCount, queryParameters.PageNumber)
+        .ToList();
+
+
+      return new PagedResult<ServiceApplication>()
+      {
+        Items = result,
+        ItemsCount = query.Count()
+      };
     }
+
 
     // DELETE: api/ServiceApplications/5
     [HttpDelete("{id}")]
@@ -496,8 +539,8 @@ namespace EIC.Investment.API.Controllers
       return Ok(serviceApplication);
     }
 
-
-    [HttpGet("submitedForApproval/{id}")]
+    [
+      HttpGet("submitedForApproval/{id}")]
     public async Task<IActionResult> ApproveApplication([FromRoute] int id)
     {
       var application = _context.ServiceApplication.First(s => s.ServiceApplicationId == id);
@@ -516,8 +559,8 @@ namespace EIC.Investment.API.Controllers
       return Ok(application);
     }
 
-
-    [HttpGet("ApplicationGroupByServiceId")]
+    [
+      HttpGet("ApplicationGroupByServiceId")]
     public IEnumerable<ServiceGroup> Result()
     {
       var serviceGroup = new List<ServiceGroup>();
@@ -539,8 +582,8 @@ namespace EIC.Investment.API.Controllers
       return serviceGroup;
     }
 
-
-    [HttpGet("ProjectGroupByStage")]
+    [
+      HttpGet("ProjectGroupByStage")]
     public IEnumerable<ServiceGroup> AllProjectStatusBySector()
     {
       var serviceGroup = new List<ServiceGroup>();
@@ -561,8 +604,8 @@ namespace EIC.Investment.API.Controllers
       return serviceGroup;
     }
 
-
-    [HttpGet("ProjectGroupByEconomicSector")]
+    [
+      HttpGet("ProjectGroupByEconomicSector")]
     public IEnumerable<series> AllProjectByEconomicSector()
     {
       IEnumerable<series> series = _context.Query<series>().FromSql("sp_get_all_project_group_by_economic_sector")
@@ -571,7 +614,8 @@ namespace EIC.Investment.API.Controllers
       return series;
     }
 
-    [HttpGet("AllProjectByProjectStage")]
+    [
+      HttpGet("AllProjectByProjectStage")]
     public IEnumerable<series> AllProjectByProjectStage()
     {
       IEnumerable<series> series = _context.Query<series>().FromSql("sp_get_all_project_group_by_project_stage")
@@ -579,8 +623,8 @@ namespace EIC.Investment.API.Controllers
       return series;
     }
 
-
-    [HttpGet("ServiceApplicationWithInvestor/{id}")]
+    [
+      HttpGet("ServiceApplicationWithInvestor/{id}")]
     public async Task<ServiceApplication> GetServiceApplicationWithInvestor([FromRoute] int id)
     {
       var serviceApplication = await _context.ServiceApplication
@@ -589,7 +633,8 @@ namespace EIC.Investment.API.Controllers
       return serviceApplication;
     }
 
-    [HttpGet("ServiceApplicationById/{id}")]
+    [
+      HttpGet("ServiceApplicationById/{id}")]
     public async Task<ServiceApplication> GetServiceApplicationById([FromRoute] int id)
     {
       var serviceApplication = await
@@ -603,7 +648,6 @@ namespace EIC.Investment.API.Controllers
       return _context.ServiceApplication.Any(e => e.ServiceApplicationId == id);
     }
 
-
     //optimization
 //      [HttpGet("ByOfficerId2/{officerId}")]
 //      public IEnumerable<ServiceApplication> GetServiceApplicationByOfficerId2([FromRoute] string officerId)
@@ -615,11 +659,12 @@ namespace EIC.Investment.API.Controllers
 //          .OrderByDescending(s => s.ServiceApplicationId);
 //        return project;
 //      }
-    [HttpGet("ByOfficerId2/{officerId}")]
+    [
+      HttpGet("ByOfficerId2/{officerId}")]
     public async Task<PagedResult<ServiceApplication>> GetServiceApplicationByOfficerId2(
-      [FromQuery] QueryParameters queryParameters, [FromRoute] String UserId)
+      [FromQuery] QueryParameters queryParameters, [FromRoute] string officerId)
     {
-      return await _repository.GetAllServiceApplicationByOfficerId(queryParameters, UserId);
+      return await _repository.GetAllServiceApplicationByOfficerId(queryParameters, officerId,(int) ApplicationStatus.Submitted, (int) ApplicationStatus.Completed, (int) ApplicationStatus.approved);
     }
   }
 }

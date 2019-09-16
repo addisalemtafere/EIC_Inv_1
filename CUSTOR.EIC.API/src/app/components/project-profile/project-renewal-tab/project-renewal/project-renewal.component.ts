@@ -113,6 +113,8 @@ export class ProjectRenewalComponent implements OnInit {
           .subscribe(response => {
             this.toastr.success('Data Saved Successfully', 'Success');
             this.dataSharing.currentIndex.next(4);
+            // this.dataSharing.renewalIndex.next(2);
+            // this.toastr.success('Data Saved Successfully', 'Success');
           });
 } else {
   const id = localStorage.getItem('ProjectRenewalId').toString();

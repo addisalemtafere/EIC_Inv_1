@@ -16,8 +16,8 @@ export class ProjectNationalityCompositionService extends BaseService<ProjectNat
     super(http, appConfig.urls.url('NationalityCompositions'), errMsg);
   }
 
-  NationalityCompositionsByProject(projectId: any): Observable<ProjectNationalityCompositionModel[]> {
-    return this.httpClient.get(this.appConfig.urls.url('NationalityCompositionsByProject') + '/' + projectId).pipe(
+  NationalityCompositionsByProject(projectId: any, lang: any): Observable<ProjectNationalityCompositionModel[]> {
+    return this.httpClient.get(this.appConfig.urls.url('NationalityCompositionsByProject') + '/' + projectId + '/' + lang).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
 }

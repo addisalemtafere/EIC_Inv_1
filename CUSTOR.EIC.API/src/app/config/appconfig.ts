@@ -44,7 +44,7 @@ export class AppConfiguration {
     employmentByProject: 'api/ProjectEmployments/ByProject',
     NationalityCompositions: 'api/ProjectNationalityCompositions',
     NationalityCompositionsByProject: 'api/ProjectNationalityCompositions/ByProject',
-    nationality: 'api/Nationalities',
+    nationality: 'api/Nationalities/ByLang',
     pRequirement: 'api/ProjectRequirements',
     pInput: 'api/ProjectInputs',
     InputsByProject: 'api/ProjectInputs/ByProject',
@@ -132,6 +132,7 @@ export class AppConfiguration {
     finalForApproval: 'api/ServiceApplications/finalForApproval',
     ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
     ServiceApplicationsByOfficerId2ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
+    ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
     ChangeInvestorApplicationStatus: 'api/ServiceApplications/ChangeInvestorApplicationStatus',
     ApplicationGroupByServiceId: 'api/ServiceApplications/ApplicationGroupByServiceId',
     ProjectGroupByStage: 'api/ServiceApplications/ProjectGroupByStage',
@@ -206,19 +207,20 @@ export class AppConfiguration {
     letter: 'api/letter',
     letters: 'api/letters',
 
-
     incentiveRequests: 'api/incentiveRequests/ByIds',
     incentiveRequest: 'api/incentiveRequest',
     incentiveRequestsothers: 'api/incentiveRequests/ByOtherServiceAppId',
     incentiveRequestsByProjectId: 'api/incentiveRequests/ByProjectId',
 
     IncentiveRequestDetail: 'api/IncentiveRequestDetail',
+    IncentiveRequestDetailByServiceApp: 'api/IncentiveRequestDetail',
     IncentiveRequestDetails: 'api/IncentiveRequestDetails',
     IncentiveBoMRequestItems: 'api/IncentiveBoMRequestItems',
 
     CapitalRegistrations: 'api/CapitalRegistrations',
     CapitalRegistrationsByProject: 'api/CapitalRegistrations/ByProject',
     incentiveRequestByServiceAppId: 'api/IncentiveRequest/ByServiceAppId',
+    incentiveRequestByServiceAppIds: 'api/IncentiveRequest/ByServiceAppIds',
 
     IncentiveRequestDetailofSparePart: 'api/IncentiveRequestDetail/getSparePart',
     incentiveRequestsDetailByProjectId: 'api/IncentiveRequestDetail/DetailByProjectId',
@@ -266,7 +268,10 @@ export class AppConfiguration {
     followupedit: 'delete/followup',
     GetBussinessMajorCatagory: 'api/Business/GetBussinessMajorcata',
     GetBussinessCatagory: 'api/Business/GetBussinessCatagory',
-
+    Country: 'api/Country',
+    Countrys: 'api/Countrys',
+    National: 'api/Nationalities/GetDTO',
+    Nationalities: 'api/Nationalitys',
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];

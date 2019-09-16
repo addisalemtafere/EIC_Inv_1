@@ -50,8 +50,8 @@ export class InvactivityService {
       catchError(this.errMsg.parseObservableResponseError),);
   }
 
-  getInActivitys(): Observable<InvActivityModel[]> {
-    return this.httpClient.get<InvActivityModel[]>(this.config.urls.url('invactivitys')).pipe(
+  getInActivitys(lang: any): Observable<InvActivityModel[]> {
+    return this.httpClient.get<InvActivityModel[]>(this.config.urls.url('invactivitys') + lang).pipe(
       map(invactivityList => this.invActivityModelList = invactivityList),
       catchError(this.errMsg.parseObservableResponseError),);
   }
@@ -83,8 +83,8 @@ export class InvactivityService {
       catchError(this.errMsg.parseObservableResponseError),);
   }
 
-  getSubSectors(): Observable<SubSectorModel[]> {
-    return this.httpClient.get<SubSectorModel[]>(this.config.urls.url('subsectors')).pipe(
+  getSubSectors(lang: any): Observable<SubSectorModel[]> {
+    return this.httpClient.get<SubSectorModel[]>(this.config.urls.url('subsectors') + lang).pipe(
       map(subsector => {
         this.subSectorModelList = subsector;
         return this.subSectorModelList;
@@ -92,8 +92,8 @@ export class InvactivityService {
       catchError(this.errMsg.parseObservableResponseError),);
   }
 
-  getActivitys(): Observable<ActivityModel[]> {
-    return this.httpClient.get<ActivityModel[]>(this.config.urls.url('activitys')).pipe(
+  getActivitys(lang: any): Observable<ActivityModel[]> {
+    return this.httpClient.get<ActivityModel[]>(this.config.urls.url('activitys') + lang).pipe(
       map(act => {
         this.activityList = act;
         return this.activityList;

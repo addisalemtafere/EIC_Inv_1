@@ -22,10 +22,7 @@
             <input placeholder="Start Date * :"
                    formControlName="StartDate"
                    matInput
-                   [min]="initMinDate"
-                   [max]="maxDate"
-                   [matDatepicker]="startDate"
-                   (dateChange)="setMinDate($event.value)">
+                   [matDatepicker]="startDate">
             <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
             <mat-datepicker #startDate></mat-datepicker>
             <mat-error align="start" *ngIf="formErrors.StartDate">{{ formErrors.StartDate }}</mat-error>
@@ -35,7 +32,7 @@
           <mat-form-field>
             <input placeholder="Ending Date * :"
                    matInput
-                   [min]="maxDate"
+
                    formControlName="EndingDate"
                    [matDatepicker]="terminationDate">
             <mat-datepicker-toggle matSuffix [for]="terminationDate"></mat-datepicker-toggle>
@@ -47,11 +44,11 @@
           <!--<mat-label>Start Date :</mat-label>-->
           <mat-form-field>
             <input formControlName="OperationDate"
-                   [min]="minDate"
+
                    matInput
                    placeholder="Operation Date * :"
                    [matDatepicker]="operationDate"
-                   (dateChange)="setMaxDate($event.value)">
+            >
             <mat-datepicker-toggle matSuffix [for]="operationDate"></mat-datepicker-toggle>
             <mat-datepicker #operationDate></mat-datepicker>
             <mat-error align="start" *ngIf="formErrors.OperationDate">{{ formErrors.OperationDate }}</mat-error>
@@ -60,7 +57,7 @@
         <div class="blocks" fxFlex>
           <mat-form-field>
             <mat-label>Project Stage:</mat-label>
-            <mat-select formControlName="ProjectStage" required >
+            <mat-select formControlName="ProjectStage" required>
               <option value="0">--Select--</option>
               <mat-option *ngFor="let status of projectStage" [value]="status.Id">
                 <span>{{status.DescriptionEnglish}}</span>
@@ -142,6 +139,10 @@
               <mat-error align="start" *ngIf="formErrors.WoredaEng">{{ formErrors.WoredaEng }}</mat-error>
             </mat-form-field>
           </div>
+
+
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start start" class="content" fxLayout.lt-sm="column" fxLayoutGap="1em">
           <div class="block" fxFlex="">
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.KebeleAmharic' | translate}}</mat-label>
@@ -156,22 +157,6 @@
               <mat-error align="start" *ngIf="formErrors.KebeleEng">{{ formErrors.KebeleEng }}</mat-error>
             </mat-form-field>
           </div>
-          <!--<div class="block" fxFlex="">-->
-            <!--<mat-form-field>-->
-              <!--<mat-label>Kebele :</mat-label>-->
-              <!--<mat-select formControlName="KebeleId">-->
-                <!--<mat-option value="0">&#45;&#45;</mat-option>-->
-                <!--<mat-option *ngFor="let k of filteredKebeles" [value]="k.KebeleId">-->
-                  <!--{{k.Description}}-->
-                <!--</mat-option>-->
-              <!--</mat-select>-->
-              <!--<mat-error align="start" *ngIf="formErrors.Kebele">{{ formErrors.Kebele }}</mat-error>-->
-            <!--</mat-form-field>-->
-          <!--</div>-->
-
-        </div>
-        <div fxLayout="row" fxLayoutAlign="start start" class="content" fxLayout.lt-sm="column" fxLayoutGap="1em">
-
           <div class="block" fxFlex="25">
             <mat-form-field>
               <mat-label>Specific Area Name :</mat-label>
@@ -266,7 +251,7 @@
           <mat-select formControlName="InvActivityId">
             <!--<mat-option value="0">&#45;&#45;</mat-option>-->
             <mat-option *ngFor="let inActivity of filterInvestmentActivityList" [value]="inActivity.InvActivityId">
-              {{inActivity.DescriptionEnglish}}
+              {{inActivity.Description}}
             </mat-option>
           </mat-select>
           <mat-error></mat-error>

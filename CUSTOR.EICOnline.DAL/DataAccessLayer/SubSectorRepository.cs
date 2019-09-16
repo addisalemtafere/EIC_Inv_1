@@ -5,28 +5,57 @@ using System.Threading.Tasks;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EntityFrameworkCommon;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CUSTOR.EICOnline.DAL
 {
     public class SubSectorRepository : EFRepository<ApplicationDbContext, SubSector>
     {
-        public SubSectorRepository(ApplicationDbContext context) : base(context)
+        private readonly IDistributedCache distributedCache;
+        private readonly Settings settings;
+
+        public SubSectorRepository(ApplicationDbContext context, IDistributedCache _distributedCache,
+            IConfiguration _configuration) : base(context)
         {
+            settings = new Settings(_configuration);
+            distributedCache = _distributedCache;
         }
 
-        public async Task<List<SubSector>> GetSubSectors(int page = 0, int pageSize = 15)
+        public async Task<List<SubSector>> GetSubSectors(string lang, int page = 0, int pageSize = 15)
         {
-            IQueryable<SubSector> subsectors = Context.SubSector
-                //.Include(s => s.Sector)
-                .OrderBy(sub => sub.SubSectorId);
-            if (page > 0)
+
+            IEnumerable<SubSector> SubSector = null;
+            string cacheKey = "SubSectorKey";
+            var cachedSectors = await distributedCache.GetStringAsync(cacheKey);
+            if (cachedSectors != null)
             {
-                subsectors = subsectors
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize);
+                SubSector = JsonConvert.DeserializeObject<IEnumerable<SubSector>>(cachedSectors);
+            }
+            else
+            {
+                SubSector = await Context.SubSector
+                    .OrderBy(sub => sub.DescriptionEnglish)
+                    .Select(r => new SubSector()
+                    {
+                        SectorId = r.SectorId,
+                        SubSectorId = r.SubSectorId,
+                        DescriptionEnglish = (lang == "et") ? r.Description : r.DescriptionEnglish
+                    }).ToListAsync();
+                if (page > 0)
+                {
+                    SubSector = SubSector
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize);
+                }
+
+                DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+                await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(SubSector), cacheOptions);
             }
 
-            return await subsectors.ToListAsync();
+            return SubSector.ToList();
         }
 
         public async Task<List<SubSector>> GetSubSectorsByParent(int id, int page = 0, int pageSize = 15)

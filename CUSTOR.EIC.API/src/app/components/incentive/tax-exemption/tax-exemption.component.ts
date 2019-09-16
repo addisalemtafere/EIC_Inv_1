@@ -18,6 +18,8 @@ import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
 import {LookupsService} from '../../setting/lookup-tabs/lookups/lookups.service';
 import {ProjectModel} from '../../../model/project.model';
+import {ConfigurationService} from "@custor/services/configuration.service";
+import {AccountService} from "@custor/services/security/account.service";
 
 @Component({
   selector: 'app-tax-exemption',
@@ -53,6 +55,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   private ServiceApplicationId: number;
   private setSelectedValue: string;
   private ProjectId: any;
+  private currentLang: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -65,6 +68,8 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
               private taxExemptionService: TaxExemptionService,
               private projectProfileService: ProjectProfileService,
               private invactivityService: InvactivityService,
+              private configService: ConfigurationService,
+              private accountService: AccountService,
               private errMsg: ErrorMessage,
               public dialog: MatDialog,
               private toastr: ToastrService,
@@ -76,6 +81,14 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
 
   get ExemptionYearRequested() {
     return this.taxexemptionForm.get('ExemptionYearRequested');
+  }
+
+  get BusinessLicenseNo() {
+    return this.taxexemptionForm.get('BusinessLicenseNo');
+  }
+
+  get FileNo() {
+    return this.taxexemptionForm.get('FileNo');
   }
 
   get RevenueBranch() {
@@ -100,6 +113,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   // }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.ProjectId = this.route.snapshot.params['projectId'];
 
     this.getTaxExemptionList(this.ProjectId);
@@ -165,7 +179,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   getTaxExemptionList(ProjectId) {
-    this.taxExemptionService.getTaxExemptionList(ProjectId).subscribe(result => {
+    this.taxExemptionService.getTaxExemptionList(ProjectId, this.currentLang).subscribe(result => {
       if (result.length > 0) {
         this.TaxExemptionModels = result;
         // console.log(this.TaxExemptionModels);
@@ -178,7 +192,7 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   getItemLookup() {
     this.loadingIndicator = true;
     this.lookupSub = this.lookUpService
-      .getLookupByParentId(22)
+      .getLookupByParentId(22, this.currentLang)
       .subscribe(result => {
           this.Lookups = result;
         },
@@ -192,7 +206,9 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
         value: '',
         disabled: true
       }, Validators.compose([Validators.required, Validators.maxLength(1), Validators.pattern('^[0-9 .]+$')])],
-      RequestDate: [new Date(), Validators.required]
+      RequestDate: [new Date(), Validators.required],
+      FileNo: ['', Validators.required],
+      BusinessLicenseNo: ['', Validators.required]
     });
   }
 
@@ -204,11 +220,19 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
 
   hasValidationErrors() {
     if (this.RevenueBranch.value == 0 || this.RevenueBranch.value == null || this.RevenueBranch.value == undefined) {
-      this.toastr.error('Please Select Revenue Branch');
+      this.toastr.error('Please Select Revenue Branch!');
+      return true;
+    }
+    if (this.FileNo.value == 0 || this.FileNo.value == null || this.FileNo.value == undefined) {
+      this.toastr.error('Please Enter FileNo!');
+      return true;
+    }
+    if (this.BusinessLicenseNo.value == 0 || this.BusinessLicenseNo.value == null || this.BusinessLicenseNo.value == undefined) {
+      this.toastr.error('Please Enter Business License No!');
       return true;
     }
     if (this.RequestDate.value == 0 || this.RequestDate.value == null || this.RequestDate.value == undefined) {
-      this.toastr.error('Please Select Request Date');
+      this.toastr.error('Please Select Request Date!');
       return true;
     }
   }
@@ -216,21 +240,20 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   public onSubmit() {
     if (this.hasValidationErrors()) {
       return;
-    }
-    else {
+    } else {
       if (this.editMode === false) {
         this.projectProfileService.ProjectsDetail(+this.ProjectId).subscribe(result => {
-          if (result.BusinessLicenseNo == null) {
-            this.existanceNotification('The Project Does not Have Business License');
-            return;
-          }
-          else if (this.TaxExemptionModels.length > 0 && this.isNewTaxExemption) {
-            this.existanceNotification('Tax Exemption Incentive Already Given');
-            return;
-          }
-          else {
-            this.doSaveExemption();
-          }
+          // if (result.BusinessLicenseNo == null) {
+          //   this.existanceNotification('The Project Does not Have Business License');
+          //   return;
+          // }
+          // else
+          // if (this.TaxExemptionModels.length > 0 && this.isNewTaxExemption) {
+          //   this.existanceNotification('Tax Exemption Incentive Already Given');
+          //   return;
+          // } else {
+          this.doSaveExemption();
+          // }
 
         }, error => this.errMsg.getError(error));
 
@@ -341,7 +364,10 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
       RevenueBranch: formModel.RevenueBranch,
       RevenueBranchDescription: this.setSelectedValue,
       RequestDate: formModel.RequestDate,
-      ExemptionYearRequested: this.ExemptionYear,
+      BusinessLicenseNo: formModel.BusinessLicenseNo,
+      CreatedUserName: this.accountService.currentUser.Id,
+      FileNo: formModel.FileNo,
+      ExemptionYearRequested: this.taxexemptionForm.get('ExemptionYearRequested').value,
       ProjectId: +this.ProjectId
     };
   }

@@ -15,11 +15,13 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {InvestorService} from '../../investor/investor.service';
 import {Investor} from '../../../model/investor';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-project-share',
   templateUrl: './project-share.component.html',
-  styleUrls: ['./project-share.component.css']
+  styleUrls: ['./project-share.component.css'],
+  providers:[ConfigurationService]
 })
 export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChecked {
   projectShareForm: FormGroup;
@@ -47,6 +49,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
+  private currentLang :string;
 
   constructor(private formBuilder: FormBuilder,
               private snackbar: MatSnackBar,
@@ -58,10 +61,12 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
               private dataSharing: DataSharingService,
               private formService: FormService,
               private addressService: AddressService,
+              private configService: ConfigurationService,
               private nationalityCompositionService: ProjectNationalityCompositionService) {
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
@@ -79,7 +84,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   getNationalityCompositionsByProject() {
-    this.nationalityCompositionService.NationalityCompositionsByProject(this.projectId).subscribe(result => {
+    this.nationalityCompositionService.NationalityCompositionsByProject(this.projectId, this.currentLang).subscribe(result => {
       if (result.length > 0) {
         this.nationalityCompositionData = result;
         this.dataSource = new MatTableDataSource<ProjectNationalityCompositionModel>(this.nationalityCompositionData);
@@ -145,8 +150,9 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   private getAllNation() {
-    this.addressService.getNationality()
+    this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
+        console.log(result)
         this.nationList = result;
       });
   }

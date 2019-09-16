@@ -24,7 +24,8 @@ import {IncentiveRequestDetailService} from '../incentive-request/requested-item
 @Component({
   selector: 'app-bill-of-material',
   templateUrl: './bill-of-material.component.html',
-  styleUrls: ['./bill-of-material.component.scss']
+  styleUrls: ['./bill-of-material.component.scss'],
+  providers:[ConfigurationService]
 })
 export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
@@ -119,7 +120,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     }
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.ProjectId = this.route.snapshot.params['ProjectId'];
-    this.getBillOfMaterial(this.ServiceApplicationId);
+    this.getBillOfMaterial(this.ServiceApplicationId, this.currentLang);
     // this.getBillOfMaterial(this.ProjectId);
     this.initStaticData(this.currentLang);
 
@@ -131,7 +132,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   getItemLookup() {
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(10780)
+      .getLookupByParentId(10780, this.currentLang)
       .subscribe(result => {
           this.Lookups = result;
         },
@@ -160,10 +161,14 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     if (this.billOfMaterialForm.valid) {
       if (!this.editMode) {
         this.billOfMaterialForm.removeControl('IncentiveBoMRequestItemId');
+        this.billOfMaterialForm.get('ServiceApplicationId').patchValue(this.ServiceApplicationId);
+        this.billOfMaterialForm.get('ProjectId').patchValue(this.ProjectId);
+        this.billOfMaterialForm.get('IsApproved').patchValue(true);
+        // this.billOfMaterialForm.get('IncentiveCategoryId').patchValue('10778');
         this.billOfMaterilService.create(this.billOfMaterialForm.value)
           .subscribe((result: IncentiveBoMRequestItemModel) => {
             this.notification('saved');
-            this.getBillOfMaterial(this.ServiceApplicationId);
+            this.getBillOfMaterial(this.ServiceApplicationId, this.currentLang);
             this.itemList.push(result);
             // this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
             // this.getBillOfMaterial();
@@ -222,13 +227,13 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       });
   }
 
-  getBillOfMaterial(ServiceApplicationId: any) {
+  getBillOfMaterial(ServiceApplicationId: any, lang: any) {
     this.loading = true;
-    this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId)
+    this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, lang)
       .subscribe(result => {
-        this.itemList = result.IncentiveBoMRequestItem;
-        // console.log(result);
-        this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result.IncentiveBoMRequestItem);
+        console.log(result)
+        this.itemList = result;
+        this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result);
         this.loading = false;
         this.dataSource.paginator = this.paginator;
       }, error => this.errMsg.getError(error));
@@ -240,9 +245,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       this.toastr.error('Please Select Batch of Construction Materials Incentive');
       return true;
     }
-    // else if (this.CheckExistance()) {
-    //   return true;
-    // }
+
     else {
       // this.loading = true;
       this.errors = []; // Clear error
@@ -283,7 +286,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
           return true;
         }
       });
-      return false;
+    return false;
   }
 
   prepareSaveUser(): FormData {
@@ -356,7 +359,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   getLookup() {
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(10781)
+      .getLookupByParentId(10781, this.currentLang)
       .subscribe(result => {
           this.PhaseLookups = result;
         },

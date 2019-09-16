@@ -3,6 +3,7 @@ using System.Linq;
 using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace CUSTOR.EICOnline.API.Controllers
     [HttpGet("{id}")]
     public ServiceApplication GetServiceApplication([FromRoute] int id)
     {
-      ServiceApplication serviceApplicationCertificate=null;
+      ServiceApplication serviceApplicationCertificate = null;
 
       try
       {
@@ -37,7 +38,7 @@ namespace CUSTOR.EICOnline.API.Controllers
         var perminumber = lastSe.ToString();
         squence.LastSquence = lastSe;
 
-        if (project.InvestmentPermitNo == "" || project.InvestmentPermitNo == null)
+        if (project.InvestmentPermitNo.IsNullOrEmpty())
         {
           _context.Entry(squence).State = EntityState.Modified;
           _context.SaveChanges();
@@ -45,13 +46,18 @@ namespace CUSTOR.EICOnline.API.Controllers
           project.InvestmentPermitNo = perminumber;
           _context.Entry(project).State = EntityState.Modified;
           _context.SaveChanges();
+
+
+//          serviceApplication.CurrentStatusId = 44449;
+//          _context.Entry(serviceApplication).State = EntityState.Modified;
+//          _context.SaveChanges();
         }
 
-        serviceApplicationCertificate=  _context.ServiceApplication
-            .Include(s => s.Investor)
-            .Include(s => s.Project)
-            .Include(s => s.Service)
-            .SingleOrDefault(m => m.ServiceApplicationId == id);
+        serviceApplicationCertificate = _context.ServiceApplication
+          .Include(s => s.Investor)
+          .Include(s => s.Project)
+          .Include(s => s.Service)
+          .SingleOrDefault(m => m.ServiceApplicationId == id);
 
 
         return serviceApplicationCertificate;
@@ -68,11 +74,8 @@ namespace CUSTOR.EICOnline.API.Controllers
     public Kebele GetInvestorAdress([FromRoute] int id)
     {
       var address = _context.Address.FirstOrDefault(a => a.ParentId == id);
-      return _context.Kebeles.Include(w => w.Woreda)
-        //.ThenInclude(z => z.Zone)
-        //.ThenInclude(r => r.Region)
-        .Where(x => x.KebeleId == address.KebeleId).FirstOrDefault();
-      //.Include(In => In.Investor);
+      return _context.Kebeles
+        .Include(w => w.Woreda).FirstOrDefault(x => x.KebeleId == address.KebeleId);
     }
   }
 }

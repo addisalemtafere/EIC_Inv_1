@@ -48,7 +48,7 @@
           <mat-label>{{'investors.editor.BranchCountry' | translate}}</mat-label>
           <mat-select formControlName="cBranchCountry" [compareWith]="compareIds">
             <!-- <mat-option value="0">--</mat-option> -->
-            <mat-option *ngFor="let country of countryListWithOutEthipia" [value]="country.LookupId">
+            <mat-option *ngFor="let country of countryListWithOutEthipia" [value]="country.Id">
               <span>{{country.English}}</span>
             </mat-option>
           </mat-select>
@@ -70,7 +70,7 @@
               {{'common.validation.Required' | translate}}
             </mat-error>
             <mat-error *ngIf="firstNameEng.hasError('minlength')">
-              {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+              {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
             </mat-error>
             <mat-error *ngIf="!firstNameEng.hasError('required') && !firstNameEng.hasError('minlength')
                             && firstNameEng.hasError('pattern')">
@@ -80,11 +80,11 @@
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.FatherNameEng' | translate}}</mat-label>
             <input matInput formControlName="cFatherNameEng" required/>
-            <!--<mat-error *ngIf="fatherNameEng.hasError('required')">-->
-            <!--{{'common.validation.Required' | translate}}-->
-            <!--</mat-error>-->
+            <mat-error *ngIf="fatherNameEng.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
             <mat-error *ngIf="!fatherNameEng.hasError('required') && fatherNameEng.hasError('minlength')">
-              {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+              {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
             </mat-error>
             <mat-error *ngIf="!fatherNameEng.hasError('required') && !fatherNameEng.hasError('minlength')
                                 && firstNameEng.hasError('pattern')">
@@ -93,7 +93,7 @@
           </mat-form-field>
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.GrandNameEng' | translate}}</mat-label>
-            <input matInput formControlName="cGrandNameEng" required/>
+            <input matInput formControlName="cGrandNameEng"/>
             <!--<mat-error *ngIf="grandNameEng.hasError('required')">-->
             <!--{{'common.validation.Required' | translate}}-->
             <!--</mat-error>-->
@@ -106,32 +106,42 @@
           </mat-form-field>
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.FirstName' | translate}}</mat-label>
-            <input matInput formControlName="cFirstName"/>
-            <!--<mat-error *ngIf="firstName.hasError('required')">-->
-            <!--{{'common.validation.Required' | translate}}-->
-            <!--</mat-error>-->
-            <mat-error *ngIf="!firstName.hasError('required') && firstName.hasError('minlength')">
-              {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+            <input matInput formControlName="cFirstName" />
+            <span *ngIf="!isInvestor">
+            <mat-error *ngIf="firstName.hasError('required')">
+              {{'common.validation.Required' | translate}}
             </mat-error>
+            </span>
+            <span *ngIf="!isInvestor">
+            <mat-error *ngIf="!firstName.hasError('required') && firstName.hasError('minlength')">
+              {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
+            </mat-error>
+            </span>
+            <span *ngIf="!isInvestor">
             <mat-error *ngIf="!firstName.hasError('required') && !firstName.hasError('minlength')
                             && firstName.hasError('pattern')">
               {{'common.validation.UseEthiopicOnly' | translate}}
             </mat-error>
+            </span>
           </mat-form-field>
 
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.FatherName' | translate}}</mat-label>
-            <input matInput formControlName="cFatherName"/>
-            <!--<mat-error *ngIf="fatherName.hasError('required')">-->
-            <!--{{'common.validation.Required' | translate}}-->
-            <!--</mat-error>-->
-            <mat-error *ngIf="!fatherName.hasError('required') && fatherName.hasError('minlength')">
-              {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+            <input matInput formControlName="cFatherName" />
+            <span *ngIf="!isInvestor">
+            <mat-error *ngIf="fatherName.hasError('required')">
+              {{'common.validation.Required' | translate}}
             </mat-error>
+            </span>
+            <mat-error *ngIf="!fatherName.hasError('required') && fatherName.hasError('minlength')">
+              {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
+            </mat-error>
+            <span *ngIf="!isInvestor">
             <mat-error *ngIf="!fatherName.hasError('required') && !fatherName.hasError('minlength')
                                 && fatherName.hasError('pattern')">
               {{'common.validation.UseEthiopicOnly' | translate}}
             </mat-error>
+            </span>
           </mat-form-field>
 
           <mat-form-field fxFlex>
@@ -143,20 +153,26 @@
             <!--<mat-error *ngIf="grandName.hasError('minlength')">-->
             <!--{{'common.validation.MinLengthChar' | translate: {'min':'2'} }}-->
             <!--</mat-error>-->
+            <span *ngIf="!isInvestor">
             <mat-error *ngIf="grandName.hasError('pattern')">
               {{'common.validation.UseEthiopicOnly' | translate}}
             </mat-error>
+            </span>
           </mat-form-field>
         </div>
 
         <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
           <mat-form-field fxLayoutGap="4em" class="col4">
             <mat-label>{{'investors.editor.Title' | translate}}</mat-label>
-            <mat-select formControlName="Title">
+            <mat-select formControlName="Title" required>
+              <!--              <mat-option value="0">Select Title</mat-option>-->
               <mat-option *ngFor="let title of TitleLookup" [value]="title.LookupId">
                 {{title.English}}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="Title.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field fxLayoutGap="4em" class="col4">
@@ -173,7 +189,7 @@
           <mat-form-field fxLayoutGap="4em">
             <mat-label>{{'investors.editor.Nationality' | translate}}</mat-label>
             <mat-select #contry (selectionChange)="checkCountry($event.value)"
-                        formControlName="cNationality" [compareWith]="compareIds">
+                        formControlName="cNationality" [compareWith]="compareIds" required>
               <mat-option *ngFor="let country of nationList" [value]="country.id">
                 <span>{{country.descriptionEnglish}}</span>
               </mat-option>
@@ -202,7 +218,7 @@
             Name should be at least 2 characters long
           </mat-error>
           <mat-error *ngIf="!companyNameEng.hasError('required') && !companyNameEng.hasError('minlength')">
-            {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+            {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
           </mat-error>
           <mat-error *ngIf="!companyNameEng.hasError('required') && !companyNameEng.hasError('minlength')
                             && companyNameEng.hasError('pattern')">
@@ -211,12 +227,12 @@
         </mat-form-field>
         <mat-form-field [fxFlex]="32">
           <mat-label>{{'investors.editor.CompanyName' | translate}}</mat-label>
-          <input matInput formControlName="cCompanyName"/>
+          <input matInput formControlName="cCompanyName" required/>
           <mat-error *ngIf="companyName.hasError('required')">
             {{'common.validation.Required' | translate}}
           </mat-error>
           <mat-error *ngIf="!companyName.hasError('required') && companyName.hasError('minlength')">
-            {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
+            {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
           </mat-error>
           <mat-error *ngIf="!companyName.hasError('required') && !companyName.hasError('minlength')
                          && companyName.hasError('pattern')">
@@ -239,15 +255,14 @@
                   <span>{{region.Description}}</span>
                 </mat-option>
               </mat-select>
-
-              <!--<mat-error *ngIf="region.hasError('required')">-->
-              <!--{{'common.validation.Required' | translate}}-->
-              <!--</mat-error>-->
+              <mat-error *ngIf="regionn.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.Zone' | translate}}</mat-label>
-              <mat-select formControlName="ZoneId" [compareWith]="compareIds"        >
-                          <!--(selectionChange)="filterZone($event.value)"    -->
+              <mat-select formControlName="ZoneId" [compareWith]="compareIds" required>
+                <!--(selectionChange)="filterZone($event.value)"    -->
 
                 <!-- <option value="0">--Select--</option> -->
                 <!-- <mat-option value="0">--</mat-option> -->
@@ -256,56 +271,68 @@
                 </mat-option>
               </mat-select>
 
-              <!--<mat-error *ngIf="zone.hasError('required')">-->
-              <!--{{'common.validation.Required' | translate}}-->
-              <!--</mat-error>-->
+              <mat-error *ngIf="zone.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
             <!--<mat-form-field fxLayoutGap="4em">-->
-              <!--<mat-label>{{'investors.editor.Woreda' | translate}}</mat-label>-->
-              <!--<mat-select formControlName="WoredaId" (selectionChange)="filterWoreda($event.value)"-->
-                          <!--[compareWith]="compareIds">-->
-                <!--&lt;!&ndash; <option value="0">&#45;&#45;Select&#45;&#45;</option> &ndash;&gt;-->
-                <!--<mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">-->
-                  <!--<span>{{w.Description}}</span>-->
-                <!--</mat-option>-->
-              <!--</mat-select>-->
+            <!--<mat-label>{{'investors.editor.Woreda' | translate}}</mat-label>-->
+            <!--<mat-select formControlName="WoredaId" (selectionChange)="filterWoreda($event.value)"-->
+            <!--[compareWith]="compareIds">-->
+            <!--&lt;!&ndash; <option value="0">&#45;&#45;Select&#45;&#45;</option> &ndash;&gt;-->
+            <!--<mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">-->
+            <!--<span>{{w.Description}}</span>-->
+            <!--</mat-option>-->
+            <!--</mat-select>-->
 
-              <!--&lt;!&ndash;<mat-error *ngIf="woreda.hasError('required')">&ndash;&gt;-->
-              <!--&lt;!&ndash;{{'common.validation.Required' | translate}}&ndash;&gt;-->
-              <!--&lt;!&ndash;</mat-error>&ndash;&gt;-->
+            <!--&lt;!&ndash;<mat-error *ngIf="woreda.hasError('required')">&ndash;&gt;-->
+            <!--&lt;!&ndash;{{'common.validation.Required' | translate}}&ndash;&gt;-->
+            <!--&lt;!&ndash;</mat-error>&ndash;&gt;-->
             <!--</mat-form-field>-->
             <!---->
             <!--<mat-form-field fxLayoutGap="4em">-->
-              <!--<mat-label>{{'investors.editor.Kebele' | translate}}</mat-label>-->
-              <!--<mat-select formControlName="KebeleId" [compareWith]="compareIds">-->
-                <!--&lt;!&ndash; <option value="0">&#45;&#45;Select&#45;&#45;</option> &ndash;&gt;-->
-                <!--<mat-option value="0">&#45;&#45;</mat-option>-->
-                <!--<mat-option *ngFor="let keb of filteredKebeles" [value]="keb.KebeleId">-->
-                  <!--<span>{{keb.Description}}</span>-->
-                <!--</mat-option>-->
-              <!--</mat-select>-->
+            <!--<mat-label>{{'investors.editor.Kebele' | translate}}</mat-label>-->
+            <!--<mat-select formControlName="KebeleId" [compareWith]="compareIds">-->
+            <!--&lt;!&ndash; <option value="0">&#45;&#45;Select&#45;&#45;</option> &ndash;&gt;-->
+            <!--<mat-option value="0">&#45;&#45;</mat-option>-->
+            <!--<mat-option *ngFor="let keb of filteredKebeles" [value]="keb.KebeleId">-->
+            <!--<span>{{keb.Description}}</span>-->
+            <!--</mat-option>-->
+            <!--</mat-select>-->
 
-              <!--&lt;!&ndash;<mat-error *ngIf="kebele.hasError('required')">&ndash;&gt;-->
-              <!--&lt;!&ndash;{{'common.validation.Required' | translate}}&ndash;&gt;-->
-              <!--&lt;!&ndash;</mat-error>&ndash;&gt;-->
+            <!--&lt;!&ndash;<mat-error *ngIf="kebele.hasError('required')">&ndash;&gt;-->
+            <!--&lt;!&ndash;{{'common.validation.Required' | translate}}&ndash;&gt;-->
+            <!--&lt;!&ndash;</mat-error>&ndash;&gt;-->
             <!--</mat-form-field>-->
 
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.WoredaAmharic' | translate}}</mat-label>
-              <input matInput formControlName="WoredaId"/>
+              <input matInput formControlName="WoredaId" required/>
+              <mat-error *ngIf="woreda.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
 
               <mat-label>{{'investors.editor.WoredaEnglish' | translate}}</mat-label>
-              <input matInput formControlName="WoredaEngId"/>
+              <input matInput formControlName="WoredaEngId" required/>
+              <mat-error *ngIf="woredaEng.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.KebeleAmharic' | translate}}</mat-label>
-              <input matInput formControlName="KebeleId"/>
+              <input matInput formControlName="KebeleId" required/>
+              <mat-error *ngIf="kebele.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.KebeleEnglish' | translate}}</mat-label>
-              <input matInput formControlName="KebeleEngId"/>
+              <input matInput formControlName="KebeleEngId" required/>
+              <mat-error *ngIf="kebeleEng.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
 
           </div>
@@ -327,10 +354,16 @@
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.PhoneDirect' | translate}}</mat-label>
               <input matInput formControlName="TeleNo"/>
+              <!--<mat-error *ngIf="phoneDirect.hasError('required')">-->
+              <!--{{'common.validation.Required' | translate}}-->
+              <!--</mat-error>-->
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.PhoneMobile' | translate}}</mat-label>
-              <input matInput formControlName="CellPhoneNo"/>
+              <input matInput formControlName="CellPhoneNo" required/>
+              <mat-error *ngIf="CellPhoneNo.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.Fax' | translate}}</mat-label>
@@ -373,7 +406,7 @@
           <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
           <input matInput formControlName="cTin" number maxlength="10"/>
           <mat-error *ngIf="tin.hasError('maxlength')">
-            {{'common.validation.MaxLengthChar' | translate: {'max':'10'} }}
+            {{'common.validation.MaxLengthChar' | translate: {'max': '10'} }}
           </mat-error>
           <!-- // to-do apply server side validation -->
         </mat-form-field>
