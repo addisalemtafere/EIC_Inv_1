@@ -73,12 +73,13 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
 
         // POST: api/ProjectSubstitutes
         [HttpPost]
-        public async Task<IActionResult> PostProjectSubstitute([FromBody] ProjectSubstitute projectSubstitute)
+        public async Task<ProjectSubstitute> PostProjectSubstitute([FromBody] ProjectSubstitute projectSubstitute)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //  return BadRequest(ModelState);
-            //}
+      //if (!ModelState.IsValid)
+      //{
+      //  return BadRequest(ModelState);
+      //}
+      try { 
             var postProjectSubstitute = projectSubstitute;
             postProjectSubstitute.CreatedUserId = 1;
             postProjectSubstitute.IsActive = false;
@@ -88,8 +89,12 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
             _context.ProjectSubstitute.Add(postProjectSubstitute);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProjectSubstitute", new {id = postProjectSubstitute.ProjectSubstituteId},
-                postProjectSubstitute);
+        return postProjectSubstitute;
+      }
+      catch(Exception ex)
+      {
+        throw new Exception(ex.Message);
+      }
         }
 
         // DELETE: api/ProjectSubstitutes/5

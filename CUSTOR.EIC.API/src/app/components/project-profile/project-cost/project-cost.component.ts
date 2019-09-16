@@ -13,7 +13,7 @@ import {MatSnackBar} from "@angular/material";
 
 import {ProjectCostService} from "../../../Services/project-cost.service";
 import {DataSharingService} from "../../../Services/data-sharing.service";
-import {Subscription} from "rxjs/Subscription";
+//import {Subscription} from "rxjs/Subscription";
 import {FormService} from "@custor/validation/custom/form";
 import {ActivatedRoute} from "@angular/router";
 import {ProjectProfileService} from "../../../Services/project-profile.service";
@@ -35,7 +35,7 @@ export class ProjectCostComponent
   implements OnInit, OnDestroy, AfterContentChecked {
   editMode = false;
   loading = false;
-  subscription: Subscription;
+  //subscription: Subscription;
   costId: number;
   projectId: number;
   projectCostForm: FormGroup;
@@ -99,7 +99,7 @@ export class ProjectCostComponent
     this.workFlowId = this.route.snapshot.params["workFlowId"];
     this.ServiceApplicationId = this.route.snapshot.params[
       "ServiceApplicationId"
-    ];
+      ];
     this.projectId = this.route.snapshot.params["ProjectId"];
 
     if (this.ServiceId == "1234") {
@@ -258,8 +258,8 @@ export class ProjectCostComponent
         OtherSourceFinance: new FormControl(0),
         OtherSourceDescription: new FormControl(0),
 
-        ActualCostInForeign: new FormControl(''),
-        ExchangeRate: new FormControl('', Validators.compose([
+        ActualCostInForeign: new FormControl(0),
+        ExchangeRate: new FormControl(28.5, Validators.compose([
           Validators.min(26),
           Validators.max(35)
         ])),
@@ -273,7 +273,7 @@ export class ProjectCostComponent
         Total: new FormControl(""),
         TotalInBirr: new FormControl("")
       },
-      { validators: sumOfSourceFinanceValidator }
+      {validators: sumOfSourceFinanceValidator}
     );
 
     this.projectCostForm.valueChanges.subscribe(data => {
@@ -286,8 +286,8 @@ export class ProjectCostComponent
     this.projectCostForm
       .get("Total")
       .valueChanges.subscribe((intLegal: number) => {
-        this.sumOfPlan = intLegal;
-      });
+      this.sumOfPlan = intLegal;
+    });
   }
 
   private getProjectCostData(): ProjectCostModel {
@@ -312,7 +312,7 @@ export class ProjectCostComponent
       OtherCapitalCostInBirr: formModel.OtherCapitalCostInBirr,
       InitialWorkingCapitalCost: formModel.InitialWorkingCapitalCost,
       InitialWorkingCapitalCostInBirr:
-        formModel.InitialWorkingCapitalCostInBirr,
+      formModel.InitialWorkingCapitalCostInBirr,
       EquityFinance: formModel.sourceOfFinance.EquityFinance,
       LoanFinance: formModel.sourceOfFinance.LoanFinance,
       OtherSourceFinance: formModel.sourceOfFinance.OtherSourceFinance,
@@ -379,7 +379,8 @@ export class ProjectCostComponent
     });
   }
 
-  formControlValueChanged() {}
+  formControlValueChanged() {
+  }
 
   private sumAllInBirr() {
     const totalInBirr =
@@ -410,6 +411,7 @@ export class ProjectCostComponent
       Total: total
     });
   }
+
   get canViewTasks() {
     return this.accountService.userHasPermission(Permission.viewServiceList);
   }
@@ -427,5 +429,5 @@ export const sumOfSourceFinanceValidator: ValidatorFn = (
 
   const sourceTotal =
     loanFinance.value + equityFinance.value + otherSourceFinance.value;
-  return sourceTotal !== total.value ? { sumIsNotEqual: true } : null;
+  return sourceTotal !== total.value ? {sumIsNotEqual: true} : null;
 };

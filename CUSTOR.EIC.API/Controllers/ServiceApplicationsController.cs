@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -72,6 +72,19 @@ namespace EIC.Investment.API.Controllers
       return serviceApplication;
     }
 
+    [HttpGet("ServiceApplicationWithProjectId/{id}/{invId}/{serviceId}")]
+    public IEnumerable<ServiceApplication> GetServiceApplicationWithProjectId([FromRoute] int id, [FromRoute] int invId, [FromRoute] int serviceId)
+    {
+      IEnumerable<ServiceApplication> project = _context.ServiceApplication
+        .Where(s => s.InvestorId == invId && s.ProjectId == id && s.ServiceId == serviceId && s.CurrentStatusId != 44449)
+        .Include(p => p.ServiceWorkflow)
+        .AsEnumerable()
+        .OrderByDescending(s => s.ServiceApplicationId);
+        return project;
+      //List<ServiceApplication> serviceApplication = await _context.ServiceApplication
+      //  .Where(m => m.ProjectId == id).OrderByDescending(a=>a.ServiceApplicationId).ToListAsync();
+      //return serviceApplication;
+    }
 
     [HttpGet("ServiceApplicationBillOfMaterial/{id}")]
     public async Task<ServiceApplication> GetServiceApplicationBillOfMaterial([FromRoute] int id)
@@ -239,7 +252,7 @@ namespace EIC.Investment.API.Controllers
 
       var serviceApplicationEdited = serviceApplication;
       serviceApplicationEdited.IsActive = true;
-
+      serviceApplicationEdited.CurrentStep = serviceApplication.CurrentStep;
       if (id != serviceApplicationEdited.ServiceApplicationId) return BadRequest();
 
       _context.Entry(serviceApplicationEdited).State = EntityState.Modified;
@@ -286,6 +299,7 @@ namespace EIC.Investment.API.Controllers
           InvestorId = serviceApplication.InvestorId,
           CaseNumber = perminumber,
           ProjectId = serviceApplication.ProjectId,
+          CurrentStep = serviceApplication.CurrentStep,
           ServiceId = serviceApplication.ServiceId,
           CurrentStatusId = 44450,
           IsSelfService = true,
@@ -307,6 +321,7 @@ namespace EIC.Investment.API.Controllers
         editServiceApplication = new ServiceApplication
         {
           InvestorId = serviceApplication.InvestorId,
+          CurrentStep = serviceApplication.CurrentStep,
           CaseNumber = perminumber,
           ServiceId = 1235,
           CurrentStatusId = 44450,
@@ -377,6 +392,7 @@ namespace EIC.Investment.API.Controllers
         InvestorId = serviceApplication.InvestorId,
         CaseNumber = perminumber,
         ServiceId = serviceApplication.ServiceId,
+        CurrentStep = serviceApplication.CurrentStep,
         CurrentStatusId = 44446,
         IsSelfService = true,
         IsPaid = true,

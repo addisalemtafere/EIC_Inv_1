@@ -25,7 +25,7 @@ export class ProjectCostListComponent implements OnInit {
     // this.ProjectId1 = this.route.snapshot.params['projectId'];
     // this.ServiceId = this.route.snapshot.params['ServiceId'];
     // this.InvestorId = this.route.snapshot.params['InvestorId'];
-    console.log(this.ProjectId)
+    console.log(this.ProjectId);
     // console.log(this.ProjectId1)
     this.getAllCostByProjectId();
     this.getPlannedCostByProjectId();

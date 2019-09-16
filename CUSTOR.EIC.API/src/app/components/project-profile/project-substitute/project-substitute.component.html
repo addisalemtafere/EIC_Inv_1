@@ -46,8 +46,8 @@
             {{editMode ? 'Update' : 'Save'}}
           </button> <button *ngIf="!isInvestor"
             [disabled]="!projectsubstituteForm.valid"
-            mat-raised-button=""
-            type="submit"
+            mat-raised-button
+            type="button"
             color="primary" (click)="approve()">
             <mat-icon class="mat-18">done</mat-icon>
             <span class="agree">Approve</span>

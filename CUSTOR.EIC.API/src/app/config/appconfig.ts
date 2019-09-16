@@ -33,7 +33,7 @@ export class AppConfiguration {
     address: 'api/addresses',
 
     // site: 'api/sites/',
-    projectCost: 'api/projectCosts',
+    projectCost: 'api/ProjectCosts',
     ActualCost: 'api/projectCosts/ActualCost',
 
     projectCostByProjectID: 'api/ProjectCosts/ByProject',
@@ -117,6 +117,7 @@ export class AppConfiguration {
     CountNotification: 'api/Notifications/CountNotification',
     investorAdress: 'api/certificate/investorAdress',
     projectRenewals: 'api/projectRenewals',
+    projectRenewalsbyId: 'api/projectRenewals/ByProjectId',
     ProjectCancellations: 'api/ProjectCancellations',
     projectList: 'api/Projects/list',
     ProjectOnlyByInvestorId: 'api/Projects/ProjectOnlyByInvestorId',
@@ -124,10 +125,12 @@ export class AppConfiguration {
     ProjectsGetProjectStatus: 'api/Projects/GetProjectStatus',
 
     ServiceApplicationsByInvestorId: 'api/ServiceApplications/ByInvestorId',
+    ServiceApplicationsByProjectId: 'api/ServiceApplications/ServiceApplicationWithProjectId',
     ServiceApplicationsByOfficerId: 'api/ServiceApplications/ByOfficerId',
 
     ServiceApplicationsByOfficerId2: 'api/ServiceApplications/ByOfficerId2',
     finalForApproval: 'api/ServiceApplications/finalForApproval',
+    ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
     ServiceApplicationsByOfficerId2ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
     ChangeInvestorApplicationStatus: 'api/ServiceApplications/ChangeInvestorApplicationStatus',
     ApplicationGroupByServiceId: 'api/ServiceApplications/ApplicationGroupByServiceId',

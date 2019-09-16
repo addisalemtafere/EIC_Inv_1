@@ -72,7 +72,6 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
       .subscribe(index => {
         this.nextIndex = index;
         this.upeerLimit = index;
-        // console.log(index);
       });
     // this.nextIndex = +localStorage.getItem('currentIndex');
   }

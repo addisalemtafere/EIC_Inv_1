@@ -15,6 +15,7 @@ export class ServiceApplicationModel {
   public ProjectId: any;
   public InvestorId: string;
   public ServiceId: any;
+  public CurrentStep: number;
   public TodoTaskId: string;
   public CaseNumber: string;
   public StartDate: string;
@@ -30,6 +31,7 @@ export class ServiceApplicationModel {
 
   public IsSelfService?: boolean;
   public EndDate: string;
+  public Remark: string;
   public IsActive?: any;
   public IsPaid?: boolean;
   public CreatedUserId?: any;

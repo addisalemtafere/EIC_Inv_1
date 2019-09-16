@@ -118,16 +118,10 @@ export class CertificateComponent implements OnInit {
 
   // no need to come all this data.
   private getServiceApplicationRenewal() {
-    // console.log('date1' + this.renewedToGC);
-
     this.projectRenewalService
         .getRenewalByServiceApplicationId(this.ServiceApplicationId)
         .subscribe(result => {
-          console.log(result.ProjectRenewal[0]);
-
           if ( result.ProjectRenewal[0] != undefined) {
-            console.log('date' + this.renewedToGC);
-
             this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
             // this.getEthiopianDateDate();
           } else if(this.ServiceId==13 || this.ServiceId==1023 ) {
@@ -144,12 +138,13 @@ export class CertificateComponent implements OnInit {
             // console.log(this.renewal);
             // this.renewedToGC = this.dateGc;
             console.log('newIP' + this.renewedToGC);
-
+            if(this.ServiceId !== '18'){
             this.projectRenewalService.create(this.renewal).
             subscribe(results => {
               console.log('renewal' + results[0]);
             });
             console.log('Done!');
+          }
           }
         }, error => this.errMsg.getError(error));
         this.projectRenewalService.getOneById(this.projectId).
@@ -251,7 +246,7 @@ export class CertificateComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.investmentAddressList = result;
-        console.log("WoredEng"+this.investorAddressList.WoredaEngId);
+       // console.log("WoredEng"+this.investorAddressList.WoredaEngId);
       }, error => this.errMsg.getError(error));
   }
 
@@ -297,8 +292,8 @@ export class CertificateComponent implements OnInit {
     this.addressService.getAddress(InvestorId)
       .subscribe((result: AddressModel) => {
         this.investorAddressList = result;
-        console.log(this.investorAddressList.WoredaEngId);
-        console.log(this.investorAddressList.Zone.DescriptionEnglish);
+      //  console.log(this.investorAddressList.WoredaEngId);
+       // console.log(this.investorAddressList.Zone.DescriptionEnglish);
       }, error => this.errMsg.getError(error));
 
   }
@@ -313,6 +308,7 @@ export class CertificateComponent implements OnInit {
 
   private approve() {
     this.lookup.Code = 44449;
+    // console.log(this.lookup.Code);
     this.serviceApplication.changeApplicationStatus(this.lookup, this.investorDetailList.ServiceApplicationId)
       .subscribe(result => {
         this.toast.success('Project approved successfully ', 'Success');

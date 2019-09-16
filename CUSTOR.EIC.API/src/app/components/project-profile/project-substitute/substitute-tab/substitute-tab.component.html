@@ -3,7 +3,7 @@
     <app-page-header title="projectsubstitute" icon=""></app-page-header>
 
   </div>
-  <div id="title1" class="block" fxFlex="50">
+  <!-- <div id="title1" class="block" fxFlex="50">
     <span class="page-title">{{title}}</span>
     <span class="slideBorder">/</span>
     <span class="page-title">{{investorName}}</span>
@@ -11,11 +11,11 @@
     <span class="page-title">{{projectName}}</span>
 
 
-  </div>
+  </div> -->
 </div>
-<mat-tab-group [selectedIndex]="renewalIndex">
+<mat-tab-group>
 
-  <mat-tab label="Service Info">
+  <mat-tab *ngIf="isInvestor"  label="Service Info">
     <ng-template matTabContent>
       <app-service-info></app-service-info>
     </ng-template>

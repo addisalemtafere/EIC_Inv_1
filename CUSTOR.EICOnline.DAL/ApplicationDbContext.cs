@@ -43,6 +43,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public virtual DbSet<DocumentVersion> DocumentVersion { get; set; }
         public virtual DbSet<IncentiveItem> IncentiveItem { get; set; }
         public virtual DbSet<IncentiveRequest> IncentiveRequest { get; set; }
+
+       
+
         public virtual DbSet<IncentiveRequestDocument> IncentiveRequestDocument { get; set; }
         public virtual DbSet<IncentiveRequestItem> IncentiveRequestItem { get; set; }
         public virtual DbSet<IncentiveRequestItemReconciliation> IncentiveRequestItemReconciliation { get; set; }

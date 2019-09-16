@@ -276,6 +276,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
         break;
       case 18:
         if (projectStatus !== 4) {
+          console.log('renewal called...')
           this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         } else {
           this.toastr.error('you can not renew this project it already cancelled', 'Not Allowed');

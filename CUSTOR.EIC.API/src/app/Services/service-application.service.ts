@@ -21,6 +21,7 @@ export class ServiceApplicationService extends BaseService<ServiceApplicationMod
   }
 
   changeApplicationStatus(resource, id) {
+    console.log(this.appConfig.urls.url('ChangeApplicationStatus', id))
     return this.httpClient.post(this.appConfig.urls.url('ChangeApplicationStatus', id), resource).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }

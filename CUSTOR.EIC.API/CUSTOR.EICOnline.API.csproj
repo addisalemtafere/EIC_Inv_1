@@ -42,6 +42,11 @@
     <ProjectReference Include="..\CUSTOR.EICOnline.DAL\CUSTOR.EICOnline.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\upload\" />
+    <Folder Include="wwwroot\photo\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
@@ -51,5 +56,7 @@
     <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high" />
     <Exec Command="npm run build-client" />
   </Target>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="http://json.schemastore.org/azure-iot-edge-deployment-template-2.0" /></VisualStudio></ProjectExtensions>
 
 </Project>

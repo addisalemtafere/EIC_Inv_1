@@ -1,6 +1,7 @@
 import {ServiceApplicationModel} from './ServiceApplication.model';
 import {ProjectModel} from './project.model';
 import {SiteModel} from './Site.model';
+import { ServiceWorkflowModel } from './ServiceWorkflow.model';
 
 export class ProjectRenewalModel {
   public ProjectRenewalId: number;
@@ -30,4 +31,5 @@ export class ProjectRenewalModel {
   public Project: ProjectModel;
   public ServiceApplication: ServiceApplicationModel;
   public Site: SiteModel;
+  public ServiceWorkflow: ServiceWorkflowModel;
 }
