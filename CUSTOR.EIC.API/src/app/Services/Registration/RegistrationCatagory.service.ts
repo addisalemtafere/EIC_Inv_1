@@ -7,7 +7,6 @@ import {BaseService} from '../Base.service';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {RegistrationCatagory} from '../../model/Registration/RegistrationCatagory';
 
-;
 
 @Injectable(
   // {

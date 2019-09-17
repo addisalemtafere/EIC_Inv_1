@@ -129,7 +129,7 @@ export class ProjectProfileDetailComponent implements OnInit {
       this.projectShare = result.ProjectNationalityComposition;
       this.projectInputs = result.ProjectInput;
 
-      this.getProjectStatus(result.ProjectStatus)
+      this.getProjectStatus(result.ProjectStatus);
       this.getProjectStage(result.ProjectStage)
     }, error => this.errMsg.getError(error));
   }

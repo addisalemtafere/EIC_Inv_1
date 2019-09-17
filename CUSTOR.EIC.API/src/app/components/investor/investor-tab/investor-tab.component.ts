@@ -10,6 +10,7 @@ import {Investor} from '../../../model/investor';
 import {InvestorService} from '../investor.service';
 import {ServiceApplicationService} from "../../../Services/service-application.service";
 import {ServiceApplicationModel} from "../../../model/ServiceApplication.model";
+import {ApplicationStatusEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-investor-tab',
@@ -54,7 +55,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    console.log(this.nextIndex)
+    console.log(this.nextIndex);
     this.subscription = this.dataSharing.steeperIndex
       .subscribe(index => {
         this.registrationIndex = index;
@@ -119,7 +120,7 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
 
         this.isNew = result.IsExistingCustomer;
 
-        this.isNewListener = (this.isNew == true) ? 1 : 0
+        this.isNewListener = (this.isNew == true) ? 1 : 0;
 
         const ServiceApplicationId1 = this.route.snapshot.params['ServiceApplicationId'];
         const workFlowId = this.route.snapshot.params['workFlowId'];
@@ -146,32 +147,31 @@ export class InvestorTabComponent implements OnInit, AfterContentChecked {
   private ServiceApplication(id: any) {
     this.serviceAppService.getServiceApplicationById(id)
       .subscribe(status => {
-        console.log(status)
+        console.log(status);
         this.serviceApplication = status;
         this.applicationStatus(this.serviceApplication.ServiceApplicationId)
       })
   }
 
-  public applicationStatus(ServiceApplicationId: string) {
+  public applicationStatus(ServiceApplicationId: any) {
     switch (ServiceApplicationId) {
-      case '44450': //Drafted
+      case ApplicationStatusEnum.Drafted: //Drafted
         this.enable = true;
         break;
-      case '44446': //Submitted
+      case  ApplicationStatusEnum.Submitted: //Submitted
         this.enable = false;
 
         break;
-      case '44447': //Approved
+      case ApplicationStatusEnum.approved: //Approved
         this.enable = false;
 
         break;
-      case '44448': //Pending
+      case ApplicationStatusEnum.Pending: //Pending
         this.enable = true;
 
-        break
-      case '44449': //Completed
+        break;
+      case ApplicationStatusEnum.Completed: //Completed
         this.enable = false;
-
         break;
 
     }

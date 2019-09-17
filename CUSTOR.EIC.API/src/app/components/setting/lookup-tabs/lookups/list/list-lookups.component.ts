@@ -70,14 +70,14 @@ export class ListLookupsComponent implements OnInit, AfterViewInit {
   }
 
   filterLookup(lookupCode: number) {
-    console.log(lookupCode)
+    console.log(lookupCode);
     if (!lookupCode) {
       return;
     }
     this.lookuptypeId = lookupCode;
     this.subLookupsService.getLookupByParent(lookupCode)
       .subscribe(result => {
-        console.log(result)
+        console.log(result);
         this.dataSource.data = result;
       });
   }

@@ -80,7 +80,7 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
   }
 
   onSubmit() {
-console.log('Submitted!')
+console.log('Submitted!');
     this.substituteService.create(this.projectsubstituteForm.value)
       .subscribe(result => {
         console.log(result);

@@ -18,6 +18,7 @@ import { BaseService } from 'app/Services/Base.service';
 import { ProjectRenewalModel } from 'app/model/ProjectRenewal.model';
 import { ProjectStatus } from '@custor/const/consts';
 
+
 @Component({
   selector: 'app-project-list-modal',
   templateUrl: './project-list-modal.component.html',
@@ -100,8 +101,7 @@ createServiceApp(serviceApp: ServiceApplicationModel) {
         console.log(result);
         this.router.navigate(['/project-renewal/' + this.ServiceId + '/' + serviceApp.InvestorId + '/' + result.ServiceApplicationId + '/' + serviceApp.ProjectId + '/' + result.ServiceWorkflow[0].ServiceWorkflowId]);
       });
-
-}
+  }
 getServiceApp() {
   this.serviceapplicationService.getServiceApplicationsByProjectId(this.serviceApplication.ProjectId, this.serviceApplication.InvestorId, this.ServiceId)
   .subscribe( serApp => {
@@ -253,7 +253,7 @@ getServiceApp() {
         break;
       // case '18':
       case ServiceEnum.Renewal:
-      this.router.navigate([`/project-renewal/${serviceId}/${investorId}/${applicationId}/${projectId}/${workflowId}`]);
+        this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
       // case '19':
       case ServiceEnum.CancellationOfIP:

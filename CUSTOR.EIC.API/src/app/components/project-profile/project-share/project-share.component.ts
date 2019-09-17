@@ -71,7 +71,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    this.projectId = this.route.snapshot.params['ProjectId']
+    this.projectId = this.route.snapshot.params['ProjectId'];
 
     this.getAllNation();
     this.getInvestorType();
@@ -152,7 +152,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   private getAllNation() {
     this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
-        console.log(result)
+        console.log(result);
         this.nationList = result;
       });
   }

@@ -33,8 +33,8 @@ export enum RenewalSteps{
   Recommendation = 1,
   Document = 2,
   Payment = 3,
-  Certificate=4,
-  Confirm=5
+  Certificate = 4,
+  Confirm = 5
 }
 
 export enum ReplacementSteps{
@@ -42,6 +42,7 @@ export enum ReplacementSteps{
   Recommendation = 1,
   Document = 2,
   Payment = 3,
-  Certificate=4,
-  Confirm=5
+  Certificate = 4,
+  Confirm = 5
 }
+

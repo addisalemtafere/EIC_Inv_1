@@ -107,7 +107,7 @@ export class InvestorService extends EndpointFactory {
   }
 
   getInvestor(id): Observable<any> {
-    console.log(this.investorUrl)
+    console.log(this.investorUrl);
     const endpointUrl = `${this.investorUrl}/${id}`;
     return this.httpClient.get<Investor>(endpointUrl, this.getRequestHeaders()).pipe(
       map(cust => {

@@ -14,6 +14,7 @@ using CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive;
 using CUSTOR.API.ExceptionFilter;
 using Microsoft.AspNetCore.Cors;
 using System.Data.SqlClient;
+using CUSTOR.EICOnline.API.ViewModels.enums;
 
 namespace CUSTOR.EICOnline.API.Controllers.Incentive
 {
@@ -75,7 +76,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         serviceApplication.IsActive = true;
         serviceApplication.EndDate = DateTime.Now;
         //serviceApplication.EndTime = DateTime.Now.ToLongTimeString();
-        serviceApplication.CurrentStatusId = 44447;
+        serviceApplication.CurrentStatusId = (int) ApplicationStatus.Completed;
         _context.Entry(serviceApplication).State = EntityState.Modified;
 
         ServiceWorkflowHistory serviceWorkflowHistory = new ServiceWorkflowHistory();

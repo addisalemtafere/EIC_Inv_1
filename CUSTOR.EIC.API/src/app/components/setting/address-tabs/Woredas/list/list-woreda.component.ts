@@ -31,8 +31,8 @@ export class ListWoredaComponent implements OnInit, AfterViewInit {
   regionModels: Region[] = [];
   fillterZoneModels: Zone[] = [];
   filltersWoredaModels: Woreda[] = [];
-  region: any
-  zone: any
+  region: any;
+  zone: any;
 
   constructor(private http: HttpClient,
               private woredaService: WoredaService,private subZoneService: ZoneService,

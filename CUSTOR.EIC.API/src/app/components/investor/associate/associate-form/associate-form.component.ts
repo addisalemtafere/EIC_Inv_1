@@ -255,7 +255,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   private getAllNations() {
     this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
-        console.log(result)
+        console.log(result);
         this.nationList = result;
       });
   }

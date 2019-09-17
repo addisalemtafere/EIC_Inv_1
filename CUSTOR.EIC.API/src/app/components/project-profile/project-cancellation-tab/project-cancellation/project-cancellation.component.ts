@@ -16,6 +16,7 @@ import {Lookup} from '../../../../model/lookupData';
 import {ServiceApplicationService} from '../../../../Services/service-application.service';
 import {ProjectCancellationModel} from "../../../../model/project/ProjectCancellation.model";
 import {NotificationComponent} from "../../notification/notification.component";
+import {ApplicationStatusEnum} from "../../../../enum/enums";
 
 @Component({
   selector: 'app-project-cancellation',
@@ -172,7 +173,8 @@ export class ProjectCancellationComponent implements OnInit {
   }
 
   approveApplication(id: any) {
-    this.lookup.Code = 44449;
+    // this.lookup.Code = 44449;
+    this.lookup.Code = ApplicationStatusEnum.Completed;
     this.serviceApplication.changeApplicationStatus(this.lookup, id)
       .subscribe(result => {
         this.toastr.success('Application Completed successfully ', 'Success');

@@ -14,6 +14,7 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {ProjectStatusModel, QuarterModel, UnitType} from '../../../model/lookupData';
 import {ProjectStatus, Quarter, UnitTypes} from '@custor/const/consts';
+import {ServiceEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-project-product',
@@ -81,7 +82,8 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
 
-    if (this.ServiceId === '1234') {
+    // if (this.ServiceId === '1234') {
+    if (+this.ServiceId == ServiceEnum.AfterCare) {
       this.getProjectStatus(this.projectId);
     }
 

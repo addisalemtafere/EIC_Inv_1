@@ -148,7 +148,7 @@ namespace EIC.Investment.API.Controllers
       serviceApplication.IsActive = true;
       serviceApplication.EndDate = DateTime.Now;
       //serviceApplication.EndTime = DateTime.Now.ToLongTimeString();
-      serviceApplication.CurrentStatusId = 44446;
+      serviceApplication.CurrentStatusId = (int) ApplicationStatus.Submitted;
       _context.Entry(serviceApplication).State = EntityState.Modified;
 
       var serviceWorkflowHistory = new ServiceWorkflowHistory();
@@ -158,7 +158,7 @@ namespace EIC.Investment.API.Controllers
       serviceWorkflowHistory.ToStatusId = 3;
       serviceWorkflowHistory.PerformedByRoleId = 3;
       serviceWorkflowHistory.NextStepId = 9;
-      serviceWorkflowHistory.ServiceId = 13;
+      serviceWorkflowHistory.ServiceId = (int) ServiceEnum.NewIP;
       serviceWorkflowHistory.LegalStatusId = 3;
       serviceWorkflowHistory.CreatedUserId = 1;
       serviceWorkflowHistory.IsActive = true;
@@ -207,7 +207,7 @@ namespace EIC.Investment.API.Controllers
         _context.Entry(serviceApplication).State = EntityState.Modified;
       }
 
-      if (lookup.Code == "44449")
+      if (Convert.ToInt32(lookup.Code) == (int) ApplicationStatus.Completed)
       {
         var project = _context.Project.First(p => p.ProjectId == serviceApplication.ProjectId);
         project.IsActive = true;
@@ -235,7 +235,7 @@ namespace EIC.Investment.API.Controllers
       serviceApplication.IsActive = true;
       serviceApplication.CurrentStatusId = Convert.ToInt32(lookup.Code);
       _context.Entry(serviceApplication).State = EntityState.Modified;
-      if (lookup.Code == "44449")
+      if (Convert.ToInt32(lookup.Code) == (int) ApplicationStatus.Completed)
       {
         var investor = _context.Investors.First(p => p.InvestorId == serviceApplication.InvestorId);
         investor.IsActive = true;
@@ -316,7 +316,7 @@ namespace EIC.Investment.API.Controllers
           ProjectId = serviceApplication.ProjectId,
           CurrentStep = serviceApplication.CurrentStep,
           ServiceId = serviceApplication.ServiceId,
-          CurrentStatusId = 44450,
+          CurrentStatusId = (int) ApplicationStatus.Drafted,
           IsSelfService = true,
           IsPaid = true,
           StartDate = DateTime.Now,
@@ -340,8 +340,9 @@ namespace EIC.Investment.API.Controllers
           InvestorId = serviceApplication.InvestorId,
           CurrentStep = serviceApplication.CurrentStep,
           CaseNumber = perminumber,
-          ServiceId = 1235,
-          CurrentStatusId = 44450,
+//          ServiceId = 1235,
+          ServiceId = (int) ServiceEnum.CommercialRegistration,
+          CurrentStatusId = (int) ApplicationStatus.Drafted,
           IsSelfService = true,
           IsPaid = true,
           StartDate = DateTime.Now,
@@ -412,7 +413,8 @@ namespace EIC.Investment.API.Controllers
         CaseNumber = perminumber,
         ServiceId = serviceApplication.ServiceId,
         CurrentStep = serviceApplication.CurrentStep,
-        CurrentStatusId = 44446,
+        //CurrentStatusId = 44446,
+        CurrentStatusId = (int) ApplicationStatus.Submitted,
         IsSelfService = true,
         IsPaid = true,
         StartDate = DateTime.Now,
@@ -664,7 +666,8 @@ namespace EIC.Investment.API.Controllers
     public async Task<PagedResult<ServiceApplication>> GetServiceApplicationByOfficerId2(
       [FromQuery] QueryParameters queryParameters, [FromRoute] string officerId)
     {
-      return await _repository.GetAllServiceApplicationByOfficerId(queryParameters, officerId,(int) ApplicationStatus.Submitted, (int) ApplicationStatus.Completed, (int) ApplicationStatus.approved);
+      return await _repository.GetAllServiceApplicationByOfficerId(queryParameters, officerId,
+        (int) ApplicationStatus.Submitted, (int) ApplicationStatus.Completed, (int) ApplicationStatus.approved);
     }
   }
 }

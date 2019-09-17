@@ -327,6 +327,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
 
   public onSubmit() {
     //console.log(this.ExchangeRate)
+
     // if (!this.incentiveRequestItemForm.valid) {
     //   return;
     // }

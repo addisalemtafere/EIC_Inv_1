@@ -11,6 +11,7 @@ import {NotificationService} from '../../Services/notification.service';
 import {FormBuilder} from '@angular/forms';
 import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {ApplicationStatusEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-drafted-application',
@@ -131,5 +132,29 @@ export class DraftedApplicationComponent implements OnInit {
     this.router.navigate(['/service-detail', id]);
     // this.router.navigate(['../detail'], {relativeTo: this.route});
   }
+
+  getClassType(statusId: number) {
+
+    let className;
+    switch (statusId) {
+      case  ApplicationStatusEnum.approved :
+        className = 'Approved';
+        break;
+      case ApplicationStatusEnum.Completed:
+        className = 'Completed';
+        break;
+      case ApplicationStatusEnum.Drafted:
+        className = 'drafted';
+        break;
+      case ApplicationStatusEnum.Pending:
+        className = 'Pending';
+        break;
+      case ApplicationStatusEnum.Submitted:
+        className = 'Submitted';
+        break;
+    }
+    return className;
+  }
+
 
 }

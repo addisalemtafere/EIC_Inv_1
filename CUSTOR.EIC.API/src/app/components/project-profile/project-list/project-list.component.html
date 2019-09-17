@@ -89,9 +89,9 @@
 
       <div fxFlex="100">
 
-<!--        <div class="spinner-container">-->
-<!--          <mat-progress-bar mode="query"></mat-progress-bar>-->
-<!--        </div>-->
+        <!--        <div class="spinner-container">-->
+        <!--          <mat-progress-bar mode="query"></mat-progress-bar>-->
+        <!--        </div>-->
         <mat-table #table [dataSource]="dataSource">
 
           <ng-container fxFlex="8" matColumnDef="ServiceName">
@@ -135,26 +135,11 @@
           <ng-container fxFlex="8" matColumnDef="currentStatus">
             <mat-header-cell *matHeaderCellDef>Current Status</mat-header-cell>
             <mat-cell *matCellDef="let serviceApplicationList">
-                     <span class=" common-button-status drafted"
-                           *ngIf="serviceApplicationList?.CurrentStatusId===44450">
-             Drafted
-                      </span>
-              <span class=" common-button-status Submitted"
-                    *ngIf="serviceApplicationList?.CurrentStatusId===44446">
-             Submitted
-                      </span>
-              <span class=" common-button-status Approved"
-                    *ngIf="serviceApplicationList?.CurrentStatusId===44447">
-            Approved
-                      </span>
-              <span class="common-button-status Pending"
-                    *ngIf="serviceApplicationList?.CurrentStatusId===44448">
-              Pending
-                      </span>
-              <span class=" common-button-status Completed"
-                    *ngIf="serviceApplicationList?.CurrentStatusId===44449">
-           Completed
-                      </span>
+                     <span [ngClass]="getClassType(serviceApplicationList?.CurrentStatusId)"
+                           class=" common-button-status ">
+                   {{getClassType(serviceApplicationList?.CurrentStatusId)}}
+                     </span>
+
             </mat-cell>
           </ng-container>
 
@@ -164,7 +149,7 @@
 
     <span *ngIf="!serviceApplicationList.IsApproved">
      <a class="pointer custom-button2" style=""
-        *ngIf="serviceApplicationList?.CurrentStatusId===44450 && serviceApplicationList.IsSelfService==false"
+        *ngIf="serviceApplicationList?.CurrentStatusId===applicationS.Drafted && serviceApplicationList.IsSelfService==false"
         (click)="nextStep(serviceApplicationList?.ServiceWorkflow[0]?.NextStepId,
             serviceApplicationList.ProjectId,
             serviceApplicationList.ServiceApplicationId,
@@ -179,7 +164,8 @@
        {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId }}
               </a>
               <a class="pointer custom-button2" style=""
-                 *ngIf="serviceApplicationList?.CurrentStatusId!==44450 && serviceApplicationList?.CurrentStatusId!==44449 && serviceApplicationList.IsSelfService==true"
+                 *ngIf="serviceApplicationList?.CurrentStatusId!==applicationS.Drafted && serviceApplicationList?.CurrentStatusId!==applicationS.Completed
+                  && serviceApplicationList.IsSelfService==true"
                  (click)="nextStep(18,
             serviceApplicationList.ProjectId,
             serviceApplicationList.ServiceApplicationId,
@@ -196,7 +182,7 @@
               <span *ngIf="serviceApplicationList.IsApproved">
 
               <a class="pointer custom-button2" style=""
-                 *ngIf="serviceApplicationList?.CurrentStatusId!==44450 && serviceApplicationList?.CurrentStatusId!==44449 && serviceApplicationList.IsSelfService==true"
+                 *ngIf="serviceApplicationList?.CurrentStatusId!==applicationS.Drafted && serviceApplicationList?.CurrentStatusId!==applicationS.Completed && serviceApplicationList.IsSelfService==true"
                  (click)="nextStep(18,
             serviceApplicationList.ProjectId,
             serviceApplicationList.ServiceApplicationId,

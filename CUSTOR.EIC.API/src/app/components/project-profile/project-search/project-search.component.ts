@@ -21,6 +21,7 @@ import {ErrorMessage} from "@custor/services/errMessageService";
 import {ServiceapplicationService} from "../../setting/services-tabs/serviceApplication/serviceapplication.service";
 import {IncentiveLogService} from "../../../Services/incentive-log.service";
 import {Permission} from "../../../model/security/permission.model";
+import {ApplicationStatusEnum, ServiceEnum} from "../../../enum/enums";
 
 
 @Component({
@@ -213,17 +214,20 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
     const investorId = this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
     switch (serviceId) {
-      case 13:
+      // case 13:
+      case ServiceEnum.NewIP:
         this.router.navigate(['/pro/0/0/0/0/0']);//Fire
         break;
-      case 18:
+      // case 18:
+      case ServiceEnum.Renewal:
         if (projectStatus !== 4) {
           this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         } else {
           this.toastr.error('you can not renew this project it already cancelled', 'Not Allowed');
         }
         break;
-      case 19:
+      // case 19:
+      case ServiceEnum.CancellationOfIP:
         if (projectStatus !== 4) {
           this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ProjectId', projectId);
@@ -231,7 +235,8 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
           this.toastr.error('you can not Cancelled  this project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1023:
+      // case 1023:
+      case ServiceEnum.Expansion:
         if (projectStatus !== 4) {
           this.router.navigate(['pro/' + projectId + '/' + ServiceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -239,13 +244,16 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
           this.toastr.error('you can not Expand  this project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1234:
+      // case 1234:
+      case ServiceEnum.AfterCare:
         this.router.navigate(['/after-care/' + projectId]);
         break;
-      case 1028:
-        this.editProject(projectId, ServiceApplicationId, 13);
+      // case 1028:
+      case ServiceEnum.AmendmentOfIP:
+        this.editProject(projectId, ServiceApplicationId, ServiceEnum.NewIP);
         break;
-      case 1027:
+      // case 1027:
+      case ServiceEnum.SubstituteIP:
         if (projectStatus !== 4) {
           this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ProjectId', projectId);
@@ -253,7 +261,8 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
           this.toastr.error('you can not Cancelled  this project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1045:
+      // case 1045:
+      case ServiceEnum.TaxHolidayIncentive:
         if (projectStatus !== 4) {
           this.projectProfileService.projectsDetailForLetter(projectId)
             .subscribe(result => {
@@ -270,7 +279,8 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1046:
+      // case 1046:
+      case ServiceEnum.DutyFreeIncentive:
         if (projectStatus !== 4) {
           this.router.navigate(['/incentive-request-item/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -278,7 +288,8 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1047:
+      // case 1047:
+      case ServiceEnum.UploadingOfConstructionMaterial:
         if (projectStatus !== 4) {
           this.router.navigate(['bill-of-material/1/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -286,7 +297,8 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1054:
+      // case 1054:
+      case ServiceEnum.UploadingOfRawMaterial:
         if (projectStatus !== 4) {
           this.router.navigate(['bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -294,7 +306,8 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1001:
+      // case 1001:
+      case ServiceEnum.CapitalRegistration:
         if (projectStatus !== 4) {
           this.router.navigate(['capital-registration/', projectId]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -302,7 +315,8 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1236:
+      // case 1236:
+      case ServiceEnum.BusinessLicense:
         if (projectStatus !== 4) {
           this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId + '/' + 0]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -334,7 +348,7 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     this.serviceApplication.ServiceId = this.ServiceId;
     this.serviceApplication.InvestorId = this.InvestorId;
     this.serviceApplication.CaseNumber = '1';
-    this.serviceApplication.CurrentStatusId = 44450;
+    this.serviceApplication.CurrentStatusId = ApplicationStatusEnum.Drafted;
     this.serviceApplication.IsSelfService = true;
     this.serviceApplication.IsPaid = true;
     this.serviceApplication.CreatedUserId = 1;

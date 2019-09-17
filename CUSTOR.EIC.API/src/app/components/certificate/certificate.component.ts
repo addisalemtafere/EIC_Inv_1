@@ -20,17 +20,18 @@ import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
 import {ActivatedRoute, Router} from '@angular/router';
-import {DateService} from "../../Services/date.service";
-import {ProjectRenewalService} from "../../Services/project-renewal.service";
-import {LookupsService} from "../setting/lookup-tabs/lookups/lookups.service";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {DataSharingService} from "../../Services/data-sharing.service";
+import {DateService} from '../../Services/date.service';
+import {ProjectRenewalService} from '../../Services/project-renewal.service';
+import {LookupsService} from '../setting/lookup-tabs/lookups/lookups.service';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {DataSharingService} from '../../Services/data-sharing.service';
 import {ProjectRenewalModel} from '../../model/ProjectRenewal.model';
-import {NationalityModel} from "../../model/address/NationalityModel";
-import {NationalityService} from "../../Services/Nationalityservice";
-import {CountryModel} from "../../model/Country";
-import {CountryService} from "../../Services/country.service";
-import {ProjectModel} from "../../model/project.model";
+import {NationalityModel} from '../../model/address/NationalityModel';
+import {NationalityService} from '../../Services/Nationalityservice';
+import {CountryModel} from '../../model/Country';
+import {CountryService} from '../../Services/country.service';
+import {ProjectModel} from '../../model/project.model';
+import {ApplicationStatusEnum, ServiceEnum} from '../../enum/enums';
 
 @Component({
   selector: 'app-certificate',
@@ -82,6 +83,7 @@ export class CertificateComponent implements OnInit {
   public titleManEn: string;
   NationalityList: NationalityModel;
   CountryList: CountryModel;
+  public serviceEnum = ServiceEnum;
 
   editForm: FormGroup;
   selected: string;
@@ -109,9 +111,9 @@ export class CertificateComponent implements OnInit {
               private countryService: CountryService,
               private dateService: DateService) {
     this.lookup = new Lookup();
-    this.arr.push("Edit Investor");
-    this.arr.push("option2");
-    this.arr.push("option3");
+    this.arr.push('Edit Investor');
+    this.arr.push('option2');
+    this.arr.push('option3');
     this.selected = 'option2';
   }
 
@@ -133,87 +135,50 @@ export class CertificateComponent implements OnInit {
   // no need to come all this data.
   private getServiceApplicationRenewal() {
     this.projectRenewalService
-// <<<<<<< HEAD
-        .getRenewalByServiceApplicationId(this.ServiceApplicationId)
-        .subscribe(result => {
-          if ( result.ProjectRenewal[0] != undefined) {
-            this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
-            // this.getEthiopianDateDate();
-          } else if(this.ServiceId==13 || this.ServiceId==1023 ) {
-            console.log('this.ServiceId' + this.ServiceId);
+      .getRenewalByServiceApplicationId(this.ServiceApplicationId)
+      .subscribe(result => {
+        console.log(result.ProjectRenewal[0]);
 
-            this.renewal = new ProjectRenewalModel();
-            this.renewal.RenewedFrom = new Date();
-            this.renewal.RenewedTo = this.dateGc;
-            this.renewal.ServiceId = this.ServiceId;
-            this.renewal.ServiceApplicationId = this.ServiceApplicationId;
-            this.renewal.ProjectId = this.projectId;
-            this.renewal.ProjectStatus = 9;
-            this.renewal.IsApproved = true;
-            // console.log(this.renewal);
-            // this.renewedToGC = this.dateGc;
-            console.log('newIP' + this.renewedToGC);
-            if(this.ServiceId !== '18'){
-            this.projectRenewalService.create(this.renewal).
-            subscribe(results => {
-              console.log('renewal' + results[0]);
-            });
-            console.log('Done!');
-          }
-          }
-        }, error => this.errMsg.getError(error));
-        this.projectRenewalService.getOneById(this.projectId).
-        subscribe(results => {
-          console.log(results[0].RenewedTo);
-          this.renewedToGC = results[0].RenewedTo;
-          this.getEthiopianDateDate();
-        });
-// =======
-//       .getRenewalByServiceApplicationId(this.ServiceApplicationId)
-//       .subscribe(result => {
-//         console.log(result.ProjectRenewal[0]);
-//
-//         if (result.ProjectRenewal[0] != undefined) {
-//           console.log('date' + this.renewedToGC);
-//
-//           this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
-//           // this.getEthiopianDateDate();
-//         } else if (this.ServiceId == 13 || this.ServiceId == 1023) {
-//           console.log('this.ServiceId' + this.ServiceId);
-//
-//           this.renewal = new ProjectRenewalModel();
-//           this.renewal.RenewedFrom = new Date();
-//           this.renewal.RenewedTo = this.dateGc;
-//           this.renewal.ServiceId = this.ServiceId;
-//           this.renewal.ServiceApplicationId = this.ServiceApplicationId;
-//           this.renewal.ProjectId = this.projectId;
-//           this.renewal.ProjectStatus = 9;
-//           this.renewal.IsApproved = true;
-//           // console.log(this.renewal);
-//           // this.renewedToGC = this.dateGc;
-//           console.log('newIP' + this.renewedToGC);
-//
-//           this.projectRenewalService.create(this.renewal).subscribe(results => {
-//             console.log('renewal' + results[0]);
-//           });
-//           console.log('Done!');
-//         }
-//       }, error => this.errMsg.getError(error));
-//     this.projectRenewalService.getOneById(this.projectId).subscribe(results => {
-//       console.log(results[0].RenewedTo);
-//       this.renewedToGC = results[0].RenewedTo;
-//       this.getEthiopianDateDate();
-//     });
-// >>>>>>> b08dba696cda3570c8d8ba2ff5fa850b94ff654d
+        if (result.ProjectRenewal[0] != undefined) {
+          console.log('date' + this.renewedToGC);
+
+          this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
+          // this.getEthiopianDateDate();
+        } else if (this.ServiceId == ServiceEnum.NewIP || this.ServiceId == ServiceEnum.Expansion) {
+          console.log('this.ServiceId' + this.ServiceId);
+
+          this.renewal = new ProjectRenewalModel();
+          this.renewal.RenewedFrom = new Date();
+          this.renewal.RenewedTo = this.dateGc;
+          this.renewal.ServiceId = this.ServiceId;
+          this.renewal.ServiceApplicationId = this.ServiceApplicationId;
+          this.renewal.ProjectId = this.projectId;
+          this.renewal.ProjectStatus = 9;
+          this.renewal.IsApproved = true;
+          // console.log(this.renewal);
+          // this.renewedToGC = this.dateGc;
+          console.log('newIP' + this.renewedToGC);
+
+          this.projectRenewalService.create(this.renewal).subscribe(results => {
+            console.log('renewal' + results[0]);
+          });
+          console.log('Done!');
+        }
+      }, error => this.errMsg.getError(error));
+    this.projectRenewalService.getOneById(this.projectId).subscribe(results => {
+      console.log(results[0].RenewedTo);
+      this.renewedToGC = results[0].RenewedTo;
+      this.getEthiopianDateDate();
+    });
   }
 
   getDate() {
-    var d = new Date();
+    const d = new Date();
     this.today = d;
-    var year = d.getFullYear();
-    var month = d.getMonth();
-    var day = d.getDate();
-    this.dateGc = new Date(year + 1, month, day)
+    const year = d.getFullYear();
+    const month = d.getMonth();
+    const day = d.getDate();
+    this.dateGc = new Date(year + 1, month, day);
     const today = new Date();
     this.date = today;
 
@@ -264,7 +229,7 @@ export class CertificateComponent implements OnInit {
         this.getInvestmentNationality(this.investorDetailList.InvestorId);
         this.getInvestmentBranchCountry(this.investorDetailList.InvestorId);
         this.getExportPercent(this.investorDetailList.ProjectId);
-        this.getInvestorTitle(this.investorDetailList.Investor.Title)
+        this.getInvestorTitle(this.investorDetailList.Investor.Title);
         this.getProjectStartDate(this.investorDetailList.ProjectId);
         // console.log(result);
         // // console.log(this.investorDetailList.Investor.RegionId);
@@ -384,8 +349,7 @@ export class CertificateComponent implements OnInit {
   }
 
   private approve() {
-    this.lookup.Code = 44449;
-    // console.log(this.lookup.Code);
+    this.lookup.Code = ApplicationStatusEnum.Completed;
     this.serviceApplication.changeApplicationStatus(this.lookup, this.investorDetailList.ServiceApplicationId)
       .subscribe(result => {
         this.toast.success('Project approved successfully ', 'Success');
@@ -393,23 +357,23 @@ export class CertificateComponent implements OnInit {
   }
 
   private getEthiopianDate() {
-    let subscription = this.dateService.getEthiopianDateNow()
+    const subscription = this.dateService.getEthiopianDateNow()
       .subscribe(data => {
 
         this.todayEthioDate = data;
-        var d = this.todayEthioDate.split('/').reverse().join('-')
+        const d = this.todayEthioDate.split('/').reverse().join('-');
         // var d2 = new Date(d);
-        var d2 = new Date(d);
-        var year = d2.getFullYear() + 1;
-        var month = d2.getMonth() + 1;
-        var day = d2.getDate();
+        const d2 = new Date(d);
+        const year = d2.getFullYear() + 1;
+        const month = d2.getMonth() + 1;
+        const day = d2.getDate();
         this.dateEthioNextYear = day + '/' + month + '/' + year;
       });
   }
 
   /// BY Gebre H.
   private getEthiopianDateDate() {
-    const d = this.renewedToGC.split('/').reverse().join('-')
+    const d = this.renewedToGC.split('/').reverse().join('-');
     const d2 = new Date(d);
     this.year = d2.getFullYear();
     this.month = d2.getMonth() + 1;
@@ -424,7 +388,7 @@ export class CertificateComponent implements OnInit {
 
   private getEthiopianDateDate1() {
     this.ProjectDate = this.Project.StartDate;
-    const d = this.Project.StartDate.split('/').reverse().join('-')
+    const d = this.Project.StartDate.split('/').reverse().join('-');
     const d2 = new Date(d);
     this.year = d2.getFullYear();
     this.month = d2.getMonth();
@@ -448,7 +412,7 @@ export class CertificateComponent implements OnInit {
       .subscribe(result => {
         this.titleAm = result.Amharic;
         this.titleEn = result.English;
-      })
+      });
   }
 
   private getManagerTitle(titleId: number) {
@@ -476,7 +440,7 @@ export class CertificateComponent implements OnInit {
         this.router.navigate(['pro/' + this.investorDetailList.ProjectId + '/' + this.ServiceApplicationId + '/' + this.ServiceId + '/' + this.workFlowId + '/' + this.InvestorId]);
         break;
       default:
-        alert('Please Select one of them you want edit')
+        alert('Please Select one of them you want edit');
 
     }
   }
@@ -515,7 +479,7 @@ export class CertificateComponent implements OnInit {
   font-size: 11px !important;
   font-weight: normal !important;
   font-style: normal !important;
- 
+
 }
 .notice{
  color: #000000 !important;
@@ -598,7 +562,7 @@ header {
   padding: 0px 20px !important;
 }
  .value {
- 
+
   border-bottom: 1px dotted rgba(3,16,11,0.76) !important;
   text-transform: capitalize;
   font-size: 12px !important;
@@ -656,6 +620,6 @@ nobr {
   private intEditForm() {
     this.editForm = this.fb.group({
       selectedValue: new FormControl()
-    })
+    });
   }
 }

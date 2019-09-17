@@ -9,6 +9,7 @@ import {ServiceService} from '../../../Services/service.service';
 import {ServiceModel} from '../../../model/Service.model';
 import {ActivatedRoute} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {ApplicationStatusEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-notification',
@@ -24,6 +25,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked, After
   private ServiceApplicationId: any;
   templateMessage = 'Message';
   private allServices: ServiceModel[];
+  public applicationStatusEnum = ApplicationStatusEnum;
 
   constructor(
     public accountService: AccountService,

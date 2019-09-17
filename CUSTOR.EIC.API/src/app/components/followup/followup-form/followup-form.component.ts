@@ -65,15 +65,15 @@ export class FollowupFormComponent implements OnInit {
       .getOneById(id)
       .subscribe(result => {
         this.allFollowUpData = result;
-        console.log(result)
+        console.log(result);
         this.updateForm(result);
       });
   }
 
   updateForm(fup: FollowUpModel) {
     // console.log(this.allFollowUpData);
-    console.log("result = " + this.getServices(fup.Id))
-    console.log("result = " + this.getDecision(fup.DecisionMade))
+    console.log("result = " + this.getServices(fup.Id));
+    console.log("result = " + this.getDecision(fup.DecisionMade));
 
     this.followUpForm.patchValue(
       {
@@ -104,7 +104,7 @@ export class FollowupFormComponent implements OnInit {
     afterCareDecision: 'Please select the decision!',
     findings: 'Please fill out the findings!',
     serviceName: 'Please select the service name!'
-  }
+  };
 
 
   public onSubmit() {

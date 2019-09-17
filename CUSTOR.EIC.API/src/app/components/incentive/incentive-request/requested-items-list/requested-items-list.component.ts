@@ -504,7 +504,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     if (this.isNewIncentiveRequestItem) {
       this.IncentiveRequestItemService.saveIncentiveRequestItem(
         this.getEditedIncentiveItem()).subscribe((itemDetail: IncentiveRequestDetailModel) => {
-          console.log(itemDetail)
+          console.log(itemDetail);
           this.saveCompleted(itemDetail);
         },
         err => this.handleError(err));

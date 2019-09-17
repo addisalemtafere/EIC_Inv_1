@@ -36,12 +36,13 @@ import {ProjectStageModel} from "../../../model/lookupData";
 import {ProjectRenewalModel} from '../../../model/ProjectRenewal.model';
 import {ProjectRenewalService} from '../../../Services/project-renewal.service';
 import {ConfigurationService} from "@custor/services/configuration.service";
+import {ServiceEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-project-profile-form',
   templateUrl: './project-profile-form.component.html',
   styleUrls: ['./project-profile-form.component.css'],
-  providers:[ConfigurationService]
+  providers: [ConfigurationService]
 })
 export class ProjectProfileFormComponent implements OnInit, AfterContentChecked {
   @ViewChild('costF') costForm: NgForm;
@@ -224,7 +225,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllSector() {
-    console.log(this.currentLang)
+    console.log(this.currentLang);
     this.sectorService.getSectors(this.currentLang)
       .subscribe(result => {
           this.sectorList = result;
@@ -496,7 +497,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.projectForm.patchValue({
       ServiceId: this.ServiceId
     });
-    if (this.ServiceId == 1023 && !this.editMode) {
+    if (this.ServiceId == ServiceEnum.Expansion && !this.editMode) {
       this.projectForm.patchValue({
         ParentProjectId: localStorage.getItem('ParentProjectId')
       });

@@ -231,7 +231,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, lang)
       .subscribe(result => {
-        console.log(result)
+        console.log(result);
         this.itemList = result;
         this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result);
         this.loading = false;
