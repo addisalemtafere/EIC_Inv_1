@@ -3,7 +3,7 @@
     <app-page-header title="projectrenewal" icon=""></app-page-header>
 
   </div>
-  <!-- <div id="title1" class="block" fxFlex="50">
+  <div id="title1" class="block" fxFlex="50">
     <span class="page-title">{{title}}</span>
     <span class="slideBorder">/</span>
     <span class="page-title">{{investorName}}</span>
@@ -11,15 +11,15 @@
     <span class="page-title">{{projectName}}</span>
 
 
-  </div> -->
+  </div>
 </div>
-<mat-tab-group #stepper>
+<mat-tab-group [selectedIndex]="renewalIndex">
   <!--<mat-tab label="Service List" *ngIf="isInvestor">-->
   <!--<ng-template matTabContent >-->
   <!--<app-project-list></app-project-list>-->
   <!--</ng-template>-->
   <!--</mat-tab>-->
-  <mat-tab *ngIf="isInvestor"  label="Service Info">
+  <mat-tab label="Service Info">
     <ng-template matTabContent>
       <app-service-info></app-service-info>
     </ng-template>
@@ -27,40 +27,17 @@
 
   <mat-tab *ngIf="!isInvestor" label="After Care Recommendation">
     <ng-template matTabContent>
-        <div fxLayout="row" fxLayoutAlign="center">
-            <div fxFlex="15">
-              <button class="next-button" (click)="back()" type="button">
-                Back
-              </button>
-            </div>
-            <div style="text-align: center" fxFlex="75" fxFlexAlign="center">
-            </div>
-            <div fxFlex="10">
-              <button class="next-button" (click)="next()" color="primary" type="button">
-                Next
-              </button>
-            </div>
-          </div>
       <app-aftercare-recommendation></app-aftercare-recommendation>
     </ng-template>
   </mat-tab>
 
+  <mat-tab label="Project Renewal">
+    <ng-template matTabContent>
+      <app-project-renewal></app-project-renewal>
+    </ng-template>
+  </mat-tab>
   <mat-tab label="Document">
     <ng-template matTabContent>
-        <div fxLayout="row" fxLayoutAlign="center">
-            <div fxFlex="15">
-              <button class="next-button" (click)="back()" type="button">
-                Back
-              </button>
-            </div>
-            <div style="text-align: center" fxFlex="75" fxFlexAlign="center">
-            </div>
-            <div fxFlex="10">
-              <button class="next-button" (click)="next()" color="primary" type="button">
-                Next
-              </button>
-            </div>
-          </div>
       <mat-card *ngIf="!isInvestor" class="margin-2 simple-card">
         <mat-card-header>
           <mat-card-subtitle class="sub-title"></mat-card-subtitle>
@@ -73,82 +50,18 @@
       <app-service-prerequisite></app-service-prerequisite>
     </ng-template>
   </mat-tab>
-
-  <mat-tab  label="Project Renewal">
-      <ng-template matTabContent>
-          <div fxLayout="row" fxLayoutAlign="center">
-              <div fxFlex="15">
-                <button class="next-button" (click)="back()" type="button">
-                  Back
-                </button>
-              </div>
-              <div style="text-align: center" fxFlex="75" fxFlexAlign="center">
-              </div>
-              <div fxFlex="10">
-                <!-- <button class="next-button" (click)="next()" color="primary" type="button"> -->
-                  Next
-                </button>
-              </div>
-            </div>
-        <app-project-renewal></app-project-renewal>
-      </ng-template>
-    </mat-tab>
-
-  <mat-tab *ngIf="!isInvestor"  [disabled]="nextIndex<4"  label="Payment">
+  <mat-tab *ngIf="!isInvestor" label="Payment">
     <ng-template matTabContent>
-        <div fxLayout="row" fxLayoutAlign="center">
-            <div fxFlex="15">
-              <button class="next-button" (click)="back()" type="button">
-                Back
-              </button>
-            </div>
-            <div style="text-align: center" fxFlex="75" fxFlexAlign="center">
-            </div>
-            <div fxFlex="10">
-              <button class="next-button" (click)="next()" color="primary" type="button">
-                Next
-              </button>
-            </div>
-          </div>
-         <app-payment></app-payment>
+      <app-payment></app-payment>
     </ng-template>
   </mat-tab>
-
-   <mat-tab *ngIf="!isInvestor && isRenewal"  [disabled]="nextIndex <5" label="Certificate">
+  <mat-tab *ngIf="!isInvestor && isRenewal" label="Certificate">
     <ng-template matTabContent>
-        <div fxLayout="row" fxLayoutAlign="center">
-            <div fxFlex="15">
-              <button class="next-button" (click)="back()" type="button">
-                Back
-              </button>
-            </div>
-            <div style="text-align: center" fxFlex="75" fxFlexAlign="center">
-            </div>
-            <div fxFlex="10">
-              <button class="next-button" (click)="next()" color="primary" type="button">
-                Next
-              </button>
-            </div>
-          </div>
       <app-certificate></app-certificate>
     </ng-template>
   </mat-tab>
-  <mat-tab *ngIf="isInvestor" [disabled]="nextIndex<3" label="Confirmation">
+  <mat-tab *ngIf="isInvestor" label="Confirmation">
     <ng-template matTabContent>
-        <div fxLayout="row" fxLayoutAlign="center">
-            <div fxFlex="15">
-              <button class="next-button" (click)="back()" type="button">
-                Back
-              </button>
-            </div>
-            <div style="text-align: center" fxFlex="75" fxFlexAlign="center">
-            </div>
-            <div fxFlex="10">
-              <button class="next-button" (click)="next()" color="primary" type="button">
-                Next
-              </button>
-            </div>
-          </div>
       <app-service-confirmation></app-service-confirmation>
     </ng-template>
   </mat-tab>

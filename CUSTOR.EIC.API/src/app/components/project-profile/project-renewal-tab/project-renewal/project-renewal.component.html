@@ -64,7 +64,6 @@
           <mat-form-field class="full-width" floatPlaceholder="auto">
             <input matInput
                    placeholder="Remark"
-                   formControlName="Remark"
                    type="text">
           </mat-form-field>
         </div>
@@ -72,6 +71,7 @@
       <div fxLayout="row" fxLayoutAlign="center">
         <div mat-dialog-actions fxLayoutGap="3em">
           <button *ngIf="isInvestor"
+                  [disabled]="!res"
                   type="submit"
                   mat-raised-button=""
                   color="primary">

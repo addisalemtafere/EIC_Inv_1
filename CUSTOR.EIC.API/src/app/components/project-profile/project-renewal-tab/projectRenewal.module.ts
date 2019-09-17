@@ -9,7 +9,7 @@ import {ServiceConfirmationModule} from '../service-confirmation/ServiceConfirma
 import {ServiceInfoModule} from '../service-info/serviceInfo.module';
 import {LetterModule} from '../letter/letter.module';
 import {AftercareRecommModule} from '../aftercare-recomendation/AftercareRecommModule';
-import {ProjectRenewalService} from '../../../Services/project-renewal.service';
+import {ProjectRenewalService} from "../../../Services/project-renewal.service";
 
 @NgModule({
   imports: [
