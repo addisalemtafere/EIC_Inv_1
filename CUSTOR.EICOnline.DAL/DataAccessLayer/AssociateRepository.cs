@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace CUSTOR.EICOnline.DAL
 {
     public class AssociateRepository : EFRepository<ApplicationDbContext, Associate>

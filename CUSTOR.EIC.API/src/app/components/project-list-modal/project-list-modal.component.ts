@@ -127,48 +127,50 @@ getServiceApp() {
       console.log('expansion');
       this.router.navigate(['pro/' + projectId + '/' + 0 + '/' + ServiceEnum.Expansion + '/' + 0 + '/' + InvestorId]);
       localStorage.setItem('ParentProjectId', projectId);
-    } else if (this.ServiceId === '18') {
+    } else if (this.ServiceId == ServiceEnum.Renewal) {
       console.log('renewal');
-        // check the project for renewal
-         this.renewalService.getRenewalByProjectId(projectId)
-        .subscribe( res => {
-          if( res.length  == 0 || res[0].MajorProblems == "Valid"){
-            // check in the service application
-            this.serviceapplicationService.getServiceApplicationsByProjectId(projectId,InvestorId,this.ServiceId)
-            .subscribe( serApp => {
-              if (serApp.length != 0) {
-                console.log('you are here...')
-                this.view(this.ServiceId, 'Renewal', serApp[0].ServiceApplicationId,serApp[0].ServiceWorkflow[0].ServiceWorkflowId,projectId);
-              }
-              else {
-                if(res[0].ProjectStatus == 9){
-                  this.createServiceApp(this.serviceApplication);
-                }
-               }
-            });
-          }
-          else if(res[0].ProjectStatus == 9 && res[0].MajorProblems == "InValid"){
-            // this.getServiceApp();
-            this.toastr.error('The Selected project is already renewed!')
-          }
-          else{
-            if(res[0].ProjectStatus == 4){
-              this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Cancelled');
-            }
-             else if(res[0].ProjectStatus == 5){
-              this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Injected');
-            }else if(res[0].ProjectStatus == 6){
-              this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Closed');
-            } else if(res[0].ProjectStatus == 7){
-              this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Transfered');
-            }else if(res[0].ProjectStatus == 8){
-              this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Not Active');
-            }else{
-              this.toastr.info('The Selected project is already renewed or waiting for approval!');
-            }
-          }
-
-        });
+      this.router.navigate(['project-renewal/10/10/10/10/10']);
+      // this.router.navigate(['/renewal']);
+      // check the project for renewal
+        //  this.renewalService.getRenewalByProjectId(projectId)
+        // .subscribe( res => {
+        //   if( res.length  == 0 || res[0].MajorProblems == "Valid"){
+        //     // check in the service application
+        //     this.serviceapplicationService.getServiceApplicationsByProjectId(projectId,InvestorId,this.ServiceId)
+        //     .subscribe( serApp => {
+        //       if (serApp.length != 0) {
+        //         console.log('you are here...')
+        //         this.view(this.ServiceId, 'Renewal', serApp[0].ServiceApplicationId,serApp[0].ServiceWorkflow[0].ServiceWorkflowId,projectId);
+        //       }
+        //       else {
+        //         if(res[0].ProjectStatus == 9){
+        //           this.createServiceApp(this.serviceApplication);
+        //         }
+        //        }
+        //     });
+        //   }
+        //   else if(res[0].ProjectStatus == 9 && res[0].MajorProblems == "InValid"){
+        //     // this.getServiceApp();
+        //     this.toastr.error('The Selected project is already renewed!')
+        //   }
+        //   else{
+        //     if(res[0].ProjectStatus == 4){
+        //       this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Cancelled');
+        //     }
+        //      else if(res[0].ProjectStatus == 5){
+        //       this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Injected');
+        //     }else if(res[0].ProjectStatus == 6){
+        //       this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Closed');
+        //     } else if(res[0].ProjectStatus == 7){
+        //       this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Transfered');
+        //     }else if(res[0].ProjectStatus == 8){
+        //       this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Not Active');
+        //     }else{
+        //       this.toastr.info('The Selected project is already renewed or waiting for approval!');
+        //     }
+        //   }
+        //
+        // });
       } else if (this.ServiceId == ServiceEnum.SubstituteIP) {
         this.serviceapplicationService.getServiceApplicationsByProjectId(projectId, InvestorId, this.ServiceId)
         .subscribe( serApp => {

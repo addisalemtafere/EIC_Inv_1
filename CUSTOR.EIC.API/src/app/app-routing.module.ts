@@ -124,6 +124,11 @@ import {AuthGuard} from '@custor/services/security/auth-guard.service';
         canActivate: [AuthGuard]
       },
       {
+        path: 'project-renewal',
+        loadChildren: './components/project-profile/project-renewal-tab/projectRenewal.module#ProjectRenewalModule',
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'project-cost/:ProjectId/:ServiceId',
         loadChildren: './components/project-profile/project-cost/ProjectCost.module#ProjectCostModule',
         canActivate: [AuthGuard]

@@ -45,107 +45,107 @@ export class ProjectRenewalTabComponent implements OnInit {
               private serviceApplicationService: ServiceapplicationService) {
   }
   ngOnInit() {
-    this.getUserType();
-   //<<< for the nav
-    this.currentPosition = 'f';
-    this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
-    // >>>>
-    this.title = localStorage.getItem('title');
-    this.projectName = localStorage.getItem('ProjectName');
-    this.investorName = localStorage.getItem('investorName');
-    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
-    this.ProjectId = this.route.snapshot.params['ProjectId'] || this.route.snapshot.params['projectId'];
-    this.userName = this.accountService.currentUser.FullName;
-    this.serviceApplicationService.getOneById(this.ServiceApplicationId)
-    .subscribe(sapr=>{
-      this.nextIndex = sapr.CurrentStep;
-    });
+   //  this.getUserType();
+   // //<<< for the nav
+   //  this.currentPosition = 'f';
+   //  this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
+   //  // >>>>
+   //  this.title = localStorage.getItem('title');
+   //  this.projectName = localStorage.getItem('ProjectName');
+   //  this.investorName = localStorage.getItem('investorName');
+   //  this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+   //  this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
+   //  this.ProjectId = this.route.snapshot.params['ProjectId'] || this.route.snapshot.params['projectId'];
+   //  this.userName = this.accountService.currentUser.FullName;
+   //  this.serviceApplicationService.getOneById(this.ServiceApplicationId)
+   //  .subscribe(sapr=>{
+   //    this.nextIndex = sapr.CurrentStep;
+   //  });
   }
 
-  getUserType() {
-    this.isInvestor = this.accountService.getUserType();
-    if(!this.isInvestor){
-      this.isRenewal=true;
-    }
-    else
-    {
-      this.isRenewal=false;
-    }
-  }
-
-  addMessage() {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.data = {
-      ServiceApplicationId: this.ServiceApplicationId,
-      title: 'Add message'
-    };
-    // this.dialog.open(NotificationComponent);
-    this.dialog.open(NotificationComponent, dialogConfig);
-  }
-  move(index: number) {
-    this.stepper.selectedIndex = index;
-  }
-
-
-
-  ngAfterViewInit(): void {
-    this.move(this.steeperIndex);
-
-  }
-
-  ngAfterContentChecked() {
-    this.title = localStorage.getItem('title');
-    this.projectName = localStorage.getItem('projectName');
-    this.investorName = localStorage.getItem('investorName');
-    this.subscription = this.dataSharing.steeperIndex
-      .subscribe(index => {
-        this.steeperIndex = index;
-        // // console.log(this.steeperIndex);
-        this.move(this.steeperIndex);
-      });
-      this.upeerLimit = this.nextIndex;
-      // console.log(this.upeerLimit);
-    // this.subscription = this.dataSharing.currentIndex
-    //   .subscribe(index => {
-    //     this.nextIndex = index;
-    //     this.upeerLimit = index;
-    //   });
-    // this.nextIndex = +localStorage.getItem('currentIndex');
-  }
-
-  back() {
-    if (this.ServiceId !== ServiceEnum.Renewal.toString()) {
-      this.toast.warning('you can not go back because you have not privilege');
-    } else {
-
-      this.currentPosition = 'b';
-      if (this.currentPosition === 'f' || this.currentPosition === null) {
-        this.steeperIndex--;
-      }
-      if (this.steeperIndex > 0) {
-        this.steeperIndex--;
-        this.stepper.selectedIndex = this.steeperIndex;
-      }
-    }
-
-  }
-
-  next() {
-    if (this.ServiceId  !== ServiceEnum.Renewal.toString()) {
-      this.toast.warning('You can not go next because you have not privilege');
-    } else {
-      this.currentPosition = 'f';
-      if (this.currentPosition === 'b' || this.currentPosition === null) {
-        this.steeperIndex++;
-      }
-      if (this.steeperIndex < this.upeerLimit) {
-        this.steeperIndex++;
-        this.stepper.selectedIndex = this.steeperIndex;
-      }
-    }
-  }
+  // getUserType() {
+  //   this.isInvestor = this.accountService.getUserType();
+  //   if(!this.isInvestor){
+  //     this.isRenewal=true;
+  //   }
+  //   else
+  //   {
+  //     this.isRenewal=false;
+  //   }
+  // }
+  //
+  // addMessage() {
+  //   const dialogConfig = new MatDialogConfig();
+  //
+  //   dialogConfig.data = {
+  //     ServiceApplicationId: this.ServiceApplicationId,
+  //     title: 'Add message'
+  //   };
+  //   // this.dialog.open(NotificationComponent);
+  //   this.dialog.open(NotificationComponent, dialogConfig);
+  // }
+  // move(index: number) {
+  //   this.stepper.selectedIndex = index;
+  // }
+  //
+  //
+  //
+  // ngAfterViewInit(): void {
+  //   this.move(this.steeperIndex);
+  //
+  // }
+  //
+  // ngAfterContentChecked() {
+  //   this.title = localStorage.getItem('title');
+  //   this.projectName = localStorage.getItem('projectName');
+  //   this.investorName = localStorage.getItem('investorName');
+  //   this.subscription = this.dataSharing.steeperIndex
+  //     .subscribe(index => {
+  //       this.steeperIndex = index;
+  //       // // console.log(this.steeperIndex);
+  //       this.move(this.steeperIndex);
+  //     });
+  //     this.upeerLimit = this.nextIndex;
+  //     // console.log(this.upeerLimit);
+  //   // this.subscription = this.dataSharing.currentIndex
+  //   //   .subscribe(index => {
+  //   //     this.nextIndex = index;
+  //   //     this.upeerLimit = index;
+  //   //   });
+  //   // this.nextIndex = +localStorage.getItem('currentIndex');
+  // }
+  //
+  // back() {
+  //   if (this.ServiceId !== ServiceEnum.Renewal.toString()) {
+  //     this.toast.warning('you can not go back because you have not privilege');
+  //   } else {
+  //
+  //     this.currentPosition = 'b';
+  //     if (this.currentPosition === 'f' || this.currentPosition === null) {
+  //       this.steeperIndex--;
+  //     }
+  //     if (this.steeperIndex > 0) {
+  //       this.steeperIndex--;
+  //       this.stepper.selectedIndex = this.steeperIndex;
+  //     }
+  //   }
+  //
+  // }
+  //
+  // next() {
+  //   if (this.ServiceId  !== ServiceEnum.Renewal.toString()) {
+  //     this.toast.warning('You can not go next because you have not privilege');
+  //   } else {
+  //     this.currentPosition = 'f';
+  //     if (this.currentPosition === 'b' || this.currentPosition === null) {
+  //       this.steeperIndex++;
+  //     }
+  //     if (this.steeperIndex < this.upeerLimit) {
+  //       this.steeperIndex++;
+  //       this.stepper.selectedIndex = this.steeperIndex;
+  //     }
+  //   }
+  // }
 }
 
 
