@@ -132,7 +132,7 @@ export class AppConfiguration {
     finalForApproval: 'api/ServiceApplications/finalForApproval',
     ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
     ServiceApplicationsByOfficerId2ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
-    ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
+    // ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
     ChangeInvestorApplicationStatus: 'api/ServiceApplications/ChangeInvestorApplicationStatus',
     ApplicationGroupByServiceId: 'api/ServiceApplications/ApplicationGroupByServiceId',
     ProjectGroupByStage: 'api/ServiceApplications/ProjectGroupByStage',

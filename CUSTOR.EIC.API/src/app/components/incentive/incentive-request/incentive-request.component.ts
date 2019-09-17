@@ -333,9 +333,10 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
 
     if (this.hasValidationErrors()) {
       return;
-    } else if (this.CheckExistance()) {
-      return;
-    } else {
+    // } else if (this.CheckExistance()) {
+    //   return;
+    }
+      else {
       this.loadingIndicator = true;
       return this.IncentiveRequestService.saveIncentiveRequest(
         this.getEditedIncentiveItem()).subscribe((incentiveRequestModel: IncentiveRequestModel) => {

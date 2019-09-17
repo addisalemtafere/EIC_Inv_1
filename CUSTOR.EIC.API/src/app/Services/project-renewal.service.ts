@@ -15,7 +15,7 @@ import {catchError} from 'rxjs/operators';
 }
 )
 export class ProjectRenewalService extends BaseService<ProjectRenewalModel> {
-  projectRenewals : ProjectRenewalModel;
+  projectRenewals: ProjectRenewalModel;
   constructor(
     protected http: HttpClient,
     protected appConfig: AppConfiguration,
@@ -29,7 +29,6 @@ export class ProjectRenewalService extends BaseService<ProjectRenewalModel> {
       catchError(this.errMsg.parseObservableResponseError));
   }
   getRenewalByProjectId(id: number): Observable<ProjectRenewalModel[]> {
-    console.log(id)
     return this.httpClient.get<ProjectRenewalModel[]>(this.appConfig.urls.url('projectRenewalsbyId')+ '/' + id).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }

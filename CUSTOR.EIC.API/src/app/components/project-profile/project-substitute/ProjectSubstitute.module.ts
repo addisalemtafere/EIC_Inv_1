@@ -7,9 +7,9 @@ import {SubstituteTabComponent} from './substitute-tab/substitute-tab.component'
 import {ServiceInfoModule} from '../service-info/serviceInfo.module';
 import {ServiceConfirmationModule} from '../service-confirmation/ServiceConfirmation.module';
 import {OfficerModule} from '../../officer-Task/officer.module';
-import {AftercareModule} from "../aftercare/aftercare.module";
-import {AftercareRecommModule} from "../aftercare-recomendation/AftercareRecommModule";
-import {ProjectSubstituteService} from "../../../Services/project-substitute.service";
+import {AftercareModule} from '../aftercare/aftercare.module';
+import {AftercareRecommModule} from '../aftercare-recomendation/AftercareRecommModule';
+import {ProjectSubstituteService} from '../../../Services/project-substitute.service';
 
 @NgModule({
   imports: [

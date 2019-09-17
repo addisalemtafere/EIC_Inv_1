@@ -12,11 +12,6 @@ import {Investor} from '../../model/investor';
 import {ServiceapplicationService} from '../setting/services-tabs/serviceApplication/serviceapplication.service';
 import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
-import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
-import { ProjectRenewalService } from 'app/Services/project-renewal.service';
-import { BaseService } from 'app/Services/Base.service';
-import { ProjectRenewalModel } from 'app/model/ProjectRenewal.model';
-import { ProjectStatus } from '@custor/const/consts';
 
 @Component({
   selector: 'app-project-list-modal',
@@ -41,8 +36,6 @@ export class ProjectListModalComponent implements OnInit {
 
   constructor(private projetServices: ProjectProfileService,
               private accountService: AccountService,
-             private renewalService: ProjectRenewalService,
-              // private bs: BaseService<ProjectRenewalModel[]>,
               private serviceapplicationService: ServiceapplicationService,
               private toastr: ToastrService, private projectProfileService: ProjectProfileService,
               private router: Router,
@@ -93,127 +86,31 @@ export class ProjectListModalComponent implements OnInit {
 
   }
 
-createServiceApp(serviceApp: ServiceApplicationModel){
-    this.serviceApplication.CurrentStep = 2;
-      this.serviceapplicationService.create(this.serviceApplication)
-      .subscribe(result => {
-        console.log(result)
-        this.router.navigate(['/project-renewal/' + this.ServiceId + '/' + serviceApp.InvestorId + '/' + result.ServiceApplicationId + '/' + serviceApp.ProjectId + '/' + result.ServiceWorkflow[0].ServiceWorkflowId]);
-      });
-    
-}
-getServiceApp(){
-  this.serviceapplicationService.getServiceApplicationsByProjectId(this.serviceApplication.ProjectId,this.serviceApplication.InvestorId,this.ServiceId)
-  .subscribe( serApp =>{
-    if(serApp.length != 0){
-      console.log('you are here....')
-      this.router.navigate(['project-renewal/' + this.ServiceId + '/' + serApp[0].InvestorId + '/' + serApp[0].ServiceApplicationId + '/' + serApp[0].ProjectId + '/' + serApp[0].ServiceWorkflow[0].ServiceWorkflowId]);
-    }
-  });
-}
-  go(projectId: any, applicationId: any, ServiceId: any, InvestorId: any, ProjectName: any) {
-    this.serviceApplication.ProjectId = projectId;
-    this.serviceApplication.ServiceId = this.ServiceId;
-    this.serviceApplication.InvestorId = InvestorId;
-    this.serviceApplication.CaseNumber = '1';
-    this.serviceApplication.CurrentStatusId = ApplicationStatusEnum.Drafted;
-    this.serviceApplication.IsSelfService = true;
-    this.serviceApplication.IsPaid = true;
-    this.serviceApplication.CreatedUserId = 1;
-    this.serviceApplication.IsActive = false;
-    localStorage.setItem('ProjectName', ProjectName);
-    // console.log(localStorage.setItem('ProjectName', ProjectName));
-    if (this.ServiceId == ServiceEnum.Expansion) {
-      console.log('expansion')
-      this.router.navigate(['pro/' + projectId + '/' + 0 + '/' + ServiceEnum.Expansion + '/' + 0 + '/' + InvestorId]);
-      localStorage.setItem('ParentProjectId', projectId);
-    }
-     else if(this.ServiceId == ServiceEnum.Renewal){
-        //check the project for renewal 
-        this.renewalService.getRenewalByProjectId(projectId)
-        .subscribe( res => {
-          if( res.length  == 0 || res[0].MajorProblems == "Valid"){
-            // check in the service application
-            this.serviceapplicationService.getServiceApplicationsByProjectId(projectId,InvestorId,this.ServiceId)
-            .subscribe( serApp =>{
-              if(serApp.length != 0){
-               // console.log('project-renewal/' + this.ServiceId + '/' + InvestorId + '/' + serApp[0].ServiceApplicationId + '/' + projectId + '/' + serApp[0].ServiceWorkflow[0].ServiceWorkflowId);
-                // this.router.navigate(['/project-renewal/' + this.ServiceId + '/' + InvestorId + '/' + serApp[0].ServiceApplicationId + '/' + projectId + '/' + serApp[0].ServiceWorkflow[0].ServiceWorkflowId]);
-                  this.view(this.ServiceId,'Renewal',serApp[0].ServiceApplicationId,serApp[0].ServiceWorkflow[0].ServiceWorkflowId,projectId);
-              }
-              else {
-                if(res[0].ProjectStatus == 9){
-                  this.createServiceApp(this.serviceApplication);
-                }
-               }
-            });
-          } 
-          else if(res[0].ProjectStatus == 9 && res[0].MajorProblems == "InValid"){
-            // this.getServiceApp();
-            this.toastr.error('The Selected project is already renewed!')
-          }
-          else{
-            if(res[0].ProjectStatus == 4){
-              this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Cancelled');
-            }
-             else if(res[0].ProjectStatus == 5){
-              this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Injected');
-            }else if(res[0].ProjectStatus == 6){
-              this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Closed');
-            } else if(res[0].ProjectStatus == 7){
-              this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Transfered');
-            }else if(res[0].ProjectStatus == 8){
-              this.toastr.error(' Could not be renewed! The Selected project  with Project Id '+ projectId +'is already Not Active');
-            }else{
-              this.toastr.info('The Selected project is already renewed or waiting for approval!');
-            }
-          }
-           
-        });
-      }
-      else if (this.ServiceId == ServiceEnum.SubstituteIP){
-        this.serviceapplicationService.getServiceApplicationsByProjectId(projectId,InvestorId,this.ServiceId)
-        .subscribe( serApp =>{
-          console.log(serApp.length)
-         if(serApp.length != 0 ){
-         console.log('substitute...')
-             this.router.navigate(['/project-substitute/' + this.ServiceId + '/' + InvestorId + '/' + serApp[0].ServiceApplicationId + '/' + projectId + '/' + serApp[0].ServiceWorkflow[0].ServiceWorkflowId]);
-        
-          }
-          else {
-                  // check the project status
-                    this.projectProfileService.getOneById(projectId)
-                    .subscribe(r=>{
-                      console.log(r.ProjectStatus)
-                      // return
-                    if(r.ProjectStatus == 9){
-                      this.serviceapplicationService.create(this.serviceApplication)
-                      .subscribe(result => {
-                        this.router.navigate(['/project-substitute/' + this.ServiceId + '/' + InvestorId + '/' + result.ServiceApplicationId + '/' + projectId + '/' + result.ServiceWorkflow[0].ServiceWorkflowId]);
-                      });
-                    }
-                    else if(r.ProjectStatus == 4){
-                      this.toastr.error(' Could not be replaced! The Selected project  with Project Id '+ projectId +' is already Cancelled');
-                      this.router.navigate(['/investor-project-list/1027']);
-                    } else if(r.ProjectStatus == 5){
-                      this.toastr.error(' Could not be replaced! The Selected project  with Project Id '+ projectId +' is already Injected');
-                      this.router.navigate(['/dashboard']);
-                    }if(r.ProjectStatus == 6){
-                      this.toastr.error(' Could not be replaced! The Selected project  with Project Id '+ projectId +' is already Closed');
-                      this.router.navigate(['/dashboard']);
-                    } else if(r.ProjectStatus == 7){
-                      this.toastr.error(' Could not be replaced! The Selected project  with Project Id '+ projectId +' is already Transfered');
-                      this.router.navigate(['/dashboard']);
-                    }else if(r.ProjectStatus == 8){
-                      this.toastr.error(' Could not be replaced! The Selected project  with Project Id '+ projectId +' is already Not Active');
-                      this.router.navigate(['/dashboard']);
-                    }
-                    });
 
-          }
-        });
-      }
-    else{
+  go(projectId: any, applicationId: any, ServiceId: any, InvestorId: any) {
+
+    if (+this.ServiceId == 1023) {
+      this.router.navigate(['pro/' + projectId + '/' + 0 + '/' + 1023 + '/' + 0 + '/' + InvestorId]);
+      localStorage.setItem('ParentProjectId', projectId);
+    } else if(this.ServiceId === '18') {
+      this.serviceapplicationService.getServiceApplicationsByProjectId(projectId, InvestorId, this.ServiceId)
+        .subscribe( serApp => {
+          if (serApp.length != 0) {
+            console.log('you are here...')
+            this.view(this.ServiceId, 'Renewal', serApp[0].ServiceApplicationId,serApp[0].ServiceWorkflow[0].ServiceWorkflowId,projectId);
+          }});
+      console.log('renewal');
+    } else  {
+      console.log('incentive')
+      this.serviceApplication.ProjectId = projectId;
+      this.serviceApplication.ServiceId = this.ServiceId;
+      this.serviceApplication.InvestorId = InvestorId;
+      this.serviceApplication.CaseNumber = '1';
+      this.serviceApplication.CurrentStatusId = 44450;
+      this.serviceApplication.IsSelfService = true;
+      this.serviceApplication.IsPaid = true;
+      this.serviceApplication.CreatedUserId = 1;
+      this.serviceApplication.IsActive = false;
       this.serviceapplicationService.create(this.serviceApplication)
         .subscribe(result => {
           console.log(result);
@@ -221,59 +118,52 @@ getServiceApp(){
         });
 
     }
+
+
   }
 
   view(serviceId: any, name: any, applicationId: any, workflowId: any, projectId: any) {
     this.title = name;
+    console.log(workflowId);
     const investorId = localStorage.getItem('InvestorId');
-    // console.log(serviceId);
-    // console.log(investorId);
     switch (serviceId) {
-      // case '1047':
-      case ServiceEnum.UploadingOfConstructionMaterial:
+
+      case '1047':
         this.router.navigate(['bill-of-material/1/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      // case '1054':
-      case ServiceEnum.UploadingOfRawMaterial:
+      case '1054':
         this.router.navigate(['bill-of-material/2/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      // case '1046':
-      case ServiceEnum.DutyFreeIncentive:
+      case '1046':
         this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      // case '1045':
-      case ServiceEnum.TaxHolidayIncentive:
+      case '1045':
         this.getProjectDetails(projectId);
         if (this.ExemptionYear == 0) {
           this.toastr.error('This project does not have the right to take tax Exemption incentive', 'Not Allowed');
-        } else if (this.projectModel.ProjectStatus === 4) {
+        }
+        else if (this.projectModel.ProjectStatus === 4) {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         } else {
           this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         }
         break;
-      // case '1236':
-      case ServiceEnum.BusinessLicense:
+      case '1236':
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId + '/' + workflowId + '/' + 0]);
         break;
-      // case '18':
-      case ServiceEnum.Renewal.toString():
-      this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
+      case '18':
+        this.router.navigate(['project-renewal/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      // case '19':
-      case ServiceEnum.CancellationOfIP:
+      case '19':
         this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      // case '1023':
-      case ServiceEnum.Expansion:
+      case '1023':
         this.router.navigate(['pro/' + projectId + '/' + applicationId + '/' + serviceId + '/' + 0 + '/' + investorId]);
         break;
-      // case '1027':
-      case ServiceEnum.SubstituteIP:
+      case '1027':
         this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
         break;
-      // case '1028':
-      case ServiceEnum.AmendmentOfIP:
+      case '1028':
         this.router.navigate(['pro/' + projectId + '/' + applicationId + '/' + serviceId + '/' + 0 + '/' + investorId]);
         break;
 
@@ -286,7 +176,9 @@ getServiceApp(){
           if (result) {
             this.projectModel = result;
             this.ExemptionYear = this.projectModel.IsOromiaSpecialZone ? this.projectModel.InvestmentActivity.InAddisOromiaAreas : this.projectModel.InvestmentActivity.InOtherAreas;
-           }
+            console.log(this.projectModel.IsOromiaSpecialZone);
+            console.log(this.ExemptionYear);
+          }
         },
         error => this.errMsg.getError(error));
   }
