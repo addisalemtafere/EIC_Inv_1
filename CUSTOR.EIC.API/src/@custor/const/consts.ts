@@ -151,5 +151,6 @@ export const ServiceTypes: any[]=[
   {Id:1,Description: 'ክትትል', DescriptionEnglish: 'After care'},
   {Id:2,Description: 'ንግድ  ምዝገባ', DescriptionEnglish: 'Commercial  Registration'},
   {Id:3,Description: 'የኢንቨስትመንት አገልግሎት', DescriptionEnglish: 'Investment Service'},
-  {Id:4,Description: 'ማበረታቻ  አገልግሎት', DescriptionEnglish: 'Incentive Service'}
+  {Id:4,Description: 'ማበረታቻ  አገልግሎት', DescriptionEnglish: 'Incentive Service'},
+  {Id:5,Description: 'የማሻሻያ አገልግሎት' ,DescriptionEnglish:'Amendment Service',ServiceId:1028}
 ];

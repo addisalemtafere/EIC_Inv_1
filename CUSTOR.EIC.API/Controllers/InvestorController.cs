@@ -1,4 +1,4 @@
-﻿using CUSTOR.API.ExceptionFilter;
+using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.dto;
 using CUSTOR.EICOnline.DAL.EntityLayer;
@@ -57,6 +57,14 @@ namespace EICOnline.Controllers
     {
       return await InvestorRepo.GetInvestor(id);
     }
+
+    [HttpGet("api/investorAudit/{id:int}")]
+    public async Task<InvestorAuditDTO> GetInvestorAudit(int id)
+    {
+      return await InvestorRepo.GetInvestorAudit(id);
+    }
+
+
 
 
     [HttpGet("api/InvestorByUserId/{id}")]

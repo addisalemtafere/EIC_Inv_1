@@ -7,6 +7,7 @@ import {ErrorMessage} from '../../@custor/services/errMessageService';
 import {catchError} from 'rxjs/internal/operators';
 import {Observable} from 'rxjs';
 import {ServiceGroupModel} from '../model/ServiceGroup.Model';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Injectable(
   {
@@ -18,10 +19,11 @@ export class ServiceApplicationService extends BaseService<ServiceApplicationMod
   constructor(
     protected http: HttpClient,
     protected appConfig: AppConfiguration,
-    protected  errMsg: ErrorMessage) {
+    protected  errMsg: ErrorMessage,
+    protected config:ConfigurationService
+  ) {
     super(http, appConfig.urls.url('ServiceApplications'), errMsg);
   }
-
   changeApplicationStatus(resource, id) {
     return this.httpClient.post(this.appConfig.urls.url('ChangeApplicationStatus', id), resource).pipe(
       catchError(this.errMsg.parseObservableResponseError));
@@ -63,4 +65,6 @@ export class ServiceApplicationService extends BaseService<ServiceApplicationMod
       this.appConfig.urls.url('ServiceApplicationById', serviceApplicationId)
     ).pipe(catchError(this.errMsg.parseObservableResponseError));
   }
+
+ 
 }

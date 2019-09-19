@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -48,10 +48,8 @@ namespace CUSTOR.EICOnline.API.Controllers
             return _context.Associate
               .Where(p => p.InvestorId == id);
         }
-
-
-
-        [HttpGet("GetOneAssociateByInvestorId/{id}")]
+    
+    [HttpGet("GetOneAssociateByInvestorId/{id}")]
         public async Task<AssociateDTO> GetOneAssociateByInvestorID([FromRoute] int id)
         {
             return await Repository.GetAssociateByInvestorId(id);

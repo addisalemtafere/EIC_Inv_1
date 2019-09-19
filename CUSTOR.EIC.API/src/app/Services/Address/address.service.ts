@@ -34,14 +34,16 @@ export class AddressService extends EndpointFactory {
   private readonly _regionsUrl: string = 'api/Regions';
   private readonly _zonesUrl: string = 'api/Zones';
   private readonly _woredasUrl: string = 'api/Woredas';
-
+  currentLang : string;
   constructor(private httpClient: HttpClient,
               private appConfig: AppConfiguration,
               private config: ConfigurationService,
-              private errMsg: ErrorMessage, injector: Injector) {
+              private errMsg: ErrorMessage, injector: Injector,
+              private configService: ConfigurationService) {
     super(httpClient, config, injector);
+    this.currentLang = this.configService.language;
   }
-  
+
   get regionsUrl() {
     return this.config.baseUrl + this._regionsUrl;
   }
@@ -71,24 +73,24 @@ export class AddressService extends EndpointFactory {
   }
 
   getRegions(): Observable<RegionModel[]> {
-    return this.httpClient.get<RegionModel[]>(this.appConfig.urls.url('regions') + '/en').pipe(
+    return this.httpClient.get<RegionModel[]>(this.appConfig.urls.url(URLS_LABELS[1].Label) + '/'+this.currentLang).pipe(
       map(regionList => this.regionList = regionList),
       catchError(this.errMsg.parseObservableResponseError));
   }
 
   getAllZones(): Observable<ZoneModel[]> {
-    return this.httpClient.get<ZoneModel[]>(this.appConfig.urls.url('zones') + '/en').pipe(
+    return this.httpClient.get<ZoneModel[]>(this.appConfig.urls.url(URLS_LABELS[2].Label) + '/'+this.currentLang).pipe(
       map(zoneList => this.allZoneList = zoneList),
       catchError(this.errMsg.parseObservableResponseError));
   }
 
 
   getZones(id: string): Observable<ZoneModel[]> {
-    return this.httpClient.get<ZoneModel[]>(this.appConfig.urls.url('zones' + '/en', id)).pipe(
+    return this.httpClient.get<ZoneModel[]>(this.appConfig.urls.url(URLS_LABELS[2].Label + '/'+this.currentLang, id)).pipe(
       map(zoneList => this.zoneList = zoneList),
       catchError(this.errMsg.parseObservableResponseError));
   }
-  
+
   getRegionsByLang(lang: string): Observable<any> {
     const endpointUrl = `${this.regionsUrl}/${lang}`;
     return this.httpClient.get<Region[]>(endpointUrl, this.getRequestHeaders()).pipe(
@@ -114,26 +116,26 @@ export class AddressService extends EndpointFactory {
 
   }
   getAllTowns(): Observable<TownModel[]> {
-    return this.httpClient.get<TownModel[]>(this.appConfig.urls.url(URLS_LABELS[3].Label) + '/en').pipe(
+    return this.httpClient.get<TownModel[]>(this.appConfig.urls.url(URLS_LABELS[3].Label) + '/' + this.currentLang).pipe(
       map(result => this.allTownList = result),
       catchError(this.errMsg.parseObservableResponseError));
   }
 
   getTowns(id: string): Observable<TownModel[]> {
-    return this.httpClient.get<TownModel[]>(this.appConfig.urls.url(URLS_LABELS[3].Label + '/en', id)).pipe(
+    return this.httpClient.get<TownModel[]>(this.appConfig.urls.url(URLS_LABELS[3].Label + '/' +this.currentLang, id)).pipe(
       map(townList => this.townList = townList),
       catchError(this.errMsg.parseObservableResponseError));
   }
 
 
   getWoredas(id: string): Observable<WoredaModel[]> {
-    return this.httpClient.get<WoredaModel[]>(this.appConfig.urls.url(URLS_LABELS[4].Label + '/en', id)).pipe(
+    return this.httpClient.get<WoredaModel[]>(this.appConfig.urls.url(URLS_LABELS[4].Label + '/'+this.currentLang, id)).pipe(
       map(woredaList => this.woredaList = woredaList),
       catchError(this.errMsg.parseObservableResponseError));
   }
 
   getAllWoredas(): Observable<WoredaModel[]> {
-    return this.httpClient.get<WoredaModel[]>(this.appConfig.urls.url(URLS_LABELS[4].Label) + '/en').pipe(
+    return this.httpClient.get<WoredaModel[]>(this.appConfig.urls.url(URLS_LABELS[4].Label) + '/'+this.currentLang).pipe(
       map(woredaList => this.allWoredaList = woredaList),
       catchError(this.errMsg.parseObservableResponseError));
   }
@@ -145,18 +147,20 @@ export class AddressService extends EndpointFactory {
   }
 
   getKebelesByWoreda(id: string): Observable<KebeleModel[]> {
-    return this.httpClient.get<KebeleModel[]>(this.appConfig.urls.url(URLS_LABELS[5].Label, 'en', id)).pipe(
+    return this.httpClient.get<KebeleModel[]>(this.appConfig.urls.url(URLS_LABELS[5].Label, + '/' + this.currentLang, id)).pipe(
       map(kebeleList => this.kebeleList = kebeleList),
       catchError(this.errMsg.parseObservableResponseError));
   }
 
   getAllKebeles(): Observable<KebeleModel[]> {
-    return this.httpClient.get<KebeleModel[]>(this.appConfig.urls.url(URLS_LABELS[5].Label + '/en')).pipe(
+    return this.httpClient.get<KebeleModel[]>(this.appConfig.urls.url(URLS_LABELS[5].Label + '/' + this.currentLang)).pipe(
       map(kebeleList => this.allKebeleList = kebeleList),
       catchError(this.errMsg.parseObservableResponseError));
   }
 
   getNationality(lang: any): Observable<NationalityModel[]> {
+    console.log(this.appConfig.urls.url(URLS_LABELS[6].Label) + '/' + lang);
+
     return this.httpClient.get<NationalityModel[]>(this.appConfig.urls.url(URLS_LABELS[6].Label) + '/' + lang).pipe(
       map(countryList => this.NationList = countryList),
       catchError(this.errMsg.parseObservableResponseError));

@@ -13,6 +13,10 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="bin\Debug\netcoreapp2.0\publish\AutoMapper.dll" />
+    <None Include="bin\Debug\netcoreapp2.2\publish\AutoMapper.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <!--<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.0" />-->
     <PackageReference Include="dotnetcore.npoi" Version="1.2.1" />
@@ -25,6 +29,7 @@
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
@@ -36,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\app\ap-material.module.ts" />
+    <TypeScriptCompile Include="src\app\components\amendment\service\profile.service.ts" />
   </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

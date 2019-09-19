@@ -58,7 +58,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public Investor Investor { get; set; }
 
         public Project Project { get; set; }
-
+        // ADDED BY FETIHA
+        public int ? Status { get; set; }
         //public IncentiveBoMRequestItem IncentiveBoMRequestItem { get; set; }
         public Service Service { get; set; }
         public TodoTask TodoTask { get; set; }

@@ -36,6 +36,7 @@ export const STATUS: any[] =
 export const LOOK_UP_TYPES = {
   TITLES: '89',
   BUDGET_CATEGORY: '96',
+  DEFAULT_NATIONALITY :'19',
   COUNTRY :''
 };
 // : any[] = [

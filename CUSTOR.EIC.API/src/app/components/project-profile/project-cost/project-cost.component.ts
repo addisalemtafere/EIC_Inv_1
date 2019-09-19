@@ -13,7 +13,7 @@ import {MatSnackBar} from "@angular/material";
 
 import {ProjectCostService} from "../../../Services/project-cost.service";
 import {DataSharingService} from "../../../Services/data-sharing.service";
-import {Subscription} from "rxjs/Subscription";
+// import {Subscription} from "rxjs/Subscription";
 import {FormService} from "@custor/validation/custom/form";
 import {ActivatedRoute} from "@angular/router";
 import {ProjectProfileService} from "../../../Services/project-profile.service";
@@ -35,7 +35,7 @@ export class ProjectCostComponent
   implements OnInit, OnDestroy, AfterContentChecked {
   editMode = false;
   loading = false;
-  subscription: Subscription;
+  // subscription: Subscription;
   costId: number;
   projectId: number;
   projectCostForm: FormGroup;

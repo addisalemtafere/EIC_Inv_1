@@ -14,7 +14,21 @@ namespace CUSTOR.EICOnline.DAL
         public ServiceApplicationRepository(ApplicationDbContext context) : base(context)
         {
         }
-
+        public  ServiceApplication CheckServiceApplicationApi(int investorId, int requestedServiceId)
+        {
+            ServiceApplication sa = null;
+            try
+            {
+                sa = Context.ServiceApplication.OrderByDescending(m => m.UpdatedEventDatetime)
+                    .FirstOrDefault(m => m.ServiceId == requestedServiceId && m.InvestorId == investorId && m.IsActive != true);  
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException.ToString());
+            }
+            
+            return sa;
+        }
         public ServiceApplication GetRecord(int ServiceApplicationId)
         {
             ServiceApplication order = null;
@@ -109,4 +123,5 @@ namespace CUSTOR.EICOnline.DAL
             };
         }
     }
+    
 }

@@ -6,6 +6,7 @@ import {BaseService} from './Base.service';
 import {AssociateModel} from '../model/associate.model';
 import {catchError} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
+import { ConfigurationService } from '../../@custor/services/configuration.service';
 
 @Injectable(
   // {
@@ -13,15 +14,19 @@ import {Observable} from 'rxjs/internal/Observable';
   // }
 )
 export class AssociateService extends BaseService<AssociateModel> {
-
+ 
   constructor(
     protected http: HttpClient,
     protected appConfig: AppConfiguration,
     protected  errMsg: ErrorMessage) {
     super(http, appConfig.urls.url('associates'), errMsg);
   }
-
-  getAssociateByInvestorId(id: number): Observable<AssociateModel[]> {
+  
+  getAssociateByInvestorId(id: number){
+       return this.httpClient.get<AssociateModel[]>(this.appConfig.urls.url('byInvestorId') + '/' + id).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+  getAssociateFromAuditByInvestorId(id: number): Observable<AssociateModel[]> {
     return this.httpClient.get<AssociateModel[]>(this.appConfig.urls.url('byInvestorId') + '/' + id).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }

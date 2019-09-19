@@ -13,6 +13,7 @@ using CUSTOR.EICOnline.DAL.DataAccessLayer.Address;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive;
 using CUSTOR.EICOnline.DAL.EntityLayer;
+using CUSTOR.EICOnline.DAL.Helpers;
 using CUSTOR.Security;
 using EICOnline.Authorization;
 using EICOnline.Helpers;
@@ -209,10 +210,7 @@ namespace EICOnline.API
               .AllowCredentials());
         });
 
-        var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutoMapperProfile()); });
-
-        IMapper mapper = mappingConfig.CreateMapper();
-        services.AddSingleton(mapper);
+     
 
 //        services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
 
@@ -241,7 +239,16 @@ namespace EICOnline.API
           c.IncludeXmlComments(xmlPath);
         });
 
+        var mappingConfig = new MapperConfiguration(mc =>
+        {
+          mc.AddProfile(new AutoMapperProfile());
+          //mc.AddProfile(new ApplicationMappingProfile());
+        });
+
+        IMapper mapper = mappingConfig.CreateMapper();
         Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
+
+        services.AddSingleton(mapper);
 
         services.AddScoped<ModelValidationAttribute>();
 
@@ -302,7 +309,10 @@ namespace EICOnline.API
         services.AddScoped<AssociateRepository>();
         services.AddScoped<IncentiveBoMRequestItemsRepository>();
 
-
+        // Repo Added by Fetiha
+        services.AddScoped<FAssociateRepository>();
+        services.AddScoped<FInvestorRepository>();
+        //
         services.AddScoped<BudgetYearTypeRepository>();
         services.AddScoped<tblDivisionRepository>();
         services.AddScoped<tblMajorDivisionRepository>();

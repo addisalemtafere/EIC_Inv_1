@@ -56,7 +56,41 @@ namespace CUSTOR.EICOnline.DAL
 
             return InvestorHelper.GetInvestorDTO(investor, add, cat.ToArray());
         }
+        public async Task<InvestorAuditDTO> GetInvestorAudit(int InvestorId)
+        {
+            InvestorAudit investor = null;
+            Address add = null;
+            ICollection<RegistrationCatagory> catagory = null;
+            //            string[] cat =;
+            List<int> cat = new List<int>();
+            try
+            {
+                int id = InvestorId;
+                investor = await Context.InvestorAudit
+                    .FirstOrDefaultAsync(inv => inv.InvestorId == id);
+                catagory = Context.RegistrationCatagorys.Where(inv => inv.InvestorId == id).ToList();
+                //int m = (int)AddressType.eInvestor;
 
+                add = await Context.Address
+                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eInvestor);
+
+                foreach (var item in catagory)
+                {
+                    cat.Add(System.Convert.ToInt32(item.MajorCatagoryCode));
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                SetError("Couldn't load Investor - invalid Investor id specified.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                SetError(ex);
+            }
+
+            return InvestorHelper.GetInvestorAuditDTO(investor, add, cat.ToArray());
+        }
         public InvestorDTO SaveInvestor(InvestorDTO postedInvestor, ApplicationUser appUser)
         {
             bool isUpdate = (postedInvestor.InvestorId > 0);

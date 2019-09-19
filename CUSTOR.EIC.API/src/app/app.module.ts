@@ -170,6 +170,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // SubsectorService,
     // ActivityService,
     InvactivityService,
+
     // ProjectNationalityCompositionService,
     // SectorService,
     // RegionService,

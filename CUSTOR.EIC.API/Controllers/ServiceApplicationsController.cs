@@ -103,7 +103,11 @@ namespace EIC.Investment.API.Controllers
         .SingleOrDefaultAsync(m => m.ServiceApplicationId == id);
       return serviceApplication;
     }
-
+    [HttpGet("CheckServiceApplication/{investorId}/{requestedServiceId}")]
+    public ServiceApplication CheckServiceApplication(int investorId, int requestedServiceId)
+    {
+      return _repository.CheckServiceApplicationApi(investorId, requestedServiceId);
+    }
     [HttpGet("ByInvestorId/{id}")]
     public IEnumerable<ServiceApplication> GetServiceApplicationByInvestorId([FromRoute] int id)
     {

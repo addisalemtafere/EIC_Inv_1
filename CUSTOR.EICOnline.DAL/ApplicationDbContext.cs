@@ -27,6 +27,11 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public DbSet<Investor> Investors { get; set; }
         //by gebre
+        //by Fetiha
+        public DbSet<InvestorAudit> InvestorAudit { get; set; }
+        public DbSet<AssociateAudit> AssociateAudit { get; set; }
+
+        public DbSet<AddressAudit> AddressAudit { get; set; }
 
         public DbSet<Followup> Followups { get; set; }
 
@@ -138,7 +143,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbSet<BudgetYearType> BudgetYearTypes { get; set; }
         public DbSet<Registration> Registrations { get; set; }
         public DbSet<RegistrationCatagory> RegistrationCatagorys { get; set; }
-
+        public  DbSet<RegistrationCatagoryAudit> RegistrationCatagoryAudit { get; set; }
         public DbSet<Business> Businesses { get; set; }
         public DbSet<BusinessLicensingGroup> BusinessLicensingGroup { get; set; }
         public DbSet<tblBusinessBranch> tblBusinessBranch { get; set; }

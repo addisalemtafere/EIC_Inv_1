@@ -8,63 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AutoMapper;
 namespace CUSTOR.EICOnline.DAL
 {
-    public class AssociateRepository : EFRepository<ApplicationDbContext, Associate>
+    public class FAssociateRepository : EFRepository<ApplicationDbContext, Associate>
     {
-        public AssociateRepository(ApplicationDbContext context) : base(context)
+        public FAssociateRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public override async Task<Associate> GetRecord(object AssociateId)
-        {
-            Associate associate = null;
-            try
-            {
-                int id = (int) AssociateId;
-                associate = await Context.Associate
-                    .FirstOrDefaultAsync(inv => inv.AssociateId == id);
-            }
-            catch (InvalidOperationException)
-            {
-                SetError("Couldn't load Investor - invalid Investor id specified.");
-                return null;
-            }
-            catch (Exception ex)
-            {
-                SetError(ex);
-            }
-
-            return associate;
-        }
-
-        public async Task<AssociateDTO> GetAssociate(int associateId)
-        {
-            Associate associate = null;
-            Address add = null;
-            try
-            {
-                int id = associateId;
-                associate = await Context.Associate
-                    .FirstOrDefaultAsync(inv => inv.AssociateId == id);
-
-                add = await Context.Address
-                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eManager);
-            }
-            catch (InvalidOperationException)
-            {
-                SetError("Couldn't load Associate - invalid Associate id specified.");
-                return null;
-            }
-            catch (Exception ex)
-            {
-                SetError(ex);
-            }
-
-            return AssociateHelper.GetAssociateDTO(associate, add);
-        }
-
+   
         public async Task<List<AssociateListDTO>> GetManagers(int InvestorId){
 
             List<AssociateListDTO> active_managersList = null;
@@ -73,6 +26,7 @@ namespace CUSTOR.EICOnline.DAL
                 active_managersList = (from c in Context.Associate
                                        join nat in Context.Nationality
                                        on c.Nationality equals nat.id
+                                       where c.InvestorId == InvestorId
                                        select new AssociateListDTO
                                        {
                                            AssociateId = c.AssociateId,
@@ -107,12 +61,116 @@ namespace CUSTOR.EICOnline.DAL
             return manager;
 
         }
+
+        public async Task<AssociateAddressDTO> GetAssociate(int AssociateId)
+        {
+            AssociateAddressDTO manager = null;
+            try
+            {
+                //  manager = await Context.Associate.FirstOrDefaultAsync(p => p.AssociateId == AssociateId);
+                manager = await (from m in Context.Associate
+                                 join c in Context.Address
+                                 on m.AssociateId equals c.ParentId
+                                 where c.AddressType == (int)AddressType.eManager && m.AssociateId == AssociateId
+                                 select new AssociateAddressDTO
+                                 {
+                                     FirstName = m.FirstName,
+                                     FatherName = m.FatherName,
+                                     GrandName = m.GrandName,
+                                     FirstNameEng = m.FirstNameEng,
+                                     FatherNameEng = m.FirstNameEng,
+                                     GrandNameEng = m.GrandNameEng,
+                                     DateOfBirth = m.DateOfBirth,
+                                     Gender = m.Gender,
+                                     Nationality = m.Nationality,
+                                     Tin = m.Tin,
+                                     Title = m.Title,
+                                     AssociateId = m.AssociateId,
+                                     Remark = m.Remark,
+                                     IsActive = m.IsActive,
+                                     IsDeleted = m.IsDeleted,
+                                     CreatedUserId = m.CreatedUserId,
+                                     UpdatedDate = m.UpdatedDate,
+                                     MobilePhone = c.CellPhoneNo,
+                                     RegionId = c.RegionId,
+                                     ZoneId = c.ZoneId,
+                                     Tele = c.TeleNo,
+                                     WoredaId = c.WoredaId,
+                                     KebeleId = c.KebeleId,
+                                     HouseNo = c.HouseNo,
+                                     Pobox = c.Pobox,
+                                     FaxNo = c.Fax,
+                                     Email = c.Email,
+                                     OtherAddress = c.OtherAddress,
+
+                                 }
+                              ).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
+            return manager;
+
+        }
         public async Task <AssociateAudit> GetManagerAuditByIvestorId(int InvestorId)
         {
             AssociateAudit manager = null;
             try
             {
                 manager = await Context.AssociateAudit.FirstOrDefaultAsync(p => p.InvestorId == InvestorId);
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
+            return manager;
+        }
+
+        public async Task<AssociateAuditAddressDTO> GetAssociateAudit(int AssociateId)
+        {
+            AssociateAuditAddressDTO manager = null;
+            try
+            {
+                manager = await (from m in Context.Associate
+                                 join c in Context.Address
+                                 on m.AssociateId equals c.ParentId
+                                 where c.AddressType == (int)AddressType.eManager && m.AssociateId == AssociateId
+                                 select new AssociateAuditAddressDTO
+                                 {
+                                     FirstName = m.FirstName,
+                                     FatherName = m.FatherName,
+                                     GrandName = m.GrandName,
+                                     FirstNameEng = m.FirstNameEng,
+                                     FatherNameEng = m.FirstNameEng,
+                                     GrandNameEng = m.GrandNameEng,
+                                     DateOfBirth = m.DateOfBirth,
+                                     Gender = m.Gender,
+                                     Nationality = m.Nationality,
+                                     Tin = m.Tin,
+                                     Title = m.Title,
+                                     AssociateId = m.AssociateId,
+                                     Remark = m.Remark,
+                                     IsActive = m.IsActive,
+                                     IsDeleted = m.IsDeleted,
+                                     CreatedUserId = m.CreatedUserId,
+                                     UpdatedDate = m.UpdatedDate,
+                                     MobilePhone = c.CellPhoneNo,
+                                     RegionId = c.RegionId,
+                                     ZoneId = c.ZoneId,
+                                     Tele = c.TeleNo,
+                                     WoredaId = c.WoredaId,
+                                     KebeleId = c.KebeleId,
+                                     HouseNo = c.HouseNo,
+                                     Pobox = c.Pobox,
+                                     FaxNo = c.Fax,
+                                     Email = c.Email,
+                                     OtherAddress = c.OtherAddress,
+
+                                 }
+                                ).FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {
