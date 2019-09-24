@@ -54,15 +54,6 @@ export class IncentiveRequestService {
       catchError(this.errMsg.parseObservableResponseError));
   }
 
-  getIncentiveRequestByProjectId(id, lang): Observable<IncentiveRequestModel[]> {
-    return this.httpClient.get<IncentiveRequestModel[]>(this.config.urls.url('incentiveRequestByServiceAppId', id, lang)).pipe(
-      map(incentiveRequestdata => {
-        this.incentiveRequestList = incentiveRequestdata;
-        return this.incentiveRequestList;
-      }),
-      catchError(this.errMsg.parseObservableResponseError));
-  }
-
   getIncentiveRequest(id): Observable<IncentiveRequestModel> {
     return this.httpClient.get<IncentiveRequestModel>(this.config.urls.url('incentiveRequest', id)).pipe(
       map(incentiveRequestdata => {

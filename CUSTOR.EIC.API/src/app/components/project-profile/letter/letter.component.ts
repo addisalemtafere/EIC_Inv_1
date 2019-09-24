@@ -23,10 +23,9 @@ import {TaxExemptionModel} from '../../../model/incentive/TaxExemption.model';
 import {AddressModel} from '../../../model/address/Address.model';
 import {AddressService} from '../../../Services/Address/address.service';
 import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confirm-dialog.component';
-import {DateService} from '../../../Services/date.service';
-import {ConfigurationService} from '@custor/services/configuration.service';
-import {AccountService} from '@custor/services/security/account.service';
-import {ServiceEnum} from '../../../enum/enums';
+import {DateService} from "../../../Services/date.service";
+import {ConfigurationService} from "@custor/services/configuration.service";
+import {ServiceEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-letter',
@@ -90,7 +89,6 @@ export class LetterComponent implements OnInit {
     private addressService: AddressService,
     private config: AppConfiguration,
     private activatedRoute: ActivatedRoute,
-    private accountService: AccountService,
     private router: Router,
     public route: ActivatedRoute,
     private http: HttpClient,
@@ -125,7 +123,7 @@ export class LetterComponent implements OnInit {
       this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'] || this.route.snapshot.params['serviceApplicationId'];
       this.getProjectDetails();
       this.getIncentiveDetails();
-      // this.getLetterTempalte();
+      //this.getLetterTempalte();
       this.getTaxExemptionDetails();
       // if (this.ServiceId == '1045') {
       if (this.ServiceId == ServiceEnum.TaxHolidayIncentive) {
@@ -216,7 +214,7 @@ export class LetterComponent implements OnInit {
   }
 
   getIncentiveDetails() {
-    this.incentiveRequestService.getIncentiveRequestByServiceApplicationId(this.ServiceApplicationId, this.currentLang)// 34517
+    this.incentiveRequestService.getIncentiveRequestByServiceApplicationId(this.ServiceApplicationId, this.currentLang)//34517
       .subscribe(result => {
           if (result) {
             // console.log(this.incentiveRequestModelList);
@@ -231,7 +229,7 @@ export class LetterComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        // console.log(result);
+        //console.log(result);
       }, error => this.errMsg.getError(error));
   }
 
@@ -239,7 +237,7 @@ export class LetterComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.InvestoraddressList = result;
-        // console.log(result);
+        //console.log(result);
       }, error => this.errMsg.getError(error));
   }
 
@@ -248,7 +246,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.projectModel = result;
-            // console.log(result);
+            //console.log(result);
           }
         },
         error => this.errMsg.getError(error));
@@ -337,25 +335,25 @@ export class LetterComponent implements OnInit {
   }
 
   private getEthiopianDate() {
-    const subscription = this.dateService.getEthiopianDateNow()
+    let subscription = this.dateService.getEthiopianDateNow()
       .subscribe(data => {
 
         this.todayEthioDate = data;
-        const d = this.todayEthioDate.split('/').reverse().join('-');
+        var d = this.todayEthioDate.split('/').reverse().join('-');
         // var d2 = new Date(d);
-        const d2 = new Date(d);
-        const year = d2.getFullYear() + 1;
-        const month = d2.getMonth() + 1;
-        const day = d2.getDate();
+        var d2 = new Date(d);
+        var year = d2.getFullYear() + 1;
+        var month = d2.getMonth() + 1;
+        var day = d2.getDate();
         this.dateEthioNextYear = day + '/' + month + '/' + year;
       });
   }
 
   generatePDF() {
-    // console.log(this.incentiveRequestModelList)
+    //console.log(this.incentiveRequestModelList)
     this.ShowSave = true;
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g, this.projectModel.Investor.InvestorName);
-    console.log(this.projectModel.Investor.InvestorName);
+    //console.log(this.projectModel.Investor.InvestorName)
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameEng}}/g, this.projectModel.Investor.InvestorNameEng.toUpperCase());
     this.LetterContent = this.LetterContent.replace(/{{StartDate}}/g,
       new Date(this.projectModel.StartDate).getMonth() +
@@ -393,11 +391,8 @@ export class LetterComponent implements OnInit {
 
     if (this.ServiceId !== ServiceEnum.TaxHolidayIncentive && this.ServiceId != ServiceEnum.NewIP) {
       this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
-        this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo);
-      this.LetterContent = this.LetterContent.replace(/{{CustomsSite}}/g,
-        this.incentiveRequestModelList[0].CustomsSite);
-      this.LetterContent = this.LetterContent.replace(/{{ChassisNo}}/g,
-        this.incentiveRequestModelList[0].ChassisNo);
+        this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
+      );
     }
     this.LetterContent = this.LetterContent.replace(/{{TeleNo}}/g,
       this.InvestoraddressList.CellPhoneNo);
@@ -409,6 +404,7 @@ export class LetterComponent implements OnInit {
     this.letterForm.patchValue({
       LetterContent: this.LetterContent
     });
+
   }
 
   deleteLetter(index: number, id: number) {
@@ -478,7 +474,6 @@ export class LetterComponent implements OnInit {
       LetterContent: formModel.LetterContent,
       // Attachment: formModel.Attachment,
       RequestDate: new Date(),
-      UserName: this.accountService.currentUser.Id,
       ProjectId: this.ProjectId
     };
   }

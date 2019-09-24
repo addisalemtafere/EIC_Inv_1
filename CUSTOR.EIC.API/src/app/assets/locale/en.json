@@ -92,6 +92,7 @@
     "InvestorProfile": "My Profile",
     "BusinessProfile": "Business Profile",
     "associate": "Manager",
+    "Amendment": "Amendment",
     "capitalRegistration": "Capital Registration",
     "customerRegistration": "Customer Registration",
     "changePassword": "Change Password",
@@ -174,8 +175,8 @@
       "KebeleAmharic": "Kebele(Amharic)",
       "KebeleEnglish": "Kebele(English)",
       "HouseNo": "House Number",
-      "PhoneDirect": "Telephine (Direct)",
-      "PhoneMobile": "Telephine (Mobile)",
+      "PhoneDirect": "Telephone (Direct)",
+      "PhoneMobile": "Telephone (Mobile)",
       "Fax": "Fax",
       "Pobox": "P.O.Box",
       "Email": "Email",
@@ -188,7 +189,10 @@
       "MangerAddress": "Manager Address",
       "PaidCapital": "Paid Capital",
       "SighnedCapital": "Signed Capital",
-      "FormOfOwnership": "Form Of Ownership"
+      "FormOfOwnership": "Form Of Ownership",
+      "ManagerProfile": "Manager Profile",
+      "InvestorProfile": "Investor Profile",
+      "CompanyProfile": "Company Profile"
     }
   },
   "form": {
@@ -307,8 +311,7 @@
     "CurrencyType": "Currency Type",
     "Amount": "Amount",
     "InvoiceNo": "InvoiceNo",
-    "Phase": "Batch",
-    "FileNo": "FileNo"
+    "Phase": "Batch"
   },
   "incentiverequestitem": {
     "IncentiveItem": "Incentive Item",
@@ -321,9 +324,7 @@
   },
   "taxexemption": {
     "RevenueBranch": "Revenue Branch",
-    "ExemptionYear": "Exemption Year",
-    "FileNo": "FileNo",
-    "BusinessLicenseNo": "Business License No."
+    "ExemptionYear": "Exemption Year"
   },
   "billofmaterrial": {
     "Phase": "Batch",
@@ -414,8 +415,8 @@
       "Woreda": "Wereda",
       "Kebele": "Kebele",
       "HouseNo": "House Number",
-      "PhoneDirect": "Telephine (Direct)",
-      "PhoneMobile": "Telephine (Mobile)",
+      "PhoneDirect": "Telephone (Direct)",
+      "PhoneMobile": "Telephone (Mobile)",
       "Fax": "Fax",
       "Pobox": "P.O.Box",
       "Email": "Email",

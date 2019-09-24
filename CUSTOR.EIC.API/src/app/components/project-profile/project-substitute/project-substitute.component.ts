@@ -27,7 +27,7 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
     // {'type': 'Own Interest'},
     // {'type': 'by law'},
     {'type': 'Lose'},
-    {'type': 'Damage/Ruined'},
+    {'type': 'Damage'},
     // {'type': 'By Authority'},
     // {'type': 'Sales'},
     // {'type': 'Late Renewal'}
@@ -83,15 +83,15 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
 console.log('Submitted!');
     this.substituteService.create(this.projectsubstituteForm.value)
       .subscribe(result => {
-        console.log(result);
         this.dataSharing.renewalIndex.next(2);
         if(this.isInvestor){
-          this.toast.success('Request for substitute  has been sent', 'success!!');
+          this.toast.success('Request for substitute  has been saved.', 'success!!');
+          setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+          setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
         }
         else{
           this.toast.success('Request for substitute  has been Approved', 'success!!');
         }
-        // this.dataSharing.currentIndex.next(4);
       });
   }
 
@@ -129,13 +129,15 @@ console.log('Submitted!');
   }
 
   approve() {
-    console.log('approval');
     const SubstituteData = this.mapApproval(this.projectsubstituteForm.value);
     const id=localStorage.getItem('ProjectSubstituteId').toString();
+    console.log("Substitute ID="+id);
+    // console.log(SubstituteData);
     this.substituteService.update(SubstituteData, id)
       .subscribe(result => {
         console.log(result);
         this.toastr.success('Substitution successfully Approved.', 'Success');
+        // this.approveApplication(this.ServiceApplicationId);
       });
 
   }

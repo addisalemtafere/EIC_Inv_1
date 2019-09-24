@@ -68,16 +68,16 @@ export class ProjectRenewalComponent implements OnInit {
     this.getAllProjects();
     this.getRenewalDetails(this.ProjectId);
     this.isInvestor = this.accountService.getUserType();
-    // this.route.params
-    //   .subscribe((params: Params) => {
-    //     // console.log(this.ServiceApplicationId);
-    //     if (this.ServiceApplicationId > 1) {
-    //       this.getServiceApplicationRenewal();
-    //     }
-    //     else{
-    //       this.editMode = false;
-    //     }
-    //   });
+    this.route.params
+      .subscribe((params: Params) => {
+        // console.log(this.ServiceApplicationId);
+        if (this.ServiceApplicationId > 1) {
+          this.getServiceApplicationRenewal();
+        }
+        else{
+          this.editMode = false;
+        }
+      });
   }
 
   initForm() {
@@ -85,6 +85,7 @@ export class ProjectRenewalComponent implements OnInit {
       RenewalDate: new FormControl({value: this.dateCurrent, disabled: true}),
       RenewedFrom: new FormControl({value: this.dateCurrent, disabled: true}),
       RenewedTo: new FormControl({value: this.nextyear, disabled: true}),
+      Remark: new FormControl({value: ''}),
       ProjectId: this.ProjectId,
       InvestorId: this.InvestorId,
       ServiceId: this.ServiceId,
@@ -101,25 +102,26 @@ export class ProjectRenewalComponent implements OnInit {
   }
 
   onSubmit() {
-    // console.log(this.editMode);
-    // console.log(this.projectRenewalForm.value);
     const data = this.mapData(this.projectRenewalForm.value);
-    console.log(data);
-    // if (!this.editMode) {
+    if (!this.editMode) {
         this.projectRenewalService
           .create(this.projectRenewalForm.value)
           .subscribe(response => {
-            this.dataSharing.renewalIndex.next(2);
-            this.toastr.success('Data Saved Successfully', 'Success');
+            this.toastr.success('Data Saved Successfully!', 'Success');
           });
-// } else {
-//   const id = localStorage.getItem('ProjectRenewalId').toString();
-//   this.projectRenewalService
-//     .update(this.projectRenewalForm.value, id)
-//     .subscribe(result=> {
-//       // console.log("Updated="+ result);
-//     });
-// }
+
+      setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+      setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
+        } else {
+          const id = localStorage.getItem('ProjectRenewalId').toString();
+          this.projectRenewalService
+            .update(this.projectRenewalForm.value, id)
+            .subscribe(result=> {
+              this.toastr.success('Data Updated Successfully!', 'Success');
+              setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+              setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
+            });
+        }
   }
   mapApproval(approve: ProjectRenewalModel): ProjectRenewalModel {
     approve.IsApproved = true;
@@ -143,39 +145,38 @@ export class ProjectRenewalComponent implements OnInit {
   approve() {
     const RenewalData = this.mapApproval(this.projectRenewalForm.value);
     console.log(RenewalData);
-    // if(this.editMode)
-    // {
+    if(this.editMode)
+    {
       const id = localStorage.getItem('ProjectRenewalId').toString();
       console.log(id);
       this.projectRenewalService.update(RenewalData, id)
         .subscribe(result => {
           this.toastr.success('Renewal  successfully approved', 'Success');
         });
-
-    // }
-    // else
-    // {
-    // this.projectRenewalService
-    //   .create(RenewalData)
-    //   .subscribe(result => {
-    //     this.toastr.success('Renewal  successfully approved', 'Success');
-    //   });
-    // }
+    } else {
+    this.projectRenewalService
+      .create(RenewalData)
+      .subscribe(result => {
+        this.toastr.success('Renewal  successfully approved', 'Success');
+      });
+    }
+      this.dataSharing.steeperIndex.next(3);
   }
 
-  // private getServiceApplicationRenewal() {
-  //   this.projectRenewalService
-  //     .getRenewalByServiceApplicationId(this.ServiceApplicationId)
-  //     .subscribe(result => {
-  //       this.projectRenewalForm.patchValue(result.ProjectRenewal[0]);
-  //       if(result.ProjectRenewal[0] != null)
-  //       {
-  //         this.editMode=true;
-  //         localStorage.setItem('ProjectRenewalId', result.ProjectRenewal[0].ProjectRenewalId.toString());
-  //      // console.log("ID=" + result.ProjectRenewal[0].ProjectRenewalId);
-  //       }
-  //     }, error => this.errMsg.getError(error));
-  // }
+  private getServiceApplicationRenewal() {
+    this.projectRenewalService
+      .getRenewalByServiceApplicationId(this.ServiceApplicationId)
+      // .getRenewalByProjectId(this.ProjectId)
+      .subscribe(result => {
+        console.log(result);
+        this.projectRenewalForm.patchValue(result.ProjectRenewal[0]);
+        if(result.ProjectRenewal[0] != null)
+        {
+          this.editMode=true;
+          localStorage.setItem('ProjectRenewalId', result.ProjectRenewal[0].ProjectRenewalId.toString());
+        }
+      }, error => this.errMsg.getError(error));
+  }
   setMinDate(minD: Date) {
     this.minDate = minD;
   }
@@ -220,6 +221,7 @@ export class ProjectRenewalComponent implements OnInit {
               this.dataSourcetbl = new MatTableDataSource<ProjectRenewalModel>(result);
               this.dataSourcetbl.paginator = this.paginator2;
               this.res = this.checkRenewal(result[0].RenewedTo);
+              console.log(this.res);
               localStorage.setItem('ProjectRenewalId', result[0].ProjectRenewalId.toString());
               if (this.res) {
                 this.dateFrom.setValue(result[0].RenewedTo);
@@ -236,7 +238,10 @@ export class ProjectRenewalComponent implements OnInit {
           });
 
     }
+  next() {
+    this.dataSharing.steeperIndex.next(3);
 
+  }
   private checkRenewal(RenewedTo: Date) {
     const d = new Date(RenewedTo);
     const today = new Date();

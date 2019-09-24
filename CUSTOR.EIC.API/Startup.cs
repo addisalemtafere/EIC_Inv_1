@@ -311,6 +311,8 @@ namespace EICOnline.API
         services.AddScoped<RegistrationRepository>();
         services.AddScoped<RegistrationCatagoryRepository>();
         services.AddScoped<BusinessLicensingGroupRepository>();
+        services.AddScoped<ProjectRenewalRepository>();
+        services.AddScoped<ProjectReplacementRepository>();
 
 
         // Repositories

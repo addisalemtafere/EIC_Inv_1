@@ -29,7 +29,7 @@
             <mat-datepicker #RequestDate>
             </mat-datepicker>
           </mat-form-field>
-          <mat-form-field [fxFlex]="5">
+          <mat-form-field [fxFlex]="20">
            <mat-label>{{'taxexemption.ExemptionYear' | translate}}</mat-label>
             <input type="text" matInput required
                    formControlName="ExemptionYearRequested">
@@ -37,25 +37,6 @@
               Only neumbric charcters are allowed!
             </mat-error>
             <mat-error *ngIf="!ExemptionYearRequested.hasError('maxlength')">
-              Maximum charcters length is 1!
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field [fxFlex]="20">
-           <mat-label>{{'taxexemption.BusinessLicenseNo' | translate}}</mat-label>
-            <input type="text" matInput required
-                   formControlName="BusinessLicenseNo">
-            <mat-error *ngIf="BusinessLicenseNo.hasError('required')">
-              The filed is required!
-            </mat-error>
-            <mat-error *ngIf="!BusinessLicenseNo.hasError('maxlength')">
-              Maximum charcters length is 1!
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field [fxFlex]="20">
-           <mat-label>{{'taxexemption.FileNo' | translate}}</mat-label>
-            <input type="text" matInput required
-                   formControlName="FileNo">
-            <mat-error *ngIf="!FileNo.hasError('maxlength')">
               Maximum charcters length is 1!
             </mat-error>
           </mat-form-field>

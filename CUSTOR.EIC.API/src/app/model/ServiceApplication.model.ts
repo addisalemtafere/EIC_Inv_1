@@ -15,11 +15,10 @@ export class ServiceApplicationModel {
   public ProjectId: any;
   public InvestorId: string;
   public ServiceId: any;
-  public CurrentStep: number;
   public TodoTaskId: string;
   public CaseNumber: string;
   public StartDate: string;
-
+  public CurrentStep: number;
   public ServiceNameEnglish: string;
   public ServiceNameAmharic: string;
 

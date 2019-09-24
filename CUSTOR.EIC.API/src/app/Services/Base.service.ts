@@ -37,7 +37,6 @@ export abstract class BaseService<T> {
   }
 
   create(resource: T): Observable<T> {
-    console.log(this.url)
     return this.httpClient.post(this.url, resource).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }

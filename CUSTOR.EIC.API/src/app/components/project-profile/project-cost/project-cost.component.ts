@@ -1,4 +1,4 @@
-import {AfterContentChecked, Component, OnDestroy, OnInit} from "@angular/core";
+import {AfterContentChecked, Component, OnDestroy, OnInit} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,65 +7,65 @@ import {
   ValidationErrors,
   ValidatorFn,
   Validators
-} from "@angular/forms";
-import {ProjectCostModel} from "../../../model/ProjectCost.model";
-import {MatSnackBar} from "@angular/material";
+} from '@angular/forms';
+import {ProjectCostModel} from '../../../model/ProjectCost.model';
+import {MatSnackBar} from '@angular/material';
 
-import {ProjectCostService} from "../../../Services/project-cost.service";
-import {DataSharingService} from "../../../Services/data-sharing.service";
-//import {Subscription} from "rxjs/Subscription";
-import {FormService} from "@custor/validation/custom/form";
-import {ActivatedRoute} from "@angular/router";
-import {ProjectProfileService} from "../../../Services/project-profile.service";
-import {ErrorMessage} from "@custor/services/errMessageService";
-import {ToastrService} from "ngx-toastr";
-import {CurrencyType, ProjectStatusModel, QuarterModel} from "../../../model/lookupData";
-import {CurrencyTypes, ProjectStatus, Quarter} from "@custor/const/consts";
-import {determineId} from "@custor/helpers/compare";
-import {ApplicationSettingService} from "../../../Services/application-setting.service";
-import {Permission} from "app/model/security/permission.model";
-import {AccountService} from "../../../../@custor/services/security/account.service";
+import {ProjectCostService} from '../../../Services/project-cost.service';
+import {DataSharingService} from '../../../Services/data-sharing.service';
+import {Subscription} from 'rxjs';
+import {FormService} from '@custor/validation/custom/form';
+import {ActivatedRoute} from '@angular/router';
+import {ProjectProfileService} from '../../../Services/project-profile.service';
+import {ErrorMessage} from '@custor/services/errMessageService';
+import {ToastrService} from 'ngx-toastr';
+import {CurrencyType, ProjectStatusModel, QuarterModel} from '../../../model/lookupData';
+import {CurrencyTypes, ProjectStatus, Quarter} from '@custor/const/consts';
+import {determineId} from '@custor/helpers/compare';
+import {ApplicationSettingService} from '../../../Services/application-setting.service';
+import {Permission} from 'app/model/security/permission.model';
+import {AccountService} from '../../../../@custor/services/security/account.service';
 
 @Component({
-  selector: "app-project-cost",
-  templateUrl: "./project-cost.component.html",
-  styleUrls: ["./project-cost.component.css"]
+  selector: 'app-project-cost',
+  templateUrl: './project-cost.component.html',
+  styleUrls: ['./project-cost.component.css']
 })
 export class ProjectCostComponent
   implements OnInit, OnDestroy, AfterContentChecked {
   editMode = false;
   loading = false;
-  //subscription: Subscription;
+  subscription: Subscription;
   costId: number;
   projectId: number;
   projectCostForm: FormGroup;
   projectCost: ProjectCostModel;
   public formErrors = {
-    LandCost: "",
-    LandCostInBirr: "",
-    BuildingCost: "",
-    BuildingCostInBirr: "",
-    MachineryCost: "",
-    MachineryCostInBirr: "",
-    TransportCost: "",
-    TransportCostInBirr: "",
-    OfficeEquipmentCost: "",
-    OfficeEquipmentCostInBirr: "",
-    OtherCapitalCost: "",
-    OtherCapitalCostInBirr: "",
-    InitialWorkingCapitalCost: "",
-    InitialWorkingCapitalCostInBirr: "",
-    EquityFinance: "",
-    LoanFinance: "",
-    OtherSourceFinance: "",
-    OtherSourceDescription: "",
-    Unit: "",
-    ExchangeRate: "",
-    CapitalRegistrationDatetime: "",
-    ActualCostInForeign: "",
-    Quarter: "",
-    ReagistrationYear: "",
-    Remark: ""
+    LandCost: '',
+    LandCostInBirr: '',
+    BuildingCost: '',
+    BuildingCostInBirr: '',
+    MachineryCost: '',
+    MachineryCostInBirr: '',
+    TransportCost: '',
+    TransportCostInBirr: '',
+    OfficeEquipmentCost: '',
+    OfficeEquipmentCostInBirr: '',
+    OtherCapitalCost: '',
+    OtherCapitalCostInBirr: '',
+    InitialWorkingCapitalCost: '',
+    InitialWorkingCapitalCostInBirr: '',
+    EquityFinance: '',
+    LoanFinance: '',
+    OtherSourceFinance: '',
+    OtherSourceDescription: '',
+    Unit: '',
+    ExchangeRate: '',
+    CapitalRegistrationDatetime: '',
+    ActualCostInForeign: '',
+    Quarter: '',
+    ReagistrationYear: '',
+    Remark: ''
   };
   currencyTypes: CurrencyType[] = [];
   projectStatus: ProjectStatusModel[] = [];
@@ -94,22 +94,22 @@ export class ProjectCostComponent
   }
 
   ngOnInit() {
-    this.ServiceId = this.route.snapshot.params["ServiceId"];
-    this.InvestorId = this.route.snapshot.params["InvestorId"];
-    this.workFlowId = this.route.snapshot.params["workFlowId"];
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params[
-      "ServiceApplicationId"
+      'ServiceApplicationId'
       ];
-    this.projectId = this.route.snapshot.params["ProjectId"];
+    this.projectId = this.route.snapshot.params['ProjectId'];
 
-    if (this.ServiceId == "1234") {
+    if (this.ServiceId == '1234') {
       // this.projectId = this.route.snapshot.params['ProjectId']
       this.getProjectStatus(this.projectId);
     }
-    if (this.projectId > 1 && this.ServiceId == "13") {
+    if (this.projectId > 1 && this.ServiceId == '13') {
       this.getProjectCost();
     }
-    this.initStaticData("en");
+    this.initStaticData('en');
 
     this.formBuild();
     this.getExchangeRate();
@@ -119,7 +119,7 @@ export class ProjectCostComponent
   getProjectCost() {
     this.projectCostService.getCostByProjectId(this.projectId).subscribe(
       result => {
-        if (typeof result !== "undefined") {
+        if (typeof result !== 'undefined') {
           this.editMode = true;
           this.costId = result.ProjectCostId;
           this.projectCostForm.patchValue(result);
@@ -169,13 +169,13 @@ export class ProjectCostComponent
           .subscribe(result => {
             setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
             setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
-            this.notification("saved");
+            this.notification('saved');
           });
       } else {
         this.projectCostService
           .update(this.projectCostForm.value, this.costId)
           .subscribe(result => {
-            this.notification("updated");
+            this.notification('updated');
           });
       }
     } else {
@@ -263,15 +263,15 @@ export class ProjectCostComponent
           Validators.min(26),
           Validators.max(35)
         ])),
-        Unit: new FormControl("1"),
-        Quarter: new FormControl(""),
-        CapitalRegistrationDatetime: new FormControl(""),
-        ReagistrationYear: new FormControl(""),
-        ProjectStatus: new FormControl(""),
+        Unit: new FormControl('1'),
+        Quarter: new FormControl(''),
+        CapitalRegistrationDatetime: new FormControl(''),
+        ReagistrationYear: new FormControl(''),
+        ProjectStatus: new FormControl(''),
         // ExchangeRate: new FormControl(""),
-        Remark: new FormControl(""),
-        Total: new FormControl(""),
-        TotalInBirr: new FormControl("")
+        Remark: new FormControl(''),
+        Total: new FormControl(''),
+        TotalInBirr: new FormControl('')
       },
       {validators: sumOfSourceFinanceValidator}
     );
@@ -284,7 +284,7 @@ export class ProjectCostComponent
       );
     });
     this.projectCostForm
-      .get("Total")
+      .get('Total')
       .valueChanges.subscribe((intLegal: number) => {
       this.sumOfPlan = intLegal;
     });
@@ -338,10 +338,10 @@ export class ProjectCostComponent
   }
 
   notification(message: string) {
-    this.toastr.success(` Succesfully ${message} Data.!`, "Success");
+    this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
 
     this.loading = false;
-    this.snackbar.open(` Succesfully ${message} Data.!`, "Close", {
+    this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
       duration: 3000
     });
   }
@@ -384,13 +384,13 @@ export class ProjectCostComponent
 
   private sumAllInBirr() {
     const totalInBirr =
-      this.projectCostForm.get("LandCostInBirr").value +
-      this.projectCostForm.get("BuildingCostInBirr").value +
-      this.projectCostForm.get("MachineryCostInBirr").value +
-      this.projectCostForm.get("TransportCostInBirr").value +
-      this.projectCostForm.get("OfficeEquipmentCostInBirr").value +
-      this.projectCostForm.get("OtherCapitalCostInBirr").value +
-      this.projectCostForm.get("InitialWorkingCapitalCostInBirr").value;
+      this.projectCostForm.get('LandCostInBirr').value +
+      this.projectCostForm.get('BuildingCostInBirr').value +
+      this.projectCostForm.get('MachineryCostInBirr').value +
+      this.projectCostForm.get('TransportCostInBirr').value +
+      this.projectCostForm.get('OfficeEquipmentCostInBirr').value +
+      this.projectCostForm.get('OtherCapitalCostInBirr').value +
+      this.projectCostForm.get('InitialWorkingCapitalCostInBirr').value;
 
     this.projectCostForm.patchValue({
       TotalInBirr: totalInBirr
@@ -399,13 +399,13 @@ export class ProjectCostComponent
 
   private sumAll() {
     const total =
-      this.projectCostForm.get("LandCost").value +
-      this.projectCostForm.get("BuildingCost").value +
-      this.projectCostForm.get("MachineryCost").value +
-      this.projectCostForm.get("TransportCost").value +
-      this.projectCostForm.get("OfficeEquipmentCost").value +
-      this.projectCostForm.get("OtherCapitalCost").value +
-      this.projectCostForm.get("InitialWorkingCapitalCost").value;
+      this.projectCostForm.get('LandCost').value +
+      this.projectCostForm.get('BuildingCost').value +
+      this.projectCostForm.get('MachineryCost').value +
+      this.projectCostForm.get('TransportCost').value +
+      this.projectCostForm.get('OfficeEquipmentCost').value +
+      this.projectCostForm.get('OtherCapitalCost').value +
+      this.projectCostForm.get('InitialWorkingCapitalCost').value;
 
     this.projectCostForm.patchValue({
       Total: total
@@ -420,12 +420,12 @@ export class ProjectCostComponent
 export const sumOfSourceFinanceValidator: ValidatorFn = (
   control: FormGroup
 ): ValidationErrors | null => {
-  const loanFinance: AbstractControl | null = control.get("LoanFinance");
-  const equityFinance: AbstractControl | null = control.get("EquityFinance");
+  const loanFinance: AbstractControl | null = control.get('LoanFinance');
+  const equityFinance: AbstractControl | null = control.get('EquityFinance');
   const otherSourceFinance: AbstractControl | null = control.get(
-    "OtherSourceFinance"
+    'OtherSourceFinance'
   );
-  const total: AbstractControl | null = control.get("Total");
+  const total: AbstractControl | null = control.get('Total');
 
   const sourceTotal =
     loanFinance.value + equityFinance.value + otherSourceFinance.value;

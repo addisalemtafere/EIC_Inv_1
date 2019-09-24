@@ -43,11 +43,14 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
   ngOnInit() {
     this.currentPosition = 'f';
     this.ServiceId = localStorage.getItem('ServiceId');
+
+
   }
 
   move(index: number) {
     this.stepper.selectedIndex = index;
   }
+
 
 
   ngAfterViewInit(): void {
@@ -69,6 +72,7 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
       .subscribe(index => {
         this.nextIndex = index;
         this.upeerLimit = index;
+        // console.log(index);
       });
     // this.nextIndex = +localStorage.getItem('currentIndex');
   }

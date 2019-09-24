@@ -161,10 +161,6 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     if (this.billOfMaterialForm.valid) {
       if (!this.editMode) {
         this.billOfMaterialForm.removeControl('IncentiveBoMRequestItemId');
-        this.billOfMaterialForm.get('ServiceApplicationId').patchValue(this.ServiceApplicationId);
-        this.billOfMaterialForm.get('ProjectId').patchValue(this.ProjectId);
-        this.billOfMaterialForm.get('IsApproved').patchValue(true);
-        // this.billOfMaterialForm.get('IncentiveCategoryId').patchValue('10778');
         this.billOfMaterilService.create(this.billOfMaterialForm.value)
           .subscribe((result: IncentiveBoMRequestItemModel) => {
             this.notification('saved');

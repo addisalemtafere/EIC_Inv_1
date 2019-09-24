@@ -3,7 +3,7 @@
     <app-page-header title="projectsubstitute" icon=""></app-page-header>
 
   </div>
-  <!-- <div id="title1" class="block" fxFlex="50">
+  <div id="title1" class="block" fxFlex="50">
     <span class="page-title">{{title}}</span>
     <span class="slideBorder">/</span>
     <span class="page-title">{{investorName}}</span>
@@ -11,11 +11,11 @@
     <span class="page-title">{{projectName}}</span>
 
 
-  </div> -->
+  </div>
 </div>
-<mat-tab-group>
+<mat-tab-group #stepper>
 
-  <mat-tab *ngIf="isInvestor"  label="Service Info">
+  <mat-tab label="Service Info">
     <ng-template matTabContent>
       <app-service-info></app-service-info>
     </ng-template>
@@ -55,7 +55,7 @@
       <app-certificate></app-certificate>
     </ng-template>
   </mat-tab>
-  <mat-tab *ngIf="isInvestor" label="Confirmation">
+  <mat-tab *ngIf="isInvestor" label="Confirmation" [disabled]="nextIndex<3">
     <ng-template matTabContent>
       <app-service-confirmation></app-service-confirmation>
     </ng-template>

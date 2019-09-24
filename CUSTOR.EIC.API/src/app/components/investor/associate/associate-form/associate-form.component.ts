@@ -2,7 +2,7 @@ import {AfterContentChecked, AfterViewInit, Component, Input, OnDestroy, OnInit,
 import {AddressModel} from '../../../../model/address/Address.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_REGEX, GENDERS, LEGAL_STATUS} from '../../../../const/consts';
+import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_REGEX, ET_ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../../../const/consts';
 import {KebeleModel} from '../../../../model/address/Kebele.model';
 import {Permission} from '../../../../model/security/permission.model';
 import {RegionModel} from '../../../../model/address/Region.model';
@@ -127,6 +127,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.assoId = this.activatedRoute.snapshot.params['associateId'];
     this.workFlowId = this.activatedRoute.snapshot.params['workFlowId'];
     this.getUserType();
+    this.formControlValueChanged();
     this.initStaticData(this.currentLang);
     this.fillAddressLookups();
     this.imgBase64 = '';
@@ -307,17 +308,17 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
   initForm() {
     this.associateForm = this.fb.group({
-
+      // , Validators.compose([Validators.required, Validators.minLength(1),
+      //   Validators.pattern(ET_ALPHABET_REGEX)])
       cFirstNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
       cFatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      cGrandNameEng: ['', Validators.pattern(ALPHABET_WITHSPACE_REGEX)],
-      cFirstName: ['', Validators.compose([Validators.required, Validators.minLength(1),
-        Validators.pattern(ET_ALPHABET_REGEX)])],
-      cFatherName: ['', Validators.compose([Validators.required, Validators.minLength(1),
-        Validators.pattern(ET_ALPHABET_REGEX)])],
-      cGrandName: ['', Validators.pattern(ET_ALPHABET_REGEX)],
+      cGrandNameEng: ['', [Validators.compose([Validators.minLength(2),
+      Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
+      cFirstName: ['', Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)],
+      cFatherName: ['', Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)],
+      cGrandName: ['', Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)],
       cNationality: [''], // Ethiopian
       cGender: ['1'],
       Title: [''],
@@ -757,5 +758,15 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
 // =====================
 
+  formControlValueChanged() {
+    if (this.isInvestor) {
+      this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
+      this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
+      this.grandName.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
+    }
+  }
 }
 

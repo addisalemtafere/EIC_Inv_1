@@ -173,6 +173,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         if (this.authService.isLoggedIn) {
           this.getAllServices();
         }
+      //  alert(url.indexOf('dashboard'))
         if ((url.indexOf('dashboard') > 0)) {
 
           if (this.authService.isLoggedIn) {
@@ -208,6 +209,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
+   // alert(this.isInvestor);
 
   }
 

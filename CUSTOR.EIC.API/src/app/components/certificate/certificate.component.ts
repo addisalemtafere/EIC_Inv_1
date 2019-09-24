@@ -20,18 +20,17 @@ import {Lookup} from '../../model/lookupData';
 import {ProjectAssociateService} from '../../Services/project-associate.service';
 import {ProjectAssociateModel} from '../../model/ProjectAssociate.model';
 import {ActivatedRoute, Router} from '@angular/router';
-import {DateService} from '../../Services/date.service';
-import {ProjectRenewalService} from '../../Services/project-renewal.service';
-import {LookupsService} from '../setting/lookup-tabs/lookups/lookups.service';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {DataSharingService} from '../../Services/data-sharing.service';
+import {DateService} from "../../Services/date.service";
+import {ProjectRenewalService} from "../../Services/project-renewal.service";
+import {LookupsService} from "../setting/lookup-tabs/lookups/lookups.service";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {DataSharingService} from "../../Services/data-sharing.service";
 import {ProjectRenewalModel} from '../../model/ProjectRenewal.model';
-import {NationalityModel} from '../../model/address/NationalityModel';
-import {NationalityService} from '../../Services/Nationalityservice';
-import {CountryModel} from '../../model/Country';
-import {CountryService} from '../../Services/country.service';
-import {ProjectModel} from '../../model/project.model';
-import {ApplicationStatusEnum, ServiceEnum} from '../../enum/enums';
+import {NationalityModel} from "../../model/address/NationalityModel";
+import {NationalityService} from "../../Services/Nationalityservice";
+import {CountryModel} from "../../model/Country";
+import {CountryService} from "../../Services/country.service";
+import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-certificate',
@@ -60,8 +59,6 @@ export class CertificateComponent implements OnInit {
   projectCostTotalUSD: number;
   public len: number;
   public manager: ProjectAssociateModel[];
-  public Project: ProjectModel;
-  public ProjectDate: any;
   public renewal: ProjectRenewalModel;
   public ServiceId: any;
   private InvestorId: any;
@@ -72,7 +69,6 @@ export class CertificateComponent implements OnInit {
   public todayEthioDate: any;
   public dateEc1: Date;
   public todayEthioDateRenewal: any;
-  public EthioStartDate: any;
   public dd: Date;
   public dateEthioNextYear: string;
   public NationalityAmharic: string;
@@ -111,9 +107,9 @@ export class CertificateComponent implements OnInit {
               private countryService: CountryService,
               private dateService: DateService) {
     this.lookup = new Lookup();
-    this.arr.push('Edit Investor');
-    this.arr.push('option2');
-    this.arr.push('option3');
+    this.arr.push("Edit Investor");
+    this.arr.push("option2");
+    this.arr.push("option3");
     this.selected = 'option2';
   }
 
@@ -134,6 +130,8 @@ export class CertificateComponent implements OnInit {
 
   // no need to come all this data.
   private getServiceApplicationRenewal() {
+    // console.log('date1' + this.renewedToGC);
+
     this.projectRenewalService
       .getRenewalByServiceApplicationId(this.ServiceApplicationId)
       .subscribe(result => {
@@ -173,11 +171,11 @@ export class CertificateComponent implements OnInit {
   }
 
   getDate() {
-    const d = new Date();
+    var d = new Date();
     this.today = d;
-    const year = d.getFullYear();
-    const month = d.getMonth();
-    const day = d.getDate();
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    var day = d.getDate();
     this.dateGc = new Date(year + 1, month, day);
     const today = new Date();
     this.date = today;
@@ -230,7 +228,6 @@ export class CertificateComponent implements OnInit {
         this.getInvestmentBranchCountry(this.investorDetailList.InvestorId);
         this.getExportPercent(this.investorDetailList.ProjectId);
         this.getInvestorTitle(this.investorDetailList.Investor.Title);
-        this.getProjectStartDate(this.investorDetailList.ProjectId);
         // console.log(result);
         // // console.log(this.investorDetailList.Investor.RegionId);
         this.getInvestorAddress(this.investorDetailList.InvestorId);
@@ -279,6 +276,7 @@ export class CertificateComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.investmentAddressList = result;
+        console.log("WoredEng" + this.investorAddressList.WoredaEngId);
       }, error => this.errMsg.getError(error));
   }
 
@@ -320,22 +318,12 @@ export class CertificateComponent implements OnInit {
 
   }
 
-  getProjectStartDate(ProjectId: any) {
-    console.log('here');
-    this.projectService.ProjectsDetail(ProjectId)
-      .subscribe(result => {
-        this.Project = result;
-        this.getEthiopianDateDate1();
-      });
-
-  }
-
   getInvestorAddress(InvestorId: any) {
     this.addressService.getAddress(InvestorId)
       .subscribe((result: AddressModel) => {
         this.investorAddressList = result;
-      //  console.log(this.investorAddressList.WoredaEngId);
-       // console.log(this.investorAddressList.Zone.DescriptionEnglish);
+        console.log(this.investorAddressList.WoredaEngId);
+        console.log(this.investorAddressList.Zone.DescriptionEnglish);
       }, error => this.errMsg.getError(error));
 
   }
@@ -349,6 +337,7 @@ export class CertificateComponent implements OnInit {
   }
 
   private approve() {
+    // this.lookup.Code = 44449;
     this.lookup.Code = ApplicationStatusEnum.Completed;
     this.serviceApplication.changeApplicationStatus(this.lookup, this.investorDetailList.ServiceApplicationId)
       .subscribe(result => {
@@ -357,16 +346,16 @@ export class CertificateComponent implements OnInit {
   }
 
   private getEthiopianDate() {
-    const subscription = this.dateService.getEthiopianDateNow()
+    let subscription = this.dateService.getEthiopianDateNow()
       .subscribe(data => {
 
         this.todayEthioDate = data;
-        const d = this.todayEthioDate.split('/').reverse().join('-');
+        var d = this.todayEthioDate.split('/').reverse().join('-');
         // var d2 = new Date(d);
-        const d2 = new Date(d);
-        const year = d2.getFullYear() + 1;
-        const month = d2.getMonth() + 1;
-        const day = d2.getDate();
+        var d2 = new Date(d);
+        var year = d2.getFullYear() + 1;
+        var month = d2.getMonth() + 1;
+        var day = d2.getDate();
         this.dateEthioNextYear = day + '/' + month + '/' + year;
       });
   }
@@ -386,21 +375,6 @@ export class CertificateComponent implements OnInit {
       });
   }
 
-  private getEthiopianDateDate1() {
-    this.ProjectDate = this.Project.StartDate;
-    const d = this.Project.StartDate.split('/').reverse().join('-');
-    const d2 = new Date(d);
-    this.year = d2.getFullYear();
-    this.month = d2.getMonth();
-    this.day = d2.getDate();
-    console.log('Result=' + this.day + ' and ' + this.month + ' and ' + this.year);
-    this.dateService.getEthiopianDate(this.day, this.month, this.year)
-      .subscribe(data => {
-        this.EthioStartDate = data;
-        // console.log('Date = ' + this.todayEthioDate);
-      });
-  }
-
 ///////////////
   editInvestor() {
     // console.log(this.investors);
@@ -412,7 +386,7 @@ export class CertificateComponent implements OnInit {
       .subscribe(result => {
         this.titleAm = result.Amharic;
         this.titleEn = result.English;
-      });
+      })
   }
 
   private getManagerTitle(titleId: number) {
@@ -440,7 +414,7 @@ export class CertificateComponent implements OnInit {
         this.router.navigate(['pro/' + this.investorDetailList.ProjectId + '/' + this.ServiceApplicationId + '/' + this.ServiceId + '/' + this.workFlowId + '/' + this.InvestorId]);
         break;
       default:
-        alert('Please Select one of them you want edit');
+        alert('Please Select one of them tou want edit')
 
     }
   }
@@ -479,7 +453,7 @@ export class CertificateComponent implements OnInit {
   font-size: 11px !important;
   font-weight: normal !important;
   font-style: normal !important;
-
+ 
 }
 .notice{
  color: #000000 !important;
@@ -562,7 +536,7 @@ header {
   padding: 0px 20px !important;
 }
  .value {
-
+ 
   border-bottom: 1px dotted rgba(3,16,11,0.76) !important;
   text-transform: capitalize;
   font-size: 12px !important;
@@ -620,6 +594,6 @@ nobr {
   private intEditForm() {
     this.editForm = this.fb.group({
       selectedValue: new FormControl()
-    });
+    })
   }
 }

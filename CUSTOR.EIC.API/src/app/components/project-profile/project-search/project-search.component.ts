@@ -264,17 +264,8 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
       // case 1045:
       case ServiceEnum.TaxHolidayIncentive:
         if (projectStatus !== 4) {
-          this.projectProfileService.projectsDetailForLetter(projectId)
-            .subscribe(result => {
-              console.log(result);
-              if (result.InvestmentActivity.InAddisOromiaAreas <= 0) {
-                this.toastr.error('This project does not have tax exemption privilege', 'Error', {});
-                return true;
-              } else {
-                this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
-                localStorage.setItem('ParentProjectId', projectId);
-              }
-            })
+          this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
+          localStorage.setItem('ParentProjectId', projectId);
         } else {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }

@@ -255,7 +255,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
         break;
       case ServiceEnum.Renewal:
         if (projectStatus !== 4) {
-          console.log('renewal called...')
           this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         } else {
           this.toastr.error('you can not renew this project it already cancelled', 'Not Allowed');
@@ -345,10 +344,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  startApplication(projectList
-                     :
-                     ProjectModel
-  ) {
+  startApplication(projectList: ProjectModel) {
 
     const projectName = projectList.ProjectName;
     const projectId = projectList.ProjectId;
@@ -390,16 +386,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  showIncentiveDetials(projectId
-                         :
-                         any, ServiceApplicationId
-                         :
-                         any, ServiceId
-                         :
-                         any, projectStatus
-                         :
-                         any, projectName ?: any
-  ) {
+  showIncentiveDetials(projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, projectName?: any) {
     if (projectStatus !== 9) {
       this.toastr.warning('Project Is Not Active');
     } else {
@@ -408,10 +395,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  applyFilter(filterValue
-                :
-                string
-  ) {
+  applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue.replace(/[\W_]/g, '');
@@ -420,9 +404,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  ngAfterContentChecked()
-    :
-    void {
+  ngAfterContentChecked(): void {
     this.serviceTitle = localStorage.getItem('title');
     this.title = localStorage.getItem('title');
     this.projectName = localStorage.getItem('projectName');

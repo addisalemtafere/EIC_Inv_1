@@ -40,9 +40,9 @@
         <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="8">{{IncentiveRequestItemModes.Quantity }}
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="strPhase">
+      <ng-container matColumnDef="Phase">
         <mat-header-cell *matHeaderCellDef fxFlex="8">Phase</mat-header-cell>
-        <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="8">{{IncentiveRequestItemModes.strPhase}}
+        <mat-cell *matCellDef="let IncentiveRequestItemModes" fxFlex="8">{{IncentiveRequestItemModes.Phase}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="Action">
@@ -140,14 +140,15 @@
             {{itemList?.HsCode }}
           </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="MesurmentUnit">
-          <mat-header-cell *matHeaderCellDef>Measurment Unit</mat-header-cell>
-          <mat-cell *matCellDef="let itemList"> {{itemList?.MesurmentUnit}}
-          </mat-cell>
-        </ng-container>
         <ng-container matColumnDef="Quantity">
           <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
           <mat-cell *matCellDef="let itemList"> {{itemList?.Quantity }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="MesurmentUnit">
+          <mat-header-cell *matHeaderCellDef>Measurment Unit</mat-header-cell>
+          <mat-cell *matCellDef="let itemList"> {{itemList?.MesurmentUnit |
+            filterPipe: 10}}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Balance">

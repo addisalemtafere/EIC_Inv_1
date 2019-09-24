@@ -27,22 +27,23 @@ export enum ServiceEnum {
   UploadingOfRawMaterial = 1054,
   BusinessLicense = 1236
 }
-
-export enum RenewalSteps{
+export enum RenewalSteps {
   ServiceInfo = 0,
   Recommendation = 1,
   Document = 2,
-  Payment = 3,
-  Certificate = 4,
-  Confirm = 5
+  Renewal = 3,
+  Payment = 4,
+  Certificate = 5,
+  Confirm = 6
 }
 
-export enum ReplacementSteps{
+export enum ReplacementSteps {
   ServiceInfo = 0,
   Recommendation = 1,
   Document = 2,
-  Payment = 3,
-  Certificate = 4,
-  Confirm = 5
+  Substitute = 3,
+  Payment = 4,
+  Certificate = 5,
+  Confirm = 6
 }
 

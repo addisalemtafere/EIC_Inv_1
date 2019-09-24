@@ -9,7 +9,14 @@ import {Subscription} from 'rxjs';
 import {Utilities} from '@custor/helpers/utilities';
 
 import {Gender, LegalStatus, Lookup} from '../../model/lookupData';
-import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_REGEX, GENDERS, LEGAL_STATUS} from '../../const/consts';
+import {
+  ALPHABET_WITHSPACE_REGEX,
+  ALPHABET_WITHSPACEANDNUMBER_REGEX, EMAIL_REGEX,
+  ET_ALPHABET_REGEX,
+  ET_ALPHABET_WITHSPACEANDNUMBER_REGEX,
+  GENDERS,
+  LEGAL_STATUS
+} from '../../const/consts';
 import {determineId} from '@custor/helpers/compare';
 import {ConfigurationService} from '@custor/services/configuration.service';
 import {ToastrService} from 'ngx-toastr';
@@ -344,21 +351,25 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         if (intLegal === 1) { // Sole
           // // console.log(intLegal);
           this.ClearCompanyValidators();
-          this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+          this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+          this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          this.grandNameEng.setValidators(Validators.pattern(ALPHABET_WITHSPACE_REGEX));
-          if (!this.isInvestor)
-            this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+          this.grandNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+          if (this.isInvestor)
+            this.firstName.setValidators([Validators.compose([Validators.minLength(2),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
-          if (!this.isInvestor)
-            this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
-              Validators.pattern(ET_ALPHABET_REGEX)])]);
+          if (!this.isInvestor) {
+          this.fatherName.setValidators([Validators.compose([Validators.minLength(2),
+            Validators.pattern(ET_ALPHABET_REGEX)])]);
+          // this.email.setValidators(Validators.compose([Validators.email]))
+          this.email.setValidators([Validators.compose([Validators.pattern(EMAIL_REGEX)])]);
           this.grandName.setValidators(Validators.pattern(ET_ALPHABET_REGEX));
+        }
           this.nationality.setValidators([Validators.required]);
           this.gender.setValidators([Validators.required]);
-          this.Title.setValidators([Validators.required]);
+          // this.Title.setValidators([Validators.required]);
 
           this.isCompany = false;
         } else {
@@ -369,6 +380,16 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           this.isCompany = true;
         }
         this.regionn.setValidators([Validators.required]);
+        if (!this.isInvestor) {
+          this.woreda.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+            Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+            Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          this.kebele.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+            Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+            Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      }
       }
     );
 
