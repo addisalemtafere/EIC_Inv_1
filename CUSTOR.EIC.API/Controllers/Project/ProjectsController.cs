@@ -253,7 +253,6 @@ namespace EIC.Investment.API.Controllers
         };
         if (!editedProject.IsSelfService)
         {
-
           serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
           project.ServiceApplication.Add(serviceApplication);
           _context.Project.Add(editedProject);

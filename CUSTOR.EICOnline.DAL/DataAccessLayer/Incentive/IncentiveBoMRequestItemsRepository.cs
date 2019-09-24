@@ -56,7 +56,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive
             var incentiveBoMRequestItems = Context.IncentiveBoMRequestItem
                 .Where(item =>
                     item.ProjectId == projectId && item.IncentiveCategoryId == incentiveCategoryId &&
-                    item.Phase == Phase && item.IsApproved == true)
+                    item.Phase == Phase)
                 .OrderBy(item => item.Description);
             return await incentiveBoMRequestItems.ToListAsync();
         }

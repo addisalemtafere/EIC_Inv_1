@@ -233,6 +233,7 @@ export class AppConfiguration {
 
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
     IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/GetByProjectId',
+    IncentiveBoMImportItemByBomId: 'api/IncentiveBoMRequestItems/GetByBomId',
 
 
     lettersByProjectId: 'api/letters/ByProjectId',
@@ -289,7 +290,7 @@ export class AppConfiguration {
   // put config variables here
 
   constructor() {
-    this.urls.baseUrl = 'http://localhost:5050/';
-   // this.urls.baseUrl = 'http://localhost:5050 /';
+    this.urls.baseUrl = 'http://40.117.47.168:5050/';
+   // this.urls.baseUrl = 'http://40.117.47.168:5050 /';
   }
 }

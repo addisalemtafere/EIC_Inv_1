@@ -333,7 +333,8 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
 
     if (this.hasValidationErrors()) {
       return;
-    } else if (this.CheckExistance()) {
+    } else if (this.CheckExistance() == true) {
+      this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
       return;
     } else {
       this.loadingIndicator = true;
@@ -345,21 +346,21 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     }
   }
 
-  CheckExistance() {
+  public CheckExistance() {
     if (this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10778') {
       this.IncentiveRequestItemService
         .getIncentiveBoMRequestDetails(this.ProjectId, this.incentiveRequestItemForm.get('IncentiveCategoryId').value, this.incentiveRequestItemForm.get('Phase').value)
         .subscribe((items) => {
           this.BOMItems = items;
           if (this.BOMItems.length === 0) {
-            this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
+            //this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
             return true;
           } else {
             return false;
           }
         });
     }
-    //return false
+    return false
   }
 
 

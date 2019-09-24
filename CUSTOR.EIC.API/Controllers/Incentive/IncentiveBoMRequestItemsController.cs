@@ -66,8 +66,6 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       else
       {
         incentiveBoMRequestItem.IsApproved = true;
-
-
         _context.Entry(incentiveBoMRequestItem).State = EntityState.Modified;
 
         ServiceApplication serviceApplication = _context.ServiceApplication.First(p =>
@@ -158,7 +156,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       {
         incentiveBoMRequestItem.IsApproved = false;
       }
-
+      incentiveBoMRequestItem.IncentiveCategoryId = 10778;
       _context.Entry(incentiveBoMRequestItem).State = EntityState.Modified;
 
       try
@@ -281,7 +279,20 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         return incentiveBoMRequestItems;
       }
     }
+   [HttpGet("GetByBomId/{id:int}")]
+    public async Task<IActionResult> GetByBomId(int id)
+    {
 
+      var incentiveBoMRequestItem =
+        await _context.IncentiveBoMRequestItem.SingleOrDefaultAsync(m => m.IncentiveBoMRequestItemId == id);
+
+      if (incentiveBoMRequestItem == null)
+      {
+        return NotFound();
+      }
+
+      return Ok(incentiveBoMRequestItem);
+    }
     [HttpGet("GetByProjectId/{id:int}/{lang}")]
     public IEnumerable<IncentiveBomDto> GetByProjectId(int id)
     {
