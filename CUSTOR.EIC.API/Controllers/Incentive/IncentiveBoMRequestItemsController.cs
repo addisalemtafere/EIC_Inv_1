@@ -187,6 +187,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       [FromBody] IncentiveBoMRequestItem incentiveBoMRequestItem)
     {
       incentiveBoMRequestItem.IncentiveCategoryId = 10778;
+      incentiveBoMRequestItem.Balance = incentiveBoMRequestItem.Quantity;
       //if (!ModelState.IsValid)
       //{
       //  return BadRequest(ModelState);
