@@ -82,7 +82,7 @@
           </mat-form-field>
           <mat-form-field [fxFlex]="10">
             <mat-label>{{'billofmaterrial.Quantity' | translate}}</mat-label>
-            <input type="text" matInput required
+            <input type="number" matInput required
                    formControlName="Quantity">
             <mat-error *ngIf="Quantity.hasError('required')">
               {{'common.validation.Required' | translate}}

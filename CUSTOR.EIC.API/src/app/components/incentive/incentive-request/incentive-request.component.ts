@@ -362,13 +362,14 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     }
     return false
   }
-
-
   onEditIncentiveItem(index: number) {
     this.editMode = true;
     this.IncentiveItemtEditIndex = index;
     this.IncentiveRequestModel = this.IncentiveRequestModels[index];
     this.incentiveRequestItemForm.patchValue(this.IncentiveRequestModel);
+    if(this.IncentiveRequestModel.IncentiveCategoryId==10778){
+      this.showPhase=true;
+    }
     this.isNewIncentiveRequestItem = false;
   }
 

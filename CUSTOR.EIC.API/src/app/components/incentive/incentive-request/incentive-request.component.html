@@ -98,35 +98,38 @@
             <mat-error align="start" *ngIf="formErrors.ExchangeRate" class="form__error">{{ formErrors.ExchangeRate }}
             </mat-error>
           </mat-form-field>
-          <mat-form-field style="width: 200px">
-            <mat-label>{{'incentiverequest.InvoiceNo' | translate}}</mat-label>
-            <input type="text" matInput
-                   formControlName="InvoiceNo">
-            <mat-error *ngIf="InvoiceNo.hasError('required')">
-              {{'common.validation.Required' | translate}}
-            </mat-error>
-            <mat-error *ngIf="InvoiceNo.hasError('maxlength')">
-              {{'common.validation.MaxLengthChar' | translate: {'max': '35'} }}
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field style="width: 200px">
-            <mat-label>{{'incentiverequest.FileNo' | translate}}</mat-label>
-            <input type="text" matInput
-                   formControlName="FileNo">
-            <mat-error *ngIf="FileNo.hasError('required')">
-              {{'common.validation.Required' | translate}}
-            </mat-error>
-            <mat-error *ngIf="FileNo.hasError('maxlength')">
-              {{'common.validation.MaxLengthChar' | translate: {'max': '15'} }}
-            </mat-error>
-          </mat-form-field>
-          <mat-checkbox formControlName="IsBankPermit">
-            Is Bank Permit?
-          </mat-checkbox>
-          <mat-checkbox formControlName="IsExporter">
-           Is Exporter?
-          </mat-checkbox>
-          <span *ngIf="showPhase">
+        </div>
+      </div>
+      <div fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em">
+        <mat-form-field style="width: 200px">
+          <mat-label>{{'incentiverequest.InvoiceNo' | translate}}</mat-label>
+          <input type="text" matInput
+                 formControlName="InvoiceNo">
+          <mat-error *ngIf="InvoiceNo.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="InvoiceNo.hasError('maxlength')">
+            {{'common.validation.MaxLengthChar' | translate: {'max': '35'} }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field style="width: 200px">
+          <mat-label>{{'incentiverequest.FileNo' | translate}}</mat-label>
+          <input type="text" matInput
+                 formControlName="FileNo">
+          <mat-error *ngIf="FileNo.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="FileNo.hasError('maxlength')">
+            {{'common.validation.MaxLengthChar' | translate: {'max': '15'} }}
+          </mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="IsBankPermit">
+          Is Investor Used Bank Permit?
+        </mat-checkbox>
+        <mat-checkbox formControlName="IsExporter">
+          Is Investor is Exporter?
+        </mat-checkbox>
+        <span *ngIf="showPhase">
           <mat-form-field>
           <mat-label>{{'incentiverequest.Phase' | translate}}</mat-label>
             <mat-select formControlName="Phase" style="font-family: Calibri" type="text"
@@ -138,12 +141,10 @@
             </mat-select>
           </mat-form-field>
             </span>
-          <button class="custom-button" (click)="onSubmit()">
-            <mat-icon color="accent" class="mat-18">done</mat-icon>
-            {{editMode ? 'Save' : 'Add'}}
-          </button>
-
-        </div>
+        <button class="custom-button" (click)="onSubmit()">
+          <mat-icon color="accent" class="mat-18">done</mat-icon>
+          {{editMode ? 'Save' : 'Add'}}
+        </button>
       </div>
     </mat-card-content>
   </form>
