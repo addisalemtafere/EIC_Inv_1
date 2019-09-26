@@ -15,7 +15,7 @@ import {
   ET_ALPHABET_REGEX,
   ET_ALPHABET_WITHSPACEANDNUMBER_REGEX,
   GENDERS,
-  LEGAL_STATUS
+  LEGAL_STATUS, NUMERIC_WITHPERIOD_REGEX
 } from '../../const/consts';
 import {determineId} from '@custor/helpers/compare';
 import {ConfigurationService} from '@custor/services/configuration.service';
@@ -350,27 +350,60 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       (intLegal: number) => {
         if (intLegal === 1) { // Sole
           // // console.log(intLegal);
-          this.ClearCompanyValidators();
-          this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+            this.ClearCompanyValidators();
+            this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+            this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+            this.grandNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          this.grandNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          if (this.isInvestor)
-            this.firstName.setValidators([Validators.compose([Validators.minLength(2),
+          this.firstName.setValidators([Validators.compose([ Validators.minLength(2),
+            Validators.pattern(ET_ALPHABET_REGEX)])]);
+          if (!this.isInvestor) {
+          this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+            Validators.pattern(ET_ALPHABET_REGEX)])]);
+          }
+            this.fatherName.setValidators([Validators.compose([ Validators.minLength(2),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
           if (!this.isInvestor) {
-          this.fatherName.setValidators([Validators.compose([Validators.minLength(2),
-            Validators.pattern(ET_ALPHABET_REGEX)])]);
-          // this.email.setValidators(Validators.compose([Validators.email]))
-          this.email.setValidators([Validators.compose([Validators.pattern(EMAIL_REGEX)])]);
-          this.grandName.setValidators(Validators.pattern(ET_ALPHABET_REGEX));
-        }
-          this.nationality.setValidators([Validators.required]);
-          this.gender.setValidators([Validators.required]);
+            this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+              Validators.pattern(ET_ALPHABET_REGEX)])]);
+          }
+            this.grandName.setValidators([Validators.compose([ Validators.minLength(2),
+              Validators.pattern(ET_ALPHABET_REGEX)])]);
+          if (!this.isInvestor) {
+            this.grandName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+              Validators.pattern(ET_ALPHABET_REGEX)])]);
+          }
+            this.woreda.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          if (!this.isInvestor) {
+            this.woreda.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          }
+            this.woredaEng.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          if (!this.isInvestor) {
+            this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          }
+            this.kebele.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          if (!this.isInvestor) {
+            this.kebele.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          }
+            this.kebeleEng.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          if (!this.isInvestor) {
+            this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          }
+            this.email.setValidators(Validators.compose([Validators.pattern(EMAIL_REGEX)]));
+            this.phoneDirect.setValidators(Validators.compose([Validators.pattern(NUMERIC_WITHPERIOD_REGEX), Validators.maxLength(10)]));
+            this.nationality.setValidators([Validators.required]);
+            this.gender.setValidators([Validators.required]);
           // this.Title.setValidators([Validators.required]);
-
           this.isCompany = false;
         } else {
           this.ClearSoleValidators();
@@ -380,16 +413,29 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           this.isCompany = true;
         }
         this.regionn.setValidators([Validators.required]);
-        if (!this.isInvestor) {
-          this.woreda.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-            Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-          this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-            Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-          this.kebele.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-            Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-          this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-            Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-      }
+      //   if (this.isInvestor) {
+      //   // this.ClearSoleValidators();
+      //     this.firstName.setValidators([Validators.compose([ Validators.required, Validators.minLength(2),
+      //       Validators.pattern(ET_ALPHABET_REGEX)])]);
+      //     this.woreda.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+      //       Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      //     this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+      //       Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      //     this.kebele.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+      //       Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      //     this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+      //       Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      // }
+      // else {
+      //     this.woreda.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15),
+      //       Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      //     this.woredaEng.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15),
+      //       Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      //     this.kebele.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15),
+      //       Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      //     this.kebeleEng.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15),
+      //       Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      //   }
       }
     );
 
@@ -415,6 +461,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.fatherNameEng.clearValidators();
     this.fatherName.clearValidators();
     this.grandNameEng.clearValidators();
+    this.grandName.clearValidators();
     this.nationality.clearValidators();
     this.gender.clearValidators();
     this.Title.clearValidators();

@@ -14,7 +14,14 @@
           <mat-form-field>
             <mat-label for="Title">Project Title *:</mat-label>
             <input matInput formControlName="ProjectName">
-            <mat-error align="start" *ngIf="formErrors.ProjectName">{{ formErrors.ProjectName }}</mat-error>
+            <!--<mat-error align="start" *ngIf="formErrors.ProjectName">{{ formErrors.ProjectName }}</mat-error>-->
+            <mat-error *ngIf="ProjectName.hasError('required')">
+              {{'common.validation.Required' | translate}}
+              <!--{{ formErrors.ProjectName }}-->
+            </mat-error>
+            <mat-error *ngIf="ProjectName.hasError('minlength')">
+              {{'common.validation.MinLengthChar' | translate: {'min': '3'} }}
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="blocks" fxFlex>
@@ -75,15 +82,17 @@
             <textarea rows="2" matInput
                       formControlName="EnvironmentalImpact">
              </textarea>
-            <mat-error align="start" *ngIf="formErrors.EnvironmentalImpact">{{ formErrors.EnvironmentalImpact }}
+            <mat-error align="start" *ngIf="formErrors.EnvironmentalImpact">
+              {{ formErrors.EnvironmentalImpact }}
             </mat-error>
           </mat-form-field>
         </div>
         <div class="block" fxFlex="">
           <mat-form-field class="full-width">
-            <mat-label>Project Description :</mat-label>
+            <mat-label>Project Profile Summary :</mat-label>
             <textarea rows="2" matInput formControlName="ProjectDescription"></textarea>
-            <mat-error align="start" *ngIf="formErrors.ProjectDescription">{{ formErrors.ProjectDescription }}
+            <mat-error *ngIf="ProjectDescription.hasError('required')">
+              {{ formErrors.ProjectDescription }}
             </mat-error>
           </mat-form-field>
         </div>

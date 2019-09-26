@@ -37,6 +37,7 @@ import {ProjectRenewalModel} from '../../../model/ProjectRenewal.model';
 import {ProjectRenewalService} from '../../../Services/project-renewal.service';
 import {ConfigurationService} from "@custor/services/configuration.service";
 import {ServiceEnum} from "../../../enum/enums";
+import {ET_ALPHABET_REGEX} from '../../../const/consts';
 
 @Component({
   selector: 'app-project-profile-form',
@@ -73,7 +74,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   approve: ProjectRenewalModel;
   public formErrors = {
     ProjectName: 'at least three characters!',
-    ProjectDescription: '',
+    ProjectDescription: 'Enter Description in between 2 - 100 characters!',
     StartDate: '',
     OperationDate: '',
     EndingDate: '',
@@ -174,6 +175,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.fillAddressLookups();
     this.formBuild();
     this.updateDateRange();
+   this.formControlValueChanged();
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();
@@ -182,7 +184,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       this.editMode = false;
     }
   }
-
   getProjectDetail() {
     this.projectProfileService
       .getOneById(this.projectId)
@@ -362,6 +363,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   onSubmit() {
+    console.log(this.projectForm.value);
     this.loading = true;
     this.formService.markFormGroupTouched(this.projectForm);
     if (this.projectForm.valid) {
@@ -419,12 +421,12 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     console.log(this.ServiceId);
     this.projectForm = this.formBuilder.group({
       ProjectName: ['', Validators.compose([Validators.required,
-        CustomValidators.validateCharacters, Validators.minLength(2)])],
+        CustomValidators.validateCharacters, Validators.minLength(3)])],
       InvestorId: [this.InvestorId],
       ServiceId: [this.ServiceId],
       ParentProjectId: ['0'],
       CreatedUserName: this.accountServices.currentUser.UserName,
-      ProjectDescription: ['', [Validators.minLength(2)]],
+      ProjectDescription: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
       StartDate: ['', [Validators.required]],
       OperationDate: ['', Validators.required],
       SectorId: [''],
@@ -465,7 +467,10 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       })
     }
   }
+  formControlValueChanged(){
+    this.ProjectName.setValidators([Validators.compose([Validators.required, Validators.minLength(3)])]);
 
+  }
   initStaticData(currentLang) {
     let formOfOwnership: FormOfOwnershipModel = new FormOfOwnershipModel();
     FormOfOwnership.forEach(pair => {
@@ -520,7 +525,12 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   getIsChecked() {
     return this.projectForm.get('address').get('IsIndustrialPark').value;
   }
-
+get ProjectDescription() {
+    return this.projectForm.get('ProjectDescription');
+}
+get ProjectName() {
+    return this.projectForm.get('ProjectName');
+}
   get canViewTasks() {
     return this.accountService.userHasPermission(Permission.viewServiceList);
   }
