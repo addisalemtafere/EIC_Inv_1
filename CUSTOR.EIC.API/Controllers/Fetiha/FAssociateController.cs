@@ -47,6 +47,17 @@ namespace CUSTOR.EICOnline.API.Controllers
     {
       return associateRepository.GetManagers(InvestorId);
     }
+    [HttpGet("NewManagersList/{InvestorId}")]
+    public Task<List<AssociateAuditListDTO>> GetNewManagersListByInvestorId([FromRoute] int InvestorId)
+    {
+      return associateRepository.GetNewManagersList(InvestorId);
+
+    }
+    [HttpGet("NewManagerById/{id}")]
+    public async Task <AssociateAuditAddressDTO> GetNewManagerById([FromRouteAttribute]int id)
+    {
+      return await associateRepository.GetNewManagerById(id);
+    }
 
     [HttpGet("ManagerByAssociateId/{AssociateId}")]
     public Task<AssociateAddressDTO> GetManagerByAssociateId([FromRoute] int AssociateId)
@@ -58,6 +69,18 @@ namespace CUSTOR.EICOnline.API.Controllers
     public Task<AssociateAuditAddressDTO> GetManagerAuditByAssociateId([FromRoute] int AssociateId)
     {
       return associateRepository.GetAssociateAudit(AssociateId);
+    }
+    [HttpPost("SaveManager")]
+
+    public async Task<AssociateAuditAddressDTO> SaveManager([FromBody] AssociateAuditAddressDTO postedManager)
+    {
+      return await associateRepository.SaveManagerWithServiceApplication(postedManager);
+
+    }
+    [HttpPut("UpdateManager")]
+    public async Task<AssociateAuditAddressDTO> UpdateManager([FromBody] AssociateAuditAddressDTO postedManager)
+    {
+      return await associateRepository.UpdateManagerWithServiceApplication(postedManager);
     }
 
 

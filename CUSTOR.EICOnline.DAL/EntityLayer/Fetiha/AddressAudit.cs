@@ -15,10 +15,12 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
       //Investor = new HashSet<Investor>();
     }
         [Key]
-        public int AddressId { get; set; }
-    public int ParentId { get; set; }
-    public int AddressType { get; set; }
-    public bool IsMainOffice { get; set; }
+    public int id { get; set; }
+    public int ? AddressId { get; set; }
+    public int ? ServiceApplicationId { get; set; }
+    public int ? ParentId { get; set; }
+    public int ?AddressType { get; set; }
+    public bool? IsMainOffice { get; set; }
     public string SpecificAreaName { get; set; }
     public string RegionId { get; set; }
     public string TownId { get; set; }
@@ -51,8 +53,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public Town Town { get; set; }
     //public Woreda Woreda { get; set; }
     public Zone Zone { get; set; }
+    public bool ? IsNew { get; set; }
     //public ICollection<Associate> Associate { get; set; }
     //public ICollection<Investor> Investor { get; set; }
-  }
+    }
 //>>>>>>> 762bf64ab2d44d1ac3e49efdbea16147bb995aaa:CUSTOR.EICOnline.DAL/EntityLayer/Address/Address.cs
 }

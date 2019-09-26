@@ -9,10 +9,14 @@ import { EndpointFactory } from '@custor/services/security/endpoint-factory.serv
 export class ManagerService extends EndpointFactory  {
     private readonly _managersAuditListUrl = "api/FAssociate/ManagerListAudit";
     private readonly _managersListUrl = "api/FAssociate/ManagersList";
+    private readonly _newManagersListUrl = "api/FAssociate/NewManagersList";
+    private readonly _newManagerUrl= "api/FAssociate/NewManagerById";
     private readonly _managerAuditUrl = "api/FAssociate/ManagerAuditByInvestorId"
     private readonly _managerUrl = "api/FAssociate/ManagerByInvestorId";
     private readonly _managerByAssociateIdUrl = "api/FAssociate/ManagerByAssociateId";
     private readonly _managerAuditByAssociateIdUrl = "api/FAssociate/ManagerAuditByAssociateId";
+    private readonly _saveManagerDataUrl= "api/FAssociate/SaveManager";
+    private readonly _updateManagerDataUrl= "api/FAssociate/UpdateManager";
     constructor(
         protected httpClient: HttpClient,
         private config: ConfigurationService,
@@ -24,6 +28,13 @@ export class ManagerService extends EndpointFactory  {
     }
     get managersListUrl() {
         return this.config.baseUrl + this._managersListUrl;
+    }
+    get newManagersListUrl(){
+        return this.config.baseUrl + this._newManagersListUrl;
+    }
+    get newManagerUrl(){
+        return this.config.baseUrl + this._newManagerUrl;
+
     }
     get managerAuditUrl() {
         return this.config.baseUrl + this._managerAuditUrl;
@@ -39,12 +50,26 @@ export class ManagerService extends EndpointFactory  {
     get managerUrl() {
         return this.config.baseUrl + this._managerUrl;
     }
+    get saveManagerDataUrl(){
+        return this.config.baseUrl + this._saveManagerDataUrl;
+    }
+    get updateManagerDataUrl(){
+        return this.config.baseUrl + this._updateManagerDataUrl;
+    }
+    getNewManagerById(id:number){
+        var endPointUrl = `${this.newManagerUrl}/${id}`;
+        return this.httpClient.get(endPointUrl);
+    }
     getAssociateAuditListByInvestorId(investorId: number) {
         var endPointUrl = `${this.managersAuditListUrl}/${investorId}`;
         return this.httpClient.get(endPointUrl);
     }
     getAssociateListByInvestorId(investorId: number) {
         var endPointUrl = `${this.managersListUrl}/${investorId}`;
+        return this.httpClient.get(endPointUrl);
+    }
+    getNewAssociateListByInvestorId(investorId:number){
+        var endPointUrl = `${this.newManagersListUrl}/${investorId}`;
         return this.httpClient.get(endPointUrl);
     }
     getManagerAuditByInvestorId(investorId: number) {
@@ -62,5 +87,13 @@ export class ManagerService extends EndpointFactory  {
     getManagerByAssociateId(investorId: number) {
         var endPointUrl = `${this.managerByAssociateIdUrl}/${investorId}`;
         return this.httpClient.get(endPointUrl);
+    }
+    saveManagerData(data:any){
+        const endpointUrl = `${this.saveManagerDataUrl}`;
+        return this.httpClient.post(endpointUrl, data);
+    }
+    updateManagerData(data:any){
+        const endpointUrl = `${this.updateManagerDataUrl}`;
+        return this.httpClient.put(endpointUrl, data);  
     }
 }

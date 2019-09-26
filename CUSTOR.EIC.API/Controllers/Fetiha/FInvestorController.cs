@@ -23,23 +23,29 @@ namespace CUSTOR.EICOnline.API.Controllers
       investorRepository = _investorRepository;
     }
     [HttpGet("ProfileByInvestorId/{InvestorId}")]
-    public async Task<FInvestor> ProfileByInvestorId([FromRoute] int InvestorId)
+    public async Task<InvestorAddressDTO> ProfileByInvestorId([FromRoute] int InvestorId)
     {
 
       return await investorRepository.GetProfileByInvestorId(InvestorId);
     }
 
     [HttpGet("ProfileAuditByInvestorId/{InvestorId}")]
-    public async Task<FInvestorAudit> ProfileAuditByInvestorId([FromRoute] int InvestorId)
+    public async Task<InvestorAuditDTO> ProfileAuditByInvestorId([FromRoute] int InvestorId)
     {
 
       return await investorRepository.GetProfileAuditByInvestorId(InvestorId);
     }
 
     [HttpPost("SaveProfile")]
-    public async Task<FInvestorAudit> SaveProfile([FromBody] FInvestorAudit postedProfile)
+    public async Task<InvestorAuditDTO> SaveProfile([FromBody] InvestorAuditDTO postedProfile)
     {
       return await investorRepository.SaveProfileWithServiceApplication(postedProfile);
+    }
+
+    [HttpPut("UpdateProfile")]
+    public async Task<InvestorAuditDTO> UpdateProfile([FromBody] InvestorAuditDTO postedProfile)
+    {
+      return await investorRepository.UpdateProfileWithServiceApplication(postedProfile);
     }
 
     //[HttpGet("ManagerListAudit/{InvestorId}")]

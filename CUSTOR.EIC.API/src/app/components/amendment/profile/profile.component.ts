@@ -30,8 +30,10 @@ export class ProfileComponent implements OnInit {
   regions: RegionModel[] = [];
   zones: ZoneModel[] = [];
   filteredZones: ZoneModel[] = [];
+  filteredViewZones: ZoneModel[] = [];
   woredas: WoredaModel[] = [];
   filteredWoredas: WoredaModel[] = [];
+  filteredViewWoredas: WoredaModel[] = [];
   kebeles: KebeleModel[] = [];
   filteredKebeles: KebeleModel[] = [];
   public TitleLookup: LookupsModel[];
@@ -42,20 +44,29 @@ export class ProfileComponent implements OnInit {
   formOfOwnershipList: FormOfOwnershipModel[] = [];
   profileForm: FormGroup;
   profileViewForm: FormGroup;
+  profileTestForm: FormGroup;
   loadingIndicator: boolean;
   genders: Gender[] = [];
   legalStatuses: LegalStatus[] = [];
   public nationList: NationalityModel[];
   currentLang: string;
   investor: any;
+  response: any;
+  editedData: any;
   profileData: any;
+  profilePostDTO: any;
   profile: any;
   existingServiceApplication: any;
   serviceApplicationId: any;
   amendment = ServiceTypes[4].ServiceId;
   InvestorId: any;
-  tempVar:any;
+  tempVar: any;
   serviceApplicationExists: boolean;
+  updateData: boolean = false;
+  Deleted: boolean = false;
+  IsActive: boolean = false;
+  AddressId;ProjectId;CreatedUserId;IsMainOffice;
+  PaidCapital; SighnedCapital;
   constructor(private fb: FormBuilder,
     private ngxUiLoader: NgxUiLoaderService,
     private lookUpService: LookUpService,
@@ -64,202 +75,149 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private configService: ConfigurationService) {
     this.currentLang = this.configService.language;
+    this.checkServiceApplication();
     this.initForm();
     this.initViewForm();
 
   }
-
+  checkServiceApplication() {
+    const id = 2092;
+    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
+      .subscribe(result => {
+        if (result != null) {
+          this.existingServiceApplication = result;
+          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationID;
+        }
+        else {
+          this.serviceApplicationId = 0;
+        }
+      });
+  }
   ngOnInit() {
     this.getCountries();
     this.fillAddressLookups();
     this.initStaticData(this.currentLang);
     this.initStaticDataOwnerShip(this.currentLang);
     const id = 2092;
+    this.InvestorId = id;
     if (id) {
-      //this.getServiceApplicationBy(id);
-      // there is always data on investor table
-      // always get data from investor table and append it to view form
-      this.getInvestorData(id, false);
-      this.getAuditInvestorData(id);
+      this.getInvestorData(id);
     }
   }
-  getInvestorData(investorId , appendToNewForm) {
+  getInvestorData(investorId) {
+    // GET DATA FROM MAIN TABLE (investor)
     this.profileService.getInvestorData(investorId).subscribe(result => {
-      console.log(result);
-      console.log("data is always found on investor table")
-      this.profileData = result;
-      this.updateViewForm(result)
-      if (appendToNewForm){
-        console.log("append investor data to audit form")
-        this.updateForm(result)
+      if (result == null) {
+        alert("no record found")
+      }
+      else {
+        this.profileData = result;
+        // Other Data
+        this.IsActive = this.profileData.IsActive;
+        this.Deleted = this.profileData.Deleted;
+        this.AddressId = this.profileData.AddressId;
+        this.InvestorId = this.profileData.InvestorId;
+        this.CreatedUserId = this.profileData.UserId;
+        this.IsMainOffice = this.profileData.IsMainOffice;
+        this.PaidCapital = this.profileData.PaidCapital;
+        this.SighnedCapital = this.profileData.SighnedCapital;
+        // Other Data
+        this.profileViewForm.patchValue(result);
+        this.profileViewForm.controls.Gender.setValue(Number(this.profileData.Sex));
+        this.profileViewForm.controls.Title.setValue(Number(this.profileData.Title));
+        this.AddressId = this.profileData.AddressId;
+        this.ProjectId = this.profileData.ProjectId;
+        this.setViewForm();
+        this.searchDataFromAudit(this.InvestorId);
       }
     })
   }
-  getServiceApplicationBy(id) {
-    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
-      .subscribe(result => {
-        if (result != null) {
-          console.log("service application exist")
-          this.serviceApplicationExists = true;
-          this.existingServiceApplication = result;
-          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId
-          if (this.serviceApplicationId) {
-            this.getAuditInvestorData(id);
-          }
-        }
-        else{
-          console.log("no service application exist")
-          this.updateForm(this.profileForm)
-          //this.getInvestorData(id, true);
-          // No service application
-          // No audit data
-          // Append investor data to profile Form
-          
-        }
-      
-      })
-  }
-
-  getAuditInvestorData(investorId) {
-    this.profileService.getInvestorDataFromAudit(investorId).subscribe(result => {
-      console.log(result);
-      if (result) {
+  searchDataFromAudit(investorId) {
+    this.profileService.getInvestorDataFromAudit(investorId).subscribe(res => {
+      console.log(res);
+      if (res != null) {
         console.log("data found on audit table")
-        this.tempVar = result;
-        console.log(this.tempVar)
-        this.InvestorId = this.tempVar.InvestorId;
-        this.profile.ProjectId = this.tempVar.ProjectId;
-        this.profileForm.patchValue({FirstNameEng:'Fetiha'})
-        // this.profileForm.patchValue(result);
-        // this.updateForm(result);
-      //  this.updateForm(result);
+        console.log(res)
+        console.log("check service application id later")
+        this.profilePostDTO = res;
+        this.profileTestForm.patchValue(res);
+       // this.profileForm.controls.Sex.setValue(Number(this.profilePostDTO.Sex));
+        this.profileTestForm.controls.Title.setValue(Number(this.profilePostDTO.Title));
+        this.profileTestForm.patchValue({
+          Nationality: Number(this.profilePostDTO.Nationality) || '',
+        });
+        this.updateData = true;
+        this.setNewForm();
       }
-      else{
+      else {
         console.log("no data found on audit table");
-        this.updateForm(this.profileForm);
-       // this.getInvestorData(investorId, true);
-       // this.appendInvestorDataToAudit();
+        console.log('user doesn\'t exist on current database');
+        this.appendPreviousDataToNewForm();
       }
 
     })
   }
-  
-  updateViewForm(data){
-    this.investor = data;
-    this.profileViewForm.patchValue({
-      legalStatus: this.investor.LegalStatus,
-      formOfOwnership: this.investor.FormOfOwnership,
-      Tin: this.investor.Tin ,
-      FirstName: this.investor.FirstName ,
-      FatherName: this.investor.FatherName ,
-      GrandName: this.investor.GrandName ,
-      FirstNameEng: this.investor.FirstNameEng ,
-      FatherNameEng: this.investor.FatherNameEng ,
-      GrandNameEng: this.investor.GrandNameEng ,
-      Nationality: this.investor.Nationality == null ? '' : this.investor.Nationality.toString(),
-      Gender: this.investor.Gender == null ? '' : this.investor.Gender.toString(),
-      Title: this.investor.Title,
-
-      // ADDRESS PATCH //
-      ZoneId: this.investor.ZoneId,
-      WoredaId: 5151,
-      KebeleId: this.investor.KebeleId,
-      RegionId: this.investor.RegionId,
-      HouseNo: this.investor.HouseNo,
-      Tele: this.investor.Tele,
-      Email: this.investor.Email,
-      RegularPhone: this.investor.RegularPhone,
-      MobilePhone: this.investor.MobilePhone,
-      FaxNo: this.investor.FaxNo,
-      Pobox: this.investor.Pobox,
-      OtherAddress: this.investor.OtherAddress,
-      //ADDRESS PATCH
-      BranchCountry: this.investor.BranchCountry == null ? '' : this.investor.BranchCountry.toString(),
-      CompanyName: this.investor.FirstName || '',
-      CompanyNameEng: this.investor.FirstNameEng || '',
-      RegNumber: this.investor.RegistrationNumber || '',
-      RegDate: this.investor.RegistrationDate || '',
-      Paidapital: this.investor.PaidCapital || '',
-      SighnedCapital: this.investor.SighnedCapital || '',
-      IsExistingCustomer: this.investor.IsExistingCustomer || '',
-      MajorDivision: this.investor.RegistrationCatagories || '',
-      cIsEthiopianOrigin: this.investor.IsEthiopianOrigin,
-    });
-  }
-  updateForm(data) {
-    console.log(data)
-    this.investor = data;
-    console.log(this.investor.LegalStatus)
-    console.log(this.investor.FormOfOwnership)
-    console.log(this.investor.RegionId)
-    this.profileForm.patchValue({
-      legalStatus: this.investor.LegalStatus,
-      formOfOwnership: this.investor.FormOfOwnership,
-      Tin: this.investor.Tin || '',
-      FirstName: this.investor.FirstName || '',
-      FatherName: this.investor.FatherName || '',
-      GrandName: this.investor.GrandName || '',
-      FirstNameEng: this.investor.FirstNameEng || '',
-      FatherNameEng: this.investor.FatherNameEng || '',
-      GrandNameEng: this.investor.GrandNameEng || '',
-      Nationality: this.investor.Nationality == null ? '' : this.investor.Nationality.toString(),
-      Gender: this.investor.Gender == null ? '' : this.investor.Gender.toString(),
-      Title: this.investor.Title || '',
-
-      // ADDRESS PATCH //
-      ZoneId: this.investor.ZoneId || '',
-      //  Woreda: this.investor.WoredaId || '',
-      WoredaId: 5151 || '',
-      KebeleId: this.investor.KebeleId || '',
-      RegionId: this.investor.RegionId || '',
-      HouseNo: this.investor.HouseNo || '',
-      Tele: this.investor.Tele || '',
-      Email: this.investor.Email || '',
-      RegularPhone: this.investor.RegularPhone || '',
-      MobilePhone: this.investor.MobilePhone || '',
-      FaxNo: this.investor.FaxNo || '',
-      Pobox: this.investor.Pobox || '',
-      OtherAddress: this.investor.OtherAddress || '',
-
-
-      //ADDRESS PATCH
-      BranchCountry: this.investor.BranchCountry == null ? '' : this.investor.BranchCountry.toString(),
-      CompanyName: this.investor.FirstName || '',
-      CompanyNameEng: this.investor.FirstNameEng || '',
-      RegNumber: this.investor.RegistrationNumber || '',
-      RegDate: this.investor.RegistrationDate || '',
-      Paidapital: this.investor.PaidCapital || '',
-      SighnedCapital: this.investor.SighnedCapital || '',
-      IsExistingCustomer: this.investor.IsExistingCustomer || '',
-      MajorDivision: this.investor.RegistrationCatagories || '',
-      cIsEthiopianOrigin: this.investor.IsEthiopianOrigin,
-    });
-
-    // if (this.investor.LegalStatus > 1) {
-    //   this.isCompany = true;
-    // } else {
-    //   this.isCompany = false;
-    // }
-    setTimeout(() => {
-      if (this.investor.RegionId != null) {
-        this.filteredZones = this.zones.filter((item) => item.RegionId === this.investor.RegionId);
-        //   console.log(this.filteredZones)
-      }
-    }, 100);
-    setTimeout(() => {
-      if (this.investor.ZoneId != null) {
-        this.filteredWoredas =
-          this.woredas.filter((item) =>
-            item.ZoneId == '15');
-      }
-      // console.log(this.filteredWoredas)
-      // console.log(this.investor.WoredaId)
-    }, 100);
-    if (this.investor.WoredaId != null) {
-      this.getKebeleByWoredaId(this.investor.WoredaId);
+  setViewForm() {
+    if (this.profileData.ZoneId != null) {
+      this.filteredViewWoredas =
+        this.woredas.filter((item) =>
+          item.ZoneId === this.profileData.ZoneId);
+    }
+    console.log(this.profileData)
+    console.log(this.filteredViewWoredas)
+    if (this.profileData.RegionId != null) {
+      this.filteredViewZones =
+        this.zones.filter((item) => item.RegionId === this.profileData.RegionId);
+    }
+    console.log(this.filteredViewZones)
+    if (this.profileData.WoredaId != null) {
+      this.getKebeleByWoredaId(this.profileData.WoredaId);
     }
   }
- 
+  setNewForm() {
+    setTimeout(() => {
+      if (this.profilePostDTO.ZoneId != null) {
+        this.filteredWoredas =
+          this.woredas.filter((item) => item.ZoneId === this.profilePostDTO.ZoneId);
+      }
+    }, 100);
+    setTimeout(() => {
+      if (this.profilePostDTO.RegionId != null) {
+        this.filteredZones = this.zones.filter((item) => item.RegionId === this.profilePostDTO.RegionId);
+      }
+    }, 100);
+    setTimeout(() => {
+      if (this.profilePostDTO.WoredaId != null) {
+        this.getKebeleByWoredaId(this.profilePostDTO.WoredaId);
+      }
+    }, 100);
+  }
+  appendPreviousDataToNewForm() {
+    console.log('no data in new database');
+    console.log(this.profileData)
+    this.updateData = false;
+    this.profileTestForm.patchValue(this.profileData);
+    console.log(this.profileTestForm.patchValue(this.profileData))
+
+    setTimeout(() => {
+      if (this.profileData.ZoneId != null) {
+        this.filteredWoredas =
+          this.woredas.filter((item) => item.ZoneId === this.profileData.ZoneId);
+      }
+    }, 100);
+
+    setTimeout(() => {
+      if (this.profileData.RegionId != null) {
+        this.filteredZones =
+          this.zones.filter((item) => item.RegionId === this.profileData.RegionId);
+      }
+    }, 100);
+    setTimeout(() => {
+      if (this.profileData.WoredaId != null) {
+        this.getKebeleByWoredaId(this.profileData.Woreda);
+      }
+    }, 100);
+  }
   initStaticData(currentLang) {
     let gender: Gender = new Gender();
     GENDERS.forEach(pair => {
@@ -372,30 +330,29 @@ export class ProfileComponent implements OnInit {
       });
   }
   initViewForm() {
-   
+
     this.profileViewForm = this.fb.group({
-      legalStatus: [],Tin: [],FirstName: [],FatherName: [],GrandName: [],FirstNameEng: [],
-      FatherNameEng: [],GrandNameEng: [],Nationality: [], Gender: [],Title: [],ParentId: [],
-      RegionId: [],ZoneId: [], WoredaId: [], KebeleId: [], MobilePhone: [], HouseNo: [],
-       Tele: [],FaxNo: [],OtherAddress: [], Pobox: [], Email: [], Remark: [], formOfOwnership: []
+      LegalStatus: [], Tin: [], FirstName: [], FatherName: [], GrandName: [], FirstNameEng: [],
+      FatherNameEng: [], GrandNameEng: [], Nationality: [], Gender: [], Title: [], ParentId: [],
+      RegionId: [], ZoneId: [], WoredaId: [], KebeleId: [], CellPhoneNo: [], HouseNo: [],
+      TeleNo: [], FaxNo: [], OtherAddress: [], Pobox: [], Email: [], Remark: [], FormOfOwnership: []
     });
-    this.profileViewForm.disable();
-  }
-  initForm() {
-    this.profileForm = this.fb.group({
-      legalStatus: ['', Validators.required],
+    this.profileTestForm = this.fb.group({
+      LegalStatus: ['', Validators.required],
       Tin: ['', Validators.compose(
-        [Validators.pattern(NUMERIC_REGEX), Validators.minLength(10),
+        [Validators.required, Validators.pattern(NUMERIC_REGEX), Validators.minLength(10),
         Validators.maxLength(10)]
       )],
       FirstNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
       Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
       FatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
       Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      GrandNameEng: ['', Validators.pattern(ALPHABET_WITHSPACE_REGEX)],
-      FirstName: ['', Validators.compose([Validators.required, Validators.minLength(1),
+      GrandNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
+      Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
+
+      FirstName: ['', Validators.compose([Validators.required, Validators.minLength(2),
       Validators.pattern(ET_ALPHABET_REGEX)])],
-      FatherName: ['', Validators.compose([Validators.required, Validators.minLength(1),
+      FatherName: ['', Validators.compose([Validators.required, Validators.minLength(2),
       Validators.pattern(ET_ALPHABET_REGEX)])],
       GrandName: ['', Validators.pattern(ET_ALPHABET_REGEX)],
       Nationality: [''], // Ethiopian
@@ -409,81 +366,91 @@ export class ProfileComponent implements OnInit {
       KebeleId: [''],
       KebeleEngId: [''],
       OtherAddress: [''],
-      MobilePhone: ['', Validators.required],
+      CellPhoneNo: ['', Validators.required],
       HouseNo: [''],
-      Tele: [''],
+      TeleNo: [''],
       Fax: [''],
       Pobox: [''],
-      formOfOwnership: [''],
+      FormOfOwnership: [''],
       Email: [''],
       Remark: ['']
     });
+    // this.profileTestForm = this.fb.group({
+    //   legalStatus: [], Tin: [], FirstName: [], FatherName: [], GrandName: [], FirstNameEng: [],
+    //   FatherNameEng: [], GrandNameEng: [], Nationality: [], Gender: [], Title: [], ParentId: [],
+    //   RegionId: [], ZoneId: [], WoredaId: [], KebeleId: [], MobilePhone: [], HouseNo: [],
+    //   Tele: [], FaxNo: [], OtherAddress: [], Pobox: [], Email: [], Remark: [], formOfOwnership: []
+    // });
+    this.profileViewForm.disable();
+  }
+  initForm() {
+
   }
   get FirstName() {
-    return this.profileForm.get('FirstName')
+    return this.profileTestForm.get('FirstName')
   }
   get FirstNameEng() {
-    return this.profileForm.get('FirstNameEng')
+    return this.profileTestForm.get('FirstNameEng')
   }
   get FatherName() {
-    return this.profileForm.get('FatherName')
+    return this.profileTestForm.get('FatherName')
   }
   get FatherNameEng() {
-    return this.profileForm.get('FatherNameEng')
+    return this.profileTestForm.get('FatherNameEng')
   }
   get GrandName() {
-    return this.profileForm.get('GrandName')
+    return this.profileTestForm.get('GrandName')
   }
   get GrandNameEng() {
-    return this.profileForm.get('GrandNameEng')
+    return this.profileTestForm.get('GrandNameEng')
   }
   get Nationality() {
-    return this.profileForm.get('Nationality')
+    return this.profileTestForm.get('Nationality')
   }
   get Title() {
-    return this.profileForm.get('Title')
+    return this.profileTestForm.get('Title')
   }
   get RegionId() {
-    return this.profileForm.get('RegionId')
+    return this.profileTestForm.get('RegionId')
   }
   get Gender() {
-    return this.profileForm.get('Gender');
+    return this.profileTestForm.get('Gender');
   }
   get ZoneId() {
-    return this.profileForm.get('ZoneId');
+    return this.profileTestForm.get('ZoneId');
   }
   get WoredaId() {
-    return this.profileForm.get('WoredaId');
+    return this.profileTestForm.get('WoredaId');
   }
   get KebeleId() {
-    return this.profileForm.get('KebeleId');
+    return this.profileTestForm.get('KebeleId');
   }
   get WoredaEngId() {
-    return this.profileForm.get('WoredaEngId');
+    return this.profileTestForm.get('WoredaEngId');
   }
   get KebeleEngId() {
-    return this.profileForm.get('KebeleEngId');
+    return this.profileTestForm.get('KebeleEngId');
   }
   get CellPhoneNo() {
-    return this.profileForm.get('CellPhoneNo');
+    return this.profileTestForm.get('CellPhoneNo');
   }
   get HouseNo() {
-    return this.profileForm.get('HouseNo');
+    return this.profileTestForm.get('HouseNo');
   }
   get LegalStatus() {
-    return this.profileForm.get('legalStatus');
+    return this.profileTestForm.get('LegalStatus');
 
   }
   get FormOfOwnership() {
-    return this.profileForm.get('FormOfOwnership');
+    return this.profileTestForm.get('FormOfOwnership');
 
   }
   get Tin() {
-    return this.profileForm.get('Tin');
+    return this.profileTestForm.get('Tin');
 
   }
   get RegNumber() {
-    return this.profileForm.get('RegNumber');
+    return this.profileTestForm.get('RegNumber');
 
   }
   onSubmit() {
@@ -532,14 +499,28 @@ export class ProfileComponent implements OnInit {
     }
   }
   create() {
-    this.profileService.saveProfileData(this.getEditedCapitalData()).subscribe(res => {
+    this.profileService.saveProfileData(this.getEditedData()).subscribe(res => {
       console.log(res)
     })
   }
-  getEditedCapitalData() {
-    this.profile = this.profileForm.value;
+  update() {
+    this.profileService.updateProfile(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
+  }
+  getEditedData() {
+    this.profile = this.profileTestForm.value;
     this.profile.ServiceApplicationId = (this.serviceApplicationId) ? this.serviceApplicationId : ''
-    this.profile.AssociateId = (this.InvestorId) ? this.InvestorId : 0;
+    this.profile.InvestorId = (this.InvestorId) ? this.InvestorId : 0;
+    this.profile.AddressId = (this.AddressId) ? this.AddressId : 0;
+    this.profile.ProjectId = (this.ProjectId) ? this.ProjectId : 0;
+    this.profile.IsActive = (this.IsActive) ? this.IsActive : false
+    this.profile.Deleted = (this.Deleted) ? this.Deleted : false
+    this.profile.CreatedUserId =this.CreatedUserId ;
+    this.profile.IsNew = false;
+    this.profile.IsMainOffice = (this.IsMainOffice) ? this.IsMainOffice : false;
+    this.profile.PaidCapital =this.PaidCapital ;
+    this.profile.SighnedCapital =this.SighnedCapital;
     console.log(this.profile);
     return this.profile;
   }

@@ -12,7 +12,8 @@ import {EndpointFactory} from '@custor/services/security/endpoint-factory.servic
 export class ProfileService extends EndpointFactory {
   private readonly _investorDataUrl = "api/FInvestor/ProfileByInvestorId";
   private readonly _investorAuditUrl = "api/FInvestor/ProfileAuditByInvestorId";
-  private readonly _saveProfileDataUrl = "api/FInvestor/SaveProfile"
+  private readonly _saveProfileDataUrl = "api/FInvestor/SaveProfile";
+  private readonly _updateProfileDataUrl = "api/FInvestor/UpdateProfile";
   constructor(private httpClient: HttpClient,
               private config: ConfigurationService,
               injector: Injector) {
@@ -26,6 +27,10 @@ export class ProfileService extends EndpointFactory {
   }
   get saveProfileDataUrl(){
     return this.config.baseUrl + this._saveProfileDataUrl
+  }
+  get updateProfileDataUrl(){
+    return this.config.baseUrl + this._updateProfileDataUrl
+    
   }
   getInvestorDataFromAudit(investorId){
     const endpointUrl = `${this.investorAuditUrl}/${investorId}`;
@@ -41,6 +46,10 @@ export class ProfileService extends EndpointFactory {
     const endpointUrl = `${this.saveProfileDataUrl}`;
     console.log(endpointUrl)
     return this.httpClient.post(endpointUrl, data);
+  }
+  updateProfile(data: any){
+    const endpointUrl = `${this.updateProfileDataUrl}`;
+    return this.httpClient.put(endpointUrl, data);
   }
 
 }

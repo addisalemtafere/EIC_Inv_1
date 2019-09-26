@@ -20,9 +20,9 @@ namespace CUSTOR.EICOnline.DAL
         public FInvestorRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public async Task<FInvestorAudit> GetProfileAuditByInvestorId (int InvestorId)
+        public async Task<InvestorAuditDTO> GetProfileAuditByInvestorId(int InvestorId)
         {
-            FInvestorAudit profileAudit = null;
+            InvestorAuditDTO profileAudit = null;
             try
             {
                 List<int> cat = new List<int>();
@@ -35,50 +35,51 @@ namespace CUSTOR.EICOnline.DAL
                 {
                     profileAudit = await (from m in Context.InvestorAudit
                                           join c in Context.AddressAudit
-                                        on m.InvestorId equals c.ParentId
-                                     where m.InvestorId == InvestorId
-                                     select new FInvestorAudit
-                                     {
-                                         InvestorId = m.InvestorId,
-                                         LegalStatus = m.LegalStatus,
-                                         FirstName = m.FirstName,
-                                         FatherName = m.FatherName,
-                                         GrandName = m.GrandName,
-                                         FirstNameEng = m.FirstNameEng,
-                                         FatherNameEng = m.FirstNameEng,
-                                         GrandNameEng = m.GrandNameEng,
-                                         FormOfOwnership = m.FormOfOwnership,
-                                         Gender = m.Gender,
-                                         Nationality = m.Nationality,
-                                         BranchCountry = m.BranchCountry,
-                                         IsDiaspora = m.IsDiaspora,
-                                         IsEthiopianOrigin = m.IsEthiopianOrigin,
-                                         Tin = m.Tin,
-                                         Title = m.Title,
-                                         RegistrationNumber = m.RegistrationNumber,
-                                         RegistrationDate = m.RegistrationDate,
-                                         PaidCapital = m.PaidCapital,
-                                         SighnedCapital = m.SighnedCapital,
-                                         IsActive = m.IsActive,
-                                         UserId = m.UserId,
-                                         IsExistingCustomer = m.IsExistingCustomer,
-                                         IsDeleted = m.IsDeleted,
-                                         ObjectId = m.ObjectId,
-                                         CreatedUserId = m.CreatedUserId,
-                                         UpdatedDate = m.UpdatedDate,
-                                         MobilePhone = c.CellPhoneNo,
-                                         RegionId = c.RegionId,
-                                         ZoneId = c.ZoneId,
-                                         Tele = c.TeleNo,
-                                         WoredaId = c.WoredaId,
-                                         KebeleId = c.KebeleId,
-                                         HouseNo = c.HouseNo,
-                                         Pobox = c.Pobox,
-                                         FaxNo = c.Fax,
-                                         Email = c.Email,
-                                         OtherAddress = c.OtherAddress,
-                                         RegistrationCatagories = cat.ToArray(),
-                                     }
+                                          on m.InvestorId equals c.ParentId
+                                          where m.InvestorId == InvestorId
+                                          select new InvestorAuditDTO
+                                          {
+                                              AddressId = c.AddressId,
+                                              InvestorId = m.InvestorId,
+                                              LegalStatus = m.LegalStatus,
+                                              FirstName = m.FirstName,
+                                              FatherName = m.FatherName,
+                                              GrandName = m.GrandName,
+                                              FirstNameEng = m.FirstNameEng,
+                                              FatherNameEng = m.FirstNameEng,
+                                              GrandNameEng = m.GrandNameEng,
+                                              FormOfOwnership = m.FormOfOwnership,
+                                              Gender = m.Gender,
+                                              Nationality = m.Nationality,
+                                              BranchCountry = m.BranchCountry,
+                                              IsDiaspora = m.IsDiaspora,
+                                              IsEthiopianOrigin = m.IsEthiopianOrigin,
+                                              Tin = m.Tin,
+                                              Title = m.Title,
+                                              RegistrationNumber = m.RegistrationNumber,
+                                              RegistrationDate = m.RegistrationDate,
+                                              PaidCapital = m.PaidCapital,
+                                              SighnedCapital = m.SighnedCapital,
+                                              IsActive = m.IsActive,
+                                              UserId = m.UserId,
+                                              IsExistingCustomer = m.IsExistingCustomer,
+                                              IsDeleted = m.IsDeleted,
+                                              ObjectId = m.ObjectId,
+                                              CreatedUserId = m.CreatedUserId,
+                                              UpdatedDate = m.UpdatedDate,
+                                              MobilePhone = c.CellPhoneNo,
+                                              RegionId = c.RegionId,
+                                              ZoneId = c.ZoneId,
+                                              Tele = c.TeleNo,
+                                              WoredaId = c.WoredaId,
+                                              KebeleId = c.KebeleId,
+                                              HouseNo = c.HouseNo,
+                                              Pobox = c.Pobox,
+                                              FaxNo = c.Fax,
+                                              Email = c.Email,
+                                              OtherAddress = c.OtherAddress,
+                                              RegistrationCatagories = cat.ToArray(),
+                                          }
                              ).FirstOrDefaultAsync();
 
                 }
@@ -90,9 +91,9 @@ namespace CUSTOR.EICOnline.DAL
             }
             return profileAudit;
         }
-        public async Task<FInvestor> GetProfileByInvestorId(int InvestorId)
+        public async Task<InvestorAddressDTO> GetProfileByInvestorId(int InvestorId)
         {
-            FInvestor profile = null;
+            InvestorAddressDTO profile = null;
             try
             {
                 List<int> cat = new List<int>();
@@ -101,15 +102,16 @@ namespace CUSTOR.EICOnline.DAL
                 {
                     cat.Add(System.Convert.ToInt32(item.MajorCatagoryCode));
                 }
-                if(cat.ToArray() != null)
+                if (cat.ToArray() != null)
                 {
                     profile = await (from m in Context.Investors
                                      join c in Context.Address
                                      on m.InvestorId equals c.ParentId
                                      where m.InvestorId == InvestorId
-                                     select new FInvestor
+                                     select new InvestorAddressDTO
                                      {
                                          InvestorId = m.InvestorId,
+                                         AddressId = c.AddressId,
                                          LegalStatus = m.LegalStatus,
                                          FirstName = m.FirstName,
                                          FatherName = m.FatherName,
@@ -215,7 +217,7 @@ namespace CUSTOR.EICOnline.DAL
             return manager;
 
         }
-        public async Task <AssociateAudit> GetManagerAuditByIvestorId(int InvestorId)
+        public async Task<AssociateAudit> GetManagerAuditByIvestorId(int InvestorId)
         {
             AssociateAudit manager = null;
             try
@@ -258,15 +260,15 @@ namespace CUSTOR.EICOnline.DAL
                                      IsDeleted = m.IsDeleted,
                                      CreatedUserId = m.CreatedUserId,
                                      UpdatedDate = m.UpdatedDate,
-                                     MobilePhone = c.CellPhoneNo,
+                                     CellPhoneNo = c.CellPhoneNo,
                                      RegionId = c.RegionId,
                                      ZoneId = c.ZoneId,
-                                     Tele = c.TeleNo,
+                                     TeleNo = c.TeleNo,
                                      WoredaId = c.WoredaId,
                                      KebeleId = c.KebeleId,
                                      HouseNo = c.HouseNo,
                                      Pobox = c.Pobox,
-                                     FaxNo = c.Fax,
+                                     Fax = c.Fax,
                                      Email = c.Email,
                                      OtherAddress = c.OtherAddress,
 
@@ -280,7 +282,8 @@ namespace CUSTOR.EICOnline.DAL
             }
             return manager;
         }
-        public async Task<List<AssociateAuditDTO>> GetManagersFromAudit(int InvestorId){
+        public async Task<List<AssociateAuditDTO>> GetManagersFromAudit(int InvestorId)
+        {
 
             List<AssociateAuditDTO> active_managersList = null;
             try
@@ -317,7 +320,7 @@ namespace CUSTOR.EICOnline.DAL
 
                 add = await Context.Address
                     .FirstOrDefaultAsync(a =>
-                        a.ParentId == associate.AssociateId && a.AddressType == (int) AddressType.eManager);
+                        a.ParentId == associate.AssociateId && a.AddressType == (int)AddressType.eManager);
             }
             catch (InvalidOperationException)
             {
@@ -332,18 +335,15 @@ namespace CUSTOR.EICOnline.DAL
             return AssociateHelper.GetAssociateDTO(associate, add);
         }
 
-        public async Task<FInvestorAudit> SaveProfileWithServiceApplication(FInvestorAudit postedProfile)
+        public async Task<InvestorAuditDTO> SaveProfileWithServiceApplication(InvestorAuditDTO postedProfile)
         {
-            FInvestorAudit test = null;
-           
-                ServiceApplication serviceApplication = null;
+            AddressAudit address = null;
+            ServiceApplication serviceApplication = null;
+            ServiceApplication existingServiceApplication = null;
+            InvestorAudit investor = Mapper.Map<InvestorAudit>(postedProfile);
 
-                ServiceApplication existingServiceApplication = null;
-
-                InvestorAudit existingInvestor = await Context.InvestorAudit.FirstOrDefaultAsync(t=>t.ServiceApplicationId == postedProfile.ServiceApplicationId);
-
-                InvestorAudit investor  = Mapper.Map<InvestorAudit>(postedProfile);
-
+            try
+            {
                 if (postedProfile.ServiceApplicationId != null)
                 {
                     existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedProfile.ServiceApplicationId);
@@ -356,25 +356,18 @@ namespace CUSTOR.EICOnline.DAL
                         InvestorId = postedProfile.InvestorId,
                         ProjectId = postedProfile.ProjectId,
                         CaseNumber = "0009990",
-                        ServiceId= 1028,
+                        ServiceId = 1028,
                         StartDate = DateTime.Now,
                         EventDatetime = DateTime.Now,
                         ServiceNameAmharic = "",
-                        ServiceNameEnglish="",
+                        ServiceNameEnglish = "",
                         InvestorNameEnglish = postedProfile.FirstNameEng,
                         InvestorNameAmharic = postedProfile.FirstName,
                     };
                 }
-            if (postedProfile.ServiceApplicationId != null)
-            {
-                investor.ServiceApplicationId = postedProfile.ServiceApplicationId;
-            }
-
-            else
-            {
-                investor.ServiceApplicationId = serviceApplication.ServiceApplicationId;
-            }
-            using (var transaction = await Context.Database.BeginTransactionAsync())
+                
+               
+                using (var transaction = await Context.Database.BeginTransactionAsync())
                 {
                     try
                     {
@@ -389,20 +382,45 @@ namespace CUSTOR.EICOnline.DAL
                             Context.SaveChanges();
 
                         }
-                        if (existingInvestor == null)
+                        if (postedProfile.ServiceApplicationId != null)
                         {
-                           
-                           Context.InvestorAudit.Add(investor);
-                           Context.SaveChanges();
-                    }
+                            investor.ServiceApplicationId = postedProfile.ServiceApplicationId;
+                        }
+
                         else
                         {
-                            existingInvestor = Mapper.Map(postedProfile, existingInvestor);
-                            existingInvestor.CreatedDate = DateTime.Now;
-                            existingInvestor.UpdatedDate = DateTime.Now;
-                            existingInvestor.RegistrationDate = DateTime.Now;
-                            Context.InvestorAudit.Update(existingInvestor);
+                            investor.ServiceApplicationId = serviceApplication.ServiceApplicationId;
                         }
+
+                        investor.InvestorId = postedProfile.InvestorId;
+                            investor.id = 6363;
+                            Context.InvestorAudit.Add(investor);
+                            address = new AddressAudit
+                            {
+                                AddressId = postedProfile.AddressId,
+                                ParentId = postedProfile.InvestorId,
+                                IsMainOffice = postedProfile.IsMainOffice,
+                                RegionId = postedProfile.RegionId,
+                                ZoneId = postedProfile.ZoneId,
+                                KebeleId = postedProfile.KebeleId,
+                                WoredaId = postedProfile.WoredaId,
+                                HouseNo = postedProfile.HouseNo,
+                                TeleNo = postedProfile.TeleNo,
+                                Pobox = postedProfile.Pobox,
+                                Fax = postedProfile.Fax,
+                                CellPhoneNo = postedProfile.CellPhoneNo,
+                                Email = postedProfile.Email,
+                                OtherAddress = postedProfile.OtherAddress,
+                                IsActive = postedProfile.IsActive,
+                                IsDeleted = postedProfile.IsDeleted,
+                                CreatedUserId = postedProfile.CreatedUserId,
+                                ServiceApplicationId = serviceApplication.ServiceApplicationId,
+                                IsNew = postedProfile.IsNew
+                            };
+                            Context.AddressAudit.Add(address);
+                            Context.SaveChanges();
+                            transaction.Commit();
+                        return Mapper.Map<InvestorAuditDTO>(investor);
                     }
                     catch (Exception ex)
                     {
@@ -411,10 +429,63 @@ namespace CUSTOR.EICOnline.DAL
                         throw new Exception(ex.Message);
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.Message);
+            }
+           
+        }
 
-                    
-            
-            return test;
+        public async Task<InvestorAuditDTO> UpdateProfileWithServiceApplication(InvestorAuditDTO postedProfile)
+        {
+            using (var transaction = await Context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var sa = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedProfile.ServiceApplicationId);
+                    var tobe_updated = await Context.InvestorAudit.FirstOrDefaultAsync(t => t.InvestorId == postedProfile.InvestorId);
+                    var address_update = await Context.AddressAudit.FirstOrDefaultAsync(a => a.AddressId == postedProfile.AddressId);
+                    var address = new AddressAudit
+                    {
+                        AddressId = postedProfile.AddressId,
+                        ParentId = postedProfile.InvestorId,
+                        IsMainOffice = postedProfile.IsMainOffice,
+                        RegionId = postedProfile.RegionId,
+                        ZoneId = postedProfile.ZoneId,
+                        KebeleId = postedProfile.KebeleId,
+                        WoredaId = postedProfile.WoredaId,
+                        HouseNo = postedProfile.HouseNo,
+                        TeleNo = postedProfile.TeleNo,
+                        Pobox = postedProfile.Pobox,
+                        Fax = postedProfile.Fax,
+                        CellPhoneNo = postedProfile.CellPhoneNo,
+                        Email = postedProfile.Email,
+                        OtherAddress = postedProfile.OtherAddress,
+                        IsActive = postedProfile.IsActive,
+                        IsDeleted = postedProfile.IsDeleted,
+                        CreatedUserId = postedProfile.CreatedUserId,
+                        IsNew = postedProfile.IsNew
+                    };
+                    if (tobe_updated == null)
+                    {
+                        throw new Exception("Registration couldnot be found");
+                    }
+
+                    tobe_updated = Mapper.Map(postedProfile, tobe_updated);
+                    address_update = Mapper.Map(address, address_update);
+                    await Context.SaveChangesAsync();
+                    transaction.Commit();
+                    return Mapper.Map<InvestorAuditDTO> (tobe_updated);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    string s = ex.Message;
+                    throw new Exception(ex.Message);
+                }
+            }
         }
 
     }

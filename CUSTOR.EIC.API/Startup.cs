@@ -242,11 +242,11 @@ namespace EICOnline.API
         var mappingConfig = new MapperConfiguration(mc =>
         {
           mc.AddProfile(new AutoMapperProfile());
-          //mc.AddProfile(new ApplicationMappingProfile());
+          mc.AddProfile(new ApplicationMappingProfile());
         });
 
         IMapper mapper = mappingConfig.CreateMapper();
-        Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
+        Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); cfg.ValidateInlineMaps = false; });
 
         services.AddSingleton(mapper);
 

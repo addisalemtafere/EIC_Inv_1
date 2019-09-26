@@ -85,6 +85,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public string Email { get; set; }
     public string OtherAddress { get; set; }
     public string Tele { get; set; }
+    public bool ? IsMainOffice { get; set; }
 }
 
 }

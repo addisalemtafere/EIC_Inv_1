@@ -1,59 +1,8 @@
-
-h4 {
-  margin-bottom: 0px;
-  font-size: medium;
-  // color: #00bcd4;
-  margin-top: 10px;
+.sub-header {
+  font-size: 16px;
+  color: cadetblue;
+  border-bottom: 1px solid;
+  padding-bottom: 5px;
+  text-transform: capitalize;
 }
 
-.row {
-  text-align: left;
-  margin-bottom: 15px;
-}
-
-.customer-radio-group {
-  display: inherit;
-  flex-direction: row;
-}
-
-.customer-radio-button {
-  margin: 5px;
-}
-
-.inputfile {
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
-
-.inputfile+label {
-  font-size: 12px;
-  color: steelblue;
-  background-color: white;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.inputfile:focus+label,
-.inputfile+label:hover {
-  // background-color:steelblue;
-  color: goldenrod;
-}
-
-.pickerLabel {
-  font-size: 12px;
-  color: steelblue;
-  background-color: white;
-  display: inline-block;
-  cursor: pointer;
-  margin-left: 20px;
-}
-
-.manager-general-info {
-  .mat-form-field {
-    width: 30.5% !important;
-  }
-}

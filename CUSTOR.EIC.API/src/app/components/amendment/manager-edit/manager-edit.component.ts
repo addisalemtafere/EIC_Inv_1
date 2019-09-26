@@ -15,6 +15,8 @@ import { RegionModel } from '../../../model/address/Region.model';
 import { ZoneModel } from '../../../model/address/Zone.model';
 import { WoredaModel } from '../../../model/address/Woreda.model';
 import { KebeleModel } from '../../../model/address/Kebele.model';
+import { ServiceApplicationService } from "./../service/service-application.service";
+import { FormOfOwnership, ServiceTypes } from "@custor/const/consts";
 @Component({
   selector: 'app-manager-edit',
   templateUrl: './manager-edit.component.html',
@@ -24,9 +26,17 @@ export class ManagerEditComponent implements OnInit {
   managerForm: FormGroup;
   AllowCascading: boolean;
   managerViewForm: FormGroup;
+  serviceApplicationId: any;
+  InvestorId: any;
   managerData: any;
   managerAuditData: any;
+  AssociateId: any;
+  manager: any;
   currentLang: string;
+  Deleted: boolean = false;
+  IsActive: boolean = false;
+  AddressId;
+  ProjectId;
   public TitleLookup: LookupsModel[];
   filteredZones: ZoneModel[] = [];
   zones: ZoneModel[] = [];
@@ -39,24 +49,91 @@ export class ManagerEditComponent implements OnInit {
   filteredViewKebeles: KebeleModel[] = [];
   genders: Gender[] = [];
   regions: RegionModel[] = [];
-  id:any;
+  id: any;
+  updateData: boolean = false;
   public nationList: NationalityModel[];
+  serviceApplicationExists: boolean = false;
+  existingServiceApplication: any;
+  amendment = ServiceTypes[4].ServiceId;
+  IsMainOffice ;
   constructor(private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private lookUpService: LookUpService,
     private managerService: ManagerService,
+    private serviceApplicationApiService: ServiceApplicationService,
     private addressService: AddressService,
     private configService: ConfigurationService) {
     this.currentLang = this.configService.language;
+    this.checkServiceApplication();
     this.initForm();
     this.initViewForm();
   }
-
+  checkServiceApplication() {
+    const id = 2092;
+    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
+      .subscribe(result => {
+        if (result != null) {
+          this.existingServiceApplication = result;
+          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationID;
+        }
+        else {
+          this.serviceApplicationId = 0;
+        }
+      });
+  }
   ngOnInit() {
     this.managerViewForm.disable();
     this.id = this.activatedRoute.snapshot.params.id;
     this.fillAddressLookups()
-   
+    this.InvestorId = 2092;
+    if(this.id){
+      this.getDataFromApi(this.id);
+    }
+  }
+  getDataFromApi(id) {
+    this.managerService.getManagerByAssociateId(id).subscribe(result => {
+      if (result == null) {
+        alert("no data on manager table")
+        //this.toastr.error(this.translate.instant('messages.RecordNotFound'));
+      } else {
+        this.managerData = result;
+        console.log(this.managerData);
+        this.AddressId = this.managerData.AddressId;
+        this.ProjectId = this.managerData.ProjectId;
+        this.IsActive = this.managerData.IsActive;
+        this.Deleted = this.managerData.Deleted
+        this.AssociateId = this.managerData.AssociateId;
+        this.IsMainOffice = this.managerData.IsMainOffice;
+        this.managerViewForm.patchValue(result);
+        this.setViewForm();
+        this.searchDataFromAudit(id);
+      }
+    })
+  }
+  setViewForm(){
+    if (this.managerData.ZoneId != null) {
+      this.filteredViewWoredas =
+        this.woredas.filter((item) =>
+          item.ZoneId === this.managerData.ZoneId);
+    }
+    console.log(this.managerData)
+    console.log(this.filteredViewWoredas)
+    if (this.managerData.RegionId != null) {
+      this.filteredViewZones =
+        this.zones.filter((item) => item.RegionId === this.managerData.RegionId);
+    }
+    console.log(this.filteredViewZones)
+    if (this.managerData.WoredaId != null) {
+      this.getKebeleByWoredaId(this.managerData.WoredaId);
+    }
+  }
+  getKebeleByWoredaId(woredaId: any) {
+    this.addressService.getKebelesByWoreda(woredaId)
+      .subscribe(result => {
+        // this.kebeles = result;
+        this.filteredKebeles = result;
+        console.log(this.filteredKebeles)
+      });
   }
   fillAddressLookups() {
     this.getTitles();
@@ -70,7 +147,11 @@ export class ManagerEditComponent implements OnInit {
     this.addressService.getAllWoredasByLang(this.currentLang)
       .subscribe(result => {
         this.woredas = result;
-        this.getDataFromApi(this.id);
+       // this.getDataFromApi(this.id);
+        // const id = 2092;
+        // if (id) {
+        //   this.getServiceApplicationBy(id);
+        // }
         if (this.woredas) {
           this.filterZone('');
         }
@@ -117,6 +198,7 @@ export class ManagerEditComponent implements OnInit {
     this.addressService.getKebelesByWoreda(woredaId)
       .subscribe(result => {
         this.filteredViewKebeles = result;
+        this.filteredKebeles = result;
       });
   }
   private getAllNations() {
@@ -131,7 +213,7 @@ export class ManagerEditComponent implements OnInit {
       gender = { Id: pair.Id.toString(), Desc: (currentLang === 'et' ? pair.Description : pair.DescriptionEnglish) };
       this.genders.push(gender);
     });
- 
+
   }
   compareIds(id1: any, id2: any): boolean {
     const a1 = determineId(id1);
@@ -143,154 +225,73 @@ export class ManagerEditComponent implements OnInit {
       this.TitleLookup = result;
     });
   }
-  getDataFromApi(id) {
-
-    this.managerService.getManagerByAssociateId(id).subscribe(result => {
-      if (result == null) {
-        alert("no data on manager table")
-        //this.toastr.error(this.translate.instant('messages.RecordNotFound'));
-      } else {
-        console.log(result);
-        this.managerData = result;
-        console.log(new Date(this.managerData.DateOfBirth));
-        //this.managerViewForm.controls.BirthDate.setValue((this.managerData.DateOfBirth));
-        this.managerViewForm.patchValue({
-          FirstName: this.managerData.FirstName || '',
-          FatherName: this.managerData.FatherName || '',
-          GrandName: this.managerData.GrandName || '',
-          FirstNameEng: this.managerData.FirstNameEng || '',
-          FatherNameEng: this.managerData.FatherNameEng || '',
-          GrandNameEng: this.managerData.GrandNameEng || '',
-          Title: this.managerData.Title || '',
-          Gender: this.managerData.Gender || '',
-          Nationality: Number(this.managerData.Nationality) || '',
-          Zone: this.managerData.ZoneId || '',
-          Woreda: this.managerData.WoredaId || '',
-          Kebele: this.managerData.KebeleId || '',
-          Region: this.managerData.RegionId || '',
-          HouseNo: this.managerData.HouseNo || '',
-          Tele : this.managerData.Tele || '',
-          Email: this.managerData.Email || '',
-          RegularPhone: this.managerData.RegularPhone || '',
-          MobilePhone: this.managerData.MobilePhone || '',
-          FaxNo: this.managerData.FaxNo || '',
-          Pobox: this.managerData.Pobox || '',
-          OtherAddress: this.managerData.OtherAddress || '',
-        });
-        setTimeout(() => {
-          if (this.managerData.RegionId != null) {
-            this.filteredViewZones = this.zones.filter((item) => item.RegionId === this.managerData.RegionId);
-          }
-        }, 100);
-        setTimeout(() => {
-          if (this.managerData.ZoneId != null) {
-            this.filteredViewWoredas =
-              this.woredas.filter((item) =>
-                item.ZoneId == '15');
-          }
-        }, 100);
-        if (this.managerData.WoredaId != null) {
-          this.getViewKebeleByWoredaId(this.managerData.WoredaId);
-        }
-        this.searchDataFromAudit(id);
+ 
+  searchDataFromAudit(id) {
+    this.managerService.getManagerAuditByAssociateId(id).subscribe(res => {
+      console.log(res)
+      if (res != null) {
+        console.log("data found on audit table")
+        console.log(res)
+        console.log("check service application id later")
+        this.updateData = true;
+        this.managerAuditData = res;
+        this.AssociateId = this.managerAuditData.AssociateId;
+        this.managerForm.patchValue(this.managerAuditData);
+        this.setNewForm();
+      }
+      else {
+        console.log("no data found on audit table");
+        console.log('user doesn\'t exist on current database');
+        this.appendPreviousDataToNewForm();
       }
     })
   }
-  searchDataFromAudit(id) {
-    console.log(id)
-    this.managerService.getManagerAuditByAssociateId(id).subscribe(res => {
-      if (res != null) {
-        // console.log(res)
-        // this.managerForm.patchValue(res);
-        this.managerAuditData = res;
-        this.managerForm.patchValue({
-          FirstName: this.managerAuditData.FirstName || '',
-          FatherName: this.managerAuditData.FatherName || '',
-          GrandName: this.managerAuditData.GrandName || '',
-          FirstNameEng: this.managerAuditData.FirstNameEng || '',
-          FatherNameEng: this.managerAuditData.FatherNameEng || '',
-          GrandNameEng: this.managerAuditData.GrandNameEng || '',
-          Title: this.managerAuditData.Title || '',
-          Gender: this.managerAuditData.Gender || '',
-          Nationality: Number(this.managerAuditData.Nationality) || '',
-          Zone: this.managerAuditData.ZoneId || '',
-          Woreda: this.managerAuditData.WoredaId || '',
-          Kebele: this.managerAuditData.KebeleId || '',
-          Region: this.managerAuditData.RegionId || '',
-          HouseNo: this.managerAuditData.HouseNo || '',
-          Tele: this.managerAuditData.Tele || '',
-          Email: this.managerAuditData.Email || '',
-          RegularPhone: this.managerAuditData.RegularPhone || '',
-          MobilePhone: this.managerAuditData.MobilePhone || '',
-          FaxNo: this.managerAuditData.FaxNo || '',
-          Pobox: this.managerAuditData.Pobox || '',
-          OtherAddress: this.managerAuditData.OtherAddress || '',
-        });
-        setTimeout(() => {
-          if (this.managerAuditData.RegionId != null) {
-            this.filteredZones = this.zones.filter((item) => item.RegionId === this.managerData.RegionId);
-          }
-        }, 100);
-        setTimeout(() => {
-          if (this.managerAuditData.ZoneId != null) {
-            this.filteredWoredas =
-              this.woredas.filter((item) =>
-                item.ZoneId == '15');
-          }
-        }, 100);
-        if (this.managerAuditData.WoredaId != null) {
-          this.getViewKebeleByWoredaId(this.managerAuditData.WoredaId);
-        }
+  appendPreviousDataToNewForm(){
+    this.updateData = false;
+    this.managerForm.patchValue(this.managerData);
+
+    setTimeout(() => {
+      if (this.managerData.ZoneId != null) {
+        this.filteredWoredas =
+          this.woredas.filter((item) => item.ZoneId === this.managerData.ZoneId);
       }
-      else {
-        console.log("no data on new db");
-       // this.managerForm.patchValue(this.managerData);
-        this.managerForm.patchValue({
-          FirstName: this.managerData.FirstName || '',
-          FatherName: this.managerData.FatherName || '',
-          GrandName: this.managerData.GrandName || '',
-          FirstNameEng: this.managerData.FirstNameEng || '',
-          FatherNameEng: this.managerData.FatherNameEng || '',
-          GrandNameEng: this.managerData.GrandNameEng || '',
-          Title: this.managerData.Title || '',
-          Gender: this.managerData.Gender || '',
-          Nationality: Number(this.managerData.Nationality) || '',
-          Zone: this.managerData.ZoneId || '',
-          Woreda: this.managerData.WoredaId || '',
-          Kebele: this.managerData.KebeleId || '',
-          Region: this.managerData.RegionId || '',
-          HouseNo: this.managerData.HouseNo || '',
-          Tele: this.managerData.Tele || '',
-          Email: this.managerData.Email || '',
-          RegularPhone: this.managerData.RegularPhone || '',
-          MobilePhone: this.managerData.MobilePhone || '',
-          FaxNo: this.managerData.FaxNo || '',
-          Pobox: this.managerData.Pobox || '',
-          OtherAddress: this.managerData.OtherAddress || '',
-        });
-        setTimeout(() => {
-          if (this.managerData.RegionId != null) {
-            this.filteredZones = this.zones.filter((item) => item.RegionId === this.managerData.RegionId);
-          }
-        }, 100);
-        setTimeout(() => {
-          if (this.managerData.ZoneId != null) {
-            this.filteredWoredas =
-              this.woredas.filter((item) =>
-                item.ZoneId == '15');
-          }
-        }, 100);
-        if (this.managerData.WoredaId != null) {
-          this.getViewKebeleByWoredaId(this.managerData.WoredaId);
-        }
+    }, 100);
+
+    setTimeout(() => {
+      if (this.managerData.RegionId != null) {
+        this.filteredZones =
+          this.zones.filter((item) => item.RegionId === this.managerData.RegionId);
       }
-    })
+    }, 100);
+    setTimeout(() => {
+      if (this.managerData.WoredaId != null) {
+        this.getKebeleByWoredaId(this.managerData.Woreda);
+      }
+    }, 100);
+  }
+  setNewForm(){
+    setTimeout(() => {
+      if (this.managerAuditData.ZoneId != null) {
+        this.filteredWoredas =
+          this.woredas.filter((item) => item.ZoneId === this.managerAuditData.ZoneId);
+      }
+    }, 100);
+    setTimeout(() => {
+      if (this.managerAuditData.RegionId != null) {
+        this.filteredZones = this.zones.filter((item) => item.RegionId === this.managerAuditData.RegionId);
+      }
+    }, 100);
+    setTimeout(() => {
+      if (this.managerAuditData.WoredaId != null) {
+        this.getKebeleByWoredaId(this.managerAuditData.WoredaId);
+      }
+    }, 100);
   }
   initViewForm() {
     this.managerViewForm = this.fb.group({
       FirstName: [], FatherName: [], GrandName: [], FirstNameEng: [], FatherNameEng: [],
-      GrandNameEng: [], Nationality: [], Gender: [], Title: [], Origin: [], Region: [],
-      Zone: [], Woreda: [], Kebele: [], MobilePhone: [], HouseNo: [], RegularPhone: [], FaxNo: [],
+      GrandNameEng: [], Nationality: [], Gender: [], Title: [], Origin: [], RegionId: [],
+      ZoneId: [], WoredaId: [], KebeleId: [], CellPhoneNo: [], HouseNo: [], RegularPhone: [], Fax: [],
       OtherAddress: [], Pobox: [], Email: [], Remark: [], ViewBirthDate: []
     });
   }
@@ -312,16 +313,16 @@ export class ManagerEditComponent implements OnInit {
       Nationality: ['', [Validators.required]], // Ethiopian
       Sex: ['', [Validators.required]],
       Title: [''],
-      BirthDate: [DateTimeFormat, [Validators.required]],
+      BirthDate: [''],
       Origin: [0],
       RegionId: ['', [Validators.required]],
-      ZoneId: ['', [Validators.required]],
+      ZoneId: [''],
       WoredaId: ['', [Validators.required]],
       KebeleId: ['', [Validators.required]],
-      MobilePhone: ['', [Validators.required, Validators.pattern(NUMERIC_REGEX), Validators.minLength(9)]],
+      CellPhoneNo: [''],
       HouseNo: ['', [Validators.required]],
-      RegularPhone: ['', [Validators.pattern(NUMERIC_REGEX)]],
-      FaxNo: [''],
+      RegularPhone: [''],
+      Fax: [''],
       OtherAddress: [''],
       Pobox: [''],
       Email: ['', [Validators.email]],
@@ -330,17 +331,35 @@ export class ManagerEditComponent implements OnInit {
     });
 
   }
-  fileChange(data){
+  fileChange(data) {
     console.log(data)
   }
-  onBack(){
+  onBack() {
 
   }
-  create(){
-
+  create() {
+    this.managerService.saveManagerData(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
   }
-  update(){
-    
+  update() {
+    this.managerService.updateManagerData(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
+  }
+  getEditedData() {
+    this.manager = this.managerForm.value;
+    this.manager.ServiceApplicationId = (this.serviceApplicationId) ? this.serviceApplicationId : ''
+    this.manager.AssociateId = (this.AssociateId) ? this.AssociateId : 0;
+    this.manager.AddressId = (this.AddressId) ? this.AddressId : 0;
+    this.manager.InvestorId = (this.InvestorId) ? this.InvestorId : 0;
+    this.manager.ProjectId = (this.ProjectId) ? this.ProjectId : 0;
+    this.manager.IsMainOffice = (this.IsMainOffice) ? this.IsMainOffice : false;
+    this.manager.IsActive = (this.IsActive) ? this.IsActive : false;
+    this.manager.IsNew = false;
+    this.manager.Deleted = (this.Deleted) ? this.Deleted : false
+    console.log(this.manager);
+    return this.manager;
   }
   get firstName() {
     return this.managerForm.get('FirstName');
@@ -360,7 +379,7 @@ export class ManagerEditComponent implements OnInit {
     return this.managerForm.get('BirthDate');
   }
 
-  
+
 
   get firstNameEng() {
     return this.managerForm.get('FirstNameEng');
@@ -390,7 +409,7 @@ export class ManagerEditComponent implements OnInit {
     return this.managerForm.get('PhotoData');
   }
 
-  get region() {
+  get RegionId() {
     return this.managerForm.get('RegionId');
   }
 
@@ -418,12 +437,12 @@ export class ManagerEditComponent implements OnInit {
     return this.managerForm.get('RegularPhone');
   }
 
-  get MobilePhone() {
-    return this.managerForm.get('MobilePhone');
+  get CellPhoneNo() {
+    return this.managerForm.get('CellPhoneNo');
   }
 
-  get fax() {
-    return this.managerForm.get('FaxNo');
+  get Fax() {
+    return this.managerForm.get('Fax');
   }
 
   get pobox() {

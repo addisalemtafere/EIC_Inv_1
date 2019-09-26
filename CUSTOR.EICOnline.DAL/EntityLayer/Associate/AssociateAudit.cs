@@ -12,6 +12,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
             //ProjectAssociate = new HashSet<ProjectAssociate>();
         }
         [Key]
+        public int id { get; set; }
         public int AssociateId { get; set; }
         public string Tin { get; set; }
         public int Title { get; set; }
@@ -42,7 +43,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public Guid? ObjectId { get; set; }
-
+        public int? ServiceApplicationId { get; set; }
+        public bool? IsNew { get; set; }
         public ICollection<ProjectAssociate> ProjectAssociate { get; set; }
     }
     public partial class AssociateAuditDTO
@@ -60,6 +62,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public partial class AssociateAuditAddressDTO {
         public AssociateAuditAddressDTO() { }
         public int AssociateId { get; set; }
+
+        public int ? AddressId { get; set; }
         public string Tin { get; set; }
         public int Title { get; set; }
         public int InvestorId { get; set; }
@@ -85,7 +89,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public int ? ServiceApplicationId { get; set; }
         public byte[] Photo { get; set; }
         public string Origin { get; set; }
-        public string MobilePhone { get; set; }
+        public string CellPhoneNo { get; set; }
         public string RegularPhone { get; set; }
         public string RegionId { get; set; }
         public string ZoneId { get; set; }
@@ -93,10 +97,23 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string KebeleId { get; set; }
         public string HouseNo { get; set; }
         public string Pobox { get; set; }
-        public string FaxNo { get; set; }
+        public string Fax { get; set; }
         public string Email { get; set; }
         public string OtherAddress { get; set; }
-        public string Tele { get; set; }
+        public string TeleNo { get; set; }
+        public bool ? IsMainOffice { get; set; }
+        public bool ? IsNew { get; set; }
+    }
+    public class AssociateAuditListDTO
+    {
+        public int id { get; set; }
+        public string FullName { get; set; }
+        public string FullNameEng { get; set; }
+        public int AssociateId { get; set; }
+        public int Title { get; set; }
+        public string Tin { get; set; }
+        public bool IsNew { get; set; }
+
     }
 
 }

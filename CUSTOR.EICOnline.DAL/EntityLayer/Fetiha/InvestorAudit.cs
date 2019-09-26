@@ -10,33 +10,12 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     {
         public InvestorAudit()
         {
-            //Associate = new HashSet<Associate>();
-
         }
-
-        public virtual string InvestorName
-        {
-            get
-            {
-                string investorName = FirstName + ' ' + FatherName + ' ' + GrandName;
-                return investorName;
-            }
-        }
-
-        public virtual string InvestorNameEng
-        {
-            get
-            {
-                string investorName = FirstNameEng + ' ' + FatherNameEng + ' ' + GrandNameEng;
-                return investorName;
-            }
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int InvestorId { get; set; }
-        //public int AddressId { get; set; }
-        public int LegalStatus { get; set; }
+        public int id { get; set; }
+        public int ? InvestorId { get; set; }
+        public int ? LegalStatus { get; set; }
 
         public int? Title { get; set; }
         public string FirstName { get; set; }
@@ -58,8 +37,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public int? FormOfOwnership { get; set; }
         public int? Nationality { get; set; }
         public int? BranchCountry { get; set; }
-        public bool IsDiaspora { get; set; }
-        public bool IsEthiopianOrigin { get; set; }
+        public bool ?IsDiaspora { get; set; }
+        public bool ?IsEthiopianOrigin { get; set; }
 
         //public byte?[] Photo { get; set; }
         public string Tin { get; set; }
@@ -85,9 +64,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
 
-        public Guid ObjectId { get; set; }
+        public Guid ? ObjectId { get; set; }
 
         public int ? ServiceApplicationId { get; set; }
+
 
     }
     public class InvestorAuditDTO
@@ -95,29 +75,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public InvestorAuditDTO()
         {
         }
-        public virtual string InvestorName
-        {
-            get
-            {
-                string investorName = FirstName + ' ' + FatherName + ' ' + GrandName;
-                return investorName;
-            }
-        }
-
-        public virtual string InvestorNameEng
-        {
-            get
-            {
-                string investorName = FirstNameEng + ' ' + FatherNameEng + ' ' + GrandNameEng;
-                return investorName;
-            }
-        }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int InvestorId { get; set; }
-        //public int AddressId { get; set; }
-        public int LegalStatus { get; set; }
+        public int? InvestorId { get; set; }
+        public int ? AddressId { get; set; }
+        public int? LegalStatus { get; set; }
 
         public int? Title { get; set; }
         public string FirstName { get; set; }
@@ -136,8 +96,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public int? FormOfOwnership { get; set; }
         public int? Nationality { get; set; }
         public int? BranchCountry { get; set; }
-        public bool IsDiaspora { get; set; }
-        public bool IsEthiopianOrigin { get; set; }
+        public bool? IsDiaspora { get; set; }
+        public bool? IsEthiopianOrigin { get; set; }
         public string Tin { get; set; }
         public string RegistrationNumber { get; set; }
         public DateTime? RegistrationDate { get; set; }
@@ -154,6 +114,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public bool? IsExistingCustomer { get; set; }
         public bool? IsActive { get; set; }
         public bool IsDeleted { get; set; }
+        public bool? IsMainOffice { get; set; }
         public Guid? ObjectId { get; set; }
         public string RegionId { get; set; }
         public string ZoneId { get; set; }
@@ -169,8 +130,16 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string Email { get; set; }
         public string OtherAddress { get; set; }
         public string UserName { get; set; }
-        public int AddressId { get; set; }
+        public int ? ServiceApplicationId { get; set; } 
 
+        public string FaxNo { get; set; }
+        public string Tele { get; set; }
+        public string MobilePhone { get; set; }
+        public int  ProjectId { get; set; }
+        public string CreatedUserId { get; set; }
+        public DateTime ? UpdatedDate { get; set; }
+
+        public bool ? IsNew { get; set; }
 
     }
 }

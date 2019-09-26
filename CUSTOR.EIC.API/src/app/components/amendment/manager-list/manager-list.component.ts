@@ -15,8 +15,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ManagerListComponent implements OnInit {
   managers: any = [];
   currentLang:string;
-  displayedColumns = ['FullName', 'FullNameEng', 'Nationality','Actions'];
+  displayedColumns = ['FullName', 'FullNameEng', 'Actions'];
+  newDisplayedColumns = ['FullName', 'FullNameEng', 'Actions'];
   dataSource: MatTableDataSource<AssociateModel>;
+  NewDataSource : MatTableDataSource<AssociateModel>;
   amendment = ServiceTypes[4].ServiceId;
   previousManagers = true;
   newManagers = true;
@@ -49,7 +51,7 @@ export class ManagerListComponent implements OnInit {
        }
      })
     this.getManagerList(investorId);
-
+    this.getNewManagersList(investorId);
    }
   addNewManager(id) {
     console.log(id)
@@ -62,6 +64,10 @@ export class ManagerListComponent implements OnInit {
   editManager(data){
     console.log(data.AssociateId);
     this.router.navigate(['/amendment/manager-edit', data.AssociateId], { relativeTo: this.route });
+  }
+  editNewManager(data){
+    console.log(data);
+    this.router.navigate(['/amendment/manager', data.id], { relativeTo: this.route });
   }
   confirmDelete(manager){
     console.log(manager)
@@ -78,6 +84,15 @@ export class ManagerListComponent implements OnInit {
          this.dataSource = new MatTableDataSource(this.managers);
        })
    }
+  getNewManagersList(investorId){
+    this.managerService.getNewAssociateListByInvestorId(investorId)
+      .subscribe(result => {
+        this.managers = result;
+        console.log(this.managers);
+        this.newManagers = true;
+        this.NewDataSource = new MatTableDataSource(this.managers);
+      })
+  }
   //  getManagerListFromAudit(investorId){
   //    this.managerService.getAssociateAuditListByInvestorId(investorId)
   //      .subscribe(result => {
