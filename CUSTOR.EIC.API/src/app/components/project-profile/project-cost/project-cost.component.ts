@@ -256,7 +256,7 @@ export class ProjectCostComponent
         ),
         EquityFinance: new FormControl(0),
 
-        LoanFinance: new FormControl(0),
+        LoanFinance: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
         OtherSourceFinance: new FormControl(0),
         OtherSourceDescription: new FormControl(0),
 

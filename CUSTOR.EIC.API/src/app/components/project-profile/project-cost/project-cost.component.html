@@ -223,24 +223,18 @@
           </div>
         </div>
 
-        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">
-
-        </div>
-        <mat-card-subtitle class="sub-title">
-          Source of Finance
-          <!--<mat-divider></mat-divider>-->
-        </mat-card-subtitle>
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
+        <!--<mat-card-subtitle class="sub-title">-->
+          <!--Source of Finance-->
+          <!--&lt;!&ndash;<mat-divider></mat-divider>&ndash;&gt;-->
+        <!--</mat-card-subtitle>-->
+        <div fxLayout="column" fxLayoutAlign="start Left" [fxFlex]="50" >
+        <div fxLayout="row" fxLayoutAlign="start Left" fxLayoutGap="2em">
           <div class="block" fxFlex="">
             <mat-form-field>
               <input formControlName="EquityFinance"
                      type="number"
                      #EF
                      matInput placeholder="Equity Finance">
-              <!--<mat-error align="start" *ngIf="formErrors.EquityFinance" class="form__error">-->
-              <!--{{ formErrors.EquityFinance }}-->
-              <!--</mat-error>-->
-
             </mat-form-field>
           </div>
           <div class="block" fxFlex="">
@@ -253,6 +247,25 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <!--<div class="block" fxFlex="">-->
+            <!--<mat-form-field>-->
+              <!--<input #OSF type="number" formControlName="OtherSourceFinance" matInput-->
+                     <!--placeholder="Other Source Finance * :">-->
+              <!--<mat-error align="start" *ngIf="formErrors.OtherSourceFinance" class="form__error">-->
+                <!--{{ formErrors.OtherSourceFinance }}-->
+              <!--</mat-error>-->
+            <!--</mat-form-field>-->
+          <!--</div>-->
+          <!--<div class="block" fxFlex="">-->
+            <!--<mat-form-field>-->
+              <!--<input formControlName="OtherSourceDescription" matInput placeholder="Other Source Description  :">-->
+              <!--<mat-error align="start" *ngIf="formErrors.OtherSourceDescription" class="form__error">-->
+                <!--{{ formErrors.OtherSourceDescription }}-->
+              <!--</mat-error>-->
+            <!--</mat-form-field>-->
+          <!--</div>-->
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start Left" fxLayoutGap="2em">
           <div class="block" fxFlex="">
             <mat-form-field>
               <input #OSF type="number" formControlName="OtherSourceFinance" matInput
@@ -271,18 +284,17 @@
             </mat-form-field>
           </div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2em">
+        <div fxLayout="row" fxLayoutAlign="start Left" fxLayoutGap="2em">
           <mat-error
             *ngIf="projectCostForm.hasError('sumIsNotEqual') && (projectCostForm.touched || projectCostForm.dirty)"
             class="error">
             The cost break down and sum of source of finance must be equal!
           </mat-error>
         </div>
+        <div fxLayout="row" fxLayoutAlign="start Left" fxLayoutGap="2em">
+          <!--<div fxLayout="column" class="block" fxFlex="25">-->
 
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
-          <div fxLayout="column" class="block" fxFlex="25">
-
-            <div class="block">
+            <div class="block" fxFlex="">
               <mat-form-field>
 
                 <mat-label>Currency Type</mat-label>
@@ -300,8 +312,8 @@
               </mat-form-field>
             </div>
 
-          </div>
-          <div  fxLayout="column" class="block" fxFlex="25">
+          <!--</div>-->
+          <!--<div  fxLayout="column" class="block" fxFlex="25">-->
             <div class="block" fxFlex="">
               <mat-form-field>
                 <input
@@ -315,8 +327,10 @@
                 <!--</mat-error>-->
               </mat-form-field>
             </div>
-          </div>
-          <div fxLayout="column" class="block" fxFlex="25">
+          <!--</div>-->
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start Left" fxLayoutGap="2em">
+          <!--<div fxLayout="column" class="block" fxFlex="25">-->
             <div class="block" fxFlex="">
               <mat-form-field>
                 <input
@@ -335,19 +349,21 @@
                 </mat-error>
               </mat-form-field>
             </div>
-          </div>
+          <!--</div>-->
 
-          <div class="block" fxFlex="25">
+          <div class="block" fxFlex="">
             <mat-form-field class="full-width">
               <mat-label>Remark :</mat-label>
               <textarea matInput formControlName="Remark" rows="4"></textarea>
-              <mat-error align="start" *ngIf="formErrors?.Remark" class="form__error">
-                {{ formErrors.Remark }}
-              </mat-error>
+              <!--<mat-error align="start" *ngIf="formErrors?.Remark" class="form__error">-->
+                <!--{{ formErrors.Remark }}-->
+              <!--</mat-error>-->
             </mat-form-field>
           </div>
+          </div>
         </div>
-      </div>
+        </div>
+      <!--</div>-->
 
 
     </mat-card-content>

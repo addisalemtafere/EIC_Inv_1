@@ -739,7 +739,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   public onSubmit() {
-
+console.log('form submitted')
     // put dummy values to avoid conditional validation issues
     if (this.isCompany) {
       this.investorForm.get('cFirstNameEng').patchValue('NA');
