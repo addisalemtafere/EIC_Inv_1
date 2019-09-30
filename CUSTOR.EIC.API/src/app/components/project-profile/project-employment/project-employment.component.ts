@@ -102,6 +102,8 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
         this.employmentService.update(this.employmetForm.value, this.empId)
           .subscribe(result => {
             this.notification('updated');
+            setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
+            setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
           }, error => this.toastr.error(this.errMsg.getError(error)));
       }
     } else {

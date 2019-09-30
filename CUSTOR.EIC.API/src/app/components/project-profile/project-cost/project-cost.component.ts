@@ -176,6 +176,8 @@ export class ProjectCostComponent
           .update(this.projectCostForm.value, this.costId)
           .subscribe(result => {
             this.notification('updated');
+            setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
+            setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
           });
       }
     } else {

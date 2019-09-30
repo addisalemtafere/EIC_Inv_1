@@ -181,12 +181,15 @@
           <div class="block" fxFlex="25" *ngIf="getIsChecked()">
             <mat-form-field>
               <mat-label>Industrial Park :</mat-label>
-              <mat-select formControlName="IndustrialParkId">
+              <mat-select formControlName="IndustrialParkId" [required]="getIsChecked()">
                 <mat-option *ngFor="let site of allSiteList" [value]="site.SiteId">
                   <span>   {{site.NameEnglish}}</span>
                 </mat-option>
               </mat-select>
-              <mat-error align="start" *ngIf="formErrors.Kebele">{{ formErrors.Kebele }}</mat-error>
+              <mat-error >Please choose Industrial Park!</mat-error>
+              <!--<mat-error *ngIf="IndustrialParkId.hasError('required')">-->
+              <!--{{formErrors.IndustrialParkId}}-->
+              <!--</mat-error>-->
             </mat-form-field>
           </div>
 
