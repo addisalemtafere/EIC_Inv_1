@@ -6,6 +6,7 @@ import {DataSharingService} from '../../../Services/data-sharing.service';
 import {Subscription} from 'rxjs';
 import {InvestorService} from '../../investor/investor.service';
 import {ToastrService} from 'ngx-toastr';
+import {AccountService} from '@custor/services/security/account.service';
 
 @Component({
   selector: 'app-project-stepper',
@@ -31,8 +32,9 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
   public ServiceId: string;
   public projectName: string | null;
   public investorName: string | null;
-
+  public isInvestor: boolean;
   constructor(private _formBuilder: FormBuilder,
+              public accountService: AccountService,
               private router: Router,
               private toast: ToastrService,
               private invService: InvestorService,
@@ -43,10 +45,11 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
   ngOnInit() {
     this.currentPosition = 'f';
     this.ServiceId = localStorage.getItem('ServiceId');
-
-
+  this.getUserType();
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   move(index: number) {
     this.stepper.selectedIndex = index;
   }
@@ -70,6 +73,7 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
       });
     this.subscription = this.dataSharing.currentIndex
       .subscribe(index => {
+        console.log(index)
         this.nextIndex = index;
         this.upeerLimit = index;
         // console.log(index);

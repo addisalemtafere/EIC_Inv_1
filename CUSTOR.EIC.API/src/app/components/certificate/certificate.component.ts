@@ -31,6 +31,8 @@ import {NationalityService} from "../../Services/Nationalityservice";
 import {CountryModel} from "../../model/Country";
 import {CountryService} from "../../Services/country.service";
 import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
+import {BaseService} from '../../Services/Base.service';
+import {InvestorService} from '../investor/investor.service';
 
 @Component({
   selector: 'app-certificate',
@@ -98,6 +100,7 @@ export class CertificateComponent implements OnInit {
               public toast: ToastrService,
               public router: Router,
               public fb: FormBuilder,
+              private custService: InvestorService,
               private lookupsService: LookupsService,
               private projectCostService: ProjectCostService,
               public invactivityService: InvactivityService,
@@ -111,6 +114,9 @@ export class CertificateComponent implements OnInit {
     this.arr.push("option2");
     this.arr.push("option3");
     this.selected = 'option2';
+    // this.baseService.getOneById(this.InvestorId).subscribe( res => {
+    //   console.log(res);
+    // });
   }
 
   ngOnInit() {
@@ -119,9 +125,23 @@ export class CertificateComponent implements OnInit {
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    // this.getInvestor(this.InvestorId);
+    console.log(this.InvestorId);
+    this.custService
+      .getInvestor(this.InvestorId).subscribe(result => {
+        console.log(result);
+        if (result.FirstName.toString() === '') {
+          // console.log('investor form');
+          this.router.navigate(['investor-profile/' + this.InvestorId]);
+        }
+        // this
+        // this.dialog.open(NotificationComponent);
+        // return;
+        }
+      );
     this.getDate();
     this.getEthiopianDate();
-    console.log(this.ServiceApplicationId);
+    // console.log(this.ServiceApplicationId);
     if (this.ServiceApplicationId > 0) {
       this.getServiceApplicationRenewal();
     }
@@ -187,7 +207,8 @@ export class CertificateComponent implements OnInit {
   }
 
   generateCertification() {
-    // console.log(this.ServiceApplicationId);
+    // console.log(this.InvestorId);
+    // this.getInvestor(this.InvestorId);
     this.getInvestorDetail(this.ServiceApplicationId);
     this.viewCertificate = true;
   }
@@ -596,4 +617,10 @@ nobr {
       selectedValue: new FormControl()
     })
   }
+// getting investor detail
+//  getInvestor(InvestorId: number) {
+//     this.baseService.getOneById(InvestorId).subscribe( res => {
+//       console.log(res);
+//     });
+//   }
 }

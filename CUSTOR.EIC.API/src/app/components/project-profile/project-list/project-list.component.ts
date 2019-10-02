@@ -173,6 +173,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   projectApprove(serviceApplication: ServiceApplicationModel) {
+    console.log('project approved');
     const id = serviceApplication.ServiceApplicationId;
     const projectId = serviceApplication.ProjectId;
     const serviceId = serviceApplication.ServiceId;
@@ -223,7 +224,6 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
       case ServiceEnum.NewIP:
       case ServiceEnum.Expansion:
         this.router.navigate(['/officer/' + serviceId + '/' + investorId + '/' + id + '/' + workFlowId + '/' + projectId]);
-
         break;
       case ServiceEnum.Renewal:
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);

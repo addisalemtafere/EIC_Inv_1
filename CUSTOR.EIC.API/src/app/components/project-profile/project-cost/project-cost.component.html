@@ -67,11 +67,23 @@
         </div>
       </div>
       <mat-card-subtitle class="sub-title" *ngIf="!(ServiceId=='1234' && (ServiceId=='1234' && editMode))">
-        Cost Break Down
-        <mat-divider></mat-divider>
+        <div fxLayout="column" fxLayoutAlign="start Left" [fxFlex]="50" >
+          <div fxLayout="row" fxLayoutAlign="start Left" fxLayoutGap="2em">
+            <div class="block" fxFlex="">
+              Cost Break Down
+            </div>
+          </div>
+        </div>
+          <div fxLayout="column" fxLayoutAlign="start Left" [fxFlex]="200" >
+            <div fxLayout="row" fxLayoutAlign="start Left" fxLayoutGap="2em">
+              <div class="block" fxFlex="">
+                Source of Finance
+              </div>
+            </div>
+        </div>
       </mat-card-subtitle>
-
-      <div *ngIf="!(ServiceId=='1234' && editMode)">
+      <mat-divider></mat-divider>
+      <div style="margin-top: 2em" *ngIf="!(ServiceId=='1234' && editMode)">
         <div fxLayout="column" fxLayoutAlign="start Left" [fxFlex]="50" >
           <div fxLayout="row" fxLayoutAlign="start Left" fxLayoutGap="2em">
             <div class="block" fxFlex="">
@@ -351,15 +363,17 @@
             </div>
           <!--</div>-->
 
-          <div class="block" fxFlex="">
-            <mat-form-field class="full-width">
-              <mat-label>Remark :</mat-label>
-              <textarea matInput formControlName="Remark" rows="4"></textarea>
-              <!--<mat-error align="start" *ngIf="formErrors?.Remark" class="form__error">-->
-                <!--{{ formErrors.Remark }}-->
-              <!--</mat-error>-->
-            </mat-form-field>
           </div>
+          <div fxLayout="row" fxLayoutAlign="start Left" fxLayoutGap="2em">
+            <div class="block" fxFlex="">
+              <mat-form-field class="full-width">
+                <mat-label>Remark :</mat-label>
+                <textarea matInput formControlName="Remark" rows="4"></textarea>
+                <!--<mat-error align="start" *ngIf="formErrors?.Remark" class="form__error">-->
+                <!--{{ formErrors.Remark }}-->
+                <!--</mat-error>-->
+              </mat-form-field>
+            </div>
           </div>
         </div>
         </div>
