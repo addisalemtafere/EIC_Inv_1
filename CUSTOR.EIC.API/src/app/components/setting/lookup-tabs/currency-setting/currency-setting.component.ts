@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ApplicationSettingService} from "../../../../Services/application-setting.service";
 import {ApplicationSettingModel} from "../../../../model/ApplicationSetting.Model";
@@ -11,6 +11,7 @@ import {ErrorMessage} from "@custor/services/errMessageService";
   styleUrls: ['./currency-setting.component.scss']
 })
 export class CurrencySettingComponent implements OnInit {
+  @ViewChild('form')
   currencySettingsForm: FormGroup;
   loadingIndicator: boolean;
   ApplicationSettingModel: ApplicationSettingModel;

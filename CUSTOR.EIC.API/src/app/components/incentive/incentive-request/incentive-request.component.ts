@@ -181,8 +181,13 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       .subscribe((params: Params) => {
         // this.projectId = +params['id'];
         // if (16107 > 1) {
-        this.getIncentiveReaquestItmes(this.ProjectId, this.ServiceApplicationId);
-        this.getIncentiveReaquestItmesByServiceAppId(this.ServiceApplicationId);
+        if (this.ServiceApplicationId == 0) {
+          //this.getIncentiveReaquestItmesByProjectId(this.ProjectId);
+          this.hasManyDetial = true;
+        } else {
+          this.getIncentiveReaquestItmes(this.ProjectId, this.ServiceApplicationId);
+          this.getIncentiveReaquestItmesByServiceAppId(this.ServiceApplicationId);
+        }
         // }
       });
   }
@@ -234,6 +239,16 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
 
   getIncentiveReaquestItmesByServiceAppId(ServiceApplicationId) {
     this.IncentiveRequestService.getIncentiveRequestByServiceApplicationId(ServiceApplicationId, this.currentLang).subscribe(result => {
+      if (result.length > 0) {
+        this.IncentiveRequestModels = result;
+        this.dataSource = new MatTableDataSource<IncentiveRequestModel>(this.IncentiveRequestModels);
+        this.loading = false;
+      }
+    }, error => this.errMsg.getError(error));
+  }
+
+  getIncentiveReaquestItmesByProjectId(ProjectId) {
+    this.IncentiveRequestService.getIncentiveRequestByProjectsId(ProjectId, this.currentLang).subscribe(result => {
       if (result.length > 0) {
         this.IncentiveRequestModels = result;
         this.dataSource = new MatTableDataSource<IncentiveRequestModel>(this.IncentiveRequestModels);
@@ -362,13 +377,14 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     }
     return false
   }
+
   onEditIncentiveItem(index: number) {
     this.editMode = true;
     this.IncentiveItemtEditIndex = index;
     this.IncentiveRequestModel = this.IncentiveRequestModels[index];
     this.incentiveRequestItemForm.patchValue(this.IncentiveRequestModel);
-    if(this.IncentiveRequestModel.IncentiveCategoryId==10778){
-      this.showPhase=true;
+    if (this.IncentiveRequestModel.IncentiveCategoryId == 10778) {
+      this.showPhase = true;
     }
     this.isNewIncentiveRequestItem = false;
   }

@@ -94,7 +94,10 @@
     "customerRegistration": "Customer Registration",
     "changePassword": "Change Password",
     "lettertemplate": "Letter Tempalte",
-    "commericalRegistration": "Commercial Registration"
+    "commericalRegistration": "Commercial Registration",
+    "TaxExemption": "ግብር እፎይታ",
+    "DutyFree": "ቀረጥ ነጻ",
+    "DataBrowser": "Incentive Data Browser"
   },
   "pageHeader": {
     "Dashboard": "Dashboard",

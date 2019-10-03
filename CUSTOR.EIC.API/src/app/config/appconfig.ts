@@ -217,6 +217,7 @@ export class AppConfiguration {
     CapitalRegistrations: 'api/CapitalRegistrations',
     CapitalRegistrationsByProject: 'api/CapitalRegistrations/ByProject',
     incentiveRequestByServiceAppId: 'api/IncentiveRequest/ByServiceAppId',
+    incentiveRequestByProjectId: 'api/IncentiveRequest/ByProjectId',
     incentiveRequestByServiceAppIds: 'api/IncentiveRequest/ByServiceAppIds',
 
     IncentiveRequestDetailofSparePart: 'api/IncentiveRequestDetail/getSparePart',

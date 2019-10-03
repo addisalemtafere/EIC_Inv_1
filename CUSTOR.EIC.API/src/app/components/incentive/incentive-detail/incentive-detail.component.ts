@@ -185,11 +185,9 @@ export class IncentiveDetailComponent implements OnInit {
   }
 
   showLetter() {
-
     this.serviceId = 0;
     this.serviceApplicationId = 0;
-
-    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + this.isForDetail]);
+    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + 1]);
   }
 
   compareIds(id1: any, id2: any): boolean {

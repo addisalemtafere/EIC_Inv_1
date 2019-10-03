@@ -31,7 +31,7 @@ import {Permission} from "../../../model/security/permission.model";
 
 export class ProjectSearchComponent implements OnInit, AfterContentChecked {
 
-  title: string;
+  title: any;
   serviceTitle: string;
   dataSource: any;
   dataSourceProject: any;
@@ -65,6 +65,7 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
   private isForDetail: any;
   private ServiceApplicationId: any;
   private InvestorId: any;
+  private isTitle: number;
 
   constructor(public fb: FormBuilder,
               private http: HttpClient,
@@ -86,6 +87,12 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
   ngOnInit() {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
+    this.title = this.route.snapshot.params['Title'];
+    if (this.title == 1) {
+      this.isTitle = 1;
+    } else {
+      this.isTitle = 0;
+    }
     this.initForm();
     //this.getInvestors();
     this.title = localStorage.getItem('title');
@@ -205,7 +212,12 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
       this.select(InvestorId, investorName);
       this.router.navigate(['/search-browser/' + serviceId + '/' + InvestorId + '/' + 0]);
     }
+  }
 
+  investorDetail(InvestorId: any, projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
+    const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
+    const investorId = this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
+    this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + serviceId + '/' + 1 ]);
   }
 
   nextService(InvestorId: any, projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
@@ -342,11 +354,16 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     this.serviceApplication.todoTask = this.todoTask;
     console.log(this.ServiceId);
     if (this.ServiceId != 1237) {
-      this.serviceApplicationService
-        .applicationStart(this.serviceApplication)
-        .subscribe(result => {
-          this.nextService(this.InvestorId, projectId, result.ServiceApplicationId, ServiceId, projectStatus, result.ServiceWorkflow[0].ServiceWorkflowId);
-        });
+      if (this.isTitle == 1) {
+        this.investorDetail(this.InvestorId, projectId, 0, ServiceId, projectStatus, 0);
+      } else {
+        this.serviceApplicationService
+          .applicationStart(this.serviceApplication)
+          .subscribe(result => {
+            this.nextService(this.InvestorId, projectId, result.ServiceApplicationId, ServiceId, projectStatus, result.ServiceWorkflow[0].ServiceWorkflowId);
+          });
+      }
+
     } else {
       this.router.navigate(['incentive-detail/' + projectId + '/' + 0 + '/' + 0 + '/' + 1]);
     }

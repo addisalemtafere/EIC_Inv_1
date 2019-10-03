@@ -1,22 +1,24 @@
-<form #form="ngForm" [formGroup]="currencySettingsForm" novalidate>
-  <mat-card-content>
-    <mat-form-field [fxFlex]="19">
-      <mat-label>{{'incentiverequest.InterestRate' | translate}}</mat-label>
-      <input type="number" matInput required
-             formControlName="Value">
-      <mat-error *ngIf="Value.hasError('required')">
-        {{'common.validation.Required' | translate}}
-      </mat-error>
-      <mat-error *ngIf="Value.hasError('maxlength')">
-        {{'common.validation.MaxLengthChar' | translate: {'max': '8'} }}
-      </mat-error>
-      <mat-error *ngIf="Value.hasError('pattern')">
-        {{'common.validation.NumberOnly' | translate}}
-      </mat-error>
-    </mat-form-field>
-    <button class="custom-button" (click)="onSubmit()">
-      <mat-icon color="accent" class="mat-18">done</mat-icon>
-      {{'Save'}}
-    </button>
-  </mat-card-content>
-</form>
+<folrm #form="ngForm" [formGroup]="currencySettingsForm" novalidate>
+  <mat-card class="mat-elevation-z8">
+    <mat-card-content>
+      <mat-form-field [fxFlex]="19">
+        <mat-label>{{'incentiverequest.InterestRate' | translate}}</mat-label>
+        <input type="number" matInput required
+               formControlName="Value">
+        <mat-error *ngIf="Value.hasError('required')">
+          {{'common.validation.Required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="Value.hasError('maxlength')">
+          {{'common.validation.MaxLengthChar' | translate: {'max': '8'} }}
+        </mat-error>
+        <mat-error *ngIf="Value.hasError('pattern')">
+          {{'common.validation.NumberOnly' | translate}}
+        </mat-error>
+      </mat-form-field>
+      <button class="custom-button" (click)="onSubmit()">
+        <mat-icon color="accent" class="mat-18">done</mat-icon>
+        {{'Update'}}
+      </button>
+    </mat-card-content>
+  </mat-card>
+</folrm>
