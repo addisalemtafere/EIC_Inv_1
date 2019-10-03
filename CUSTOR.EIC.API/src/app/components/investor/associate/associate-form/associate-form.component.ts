@@ -423,7 +423,8 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     return this.associateService.create(this.getEditedInvestor())
       .subscribe((associate: AssociateDTO) => {
           this.saveCompleted(associate);
-          localStorage.setItem('profile-completed', 'true')
+          localStorage.setItem('profile-completed', 'true');
+          this.toastr.show('success');
         },
         err => this.handleError(err)
       );

@@ -43,6 +43,9 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
   }
 
   ngOnInit() {
+    this.title = localStorage.getItem('title');
+    this.projectName = localStorage.getItem('projectName');
+    this.investorName = localStorage.getItem('investorName');
     this.currentPosition = 'f';
     this.ServiceId = localStorage.getItem('ServiceId');
   this.getUserType();
@@ -62,9 +65,9 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
   }
 
   ngAfterContentChecked() {
-    this.title = localStorage.getItem('title');
-    this.projectName = localStorage.getItem('projectName');
-    this.investorName = localStorage.getItem('investorName');
+    // this.title = localStorage.getItem('title');
+    // this.projectName = localStorage.getItem('projectName');
+    // this.investorName = localStorage.getItem('investorName');
     this.subscription = this.dataSharing.steeperIndex
       .subscribe(index => {
         this.steeperIndex = index;

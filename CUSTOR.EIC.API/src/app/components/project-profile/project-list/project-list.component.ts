@@ -174,6 +174,10 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
   projectApprove(serviceApplication: ServiceApplicationModel) {
     console.log('project approved');
+    console.log(serviceApplication);
+    localStorage.setItem('title', serviceApplication.ServiceNameEnglish);
+    localStorage.setItem('projectName', serviceApplication.ProjectNameEnglish);
+    localStorage.setItem('investorName', serviceApplication.InvestorNameEnglish);
     const id = serviceApplication.ServiceApplicationId;
     const projectId = serviceApplication.ProjectId;
     const serviceId = serviceApplication.ServiceId;
@@ -406,7 +410,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result);
         this.loading = false;
         this.serviceApplicationList = result;
-        // console.log(result);
+        console.log(result);
         this.dataSource.paginator = this.paginator;
 
       }, error => this.errMsg.getError(error));

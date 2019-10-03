@@ -69,6 +69,7 @@ export class CertificateComponent implements OnInit {
   public today: Date;
   public dateGc: Date;
   public todayEthioDate: any;
+  public yearDisplay: any;
   public dateEc1: Date;
   public todayEthioDateRenewal: any;
   public dd: Date;
@@ -374,6 +375,7 @@ export class CertificateComponent implements OnInit {
         var d = this.todayEthioDate.split('/').reverse().join('-');
         // var d2 = new Date(d);
         var d2 = new Date(d);
+        this.yearDisplay = d2.getFullYear();
         var year = d2.getFullYear() + 1;
         var month = d2.getMonth() + 1;
         var day = d2.getDate();

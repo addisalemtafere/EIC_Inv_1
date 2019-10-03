@@ -739,7 +739,6 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   public onSubmit() {
-console.log('form submitted')
     // put dummy values to avoid conditional validation issues
     if (this.isCompany) {
       this.investorForm.get('cFirstNameEng').patchValue('NA');
@@ -747,6 +746,7 @@ console.log('form submitted')
       this.investorForm.get('cFatherNameEng').patchValue('NA');
       this.investorForm.get('cFatherName').patchValue('NA');
       this.investorForm.get('cGrandNameEng').patchValue('NA');
+      this.investorForm.get('cGrandName').patchValue('NA');
       this.investorForm.get('cGender').patchValue('1');
       this.investorForm.get('cNationality').patchValue('1');
       this.investorForm.get('Title').patchValue('1');
@@ -794,6 +794,7 @@ console.log('form submitted')
     // }
 
     this.loadingIndicator = true;
+    console.log(this.getEditedInvestor());
     return this.custService.saveInvestor(this.getEditedInvestor())
       .subscribe((investor) => {
           console.log(investor);

@@ -159,7 +159,7 @@
 
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.GrandName' | translate}}</mat-label>
-            <input matInput formControlName="cGrandName" required/>
+            <input matInput formControlName="cGrandName" />
             <!--<span *ngIf="isInvestor">-->
             <mat-error *ngIf="grandName.hasError('required')">
               {{'common.validation.Required' | translate}}
