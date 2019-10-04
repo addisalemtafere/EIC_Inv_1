@@ -132,8 +132,9 @@ export class CertificateComponent implements OnInit {
       .getInvestor(this.InvestorId).subscribe(result => {
         console.log(result);
         if (result.FirstName.toString() === '') {
-          // console.log('investor form');
           this.router.navigate(['investor-profile/' + this.InvestorId]);
+        } else {
+          this.getManager(this.projectId);
         }
         // this
         // this.dialog.open(NotificationComponent);
@@ -151,21 +152,15 @@ export class CertificateComponent implements OnInit {
 
   // no need to come all this data.
   private getServiceApplicationRenewal() {
-    // console.log('date1' + this.renewedToGC);
-
     this.projectRenewalService
       .getRenewalByServiceApplicationId(this.ServiceApplicationId)
       .subscribe(result => {
         console.log(result.ProjectRenewal[0]);
-
         if (result.ProjectRenewal[0] != undefined) {
           console.log('date' + this.renewedToGC);
-
           this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
-          // this.getEthiopianDateDate();
+          this.getEthiopianDateDate();
         } else if (this.ServiceId == ServiceEnum.NewIP || this.ServiceId == ServiceEnum.Expansion) {
-          console.log('this.ServiceId' + this.ServiceId);
-
           this.renewal = new ProjectRenewalModel();
           this.renewal.RenewedFrom = new Date();
           this.renewal.RenewedTo = this.dateGc;
@@ -174,18 +169,17 @@ export class CertificateComponent implements OnInit {
           this.renewal.ProjectId = this.projectId;
           this.renewal.ProjectStatus = 9;
           this.renewal.IsApproved = true;
-          // console.log(this.renewal);
           // this.renewedToGC = this.dateGc;
           console.log('newIP' + this.renewedToGC);
-
           this.projectRenewalService.create(this.renewal).subscribe(results => {
-            console.log('renewal' + results[0]);
+            // display the renewal date);
+            console.log(results)
+              // this.renewedToGC = results[0].RenewedTo;
+              // this.getEthiopianDateDate();
           });
-          console.log('Done!');
         }
       }, error => this.errMsg.getError(error));
     this.projectRenewalService.getOneById(this.projectId).subscribe(results => {
-      console.log(results[0].RenewedTo);
       this.renewedToGC = results[0].RenewedTo;
       this.getEthiopianDateDate();
     });
@@ -208,7 +202,6 @@ export class CertificateComponent implements OnInit {
   }
 
   generateCertification() {
-    // console.log(this.InvestorId);
     // this.getInvestor(this.InvestorId);
     this.getInvestorDetail(this.ServiceApplicationId);
     this.viewCertificate = true;
@@ -335,6 +328,11 @@ export class CertificateComponent implements OnInit {
     this.projecAssService.associateProject(ProjectId)
       .subscribe(result => {
         this.manager = result;
+        if (this.manager[0].Associate.FirstName == '') {
+          console.log('has no value');
+          this.toast.show('Some Fields in Amharic are not supplied. Please fill the manager detail properly.');
+          this.router.navigate(['investor-profile/' + this.InvestorId]);
+        }
         this.getManagerTitle(result[0].Associate.Title);
       });
 

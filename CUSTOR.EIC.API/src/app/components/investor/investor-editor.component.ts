@@ -10,12 +10,13 @@ import {Utilities} from '@custor/helpers/utilities';
 
 import {Gender, LegalStatus, Lookup} from '../../model/lookupData';
 import {
+  ALPHABET_REGEX,
   ALPHABET_WITHSPACE_REGEX,
   ALPHABET_WITHSPACEANDNUMBER_REGEX, EMAIL_REGEX,
   ET_ALPHABET_REGEX,
   ET_ALPHABET_WITHSPACEANDNUMBER_REGEX,
   GENDERS,
-  LEGAL_STATUS, NUMERIC_WITHPERIOD_REGEX
+  LEGAL_STATUS, NUMERIC_REGEX, NUMERIC_WITHPERIOD_REGEX
 } from '../../const/consts';
 import {determineId} from '@custor/helpers/compare';
 import {ConfigurationService} from '@custor/services/configuration.service';
@@ -43,6 +44,7 @@ import {RegistrationCatagoryService} from '../../Services/Registration/Registrat
 import {CountryService} from "../../Services/country.service";
 import {CountryModel} from "../../model/Country";
 import {ServiceEnum} from "../../enum/enums";
+import {validate} from 'codelyzer/walkerFactory/walkerFn';
 
 @Component({
   selector: 'app-edit-investor',
@@ -333,6 +335,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
+    console.log(this.isInvestor);
   }
 
   getMajorDivisions() {
@@ -345,6 +348,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   formControlValueChanged() {
+    this.CellPhoneNo.setValidators([Validators.compose([Validators.required, Validators.pattern(NUMERIC_REGEX),
+      Validators.min(10), Validators.maxLength(12)])]);
     const cFather = this.investorForm.get('cFatherName');
     this.legalStatus.valueChanges.subscribe(
       (intLegal: number) => {
@@ -407,35 +412,23 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           this.isCompany = false;
         } else {
           this.ClearSoleValidators();
-          this.companyNameEng.setValidators([Validators.required]);
-          this.companyName.setValidators([Validators.required]);
+          this.companyNameEng.setValidators([Validators.compose([Validators.required,
+            Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX), Validators.minLength(2),
+            Validators.maxLength(100)])]);
+          this.companyName.setValidators([Validators.compose([
+            Validators.pattern(ET_ALPHABET_REGEX), Validators.minLength(2),
+            Validators.maxLength(100)])]);
+          if (this.isInvestor) {
+            this.companyName.setValidators([Validators.compose([ Validators.required,
+              Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX), Validators.minLength(2),
+              Validators.maxLength(100)])]);
+          }
           cFather.updateValueAndValidity();
           this.isCompany = true;
         }
         this.regionn.setValidators([Validators.required]);
-      //   if (this.isInvestor) {
-      //   // this.ClearSoleValidators();
-      //     this.firstName.setValidators([Validators.compose([ Validators.required, Validators.minLength(2),
-      //       Validators.pattern(ET_ALPHABET_REGEX)])]);
-      //     this.woreda.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-      //       Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-      //     this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-      //       Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-      //     this.kebele.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-      //       Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-      //     this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-      //       Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-      // }
-      // else {
-      //     this.woreda.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15),
-      //       Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-      //     this.woredaEng.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15),
-      //       Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-      //     this.kebele.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15),
-      //       Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-      //     this.kebeleEng.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15),
-      //       Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
-      //   }
+        this.CellPhoneNo.setValidators([Validators.compose([Validators.required, Validators.pattern(ALPHABET_REGEX),
+        Validators.min(10), Validators.maxLength(10)])]);
       }
     );
 
@@ -470,6 +463,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   ClearCompanyValidators() {
     // this.nationalityCompany.clearValidators();
     this.companyNameEng.clearValidators();
+    this.companyName.clearValidators();
   }
 
   initStaticDataOwnerShip(currentLang) {

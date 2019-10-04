@@ -75,8 +75,8 @@
             <mat-error *ngIf="firstNameEng.hasError('maxlength')">
               {{'common.validation.MaxLengthChar' | translate: {'max': '15'} }}
             </mat-error>
-            <mat-error *ngIf="firstNameEng.hasError('maxlength')">
-            </mat-error>
+
+
             <mat-error *ngIf="!firstNameEng.hasError('required') &&
              !firstNameEng.hasError('minlength') && !firstNameEng.hasError('maxlength')
                             && firstNameEng.hasError('pattern')">
@@ -233,9 +233,6 @@
           <mat-error *ngIf="!companyNameEng.hasError('required') && companyNameEng.hasError('minlength')">
             {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
           </mat-error>
-          <!--<mat-error *ngIf="!companyNameEng.hasError('required') && !companyNameEng.hasError('minlength')">-->
-            <!--{{'common.validation.MinLengthChar' | translate: {'min': '2'} }}-->
-          <!--</mat-error>-->
           <mat-error *ngIf="!companyNameEng.hasError('required') && !companyNameEng.hasError('minlength')
                             && companyNameEng.hasError('pattern')">
             {{'common.validation.UseLatinOnly' | translate}}
@@ -247,11 +244,15 @@
           <mat-error *ngIf="companyName.hasError('required')">
             {{'common.validation.Required' | translate}}
           </mat-error>
-          <mat-error *ngIf="!companyName.hasError('required') && companyName.hasError('minlength')">
+          <mat-error *ngIf="!companyName.hasError('required') && companyNameEng.hasError('minlength')">
             {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
           </mat-error>
-          <mat-error *ngIf="!companyName.hasError('required') && !companyName.hasError('minlength')
-                         && companyName.hasError('pattern')">
+          <mat-error *ngIf="!companyName.hasError('required') && companyNameEng.hasError('minlength')
+          && companyName.hasError('maxlength')">
+            {{'common.validation.MaxLengthChar' | translate: {'max': '100'} }}
+          </mat-error>
+          <mat-error *ngIf="!companyName.hasError('required')
+                            && companyName.hasError('pattern')">
             {{'common.validation.UseEthiopicOnly' | translate}}
           </mat-error>
         </mat-form-field>
@@ -407,10 +408,16 @@
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.PhoneMobile' | translate}}</mat-label>
-              <input matInput formControlName="CellPhoneNo" required/>
+              <input matInput type="number"  formControlName="CellPhoneNo" required/>
               <mat-error *ngIf="CellPhoneNo.hasError('required')">
                 {{'common.validation.Required' | translate}}
               </mat-error>
+              <mat-error *ngIf="CellPhoneNo.hasError('minlength')">
+                {{'common.validation.MinLengthChar' | translate: {'min': '10'} }}
+              </mat-error>
+              <!--<mat-error *ngIf="CellPhoneNo.hasError('maxlength')">-->
+                <!--{{'common.validation.MaxLengthChar' | translate: {'max': '10'} }}-->
+              <!--</mat-error>-->
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.Fax' | translate}}</mat-label>
@@ -451,8 +458,11 @@
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
         <mat-form-field fxFlex>
           <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
-          <input matInput formControlName="cTin" number required/>
-          <mat-error *ngIf="tin.hasError('maxlength')">
+          <input matInput type="number" maxlength="10" minlength="10" formControlName="cTin" number required/>
+          <mat-error *ngIf="tin.hasError('required')">
+            {{'common.validation.Required' | translate: {'max': '10'} }}
+          </mat-error>
+          <mat-error *ngIf="!tin.hasError('required') && tin.hasError('maxlength')">
             {{'common.validation.MaxLengthChar' | translate: {'max': '10'} }}
           </mat-error>
           <!-- // to-do apply server side validation -->

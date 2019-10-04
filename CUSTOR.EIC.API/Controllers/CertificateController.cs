@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
@@ -37,13 +38,17 @@ namespace CUSTOR.EICOnline.API.Controllers
 
         var perminumber = lastSe.ToString();
         squence.LastSquence = lastSe;
-
+        // get the current ethiopian year
+        DateTime now = DateTime.Now;
+        int eDate = EthiopicDateTime.GetEthiopicYear(now.Day, now.Month, now.Year);
+        var lastDigitOfYear = eDate.ToString().Substring(eDate.ToString().Length - 2);
+        //var res2 = Regex.Match(eDate.ToString(), @"(.{2})\s*$");
         if (project.InvestmentPermitNo.IsNullOrEmpty())
         {
           _context.Entry(squence).State = EntityState.Modified;
           _context.SaveChanges();
 
-          project.InvestmentPermitNo = perminumber;
+          project.InvestmentPermitNo = "EIC-IP/"+perminumber+"/"+ lastDigitOfYear;
           _context.Entry(project).State = EntityState.Modified;
           _context.SaveChanges();
 
