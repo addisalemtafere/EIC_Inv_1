@@ -78,7 +78,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   private ProjectId: any;
   private currentLang: string;
   private IncentiveCategoryId: number;
-  private bool;
+  public isTrue: boolean;
 
   constructor(private billOfMaterilService: BillOfMaterialService,
               private errMsg: ErrorMessage,
@@ -240,7 +240,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
           this.IncentiveBoMRequestItemModel = result;
           //console.log(result);
           if (this.IncentiveBoMRequestItemModel.IsApproved == true) {
-            this.toast.error('Cannot Edit Approved Items');
+            this.toast.error('You Cannot Edit Approved Items');
             return true;
           } else {
             this.editMode = true;
@@ -263,7 +263,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
           this.IncentiveBoMRequestItemModel = result;
           //console.log(result);
           if (this.IncentiveBoMRequestItemModel.IsApproved == true) {
-            this.toast.error('Cannot Delete Approved Items');
+            this.toast.error('You Cannot Delete Approved Items');
             return true;
           } else {
             this.billOfMaterilService.delete(id)
@@ -334,12 +334,15 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
         this.BOMItems = items;
         if (this.BOMItems.length > 0) {
           this.toastr.error('You Cannot Import Construction Materials, Because there is Uploaded data in this Batch');
-          return true;
-        } else {
-          return false;
+          this.isTrue = true;
         }
       });
-    return;
+    console.log(this.isTrue)
+    if (this.isTrue == true) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   prepareSaveUser(): FormData {

@@ -4,6 +4,7 @@ import {ApplicationSettingService} from "../../../../Services/application-settin
 import {ApplicationSettingModel} from "../../../../model/ApplicationSetting.Model";
 import {ToastrService} from "ngx-toastr";
 import {ErrorMessage} from "@custor/services/errMessageService";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-currency-setting',
@@ -14,12 +15,14 @@ export class CurrencySettingComponent implements OnInit {
   @ViewChild('form')
   currencySettingsForm: FormGroup;
   loadingIndicator: boolean;
-  ApplicationSettingModel: ApplicationSettingModel;
+  applicationSettingModel: ApplicationSettingModel;
+  loading = false;
 
   constructor(
     public settingService: ApplicationSettingService,
     private toastr: ToastrService,
     private errMsg: ErrorMessage,
+    public snackbar: MatSnackBar,
     private fb: FormBuilder
   ) {
     this.initForm();
@@ -56,6 +59,24 @@ export class CurrencySettingComponent implements OnInit {
       err => this.handleError(err));
   }
 
+  // onSubmit() {
+  //   this.loadingIndicator = true;
+  //   return this.settingService.
+  //   update(ApplicationSettingModel,ApplicationSettingModel.ApplicationSettingId
+  //     .subscribe(result => {
+  //       this.notification("updated");
+  //     }));
+  // }
+  notification(message: string) {
+    this.toastr.success(` Succesfully ${message} Data.!`, "Success");
+
+    this.loading = false;
+    this.snackbar.open(` Succesfully ${message} Data.!`, "Close", {
+      duration: 3000
+    });
+  }
+
+
   private getEditedInterestRate() {
     const formModel = this.currencySettingsForm.value;
     return {
@@ -68,8 +89,8 @@ export class CurrencySettingComponent implements OnInit {
 
   private saveCompleted(applicationSettingModel: ApplicationSettingModel) {
     if (applicationSettingModel) {
-      this.ApplicationSettingModel = applicationSettingModel;
-      this.currencySettingsForm.get('Value').patchValue(this.ApplicationSettingModel.Value);
+      this.applicationSettingModel = applicationSettingModel;
+      this.currencySettingsForm.get('Value').patchValue(this.applicationSettingModel.Value);
     }
   }
 
