@@ -75,9 +75,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   public formErrors = {
     ProjectName: 'at least three characters!',
     ProjectDescription: 'Enter Description in between 2 - 100 characters!',
-    StartDate: '',
-    OperationDate: '',
-    EndingDate: '',
+    StartDate: 'Enter a Valid Date!',
+    OperationDate: 'Enter a Valid Date!',
+    EndingDate: 'Enter a Valid Date!',
     Sector: '',
     SubSector: '',
     Region: '',
@@ -426,7 +426,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       ServiceId: [this.ServiceId],
       ParentProjectId: ['0'],
       CreatedUserName: this.accountServices.currentUser.UserName,
-      ProjectDescription: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
+      ProjectDescription: ['', Validators.compose([Validators.required, Validators.minLength(2),
+      Validators.maxLength(100)])],
       StartDate: ['', [Validators.required]],
       OperationDate: ['', Validators.required],
       SectorId: [''],
@@ -439,7 +440,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       EnvironmentalImpact: ['', [Validators.minLength(2)]],
       AssignedUserId: [this.accountService.currentUser.Id],
       CreatedUserId: [this.accountService.currentUser.Id],
-      ProjectStage: ['', Validators.required],
+      ProjectStage: [null, Validators.required],
       InvestmentPermitNo: [''],
       'address': new FormGroup({
         ParentId: new FormControl(),
@@ -469,6 +470,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
   formControlValueChanged() {
     this.ProjectName.setValidators([Validators.compose([Validators.required, Validators.minLength(3)])]);
+    // this.ProjectStage.setValidators([Validators.required]);
   }
   initStaticData(currentLang) {
     let formOfOwnership: FormOfOwnershipModel = new FormOfOwnershipModel();
@@ -488,6 +490,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         Description: pair.Description
       };
       this.projectStage.push(projectSage);
+      const toSelect = this.projectStage.find(c => c.Id ==1 );
+      console.log(toSelect);
+      this.projectForm.get('ProjectStage').setValue(toSelect);
     });
   }
 
@@ -529,6 +534,9 @@ get ProjectDescription() {
 }
   get ProjectName() {
     return this.projectForm.get('ProjectName');
+  }
+  get ProjectStage() {
+    return this.projectForm.get('ProjectStage');
   }
   get canViewTasks() {
     return this.accountService.userHasPermission(Permission.viewServiceList);

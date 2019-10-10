@@ -45,6 +45,7 @@ export class CertificateComponent implements OnInit {
   public renewedToGC: any;
   day: number;
   month: number;
+  month1: number;
   year: number;
   formOfOwnerShipDescriptionAmharic: any;
   formOfOwnerShipDescriptionEnglish: any;
@@ -69,6 +70,7 @@ export class CertificateComponent implements OnInit {
   public today: Date;
   public dateGc: Date;
   public todayEthioDate: any;
+  public todayEthioDate1: any;
   public yearDisplay: any;
   public dateEc1: Date;
   public todayEthioDateRenewal: any;
@@ -159,7 +161,7 @@ export class CertificateComponent implements OnInit {
         if (result.ProjectRenewal[0] != undefined) {
           console.log('date' + this.renewedToGC);
           this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
-          this.getEthiopianDateDate();
+          this.getEthiopianDateDate(this.renewedToGC);
         } else if (this.ServiceId == ServiceEnum.NewIP || this.ServiceId == ServiceEnum.Expansion) {
           this.renewal = new ProjectRenewalModel();
           this.renewal.RenewedFrom = new Date();
@@ -181,13 +183,13 @@ export class CertificateComponent implements OnInit {
       }, error => this.errMsg.getError(error));
     this.projectRenewalService.getOneById(this.projectId).subscribe(results => {
       this.renewedToGC = results[0].RenewedTo;
-      this.getEthiopianDateDate();
+      this.getEthiopianDateDate(this.renewedToGC);
     });
   }
 
   getDate() {
     var d = new Date();
-    this.today = d;
+    //this.today = d;
     var year = d.getFullYear();
     var month = d.getMonth();
     var day = d.getDate();
@@ -236,6 +238,9 @@ export class CertificateComponent implements OnInit {
   getInvestorDetail(id: any) {
     this.certificateService.getOneById(id)
       .subscribe((result: ServiceApplicationModel) => {
+        console.log(result.StartDate);
+        this.today = result.StartDate;
+        this.getEthiopianDateDate(this.today);
         this.investorDetailList = result;
         this.getInvestmentLocation(this.investorDetailList.ProjectId);
         this.getProjectCost(this.investorDetailList.ProjectId);
@@ -382,18 +387,24 @@ export class CertificateComponent implements OnInit {
   }
 
   /// BY Gebre H.
-  private getEthiopianDateDate() {
-    const d = this.renewedToGC.split('/').reverse().join('-');
+  private getEthiopianDateDate(dateToConvert: any) {
+    const d = dateToConvert.split('/').reverse().join('-');
     const d2 = new Date(d);
     this.year = d2.getFullYear();
     this.month = d2.getMonth() + 1;
+    // this.month1 = d2.getMonth();
     this.day = d2.getDate();
     console.log('Result=' + this.day + ' and ' + this.month + ' and ' + this.year);
     this.dateService.getEthiopianDate(this.day, this.month, this.year)
       .subscribe(data => {
         this.todayEthioDateRenewal = data;
+        this.todayEthioDate1 = data;
         // console.log('Date = ' + this.todayEthioDate);
       });
+    // this.dateService.getEthiopianDate(this.day, this.month1, this.year)
+    //   .subscribe(data => {
+    //     this.todayEthioDate1 = data;
+    //   });
   }
 
 ///////////////
@@ -435,7 +446,7 @@ export class CertificateComponent implements OnInit {
         this.router.navigate(['pro/' + this.investorDetailList.ProjectId + '/' + this.ServiceApplicationId + '/' + this.ServiceId + '/' + this.workFlowId + '/' + this.InvestorId]);
         break;
       default:
-        alert('Please Select one of them tou want edit')
+        alert('Please Select one of them you want edit')
 
     }
   }

@@ -374,10 +374,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
           }
-            this.grandName.setValidators([Validators.compose([ Validators.minLength(2),
+            this.grandName.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(50),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
           if (!this.isInvestor) {
-            this.grandName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+            this.grandName.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
           }
             this.woreda.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15),
@@ -412,13 +412,16 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           this.isCompany = false;
         } else {
           this.ClearSoleValidators();
+          this.tin.setValidators([Validators.compose([Validators.maxLength(10),
+            Validators.pattern(NUMERIC_REGEX),
+            Validators.minLength(10)])]);
           this.companyNameEng.setValidators([Validators.compose([Validators.required,
             Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX), Validators.minLength(2),
             Validators.maxLength(100)])]);
           this.companyName.setValidators([Validators.compose([
             Validators.pattern(ET_ALPHABET_REGEX), Validators.minLength(2),
             Validators.maxLength(100)])]);
-          if (this.isInvestor) {
+          if (!this.isInvestor) {
             this.companyName.setValidators([Validators.compose([ Validators.required,
               Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX), Validators.minLength(2),
               Validators.maxLength(100)])]);
@@ -427,8 +430,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           this.isCompany = true;
         }
         this.regionn.setValidators([Validators.required]);
-        this.CellPhoneNo.setValidators([Validators.compose([Validators.required, Validators.pattern(ALPHABET_REGEX),
-        Validators.min(10), Validators.maxLength(10)])]);
+        // this.CellPhoneNo.setValidators([Validators.compose([Validators.required, Validators.pattern(ALPHABET_REGEX),
+        // Validators.min(10), Validators.maxLength(10)])]);
       }
     );
 
@@ -735,6 +738,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   public onSubmit() {
     // put dummy values to avoid conditional validation issues
     if (this.isCompany) {
+      console.log('1');
       this.investorForm.get('cFirstNameEng').patchValue('NA');
       this.investorForm.get('cFirstName').patchValue('NA');
       this.investorForm.get('cFatherNameEng').patchValue('NA');

@@ -240,7 +240,7 @@
         </mat-form-field>
         <mat-form-field [fxFlex]="32">
           <mat-label>{{'investors.editor.CompanyName' | translate}}</mat-label>
-          <input matInput formControlName="cCompanyName" required/>
+          <input matInput formControlName="cCompanyName"/>
           <mat-error *ngIf="companyName.hasError('required')">
             {{'common.validation.Required' | translate}}
           </mat-error>
@@ -391,7 +391,7 @@
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.Email' | translate}}</mat-label>
-              <input matInput formControlName="Email" email=""/>
+              <input matInput formControlName="Email" email/>
               <!--<mat-error *ngIf="email.hasError('required')">-->
               <!--{{'common.validation.Required' | translate}}-->
               <!--</mat-error>-->
@@ -408,13 +408,13 @@
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.PhoneMobile' | translate}}</mat-label>
-              <input matInput type="number"  formControlName="CellPhoneNo" required/>
+              <input matInput formControlName="CellPhoneNo" required/>
               <mat-error *ngIf="CellPhoneNo.hasError('required')">
                 {{'common.validation.Required' | translate}}
               </mat-error>
-              <mat-error *ngIf="CellPhoneNo.hasError('minlength')">
-                {{'common.validation.MinLengthChar' | translate: {'min': '10'} }}
-              </mat-error>
+              <!--<mat-error *ngIf="CellPhoneNo.hasError('minlength')">-->
+                <!--{{'common.validation.MinLengthChar' | translate: {'min': '10'} }}-->
+              <!--</mat-error>-->
               <!--<mat-error *ngIf="CellPhoneNo.hasError('maxlength')">-->
                 <!--{{'common.validation.MaxLengthChar' | translate: {'max': '10'} }}-->
               <!--</mat-error>-->
@@ -458,12 +458,18 @@
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
         <mat-form-field fxFlex>
           <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
-          <input matInput type="number" maxlength="10" minlength="10" formControlName="cTin" number required/>
+          <input matInput formControlName="cTin"/>
           <mat-error *ngIf="tin.hasError('required')">
-            {{'common.validation.Required' | translate: {'max': '10'} }}
+            {{'common.validation.Required' | translate }}
           </mat-error>
           <mat-error *ngIf="!tin.hasError('required') && tin.hasError('maxlength')">
             {{'common.validation.MaxLengthChar' | translate: {'max': '10'} }}
+          </mat-error>
+          <mat-error *ngIf="!tin.hasError('required') && tin.hasError('minlength')">
+            {{'common.validation.MinLengthChar' | translate: {'min': '10'} }}
+          </mat-error>
+          <mat-error *ngIf="!tin.hasError('required') && tin.hasError('pattern')">
+            Use Number Only!
           </mat-error>
           <!-- // to-do apply server side validation -->
         </mat-form-field>

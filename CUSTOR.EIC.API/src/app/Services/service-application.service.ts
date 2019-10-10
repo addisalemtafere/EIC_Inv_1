@@ -20,7 +20,7 @@ export class ServiceApplicationService extends BaseService<ServiceApplicationMod
     protected http: HttpClient,
     protected appConfig: AppConfiguration,
     protected  errMsg: ErrorMessage,
-    protected config:ConfigurationService
+    protected config: ConfigurationService
   ) {
     super(http, appConfig.urls.url('ServiceApplications'), errMsg);
   }
@@ -66,5 +66,5 @@ export class ServiceApplicationService extends BaseService<ServiceApplicationMod
     ).pipe(catchError(this.errMsg.parseObservableResponseError));
   }
 
- 
+
 }
