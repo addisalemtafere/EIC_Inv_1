@@ -98,7 +98,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   public isCommercialReg = false;
   public isInvestor: boolean;
   private isNew: any;
-
+  private CurrentUserId: string;
   constructor(private route: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
@@ -516,8 +516,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getInvestor(id)
       .subscribe(result => {
           this.investor = result;
+          // console.log(this.investor)
+          this.CurrentUserId = this.investor.UserId;
+          // console.log(this.investor.UserId);
           this.updateForm();
-          console.log(this.investor.RegistrationCatagories);
           this.investorForm.patchValue({
             cMajorDivision: this.investor.RegistrationCatagories
           });
@@ -1034,7 +1036,14 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     if (this.route.snapshot.params['InvestorId'] > 0) {
       this.isNewInvestor = false;
     }
+    // if (this.accountService.getUserType() == true)
+    // {
+    //   console.log('investor!');
+    // }else{
+    //   console.log('other user!');
+    // }
     // // console.log(add);
+
     return {
       InvestorId: this.isNewInvestor ? 0 : this.investor.InvestorId,
       FirstName: this.isCompany ? formModel.cCompanyName : formModel.cFirstName,
@@ -1053,13 +1062,11 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       TradeNameEnglish: formModel.cTradeNameEng,*/
       PaidCapital: formModel.cPaidCapital,
       SighnedCapital: formModel.cSighnedCapital,
-
       LegalStatus: formModel.cLegalStatus,
       IsEthiopianOrigin: formModel.cIsEthiopianOrigin,
-
       RegistrationCatagories: formModel.cMajorDivision,
-
-      UserId: this.accountService.currentUser.Id,
+      // UserId: this.accountService.currentUser.Id,
+      UserId: this.CurrentUserId,
       IsExistingCustomer: formModel.IsExistingCustomer,
       // SiteCode: this.accountService.currentUser.SiteCode,
       IsActive: false,

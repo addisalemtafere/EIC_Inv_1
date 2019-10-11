@@ -109,7 +109,7 @@ export class InvestorService extends EndpointFactory {
   getInvestor(id): Observable<any> {
     console.log(this.investorUrl);
     const endpointUrl = `${this.investorUrl}/${id}`;
-    return this.httpClient.get<Investor>(endpointUrl, this.getRequestHeaders()).pipe(
+    return this.httpClient.get<any>(endpointUrl, this.getRequestHeaders()).pipe(
       map(cust => {
         this.investor = cust;
         return this.investor;
@@ -140,6 +140,7 @@ export class InvestorService extends EndpointFactory {
   }
 
   saveInvestor(investor: Investor): Observable<any> {
+    // console.log();
     return this.httpClient.post<Investor>(this.investorUrl, investor, this.getRequestHeaders())
       .pipe(
         map(inv => {

@@ -17,7 +17,9 @@ export class OfficerStepperComponent implements OnInit {
   private ServiceApplicationId: any;
   private userName: string;
   private isInvestor: any;
-
+  public title: string | null;
+  public projectName: string | null;
+  public investorName: string | null;
 // Standard tabs demo
   constructor(public dialog: MatDialog,
               private accountService: AccountService,
@@ -26,14 +28,14 @@ export class OfficerStepperComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.title = localStorage.getItem('title');
+    this.projectName = localStorage.getItem('projectName');
+    this.investorName = localStorage.getItem('investorName');
     this.subscription = this.dataSharing.renewalIndex
       .subscribe(index => {
         this.renewalIndex = index;
-        // // console.log(index)
-        // this.move(this.steeperIndex);
       });
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-
     this.userName = this.accountService.currentUser.FullName;
   }
 
@@ -43,15 +45,11 @@ export class OfficerStepperComponent implements OnInit {
 
   addMessage() {
     const dialogConfig = new MatDialogConfig();
-
     dialogConfig.data = {
       ServiceApplicationId: this.ServiceApplicationId,
       title: 'License'
     };
-    // this.dialog.open(NotificationComponent);
     this.dialog.open(NotificationComponent, dialogConfig);
-
-
   }
 }
 
