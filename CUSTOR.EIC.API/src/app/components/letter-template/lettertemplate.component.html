@@ -36,7 +36,6 @@
             height : 600,
             theme: 'modern',
 toolbar_items_size: 'small'}">
-
         </editor>
       </div>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
@@ -52,6 +51,7 @@ toolbar_items_size: 'small'}">
     </mat-card-content>
 
   </form>
+  <angular-editor id="editor1" formControlName="htmlContent1" [config]="editorConfig"></angular-editor>
 </mat-card>
 <!--*ngIf="LetterTemplateModels.length>0"-->
 <mat-card class="mat-elevation-z8" fxFlex="90">

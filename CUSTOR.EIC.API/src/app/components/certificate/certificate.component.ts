@@ -43,6 +43,7 @@ import {InvestorService} from '../investor/investor.service';
 export class CertificateComponent implements OnInit {
   date: any;
   public renewedToGC: any;
+  public renewedToEC: any;
   day: number;
   month: number;
   month1: number;
@@ -67,7 +68,7 @@ export class CertificateComponent implements OnInit {
   private InvestorId: any;
   private workFlowId: any;
   private projectId: any;
-  public today: Date;
+  public today: any;
   public dateGc: Date;
   public todayEthioDate: any;
   public todayEthioDate1: any;
@@ -76,6 +77,7 @@ export class CertificateComponent implements OnInit {
   public todayEthioDateRenewal: any;
   public dd: Date;
   public dateEthioNextYear: string;
+  public dateEthioNextYear1: Date;
   public NationalityAmharic: string;
   public NationalityEnglish: string;
   public titleAm: string;
@@ -157,10 +159,10 @@ export class CertificateComponent implements OnInit {
     this.projectRenewalService
       .getRenewalByServiceApplicationId(this.ServiceApplicationId)
       .subscribe(result => {
-        console.log(result.ProjectRenewal[0]);
-        if (result.ProjectRenewal[0] != undefined) {
-          console.log('date' + this.renewedToGC);
+        console.log(result);
+        if (result.ProjectRenewal[0] !== null) {
           this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
+          console.log(this.renewedToGC);
           this.getEthiopianDateDate(this.renewedToGC);
         } else if (this.ServiceId == ServiceEnum.NewIP || this.ServiceId == ServiceEnum.Expansion) {
           this.renewal = new ProjectRenewalModel();
@@ -171,18 +173,14 @@ export class CertificateComponent implements OnInit {
           this.renewal.ProjectId = this.projectId;
           this.renewal.ProjectStatus = 9;
           this.renewal.IsApproved = true;
-          // this.renewedToGC = this.dateGc;
-          console.log('newIP' + this.renewedToGC);
           this.projectRenewalService.create(this.renewal).subscribe(results => {
-            // display the renewal date);
             console.log(results)
-              // this.renewedToGC = results[0].RenewedTo;
-              // this.getEthiopianDateDate();
           });
         }
       }, error => this.errMsg.getError(error));
     this.projectRenewalService.getOneById(this.projectId).subscribe(results => {
       this.renewedToGC = results[0].RenewedTo;
+      console.log(this.renewedToGC);
       this.getEthiopianDateDate(this.renewedToGC);
     });
   }
@@ -205,6 +203,8 @@ export class CertificateComponent implements OnInit {
 
   generateCertification() {
     // this.getInvestor(this.InvestorId);
+    console.log(this.dateEthioNextYear1);
+    this.renewedToEC = this.dateEthioNextYear1;
     this.getInvestorDetail(this.ServiceApplicationId);
     this.viewCertificate = true;
   }
@@ -388,6 +388,7 @@ export class CertificateComponent implements OnInit {
 
   /// BY Gebre H.
   private getEthiopianDateDate(dateToConvert: any) {
+    console.log(dateToConvert);
     const d = dateToConvert.split('/').reverse().join('-');
     const d2 = new Date(d);
     this.year = d2.getFullYear();
@@ -398,13 +399,10 @@ export class CertificateComponent implements OnInit {
     this.dateService.getEthiopianDate(this.day, this.month, this.year)
       .subscribe(data => {
         this.todayEthioDateRenewal = data;
+        this.dateEthioNextYear1 = data;
         this.todayEthioDate1 = data;
-        // console.log('Date = ' + this.todayEthioDate);
       });
-    // this.dateService.getEthiopianDate(this.day, this.month1, this.year)
-    //   .subscribe(data => {
-    //     this.todayEthioDate1 = data;
-    //   });
+
   }
 
 ///////////////
