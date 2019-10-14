@@ -52,21 +52,13 @@ export class CurrencySettingComponent implements OnInit {
 
   onSubmit() {
     this.loadingIndicator = true;
-    return this.settingService.create(
-      this.getEditedInterestRate()).subscribe((applicationSettingModel: ApplicationSettingModel) => {
-        this.saveCompleted(applicationSettingModel);
-      },
-      err => this.handleError(err));
+    this.getEditedInterestRate();
+    return this.settingService.update(this.currencySettingsForm.value, 1)
+      .subscribe(result => {
+        this.notification("updated");
+      });
   }
 
-  // onSubmit() {
-  //   this.loadingIndicator = true;
-  //   return this.settingService.
-  //   update(ApplicationSettingModel,ApplicationSettingModel.ApplicationSettingId
-  //     .subscribe(result => {
-  //       this.notification("updated");
-  //     }));
-  // }
   notification(message: string) {
     this.toastr.success(` Succesfully ${message} Data.!`, "Success");
 
