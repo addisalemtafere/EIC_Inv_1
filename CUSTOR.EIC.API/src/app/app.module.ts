@@ -52,7 +52,7 @@ import {AppComponent} from './app.component';
 
 import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
 import {NumberDirective} from "./directive/number.directive";
-import {AngularEditorModule} from '@kolkov/angular-editor';
+// import {AngularEditorModule} from '@kolkov/angular-editor';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -114,7 +114,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FooterModule,
     // NotificationModule,
     CKEditorModule,
-    AngularEditorModule,
+    // AngularEditorModule,
     SharedModule,
     HttpClientModule,
     BrowserAnimationsModule,
