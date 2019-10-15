@@ -23,7 +23,7 @@
                 </mat-error> -->
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
-              <mat-label>{{'investors.editor.FormOfOwnership' | translate}} {{formOfOwnership}}</mat-label>
+              <!--<mat-label>{{'investors.editor.FormOfOwnership' | translate}} {{formOfOwnership}}</mat-label>-->
               <mat-select formControlName="formOfOwnership" (selectionChange)="onFormOfOwnershipChanged($event.value)"
                 [compareWith]="compareIds" required>
                 <mat-option *ngFor="let item of formOfOwnershipList;" [value]="item.Id">
