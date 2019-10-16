@@ -1,0 +1,163 @@
+<mat-card class="margin-2 padding-0" *ngIf="nationalityCompositionData.length>0 && !isSol">
+  <mat-card-header>
+    <mat-card-subtitle class="sub-title">List of Share
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div fxLayout="row wrap" fxLayoutAlign="center ">
+
+      <mat-table class="full-width" #table [dataSource]="dataSource">
+        <ng-container style="width: 10px !important;" matColumnDef="No">
+          <mat-header-cell style="width: 10px !important;" *matHeaderCellDef>No</mat-header-cell>
+          <mat-cell style="width: 10px !important;" *matCellDef="let nationalityCompositionData;let i=index;">{{i + 1}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Nationality">
+          <mat-header-cell *matHeaderCellDef>Nationality</mat-header-cell>
+          <mat-cell *matCellDef="let nationalityCompositionData"> {{nationalityCompositionData.strNationality}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Qty">
+          <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+          <mat-cell *matCellDef="let nationalityCompositionData"> {{nationalityCompositionData.Qty}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="SharePercent">
+          <mat-header-cell *matHeaderCellDef> Share Percent</mat-header-cell>
+          <mat-cell *matCellDef="let nationalityCompositionData"> {{nationalityCompositionData.SharePercent }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Description">
+          <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+          <mat-cell *matCellDef="let nationalityCompositionData">{{nationalityCompositionData.Description }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Action">
+          <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+          <mat-cell *matCellDef="let nationalityCompositionData;let i=index;">
+            <div>
+              <a class="pointer" mat-min-fab matTooltip="Click here to edit the Share"
+                (click)="onEditShare(i,nationalityCompositionData.ProjectNationalityCompositionId)">
+                <mat-icon color="primary" class="mat-18">edit</mat-icon>
+                Edit
+              </a>
+              <a class="pointer" mat-min-fab color="warn" matTooltip="Click here to delete the dhare"
+                (click)="deleteShare(i,nationalityCompositionData.ProjectNationalityCompositionId)">
+                <mat-icon color="warn">delete</mat-icon>
+                Delete
+              </a>
+            </div>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns">
+        </mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+        </mat-row>
+      </mat-table>
+    </div>
+  </mat-card-content>
+
+  <div align="center">
+    <div style="padding: 20px" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">
+    </div>
+  </div>
+</mat-card>
+
+<mat-card class="mat-elevation-z8" *ngIf="editMode">
+  <mat-card-header class="custom-mat-card-header" fxLayout="row">
+    <div fxFlex fxLayoutAlign="end">
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
+      <form [formGroup]="projectShareForm" novalidate>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field fxLayoutGap="4em" >
+            <mat-label>Nationality * :</mat-label>
+            <mat-select formControlName="Nationality">
+              <mat-option *ngFor="let nation of nationList" [value]="nation.id">
+                {{nation.descriptionEnglish}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field fxLayoutGap="4em" >
+            <mat-label>Quantity *:</mat-label>
+            <input type="number" formControlName="Qty" matInput>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field fxLayoutGap="4em" >
+            <mat-label>Share Percent % *:</mat-label>
+            <input type="number" formControlName="SharePercent" matInput>
+          </mat-form-field>
+          <mat-form-field  fxLayoutGap="4em">
+            <mat-label>Description :</mat-label>
+            <textarea formControlName="Description" matInput>
+                 </textarea>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <button class="custom-button " [disabled]="!projectShareForm.valid" (click)="onSubmit()"
+            matTooltip="Add Share">
+            <mat-icon color="accent" class=" mat-18">done</mat-icon>
+            {{editMode ? 'Update' : 'Add'}}
+          </button>
+        </div>
+      </form>
+    </div>
+    <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
+      <form [formGroup]="projectShareAmendForm" novalidate>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field fxLayoutGap="4em" >
+            <mat-label>Nationality * :</mat-label>
+            <mat-select formControlName="Nationality">
+              <mat-option *ngFor="let nation of nationList" [value]="nation.id">
+                {{nation.descriptionEnglish}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field fxLayoutGap="4em" >
+            <mat-label>Quantity *:</mat-label>
+            <input type="number" formControlName="Qty" matInput>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field fxLayoutGap="4em" >
+            <mat-label>Share Percent % *:</mat-label>
+            <input type="number" formControlName="SharePercent" matInput>
+          </mat-form-field>
+          <mat-form-field  fxLayoutGap="4em">
+            <mat-label>Description :</mat-label>
+            <textarea formControlName="Description" matInput>
+                 </textarea>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <button class="custom-button " [disabled]="!projectShareForm.valid" (click)="onSubmit()"
+            matTooltip="Add Share">
+            <mat-icon color="accent" class=" mat-18">done</mat-icon>
+            {{editMode ? 'Update' : 'Add'}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+
+<!--<mat-card class="margin-2" style="box-shadow: none;border: 1px solid #dddddd" *ngIf="isSol">
+  <mat-card-content>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
+      <div class="block" fxFlex="">
+        <span style="font-weight: bolder;font-size: 14px;">Full Name : </span>{{InvestorDetial?.InvestorNameEng}}
+      </div>
+      <div class="block" fxFlex="">
+        <span style="font-size: 14px;font-weight: bolder;">Share Percent </span>100 %
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card> -->

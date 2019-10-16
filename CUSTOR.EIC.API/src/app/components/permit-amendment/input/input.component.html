@@ -1,0 +1,227 @@
+<mat-card class="mat-elevation-z8">
+  <mat-card-header class="custom-mat-card-header" fxLayout="row">
+    <div fxFlex fxLayoutAlign="end">
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
+      <form class="margin-2" [formGroup]="projectInputForm" novalidate>
+        <h4>Project  Input</h4>
+        <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"
+          fxLayoutGap="2em">
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.Quarter' | translate}}</mat-label>
+              <mat-select formControlName="Quarter" required>
+                <mat-option *ngFor="let row of Quarter" [value]="row.Id">
+                  <span>{{row.DescriptionEnglish}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Registration Year* :" matInput formControlName="RegistrationYear"
+                [matDatepicker]="RegistrationYear">
+              <mat-datepicker-toggle matSuffix [for]="RegistrationYear"></mat-datepicker-toggle>
+              <mat-datepicker #RegistrationYear></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.ProjectStatus' | translate}}</mat-label>
+              <mat-select [disabled]="true" formControlName="ProjectStatus" required>
+                <option value="0">--Select--</option>
+                <!-- <label>Project Status</label> -->
+                <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
+                  <span>{{status.DescriptionEnglish}}</span>
+                </mat-option>
+              </mat-select>
+
+            </mat-form-field>
+          </div>
+        </div>
+        <h4 *ngIf="ServiceId=='1234'">Detail</h4>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.ElectricPower' | translate}} (kwh) :</mat-label>
+              <input name="ElectricPower" type="number" matInput formControlName="ElectricPower" [maxlength]="16">
+
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{'investors.editor.Water' | translate}} (m2) :</mat-label>
+              <input type="number" matInput formControlName="Water">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.OtherUtility' | translate}} </mat-label>
+              <input type="number" matInput formControlName="OtherUtility">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{'investors.editor.LandIndustrial' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="LandIndustrial">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.LandAgricultural' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="LandAgricultural">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{'investors.editor.LandService' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="LandService">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.OwnLand' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="OwnLand">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{'investors.editor.LeaseLand' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="LeaseLand">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.RentalLand' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="RentalLand">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>{{'investors.editor.Remark' | translate}}</mat-label>
+              <textarea type="number" matInput formControlName="Remark"></textarea>
+            </mat-form-field>
+          </div>
+        <!-- <div style="padding-top: 20px" align="center">
+          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">
+            <div fxFlex="15">
+            </div>
+            <div style="text-align: center" fxFlex="67" fxFlexAlign="center">
+              <button [disabled]="!projectInputForm.valid" mat-raised-button="" color="primary" (click)="onSubmit()">
+                <mat-icon class="mat-18">done</mat-icon>
+                <span class="agree">{{'common.commands.Save'|translate}}</span>
+
+              </button>
+              <button [disabled]="!projectInputForm.valid" class="custom-button" (click)="onSubmit()">
+                <mat-icon class="mat-18">done</mat-icon>
+                <span>{{'common.commands.Update'|translate}}</span>
+              </button>
+            </div>
+            <div fxFlex="15">
+            </div>
+          </div>
+        </div> -->
+      </form>
+    </div>
+     <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
+      <form class="margin-2" [formGroup]="projectInputAmendForm" novalidate>
+        <h4>Project  Input</h4>
+        <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"
+          fxLayoutGap="2em">
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.Quarter' | translate}}</mat-label>
+              <mat-select formControlName="Quarter" required>
+                <mat-option *ngFor="let row of Quarter" [value]="row.Id">
+                  <span>{{row.DescriptionEnglish}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Registration Year* :" matInput formControlName="RegistrationYear"
+                [matDatepicker]="RegistrationYear">
+              <mat-datepicker-toggle matSuffix [for]="RegistrationYear"></mat-datepicker-toggle>
+              <mat-datepicker #RegistrationYear></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.ProjectStatus' | translate}}</mat-label>
+              <mat-select [disabled]="true" formControlName="ProjectStatus" required>
+                <option value="0">--Select--</option>
+                <!-- <label>Project Status</label> -->
+                <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
+                  <span>{{status.DescriptionEnglish}}</span>
+                </mat-option>
+              </mat-select>
+
+            </mat-form-field>
+          </div>
+        </div>
+        <h4 *ngIf="ServiceId=='1234'">Detail</h4>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.ElectricPower' | translate}} (kwh) :</mat-label>
+              <input name="ElectricPower" type="number" matInput formControlName="ElectricPower" [maxlength]="16">
+
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{'investors.editor.Water' | translate}} (m2) :</mat-label>
+              <input type="number" matInput formControlName="Water">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.OtherUtility' | translate}} </mat-label>
+              <input type="number" matInput formControlName="OtherUtility">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{'investors.editor.LandIndustrial' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="LandIndustrial">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.LandAgricultural' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="LandAgricultural">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{'investors.editor.LandService' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="LandService">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.OwnLand' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="OwnLand">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{'investors.editor.LeaseLand' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="LeaseLand">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.RentalLand' | translate}} (Sq.m) :</mat-label>
+              <input type="number" matInput formControlName="RentalLand">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>{{'investors.editor.Remark' | translate}}</mat-label>
+              <textarea type="number" matInput formControlName="Remark"></textarea>
+            </mat-form-field>
+          </div>
+          <mat-card-actions fxLayoutAlign="end end">
+            <button [disabled]="!projectInputForm.valid" mat-raised-button="" color="primary" (click)="onSubmit()">
+              <mat-icon class="mat-18">done</mat-icon>
+              <span class="agree">{{'common.commands.Save'|translate}}</span>
+            
+            </button>
+            <button [disabled]="!projectInputForm.valid" class="custom-button" (click)="onSubmit()">
+              <mat-icon class="mat-18">done</mat-icon>
+              <span>{{'common.commands.Update'|translate}}</span>
+            </button>
+          </mat-card-actions>
+        <!-- <div style="padding-top: 20px" align="center">
+          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">
+            <div fxFlex="15">
+            </div>
+            <div style="text-align: center" fxFlex="67" fxFlexAlign="center">
+              
+            </div>
+            <div fxFlex="15">
+            </div>
+          </div>
+        </div> -->
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

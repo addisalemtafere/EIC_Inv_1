@@ -1,0 +1,26 @@
+<mat-card class="margin-2">
+
+
+  <mat-card-content>
+    <div fxLayout="row" fxLayoutAlign="start  " fxLayoutGap="2em">
+      <div class="  block" fxFlex="100%">
+        <!-- <div class="hdr-brk sub-title">{{title}}</div>
+        <div class="header-description ">
+          <strong>Required Scanned Documents to be Uploaded <i>(Pdf format only)</i> </strong>
+        </div> -->
+        <mat-list fxLayout="column"  style="margin: 10px 20px;"fxFlex.lt-md="100" fxFlex.gt-sm="100" fxLayoutGap="10px" class="custom-mat-list">
+          <mat-list-item *ngFor="let item of checkLists;let i=index" class="mat-elevation-z2">
+            {{item.DescriptionEnglish}}
+          </mat-list-item>
+        </mat-list>
+
+      </div>
+    </div>
+  </mat-card-content>
+
+  
+  <!-- <mat-card-actions align="start center">
+    <div fxLayout="row" fxLayoutGap="2em">
+    </div>
+  </mat-card-actions> -->
+</mat-card>

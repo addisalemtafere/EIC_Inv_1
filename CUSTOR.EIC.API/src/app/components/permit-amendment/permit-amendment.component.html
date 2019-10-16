@@ -1,0 +1,127 @@
+<mat-tab-group #stepper>
+    <mat-tab label="Service Information">
+        <ng-template matTabContent>
+            <app-service-requirement></app-service-requirement>
+            <mat-card-footer class="mt-4 p-3">
+                <div fxFlex="100" fxLayoutAlign="end" class="mt-2" fxLayoutGap="5px">
+                    <button type="button" mat-stroked-button color="warn">
+                        {{'common.commands.Cancel' | translate}}</button>
+                    <button [disabled]="false" type="button" mat-raised-button (click)="next()"
+                        color="primary">{{'common.commands.Start' | translate}}</button>
+                </div>
+            </mat-card-footer>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Profile" [disabled]="nextIndex < 2">
+        <ng-template matTabContent>
+            <app-project-profile></app-project-profile>
+            <mat-card-footer class="mt-4 p-3">
+                <div fxFlex="100" fxLayoutAlign="end" class="mt-2" fxLayoutGap="5px">
+                    <button type="button" mat-stroked-button color="warn" (click)="back()">
+                        {{'common.commands.Back' | translate}}</button>
+                    <button [disabled]="false" type="button" mat-raised-button (click)="next()"
+                        color="primary">{{'common.commands.Next' | translate}}</button>
+                </div>
+            </mat-card-footer>
+        </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Input" [disabled]="nextIndex < 3">
+        <ng-template matTabContent>
+            <app-input></app-input>
+            <mat-card-footer class="mt-4 p-3">
+                <div fxFlex="100" fxLayoutAlign="end" class="mt-2" fxLayoutGap="5px">
+                    <button type="button" mat-stroked-button color="warn" (click)="back()">
+                        {{'common.commands.Back' | translate}}</button>
+                    <button [disabled]="false" type="button" mat-raised-button (click)="next()"
+                        color="primary">{{'common.commands.Next' | translate}}</button>
+                </div>
+            </mat-card-footer>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Raw Material" [disabled]="nextIndex < 4">
+        <ng-template matTabContent>
+            <app-raw-material></app-raw-material>
+            <mat-card-footer class="mt-4 p-3">
+                <div fxFlex="100" fxLayoutAlign="end" class="mt-2" fxLayoutGap="5px">
+                    <button type="button" mat-stroked-button color="warn" (click)="back()">
+                        {{'common.commands.Back' | translate}}</button>
+                    <button [disabled]="false" type="button" mat-raised-button (click)="next()"
+                        color="primary">{{'common.commands.Next' | translate}}</button>
+                </div>
+            </mat-card-footer>
+        </ng-template>
+    </mat-tab>
+
+    <mat-tab label="cost" [disabled]="nextIndex < 5">
+        <ng-template matTabContent>
+            <app-cost></app-cost>
+            <mat-card-footer class="mt-4 p-3">
+                <div fxFlex="100" fxLayoutAlign="end" class="mt-2" fxLayoutGap="5px">
+                    <button type="button" mat-stroked-button color="warn" (click)="back()">
+                        {{'common.commands.Back' | translate}}</button>
+                    <button [disabled]="false" type="button" mat-raised-button (click)="next()"
+                        color="primary">{{'common.commands.Next' | translate}}</button>
+                </div>
+            </mat-card-footer>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Employment" [disabled]="nextIndex < 6">
+        <ng-template matTabContent>
+            <app-employment></app-employment>
+            <mat-card-footer class="mt-4 p-3">
+                <div fxFlex="100" fxLayoutAlign="end" class="mt-2" fxLayoutGap="5px">
+                    <button type="button" mat-stroked-button color="warn" (click)="back()">
+                        {{'common.commands.Back' | translate}}</button>
+                    <button [disabled]="false" type="button" mat-raised-button (click)="next()"
+                        color="primary">{{'common.commands.Next' | translate}}</button>
+                </div>
+            </mat-card-footer>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Share" [disabled]="nextIndex < 7"> 
+        <ng-template matTabContent>
+            <app-share></app-share>
+            <mat-card-footer class="mt-4 p-3">
+                <div fxFlex="100" fxLayoutAlign="end" class="mt-2" fxLayoutGap="5px">
+                    <button type="button" mat-stroked-button color="warn" (click)="back()">
+                        {{'common.commands.Back' | translate}}</button>
+                    <button [disabled]="false" type="button" mat-raised-button (click)="next()"
+                        color="primary">{{'common.commands.Next' | translate}}</button>
+                </div>
+            </mat-card-footer>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Product" [disabled]="nextIndex < 8">
+        <ng-template matTabContent>
+            <app-product></app-product>
+            <mat-card-footer class="mt-4 p-3">
+                <div fxFlex="100" fxLayoutAlign="end" class="mt-2" fxLayoutGap="5px">
+                    <button type="button" mat-stroked-button color="warn" (click)="back()">
+                        {{'common.commands.Back' | translate}}</button>
+                    <button [disabled]="false" type="button" mat-raised-button (click)="next()"
+                        color="primary">{{'common.commands.Next' | translate}}</button>
+                </div>
+            </mat-card-footer>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Document" [disabled]="nextIndex < 9">
+        <ng-template matTabContent>
+            <app-document></app-document>
+            <mat-card-footer class="mt-4 p-3">
+                <div fxFlex="100" fxLayoutAlign="end" class="mt-2" fxLayoutGap="5px">
+                    <button type="button" mat-stroked-button color="warn" (click)="back()">
+                        {{'common.commands.Back' | translate}}</button>
+                    <button [disabled]="false" type="button" mat-raised-button (click)="next()"
+                        color="primary">{{'common.commands.Next' | translate}}</button>
+                </div>
+            </mat-card-footer>
+        </ng-template>
+    </mat-tab>
+    
+
+
+
+
+
+</mat-tab-group>

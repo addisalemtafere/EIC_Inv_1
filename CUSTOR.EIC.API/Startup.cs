@@ -11,6 +11,7 @@ using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.DataAccessLayer;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Address;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness;
+using CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EICOnline.DAL.Helpers;
@@ -312,6 +313,7 @@ namespace EICOnline.API
         // Repo Added by Fetiha
         services.AddScoped<FAssociateRepository>();
         services.AddScoped<FInvestorRepository>();
+        services.AddScoped<FProjectsRepository>();
         //
         services.AddScoped<BudgetYearTypeRepository>();
         services.AddScoped<tblDivisionRepository>();

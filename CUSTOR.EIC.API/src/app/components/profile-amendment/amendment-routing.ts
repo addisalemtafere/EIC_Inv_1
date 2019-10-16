@@ -10,8 +10,9 @@ const routes: Routes = [
   { path: '', component: AmendmentComponent},
   { path: 'manager-list', component: ManagerListComponent},
   { path: 'manager/:id', component:ManagerComponent},
-   { path: 'manager-edit/:id', component:ManagerEditComponent},
-   { path: 'manager-new', component:ManagerComponent}
+  { path: 'manager-edit/:id', component:ManagerEditComponent},
+  { path: 'manager-new', component:ManagerComponent},
+
 ];
 
 @NgModule({
