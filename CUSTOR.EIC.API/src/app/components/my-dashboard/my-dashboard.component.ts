@@ -420,7 +420,6 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
 
 
   getClassType(statusId: number) {
-
     let className;
     switch (statusId) {
       case  ApplicationStatusEnum.approved :
@@ -437,6 +436,9 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         break;
       case ApplicationStatusEnum.Submitted:
         className = 'Submitted';
+        break;
+      case ApplicationStatusEnum.Rejected:
+        className = 'Rejected';
         break;
     }
     return className;

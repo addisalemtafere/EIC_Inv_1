@@ -328,7 +328,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       cGrandName: ['', Validators.pattern(ET_ALPHABET_REGEX)],
       cNationality: [''], // Ethiopian
       cGender: ['1'],
-      Title: [''],
+      Title: ['100'],
       workFlowId: this.workFlowId,
       Origin: [false],
       'address': new FormGroup({
@@ -438,7 +438,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.loadingIndicator = false;
     this.toastr.success('Record saved successfully!');
     this.dataSharing.investorTabSelectedIndex.next(2);
-    //this.router.navigate(['/associate/list']);
+    this.router.navigate(['/associate/list']);
     setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
   }
@@ -809,6 +809,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       this.kebele.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
         Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
     }
+    this.nationality.setValidators([Validators.required]);
     // this.phoneDirect.setValidators([Validators.compose([Validators.maxLength(10)])]);
     // this.CellPhoneNo.setValidators([Validators.compose([Validators.required])]);
   }

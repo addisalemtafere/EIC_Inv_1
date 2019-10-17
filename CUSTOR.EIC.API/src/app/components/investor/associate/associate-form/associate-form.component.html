@@ -130,11 +130,7 @@
                       {{title.English}}
                     </mat-option>
                   </mat-select>
-                  <!--<mat-error *ngIf="Title.hasError('required')">-->
-                    <!--{{'common.validation.Required' | translate}}-->
-                  <!--</mat-error>-->
                 </mat-form-field>
-
                 <mat-form-field fxLayoutGap="4em" class="col4">
                   <mat-label>{{'investors.editor.Gender' | translate}}</mat-label>
                   <mat-select formControlName="cGender" required>
@@ -149,7 +145,7 @@
                 </mat-form-field>
                 <mat-form-field fxLayoutGap="4em">
                   <mat-label>{{'investors.editor.Nationality' | translate}}</mat-label>
-                  <mat-select formControlName="cNationality" [compareWith]="compareIds">
+                  <mat-select formControlName="cNationality" [compareWith]="compareIds" required>
                     <mat-option *ngFor="let country of nationList" [value]="country.id">
                       <span>{{country.descriptionEnglish}}</span>
                     </mat-option>

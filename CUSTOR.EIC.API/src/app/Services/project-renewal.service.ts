@@ -32,5 +32,10 @@ export class ProjectRenewalService extends BaseService<ProjectRenewalModel> {
     return this.httpClient.get<ProjectRenewalModel[]>(this.appConfig.urls.url('projectRenewalsbyId')+ '/' + id).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
+  getRenewalByServiceAppId(id: number): Observable<ProjectRenewalModel> {
+    console.log(id);
+    return this.httpClient.get<ProjectRenewalModel>(this.appConfig.urls.url('ServiceAppWithRenewal') + '/' + id).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
 // this.appConfig.urls.url('ByInvestorId')
 }

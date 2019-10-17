@@ -6,7 +6,8 @@ namespace CUSTOR.EICOnline.API.ViewModels.enums
     Submitted = 44446,
     Pending = 44448,
     approved = 44447,
-    Completed = 44449
+    Completed = 44449,
+    Rejected = 44440
   }
 
   public enum ServiceEnum

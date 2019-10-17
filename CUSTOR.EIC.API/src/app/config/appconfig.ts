@@ -272,6 +272,7 @@ export class AppConfiguration {
     Countrys: 'api/Countrys',
     National: 'api/Nationalities/GetDTO',
     Nationalities: 'api/Nationalitys',
+    ServiceAppWithRenewal: 'api/projectRenewals/ServiceAppWithRenewal',
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];
