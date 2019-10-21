@@ -44,9 +44,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     [Key]
     public int IncentiveBoMRequestItemId { get; set; }
     public string Phase { get; set; }
-    public string Description { get; set; }
+    public string IncentiveCategoryId { get; set; }
     public DateTime? UploadDate { get; set; }
-    public decimal Quantity { get; set; }
+    public int ServiceApplicationId { get; set; }
     public int ProjectId { get; set; }
   }
 

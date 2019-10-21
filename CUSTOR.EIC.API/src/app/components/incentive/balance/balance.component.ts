@@ -91,16 +91,11 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.getUserType();
     this.initForm();
     this.addForm();
-    // this.currentCategoryId = this.route.snapshot.params['type'];
     this.ServiceId = this.route.snapshot.params['serviceId'];
     this.ServiceApplicationId = this.route.snapshot.params['serviceApplicationId'];
     this.ProjectId = this.route.snapshot.params['projectId'];
-    // if (this.currentCategoryId === '10778') {
-    // this.getBillOfMaterial(this.ServiceApplicationId);
     this.getBillOfMaterial(this.ProjectId);
-    // }
     this.initStaticData(this.currentLang);
-
   }
 
   onMangerControlChanged($event, data?: IncentiveBoMRequestItemModel) {
@@ -180,7 +175,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
 
   getBillOfMaterial(ProjectId: any) {
     this.loading = true;
-    this.billOfMaterilService.getBillOfMaterialByProjectId(ProjectId, this.currentLang)
+    this.billOfMaterilService.getBillOfMaterialByProjectIds(ProjectId, this.currentLang)
       .subscribe(result => {
         this.itemList = result;
         this.bomListDataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);

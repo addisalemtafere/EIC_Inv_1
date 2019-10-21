@@ -206,7 +206,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
-            // console.log(this.letterModelList);
+            console.log(this.letterModelList);
             this.dataSource = new MatTableDataSource<LetterModel>(this.letterModelList);
           }
         },

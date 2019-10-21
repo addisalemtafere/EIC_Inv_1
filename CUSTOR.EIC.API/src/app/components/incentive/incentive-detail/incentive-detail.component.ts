@@ -178,7 +178,6 @@ export class IncentiveDetailComponent implements OnInit {
     console.log(this.currentCategoryId);
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {      // this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
       this.router.navigate(['bom-balance/' + this.projectId + '/' + 0 + '/' + 0]);
-
     } else if (this.currentCategoryId == 10777) {
       this.router.navigate(['sparepart-balance/' + this.projectId + '/' + 0]);
     }

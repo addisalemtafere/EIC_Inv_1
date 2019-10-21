@@ -137,7 +137,13 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
     {
       return await _itemsRepository.GetIncentiveBoMRequestItemByProjectId(id, lang, page, pageSize);
     }
-
+//    [HttpGet]
+//    [Route("GetByProjectId/{id:int}/{lang}")]
+//    public async Task<IEnumerable<IncentiveBoMRequestItemDTO>> GetIncentiveRequestsByProjectId(int id, string lang,
+//      int page = -1, int pageSize = 10)
+//    {
+//      return await _itemsRepository.GetIncentiveBoMRequestItemByProjectId(id, lang, page, pageSize);
+//    }
     // PUT: api/IncentiveBoMRequestItems/5
     [HttpPut("{id}")]
     public async Task<IncentiveBoMRequestItem> PutIncentiveBoMRequestItem([FromRoute] int id,
@@ -156,6 +162,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       {
         incentiveBoMRequestItem.IsApproved = false;
       }
+
       incentiveBoMRequestItem.IncentiveCategoryId = 10778;
       _context.Entry(incentiveBoMRequestItem).State = EntityState.Modified;
 
@@ -280,10 +287,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         return incentiveBoMRequestItems;
       }
     }
-   [HttpGet("GetByBomId/{id:int}")]
+
+    [HttpGet("GetByBomId/{id:int}")]
     public async Task<IActionResult> GetByBomId(int id)
     {
-
       var incentiveBoMRequestItem =
         await _context.IncentiveBoMRequestItem.SingleOrDefaultAsync(m => m.IncentiveBoMRequestItemId == id);
 
@@ -294,6 +301,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
 
       return Ok(incentiveBoMRequestItem);
     }
+
     [HttpGet("GetByProjectId/{id:int}/{lang}")]
     public IEnumerable<IncentiveBomDto> GetByProjectId(int id)
     {

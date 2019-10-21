@@ -233,7 +233,8 @@ export class AppConfiguration {
 
 
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
-    IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/GetByProjectId',
+    IncentiveBoMImportItemByProjectIds: 'api/IncentiveBoMRequestItems/GetByProjectId',
+    IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/ByProjectId',
     IncentiveBoMImportItemByBomId: 'api/IncentiveBoMRequestItems/GetByBomId',
 
 

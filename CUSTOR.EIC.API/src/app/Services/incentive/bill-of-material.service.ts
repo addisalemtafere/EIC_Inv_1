@@ -37,6 +37,11 @@ export class BillOfMaterialService extends BaseService<IncentiveBoMRequestItemMo
       catchError(this.errMsg.parseObservableResponseError));
   }
 
+  getBillOfMaterialByProjectIds(id: number, lang: string): Observable<IncentiveBoMRequestItemModel[]> {
+    return this.httpClient.get<IncentiveBoMRequestItemModel>(this.appConfig.urls.url('IncentiveBoMImportItemByProjectIds') + '/' + id + '/' + lang).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
   getBillOfMaterialByBomId(id: number): Observable<IncentiveBoMRequestItemModel> {
     return this.httpClient.get<IncentiveBoMRequestItemModel>(this.appConfig.urls.url('IncentiveBoMImportItemByBomId') + '/' + id).pipe(
       catchError(this.errMsg.parseObservableResponseError));

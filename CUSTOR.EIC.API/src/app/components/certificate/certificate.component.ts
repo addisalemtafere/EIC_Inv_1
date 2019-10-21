@@ -66,7 +66,7 @@ export class CertificateComponent implements OnInit {
   private InvestorId: any;
   private workFlowId: any;
   private projectId: any;
-  public today: Date;
+  public today: any;
   public dateGc: Date;
   public todayEthioDate: any;
   public dateEc1: Date;
