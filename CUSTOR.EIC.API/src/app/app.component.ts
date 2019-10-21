@@ -277,7 +277,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
       }
     }
   }
-  
+
   clearLocalStorage() {
     localStorage.clear();
   }
