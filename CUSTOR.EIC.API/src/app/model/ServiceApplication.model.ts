@@ -21,13 +21,10 @@ export class ServiceApplicationModel {
   public CurrentStep: number;
   public ServiceNameEnglish: string;
   public ServiceNameAmharic: string;
-
   public InvestorNameEnglish: string;
   public InvestorNameAmharic: string;
-
   public ProjectNameAmharic: string;
   public ProjectNameEnglish: string;
-
   public IsSelfService?: boolean;
   public IsApproved?: boolean;
   public EndDate: string;
@@ -42,14 +39,11 @@ export class ServiceApplicationModel {
   public Investor?: Investor;
   public Project?: ProjectModel;
   public Order?: OrderModel;
-
   public ProjectCancellation?: ProjectCancellationModel[];
   public ProjectRenewal?: ProjectRenewalModel[];
   public ProjectSubstitute?: ProjectSubstituteModel[];
   public IncentiveBoMRequestItem?: IncentiveBoMRequestItemModel[];
   public todoTask?: TodoTaskModel;
-
-
   constructor(ServiceApplicationId?: string, ProjectId?: string,
               InvestorId?: string, ServiceId?: string, CaseNumber?: string,
               StartDate?: string, EndDate?: string, CurrentStatusId?: number) {
