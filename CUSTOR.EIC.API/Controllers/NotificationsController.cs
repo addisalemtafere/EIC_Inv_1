@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,6 +12,7 @@ using EICOnline.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace CUSTOR.EICOnline.API.Controllers
 {
@@ -20,14 +21,19 @@ namespace CUSTOR.EICOnline.API.Controllers
   public class NotificationsController : Controller
   {
     private readonly IAccountManager _accountManager;
+    private readonly IOptions<SmtpConfig> _smtpConfig;
     private readonly ApplicationDbContext _context;
     private readonly IConfiguration _config;
 
-    public NotificationsController(ApplicationDbContext context, IAccountManager accountManager, IConfiguration config)
+
+    public NotificationsController(ApplicationDbContext context, IAccountManager accountManager,
+      IOptions<SmtpConfig> smtpConfig,
+      IConfiguration config)
     {
       _context = context;
       _accountManager = accountManager;
       _config = config;
+      _smtpConfig = smtpConfig;
     }
 
     // GET: api/Notifications
@@ -138,7 +144,10 @@ namespace CUSTOR.EICOnline.API.Controllers
       {
 //        serviceApplication.IsApproved = true; //Todo
       }
-
+      if ((int)ApplicationStatus.Pending == Convert.ToInt32(notification.CurrentStatus))
+      {
+        serviceApplication.CurrentStatusId = (int)ApplicationStatus.Drafted;
+      }
       _context.Entry(serviceApplication).State = EntityState.Modified;
 
       _context.Notifications.Add(edtitedNotification);
@@ -170,15 +179,56 @@ namespace CUSTOR.EICOnline.API.Controllers
     }
 
 
-    public async Task<IActionResult> PostSendGmailAsync(string destinationEmail, string message)
+//    public async Task<IActionResult> PostSendGmailAsync(string destinationEmail, string message)
+//    {
+//
+//
+//      var _emailSender = new EmailSendGrid(_config);
+//      var strMessage = EmailTemplates.GetTestEmail("test", new DateTime());
+//      await _emailSender.SendEmailAsync(destinationEmail, "Confirm your account", message);
+//      return Ok();
+//
+//    }
+
+
+    public async Task<string> PostSendGmailAsync(string destinationEmail, string message)
     {
+      var client = new SmtpClient();
+      client.DeliveryMethod = SmtpDeliveryMethod.Network;
+      client.EnableSsl = _smtpConfig.Value.UseSSL;
+      client.Host = _smtpConfig.Value.Host;
+      client.Port = _smtpConfig.Value.Port;
+      // setup Smtp authentication
+      var credentials = new NetworkCredential(_smtpConfig.Value.Username, _smtpConfig.Value.Password);
+      client.UseDefaultCredentials = false;
+      client.Credentials = credentials;
+      //can be obtained from your model
+      var msg = new MailMessage();
+      msg.From = new MailAddress(_smtpConfig.Value.EmailAddress);
+      msg.To.Add(new MailAddress(destinationEmail));
 
-
-      var _emailSender = new EmailSendGrid(_config);
-      var strMessage = EmailTemplates.GetTestEmail("test", new DateTime());
-      await _emailSender.SendEmailAsync(destinationEmail, "Confirm your account", message);
-      return Ok();
-
+      msg.Subject = "EIC Notifications";
+      msg.IsBodyHtml = true;
+      msg.Body = string.Format("<html><head></head><body>" +
+                               "<b>Dear   Customer,</b><br>" +
+                               "<p>" + message + "<p/><br><br><br>" +
+                               "I want to thank you for reading and wish you an awesome weekend <br><br> Kind Regards,<br><br>" +
+                               "<b>Tel:  (+251) 11 5507131 </b><br><br>" +
+                               "<b>E-mail: ethioinvest@ethio-invest.com </b><br><br>" +
+                               "<b>website: www.investethiopia.gov.et or www.theiguides.org/ethiopia </b><br><br>" +
+                               "<h3>Ethiopian Investment Commission Licensing Team </h3>" +
+                               "<h3>Ethiopian Investment Commission Ethiopia</h3>" +
+                               "<a href='http://www.invest-ethiopia.com/login'>Ethiopian Investment<a>" +
+                               "</body>");
+      try
+      {
+        await client.SendMailAsync(msg);
+        return "OK";
+      }
+      catch (Exception ex)
+      {
+        return "error:" + ex;
+      }
     }
   }
 }

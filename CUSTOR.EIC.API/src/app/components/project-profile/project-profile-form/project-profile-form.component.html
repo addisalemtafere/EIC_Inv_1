@@ -14,12 +14,19 @@
           <mat-form-field>
             <mat-label for="Title">Project Title *:</mat-label>
             <input matInput formControlName="ProjectName">
-            <mat-error align="start" *ngIf="formErrors.ProjectName">{{ formErrors.ProjectName }}</mat-error>
+            <!--<mat-error align="start" *ngIf="formErrors.ProjectName">{{ formErrors.ProjectName }}</mat-error>-->
+            <mat-error *ngIf="ProjectName.hasError('required')">
+              {{'common.validation.Required' | translate}}
+              <!--{{ formErrors.ProjectName }}-->
+            </mat-error>
+            <mat-error *ngIf="ProjectName.hasError('minlength')">
+              {{'common.validation.MinLengthChar' | translate: {'min': '3'} }}
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="blocks" fxFlex>
           <mat-form-field>
-            <input placeholder="Start Date * :"
+            <input placeholder="Start Date * (dd/mm/yyyy):"
                    formControlName="StartDate"
                    matInput
                    [matDatepicker]="startDate">
@@ -30,7 +37,7 @@
         </div>
         <div class="block" fxFlex>
           <mat-form-field>
-            <input placeholder="Ending Date * :"
+            <input placeholder="Ending Date * (dd/mm/yyyy):"
                    matInput
 
                    formControlName="EndingDate"
@@ -44,9 +51,8 @@
           <!--<mat-label>Start Date :</mat-label>-->
           <mat-form-field>
             <input formControlName="OperationDate"
-
                    matInput
-                   placeholder="Operation Date * :"
+                   placeholder="Operation Date * (dd/mm/yyyy):"
                    [matDatepicker]="operationDate"
             >
             <mat-datepicker-toggle matSuffix [for]="operationDate"></mat-datepicker-toggle>
@@ -58,7 +64,7 @@
           <mat-form-field>
             <mat-label>Project Stage:</mat-label>
             <mat-select formControlName="ProjectStage" required>
-              <option value="0">--Select--</option>
+              <!--<option value="0">&#45;&#45;Select&#45;&#45;</option>-->
               <mat-option *ngFor="let status of projectStage" [value]="status.Id">
                 <span>{{status.DescriptionEnglish}}</span>
               </mat-option>
@@ -75,15 +81,20 @@
             <textarea rows="2" matInput
                       formControlName="EnvironmentalImpact">
              </textarea>
-            <mat-error align="start" *ngIf="formErrors.EnvironmentalImpact">{{ formErrors.EnvironmentalImpact }}
+            <mat-error align="start" *ngIf="formErrors.EnvironmentalImpact">
+              {{ formErrors.EnvironmentalImpact }}
             </mat-error>
           </mat-form-field>
         </div>
         <div class="block" fxFlex="">
           <mat-form-field class="full-width">
-            <mat-label>Project Description :</mat-label>
+            <mat-label>Project Profile Summary *:</mat-label>
             <textarea rows="2" matInput formControlName="ProjectDescription"></textarea>
-            <mat-error align="start" *ngIf="formErrors.ProjectDescription">{{ formErrors.ProjectDescription }}
+            <mat-error *ngIf="ProjectDescription.hasError('required')">
+              {{ formErrors.ProjectDescription }}
+            </mat-error>
+            <mat-error *ngIf="ProjectDescription.hasError('minlength')">
+              {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -104,7 +115,7 @@
             <mat-form-field>
               <mat-label>Region :</mat-label>
               <mat-select formControlName="RegionId"
-                          (selectionChange)="filterRegion($event.value)">
+                          (selectionChange)="filterRegion($event.value)" required>
                 <!--<mat-option value="0">&#45;&#45;</mat-option>-->
                 <mat-option *ngFor="let region of regions" [value]="region.RegionId">
                   {{region.Description}}
@@ -116,7 +127,7 @@
           <div class="block" fxFlex="">
             <mat-form-field>
               <mat-label>Zone :</mat-label>
-              <mat-select formControlName="ZoneId">
+              <mat-select formControlName="ZoneId" required>
                 <!--<mat-option value="0">&#45;&#45;</mat-option>-->
                 <mat-option *ngFor="let zone of filteredZones" [value]="zone.ZoneId">
                   {{zone.Description}}
@@ -172,12 +183,15 @@
           <div class="block" fxFlex="25" *ngIf="getIsChecked()">
             <mat-form-field>
               <mat-label>Industrial Park :</mat-label>
-              <mat-select formControlName="IndustrialParkId">
+              <mat-select formControlName="IndustrialParkId" [required]="getIsChecked()">
                 <mat-option *ngFor="let site of allSiteList" [value]="site.SiteId">
                   <span>   {{site.NameEnglish}}</span>
                 </mat-option>
               </mat-select>
-              <mat-error align="start" *ngIf="formErrors.Kebele">{{ formErrors.Kebele }}</mat-error>
+              <mat-error >Please choose Industrial Park!</mat-error>
+              <!--<mat-error *ngIf="IndustrialParkId.hasError('required')">-->
+              <!--{{formErrors.IndustrialParkId}}-->
+              <!--</mat-error>-->
             </mat-form-field>
           </div>
 

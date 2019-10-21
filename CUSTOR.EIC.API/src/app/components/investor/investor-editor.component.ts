@@ -9,7 +9,15 @@ import {Subscription} from 'rxjs';
 import {Utilities} from '@custor/helpers/utilities';
 
 import {Gender, LegalStatus, Lookup} from '../../model/lookupData';
-import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_REGEX, GENDERS, LEGAL_STATUS} from '../../const/consts';
+import {
+  ALPHABET_REGEX,
+  ALPHABET_WITHSPACE_REGEX,
+  ALPHABET_WITHSPACEANDNUMBER_REGEX, EMAIL_REGEX,
+  ET_ALPHABET_REGEX,
+  ET_ALPHABET_WITHSPACEANDNUMBER_REGEX,
+  GENDERS,
+  LEGAL_STATUS, NUMERIC_REGEX, NUMERIC_WITHPERIOD_REGEX
+} from '../../const/consts';
 import {determineId} from '@custor/helpers/compare';
 import {ConfigurationService} from '@custor/services/configuration.service';
 import {ToastrService} from 'ngx-toastr';
@@ -35,6 +43,8 @@ import {RegistrationCatagory} from '../../model/Registration/RegistrationCatagor
 import {RegistrationCatagoryService} from '../../Services/Registration/RegistrationCatagory.service';
 import {CountryService} from "../../Services/country.service";
 import {CountryModel} from "../../model/Country";
+import {ServiceEnum} from "../../enum/enums";
+import {validate} from 'codelyzer/walkerFactory/walkerFn';
 
 @Component({
   selector: 'app-edit-investor',
@@ -88,7 +98,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   public isCommercialReg = false;
   public isInvestor: boolean;
   private isNew: any;
-
+  private CurrentUserId: string;
   constructor(private route: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
@@ -301,7 +311,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.formControlValueChanged();
     this.getMajorDivisions();
     const id = this.route.snapshot.params['InvestorId'];
-    if (this.ServiceId !== undefined || this.ServiceId == 1235) {
+    if (this.ServiceId !== undefined || this.ServiceId == ServiceEnum.CommercialRegistration) {
       this.isCommercialReg = true;
     }
     // console.log(this.ServiceId);
@@ -325,6 +335,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
+    console.log(this.isInvestor);
   }
 
   getMajorDivisions() {
@@ -337,37 +348,90 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   formControlValueChanged() {
+    this.CellPhoneNo.setValidators([Validators.compose([Validators.required, Validators.pattern(NUMERIC_REGEX),
+      Validators.min(10), Validators.maxLength(12)])]);
     const cFather = this.investorForm.get('cFatherName');
     this.legalStatus.valueChanges.subscribe(
       (intLegal: number) => {
         if (intLegal === 1) { // Sole
           // // console.log(intLegal);
-          this.ClearCompanyValidators();
-          this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+            this.ClearCompanyValidators();
+            this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+            this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+            this.grandNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
-            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          this.grandNameEng.setValidators(Validators.pattern(ALPHABET_WITHSPACE_REGEX));
-          if (!this.isInvestor)
-            this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+          this.firstName.setValidators([Validators.compose([ Validators.minLength(2),
+            Validators.pattern(ET_ALPHABET_REGEX)])]);
+          if (!this.isInvestor) {
+          this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+            Validators.pattern(ET_ALPHABET_REGEX)])]);
+          }
+            this.fatherName.setValidators([Validators.compose([ Validators.minLength(2),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
-          if (!this.isInvestor)
+          if (!this.isInvestor) {
             this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
-          this.grandName.setValidators(Validators.pattern(ET_ALPHABET_REGEX));
-          this.nationality.setValidators([Validators.required]);
-          this.gender.setValidators([Validators.required]);
-          this.Title.setValidators([Validators.required]);
-
+          }
+            this.grandName.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(50),
+              Validators.pattern(ET_ALPHABET_REGEX)])]);
+          if (!this.isInvestor) {
+            this.grandName.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50),
+              Validators.pattern(ET_ALPHABET_REGEX)])]);
+          }
+            this.woreda.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          if (!this.isInvestor) {
+            this.woreda.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          }
+            this.woredaEng.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          if (!this.isInvestor) {
+            this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          }
+            this.kebele.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          if (!this.isInvestor) {
+            this.kebele.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          }
+            this.kebeleEng.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          if (!this.isInvestor) {
+            this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+              Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+          }
+            this.email.setValidators(Validators.compose([Validators.pattern(EMAIL_REGEX)]));
+            this.phoneDirect.setValidators(Validators.compose([Validators.pattern(NUMERIC_WITHPERIOD_REGEX), Validators.maxLength(10)]));
+            this.nationality.setValidators([Validators.required]);
+            this.gender.setValidators([Validators.required]);
+          // this.Title.setValidators([Validators.required]);
           this.isCompany = false;
         } else {
           this.ClearSoleValidators();
-          this.companyNameEng.setValidators([Validators.required]);
-          this.companyName.setValidators([Validators.required]);
+          this.tin.setValidators([Validators.compose([Validators.maxLength(10),
+            Validators.pattern(NUMERIC_REGEX),
+            Validators.minLength(10)])]);
+          this.companyNameEng.setValidators([Validators.compose([Validators.required,
+            Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX), Validators.minLength(2),
+            Validators.maxLength(100)])]);
+          this.companyName.setValidators([Validators.compose([
+            Validators.pattern(ET_ALPHABET_REGEX), Validators.minLength(2),
+            Validators.maxLength(100)])]);
+          if (!this.isInvestor) {
+            this.companyName.setValidators([Validators.compose([ Validators.required,
+              Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX), Validators.minLength(2),
+              Validators.maxLength(100)])]);
+          }
           cFather.updateValueAndValidity();
           this.isCompany = true;
         }
         this.regionn.setValidators([Validators.required]);
+        // this.CellPhoneNo.setValidators([Validators.compose([Validators.required, Validators.pattern(ALPHABET_REGEX),
+        // Validators.min(10), Validators.maxLength(10)])]);
       }
     );
 
@@ -393,6 +457,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.fatherNameEng.clearValidators();
     this.fatherName.clearValidators();
     this.grandNameEng.clearValidators();
+    this.grandName.clearValidators();
     this.nationality.clearValidators();
     this.gender.clearValidators();
     this.Title.clearValidators();
@@ -401,6 +466,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   ClearCompanyValidators() {
     // this.nationalityCompany.clearValidators();
     this.companyNameEng.clearValidators();
+    this.companyName.clearValidators();
   }
 
   initStaticDataOwnerShip(currentLang) {
@@ -450,8 +516,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getInvestor(id)
       .subscribe(result => {
           this.investor = result;
+          // console.log(this.investor)
+          this.CurrentUserId = this.investor.UserId;
+          // console.log(this.investor.UserId);
           this.updateForm();
-          console.log(this.investor.RegistrationCatagories);
           this.investorForm.patchValue({
             cMajorDivision: this.investor.RegistrationCatagories
           });
@@ -670,14 +738,15 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   public onSubmit() {
-
     // put dummy values to avoid conditional validation issues
     if (this.isCompany) {
+      console.log('1');
       this.investorForm.get('cFirstNameEng').patchValue('NA');
       this.investorForm.get('cFirstName').patchValue('NA');
       this.investorForm.get('cFatherNameEng').patchValue('NA');
       this.investorForm.get('cFatherName').patchValue('NA');
       this.investorForm.get('cGrandNameEng').patchValue('NA');
+      this.investorForm.get('cGrandName').patchValue('NA');
       this.investorForm.get('cGender').patchValue('1');
       this.investorForm.get('cNationality').patchValue('1');
       this.investorForm.get('Title').patchValue('1');
@@ -725,9 +794,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     // }
 
     this.loadingIndicator = true;
+    console.log(this.getEditedInvestor());
     return this.custService.saveInvestor(this.getEditedInvestor())
       .subscribe((investor) => {
-          console.log(investor)
+          console.log(investor);
           this.isNew = this.getEditedInvestor().IsExistingCustomer == true ? 1 : 0;
 
           // const IsExistingCustomer = this.route.snapshot.params['IsExistingCustomer'];
@@ -739,7 +809,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             const workFlowId = this.route.snapshot.params['workFlowId'];
             this.toastr.success('Record saved successfully!');
             if (this.ServiceId == 1235) {
-              console.log("test one at service")
+              console.log("test one at service");
               this.router.navigate(['investor-tab/1235/' + ServiceApplicationId1 + '/' + InvestorId1 + '/' + this.isNew + '/' + workFlowId]);
 
             } else {
@@ -750,7 +820,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
           if (investor != null) {
             if (this.ServiceId == 1235) {
-              console.log("test one at service 2" + this.ServiceId)
+              console.log("test one at service 2" + this.ServiceId);
 
               this.router.navigate(['investor-tab/1235/' + 0 + '/' + investor.InvestorId + '/' + this.isNew + '/' + 0]);
               setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
@@ -966,7 +1036,14 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     if (this.route.snapshot.params['InvestorId'] > 0) {
       this.isNewInvestor = false;
     }
+    // if (this.accountService.getUserType() == true)
+    // {
+    //   console.log('investor!');
+    // }else{
+    //   console.log('other user!');
+    // }
     // // console.log(add);
+
     return {
       InvestorId: this.isNewInvestor ? 0 : this.investor.InvestorId,
       FirstName: this.isCompany ? formModel.cCompanyName : formModel.cFirstName,
@@ -985,13 +1062,11 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       TradeNameEnglish: formModel.cTradeNameEng,*/
       PaidCapital: formModel.cPaidCapital,
       SighnedCapital: formModel.cSighnedCapital,
-
       LegalStatus: formModel.cLegalStatus,
       IsEthiopianOrigin: formModel.cIsEthiopianOrigin,
-
       RegistrationCatagories: formModel.cMajorDivision,
-
-      UserId: this.accountService.currentUser.Id,
+      // UserId: this.accountService.currentUser.Id,
+      UserId: this.CurrentUserId,
       IsExistingCustomer: formModel.IsExistingCustomer,
       // SiteCode: this.accountService.currentUser.SiteCode,
       IsActive: false,

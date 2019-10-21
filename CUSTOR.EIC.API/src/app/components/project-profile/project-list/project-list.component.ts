@@ -20,6 +20,7 @@ import {ApplicationStatusModel, ProjectStatusModel} from '../../../model/lookupD
 import {QueryParametersModel} from "../../../model/QueryParameters.model";
 import {PaginationService} from "@custor/services/pagination.service";
 import {ConfigurationService} from "@custor/services/configuration.service";
+import {ApplicationStatusEnum, ServiceEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-project-list',
@@ -49,6 +50,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   public applicationStatus: ApplicationStatusModel[] = [];
   private searchFlag: boolean;
   private SaveForSearchNavigation: any;
+  public applicationS = ApplicationStatusEnum;
 
   constructor(private projectProfileService: ProjectProfileService,
               private errMsg: ErrorMessage,
@@ -64,6 +66,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
               public paginationService: PaginationService,
               private formBuilder: FormBuilder,
               private formService: FormService) {
+    // this.applicationS = ApplicationStatusEnum;
   }
 
   get canManageTask() {
@@ -147,14 +150,14 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     setTimeout(() => this.dataSharing.isNew.next(true), 0);
 
     switch (serviceId) {
-      case 13 || 1023 || 1028:
-        // this.router.navigate(['/officer']);
+      case ServiceEnum.NewIP || ServiceEnum.Expansion || ServiceEnum.AmendmentOfIP:
         this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
         break;
-      case 18:
+      case ServiceEnum.Renewal:
         this.router.navigate(['/project-renewal', serviceApplicationId]);
         break;
-      case 19:
+
+      case ServiceEnum.CancellationOfIP:
         this.router.navigate(['/project-cancellation', serviceApplicationId], {relativeTo: this.route});
         break;
 
@@ -170,6 +173,11 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   projectApprove(serviceApplication: ServiceApplicationModel) {
+    console.log('project approved');
+    console.log(serviceApplication);
+    localStorage.setItem('title', serviceApplication.ServiceNameEnglish);
+    localStorage.setItem('projectName', serviceApplication.ProjectNameEnglish);
+    localStorage.setItem('investorName', serviceApplication.InvestorNameEnglish);
     const id = serviceApplication.ServiceApplicationId;
     const projectId = serviceApplication.ProjectId;
     const serviceId = serviceApplication.ServiceId;
@@ -217,38 +225,36 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
     switch (serviceId) {
-      case 13:
-      case 1023:
+      case ServiceEnum.NewIP:
+      case ServiceEnum.Expansion:
         this.router.navigate(['/officer/' + serviceId + '/' + investorId + '/' + id + '/' + workFlowId + '/' + projectId]);
-
         break;
-      case 18:
+      case ServiceEnum.Renewal:
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 19:
+      case ServiceEnum.CancellationOfIP:
         this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1027:
+      case ServiceEnum.SubstituteIP:
         this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1045:
+      case ServiceEnum.TaxHolidayIncentive:
         this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1046:
+      case ServiceEnum.DutyFreeIncentive:
         this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1047:
+      case ServiceEnum.UploadingOfConstructionMaterial:
         this.router.navigate(['/bill-of-material/1/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1054:
+      case ServiceEnum.UploadingOfRawMaterial:
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1235:
-
+      case ServiceEnum.CommercialRegistration:
         this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId + '/' + 0 + '/' + workFlowId]);
 
         break;
-      case 1236:
+      case ServiceEnum.BusinessLicense:
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId + '/' + 0]);
         break;
       default:
@@ -274,6 +280,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     const id = serviceApplicationId;
     const investorId = InvestorId;
     let stepIndex;
+    console.log(step);
     switch (step) {
       case 8:
         stepIndex = 1;
@@ -316,39 +323,37 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
 
     switch (serviceId) {
-      case 13:
-      case 1023:
+      case ServiceEnum.NewIP:
+      case ServiceEnum.Expansion:
         this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + workFlowId + '/' + InvestorId]);
 
         break;
-      case 18:
+      case ServiceEnum.Renewal:
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 19:
+      case ServiceEnum.CancellationOfIP:
         this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1027:
+      case ServiceEnum.SubstituteIP:
         this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1045:
+      case ServiceEnum.TaxHolidayIncentive:
         this.router.navigate(['tax-exemption/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1046:
+      case ServiceEnum.DutyFreeIncentive:
         this.router.navigate(['incentive-request-item/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1047:
+      case ServiceEnum.UploadingOfConstructionMaterial:
         this.router.navigate(['/bill-of-material/1/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1054:
+      case ServiceEnum.UploadingOfRawMaterial:
         this.router.navigate(['/bill-of-material/2/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
         break;
-      case 1235:
-
-
+      case ServiceEnum.CommercialRegistration:
         this.router.navigate(['investor-tab/' + serviceId + '/' + id + '/' + investorId + '/' + 0 + '/' + workFlowId]);
-
         break;
-      case 1236:
+
+      case ServiceEnum.BusinessLicense:
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId + '/' + 0]);
         break;
       default:
@@ -406,7 +411,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result);
         this.loading = false;
         this.serviceApplicationList = result;
-        // console.log(result);
+        console.log(result);
         this.dataSource.paginator = this.paginator;
 
       }, error => this.errMsg.getError(error));
@@ -416,7 +421,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
     this.paginationService.Page(1);
 
-    let SpecDate1 = this.searchForm.get('SpecDate').value
+    let SpecDate1 = this.searchForm.get('SpecDate').value;
 
     console.log(SpecDate1);
 
@@ -455,7 +460,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     }
 
 
-    console.log(this.searchForm.value)
+    console.log(this.searchForm.value);
 
     this.searchFlag = true;
     this.dataSource = [];
@@ -477,7 +482,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
   filterData(data: any) {
     this.serviceApplicationList = [];
-    console.log(data.Items)
+    console.log(data.Items);
     const data2 = data.Items;
     for (let i = 0; i < data2.length; i++) {
       this.serviceApplicationList.push(data2[i]);
@@ -486,7 +491,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     }
     // this.dataSource = new MatTableDataSource<ServiceApplicationModel>(this.serviceApplicationList);
     this.loading = false;
-    console.log(this.serviceApplicationList)
+    console.log(this.serviceApplicationList);
 
     if (!this.serviceApplicationList) {
       this.toast.error('No records were found to list', 'Error', {
@@ -640,5 +645,28 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
     })
 
+  }
+
+  getClassType(statusId: number) {
+
+    let className;
+    switch (statusId) {
+      case  ApplicationStatusEnum.approved :
+        className = 'Approved';
+        break;
+      case ApplicationStatusEnum.Completed:
+        className = 'Completed';
+        break;
+      case ApplicationStatusEnum.Drafted:
+        className = 'drafted';
+        break;
+      case ApplicationStatusEnum.Pending:
+        className = 'Pending';
+        break;
+      case ApplicationStatusEnum.Submitted:
+        className = 'Submitted';
+        break;
+    }
+    return className;
   }
 }

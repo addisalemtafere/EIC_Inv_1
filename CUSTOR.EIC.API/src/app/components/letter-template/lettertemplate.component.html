@@ -28,16 +28,16 @@
       </div>
       <div fxFlex="75" fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em" style="padding: 10px;"
            fxFill="100">
-        <editor id="letterContent"
-                apiKey="4yzxfc219romk1dtk7h8c9q8zci4aj73ls684uxob669uvo4"
-                class="full-width"
-                formControlName="LetterContent"
-                [init]="{plugins: 'print',
-            height : 600,
-            theme: 'modern',
-toolbar_items_size: 'small'}">
-
-        </editor>
+        <!--<editor id="letterContent"-->
+                <!--apiKey="4yzxfc219romk1dtk7h8c9q8zci4aj73ls684uxob669uvo4"-->
+                <!--class="full-width"-->
+                <!--formControlName="LetterContent"-->
+                <!--[init]="{plugins: 'print',-->
+            <!--height : 600,-->
+            <!--theme: 'modern',-->
+<!--toolbar_items_size: 'small'}">-->
+        <!--</editor>-->
+        <!--<angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent"></angular-editor>-->
       </div>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
         <div class="block" fxFlex="10%">
@@ -51,6 +51,7 @@ toolbar_items_size: 'small'}">
     </mat-card-content>
 
   </form>
+  <!--<angular-editor id="editor1" formControlName="htmlContent1" [config]="editorConfig"></angular-editor>-->
 </mat-card>
 <!--*ngIf="LetterTemplateModels.length>0"-->
 <div fxLayout="row" fxLayoutGap="2em" class="row">

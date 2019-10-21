@@ -3,6 +3,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {ToastrModule} from 'ngx-toastr';
+import {CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import {FooterModule} from '@custor/components/shared/footer.component';
 import {LangSwitcherModule} from '@custor/components/shared/lang-switcher.component';
 import {LocalStoreManager} from '@custor/services/storeManager.service';
@@ -51,6 +52,7 @@ import {AppComponent} from './app.component';
 
 import {NgxUiLoaderConfig, NgxUiLoaderHttpModule, NgxUiLoaderModule, NgxUiLoaderRouterModule} from "ngx-ui-loader";
 import {NumberDirective} from "./directive/number.directive";
+// import {AngularEditorModule} from '@kolkov/angular-editor';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#04a162",
@@ -111,7 +113,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     LangSwitcherModule,
     FooterModule,
     // NotificationModule,
-
+    CKEditorModule,
+    // AngularEditorModule,
     SharedModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -170,6 +173,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // SubsectorService,
     // ActivityService,
     InvactivityService,
+
     // ProjectNationalityCompositionService,
     // SectorService,
     // RegionService,

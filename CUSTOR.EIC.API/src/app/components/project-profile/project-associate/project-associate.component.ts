@@ -200,6 +200,9 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
           this.getAssociateByProject();
           this.notification('saved');
           this.onClear();
+           this.dataSharing.steeperIndex.next(10);
+          setTimeout(() => this.dataSharing.steeperIndex.next(10), 0);
+          setTimeout(() => this.dataSharing.currentIndex.next(10), 0);
         });
     } else if (!$event.checked) {
       this.projectAssociateService.delete(data.projectAssociate.ProjectAssociateId)
@@ -207,6 +210,8 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
           this.getAssociateByProject();
           this.notification('deleted');
           this.onClear();
+          setTimeout(() => this.dataSharing.steeperIndex.next(9), 0);
+          setTimeout(() => this.dataSharing.currentIndex.next(9), 0);
         });
     }
     // console.log($event.target);

@@ -35,6 +35,8 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
     LandIndustrial: '',
     LandAgricultural: '',
     LandService: '',
+    LeaseLand: '',
+    RentalLand: '',
     Remark: '',
   };
 
@@ -65,7 +67,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    this.projectId = this.route.snapshot.params['ProjectId']
+    this.projectId = this.route.snapshot.params['ProjectId'];
 
     if (this.ServiceId === '1234') {
       this.getProjectStatus(this.route.snapshot.params['ProjectId']);
@@ -106,13 +108,12 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
         this.pRequirementService.update(this.getUtility(), this.rawInputId)
           .subscribe(result => {
             this.notification('update');
-            this.dataSharing.currentIndex.next(2);
-
+            // this.dataSharing.currentIndex.next(3);
+            setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+            setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
           }, error => this.toastr.error(this.errMsg.getError(error)));
       }
     } else {
-
-
       this.formErrors = this.formService.validateForm(this.pIOform, this.formErrors, false);
     }
   }

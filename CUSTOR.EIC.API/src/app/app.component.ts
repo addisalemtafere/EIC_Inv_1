@@ -27,6 +27,7 @@ import {IncentiveLogService} from './Services/incentive-log.service';
 import {ToastrService} from 'ngx-toastr';
 import {Permission} from './model/security/permission.model';
 import {NgxUiLoaderService} from "ngx-ui-loader";
+import {ServiceEnum} from "./enum/enums";
 // import {NgxUiLoaderService} from "ngx-ui-loader";
 
 // import { ToastrService } from 'ngx-toastr';
@@ -173,6 +174,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         if (this.authService.isLoggedIn) {
           this.getAllServices();
         }
+      //  alert(url.indexOf('dashboard'))
         if ((url.indexOf('dashboard') > 0)) {
 
           if (this.authService.isLoggedIn) {
@@ -208,6 +210,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
+   // alert(this.isInvestor);
 
   }
 
@@ -258,20 +261,23 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   public startService(serviceId: any, title: string) {
     localStorage.setItem('title', title);
+
     if (title == "databrowser" || title == "DataBrowser") {
       this.isTitle = 1;
     } else {
       this.isTitle = 0;
     }
     if (serviceId == 1235) {
+      console.log("i am here search browser 22");
+      if (serviceId == ServiceEnum.NewIP) {
+        this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
+      } else {
+        this.router.navigate(['search-browser/' + serviceId + '/' + 0 + '/' + 0 + '/' + this.isTitle]);
 
-      this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
-    } else {
-      this.router.navigate(['search-browser/' + serviceId + '/' + 0 + '/' + 0 + '/' + this.isTitle]);
-
+      }
     }
   }
-
+  
   clearLocalStorage() {
     localStorage.clear();
   }
@@ -379,7 +385,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   public goToHome() {
-    this.router.navigate(['/home'])
+    this.router.navigate(['/home']);
     this.authService.logout();
     setTimeout(() => this.isLoggedIn$ = observableOf(false));
 

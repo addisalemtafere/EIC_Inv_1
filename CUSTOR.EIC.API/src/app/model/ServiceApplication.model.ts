@@ -18,7 +18,7 @@ export class ServiceApplicationModel {
   public TodoTaskId: string;
   public CaseNumber: string;
   public StartDate: string;
-
+  public CurrentStep: number;
   public ServiceNameEnglish: string;
   public ServiceNameAmharic: string;
 
@@ -31,6 +31,7 @@ export class ServiceApplicationModel {
   public IsSelfService?: boolean;
   public IsApproved?: boolean;
   public EndDate: string;
+  public Remark: string;
   public IsActive?: any;
   public IsPaid?: boolean;
   public CreatedUserId?: any;

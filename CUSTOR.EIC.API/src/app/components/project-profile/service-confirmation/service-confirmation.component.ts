@@ -9,6 +9,9 @@ import {Lookup} from "../../../model/lookupData";
 import {ServiceApplicationModel} from "../../../model/ServiceApplication.model";
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import {NotificationComponent} from "../notification/notification.component";
+import {ApplicationStatusEnum} from "../../../enum/enums";
+import {ProjectAssociateService} from '../../../Services/project-associate.service';
+import {DataSharingService} from '../../../Services/data-sharing.service';
 
 @Component({
   selector: 'app-service-confirmation',
@@ -17,6 +20,7 @@ import {NotificationComponent} from "../notification/notification.component";
 })
 export class ServiceConfirmationComponent implements OnInit {
   public ServiceApplicationId: any;
+  public ProjectId: any;
   public confirm = true;
   lookup: Lookup;
   private ServiceApplication: ServiceApplicationModel;
@@ -29,13 +33,20 @@ export class ServiceConfirmationComponent implements OnInit {
               private errMsg: ErrorMessage,
               private toastr: ToastrService,
               public route: ActivatedRoute,
+              private dataSharing: DataSharingService,
+              private dataSharingService: DataSharingService,
+              private projectAssociateService: ProjectAssociateService
+
   ) {
     this.lookup = new Lookup();
   }
 
   ngOnInit() {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.ProjectId = this.route.snapshot.params['ProjectId'];
     this.getServiceApplication();
+    this.getProjectAssociate(this.ProjectId);
+    console.log(this.ProjectId);
   }
 
   submitApplication() {
@@ -46,12 +57,14 @@ export class ServiceConfirmationComponent implements OnInit {
         this.toastr.success('Application is submitted successfully.' +
           ' We will verify your application and submitted documents ' +
           'and notify you for any actions required');
+        this.router.navigate(['/dashboard']);
       });
 
   }
 
   Approve() {
-    this.lookup.Code = 44447;
+    // this.lookup.Code = 44447;
+    this.lookup.Code = ApplicationStatusEnum.approved;
     this.serviceApplicationsServices.changeApplicationStatus(this.lookup, this.ServiceApplicationId)
       .subscribe(result => {
         this.toast.success('Project approved successfully ', 'Success');
@@ -89,4 +102,17 @@ export class ServiceConfirmationComponent implements OnInit {
         this.ServiceApplication = result;
       })
   }
+
+   getProjectAssociate(ProjectId) {
+    this.projectAssociateService.associateProject(ProjectId).subscribe(r => {
+      if(r.length ==0){
+        this.toastr.warning('Please Select a manager for the project and submit the application' +
+          ' for approval!');
+        this.dataSharing.steeperIndex.next(9);
+        setTimeout(() => this.dataSharing.steeperIndex.next(9), 0);
+        setTimeout(() => this.dataSharing.currentIndex.next(9), 0);
+      }
+    });
+  }
+
 }

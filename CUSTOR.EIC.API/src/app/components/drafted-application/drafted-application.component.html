@@ -12,7 +12,7 @@
         <ng-container matColumnDef="No">
           <mat-header-cell [fxFlex]="10" *matHeaderCellDef>No</mat-header-cell>
           <mat-cell [fxFlex]="10" *matCellDef="let serviceApplicationList;let i=index;">
-            {{i+1}}
+            {{i + 1}}
           </mat-cell>
         </ng-container>
 
@@ -55,26 +55,26 @@
         <ng-container matColumnDef="currentStatus">
           <mat-header-cell *matHeaderCellDef>Current Status</mat-header-cell>
           <mat-cell *matCellDef="let serviceApplicationList">
-                     <span class=" common-button-status drafted"
-                           *ngIf="serviceApplicationList?.CurrentStatusId===44450">
-             Drafted
+                     <span [ngClass]="getClassType(serviceApplicationList?.CurrentStatusId)"
+                           class=" common-button-status ">
+              {{getClassType(serviceApplicationList?.CurrentStatusId)}}
                       </span>
-            <span class=" common-button-status Submitted"
-                  *ngIf="serviceApplicationList?.CurrentStatusId===44446">
-             Submitted
-                      </span>
-            <span class=" common-button-status Approved"
-                  *ngIf="serviceApplicationList?.CurrentStatusId===44447">
-            Approved
-                      </span>
-            <span class="common-button-status Pending"
-                  *ngIf="serviceApplicationList?.CurrentStatusId===44448">
-              Pending
-                      </span>
-            <span class=" common-button-status Completed"
-                  *ngIf="serviceApplicationList?.CurrentStatusId===44449">
-           Completed
-                      </span>
+            <!--            <span class=" common-button-status Submitted"-->
+            <!--                  *ngIf="serviceApplicationList?.CurrentStatusId===44446">-->
+            <!--             Submitted-->
+            <!--                      </span>-->
+            <!--            <span class=" common-button-status Approved"-->
+            <!--                  *ngIf="serviceApplicationList?.CurrentStatusId===44447">-->
+            <!--            Approved-->
+            <!--                      </span>-->
+            <!--            <span class="common-button-status Pending"-->
+            <!--                  *ngIf="serviceApplicationList?.CurrentStatusId===44448">-->
+            <!--              Pending-->
+            <!--                      </span>-->
+            <!--            <span class=" common-button-status Completed"-->
+            <!--                  *ngIf="serviceApplicationList?.CurrentStatusId===44449">-->
+            <!--           Completed-->
+            <!--                      </span>-->
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Action">

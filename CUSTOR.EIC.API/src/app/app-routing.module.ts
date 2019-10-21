@@ -237,6 +237,11 @@ import {AuthGuard} from '@custor/services/security/auth-guard.service';
         canActivate: [AuthGuard]
       },
       {
+        path: 'amendment',
+        loadChildren: 'app/components/amendment/amendment.module#AmendmentModule',
+        canActivate: [AuthGuard]
+      },
+      {
         path: 'archive-application',
         loadChildren: 'app/components/archive-application/archive-application.module#ArchiveApplicationModule',
         canActivate: [AuthGuard]

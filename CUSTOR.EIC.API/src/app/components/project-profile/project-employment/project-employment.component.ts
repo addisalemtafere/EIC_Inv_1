@@ -64,7 +64,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    this.projectId = this.route.snapshot.params['ProjectId']
+    this.projectId = this.route.snapshot.params['ProjectId'];
 
 
     if (this.ServiceId === '1234') {
@@ -102,6 +102,8 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
         this.employmentService.update(this.employmetForm.value, this.empId)
           .subscribe(result => {
             this.notification('updated');
+            setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
+            setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
           }, error => this.toastr.error(this.errMsg.getError(error)));
       }
     } else {

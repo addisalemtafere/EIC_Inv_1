@@ -89,9 +89,9 @@
 
       <div fxFlex="100">
 
-<!--        <div class="spinner-container">-->
-<!--          <mat-progress-bar mode="query"></mat-progress-bar>-->
-<!--        </div>-->
+        <!--        <div class="spinner-container">-->
+        <!--          <mat-progress-bar mode="query"></mat-progress-bar>-->
+        <!--        </div>-->
         <mat-table #table [dataSource]="dataSource">
 
           <ng-container fxFlex="8" matColumnDef="ServiceName">
@@ -135,36 +135,21 @@
           <ng-container fxFlex="8" matColumnDef="currentStatus">
             <mat-header-cell *matHeaderCellDef>Current Status</mat-header-cell>
             <mat-cell *matCellDef="let serviceApplicationList">
-                     <span class=" common-button-status drafted"
-                           *ngIf="serviceApplicationList?.CurrentStatusId===44450">
-             Drafted
-                      </span>
-              <span class=" common-button-status Submitted"
-                    *ngIf="serviceApplicationList?.CurrentStatusId===44446">
-             Submitted
-                      </span>
-              <span class=" common-button-status Approved"
-                    *ngIf="serviceApplicationList?.CurrentStatusId===44447">
-            Approved
-                      </span>
-              <span class="common-button-status Pending"
-                    *ngIf="serviceApplicationList?.CurrentStatusId===44448">
-              Pending
-                      </span>
-              <span class=" common-button-status Completed"
-                    *ngIf="serviceApplicationList?.CurrentStatusId===44449">
-           Completed
-                      </span>
+                     <span [ngClass]="getClassType(serviceApplicationList?.CurrentStatusId)"
+                           class=" common-button-status ">
+                   {{getClassType(serviceApplicationList?.CurrentStatusId)}}
+                     </span>
+
             </mat-cell>
           </ng-container>
 
-          <ng-container fxFlex="8" matColumnDef="NextStep">
+          <ng-container fxFlex="8" matColumnDef="NextStep" >
             <mat-header-cell fxFlex="10" *matHeaderCellDef>Next Step</mat-header-cell>
             <mat-cell fxFlex="10" *matCellDef="let serviceApplicationList;">
 
-    <span *ngIf="!serviceApplicationList.IsApproved">
+<span *ngIf="serviceApplicationList?.CurrentStatusId !== applicationS.approved" >
      <a class="pointer custom-button2" style=""
-        *ngIf="serviceApplicationList?.CurrentStatusId===44450 && serviceApplicationList.IsSelfService==false"
+        *ngIf="serviceApplicationList?.CurrentStatusId===applicationS.Drafted && serviceApplicationList.IsSelfService==false"
         (click)="nextStep(serviceApplicationList?.ServiceWorkflow[0]?.NextStepId,
             serviceApplicationList.ProjectId,
             serviceApplicationList.ServiceApplicationId,
@@ -179,7 +164,8 @@
        {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId }}
               </a>
               <a class="pointer custom-button2" style=""
-                 *ngIf="serviceApplicationList?.CurrentStatusId!==44450 && serviceApplicationList?.CurrentStatusId!==44449 && serviceApplicationList.IsSelfService==true"
+                 *ngIf="serviceApplicationList?.CurrentStatusId!==applicationS.Drafted && serviceApplicationList?.CurrentStatusId!==applicationS.Completed
+                  && serviceApplicationList.IsSelfService==true"
                  (click)="nextStep(18,
             serviceApplicationList.ProjectId,
             serviceApplicationList.ServiceApplicationId,
@@ -196,7 +182,7 @@
               <span *ngIf="serviceApplicationList.IsApproved">
 
               <a class="pointer custom-button2" style=""
-                 *ngIf="serviceApplicationList?.CurrentStatusId!==44450 && serviceApplicationList?.CurrentStatusId!==44449 && serviceApplicationList.IsSelfService==true"
+                 *ngIf="serviceApplicationList?.CurrentStatusId!==applicationS.Drafted && serviceApplicationList?.CurrentStatusId!==applicationS.Completed && serviceApplicationList.IsSelfService==true"
                  (click)="nextStep(18,
             serviceApplicationList.ProjectId,
             serviceApplicationList.ServiceApplicationId,
@@ -217,18 +203,19 @@
           <ng-container fxFlex="20" matColumnDef="Action">
             <mat-header-cell fxFlex="20" *matHeaderCellDef>Action</mat-header-cell>
             <mat-cell fxFlex="20" *matCellDef="let serviceApplicationList; let i=index">
-              <div *ngIf="serviceApplicationList.IsApproved">
-
-              </div>
-              <span *ngIf="canViewTasks || canManageManageIncentiveAssignedServices">
+              <div *ngIf="serviceApplicationList?.CurrentStatusId === applicationS.approved ||
+                    serviceApplicationList?.CurrentStatusId === applicationS.Completed">
+                <span *ngIf="canViewTasks || canManageManageIncentiveAssignedServices">
 
                   <a class=" pointer a-link" color="accent"
                      matTooltip="Click here for detail of the project"
                      (click)="projectApprove(serviceApplicationList )">
                     <!--<mat-icon color="primary" class="mat-18">settings</mat-icon>-->
-                    <span class="">Go</span>
+                    <span class="">Response</span>
                   </a>
                 </span>
+              </div>
+
               <span *ngIf="canManageTask">
                    <a class=" pointer" color="accent" matTooltip="Click Here for Management"
                       (click)="assignUser(serviceApplicationList?.ServiceApplicationId)">

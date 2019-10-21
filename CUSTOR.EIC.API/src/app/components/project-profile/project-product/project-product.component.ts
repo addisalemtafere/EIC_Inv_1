@@ -14,6 +14,7 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {ProjectStatusModel, QuarterModel, UnitType} from '../../../model/lookupData';
 import {ProjectStatus, Quarter, UnitTypes} from '@custor/const/consts';
+import {ServiceEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-project-product',
@@ -32,12 +33,12 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
   ];
   subscription: Subscription;
   formErrors = {
-    ProductName: '',
-    ProductQty: '',
-    ProductUnit: '',
+    ProductName: 'Enter the Product/Service name please!',
+    ProductQty: 'Product quantity should be greater than zero!',
+    ProductUnit: 'Product unit is required!',
     // ProductValue: '',
-    DomesticMarketShare: '',
-    ExportMarketShare: '',
+    DomesticMarketShare: 'Value should be <=100 and >=0!',
+    ExportMarketShare: 'Value should be <=100 and >=0!',
     Remark: '',
     Quarter: '',
     RegistrationYear: ''
@@ -81,7 +82,8 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
 
-    if (this.ServiceId === '1234') {
+    // if (this.ServiceId === '1234') {
+    if (+this.ServiceId == ServiceEnum.AfterCare) {
       this.getProjectStatus(this.projectId);
     }
 
@@ -151,7 +153,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
       ProjectOutputId: new FormControl(''),
       workFlowId: new FormControl(this.workFlowId),
       ProductName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-      ProductQty: new FormControl(0, [Validators.required, Validators.min(0)]),
+      ProductQty: new FormControl(0, [Validators.required, Validators.min(1)]),
       ProductUnit: new FormControl('', [Validators.required]),
       // ProductValue: new FormControl(0, [Validators.required, Validators.min(0)]),
       Quarter: [''],

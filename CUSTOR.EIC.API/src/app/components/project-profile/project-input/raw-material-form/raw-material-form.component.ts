@@ -38,7 +38,9 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
-
+  public formErrors = {
+    RawMaterialType: 'Minimum 2 Maximum 100 characters!',
+  }
   constructor(private formBuilder: FormBuilder,
               private errMsg: ErrorMessage,
               public route: ActivatedRoute,
@@ -95,7 +97,7 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
     this.pRawMaterialForm = this.formBuilder.group({
       ProjectInputId: new FormControl(''),
       ProjectId: new FormControl(this.projectId),
-      RawMaterialType: new FormControl('', [Validators.required]),
+      RawMaterialType: new FormControl('', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])),
       IsForeign: new FormControl('', [Validators.required]),
       Remark: new FormControl('', [Validators.minLength(2)]),
       Quarter: [''],

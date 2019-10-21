@@ -161,7 +161,7 @@ export class ListActivityComponent implements OnInit, AfterViewInit {
     this.subSectorId = SubSecId;
     this.subActivityService.getActivityByParent(SubSecId)
       .subscribe(result => {
-        console.log(result)
+        console.log(result);
         this.dataSource.data = result;
       });
     // this.filltersActivityModels = null;

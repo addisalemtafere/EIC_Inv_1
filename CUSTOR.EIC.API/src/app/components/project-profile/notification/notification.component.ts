@@ -7,8 +7,9 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {ServiceService} from '../../../Services/service.service';
 import {ServiceModel} from '../../../model/Service.model';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {ApplicationStatusEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-notification',
@@ -24,6 +25,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked, After
   private ServiceApplicationId: any;
   templateMessage = 'Message';
   private allServices: ServiceModel[];
+  public applicationStatusEnum = ApplicationStatusEnum;
 
   constructor(
     public accountService: AccountService,
@@ -31,6 +33,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked, After
     public fb: FormBuilder,
     public toast: ToastrService,
     public route: ActivatedRoute,
+    public router: Router,
     private serviceService: ServiceService,
     private dialogRef: MatDialogRef<NotificationComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -54,6 +57,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked, After
   getServiceApplication(id: any) {
     this.serviceApplicationService.getServiceApplicationWithInvestor(id)
       .subscribe((result: ServiceApplicationModel) => {
+        console.log(result);
         this.investorName = result.Investor.InvestorNameEng;
         // this.ServiceApplicationId = result.ServiceApplicationId;
         this.UserId = result.Investor.UserId;
@@ -94,7 +98,9 @@ export class NotificationComponent implements OnInit, AfterContentChecked, After
     this.notificationService.create(this.notificationForm.value)
       .subscribe(result => {
         // console.log(result);
+        // this.router.navigate(['/officer/' + serviceId + '/' + investorId + '/' + id + '/' + workFlowId + '/' + projectId]);
         this.toast.success('message has been sent', 'Message');
+        this.router.navigate(['/officer-dashboard']);
       });
   }
 

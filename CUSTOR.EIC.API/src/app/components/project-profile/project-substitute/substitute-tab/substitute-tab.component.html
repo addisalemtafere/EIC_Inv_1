@@ -13,7 +13,7 @@
 
   </div>
 </div>
-<mat-tab-group [selectedIndex]="renewalIndex">
+<mat-tab-group #stepper>
 
   <mat-tab label="Service Info">
     <ng-template matTabContent>
@@ -55,7 +55,7 @@
       <app-certificate></app-certificate>
     </ng-template>
   </mat-tab>
-  <mat-tab *ngIf="isInvestor" label="Confirmation">
+  <mat-tab *ngIf="isInvestor" label="Confirmation" [disabled]="nextIndex<3">
     <ng-template matTabContent>
       <app-service-confirmation></app-service-confirmation>
     </ng-template>

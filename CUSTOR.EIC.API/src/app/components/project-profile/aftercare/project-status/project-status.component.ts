@@ -28,7 +28,7 @@ export class ProjectStatusComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    this.projectId = this.route.snapshot.params['ProjectId']
+    this.projectId = this.route.snapshot.params['ProjectId'];
     this.formBuild();
     this.initStaticData('en');
   }

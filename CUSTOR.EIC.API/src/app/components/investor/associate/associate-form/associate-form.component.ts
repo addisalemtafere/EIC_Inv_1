@@ -2,7 +2,14 @@ import {AfterContentChecked, AfterViewInit, Component, Input, OnDestroy, OnInit,
 import {AddressModel} from '../../../../model/address/Address.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_REGEX, GENDERS, LEGAL_STATUS} from '../../../../const/consts';
+import {
+  ALPHABET_REGEX,
+  ALPHABET_WITHSPACE_REGEX, ALPHABET_WITHSPACEANDNUMBER_REGEX,
+  ET_ALPHABET_REGEX,
+  ET_ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_WITHSPACEANDNUMBER_REGEX,
+  GENDERS,
+  LEGAL_STATUS, NUMERIC_REGEX
+} from '../../../../const/consts';
 import {KebeleModel} from '../../../../model/address/Kebele.model';
 import {Permission} from '../../../../model/security/permission.model';
 import {RegionModel} from '../../../../model/address/Region.model';
@@ -129,6 +136,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.getUserType();
     this.initStaticData(this.currentLang);
     this.fillAddressLookups();
+    this.formControlValueChanged();
     this.imgBase64 = '';
     if (id < 1 || this.assoId < 1) {
       this.isNewInvestor = true;
@@ -255,7 +263,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   private getAllNations() {
     this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
-        console.log(result)
+        console.log(result);
         this.nationList = result;
       });
   }
@@ -313,14 +321,14 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       cFatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
       cGrandNameEng: ['', Validators.pattern(ALPHABET_WITHSPACE_REGEX)],
-      cFirstName: ['', Validators.compose([Validators.required, Validators.minLength(1),
+      cFirstName: ['', Validators.compose([Validators.minLength(1),
         Validators.pattern(ET_ALPHABET_REGEX)])],
       cFatherName: ['', Validators.compose([Validators.required, Validators.minLength(1),
-        Validators.pattern(ET_ALPHABET_REGEX)])],
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])],
       cGrandName: ['', Validators.pattern(ET_ALPHABET_REGEX)],
       cNationality: [''], // Ethiopian
       cGender: ['1'],
-      Title: [''],
+      Title: ['100'],
       workFlowId: this.workFlowId,
       Origin: [false],
       'address': new FormGroup({
@@ -415,7 +423,8 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     return this.associateService.create(this.getEditedInvestor())
       .subscribe((associate: AssociateDTO) => {
           this.saveCompleted(associate);
-          localStorage.setItem('profile-completed', 'true')
+          localStorage.setItem('profile-completed', 'true');
+          this.toastr.show('success');
         },
         err => this.handleError(err)
       );
@@ -429,7 +438,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.loadingIndicator = false;
     this.toastr.success('Record saved successfully!');
     this.dataSharing.investorTabSelectedIndex.next(2);
-    //this.router.navigate(['/associate/list']);
+    this.router.navigate(['/associate/list']);
     setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
   }
@@ -623,7 +632,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   get phoneDirect() {
-    return this.associateForm.get('PhoneDirect');
+    return this.associateForm.get('TeleNo');
   }
 
   get CellPhoneNo() {
@@ -757,5 +766,52 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
 // =====================
 
+  formControlValueChanged() {
+    this.firstName.setValidators([Validators.compose([Validators.minLength(2),
+      Validators.pattern(ET_ALPHABET_REGEX)])]);
+    if (!this.isInvestor) {
+      this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
+    }
+    this.fatherName.setValidators([Validators.compose([Validators.minLength(2),
+      Validators.pattern(ET_ALPHABET_REGEX)])]);
+    if (!this.isInvestor) {
+      this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
+    }
+    this.grandName.setValidators([Validators.compose([Validators.minLength(2),
+      Validators.pattern(ET_ALPHABET_REGEX)])]);
+    if (!this.isInvestor) {
+      this.grandName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
+    }
+    this.woredaEng.setValidators([Validators.compose([Validators.maxLength(20),
+      Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    if (!this.isInvestor) {
+      this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
+        Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    }
+    this.woreda.setValidators([Validators.compose([Validators.maxLength(20),
+      Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    if (!this.isInvestor) {
+      this.woreda.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
+        Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    }
+    this.kebeleEng.setValidators([Validators.compose([Validators.maxLength(20),
+      Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    if (!this.isInvestor) {
+      this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
+        Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    }
+    this.kebele.setValidators([Validators.compose([Validators.maxLength(20),
+      Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    if (!this.isInvestor) {
+      this.kebele.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
+        Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    }
+    this.nationality.setValidators([Validators.required]);
+    // this.phoneDirect.setValidators([Validators.compose([Validators.maxLength(10)])]);
+    // this.CellPhoneNo.setValidators([Validators.compose([Validators.required])]);
+  }
 }
 

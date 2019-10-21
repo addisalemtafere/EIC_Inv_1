@@ -13,6 +13,8 @@ import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs/index';
 import {LettertepmlateService} from './lettertepmlate.service';
 import {ConfigurationService} from "@custor/services/configuration.service";
+// import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-lettertemplate',
@@ -21,6 +23,47 @@ import {ConfigurationService} from "@custor/services/configuration.service";
   providers:[ConfigurationService]
 })
 export class LettertemplateComponent implements OnInit, OnDestroy {
+  // public Editor = ClassicEditor;
+  // editorConfig: AngularEditorConfig = {
+  //   editable: true,
+  //   spellcheck: true,
+  //   height: 'auto',
+  //   minHeight: '0',
+  //   maxHeight: 'auto',
+  //   width: 'auto',
+  //   minWidth: '0',
+  //   translate: 'yes',
+  //   enableToolbar: true,
+  //   showToolbar: true,
+  //   placeholder: 'Enter text here...',
+  //   defaultParagraphSeparator: '',
+  //   defaultFontName: '',
+  //   defaultFontSize: '',
+  //   fonts: [
+  //     {class: 'arial', name: 'Arial'},
+  //     {class: 'times-new-roman', name: 'Times New Roman'},
+  //     {class: 'calibri', name: 'Calibri'},
+  //     {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+  //   ],
+  //   customClasses: [
+  //     {
+  //       name: 'quote',
+  //       class: 'quote',
+  //     },
+  //     {
+  //       name: 'redText',
+  //       class: 'redText'
+  //     },
+  //     {
+  //       name: 'titleText',
+  //       class: 'titleText',
+  //       tag: 'h1',
+  //     },
+  //   ],
+  //   uploadUrl: 'v1/image',
+  //   sanitize: true,
+  //   toolbarPosition: 'top',
+  // };
   @ViewChild('form')
   incentiveRequestItemSub: Subscription;
   lookupSub: Subscription;
@@ -132,7 +175,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     this.editMode = true;
     this.letterTemplateItemtEditIndex = index;
     this.LetterTemplateModel = this.LetterTemplateModels[index];
-    console.log(this.LetterTemplateModel)
+    console.log(this.LetterTemplateModel);
     this.letterTemplateForm.patchValue(
       this.LetterTemplateModel
     );

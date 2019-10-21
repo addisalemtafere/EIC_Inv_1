@@ -64,7 +64,7 @@ export class FollowupComponent implements OnInit {
       });
   }
   addfollowup() {
-    console.log("add clicked")
+    console.log("add clicked");
     this.router.navigate(['/followupform']);
     localStorage.setItem('followupId','');
 
@@ -74,7 +74,7 @@ export class FollowupComponent implements OnInit {
 
   editFollowup(followupp:FollowUpModel)
   {
-    console.log("edit invoked!")
+    console.log("edit invoked!");
     localStorage.setItem('followupId',followupp.Id);
      this.router.navigate(['followupform'])
 

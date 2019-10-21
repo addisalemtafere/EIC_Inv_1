@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
+using CUSTOR.EICOnline.API.ViewModels.enums;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using EIC.Investment.API.ViewModels.Dto;
@@ -218,7 +219,7 @@ namespace EIC.Investment.API.Controllers
         serviceApplication.InvestorId = project.InvestorId;
         serviceApplication.CaseNumber = perminumber;
         serviceApplication.ServiceId = project.ServiceId;
-        serviceApplication.CurrentStatusId = 44450;
+        serviceApplication.CurrentStatusId = (int) ApplicationStatus.Drafted;
         serviceApplication.IsSelfService = true;
         serviceApplication.StartDate = DateTime.Now;
         //serviceApplication.StartTime = DateTime.Now.ToLongTimeString();
@@ -242,7 +243,7 @@ namespace EIC.Investment.API.Controllers
           FromStatusId = 3,
           ToStatusId = 5,
           PerformedByRoleId = 1,
-          NextStepId = 13,
+          NextStepId = (int) ServiceEnum.NewIP,
           GenerateEmail = true,
           GenerateLetter = true,
           IsDocumentRequired = true,
@@ -268,7 +269,8 @@ namespace EIC.Investment.API.Controllers
             CreatedUserName = editedProject.CreatedUserName,
             IsActive = true
           };
-          serviceApplication.CurrentStatusId = 44446;
+//          serviceApplication.CurrentStatusId = 44446;
+          serviceApplication.CurrentStatusId = (int) ApplicationStatus.Submitted;
           serviceApplication.IsSelfService = false;
 
           squence.LastSquence = lastSe;
@@ -294,7 +296,6 @@ namespace EIC.Investment.API.Controllers
       }
 
       return Ok(editedProject);
-
     }
 
     // DELETE: api/Projects/5

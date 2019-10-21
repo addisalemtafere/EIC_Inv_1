@@ -46,9 +46,11 @@
       <td>
         <!--<span class="error" *ngIf="todo.CurrentStatusId===44450">Drafted</span>-->
         <!--<span class="error" *ngIf="todo.CurrentStatusId===44446">Submitted</span>-->
-        <span class="common-button-status  Approved" *ngIf="todo.CurrentStatusId===44447">Approved</span>
-        <span class="common-button-status btn-com Pending" *ngIf="todo.CurrentStatusId===44448">Pending</span>
-        <span class="common-button-status btn-com Completed" *ngIf="todo.CurrentStatusId===44449">Complete </span>
+        <span [ngClass]="getClassType(todo.CurrentStatusId)"  class="common-button-status ">
+          {{getClassType(todo.CurrentStatusId)}}
+        </span>
+<!--        <span class="common-button-status btn-com Pending" *ngIf="todo.CurrentStatusId===44448">Pending</span>-->
+        <!--        <span class="common-button-status btn-com Completed" *ngIf="todo.CurrentStatusId===44449">Complete </span>-->
         <span class="common-button-status btn-com Submitted" *ngIf="todo.CurrentStatusId===0">Waiting</span>
       </td>
       <td>{{todo.EndDate | date}}</td>

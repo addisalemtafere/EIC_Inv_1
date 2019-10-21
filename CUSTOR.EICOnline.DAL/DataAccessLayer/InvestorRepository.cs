@@ -62,10 +62,9 @@ namespace CUSTOR.EICOnline.DAL
             bool isUpdate = (postedInvestor.InvestorId > 0);
             Investor inv = InvestorHelper.GetInvestor(postedInvestor);
 
-            inv.UserId = appUser.Id; //redundent
-
-            Context.CurrentUserId = appUser.Id;
-            Context.CurrentUserName = appUser.FullName;
+            //inv.UserId = appUser.Id; //redundent
+            //Context.CurrentUserId = appUser.Id;
+            //Context.CurrentUserName = appUser.FullName;
 
             try
             {

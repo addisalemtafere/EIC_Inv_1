@@ -40,7 +40,7 @@ export class Investor {
   PaidCapital = null;
   SighnedCapital = null;
 
-  UserId: string = null;
+  UserId?: string = null;
   IsExistingCustomer: boolean;
   // SiteCode: string = null;
   IsActive = true;

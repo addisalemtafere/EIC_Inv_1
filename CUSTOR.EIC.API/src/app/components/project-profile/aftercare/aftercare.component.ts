@@ -9,6 +9,7 @@ import {ErrorMessage} from '@custor/services/errMessageService';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {BaseComponent} from '../../base-components/base.component';
 import {ToastrService} from 'ngx-toastr';
+import {ServiceEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-aftercare',
@@ -41,7 +42,7 @@ export class AftercareComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.ProjectId = this.route.snapshot.params['ProjectId'];
-    console.log(this.ProjectId)
+    console.log(this.ProjectId);
     this.getSteps();
     // this.getAllProject();
     this.title = localStorage.getItem('title');
@@ -68,55 +69,54 @@ export class AftercareComponent extends BaseComponent implements OnInit {
           stepIndex = 1;
           setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
           // this.router.navigate(['/pro', 0]);
-          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + 1234 + '/' + 0 + '/' + 0]);
+          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + ServiceEnum.AfterCare + '/' + 0 + '/' + 0]);
 
           break;
         case 9:
           stepIndex = 3;
-          this.router.navigate(['/project-cost/' + this.ProjectId + '/' + 1234 + '/' + 0]);
+          this.router.navigate(['/project-cost/' + this.ProjectId + '/' + ServiceEnum.AfterCare + '/' + 0]);
 
           break;
         case 10:
           stepIndex = 4;
-          this.router.navigate(['/employment/' + this.ProjectId + '/' + 1234 + '/' + 0]);
+          this.router.navigate(['/employment/' + this.ProjectId + '/' + ServiceEnum.AfterCare + '/' + 0]);
 
           break;
         case 11:
           stepIndex = 2;
           setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
           // this.router.navigate(['/pro', 0]);
-          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + 1234 + '/' + 0 + '/' + 0]);
+          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + ServiceEnum.AfterCare + '/' + 0 + '/' + 0]);
 
           break;
         case 12:
           stepIndex = 6;
-          this.router.navigate(['/product/' + this.ProjectId + '/' + 1234 + '/' + 0]);
+          this.router.navigate(['/product/' + this.ProjectId + '/' + ServiceEnum.AfterCare + '/' + 0]);
 
           break;
         case 13:
           stepIndex = 3;
           setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
           // this.router.navigate(['/pro', 0]);
-          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + 1234 + '/' + 0 + '/' + 0]);
+          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + ServiceEnum.AfterCare + '/' + 0 + '/' + 0]);
 
           break;
         case 14:
           stepIndex = 5;
-          this.router.navigate(['/share/' + this.ProjectId + '/' + 1234 + '/' + 0]);
+          this.router.navigate(['/share/' + this.ProjectId + '/' + ServiceEnum.AfterCare + '/' + 0]);
 
           break;
         case 18:
           stepIndex = 7;
           setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
           // this.router.navigate(['/pro', 0]);
-          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + 1234 + '/' + 0 + '/' + 0]);
+          this.router.navigate(['pro/' + this.ProjectId + '/' + 0 + '/' + ServiceEnum.AfterCare + '/' + 0 + '/' + 0]);
 
           break;
       }
 
     }
   }
-
 
 
   view(name: any, step: any) {

@@ -25,6 +25,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public int? ProjectId { get; set; }
         public int InvestorId { get; set; }
         public int? ServiceId { get; set; }
+        public int? CurrentStep { get; set; }
         public int? TodoTaskId { get; set; }
         public string CaseNumber { get; set; }
         public string ServiceNameEnglish { get; set; }

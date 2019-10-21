@@ -33,7 +33,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     'No', 'Description', 'HsCode', 'Quantity', 'MesurmentUnit', 'Balance'
   ];
   displayedGroupedColumns = [
-    'No', 'IncentiveCategory', 'UploadDate', 'UploadQuantity', 'strPhase', 'Action'
+    'No', 'IncentiveCategory', 'UploadDate', 'UploadQuantity', 'Phase', 'Action'
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   errors: Array<string> = [];
@@ -199,15 +199,14 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, this.currentLang)
       .subscribe(result => {
-        this.itemList = result;
-        console.log(result)
+        //this.itemList = result;
+        console.log(result);
         if (this.itemList.length > 0) {
           this.showDetail = true;
           this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
           this.loading = false;
           this.dataSource.paginator = this.paginator;
         } else {
-          this.dataSource = null;
           this.showDetail = false;
         }
 

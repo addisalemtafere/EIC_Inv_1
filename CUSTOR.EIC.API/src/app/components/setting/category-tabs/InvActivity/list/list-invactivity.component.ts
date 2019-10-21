@@ -181,7 +181,7 @@ export class ListInvactivityComponent implements OnInit, AfterViewInit {
     this.activityId = activityId;
     this.subInActivityService.getInvActivityByParent(activityId)
       .subscribe(result => {
-        console.log(result)
+        console.log(result);
         this.dataSource.data = result;
       });
 

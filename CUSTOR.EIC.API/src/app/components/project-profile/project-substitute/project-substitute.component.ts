@@ -80,12 +80,14 @@ export class ProjectSubstituteComponent implements OnInit, AfterContentChecked {
   }
 
   onSubmit() {
-console.log('Submitted!')
+console.log('Submitted!');
     this.substituteService.create(this.projectsubstituteForm.value)
       .subscribe(result => {
         this.dataSharing.renewalIndex.next(2);
         if(this.isInvestor){
-          this.toast.success('Request for substitute  has been sent', 'success!!');
+          this.toast.success('Request for substitute  has been saved.', 'success!!');
+          setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+          setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
         }
         else{
           this.toast.success('Request for substitute  has been Approved', 'success!!');
