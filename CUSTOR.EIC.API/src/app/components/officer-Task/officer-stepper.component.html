@@ -18,20 +18,20 @@
       <!--<app-service-info></app-service-info>-->
     <!--</ng-template>-->
   <!--</mat-tab>-->
-  <!--<mat-tab label="View Document">-->
-    <!--<ng-template matTabContent>-->
-      <!--<mat-card class="margin-2 simple-card">-->
-        <!--<mat-card-header>-->
-          <!--<mat-card-subtitle class="sub-title"></mat-card-subtitle>-->
-          <!--<button class="margin-10 certificate-title" mat-raised-button=""-->
-                  <!--(click)="addMessage()" color="primary">-->
-            <!--Add Message-->
-          <!--</button>-->
-        <!--</mat-card-header>-->
-      <!--</mat-card>-->
-      <!--<app-service-prerequisite></app-service-prerequisite>-->
-    <!--</ng-template>-->
-  <!--</mat-tab>-->
+  <mat-tab label="View Document">
+    <ng-template matTabContent>
+      <mat-card class="margin-2 simple-card">
+        <mat-card-header>
+          <mat-card-subtitle class="sub-title"></mat-card-subtitle>
+          <button class="margin-10 certificate-title" mat-raised-button=""
+                  (click)="addMessage()" color="primary">
+            Add Message
+          </button>
+        </mat-card-header>
+      </mat-card>
+      <app-service-prerequisite></app-service-prerequisite>
+    </ng-template>
+  </mat-tab>
   <mat-tab label="Payment">
     <ng-template matTabContent>
       <app-payment></app-payment>

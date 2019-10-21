@@ -39,12 +39,11 @@
           <mat-form-field>
             <input placeholder="Ending Date * (dd/mm/yyyy):"
                    matInput
-
                    formControlName="EndingDate"
                    [matDatepicker]="terminationDate">
             <mat-datepicker-toggle matSuffix [for]="terminationDate"></mat-datepicker-toggle>
             <mat-datepicker #terminationDate></mat-datepicker>
-            <mat-error align="start" *ngIf="formErrors.EndingDate">{{ formErrors.EndingDate }}</mat-error>
+            <!--<mat-error align="start" *ngIf="formErrors.EndingDate">{{ formErrors.EndingDate }}</mat-error>-->
           </mat-form-field>
         </div>
         <div class="blocks" fxFlex>
@@ -71,6 +70,14 @@
             </mat-select>
             <mat-error align="start" *ngIf="formErrors.ProjectStage">{{ formErrors.ProjectStage }}</mat-error>
           </mat-form-field>
+        </div>
+        <div class="blocks" fxFlex  *ngIf="!validateStart">
+          <span style="color: red">End Date should be Greater than start date!
+          </span>
+        </div>
+        <div class="blocks" fxFlex *ngIf="!validateOperation">
+          <span style="color: red">Operation Date should be Greater than start date and Less than
+            End Date! </span>
         </div>
       </div>
 
