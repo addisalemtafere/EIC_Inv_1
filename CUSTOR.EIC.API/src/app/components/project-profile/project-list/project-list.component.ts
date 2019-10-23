@@ -302,6 +302,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     const id = serviceApplicationId;
     const investorId = InvestorId;
     let stepIndex;
+    console.log(step);
     switch (step) {
       case 8:
         stepIndex = 1;

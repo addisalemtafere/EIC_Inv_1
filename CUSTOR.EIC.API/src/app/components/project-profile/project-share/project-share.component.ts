@@ -102,6 +102,8 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
           .subscribe(result => {
             if (this.nationalityCompositionData.length < 1) {
               setTimeout(() => this.dataSharing.currentIndex.next(7), 0);
+            } else {
+              setTimeout(() => this.dataSharing.currentIndex.next(8), 0);
             }
             this.projectShareForm.addControl('ProjectNationalityCompositionId', new FormControl(''));
             this.nationalityCompositionData.push(result);
@@ -215,7 +217,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   private getInvestorType() {
-    this.invService.getInvestor(localStorage.getItem('InvestorId'))
+    this.invService.getInvestor(this.InvestorId)
       .subscribe((result: Investor) => {
         this.InvestorDetial = result;
         if (result.LegalStatus === 1) {

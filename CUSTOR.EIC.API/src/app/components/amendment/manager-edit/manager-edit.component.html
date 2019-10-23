@@ -17,7 +17,7 @@
             <div fxFlex.lt-md="100">
               <div id="divPhoto"
                 style="width: 150px; height: 150px; border:1px dotted gray; margin-top: 20px; margin-bottom:15%;">
-                <img alt="" [src]='viewImgPhoto' style="height: 150px;width: 150px;" />
+                <!--<img alt="" [src]='viewImgPhoto' style="height: 150px;width: 150px;" />-->
                 <input type="Viewfile" name="Viewfile" id="Viewfile" class="inputfile" #input />
               </div>
             </div>
@@ -167,15 +167,13 @@
       
       </div>
 
-<!--  -->
-
 <div fxFlex="50" style="padding:10px 20px">
   <form class="mt-2" [formGroup]="managerForm" novalidate fxLayout="column" autocomplete="off">
      <div fxLayout="row wrap" fxLayoutAlign="" fxLayoutGap="1em" style="margin:auto">
       <div fxFlex.lt-md="100">
          <div id="divPhoto"
           style="width: 150px; height: 150px; border:1px dotted gray; margin-top: 20px; margin-bottom:1%;">
-          <img alt="" [src]='imgPhoto' style="height: 150px;width: 150px;" />
+          <!--<img alt="" [src]='imgPhoto' style="height: 150px;width: 150px;" />-->
           <input type="file" name="file" id="file" class="inputfile" (change)="fileChange(input)" #input />
 
         </div>
@@ -375,10 +373,10 @@
     </div>
     <div fxLayout="row wrap" fxLayoutAlign="" fxLayoutGap="1em">
       <mat-form-field fxFlex>
-
+        <!--(selectionChange)="filterWoreda($event.value)-->
         <mat-label>{{'investors.editor.Woreda' | translate}}</mat-label>
-        <mat-select formControlName="Woreda" required (selectionChange)="filterWoreda($event.value)"
-          [compareWith]="compareIds">
+        <mat-select formControlName="Woreda" required 
+                    [compareWith]="compareIds">
 
           <mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">
             <span>{{w.Description}}</span>

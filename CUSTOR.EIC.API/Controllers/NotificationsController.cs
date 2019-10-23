@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -144,7 +144,10 @@ namespace CUSTOR.EICOnline.API.Controllers
       {
 //        serviceApplication.IsApproved = true; //Todo
       }
-
+      if ((int)ApplicationStatus.Pending == Convert.ToInt32(notification.CurrentStatus))
+      {
+        serviceApplication.CurrentStatusId = (int)ApplicationStatus.Drafted;
+      }
       _context.Entry(serviceApplication).State = EntityState.Modified;
 
       _context.Notifications.Add(edtitedNotification);

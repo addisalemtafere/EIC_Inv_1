@@ -83,7 +83,7 @@ namespace CUSTOR.EICOnline.API.Controllers
             if (!string.IsNullOrEmpty(associateDTO.PhotoData))
             {
                 // Create photo file
-                var photoPath = Path.Combine(host.WebRootPath, "photo");
+                var photoPath = Path.Combine(host.WebRootPath, "Photo");
                 if (!Directory.Exists(photoPath))
                     Directory.CreateDirectory(photoPath);
                 var fileName = "Mgr" + mgr.AssociateId.ToString() + ".jpg"; //put "Mgr" as constant in config file
