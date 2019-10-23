@@ -1,17 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using CUSTOR.EICOnline.API.ViewModels.Bussiness;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness;
 using CUSTOR.EICOnline.DAL.EntityLayer;
-using CUSTOR.EICOnline.DAL.EntityLayer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CUSTOR.EICOnline.API.Controllers.Bussiness
 {
-    [Produces("application/json")]
+  [Produces("application/json")]
     [Route("api/BusinessBranch")]
     public class BusinessBranchController : Controller
     {

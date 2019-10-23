@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,13 +71,26 @@ namespace EIC.Investment.API.Controllers
       return serviceApplication;
     }
 
+    [HttpGet("ServiceApplicationWithProjectId/{id}/{invId}/{serviceId}")]
+    public IEnumerable<ServiceApplication> GetServiceApplicationWithProjectId([FromRoute] int id, [FromRoute] int invId, [FromRoute] int serviceId)
+    {
+      IEnumerable<ServiceApplication> project = _context.ServiceApplication
+        .Where(s => s.InvestorId == invId && s.ProjectId == id && s.ServiceId == serviceId && s.CurrentStatusId != 44449)
+        .Include(p => p.ServiceWorkflow)
+        .AsEnumerable()
+        .OrderByDescending(s => s.ServiceApplicationId);
+        return project;
+      //List<ServiceApplication> serviceApplication = await _context.ServiceApplication
+      //  .Where(m => m.ProjectId == id).OrderByDescending(a=>a.ServiceApplicationId).ToListAsync();
+      //return serviceApplication;
+    }
 
     [HttpGet("ServiceApplicationBillOfMaterial/{id}/{lang}")]
     public async Task<IEnumerable<ServiceAppDto>> GetServiceApplicationBillOfMaterial([FromRoute] int id, string lang)
     {
       string FieldName = StaticDataHelper.GetFieldName(lang);
       string query1 =
-        $@"(select IncentiveBoMRequestItemId,(Select {FieldName} from Lookup Where LookUpTypeId='10780' AND Lookup.LookupId=IncentiveBoMRequestItem.RejectionReason) as RejectionReason
+        $@"(select IncentiveBoMRequestItemId,(Select {FieldName} from Lookup Where LookUpTypeId='10780' AND Lookup.LookupId=IncentiveBoMRequestItem.RejectionReason) as RejectionReason,Balance
 						   ,IncentiveBoMRequestItem.ServiceApplicationId,IncentiveBoMRequestItem.ProjectId,Description,HsCode,Quantity,MesurmentUnit,IsApproved from ServiceApplication
 						   Inner Join IncentiveBoMRequestItem ON IncentiveBoMRequestItem.ServiceApplicationId=ServiceApplication.ServiceApplicationId)";
       IQueryable<ServiceAppDto> ServiceAppDto = _context.ServiceAppDto
@@ -107,6 +120,12 @@ namespace EIC.Investment.API.Controllers
     public ServiceApplication CheckServiceApplication(int investorId, int requestedServiceId)
     {
       return _repository.CheckServiceApplicationApi(investorId, requestedServiceId);
+    }
+
+    [HttpGet("CheckProjectServiceApplication/{projectId}/{requestedServiceId}")]
+    public ServiceApplication CheckProjectServiceApplication(int projectId, int requestedServiceId)
+    {
+      return _repository.CheckProjectServiceApplication(projectId, requestedServiceId);
     }
     [HttpGet("ByInvestorId/{id}")]
     public IEnumerable<ServiceApplication> GetServiceApplicationByInvestorId([FromRoute] int id)
@@ -258,7 +277,7 @@ namespace EIC.Investment.API.Controllers
 
       var serviceApplicationEdited = serviceApplication;
       serviceApplicationEdited.IsActive = true;
-
+      serviceApplicationEdited.CurrentStep = serviceApplication.CurrentStep;
       if (id != serviceApplicationEdited.ServiceApplicationId) return BadRequest();
 
       _context.Entry(serviceApplicationEdited).State = EntityState.Modified;
@@ -305,6 +324,7 @@ namespace EIC.Investment.API.Controllers
           InvestorId = serviceApplication.InvestorId,
           CaseNumber = perminumber,
           ProjectId = serviceApplication.ProjectId,
+          CurrentStep = serviceApplication.CurrentStep,
           ServiceId = serviceApplication.ServiceId,
           CurrentStatusId = (int) ApplicationStatus.Drafted,
           IsSelfService = true,
@@ -328,6 +348,7 @@ namespace EIC.Investment.API.Controllers
         editServiceApplication = new ServiceApplication
         {
           InvestorId = serviceApplication.InvestorId,
+          CurrentStep = serviceApplication.CurrentStep,
           CaseNumber = perminumber,
 //          ServiceId = 1235,
           ServiceId = (int) ServiceEnum.CommercialRegistration,
@@ -401,6 +422,8 @@ namespace EIC.Investment.API.Controllers
         InvestorId = serviceApplication.InvestorId,
         CaseNumber = perminumber,
         ServiceId = serviceApplication.ServiceId,
+        CurrentStep = serviceApplication.CurrentStep,
+        //CurrentStatusId = 44446,
         CurrentStatusId = (int) ApplicationStatus.Submitted,
         IsSelfService = true,
         IsPaid = true,

@@ -35,6 +35,8 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
     LandIndustrial: '',
     LandAgricultural: '',
     LandService: '',
+    LeaseLand: '',
+    RentalLand: '',
     Remark: '',
   };
 
@@ -106,13 +108,12 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
         this.pRequirementService.update(this.getUtility(), this.rawInputId)
           .subscribe(result => {
             this.notification('update');
-            this.dataSharing.currentIndex.next(2);
-
+            // this.dataSharing.currentIndex.next(3);
+            setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+            setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
           }, error => this.toastr.error(this.errMsg.getError(error)));
       }
     } else {
-
-
       this.formErrors = this.formService.validateForm(this.pIOform, this.formErrors, false);
     }
   }

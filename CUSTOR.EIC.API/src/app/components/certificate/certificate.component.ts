@@ -31,6 +31,8 @@ import {NationalityService} from "../../Services/Nationalityservice";
 import {CountryModel} from "../../model/Country";
 import {CountryService} from "../../Services/country.service";
 import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
+import {BaseService} from '../../Services/Base.service';
+import {InvestorService} from '../investor/investor.service';
 
 @Component({
   selector: 'app-certificate',
@@ -41,8 +43,10 @@ import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
 export class CertificateComponent implements OnInit {
   date: any;
   public renewedToGC: any;
+  public renewedToEC: any;
   day: number;
   month: number;
+  month1: number;
   year: number;
   formOfOwnerShipDescriptionAmharic: any;
   formOfOwnerShipDescriptionEnglish: any;
@@ -64,13 +68,16 @@ export class CertificateComponent implements OnInit {
   private InvestorId: any;
   private workFlowId: any;
   private projectId: any;
-  public today: Date;
+  public today: any;
   public dateGc: Date;
   public todayEthioDate: any;
+  public todayEthioDate1: any;
+  public yearDisplay: any;
   public dateEc1: Date;
   public todayEthioDateRenewal: any;
   public dd: Date;
   public dateEthioNextYear: string;
+  public dateEthioNextYear1: Date;
   public NationalityAmharic: string;
   public NationalityEnglish: string;
   public titleAm: string;
@@ -98,6 +105,7 @@ export class CertificateComponent implements OnInit {
               public toast: ToastrService,
               public router: Router,
               public fb: FormBuilder,
+              private custService: InvestorService,
               private lookupsService: LookupsService,
               private projectCostService: ProjectCostService,
               public invactivityService: InvactivityService,
@@ -111,6 +119,9 @@ export class CertificateComponent implements OnInit {
     this.arr.push("option2");
     this.arr.push("option3");
     this.selected = 'option2';
+    // this.baseService.getOneById(this.InvestorId).subscribe( res => {
+    //   console.log(res);
+    // });
   }
 
   ngOnInit() {
@@ -119,9 +130,24 @@ export class CertificateComponent implements OnInit {
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    // this.getInvestor(this.InvestorId);
+    console.log(this.InvestorId);
+    this.custService
+      .getInvestor(this.InvestorId).subscribe(result => {
+        console.log(result);
+        if (result.FirstName.toString() === '') {
+          this.router.navigate(['investor-profile/' + this.InvestorId]);
+        } else {
+          this.getManager(this.projectId);
+        }
+        // this
+        // this.dialog.open(NotificationComponent);
+        // return;
+        }
+      );
     this.getDate();
     this.getEthiopianDate();
-    console.log(this.ServiceApplicationId);
+    // console.log(this.ServiceApplicationId);
     if (this.ServiceApplicationId > 0) {
       this.getServiceApplicationRenewal();
     }
@@ -130,21 +156,15 @@ export class CertificateComponent implements OnInit {
 
   // no need to come all this data.
   private getServiceApplicationRenewal() {
-    // console.log('date1' + this.renewedToGC);
-
     this.projectRenewalService
       .getRenewalByServiceApplicationId(this.ServiceApplicationId)
       .subscribe(result => {
-        console.log(result.ProjectRenewal[0]);
-
-        if (result.ProjectRenewal[0] != undefined) {
-          console.log('date' + this.renewedToGC);
-
+        console.log(result);
+        if (result.ProjectRenewal[0] !== null) {
           this.renewedToGC = result.ProjectRenewal[0].RenewedTo;
-          // this.getEthiopianDateDate();
+          console.log(this.renewedToGC);
+          this.getEthiopianDateDate(this.renewedToGC);
         } else if (this.ServiceId == ServiceEnum.NewIP || this.ServiceId == ServiceEnum.Expansion) {
-          console.log('this.ServiceId' + this.ServiceId);
-
           this.renewal = new ProjectRenewalModel();
           this.renewal.RenewedFrom = new Date();
           this.renewal.RenewedTo = this.dateGc;
@@ -153,26 +173,21 @@ export class CertificateComponent implements OnInit {
           this.renewal.ProjectId = this.projectId;
           this.renewal.ProjectStatus = 9;
           this.renewal.IsApproved = true;
-          // console.log(this.renewal);
-          // this.renewedToGC = this.dateGc;
-          console.log('newIP' + this.renewedToGC);
-
           this.projectRenewalService.create(this.renewal).subscribe(results => {
-            console.log('renewal' + results[0]);
+            console.log(results)
           });
-          console.log('Done!');
         }
       }, error => this.errMsg.getError(error));
     this.projectRenewalService.getOneById(this.projectId).subscribe(results => {
-      console.log(results[0].RenewedTo);
       this.renewedToGC = results[0].RenewedTo;
-      this.getEthiopianDateDate();
+      console.log(this.renewedToGC);
+      this.getEthiopianDateDate(this.renewedToGC);
     });
   }
 
   getDate() {
     var d = new Date();
-    this.today = d;
+    //this.today = d;
     var year = d.getFullYear();
     var month = d.getMonth();
     var day = d.getDate();
@@ -187,7 +202,9 @@ export class CertificateComponent implements OnInit {
   }
 
   generateCertification() {
-    // console.log(this.ServiceApplicationId);
+    // this.getInvestor(this.InvestorId);
+    console.log(this.dateEthioNextYear1);
+    this.renewedToEC = this.dateEthioNextYear1;
     this.getInvestorDetail(this.ServiceApplicationId);
     this.viewCertificate = true;
   }
@@ -221,6 +238,9 @@ export class CertificateComponent implements OnInit {
   getInvestorDetail(id: any) {
     this.certificateService.getOneById(id)
       .subscribe((result: ServiceApplicationModel) => {
+        console.log(result.StartDate);
+        this.today = result.StartDate;
+        this.getEthiopianDateDate(this.today);
         this.investorDetailList = result;
         this.getInvestmentLocation(this.investorDetailList.ProjectId);
         this.getProjectCost(this.investorDetailList.ProjectId);
@@ -313,6 +333,11 @@ export class CertificateComponent implements OnInit {
     this.projecAssService.associateProject(ProjectId)
       .subscribe(result => {
         this.manager = result;
+        if (this.manager[0].Associate.FirstName == '') {
+          console.log('has no value');
+          this.toast.show('Some Fields in Amharic are not supplied. Please fill the manager detail properly.');
+          this.router.navigate(['investor-profile/' + this.InvestorId]);
+        }
         this.getManagerTitle(result[0].Associate.Title);
       });
 
@@ -353,6 +378,7 @@ export class CertificateComponent implements OnInit {
         var d = this.todayEthioDate.split('/').reverse().join('-');
         // var d2 = new Date(d);
         var d2 = new Date(d);
+        this.yearDisplay = d2.getFullYear();
         var year = d2.getFullYear() + 1;
         var month = d2.getMonth() + 1;
         var day = d2.getDate();
@@ -361,18 +387,22 @@ export class CertificateComponent implements OnInit {
   }
 
   /// BY Gebre H.
-  private getEthiopianDateDate() {
-    const d = this.renewedToGC.split('/').reverse().join('-');
+  private getEthiopianDateDate(dateToConvert: any) {
+    console.log(dateToConvert);
+    const d = dateToConvert.split('/').reverse().join('-');
     const d2 = new Date(d);
     this.year = d2.getFullYear();
     this.month = d2.getMonth() + 1;
+    // this.month1 = d2.getMonth();
     this.day = d2.getDate();
     console.log('Result=' + this.day + ' and ' + this.month + ' and ' + this.year);
     this.dateService.getEthiopianDate(this.day, this.month, this.year)
       .subscribe(data => {
         this.todayEthioDateRenewal = data;
-        // console.log('Date = ' + this.todayEthioDate);
+        this.dateEthioNextYear1 = data;
+        this.todayEthioDate1 = data;
       });
+
   }
 
 ///////////////
@@ -414,7 +444,7 @@ export class CertificateComponent implements OnInit {
         this.router.navigate(['pro/' + this.investorDetailList.ProjectId + '/' + this.ServiceApplicationId + '/' + this.ServiceId + '/' + this.workFlowId + '/' + this.InvestorId]);
         break;
       default:
-        alert('Please Select one of them tou want edit')
+        alert('Please Select one of them you want edit')
 
     }
   }
@@ -596,4 +626,10 @@ nobr {
       selectedValue: new FormControl()
     })
   }
+// getting investor detail
+//  getInvestor(InvestorId: number) {
+//     this.baseService.getOneById(InvestorId).subscribe( res => {
+//       console.log(res);
+//     });
+//   }
 }

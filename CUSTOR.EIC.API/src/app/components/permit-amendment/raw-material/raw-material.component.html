@@ -1,77 +1,106 @@
 <mat-card class="margin-2">
-  <form [formGroup]="projectRawMaterialForm" novalidate>
-    <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"
-      fxLayoutGap="2em">
-      <div class="block" fxFlex="" style="margin-left: 20px">
-        <mat-form-field>
-          <mat-label>Quarter</mat-label>
-          <mat-select formControlName="Quarter" required>
-            <mat-option *ngFor="let row of Quarter" [value]="row.Id">
-              <span>{{row.DescriptionEnglish}}</span>
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="block" fxFlex>
-        <mat-form-field>
-          <input placeholder="Registration Year* :" matInput formControlName="RegistrationYear"
-            [matDatepicker]="RegistrationYear">
-          <mat-datepicker-toggle matSuffix [for]="RegistrationYear"></mat-datepicker-toggle>
-          <mat-datepicker #RegistrationYear></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="block" fxFlex="">
 
-        <mat-form-field>
-          <mat-select [disabled]="true" formControlName="ProjectStatus" required>
-            <option value="0">--Select--</option>
-            <label>Project Status</label>
-            <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
-              <span>{{status.DescriptionEnglish}}</span>
-            </mat-option>
-          </mat-select>
-
-        </mat-form-field>
-      </div>
+  <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"
+    fxLayoutGap="2em">
+    <div class="block" fxFlex="" style="margin-left: 20px">
+      <mat-form-field>
+        <mat-label>Quarter</mat-label>
+        <mat-select formControlName="Quarter" required>
+          <mat-option *ngFor="let row of Quarter" [value]="row.Id">
+            <span>{{row.DescriptionEnglish}}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-    <mat-card-subtitle class="sub-title">
-      Detail
-      <mat-divider></mat-divider>
-    </mat-card-subtitle>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
-      <mat-card style="    border: none;box-shadow: none!important;" class="padding-0" fxFlex="90%">
-        <mat-card-content>
-          <div fxLayout="row">
-            <div fxFlex="" class="block">
-              <mat-form-field>
-                <mat-label>Raw Material Type * :</mat-label>
-                <input id="" type="text" matInput formControlName="RawMaterialType">
-                <mat-error></mat-error>
-              </mat-form-field>
-            </div>
-            <div class="block" fxFlex="30%">
-              <mat-radio-group formControlName="IsForeign" align="center">
-                <mat-radio-button value="false">Local</mat-radio-button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <mat-radio-button value="true">Foreign</mat-radio-button>
-              </mat-radio-group>
-            </div>
-            <div class="block" fxFlex="">
-              <mat-form-field class="full-width">
-                <textarea placeholder="Remark :" formControlName="Remark" matInput rows="2">
+    <div class="block" fxFlex>
+      <mat-form-field>
+        <input placeholder="Registration Year* :" matInput formControlName="RegistrationYear"
+          [matDatepicker]="RegistrationYear">
+        <mat-datepicker-toggle matSuffix [for]="RegistrationYear"></mat-datepicker-toggle>
+        <mat-datepicker #RegistrationYear></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="block" fxFlex="">
+
+      <mat-form-field>
+        <mat-select [disabled]="true" formControlName="ProjectStatus" required>
+          <option value="0">--Select--</option>
+          <label>Project Status</label>
+          <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
+            <span>{{status.DescriptionEnglish}}</span>
+          </mat-option>
+        </mat-select>
+
+      </mat-form-field>
+    </div>
+  </div>
+  <mat-card-subtitle class="sub-title">
+    <!-- <span *ngIf="editMode">Detail</span> -->
+    <div fxFlex="15" class="block">
+      <a class="custom-button pointer" color="primary" (click)="onSubmitRawMaterial()">
+        <!-- <mat-icon color="primary" class="mat-18">done</mat-icon> -->
+        <span>Add</span>
+      </a>
+    </div>
+    <mat-divider></mat-divider>
+  </mat-card-subtitle>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em" *ngIf="editMode">
+    <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
+      <form [formGroup]="projectRawMaterialForm" novalidate>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <mat-label>Raw Material Type * :</mat-label>
+            <input id="" type="text" matInput formControlName="RawMaterialType">
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-radio-group formControlName="IsForeign">
+            <mat-radio-button value="false">Local</mat-radio-button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <mat-radio-button value="true">Foreign</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field class="full-width">
+            <textarea placeholder="Remark :" formControlName="Remark" matInput rows="2">
                 </textarea>
-              </mat-form-field>
-            </div>
-            <div fxFlex="15" class="block">
-              <a class="custom-button pointer" color="primary" (click)="onSubmitRawMaterial()">
-                <mat-icon color="primary" class="mat-18">done</mat-icon>
-                <span>Add</span>
-              </a>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+          </mat-form-field>
+        </div>
+      </form>
     </div>
-  </form>
+
+    <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
+      <form [formGroup]="projectRawMaterialAmendForm" novalidate>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <mat-label>Raw Material Type * :</mat-label>
+            <input id="" type="text" matInput formControlName="RawMaterialType">
+            <mat-error></mat-error>
+          </mat-form-field>
+          <mat-radio-group formControlName="IsForeign">
+            <mat-radio-button value="false">Local</mat-radio-button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <mat-radio-button value="true">Foreign</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field class="full-width">
+            <textarea placeholder="Remark :" formControlName="Remark" matInput rows="2">
+                      </textarea>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" 
+            class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <a class="custom-button pointer" *ngIf="!editModeInput" color="primary" 
+              (click)="create()">
+            Save
+          </a>
+          <a class="custom-button pointer"  *ngIf="editModeInput" color="primary" 
+              (click)="update()">
+            Update
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
 </mat-card>
 <mat-card class="margin-2 padding-0">
   <mat-card-content *ngIf="projectInputData.length>0">
@@ -127,4 +156,8 @@
       </mat-row>
     </mat-table>
   </mat-card-content>
+  <mat-card-actions fxLayoutAlign="end end" *ngIf="serviceId">
+    <button  mat-raised-button color="primary"
+      (click)="approve()">{{'common.commands.Approve'|translate}}</button>
+  </mat-card-actions>
 </mat-card>

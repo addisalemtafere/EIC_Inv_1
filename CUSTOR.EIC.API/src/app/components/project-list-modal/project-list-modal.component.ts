@@ -12,7 +12,8 @@ import {Investor} from '../../model/investor';
 import {ServiceapplicationService} from '../setting/services-tabs/serviceApplication/serviceapplication.service';
 import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
-import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
+import {ApplicationStatusEnum, ServiceEnum} from '../../enum/enums';
+import {ProjectRenewalService} from '../../Services/project-renewal.service';
 
 @Component({
   selector: 'app-project-list-modal',
@@ -38,7 +39,9 @@ export class ProjectListModalComponent implements OnInit {
   constructor(private projetServices: ProjectProfileService,
               private accountService: AccountService,
               private serviceapplicationService: ServiceapplicationService,
-              private toastr: ToastrService, private projectProfileService: ProjectProfileService,
+              private toastr: ToastrService,
+              private renewalService: ProjectRenewalService,
+              private projectProfileService: ProjectProfileService,
               private router: Router,
               private errMsg: ErrorMessage,
               private route: ActivatedRoute,
@@ -87,14 +90,94 @@ export class ProjectListModalComponent implements OnInit {
 
   }
 
-
+  createServiceApp(serviceApp: ServiceApplicationModel) {
+    this.serviceApplication.CurrentStep = 2;
+    console.log(serviceApp);
+    this.serviceapplicationService.create(this.serviceApplication)
+      .subscribe(result => {
+        console.log(result);
+    this.view(result.ServiceId, 'Renewal', result.ServiceApplicationId, result.ServiceWorkflow[0].ServiceWorkflowId, result.ProjectId);
+      });
+  }
   go(projectId: any, applicationId: any, ServiceId: any, InvestorId: any) {
-
+    this.serviceApplication.ProjectId = projectId;
+    this.serviceApplication.ServiceId = this.ServiceId;
+    this.serviceApplication.InvestorId = InvestorId;
+    this.serviceApplication.CaseNumber = '1';
+    this.serviceApplication.CurrentStatusId = ApplicationStatusEnum.Drafted;
+    this.serviceApplication.IsSelfService = true;
+    this.serviceApplication.IsPaid = true;
+    this.serviceApplication.CreatedUserId = 1;
+    this.serviceApplication.IsActive = false;
     if (+this.ServiceId == ServiceEnum.Expansion) {
       this.router.navigate(['pro/' + projectId + '/' + 0 + '/' + ServiceEnum.Expansion + '/' + 0 + '/' + InvestorId]);
       localStorage.setItem('ParentProjectId', projectId);
-    } else {
+    } else if (this.ServiceId == ServiceEnum.Renewal) {
 
+       this.renewalService.getRenewalByProjectId(projectId)
+      .subscribe( res => {
+        console.log(res[0].MajorProblems);
+        if ( res.length  == 0 || res[0].MajorProblems == 'Valid' || res[0].IsApproved == false) {
+          // check in the service application
+          this.serviceapplicationService.getServiceApplicationsByProjectId(projectId, InvestorId, this.ServiceId)
+          .subscribe( serApp => {
+            if (serApp.length != 0) {
+              this.router.navigate(['/project-renewal/' + this.ServiceId +
+              '/' + serApp[0].InvestorId + '/' + serApp[0].ServiceApplicationId + '/' + serApp[0].ProjectId
+              + '/' + serApp[0].ServiceWorkflow[0].ServiceWorkflowId]);
+            } else {
+              if (res[0].ProjectStatus == 9) {
+               this.createServiceApp(this.serviceApplication);
+              }
+             }
+          });
+        } else if (res[0].ProjectStatus == 9 && res[0].MajorProblems == 'InValid' ) {
+          // this.getServiceApp();
+          this.toastr.error('The Selected project is already renewed!');
+        } else {
+
+          this.DisplayErrorMsg(res[0].ProjectStatus, projectId);
+        }
+
+      });
+    } else if (this.ServiceId == ServiceEnum.SubstituteIP) {
+            this.serviceapplicationService.getServiceApplicationsByProjectId(projectId, InvestorId, this.ServiceId)
+              .subscribe(serApp => {
+                if (serApp.length != 0) {
+                  this.router.navigate(['/project-substitute/' + this.ServiceId + '/'
+                  + serApp[0].InvestorId + '/' + serApp[0].ServiceApplicationId + '/' + serApp[0].ProjectId
+                  + '/' + serApp[0].ServiceWorkflow[0].ServiceWorkflowId]);
+                } else {
+                    this.projetServices.getProjectStatus(projectId)
+                      .subscribe( res => {
+                        if (res == 9) {
+                          this.toastr.info('creating service application...');
+                          this.createServiceApp(this.serviceApplication);
+                        } else {
+                          this.DisplayErrorMsg(res, projectId);
+                        }
+                      });
+                }
+              });
+    } else if (this.ServiceId == ServiceEnum.CancellationOfIP) {
+      this.serviceapplicationService.getServiceApplicationsByProjectId(projectId, InvestorId, this.ServiceId)
+        .subscribe(serApp => {
+          if (serApp.length != 0) {
+            this.router.navigate(['/project-cancellation/' + this.ServiceId + '/'
+            + serApp[0].InvestorId + '/' + serApp[0].ServiceApplicationId + '/' + serApp[0].ProjectId
+            + '/' + serApp[0].ServiceWorkflow[0].ServiceWorkflowId]);
+          } else {
+              this.projetServices.getProjectStatus(projectId)
+              .subscribe( res => {
+                if (res == 9) {
+                  this.createServiceApp(this.serviceApplication);
+                } else {
+                  this.DisplayErrorMsg(res, projectId);
+                }
+              });
+          }
+        });
+    } else {
       this.serviceApplication.ProjectId = projectId;
       this.serviceApplication.ServiceId = this.ServiceId;
       this.serviceApplication.InvestorId = InvestorId;
@@ -106,7 +189,6 @@ export class ProjectListModalComponent implements OnInit {
       this.serviceApplication.IsActive = false;
       this.serviceapplicationService.create(this.serviceApplication)
         .subscribe(result => {
-          console.log(result);
           this.view(this.ServiceId, 'Incentive', result.ServiceApplicationId, result.ServiceWorkflow[0].ServiceWorkflowId, projectId);
         });
 
@@ -118,10 +200,8 @@ export class ProjectListModalComponent implements OnInit {
   view(serviceId: any, name: any, applicationId: any, workflowId: any, projectId: any) {
     this.title = name;
     console.log(workflowId);
-
     const investorId = localStorage.getItem('InvestorId');
     switch (serviceId) {
-
       // case '1047':
       case ServiceEnum.UploadingOfConstructionMaterial:
         this.router.navigate(['bill-of-material/1/' + serviceId + '/' + investorId + '/' + applicationId + '/' + projectId + '/' + workflowId]);
@@ -190,4 +270,19 @@ export class ProjectListModalComponent implements OnInit {
     window.history.back();
   }
 
+DisplayErrorMsg(res: number, projectId: number) {
+  if (res == 4) {
+    this.toastr.error(' Could not be renewed! The Selected project  with Project Id ' + projectId + 'is already Cancelled');
+  } else if (res == 5) {
+    this.toastr.error(' Could not be renewed! The Selected project  with Project Id ' + projectId + 'is already Injected');
+  } else if (res == 6) {
+    this.toastr.error(' Could not be renewed! The Selected project  with Project Id ' + projectId + 'is already Closed');
+  } else if (res == 7) {
+    this.toastr.error(' Could not be renewed! The Selected project  with Project Id ' + projectId + 'is already Transfered');
+  } else if (res == 8) {
+    this.toastr.error(' Could not be renewed! The Selected project  with Project Id ' + projectId + 'is already Not Active');
+  } else {
+    this.toastr.error('Unknown result ');
+  }
+  }
 }

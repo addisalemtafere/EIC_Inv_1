@@ -9,6 +9,7 @@ import { EndpointFactory } from '@custor/services/security/endpoint-factory.serv
 )
 export class ServiceApplicationService extends EndpointFactory {
     private readonly _checkApplicationStatusUrl = "api/ServiceApplications/CheckServiceApplication";
+    private readonly _checkProjectApplicationStatusUrl = "api/ServiceApplications/CheckProjectServiceApplication";
     constructor(
         protected httpClient: HttpClient,
         private config: ConfigurationService,
@@ -18,8 +19,16 @@ export class ServiceApplicationService extends EndpointFactory {
     get checkApplicationStatusUrl() {
         return this.config.baseUrl + this._checkApplicationStatusUrl;
     }
+    get checkProjectApplicationStatusUrl() {
+        return this.config.baseUrl + this._checkProjectApplicationStatusUrl;
+    }
     checkServiceApplicationFromApi(id, serviceId) {
         const endpointUrl = `${this.checkApplicationStatusUrl}/${id}/${serviceId}`;
+        console.log(endpointUrl);
+        return this.httpClient.get(endpointUrl);
+    }
+    CheckProjectServiceApplicationFromApi(projectId, serviceId) {
+        const endpointUrl = `${this.checkProjectApplicationStatusUrl}/${projectId}/${serviceId}`;
         console.log(endpointUrl);
         return this.httpClient.get(endpointUrl);
     }

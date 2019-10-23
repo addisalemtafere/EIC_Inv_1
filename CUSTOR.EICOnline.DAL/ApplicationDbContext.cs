@@ -39,7 +39,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbSet<ProjectNationalityCompositionAudit> ProjectNationalityCompositionAudit { get; set; }
         public DbSet<ProjectOutputAudit> ProjectOutputAudit { get; set; }
         public virtual DbSet<ProjectEmploymentAudit> ProjectEmploymentAudit { get; set; }
-
+        public virtual DbSet<ProjectInputAudit> ProjectInputAudit { get; set; }
         public DbSet<Followup> Followups { get; set; }
 
         public DbSet<CompanyClearance> CompanyClearances { get; set; }
@@ -56,6 +56,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public virtual DbSet<IncentiveItem> IncentiveItem { get; set; }
         public virtual DbSet<IncentiveRequest> IncentiveRequest { get; set; }
         public virtual DbSet<IncentiveRequestDTO> IncentiveRequestDTO { get; set; }
+        public virtual DbSet<IncentiveRequestsDTO> IncentiveRequestsDTO { get; set; }
         public virtual DbSet<IncentiveRequestDocument> IncentiveRequestDocument { get; set; }
         public virtual DbSet<IncentiveRequestItem> IncentiveRequestItem { get; set; }
         public virtual DbSet<IncentiveRequestItemReconciliation> IncentiveRequestItemReconciliation { get; set; }

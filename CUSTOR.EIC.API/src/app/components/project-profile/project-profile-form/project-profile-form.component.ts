@@ -31,12 +31,13 @@ import {SectorService} from '../../setting/category-tabs/sector/sector.service';
 import {SubsectorService} from '../../setting/category-tabs/subsector/subsector.service';
 import {SectorModel} from '../../../model/sector';
 import {SubSectorModel} from '../../../model/subSector';
-import {Permission} from "../../../model/security/permission.model";
-import {ProjectStageModel} from "../../../model/lookupData";
+import {Permission} from '../../../model/security/permission.model';
+import {ProjectStageModel} from '../../../model/lookupData';
 import {ProjectRenewalModel} from '../../../model/ProjectRenewal.model';
 import {ProjectRenewalService} from '../../../Services/project-renewal.service';
-import {ConfigurationService} from "@custor/services/configuration.service";
-import {ServiceEnum} from "../../../enum/enums";
+import {ConfigurationService} from '@custor/services/configuration.service';
+import {ServiceEnum} from '../../../enum/enums';
+import {ET_ALPHABET_REGEX} from '../../../const/consts';
 
 @Component({
   selector: 'app-project-profile-form',
@@ -49,7 +50,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   formOfOwnershipList: FormOfOwnershipModel[] = [];
   subscription: Subscription;
   serviceIdSubscription: Subscription;
-  public IsOromia: boolean = false;
+  public IsOromia = false;
   editMode = false;
   loading = false;
   date: any;
@@ -73,10 +74,10 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   approve: ProjectRenewalModel;
   public formErrors = {
     ProjectName: 'at least three characters!',
-    ProjectDescription: '',
-    StartDate: '',
-    OperationDate: '',
-    EndingDate: '',
+    ProjectDescription: 'Enter Description in between 2 - 100 characters!',
+    StartDate: 'Enter a Valid Date!',
+    OperationDate: 'Enter a Valid Date!',
+    EndingDate: 'Enter a Valid Date!',
     Sector: '',
     SubSector: '',
     Region: '',
@@ -88,7 +89,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     SpecificAreaName: '',
     Remark: '',
     EnvironmentalImpact: '',
-    IndustrialParkId: '',
+    IndustrialParkId: 'Select Industrial Park',
     ProjectStage: ''
   };
 
@@ -174,6 +175,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.fillAddressLookups();
     this.formBuild();
     this.updateDateRange();
+   this.formControlValueChanged();
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();
@@ -182,7 +184,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       this.editMode = false;
     }
   }
-
   getProjectDetail() {
     this.projectProfileService
       .getOneById(this.projectId)
@@ -205,7 +206,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        //this.getKebeleByWoredaId(result.WoredaId);
+        // this.getKebeleByWoredaId(result.WoredaId);
         this.addressId = result.AddressId;
         this.projectForm.get('address').patchValue(result);
       }, error => this.errMsg.getError(error));
@@ -362,6 +363,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   onSubmit() {
+    console.log(this.projectForm.value);
     this.loading = true;
     this.formService.markFormGroupTouched(this.projectForm);
     if (this.projectForm.valid) {
@@ -419,12 +421,13 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     console.log(this.ServiceId);
     this.projectForm = this.formBuilder.group({
       ProjectName: ['', Validators.compose([Validators.required,
-        CustomValidators.validateCharacters, Validators.minLength(2)])],
+        CustomValidators.validateCharacters, Validators.minLength(3)])],
       InvestorId: [this.InvestorId],
       ServiceId: [this.ServiceId],
       ParentProjectId: ['0'],
       CreatedUserName: this.accountServices.currentUser.UserName,
-      ProjectDescription: ['', [Validators.minLength(2)]],
+      ProjectDescription: ['', Validators.compose([Validators.required, Validators.minLength(2),
+      Validators.maxLength(100)])],
       StartDate: ['', [Validators.required]],
       OperationDate: ['', Validators.required],
       SectorId: [''],
@@ -437,7 +440,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       EnvironmentalImpact: ['', [Validators.minLength(2)]],
       AssignedUserId: [this.accountService.currentUser.Id],
       CreatedUserId: [this.accountService.currentUser.Id],
-      ProjectStage: ['', Validators.required],
+      ProjectStage: [null, Validators.required],
       InvestmentPermitNo: [''],
       'address': new FormGroup({
         ParentId: new FormControl(),
@@ -462,10 +465,13 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     if (this.canViewTasks) {
       this.projectForm.patchValue({
         IsSelfService: true
-      })
+      });
     }
   }
-
+  formControlValueChanged() {
+    this.ProjectName.setValidators([Validators.compose([Validators.required, Validators.minLength(3)])]);
+    // this.ProjectStage.setValidators([Validators.required]);
+  }
   initStaticData(currentLang) {
     let formOfOwnership: FormOfOwnershipModel = new FormOfOwnershipModel();
     FormOfOwnership.forEach(pair => {
@@ -484,6 +490,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         Description: pair.Description
       };
       this.projectStage.push(projectSage);
+      const toSelect = this.projectStage.find(c => c.Id ==1 );
+      console.log(toSelect);
+      this.projectForm.get('ProjectStage').setValue(toSelect);
     });
   }
 
@@ -520,7 +529,15 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   getIsChecked() {
     return this.projectForm.get('address').get('IsIndustrialPark').value;
   }
-
+get ProjectDescription() {
+    return this.projectForm.get('ProjectDescription');
+}
+  get ProjectName() {
+    return this.projectForm.get('ProjectName');
+  }
+  get ProjectStage() {
+    return this.projectForm.get('ProjectStage');
+  }
   get canViewTasks() {
     return this.accountService.userHasPermission(Permission.viewServiceList);
   }

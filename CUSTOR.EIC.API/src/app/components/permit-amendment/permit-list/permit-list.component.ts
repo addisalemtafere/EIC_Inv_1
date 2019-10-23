@@ -49,12 +49,13 @@ export class PermitListComponent implements OnInit {
     })
   }
   onEdit(projectId){
-    this.serviceApplicationApiService.checkServiceApplicationFromApi(projectId, this.amendment)
+    this.serviceApplicationApiService.CheckProjectServiceApplicationFromApi(projectId, this.amendment)
       .subscribe(result => {
         console.log(result)
         if (result != null) {
           this.existingServiceApplication = result;
-          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationID;
+          console.log(this.existingServiceApplication)
+          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
         }
         else {
           this.serviceApplicationId = 0;

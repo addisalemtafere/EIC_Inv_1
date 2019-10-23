@@ -28,6 +28,7 @@ import { SiteService } from '../../../Services/site.service';
  import { ProjectService} from '../service/project.service';
 import { ServiceApplicationService } from "../service/service-application.service";
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectOfficerService } from '../service/project-officer.service';
 @Component({
   selector: 'app-project-profile',
   templateUrl: './project-profile.component.html',
@@ -70,6 +71,7 @@ export class ProjectProfileComponent implements OnInit {
   AddressId; CreatedUserId; IsMainOffice;
   IsDeleted: boolean = false;
   IsActive: boolean = false;
+  serviceId : number ;
   constructor(  private formBuilder: FormBuilder,
     private addressService: AddressService,
     private serviceApplicationApiService: ServiceApplicationService,
@@ -82,11 +84,13 @@ export class ProjectProfileComponent implements OnInit {
     private siteService: SiteService,
     public invactivityService: InvactivityService,
     private subSectorService: SubsectorService,
+    private projectOfficerService: ProjectOfficerService,
     private activatedRoute: ActivatedRoute,
     public formService: FormService, private configService: ConfigurationService) {
     this.currentLang = this.configService.language;
     this.projectId = this.activatedRoute.snapshot.params.projectId;
     this.serviceApplicationId = this.activatedRoute.snapshot.params.serviceApplicationId;
+    this.serviceId = this.activatedRoute.snapshot.params.serviceId;
      if (this.serviceApplicationId == 0){
         this.checkServiceApplication();
      }
@@ -95,14 +99,12 @@ export class ProjectProfileComponent implements OnInit {
    }
   checkServiceApplication() {
     const id = 2092;
+    this.InvestorId = 2092;
     this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
       .subscribe(result => {
         if (result != null) {
           this.existingServiceApplication = result;
-          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationID;
-        }
-        else {
-          this.serviceApplicationId = null;
+          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
         }
       });
   }
@@ -114,6 +116,7 @@ export class ProjectProfileComponent implements OnInit {
   getProjectData(projectId){
     this.projectService.getProjectData(projectId).subscribe(res=>{
       console.log(res);
+
       if (res == null) {
         alert("no record found")
       }
@@ -125,18 +128,22 @@ export class ProjectProfileComponent implements OnInit {
         this.IsActive = this.projectData.IsActive;
         this.IsMainOffice = this.projectData.IsMainOffice;
         this.AddressId = this.projectData.AddressId;
+
+        console.log(this.projectData)
         this.projectForm.controls.startViewDate.setValue((this.projectData.StartDate));
         this.projectForm.controls.EndingViewDate.setValue((this.projectData.EndingDate));
         this.projectForm.controls.operationViewDate.setValue((this.projectData.OperationDate));
         this.projectForm.controls.ProjectStage.setValue((this.projectData.ProjectStage.toString()));
         this.setViewForm();
       }
-      this.searchDataFromAudit(this.projectId);
+      // alert(this.serviceApplicationId)
+      this.searchDataFromAudit(this.projectId, this.serviceApplicationId);
       // this.projectForm.parent();
     })
   }
-  searchDataFromAudit(projectId){
-    this.projectService.getProjectAuditData(projectId).subscribe(res => {
+  searchDataFromAudit(projectId,serviceApplicationId){
+    
+    this.projectService.getProjectAuditData(projectId, serviceApplicationId).subscribe(res => {
       console.log(res)
       if (res != null) {
         console.log("data found on audit table")
@@ -145,7 +152,7 @@ export class ProjectProfileComponent implements OnInit {
         this.projectPostDTO = res;
         this.projectAmendForm.patchValue(res);
         this.projectAmendForm.controls.ProjectStage.setValue((this.projectPostDTO.ProjectStage.toString()));
-
+        this.projectAmendForm.controls.ActivityId.setValue(this.projectPostDTO.Activity.ActivityId);
         this.updateData = true;
         this.setNewForm();
       }
@@ -175,24 +182,33 @@ export class ProjectProfileComponent implements OnInit {
   }
   create(){
     console.log("create");
-    console.log(this.getEditedData())
+    console.log(this.getEditedData());
     this.projectService.saveProjectData(this.getEditedData()).subscribe(res => {
         console.log(res)
     })
   }
+  update() {
+    this.projectService.updateProjectData(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
+  }
   getEditedData(){
     this.projectProfile = this.projectAmendForm.value;
+    this.projectProfile.ProjectId = this.projectId ;
     this.projectProfile.InvestorId = (this.InvestorId) ? this.InvestorId : 0;;
     this.projectProfile.AddressId = (this.AddressId) ? this.AddressId : 0;;
-    this.projectProfile.IsActive = (this.IsActive) ? this.IsActive : 0;;
-    this.projectProfile.IsDeleted = (this.IsDeleted) ? this.IsDeleted : 0;
+    this.projectProfile.IsActive = (this.IsActive) ? this.IsActive : true;
+    this.projectProfile.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
     this.projectProfile.IsMainOffice = (this.IsMainOffice) ? this.IsMainOffice : false;
-    this.projectProfile.ServiceApplicationId = (this.serviceApplicationId) ? this.serviceApplicationId : ''
+    if (this.serviceApplicationId == 0){
+      this.projectProfile.ServiceApplicationId = null
+    }
+    else{
+      this.projectProfile.ServiceApplicationId = this.serviceApplicationId;
+    }
     return this.projectProfile;
   }
-  update(){
-    console.log("update")
-  }
+  
   appendPreviousDataToNewForm(){
     console.log('no data in new database');
     console.log(this.projectData)
@@ -326,6 +342,12 @@ export class ProjectProfileComponent implements OnInit {
   }
   filterInvestmentActivity(data){
     console.log(data)
+  }
+  approve(){
+    
+    this.projectOfficerService.approveProjectProfile(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
   }
   initViewForm(){
     this.projectForm = this.formBuilder.group({

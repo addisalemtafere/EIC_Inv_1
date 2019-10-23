@@ -34,12 +34,13 @@ namespace EICOnline.API
     }
     public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
           WebHost.CreateDefaultBuilder(args)
-            .UseStartup<Startup>();
-    //.UseContentRoot(Directory.GetCurrentDirectory())
-    //.UseIISIntegration()
-    //.ConfigureKestrel((context, options) =>
-    //{
-    //      // Set properties and call methods on options
-    //});
+            .UseStartup<Startup>()
+            .UseUrls(urls: "http://localhost:5050");
+            //.UseContentRoot(Directory.GetCurrentDirectory())
+            //.UseIISIntegration()
+            //.ConfigureKestrel((context, options) =>
+            //{
+            //  // Set properties and call methods on options
+            //});
   }
 }

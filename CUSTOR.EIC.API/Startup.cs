@@ -314,6 +314,7 @@ namespace EICOnline.API
         services.AddScoped<FAssociateRepository>();
         services.AddScoped<FInvestorRepository>();
         services.AddScoped<FProjectsRepository>();
+        services.AddScoped<FProjectOfficerRepository>();
         //
         services.AddScoped<BudgetYearTypeRepository>();
         services.AddScoped<tblDivisionRepository>();
@@ -323,6 +324,8 @@ namespace EICOnline.API
         services.AddScoped<RegistrationRepository>();
         services.AddScoped<RegistrationCatagoryRepository>();
         services.AddScoped<BusinessLicensingGroupRepository>();
+        services.AddScoped<ProjectRenewalRepository>();
+        services.AddScoped<ProjectReplacementRepository>();
 
 
         // Repositories

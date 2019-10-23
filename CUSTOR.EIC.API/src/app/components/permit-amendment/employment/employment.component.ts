@@ -14,6 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ErrorMessage } from '@custor/services/errMessageService';
 import { ConfigurationService } from '@custor/services/configuration.service';
 import { ProjectStage, FormOfOwnership, ServiceTypes } from '@custor/const/consts';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectOfficerService } from '../service/project-officer.service';
 @Component({
   selector: 'app-employment',
   templateUrl: './employment.component.html',
@@ -27,15 +29,24 @@ export class EmploymentComponent implements OnInit {
   serviceApplicationId:any;
   projectEmploymentData:any;
   projectEmploymentPostData:any;
-  ServiceId = 1023;
+  projectEmployment:any;
   amendment = ServiceTypes[4].ServiceId;
   updateData = false;
+  projectId: any; serviceId: any; ProjectEmploymentId :any;
+  InvestorId: any;IsDeleted: any;IsActive: any;
   constructor(private serviceApplicationApiService: ServiceApplicationService,
     private configService:ConfigurationService,
     private projectService: ProjectService,
+    private activatedRoute: ActivatedRoute,
+    private projectOfficerService: ProjectOfficerService,
     private formBuilder : FormBuilder) { 
     this.currentLang = this.configService.language;
-    this.checkServiceApplication();
+    this.projectId = this.activatedRoute.snapshot.params.projectId;
+    this.serviceApplicationId = this.activatedRoute.snapshot.params.serviceApplicationId;
+    this.serviceId = this.activatedRoute.snapshot.params.serviceId;
+    if (this.serviceApplicationId == 0) {
+      this.checkServiceApplication();
+    }
     this.initForm();
     this.initViewForm();
   }
@@ -53,9 +64,9 @@ export class EmploymentComponent implements OnInit {
       });
   }
   ngOnInit() {
-    const projectId = 28174
-    if (projectId) {
-      this.getProjectEmploymentData(projectId);
+   
+    if (this.projectId) {
+      this.getProjectEmploymentData(this.projectId);
     }
   }
   getProjectEmploymentData(projectId){
@@ -66,13 +77,14 @@ export class EmploymentComponent implements OnInit {
       }
       else {
         this.projectEmploymentData = res;
+        this.ProjectEmploymentId = this.projectEmploymentData.ProjectEmploymentId;
         this.employmentForm.patchValue(this.projectEmploymentData);
       }
-      this.searchDataFromAudit(projectId);
+      this.searchDataFromAudit(projectId,this.serviceApplicationId);
     })
   }
-  searchDataFromAudit(projectId) {
-    this.projectService.getProjectEmploymentAuditData(projectId).subscribe(res => {
+  searchDataFromAudit(projectId,serviceApplicationId) {
+    this.projectService.getProjectEmploymentAuditData(projectId, serviceApplicationId).subscribe(res => {
       console.log(res)
       if (res != null) {
         console.log("data found on audit table")
@@ -165,5 +177,39 @@ export class EmploymentComponent implements OnInit {
     this.employmentForm.disable();
 
   }
+  create() {
+    console.log("create");
+    console.log(this.getEditedData());
+    this.projectService.saveEmploymentData(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
+  }
+  update() {
+    this.projectService.updateEmploymentData(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
+  }
+  approve() {
+    this.projectOfficerService.approveProjectData(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
+  }
+  getEditedData() {
+    this.projectEmployment = this.employmentAmendForm.value;
+    this.projectEmployment.ProjectId = this.projectId;
+    this.projectEmployment.InvestorId = (this.InvestorId) ? this.InvestorId : 0;;
+    this.projectEmployment.IsActive = (this.IsActive) ? this.IsActive : true;
+    this.projectEmployment.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
+    this.projectEmployment.ProjectEmploymentId = (this.ProjectEmploymentId) ? this.ProjectEmploymentId : 0;
+
+    if (this.serviceApplicationId == 0) {
+      this.projectEmployment.ServiceApplicationId = null
+    }
+    else {
+      this.projectEmployment.ServiceApplicationId = this.serviceApplicationId;
+    }
+    return this.projectEmployment;
+  }
+
 
 }

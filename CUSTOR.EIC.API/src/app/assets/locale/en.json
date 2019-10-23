@@ -15,6 +15,7 @@
       "Refresh": "Refresh",
       "Cancel": "Cancel",
       "Start": "Start",
+      "Finish": "Finish",
       "Close": "Close",
       "End": "End",
       "Stop": "Stop",
@@ -96,6 +97,7 @@
     "Amendment": "Amendment",
     "InvestorProfileAmendment":"Profile Amendment",
     "InvestmentPermitAmendment":"Permit Amendment",
+
     "capitalRegistration": "Capital Registration",
     "customerRegistration": "Customer Registration",
     "changePassword": "Change Password",
@@ -240,8 +242,17 @@
       "ProductQty": "Product Quantity",
       "ProductUnit": "Product Unit",
       "DomesticMarketShare": "Domestic Market Share",
-      "ExportMarketShare": "Export Market Share"
+      "ExportMarketShare": "Export Market Share",
 
+      "ElectricPower": "ElectricPower",
+      "Water": "Water",
+      "OtherUtility": "Other Utility",
+      "LandIndustrial": "Land Industrial",
+      "LandAgricultural": "Land Agricultural",
+      "LandService": "Land Service",
+      "OwnLand": "Own Land",
+      "RentalLand": "Rental Land",
+      "LeaseLand": "Lease Land"
 
     }
   },

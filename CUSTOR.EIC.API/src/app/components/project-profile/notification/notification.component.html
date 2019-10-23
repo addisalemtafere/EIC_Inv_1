@@ -23,9 +23,6 @@
       <mat-form-field fxFlex="45">
         <mat-select formControlName="CurrentStatus"
                     placeholder="Select Your Decision ">
-          <!--<mat-option *ngFor="let choice of choices" [value]="choice">-->
-          <!--choice-->
-          <!--</mat-option>-->
           <mat-option value="{{applicationStatusEnum.Pending}}">In Complete</mat-option>
           <mat-option value="{{applicationStatusEnum.approved}}">Approve</mat-option>
           <mat-option value="0">Reject</mat-option>

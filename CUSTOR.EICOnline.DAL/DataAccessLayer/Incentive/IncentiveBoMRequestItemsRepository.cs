@@ -33,7 +33,8 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive
             int page = 0, int pageSize = 15)
         {
             string FieldName = StaticDataHelper.GetFieldName(lang);
-            string query1 =$@"(select (Select {FieldName} from Lookup,IncentiveBoMRequestItem Where LookUpTypeId='10781' AND Lookup.LookupId=IncentiveBoMRequestItem.IncentiveCategoryId) as Phase,
+            string query1 =
+                $@"(select (Select {FieldName} from Lookup,IncentiveBoMRequestItem Where LookUpTypeId='10781' AND Lookup.LookupId=IncentiveBoMRequestItem.IncentiveCategoryId) as Phase,
                                 Description,UploadDate,Quantity,ProjectId from IncentiveBoMRequestItem)";
 
             IQueryable<IncentiveBoMRequestItemDTO> IncentiveBoMRequestItems = Context.IncentiveBoMRequestItemDTO
@@ -45,6 +46,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize);
             }
+
             return IncentiveBoMRequestItems.ToListAsync();
         }
 
@@ -54,7 +56,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive
             var incentiveBoMRequestItems = Context.IncentiveBoMRequestItem
                 .Where(item =>
                     item.ProjectId == projectId && item.IncentiveCategoryId == incentiveCategoryId &&
-                    item.Phase == Phase)
+                    item.Phase == Phase && item.IsApproved == true)
                 .OrderBy(item => item.Description);
             return await incentiveBoMRequestItems.ToListAsync();
         }

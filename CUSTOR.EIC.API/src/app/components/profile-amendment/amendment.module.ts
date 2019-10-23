@@ -6,6 +6,7 @@ import { SharedModule} from "@custor/modules/shared.module";
 import { ProfileComponent } from './profile/profile.component';
 import { ManagerListComponent } from './manager-list/manager-list.component';
 import { ServiceApplicationService} from "./service/service-application.service";
+import { NotificationsComponent } from '../notifications/notifications.component';
 import { ManagerComponent } from './manager/manager.component';
 import { ManagerEditComponent } from './manager-edit/manager-edit.component';
 import { AddressService } from '../../Services/Address/address.service';
@@ -17,9 +18,12 @@ import { MatDialog, MatDialogConfig, MatStepper } from '@angular/material';
     SharedModule,
     AmendmentRouting
   ],
-  declarations: [AmendmentComponent, ProfileComponent, ManagerListComponent, ManagerComponent, ManagerEditComponent],
+  declarations: [AmendmentComponent, ProfileComponent, ManagerListComponent, ManagerComponent, ManagerEditComponent, NotificationsComponent],
   exports: [AmendmentComponent],
-  providers: [ServiceApplicationService, AddressService]
+  providers: [ServiceApplicationService, AddressService],
+  entryComponents: [
+    NotificationsComponent,
+  ],
 
 })
 export class AmendmentModule {

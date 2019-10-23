@@ -6,151 +6,152 @@
   </mat-card-header>
   <mat-card-content>
 
-<div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
-  <form class="margin-2" [formGroup]="projectForm" novalidate>
-    <h4 class="sub-title">Project Information</h4>
-    <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field fxLayoutGap="4em">
-        <mat-label>{{'investors.editor.ProjectTitle' | translate}}</mat-label>
-        <input matInput formControlName="ProjectName" >
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{'investors.editor.ProjectStage' | translate}}</mat-label>
-        <mat-select formControlName="ProjectStage">
-          <mat-option *ngFor="let status of projectStage" [value]="status.Id">
-            <span>{{status.DescriptionEnglish}}</span>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field fxLayoutGap="4em">
-        <input placeholder="Start Date * :" formControlName="startViewDate" matInput [matDatepicker]="startViewDate">
-        <mat-datepicker-toggle matSuffix [for]="startViewDate"></mat-datepicker-toggle>
-        <mat-datepicker #startViewDate></mat-datepicker>
-      </mat-form-field>
+    <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
+      <form class="margin-2" [formGroup]="projectForm" novalidate>
+        <h4 class="sub-title">Project Information</h4>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field fxLayoutGap="4em">
+            <mat-label>{{'investors.editor.ProjectTitle' | translate}}</mat-label>
+            <input matInput formControlName="ProjectName">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'investors.editor.ProjectStage' | translate}}</mat-label>
+            <mat-select formControlName="ProjectStage">
+              <mat-option *ngFor="let status of projectStage" [value]="status.Id">
+                <span>{{status.DescriptionEnglish}}</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field fxLayoutGap="4em">
+            <input placeholder="Start Date * :" formControlName="startViewDate" matInput
+              [matDatepicker]="startViewDate">
+            <mat-datepicker-toggle matSuffix [for]="startViewDate"></mat-datepicker-toggle>
+            <mat-datepicker #startViewDate></mat-datepicker>
+          </mat-form-field>
 
-      <mat-form-field fxLayoutGap="4em">
-        <input placeholder="Ending Date * :" matInput formControlName="EndingViewDate" [matDatepicker]="EndingViewDate">
-        <mat-datepicker-toggle matSuffix [for]="EndingViewDate"></mat-datepicker-toggle>
-        <mat-datepicker #EndingViewDate></mat-datepicker>
-    
-      </mat-form-field> 
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field fxLayoutGap="4em">
-        <input formControlName="operationViewDate" matInput placeholder="Operation Date * :" [matDatepicker]="operationViewDate">
-        <mat-datepicker-toggle matSuffix [for]="operationViewDate"></mat-datepicker-toggle>
-        <mat-datepicker #operationViewDate></mat-datepicker>
-    
-      </mat-form-field>
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field class="full-width">
-        <mat-label>{{'investors.editor.EnvironmentalImpact' | translate}}</mat-label>
-        <textarea rows="2" matInput formControlName="EnvironmentalImpact" required>
+          <mat-form-field fxLayoutGap="4em">
+            <input placeholder="Ending Date * :" matInput formControlName="EndingViewDate"
+              [matDatepicker]="EndingViewDate">
+            <mat-datepicker-toggle matSuffix [for]="EndingViewDate"></mat-datepicker-toggle>
+            <mat-datepicker #EndingViewDate></mat-datepicker>
+
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field fxLayoutGap="4em">
+            <input formControlName="operationViewDate" matInput placeholder="Operation Date * :"
+              [matDatepicker]="operationViewDate">
+            <mat-datepicker-toggle matSuffix [for]="operationViewDate"></mat-datepicker-toggle>
+            <mat-datepicker #operationViewDate></mat-datepicker>
+
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field class="full-width">
+            <mat-label>{{'investors.editor.EnvironmentalImpact' | translate}}</mat-label>
+            <textarea rows="2" matInput formControlName="EnvironmentalImpact" required>
                 </textarea>
-      </mat-form-field>
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field class="full-width">
-        <mat-label>{{'investors.editor.ProjectDescription' | translate}}</mat-label>
-        <textarea rows="2" matInput formControlName="ProjectDescription"></textarea>
-      </mat-form-field>
-    </div>
-    <h4 class="sub-title">Project Address</h4>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field class="full-width">
+            <mat-label>{{'investors.editor.ProjectDescription' | translate}}</mat-label>
+            <textarea rows="2" matInput formControlName="ProjectDescription"></textarea>
+          </mat-form-field>
+        </div>
+        <h4 class="sub-title">Project Address</h4>
 
-    <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field>
-        <mat-label>{{'investors.editor.Region' | translate}}</mat-label>
-        <mat-select formControlName="RegionId" (selectionChange)="filterRegion($event.value)">
-          <mat-option *ngFor="let region of regions" [value]="region.RegionId">
-            {{region.Description}}
-          </mat-option>
-        </mat-select>
-    
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{'investors.editor.Zone' | translate}}</mat-label>
-        <mat-select formControlName="ZoneId">
-          <mat-option *ngFor="let zone of filteredZones" [value]="zone.ZoneId">
-            {{zone.Description}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field fxLayoutGap="4em">
-        <mat-label>{{'investors.editor.WoredaAmharic' | translate}}</mat-label>
-        <input matInput formControlName="WoredaId" />
-      </mat-form-field>
-      <mat-form-field fxLayoutGap="4em">
-        <mat-label>{{'investors.editor.WoredaEnglish' | translate}}</mat-label>
-        <input matInput formControlName="WoredaEngId" />
-      </mat-form-field>
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field fxLayoutGap="4em">
-        <mat-label>{{'investors.editor.KebeleAmharic' | translate}}</mat-label>
-        <input matInput formControlName="KebeleId" />
-      </mat-form-field>
-      <mat-form-field fxLayoutGap="4em">
-        <mat-label>{{'investors.editor.KebeleEnglish' | translate}}</mat-label>
-        <input matInput formControlName="KebeleEngId" />
-      </mat-form-field>
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field>
-        <mat-label>{{'investors.editor.SpecificAreaName' | translate}}</mat-label>
-        <input formControlName="SpecificAreaName" matInput type="text">
-      </mat-form-field>
-      <mat-checkbox formControlName="IsIndustrialPark" >
-        Is Industrial Park ?
-      </mat-checkbox>
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field *ngIf="IsIndustrialPark">
-        <mat-label>{{'investors.editor.IndustrialPark' | translate}}</mat-label>
-        <mat-select formControlName="IndustrialParkId">
-          <mat-option *ngFor="let site of allSiteList" [value]="site.SiteId">
-            <span> {{site.NameEnglish}}</span>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div fxLayout="row wrap" *ngIf="IsOromiaRegion()" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column"
-      fxLayoutGap="2em">
-      <mat-checkbox formControlName="IsOromiaSpecialZone">
-        {{'investors.editor.IsOromiaSpecialZone' | translate}}
-      </mat-checkbox>
-    </div>
-    <h4 class="sub-title">Project Category</h4>
-     <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-      <mat-form-field>
-        <mat-label>{{'investors.editor.Sector' | translate}}</mat-label>
-        <mat-select formControlName="SectorId"
-         (selectionChange)="filterSubSector($event.value)" >
-          <mat-option value="0">--</mat-option>
-          <mat-option *ngFor="let sector of sectorList" [value]="sector.SectorId">
-            {{sector.DescriptionEnglish}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{'investors.editor.SubSector' | translate}}</mat-label>
-        <mat-select formControlName="SubSectorId"
-         (selectionChange)="filterActivity($event.value)">
-          <mat-option value="0">--</mat-option>
-          <mat-option *ngFor="let sub of filterSubSectorList" [value]="sub.SubSectorId">
-            {{sub.DescriptionEnglish}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-      <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <mat-label>{{'investors.editor.Region' | translate}}</mat-label>
+            <mat-select formControlName="RegionId" (selectionChange)="filterRegion($event.value)">
+              <mat-option *ngFor="let region of regions" [value]="region.RegionId">
+                {{region.Description}}
+              </mat-option>
+            </mat-select>
+
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'investors.editor.Zone' | translate}}</mat-label>
+            <mat-select formControlName="ZoneId">
+              <mat-option *ngFor="let zone of filteredZones" [value]="zone.ZoneId">
+                {{zone.Description}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field fxLayoutGap="4em">
+            <mat-label>{{'investors.editor.WoredaAmharic' | translate}}</mat-label>
+            <input matInput formControlName="WoredaId" />
+          </mat-form-field>
+          <mat-form-field fxLayoutGap="4em">
+            <mat-label>{{'investors.editor.WoredaEnglish' | translate}}</mat-label>
+            <input matInput formControlName="WoredaEngId" />
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field fxLayoutGap="4em">
+            <mat-label>{{'investors.editor.KebeleAmharic' | translate}}</mat-label>
+            <input matInput formControlName="KebeleId" />
+          </mat-form-field>
+          <mat-form-field fxLayoutGap="4em">
+            <mat-label>{{'investors.editor.KebeleEnglish' | translate}}</mat-label>
+            <input matInput formControlName="KebeleEngId" />
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <mat-label>{{'investors.editor.SpecificAreaName' | translate}}</mat-label>
+            <input formControlName="SpecificAreaName" matInput type="text">
+          </mat-form-field>
+          <mat-checkbox formControlName="IsIndustrialPark">
+            Is Industrial Park ?
+          </mat-checkbox>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field *ngIf="IsIndustrialPark">
+            <mat-label>{{'investors.editor.IndustrialPark' | translate}}</mat-label>
+            <mat-select formControlName="IndustrialParkId">
+              <mat-option *ngFor="let site of allSiteList" [value]="site.SiteId">
+                <span> {{site.NameEnglish}}</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" *ngIf="IsOromiaRegion()" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column"
+          fxLayoutGap="2em">
+          <mat-checkbox formControlName="IsOromiaSpecialZone">
+            {{'investors.editor.IsOromiaSpecialZone' | translate}}
+          </mat-checkbox>
+        </div>
+        <h4 class="sub-title">Project Category</h4>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <mat-label>{{'investors.editor.Sector' | translate}}</mat-label>
+            <mat-select formControlName="SectorId" (selectionChange)="filterSubSector($event.value)">
+              <mat-option value="0">--</mat-option>
+              <mat-option *ngFor="let sector of sectorList" [value]="sector.SectorId">
+                {{sector.DescriptionEnglish}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'investors.editor.SubSector' | translate}}</mat-label>
+            <mat-select formControlName="SubSectorId" (selectionChange)="filterActivity($event.value)">
+              <mat-option value="0">--</mat-option>
+              <mat-option *ngFor="let sub of filterSubSectorList" [value]="sub.SubSectorId">
+                {{sub.DescriptionEnglish}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field>
             <mat-label>{{'investors.editor.Activity' | translate}}</mat-label>
-            <mat-select formControlName="ActivityId"  (selectionChange)="filterInvestmentActivity($event.value)">
+            <mat-select formControlName="ActivityId" (selectionChange)="filterInvestmentActivity($event.value)">
               <mat-option *ngFor="let activity of filterActivityLIst " [value]="activity.ActivityId">
                 {{activity.DescriptionEnglish}}
               </mat-option>
@@ -164,9 +165,9 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </div> 
-  </form>
-</div>
+        </div>
+      </form>
+    </div>
 
 
 
@@ -200,9 +201,9 @@
             <input placeholder="Start Date * :" formControlName="StartDate" matInput [matDatepicker]="startDate">
             <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
             <mat-datepicker #startDate></mat-datepicker>
-              <mat-error *ngIf="StartDate.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
+            <mat-error *ngIf="StartDate.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
           </mat-form-field>
           <mat-form-field fxLayoutGap="4em">
             <input placeholder="Ending Date * :" matInput formControlName="EndingDate"
@@ -220,9 +221,9 @@
               [matDatepicker]="operationDate">
             <mat-datepicker-toggle matSuffix [for]="operationDate"></mat-datepicker-toggle>
             <mat-datepicker #operationDate></mat-datepicker>
-              <mat-error *ngIf="OperationDate.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
+            <mat-error *ngIf="OperationDate.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
           </mat-form-field>
         </div>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
@@ -245,16 +246,16 @@
         <div>
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field>
-            <mat-label>{{'investors.editor.Region' | translate}} </mat-label>
+              <mat-label>{{'investors.editor.Region' | translate}} </mat-label>
               <mat-select formControlName="RegionId" (selectionChange)="filterRegion($event.value)">
                 <mat-option *ngFor="let region of regions" [value]="region.RegionId">
                   {{region.Description}}
                 </mat-option>
               </mat-select>
-                <!-- <mat-error *ngIf="RegionId.hasError('required')">
+              <!-- <mat-error *ngIf="RegionId.hasError('required')">
                   {{'common.validation.Required' | translate}}
                 </mat-error> -->
-           </mat-form-field>
+            </mat-form-field>
             <mat-form-field>
               <mat-label>{{'investors.editor.Zone' | translate}}</mat-label>
               <mat-select formControlName="ZoneId">
@@ -295,7 +296,7 @@
           </div>
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field *ngIf="IsIndustrialPark">
-                <mat-label>{{'investors.editor.IndustrialPark' | translate}}</mat-label>
+              <mat-label>{{'investors.editor.IndustrialPark' | translate}}</mat-label>
               <mat-select formControlName="IndustrialParkId">
                 <mat-option *ngFor="let site of allSiteList" [value]="site.SiteId">
                   <span> {{site.NameEnglish}}</span>
@@ -313,8 +314,7 @@
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field>
               <mat-label>{{'investors.editor.Sector' | translate}} </mat-label>
-              <mat-select formControlName="SectorId" 
-              (selectionChange)="filterSubSector($event.value)" required>
+              <mat-select formControlName="SectorId" (selectionChange)="filterSubSector($event.value)" required>
                 <!-- <mat-option value="0">--</mat-option> -->
                 <mat-option *ngFor="let sector of sectorList" [value]="sector.SectorId">
                   {{sector.DescriptionEnglish}}
@@ -334,7 +334,8 @@
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field>
               <mat-label>{{'investors.editor.Activity' | translate}}</mat-label>
-              <mat-select formControlName="ActivityId" required (selectionChange)="filterInvestmentActivity($event.value)">
+              <mat-select formControlName="ActivityId" required
+                (selectionChange)="filterInvestmentActivity($event.value)">
                 <mat-option *ngFor="let activity of filterActivityLIst " [value]="activity.ActivityId">
                   {{activity.DescriptionEnglish}}
                 </mat-option>
@@ -349,11 +350,15 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <mat-card-actions fxLayoutAlign="end end">
+          <mat-card-actions fxLayoutAlign="end end" *ngIf="!serviceId">
             <button [disabled]="projectAmendForm.invalid" mat-raised-button color="primary" *ngIf="!updateData"
               (click)="create()">{{'common.commands.Save'|translate}}</button>
             <button [disabled]="projectAmendForm.invalid" mat-raised-button color="primary" *ngIf="updateData"
               (click)="update()">{{'common.commands.Update'|translate}}</button>
+          </mat-card-actions>
+          <mat-card-actions fxLayoutAlign="end end" *ngIf="serviceId">
+            <button [disabled]="projectAmendForm.invalid" mat-raised-button color="primary"
+              (click)="approve()">{{'common.commands.Approve'|translate}}</button>
           </mat-card-actions>
         </div>
       </form>
@@ -363,4 +368,4 @@
 <div *ngIf="loading" class="loadme-circleBounce">
   <div class="loadme-circleBounce1"></div>
   <div class="loadme-circleBounce2"></div>
-</div> 
+</div>

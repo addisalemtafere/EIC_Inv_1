@@ -103,15 +103,15 @@
             <input type="number"
                    matInput
                    formControlName="LandAgricultural">
+            <mat-error align="start" *ngIf="formErrors.LandAgricultural">{{ formErrors.LandAgricultural }}</mat-error>
           </mat-form-field>
-          <mat-error align="start" *ngIf="formErrors.LandAgricultural">{{ formErrors.LandAgricultural }}</mat-error>
         </div>
         <div class="block" fxFlex="25%">
           <mat-form-field>
             <mat-label>Land Service (Sq.m) :</mat-label>
             <input type="number" matInput formControlName="LandService">
+            <mat-error align="start" *ngIf="formErrors.LandService">{{ formErrors.LandService }}</mat-error>
           </mat-form-field>
-          <mat-error align="start" *ngIf="formErrors.LandService">{{ formErrors.LandService }}</mat-error>
         </div>
         <div class="block" fxFlex="25%">
           <mat-form-field>
@@ -123,6 +123,7 @@
           <mat-form-field>
             <mat-label>Lease Land (Sq.m) :</mat-label>
             <input type="number" matInput formControlName="LeaseLand">
+            <mat-error align="start" *ngIf="formErrors.LeaseLand">{{ formErrors.LeaseLand }}</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -131,6 +132,7 @@
           <mat-form-field>
             <mat-label>Rental Land (Sq.m) :</mat-label>
             <input type="number" matInput formControlName="RentalLand">
+            <mat-error align="start" *ngIf="formErrors.RentalLand">{{ formErrors.RentalLand }}</mat-error>
           </mat-form-field>
         </div>
 
@@ -139,7 +141,7 @@
             <mat-label>Remark :</mat-label>
             <textarea type="number" matInput formControlName="Remark"></textarea>
           </mat-form-field>
-          <mat-error align="start" *ngIf="formErrors.Remark">{{ formErrors.Remark }}</mat-error>
+          <!--<mat-error align="start" *ngIf="formErrors.Remark">{{ formErrors.Remark }}</mat-error>-->
         </div>
       </div>
 

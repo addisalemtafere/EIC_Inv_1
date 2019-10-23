@@ -87,12 +87,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
 
     }
 
+
     public class ProjectAddressDTO : Fproject
     {
         public int? AddressId { get; set; }
         public int? IndustrialParkId { get; set; }
         public bool?  IsMainOffice {get; set;}
         public bool ? IsIndustrialPark { get; set; }
+        public bool ? IsAddressActive { get; set; }
+        public bool ? IsAddressDeleted { get; set; }
         public string RegionId { get; set; }
         public string SpecificAreaName { get; set; }
         public string ZoneId { get; set; }

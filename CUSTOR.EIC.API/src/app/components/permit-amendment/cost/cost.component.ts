@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
-} from "@angular/forms";
+import { AbstractControl, FormBuilder,FormControl,FormGroup,ValidationErrors,ValidatorFn,Validators} from "@angular/forms";
 import { ErrorMessage } from "@custor/services/errMessageService";
 import { ToastrService } from "ngx-toastr";
 import { ActivatedRoute } from "@angular/router";
 import { CurrencyType, ProjectStatusModel, QuarterModel } from "../../../model/lookupData";
 import { CurrencyTypes, ProjectStatus, Quarter } from "@custor/const/consts";
-import { ProjectService } from '../service/project.service'
+import { ProjectService } from '../service/project.service';
+import { ProjectStage, FormOfOwnership, ServiceTypes } from '@custor/const/consts';
+import { ServiceApplicationService } from "../service/service-application.service";
+import { ProjectOfficerService } from '../service/project-officer.service';
 @Component({
   selector: 'app-cost',
   templateUrl: './cost.component.html',
@@ -34,19 +29,43 @@ export class CostComponent implements OnInit {
   projectCostData: any;
   projectCostPostDTO: any;
   updateData = false;
+  serviceApplicationId:any;
+  existingServiceApplication:any;
+  projectCost: any; serviceId: any; InvestorId: any; ProjectCostId:any;
+  IsDeleted: any;IsActive: any;
+  amendment = ServiceTypes[4].ServiceId; 
+
   constructor(private formBuilder: FormBuilder,
     public toastr: ToastrService,
     public route: ActivatedRoute,
+    private serviceApplicationApiService: ServiceApplicationService,
+    private projectOfficerService: ProjectOfficerService,
     private projectService: ProjectService
-  ) { }
-
+  ) { 
+    this.projectId = this.route.snapshot.params.projectId;
+    this.serviceApplicationId = this.route.snapshot.params.serviceApplicationId;
+    this.serviceId = this.route.snapshot.params.serviceId;
+    this.InvestorId = 2092;
+    if (this.serviceApplicationId == 0) {
+      this.checkServiceApplication();
+    }
+    this.initForm();
+    this.initViewForm();
+  }
+  checkServiceApplication() {
+    const id = 2092;
+    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
+      .subscribe(result => {
+        if (result != null) {
+          this.existingServiceApplication = result;
+          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+        }
+      });
+  }
   ngOnInit() {
     this.initStaticData(this.currentLang);
-    this.initForm();
-     this.initViewForm();
-    const projectId = 28174
-    if (projectId) {
-      this.getProjectCostData(projectId);
+    if (this.projectId) {
+      this.getProjectCostData(this.projectId);
     }
     //this.getExchangeRate();
     //this.formControlValueChanged();
@@ -59,13 +78,18 @@ export class CostComponent implements OnInit {
       }
       else {
         this.projectCostData = res;
+        this.IsActive = this.projectCostData.IsActive
+        this.IsDeleted = this.projectCostData.IsDeleted
+        this.ProjectCostId = this.projectCostData.ProjectCostId
         this.projectCostForm.patchValue(this.projectCostData);
       }
-      this.searchDataFromAudit(projectId);
+      this.searchDataFromAudit(projectId , this.serviceApplicationId);
     })
   }
-  searchDataFromAudit(projectId) {
-    this.projectService.getProjectCostAuditData(projectId).subscribe(res => {
+  searchDataFromAudit(projectId, serviceApplicationId) {
+    console.log(projectId);
+    console.log(serviceApplicationId);
+    this.projectService.getProjectCostAuditData(projectId, serviceApplicationId).subscribe(res => {
       console.log(res)
       if (res != null) {
         console.log("data found on audit table")
@@ -253,8 +277,36 @@ export class CostComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    console.log("")
+  create() {
+    console.log(this.getEditedData())
+    this.projectService.saveCostData(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
   }
-
+  update() {
+    console.log(this.getEditedData())
+    this.projectService.updateCostData(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
+  }
+  approve(){
+    this.projectOfficerService.approveProjectCost(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
+  }
+  getEditedData() {
+    this.projectCost = this.projectCostAmendForm.value;
+    this.projectCost.ProjectId = this.projectId;
+    this.projectCost.InvestorId = (this.InvestorId) ? this.InvestorId : 0;;
+    this.projectCost.IsActive = (this.IsActive) ? this.IsActive : true;
+    this.projectCost.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
+    this.projectCost.ProjectCostId = (this.ProjectCostId) ? this.ProjectCostId : 0;
+    if (this.serviceApplicationId == 0) {
+      this.projectCost.ServiceApplicationId = null
+    }
+    else {
+      this.projectCost.ServiceApplicationId = this.serviceApplicationId;
+    }
+    return this.projectCost;
+  }
 }

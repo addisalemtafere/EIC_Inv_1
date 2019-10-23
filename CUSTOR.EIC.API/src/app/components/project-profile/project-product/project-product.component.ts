@@ -33,12 +33,12 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
   ];
   subscription: Subscription;
   formErrors = {
-    ProductName: '',
-    ProductQty: '',
-    ProductUnit: '',
+    ProductName: 'Enter the Product/Service name please!',
+    ProductQty: 'Product quantity should be greater than zero!',
+    ProductUnit: 'Product unit is required!',
     // ProductValue: '',
-    DomesticMarketShare: '',
-    ExportMarketShare: '',
+    DomesticMarketShare: 'Value should be <=100 and >=0!',
+    ExportMarketShare: 'Value should be <=100 and >=0!',
     Remark: '',
     Quarter: '',
     RegistrationYear: ''
@@ -153,7 +153,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
       ProjectOutputId: new FormControl(''),
       workFlowId: new FormControl(this.workFlowId),
       ProductName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-      ProductQty: new FormControl(0, [Validators.required, Validators.min(0)]),
+      ProductQty: new FormControl(0, [Validators.required, Validators.min(1)]),
       ProductUnit: new FormControl('', [Validators.required]),
       // ProductValue: new FormControl(0, [Validators.required, Validators.min(0)]),
       Quarter: [''],

@@ -29,6 +29,21 @@ namespace CUSTOR.EICOnline.DAL
             
             return sa;
         }
+        public  ServiceApplication CheckProjectServiceApplication(int projectId, int requestedServiceId)
+        {
+            ServiceApplication sa = null;
+            try
+            {
+                sa = Context.ServiceApplication.OrderByDescending(m => m.UpdatedEventDatetime)
+                     .FirstOrDefault(m => m.ServiceId == requestedServiceId && m.ProjectId == projectId && m.IsActive != true);  
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException.ToString());
+            }
+            
+            return sa;
+        }
         public ServiceApplication GetRecord(int ServiceApplicationId)
         {
             ServiceApplication order = null;

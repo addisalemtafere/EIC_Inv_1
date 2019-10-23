@@ -34,6 +34,8 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
   pageEvent: PageEvent;
   totalCount = 0;
+  step:number;
+  serviceWorkFlow:any;
   dataSource: any;
   subscribtion = new Subscription();
   loading = true;
@@ -150,7 +152,10 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     setTimeout(() => this.dataSharing.isNew.next(true), 0);
 
     switch (serviceId) {
-      case ServiceEnum.NewIP || ServiceEnum.Expansion || ServiceEnum.AmendmentOfIP:
+      // case ServiceEnum.NewIP || ServiceEnum.Expansion || ServiceEnum.AmendmentOfIP:
+      //   this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
+      //   break;
+      case ServiceEnum.NewIP || ServiceEnum.Expansion :
         this.router.navigate(['pro/' + projectId + '/' + serviceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
         break;
       case ServiceEnum.Renewal:
@@ -173,14 +178,30 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   projectApprove(serviceApplication: ServiceApplicationModel) {
+    console.log('project approved');
+    this.step = 0;
+    console.log(serviceApplication);
+    localStorage.setItem('title', serviceApplication.ServiceNameEnglish);
+    localStorage.setItem('projectName', serviceApplication.ProjectNameEnglish);
+    localStorage.setItem('investorName', serviceApplication.InvestorNameEnglish);
+    this.serviceWorkFlow = serviceApplication.ServiceWorkflow;
+    if (this.serviceWorkFlow.length != 0){
+      const workFlowId = (serviceApplication.ServiceWorkflow[0].ServiceWorkflowId) ? serviceApplication.ServiceWorkflow[0].ServiceWorkflowId : 0;
+      this.step = (serviceApplication.ServiceWorkflow[0].NextStepId) ? serviceApplication.ServiceWorkflow[0].NextStepId : 0;
+    }
+      
     const id = serviceApplication.ServiceApplicationId;
     const projectId = serviceApplication.ProjectId;
     const serviceId = serviceApplication.ServiceId;
     const investorId = serviceApplication.InvestorId;
-    const workFlowId = serviceApplication.ServiceWorkflow[0].ServiceWorkflowId;
-    const step = serviceApplication.ServiceWorkflow[0].NextStepId;
-    let stepIndex;
-    switch (step) {
+    const workFlowId = 0;
+    
+    console.log(this.step);
+   let stepIndex;
+    switch (this.step) {
+      case 0:
+        stepIndex = 1;
+        break;
       case 8:
         stepIndex = 1;
         break;
@@ -219,11 +240,13 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
     setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
+    console.log(investorId)
+    console.log("service id " + serviceId + " investorId " + investorId + " service application id " + id + "projectId "+ projectId )
+    console.log("permit-amendment" + "/" + "amend-project" + "/"  + serviceId + ' / ' + investorId + ' / ' + id + ' / ' + projectId + ' /'  + 0)
     switch (serviceId) {
       case ServiceEnum.NewIP:
       case ServiceEnum.Expansion:
         this.router.navigate(['/officer/' + serviceId + '/' + investorId + '/' + id + '/' + workFlowId + '/' + projectId]);
-
         break;
       case ServiceEnum.Renewal:
         this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId]);
@@ -252,6 +275,9 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         break;
       case ServiceEnum.BusinessLicense:
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/' + workFlowId + '/' + 0]);
+        break;
+      case ServiceEnum.PermitAmendment:
+        this.router.navigate(['permit-amendment/amend-project/' + serviceId + '/' + investorId + '/' + id + '/' + projectId + '/'  + 0]);
         break;
       default:
         this.router.navigate(['/notfound'], {relativeTo: this.route});
@@ -406,7 +432,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result);
         this.loading = false;
         this.serviceApplicationList = result;
-        // console.log(result);
+        console.log(result);
         this.dataSource.paginator = this.paginator;
 
       }, error => this.errMsg.getError(error));

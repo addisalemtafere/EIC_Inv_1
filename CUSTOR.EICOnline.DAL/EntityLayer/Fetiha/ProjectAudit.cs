@@ -90,6 +90,32 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
 
     }
     
+    public partial class ProjectAuditAddressDTO : Project
+    {
+        public int? AddressId { get; set; }
+        public int? IndustrialParkId { get; set; }
+        public bool? IsMainOffice { get; set; }
+        public bool? IsIndustrialPark { get; set; }
+        public bool? IsAddressActive { get; set; }
+        public bool? IsAddressDeleted { get; set; }
+        public string RegionId { get; set; }
+        public string SpecificAreaName { get; set; }
+        public string ZoneId { get; set; }
+        public string WoredaId { get; set; }
+        public string WoredaEngId { get; set; }
+        public string KebeleId { get; set; }
+        public string KebeleEngId { get; set; }
+        public string HouseNo { get; set; }
+        public string TeleNo { get; set; }
+        public string Pobox { get; set; }
+        public string Fax { get; set; }
+        public string CellPhoneNo { get; set; }
+        public string Email { get; set; }
+        public string OtherAddress { get; set; }
+        public int? ServiceApplicationId { get; set; }
+
+    }
+
 
     public partial class ProjectRequirementAudit
     {
@@ -127,6 +153,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public int? ProjectStatus { get; set; }
         public int? Quarter { get; set; }
         public DateTime? RegistrationYear { get; set; }
+        public int? ServiceApplicationId { get; set; }
+    }
+    public partial class ProjectRequirementServiceApplicationAudit : ProjectRequirementAudit
+    {
+        public int ? CurrentStatusId { get; set; }
+        public int ? InvestorId { get; set; }
+        
+
+        public int ? CurrentStep { get; set; }
     }
 
     public partial class ProjectCostAudit
@@ -137,13 +172,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public int ProjectCostId { get; set; }
         public int ProjectId { get; set; }
         public bool IsActual { get; set; }
+        public decimal TransportCost { get; set; }
         public decimal LandCost { get; set; }
         public decimal LandCostInBirr { get; set; }
         public decimal BuildingCost { get; set; }
         public decimal BuildingCostInBirr { get; set; }
         public decimal MachineryCost { get; set; }
         public decimal MachineryCostInBirr { get; set; }
-        public decimal TransportCost { get; set; }
         public decimal TransportCostInBirr { get; set; }
         public decimal OfficeEquipmentCost { get; set; }
         public decimal OfficeEquipmentCostInBirr { get; set; }
@@ -171,6 +206,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public int? Quarter { get; set; }
         public DateTime? ReagistrationYear { get; set; }
         public int? UpdatedUserId { get; set; }
+        public int? ServiceApplicationId { get; set; }
         public string UpdatedUserName { get; set; }
         public Guid? ObjectId { get; set; }
 
@@ -178,6 +214,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public int? workFlowId { get; set; }
 
         public Project Project { get; set; }
+    }
+    public partial class ProjectCostInvestorAudit : ProjectCostAudit
+    {
+        public int ? InvestorId { get; set; }
     }
 
     public partial class ProjectEmploymentAudit
@@ -188,14 +228,14 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public int? ProjectEmploymentId { get; set; }
         public int? ProjectId { get; set; }
         public bool IsActual { get; set; }
-        public int? PermanentFemale { get; set; }
-        public int? PermanentMale { get; set; }
-        public int? TemporaryFemale { get; set; }
-        public int? TemporaryMale { get; set; }
-        public int? PermanentForeignFemale { get; set; }
-        public int? PermanentForeignMale { get; set; }
-        public int? TemporaryForeignFemale { get; set; }
-        public int? TemporaryForeignMale { get; set; }
+        public int PermanentFemale { get; set; }
+        public int PermanentMale { get; set; }
+        public int TemporaryFemale { get; set; }
+        public int TemporaryMale { get; set; }
+        public int PermanentForeignFemale { get; set; }
+        public int PermanentForeignMale { get; set; }
+        public int TemporaryForeignFemale { get; set; }
+        public int TemporaryForeignMale { get; set; }
 
         public int? CurrentPermanentFemale { get; set; }
         public int? CurrentPermanentMale { get; set; }
@@ -219,12 +259,17 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
 
         [NotMapped]
         public int? workFlowId { get; set; }
+        public int? ServiceApplicationId { get; set; }
 
         public Project Project { get; set; }
 
         public int? ProjectStatus { get; set; }
         public int? Quarter { get; set; }
         public DateTime? RegistrationYear { get; set; }
+    }
+    public partial class ProjectEmploymentInvestorAudit : ProjectEmploymentAudit
+    {
+        public int ? InvestorId { get; set; }
     }
     public partial class ProjectNationalityCompositionAudit
     {
@@ -233,10 +278,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public int  id { get; set; }
         public int? ProjectNationalityCompositionId { get; set; }
         public int? ProjectId { get; set; }
-        public int? Nationality { get; set; }
+        public int Nationality { get; set; }
         public bool? IsActual { get; set; }
-        public int? Qty { get; set; }
-        public decimal? SharePercent { get; set; }
+        public int Qty { get; set; }
+        public decimal SharePercent { get; set; }
         public string Description { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
@@ -245,12 +290,17 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public string CreatedUserName { get; set; }
         public DateTime? UpdatedEventDatetime { get; set; }
         public int? UpdatedUserId { get; set; }
+        public int? ServiceApplicationId { get; set; }
         public string UpdatedUserName { get; set; }
         public Guid? ObjectId { get; set; }
 
         [NotMapped] public int? workFlowId { get; set; }
 
         public Project Project { get; set; }
+    }
+    public partial class ProjectNationalityCompositionInvestorAudit : ProjectNationalityCompositionAudit
+    {
+        public int? InvestorId { get; set; }
     }
 
     public partial class ProjectOutputAudit
@@ -263,12 +313,12 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public int? ProjectId { get; set; }
         public string ProductName { get; set; }
         public bool? IsActual { get; set; }
-        public decimal ? ProductQty { get; set; }
+        public decimal  ProductQty { get; set; }
         public decimal? QuantityIncrease { get; set; }
         public string ProductUnit { get; set; }
         public decimal? ProductValue { get; set; }
-        public decimal? DomesticMarketShare { get; set; }
-        public decimal? ExportMarketShare { get; set; }
+        public decimal DomesticMarketShare { get; set; }
+        public decimal ExportMarketShare { get; set; }
         public string Remark { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
@@ -287,7 +337,43 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
 
         public int? ProjectStatus { get; set; }
         public int? Quarter { get; set; }
+        public int? ServiceApplicationId { get; set; }
         public DateTime? RegistrationYear { get; set; }
+    }
+    public partial class ProjectOutputInvestorAudit : ProjectOutputAudit
+    {
+        public int? InvestorId { get; set; }
+    }
+    public partial class ProjectInputAudit
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int id { get; set; }
+      
+        public int ProjectInputId { get; set; }
+        public int ProjectId { get; set; }
+        public string RawMaterialType { get; set; }
+        public Boolean IsForeign { get; set; }
+        public string Remark { get; set; }
+        public bool? IsActive { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime EventDatetime { get; set; }
+        public int CreatedUserId { get; set; }
+        public string CreatedUserName { get; set; }
+        public DateTime? UpdatedEventDatetime { get; set; }
+        public int? UpdatedUserId { get; set; }
+        public string UpdatedUserName { get; set; }
+        public Guid? ObjectId { get; set; }
+
+        public Project Project { get; set; }
+        public int? ProjectStatus { get; set; }
+        public int? Quarter { get; set; }
+        public int? ServiceApplicationId { get; set; }
+        public DateTime? RegistrationYear { get; set; }
+    }
+    public partial class ProjectInputInvestorAudit : ProjectInputAudit
+    {
+        public int? InvestorId { get; set; }
     }
 
 }

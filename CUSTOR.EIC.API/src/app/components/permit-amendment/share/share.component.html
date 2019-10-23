@@ -99,13 +99,6 @@
                  </textarea>
           </mat-form-field>
         </div>
-        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-          <button class="custom-button " [disabled]="!projectShareForm.valid" (click)="onSubmit()"
-            matTooltip="Add Share">
-            <mat-icon color="accent" class=" mat-18">done</mat-icon>
-            {{editMode ? 'Update' : 'Add'}}
-          </button>
-        </div>
       </form>
     </div>
     <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
@@ -136,15 +129,20 @@
           </mat-form-field>
         </div>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-          <button class="custom-button " [disabled]="!projectShareForm.valid" (click)="onSubmit()"
-            matTooltip="Add Share">
-            <mat-icon color="accent" class=" mat-18">done</mat-icon>
-            {{editMode ? 'Update' : 'Add'}}
-          </button>
+          <a class="custom-button pointer" *ngIf="!editModeInput" color="primary" (click)="create()">
+            Save
+          </a>
+          <a class="custom-button pointer" *ngIf="editModeInput" color="primary" (click)="update()">
+            Update
+          </a>
         </div>
       </form>
     </div>
   </mat-card-content>
+    <mat-card-actions fxLayoutAlign="end end">
+      <button mat-raised-button color="primary" (click)="approve()">
+        {{'common.commands.Approve'|translate}}</button>
+    </mat-card-actions>
 </mat-card>
 
 

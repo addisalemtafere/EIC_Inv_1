@@ -6,6 +6,7 @@ import { PermitListComponent } from './permit-list/permit-list.component';
 const routes: Routes = [
   { path: '', component: PermitListComponent},
   { path: 'amend-project/:projectId/:serviceApplicationId', component: PermitAmendmentComponent},
+  { path: 'amend-project/:serviceId/:investorId/:serviceApplicationId/:projectId/0', component: PermitAmendmentComponent},
 ];
 
 @NgModule({

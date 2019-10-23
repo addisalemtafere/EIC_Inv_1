@@ -347,21 +347,19 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   getInvestorsByUserId() {
+    console.log(this.accountService.currentUser.Id);
     this.invService.getInvestorByUserId(this.accountService.currentUser.Id)
       .subscribe(result => {
           // console.log(result);
           this.investors = result;
-          console.log("investo=");
           console.log(this.investors);
           if (this.investors.length === 0 || this.investors[0].IsActive == false) {
             if (this.investors.length !== 0) {
               console.log('Profile incomlete1');
-
               localStorage.setItem('profile-completed', 'false');
               this.router.navigate(['investor-profile', this.investors[0].InvestorId]);
             } else {
               console.log('Profile incomlete2');
-
               this.router.navigate(['investor-profile/0']);
             }
 

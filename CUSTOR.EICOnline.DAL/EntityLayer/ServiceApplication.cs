@@ -25,6 +25,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public int? ProjectId { get; set; }
         public int? InvestorId { get; set; }
         public int? ServiceId { get; set; }
+        public int? CurrentStep { get; set; }
         public int? TodoTaskId { get; set; }
         public string CaseNumber { get; set; }
         public string ServiceNameEnglish { get; set; }
@@ -115,6 +116,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string Description { get; set; }
         public string HsCode { get; set; }
         public decimal Quantity { get; set; }
+        public decimal Balance { get; set; }
         public string MesurmentUnit { get; set; }
         public string RejectionReason { get; set; }
         public bool IsApproved { get; set; }

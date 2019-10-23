@@ -57,6 +57,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 GrandNameSoundx = string.Empty,
                 InvestorId = investorDTO.InvestorId,
                 IsActive = investorDTO.IsActive,
+                UserId = investorDTO.UserId,
                 IsDeleted = investorDTO.IsDeleted,
                 Nationality = investorDTO.Nationality,
                 BranchCountry = investorDTO.BranchCountry,
@@ -67,7 +68,6 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 LegalStatus = investorDTO.LegalStatus,
                 RegistrationDate = investorDTO.RegistrationDate,
                 RegistrationNumber = investorDTO.RegistrationNumber,
-
                 PaidCapital = investorDTO.PaidCapital,
                 SighnedCapital = investorDTO.SighnedCapital,
                 IsExistingCustomer = investorDTO.IsExistingCustomer,
@@ -153,6 +153,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 IsEthiopianOrigin = inv.IsEthiopianOrigin,
                 Title = inv.Title,
                 Tin = inv.Tin,
+                UserId= inv.UserId,
                 FormOfOwnership = inv.FormOfOwnership,
                 LegalStatus = inv.LegalStatus,
                 RegistrationDate = inv.RegistrationDate,

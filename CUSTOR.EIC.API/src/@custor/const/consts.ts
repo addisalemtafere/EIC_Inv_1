@@ -47,7 +47,7 @@ export const ProjectStatus: any[] = [
   {'Id': '4', 'Description': 'ተሰርዟል', 'DescriptionEnglish': 'Cancelled'},
   {'Id': '5', 'Description': 'ታግዷል', 'DescriptionEnglish': 'Injected '},
   {'Id': '6', 'Description': 'ተዘግቷል', 'DescriptionEnglish': 'Closed'},
-  {'Id': '7', 'Description': 'ተዛውሯል', 'DescriptionEnglish': 'Transfer'},
+  {'Id': '7', 'Description': 'ተዛውሯል', 'DescriptionEnglish': 'Transfered'},
   {'Id': '8', 'Description': 'የማይንቀሳቀስ', 'DescriptionEnglish': 'Not Active'},
   {'Id': '9', 'Description': 'በስራ ላይ', 'DescriptionEnglish': 'Active'}
 ];

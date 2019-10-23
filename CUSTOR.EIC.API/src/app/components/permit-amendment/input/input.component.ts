@@ -9,6 +9,7 @@ import { ServiceApplicationService } from "../service/service-application.servic
 import { ProjectStage, FormOfOwnership, ServiceTypes } from '@custor/const/consts';
 import { ConfigurationService } from '@custor/services/configuration.service';
 import { ProjectService } from '../service/project.service';
+import { ProjectOfficerService } from '../service/project-officer.service';
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
@@ -17,39 +18,51 @@ import { ProjectService } from '../service/project.service';
 export class InputComponent implements OnInit {
   projectInputForm: FormGroup;
   projectInputAmendForm: FormGroup;
-  ProjectId:any;
   editMode = false;
   editModeInput = false;
+  projectInput :any;
   rawInputId: number;
   loading = false;
   subscription: Subscription;
   projectId: any;
   ServiceId: number;
+  serviceId: number;
   AllowCascading = true;
   updateData = false;
   amendment = ServiceTypes[4].ServiceId;
   public existingServiceApplication: any;
+  projectRequirementId : any
   serviceApplicationId: any;
   currentLang: string;
   projectInputData:any;
   projectInputPostData:any;
+  InvestorId:any;
+  IsDeleted : any;
+  IsActive:any;
+  ProjectRequirementId: number;
+
   constructor(private formBuilder: FormBuilder,
     private errMsg: ErrorMessage,
     private serviceApplicationApiService: ServiceApplicationService,
     public route: ActivatedRoute,
     private projectService: ProjectService,
+    private projectOfficerService: ProjectOfficerService,
     private configService: ConfigurationService) {
     this.currentLang = this.configService.language;
-    this.checkServiceApplication();
+    this.projectId = this.route.snapshot.params.projectId;
+    this.serviceApplicationId = this.route.snapshot.params.serviceApplicationId;
+    this.serviceId = this.route.snapshot.params.serviceId;
+    this.InvestorId = 2092;
+    if (this.serviceApplicationId == 0) {
+      this.checkServiceApplication();
+    }
     this.initViewForm();
     this.initForm();
   }
 
   ngOnInit() {
-    const projectId = 28174;
-    this.ProjectId = projectId;
-    if (projectId) {
-      this.getProjectInputData(projectId);
+    if (this.projectId) {
+      this.getProjectInputData(this.projectId);
     }
   }
   getProjectInputData(projectId){
@@ -60,13 +73,16 @@ export class InputComponent implements OnInit {
       }
       else {
         this.projectInputData = res;
+        this.projectRequirementId = this.projectInputData.ProjectRequirementId;
+        console.log(this.projectInputData)
         this.projectInputForm.patchValue(this.projectInputData);
       }
-      this.searchDataFromAudit(this.ProjectId);
+      this.searchDataFromAudit(this.projectId, this.serviceApplicationId);
   })
 }
-  searchDataFromAudit(projectId){
-    this.projectService.getProjectInputAuditData(projectId).subscribe(res => {
+  searchDataFromAudit(projectId,serviceApplicationId){
+    console.log(serviceApplicationId)
+    this.projectService.getProjectInputAuditData(projectId, serviceApplicationId).subscribe(res => {
       console.log(res)
       if (res != null) {
         console.log("data found on audit table")
@@ -97,10 +113,7 @@ export class InputComponent implements OnInit {
       .subscribe(result => {
         if (result != null) {
           this.existingServiceApplication = result;
-          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationID;
-        }
-        else {
-          this.serviceApplicationId = 0;
+          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
         }
       });
   }
@@ -131,7 +144,37 @@ export class InputComponent implements OnInit {
       workFlowId: []
     })
   }
-  onSubmit() {
-
+ 
+  getEditedData() {
+    this.projectInput = this.projectInputAmendForm.value;
+    this.projectInput.ProjectId = this.projectId;
+    this.projectInput.InvestorId = (this.InvestorId) ? this.InvestorId : 0;;
+    this.projectInput.IsActive = (this.IsActive) ? this.IsActive : true;
+    this.projectInput.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
+    this.projectInput.projectRequirementId = (this.projectRequirementId) ? this.projectRequirementId : 0;
+    if (this.serviceApplicationId == 0) {
+      this.projectInput.ServiceApplicationId = null
+    }
+    else {
+      this.projectInput.ServiceApplicationId = this.serviceApplicationId;
+    }
+    return this.projectInput;
+  }
+  create() {
+    console.log(this.getEditedData());
+    this.projectService.saveInputData(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
+  }
+  update(){
+    this.projectService.updateInputData(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
+  }
+  approve() {
+    console.log(this.getEditedData());
+    this.projectOfficerService.approveProjectInput(this.getEditedData()).subscribe(res => {
+      console.log(res)
+    })
   }
 }

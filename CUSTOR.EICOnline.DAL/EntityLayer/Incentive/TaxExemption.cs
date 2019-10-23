@@ -18,6 +18,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public int ExemptionYearRequested { get; set; }
     public int RevenueBranch { get; set; }
     public string RevenueBranchDescription { get; set; }
+    public string CreatedUserName { get; set; }
+    public string FileNo { get; set; }
+    public string BusinessLicenseNo { get; set; }
     public DateTime RequestDate { get; set; }
 
   }

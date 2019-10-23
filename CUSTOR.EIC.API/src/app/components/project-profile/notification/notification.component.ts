@@ -80,6 +80,7 @@ export class NotificationComponent implements OnInit, AfterContentChecked, After
   }
 
   initForm() {
+    console.log(this.ServiceApplicationId);
     this.notificationForm = this.fb.group({
       Subject: 'EIC Notification',
       UserId: this.UserId,

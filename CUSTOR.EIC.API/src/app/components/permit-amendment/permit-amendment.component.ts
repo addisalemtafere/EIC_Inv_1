@@ -1,15 +1,17 @@
-import { Component, OnInit, AfterContentChecked, AfterViewInit, ViewChild} from '@angular/core';
-import {NotificationModel} from '../../model/Notification.model';
-import { MatPaginator, MatStepper,MatTableDataSource} from '@angular/material';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ErrorMessage} from '@custor/services/errMessageService';
-import {NotificationService} from '../../Services/notification.service';
-import {FormBuilder} from '@angular/forms';
-import {DataSharingService} from '../../Services/data-sharing.service';
-import {FormService} from '@custor/validation/custom/form';
-import {AccountService} from '@custor/services/security/account.service';
-import {ServiceService} from '../../Services/service.service';
+import { Component, OnInit, AfterContentChecked, AfterViewInit, ViewChild } from '@angular/core';
+import { NotificationModel } from '../../model/Notification.model';
+import { MatPaginator, MatDialogConfig, MatDialog, MatStepper, MatTableDataSource } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ErrorMessage } from '@custor/services/errMessageService';
+import { NotificationService } from '../../Services/notification.service';
+import { FormBuilder } from '@angular/forms';
+import { DataSharingService } from '../../Services/data-sharing.service';
+import { FormService } from '@custor/validation/custom/form';
+import { AccountService } from '@custor/services/security/account.service';
+import { ServiceService } from '../../Services/service.service';
 import { Subscription } from 'rxjs';
+import { ProjectService } from './service/project.service';
+import { NotificationComponent } from "../project-profile/notification/notification.component";
 @Component({
   selector: 'app-permit-amendment',
   templateUrl: './permit-amendment.component.html',
@@ -28,24 +30,42 @@ export class PermitAmendmentComponent implements OnInit, AfterViewInit, AfterCon
   displayedColumnsNotification = [
     'date', 'subject', 'message'
   ];
-
+  serviceApplicationId : any;
+  serviceId : any;
   constructor(private errMsg: ErrorMessage,
-              private router: Router,
-              private dataSharing: DataSharingService,
-              private route: ActivatedRoute,
-              private accountService: AccountService,
-              private service: ServiceService,
-              private formBuilder: FormBuilder,
-              private formService: FormService,
-              private notifificationService: NotificationService) {
+    private router: Router,
+    private dataSharing: DataSharingService,
+    private route: ActivatedRoute,
+    private accountService: AccountService,
+    private service: ServiceService,
+    private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private projectService: ProjectService,
+    public dialog: MatDialog,
+    private formService: FormService,
+    private notifificationService: NotificationService) {
+    //serviceId
+    this.serviceApplicationId = this.activatedRoute.snapshot.params.serviceApplicationId;
+    this.serviceId = this.activatedRoute.snapshot.params.serviceId;
+
   }
- 
+  addMessage() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data = {
+      ServiceApplicationId: this.serviceApplicationId,
+    };
+    console.log(dialogConfig.data )
+    this.dialog.open(NotificationComponent, dialogConfig);
+    // this.dialog.open(NotificationComponent);
+
+  }
   ngOnInit() {
     this.getAllNotification(this.accountService.currentUser.Id);
     this.subscription = this.dataSharing.steeperIndex
       .subscribe(index => {
-       
-       this.dataSharing.steeperIndex.next(1)
+
+        this.dataSharing.steeperIndex.next(1)
       });
     this.subscription = this.dataSharing.steeperIndex
       .subscribe(index => {
@@ -59,7 +79,7 @@ export class PermitAmendmentComponent implements OnInit, AfterViewInit, AfterCon
         // alert("am here" + this.nextIndex)
       });
   }
-  start(){
+  start() {
     const index = 1;
     this.stepper.selectedIndex = index;
   }
@@ -96,11 +116,16 @@ export class PermitAmendmentComponent implements OnInit, AfterViewInit, AfterCon
       }, error => this.errMsg.getError(error));
   }
   next() {
-      if (this.steeperIndex < this.upperLimit) {
-        this.steeperIndex++;
-        this.stepper.selectedIndex = this.steeperIndex;
-        console.log(this.stepper);
-      }
+    if (this.steeperIndex < this.upperLimit) {
+      this.steeperIndex++;
+      this.stepper.selectedIndex = this.steeperIndex;
+      console.log(this.stepper);
     }
-
+  }
+  finish() {
+    this.serviceApplicationId = this.activatedRoute.snapshot.params.serviceApplicationId;
+    this.projectService.finishProject(this.serviceApplicationId).subscribe(res => {
+      console.log(res)
+    })
+  }
 }

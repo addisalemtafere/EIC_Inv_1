@@ -104,9 +104,8 @@
                 <td class="s-head">
                   የፍቃድ ቁጥር <br> Permit No.
                 </td>
-                <td class="dta-head">EIC-IP/{{investorDetailList?.Project?.InvestmentPermitNo}}/11
+                <td class="dta-head">{{investorDetailList?.Project?.InvestmentPermitNo}}
                 </td>
-
               </tr>
               <tr>
                 <td class="s-head">
@@ -367,8 +366,6 @@
               </tr>
               </tbody>
             </table>
-
-
           </div>
           <div class="block" fxFlex="">
             <table class="full-width investmentLocation">
@@ -397,26 +394,19 @@
               </tbody>
             </table>
           </div>
-
-
         </div>
-
         <div class="row1" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1">
-
           <div class="block" fxFlex="19">
             <span class="caption">7.የኢንቨስትመንት የስራ መስክ</span>
           </div>
           <div class="block full-width value" fxFlex="30">
             <span class="data">{{investmentActivity?.Description}}</span>
-
           </div>
-
           <div class="block" fxFlex="19">
             <span class="caption">7. Investment Activity</span>
           </div>
           <div class="block full-width value" fxFlex="30">
             <span class="data ">{{investmentActivity?.DescriptionEnglish}}</span>
-
           </div>
 
         </div>
@@ -489,7 +479,7 @@
 
           <div class="block" fxFlex="">
             <span class="t-header">
-              በኢንቨስትመንት አዋጅ ቁጥር 769/2004 መሰረት ዛሬ <strong>{{todayEthioDate}}</strong> አዲስ አበባ
+              በኢንቨስትመንት አዋጅ ቁጥር 769/2004 መሰረት ዛሬ <strong>{{todayEthioDate1}}</strong> አዲስ አበባ
               ተሰጠ ።</span>
           </div>
 
@@ -530,7 +520,7 @@
                 </td>
 
                 <td class="renewDate data value" style="width: 300px">
-                  <span class="renewDate"> {{ todayEthioDateRenewal}} ታድሷል</span>
+                  <span class="renewDate"> {{ renewedToEC}} ታድሷል</span>
                 </td>
               </tr>
               <tr>

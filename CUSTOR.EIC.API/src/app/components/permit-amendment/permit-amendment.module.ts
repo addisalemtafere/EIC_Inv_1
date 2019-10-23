@@ -19,16 +19,22 @@ import { ProjectNationalityCompositionService } from '../../Services/project-nat
 import { ProductComponent } from './product/product.component';
 import { DocumentComponent } from './document/document.component';
 import { PermitListComponent } from './permit-list/permit-list.component';
+import { NotificationComponent } from '../project-profile/notification/notification.component';
 
 @NgModule({
   imports: [CommonModule,
     SharedModule,
     PermitAmendmentRouting
   ],
-  declarations: [PermitAmendmentComponent, ProjectProfileComponent, ServiceRequirementComponent, InputComponent, RawMaterialComponent, CostComponent, EmploymentComponent, ShareComponent, ProductComponent, DocumentComponent, PermitListComponent],
+  declarations: [PermitAmendmentComponent, ProjectProfileComponent,
+     ServiceRequirementComponent, InputComponent, RawMaterialComponent, 
+     CostComponent, EmploymentComponent, ShareComponent, ProductComponent, 
+    NotificationComponent,
+     DocumentComponent, PermitListComponent],
   exports: [PermitAmendmentComponent],
   providers: [AddressService, ServiceApplicationService, SiteService,
-     ProjectNationalityCompositionService]
+     ProjectNationalityCompositionService],
+  entryComponents: [NotificationComponent]
 
 })
 export class PermitAmendmentModule {
