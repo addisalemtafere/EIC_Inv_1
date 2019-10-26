@@ -51,4 +51,9 @@ export class BillOfMaterialService extends BaseService<IncentiveBoMRequestItemMo
     return this.httpClient.get<IncentiveBoMRequestItemModel[]>(this.appConfig.urls.url('ServiceApplicationBillOfMaterial') + '/' + id + '/' + lang).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
+
+  getBillOfMaterialProjectId(id: number, Phase: any, lang: string): Observable<IncentiveBoMRequestItemModel[]> {
+    return this.httpClient.get<IncentiveBoMRequestItemModel[]>(this.appConfig.urls.url('BillOfMaterialByProjectId') + '/' + id + '/' + Phase + '/' + lang).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
 }

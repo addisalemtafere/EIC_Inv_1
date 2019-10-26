@@ -72,14 +72,16 @@ namespace EIC.Investment.API.Controllers
     }
 
     [HttpGet("ServiceApplicationWithProjectId/{id}/{invId}/{serviceId}")]
-    public IEnumerable<ServiceApplication> GetServiceApplicationWithProjectId([FromRoute] int id, [FromRoute] int invId, [FromRoute] int serviceId)
+    public IEnumerable<ServiceApplication> GetServiceApplicationWithProjectId([FromRoute] int id, [FromRoute] int invId,
+      [FromRoute] int serviceId)
     {
       IEnumerable<ServiceApplication> project = _context.ServiceApplication
-        .Where(s => s.InvestorId == invId && s.ProjectId == id && s.ServiceId == serviceId && s.CurrentStatusId != 44449)
+        .Where(s => s.InvestorId == invId && s.ProjectId == id && s.ServiceId == serviceId &&
+                    s.CurrentStatusId != 44449)
         .Include(p => p.ServiceWorkflow)
         .AsEnumerable()
         .OrderByDescending(s => s.ServiceApplicationId);
-        return project;
+      return project;
       //List<ServiceApplication> serviceApplication = await _context.ServiceApplication
       //  .Where(m => m.ProjectId == id).OrderByDescending(a=>a.ServiceApplicationId).ToListAsync();
       //return serviceApplication;
@@ -95,6 +97,20 @@ namespace EIC.Investment.API.Controllers
 						   Inner Join IncentiveBoMRequestItem ON IncentiveBoMRequestItem.ServiceApplicationId=ServiceApplication.ServiceApplicationId)";
       IQueryable<ServiceAppDto> ServiceAppDto = _context.ServiceAppDto
         .Where(m => m.ServiceApplicationId == id)
+        .FromSql(query1);
+      return ServiceAppDto;
+    }
+
+    [HttpGet("BillOfMaterialByProjectId/{id}/{phase}/{lang}")]
+    public async Task<IEnumerable<ServiceAppDto>> GetServiceApplicationBillOfMaterialByProjectId([FromRoute] int id,
+      int phase, string lang)
+    {
+      string FieldName = StaticDataHelper.GetFieldName(lang);
+      string query1 =
+        $@"(select IncentiveBoMRequestItemId,(Select {FieldName} from Lookup Where LookUpTypeId='10780' AND Lookup.LookupId=IncentiveBoMRequestItem.RejectionReason) as RejectionReason,Balance,Phase
+						   ,IncentiveBoMRequestItem.ServiceApplicationId,IncentiveBoMRequestItem.ProjectId,Description,HsCode,Quantity,MesurmentUnit,IsApproved from IncentiveBoMRequestItem)";
+      IQueryable<ServiceAppDto> ServiceAppDto = _context.ServiceAppDto
+        .Where(m => m.ProjectId == id && m.Phase == phase && m.IsApproved == true)
         .FromSql(query1);
       return ServiceAppDto;
     }

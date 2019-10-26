@@ -144,6 +144,7 @@ export class AppConfiguration {
     ServiceApplicationCancellation: 'api/ServiceApplications/ServiceApplicationCancellation',
     ServiceApplicationSubstitute: 'api/ServiceApplications/ServiceApplicationSubstitute',
     ServiceApplicationBillOfMaterial: 'api/ServiceApplications/ServiceApplicationBillOfMaterial',
+    BillOfMaterialByProjectId: 'api/ServiceApplications/BillOfMaterialByProjectId',
 
     ProjectsByInvestorId: 'api/Projects/ByInvestorId',
     SearchInvestor: 'api/SearchInvestor',

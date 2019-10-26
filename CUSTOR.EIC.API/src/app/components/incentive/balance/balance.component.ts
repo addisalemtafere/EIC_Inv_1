@@ -94,7 +94,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
     this.ServiceId = this.route.snapshot.params['serviceId'];
     this.ServiceApplicationId = this.route.snapshot.params['serviceApplicationId'];
     this.ProjectId = this.route.snapshot.params['projectId'];
-    this.getBillOfMaterial(this.ProjectId);
+    this.getBillOfMaterialGetByProjectId(this.ProjectId);
     this.initStaticData(this.currentLang);
   }
 
@@ -124,7 +124,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
           .subscribe((result: IncentiveBoMRequestItemModel) => {
             this.billOfMaterialForm.addControl('IncentiveBoMRequestItemId', new FormControl(''));
             this.notification('saved');
-            this.getBillOfMaterial(this.ServiceApplicationId);
+            // this.getBillOfMaterialByServiceAppId(this.ServiceApplicationId);
             this.itemList.push(result);
             // this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
             // this.getBillOfMaterial();
@@ -157,7 +157,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
   }
 
   showDetails(incentiveRequestItemModes: IncentiveBoMRequestItemModel) {
-    this.getBillOfMaterialByServiceApplicationId(incentiveRequestItemModes.ServiceApplicationId);
+    this.getBillOfMaterialByProjectId(incentiveRequestItemModes.ProjectId, incentiveRequestItemModes.Phase);
   }
 
   addItem() {
@@ -173,7 +173,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
       });
   }
 
-  getBillOfMaterial(ProjectId: any) {
+  getBillOfMaterialGetByProjectId(ProjectId: any) {
     this.loading = true;
     this.billOfMaterilService.getBillOfMaterialByProjectIds(ProjectId, this.currentLang)
       .subscribe(result => {
@@ -184,20 +184,9 @@ export class BalanceComponent implements OnInit, AfterViewInit {
       }, error => this.errMsg.getError(error));
   }
 
-// getBillOfMaterial(ProjectId: any) {
-//     this.loading = true;
-//     this.billOfMaterilService.getBillOfMaterialByProjectId(ProjectId)
-//       .subscribe(result => {
-//         this.itemList = result;
-//         this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
-//         this.loading = false;
-//         this.dataSource.paginator = this.paginator;
-//       }, error => this.errMsg.getError(error));
-//   }
-
-  getBillOfMaterialByServiceApplicationId(ServiceApplicationId: any) {
+  getBillOfMaterialByProjectId(ProjectId: any, Phase: any) {
     this.loading = true;
-    this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, this.currentLang)
+    this.billOfMaterilService.getBillOfMaterialProjectId(ProjectId, Phase, this.currentLang)
       .subscribe(result => {
         //this.itemList = result;
         console.log(result);
@@ -213,6 +202,23 @@ export class BalanceComponent implements OnInit, AfterViewInit {
       }, error => this.errMsg.getError(error));
   }
 
+  // getBillOfMaterialByServiceApplicationId(ServiceApplicationId: any) {
+  //   this.loading = true;
+  //   this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, this.currentLang)
+  //     .subscribe(result => {
+  //       //this.itemList = result;
+  //       console.log(result);
+  //       if (this.itemList.length > 0) {
+  //         this.showDetail = true;
+  //         this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
+  //         this.loading = false;
+  //         this.dataSource.paginator = this.paginator;
+  //       } else {
+  //         this.showDetail = false;
+  //       }
+  //
+  //     }, error => this.errMsg.getError(error));
+  // }
   upload(i: number, files: FileList) {
     // this.loading = true;
     this.errors = []; // Clear error

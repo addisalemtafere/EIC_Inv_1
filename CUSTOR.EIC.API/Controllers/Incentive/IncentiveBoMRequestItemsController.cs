@@ -308,7 +308,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
     {
       var ProjectId = new SqlParameter("@ProjectId", id);
       IEnumerable<IncentiveBomDto> series = _context.Query<IncentiveBomDto>().FromSql(
-          "select ServiceApplicationId,ProjectId,DescriptionEnglish as Description,Cast(UpLoadDate as Date) as UpLoadDate,(select English from Lookup Where IncentiveBoMRequestItem.Phase=Lookup.LookupId) as strPhase,Phase,count(IncentiveBoMRequestItemId) as Quantity from IncentiveBoMRequestItem "
+          "select ServiceApplicationId,ProjectId,DescriptionEnglish as Description,Cast(UpLoadDate as Date) as UpLoadDate,(select English from Lookup Where IncentiveBoMRequestItem.Phase=Lookup.LookupId) as strPhase,Phase,count(Distinct IncentiveBoMRequestItemId) as Quantity from IncentiveBoMRequestItem "
           + " Inner Join LookUpType on LookupType.LookUpTypeId = IncentiveBoMRequestItem.IncentiveCategoryId "
           + " where IsApproved=1 AND IncentiveCategoryId=10778 AND ProjectId={0}"
           + " group by ServiceApplicationId,ProjectId,IncentiveCategoryId,LookUpType.DescriptionEnglish,Cast(UpLoadDate as Date),Phase ",

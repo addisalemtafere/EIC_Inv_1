@@ -146,6 +146,10 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     return this.incentiveRequestItemForm.get('IncentiveCategoryId');
   }
 
+  get FileNo() {
+    return this.incentiveRequestItemForm.get('FileNo');
+  }
+
   ngOnInit() {
     this.currentLang = this.configService.language;
     this.initForm();
@@ -304,6 +308,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       MotorNo: ['', Validators.required],
       InvoiceNo: ['', Validators.compose([Validators.required, Validators.maxLength(15)])],
       ExchangeRate: [this.ExchangeRate, Validators.required],
+      FileNo: ['', Validators.required],
     });
   }
 
@@ -344,8 +349,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
           if (this.BOMItems.length === 0) {
             //this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
             return true;
-          }
-          else {
+          } else {
             return false;
           }
 
