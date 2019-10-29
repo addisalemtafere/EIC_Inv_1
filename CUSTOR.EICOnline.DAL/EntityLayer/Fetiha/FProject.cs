@@ -111,6 +111,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public string Email { get; set; }
         public string OtherAddress { get; set; }
         public int? ServiceApplicationId { get; set; }
+        public int? CurrentStep { get; set; }
 
     }
 }

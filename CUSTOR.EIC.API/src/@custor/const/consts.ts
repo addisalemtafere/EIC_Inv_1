@@ -154,3 +154,23 @@ export const ServiceTypes: any[]=[
   {Id:4,Description: 'ማበረታቻ  አገልግሎት', DescriptionEnglish: 'Incentive Service'},
   {Id:5,Description: 'የማሻሻያ አገልግሎት' ,DescriptionEnglish:'Amendment Service',ServiceId:1028}
 ];
+export const AMENDMENT_STEP:any[] = [
+  { Step: 0, Label: 'steps.ServiceInfo' },
+  { Step: 1, Label: 'steps.Profile' },
+  { Step: 2, Label: 'steps.Input' },
+  { Step: 3, Label: 'steps.RawMaterial' },
+  { Step: 4, Label: 'steps.Cost' },
+  { Step: 5, Label: 'steps.Employment' },
+  { Step: 6, Label: 'steps.Share' },
+  { Step: 7, Label: 'steps.Product' },
+]
+export const AMH_SAVE_SUCCESS_MSG = "መረጃው በትክክል ተቀምጧል";
+export const AMH_UPDATE_SUCCESS_MSG = "መረጃው በትክክል ተሻሽልዋል!";
+export const AMH_NOT_FOUND_MSG = "መረጃው አልተገኝም!";
+export const AMH_SAVE_ERR_MSG = "መረጃው በትክክል አልተቀመጠም!";
+export const AMH_UPDATE_ERR_MSG = "መረጃው በትክክል አልተሻሻለም!";
+export const ENG_SAVE_SUCCESS_MSG = "Record Saved successfully!";
+export const ENG_UPDATE_SUCCESS_MSG = "Record Updated Successfully!";
+export const ENG_NOT_FOUND_MSG = "Record Not Found!";
+export const ENG_SAVE_ERR_MSG = "Record was Not Saved !";
+export const ENG_UPDATE_ERR_MSG = "Record Not Updated!";

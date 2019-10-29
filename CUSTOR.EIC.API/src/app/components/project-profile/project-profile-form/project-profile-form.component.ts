@@ -1,43 +1,43 @@
-import {AfterContentChecked, Component, OnInit, ViewChild} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {ProjectModel} from '../../../model/Project.model';
-import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ProjectProfileService} from '../../../Services/project-profile.service';
-import {AddressModel} from '../../../model/address/Address.model';
-import {AddressService} from '../../../Services/Address/address.service';
-import {RegionModel} from '../../../model/address/Region.model';
-import {ZoneModel} from '../../../model/address/Zone.model';
-import {WoredaModel} from '../../../model/address/Woreda.model';
-import {KebeleModel} from '../../../model/address/Kebele.model';
-import {ToastrService} from 'ngx-toastr';
-import {SiteService} from '../../../Services/site.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {FormOfOwnershipModel} from '../../../model/EnumModel';
-import {DataSharingService} from '../../../Services/data-sharing.service';
-import {ActivityService} from '../../setting/category-tabs/Activity/activity.service';
-import {ActivityModel} from '../../../model/activity';
-import {InvactivityService} from '../../setting/category-tabs/InvActivity/invactivity.service';
-import {InvActivityModel} from '../../../model/invactivity';
-import {ErrorMessage} from '@custor/services/errMessageService';
-import {FormService} from '@custor/validation/custom/form';
-import {CustomValidators} from '@custor/validation/custom/custom_validators';
-import {FormOfOwnership, ProjectStage} from '@custor/const/consts';
-import {InvestorService} from '../../investor/investor.service';
-import {UserActivityDataServices} from '../../../admin/user-detail/user-detail.service';
-import {AccountService} from '@custor/services/security/account.service';
-import {SiteModel} from '../../../model/Site.model';
-import {SectorService} from '../../setting/category-tabs/sector/sector.service';
-import {SubsectorService} from '../../setting/category-tabs/subsector/subsector.service';
-import {SectorModel} from '../../../model/sector';
-import {SubSectorModel} from '../../../model/subSector';
-import {Permission} from '../../../model/security/permission.model';
-import {ProjectStageModel} from '../../../model/lookupData';
-import {ProjectRenewalModel} from '../../../model/ProjectRenewal.model';
-import {ProjectRenewalService} from '../../../Services/project-renewal.service';
-import {ConfigurationService} from '@custor/services/configuration.service';
-import {ServiceEnum} from '../../../enum/enums';
-import {ET_ALPHABET_REGEX} from '../../../const/consts';
+import { AfterContentChecked, Component, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ProjectModel } from '../../../model/Project.model';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectProfileService } from '../../../Services/project-profile.service';
+import { AddressModel } from '../../../model/address/Address.model';
+import { AddressService } from '../../../Services/Address/address.service';
+import { RegionModel } from '../../../model/address/Region.model';
+import { ZoneModel } from '../../../model/address/Zone.model';
+import { WoredaModel } from '../../../model/address/Woreda.model';
+import { KebeleModel } from '../../../model/address/Kebele.model';
+import { ToastrService } from 'ngx-toastr';
+import { SiteService } from '../../../Services/site.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormOfOwnershipModel } from '../../../model/EnumModel';
+import { DataSharingService } from '../../../Services/data-sharing.service';
+import { ActivityService } from '../../setting/category-tabs/Activity/activity.service';
+import { ActivityModel } from '../../../model/activity';
+import { InvactivityService } from '../../setting/category-tabs/InvActivity/invactivity.service';
+import { InvActivityModel } from '../../../model/invactivity';
+import { ErrorMessage } from '@custor/services/errMessageService';
+import { FormService } from '@custor/validation/custom/form';
+import { CustomValidators } from '@custor/validation/custom/custom_validators';
+import { FormOfOwnership, ProjectStage } from '@custor/const/consts';
+import { InvestorService } from '../../investor/investor.service';
+import { UserActivityDataServices } from '../../../admin/user-detail/user-detail.service';
+import { AccountService } from '@custor/services/security/account.service';
+import { SiteModel } from '../../../model/Site.model';
+import { SectorService } from '../../setting/category-tabs/sector/sector.service';
+import { SubsectorService } from '../../setting/category-tabs/subsector/subsector.service';
+import { SectorModel } from '../../../model/sector';
+import { SubSectorModel } from '../../../model/subSector';
+import { Permission } from '../../../model/security/permission.model';
+import { ProjectStageModel } from '../../../model/lookupData';
+import { ProjectRenewalModel } from '../../../model/ProjectRenewal.model';
+import { ProjectRenewalService } from '../../../Services/project-renewal.service';
+import { ConfigurationService } from '@custor/services/configuration.service';
+import { ServiceEnum } from '../../../enum/enums';
+import { ET_ALPHABET_REGEX } from '../../../const/consts';
 
 @Component({
   selector: 'app-project-profile-form',
@@ -115,26 +115,26 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
 
 
   constructor(private route: ActivatedRoute,
-              private accountService: AccountService,
-              private router: Router,
-              public activityDataServices: UserActivityDataServices,
-              public accountServices: AccountService,
-              private formBuilder: FormBuilder,
-              private toastr: ToastrService,
-              private projectProfileService: ProjectProfileService,
-              private addressService: AddressService,
-              private investorService: InvestorService,
-              private errMsg: ErrorMessage,
-              private sectorService: SectorService,
-              private subSectorService: SubsectorService,
-              private configService: ConfigurationService,
-              private siteService: SiteService,
-              public formService: FormService,
-              public snackbar: MatSnackBar,
-              public activityService: ActivityService,
-              public invactivityService: InvactivityService,
-              private dataSharing: DataSharingService,
-              public projectRenewalService: ProjectRenewalService) {
+    private accountService: AccountService,
+    private router: Router,
+    public activityDataServices: UserActivityDataServices,
+    public accountServices: AccountService,
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService,
+    private projectProfileService: ProjectProfileService,
+    private addressService: AddressService,
+    private investorService: InvestorService,
+    private errMsg: ErrorMessage,
+    private sectorService: SectorService,
+    private subSectorService: SubsectorService,
+    private configService: ConfigurationService,
+    private siteService: SiteService,
+    public formService: FormService,
+    public snackbar: MatSnackBar,
+    public activityService: ActivityService,
+    public invactivityService: InvactivityService,
+    private dataSharing: DataSharingService,
+    public projectRenewalService: ProjectRenewalService) {
     // this.project = <ProjectModel>{};
     // this.address = <AddressModel>{};
   }
@@ -177,7 +177,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.fillAddressLookups();
     this.formBuild();
     this.updateDateRange();
-   this.formControlValueChanged();
+    this.formControlValueChanged();
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();
@@ -233,8 +233,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     console.log(this.currentLang);
     this.sectorService.getSectors(this.currentLang)
       .subscribe(result => {
-          this.sectorList = result;
-        },
+        this.sectorList = result;
+      },
         error => this.toastr.error(this.errMsg.getError(error)
         ));
   }
@@ -242,9 +242,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   getAllSubSector() {
     this.subSectorService.getSubSectors(this.currentLang)
       .subscribe(result => {
-          this.subSectorList = result;
-          this.filterSubSectorList = result;
-        },
+        this.subSectorList = result;
+        this.filterSubSectorList = result;
+      },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
@@ -267,26 +267,26 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   getRegions() {
     this.addressService.getRegions()
       .subscribe(result => {
-          this.regions = result;
-        },
+        this.regions = result;
+      },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   getAllZones() {
     this.addressService.getAllZones()
       .subscribe(result => {
-          this.zones = result;
-          this.filteredZones = result;
-        },
+        this.zones = result;
+        this.filteredZones = result;
+      },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   getAllWoredas() {
     this.addressService.getAllWoredas()
       .subscribe(result => {
-          this.woredas = result;
-          this.filteredWoredas = result;
-        },
+        this.woredas = result;
+        this.filteredWoredas = result;
+      },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
@@ -379,7 +379,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     //   this.toastr.show('invalid Date for ending date');
     // }
     if (D3 < D2 && D3 > D1) {
-    this.validateOperation = true;
+      this.validateOperation = true;
     } else {
       this.validateOperation = false;
     }
@@ -445,7 +445,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     console.log(this.ServiceId);
     this.projectForm = this.formBuilder.group({
       ProjectName: ['', Validators.compose([Validators.required,
-        CustomValidators.validateCharacters, Validators.minLength(3)])],
+      CustomValidators.validateCharacters, Validators.minLength(3)])],
       InvestorId: [this.InvestorId],
       ServiceId: [this.ServiceId],
       ParentProjectId: ['0'],
@@ -514,7 +514,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         Description: pair.Description
       };
       this.projectStage.push(projectSage);
-      const toSelect = this.projectStage.find(c => c.Id ==1 );
+      const toSelect = this.projectStage.find(c => c.Id == 1);
       console.log(toSelect);
       this.projectForm.get('ProjectStage').setValue(toSelect);
     });
@@ -553,9 +553,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   getIsChecked() {
     return this.projectForm.get('address').get('IsIndustrialPark').value;
   }
-get ProjectDescription() {
+  get ProjectDescription() {
     return this.projectForm.get('ProjectDescription');
-}
+  }
   get ProjectName() {
     return this.projectForm.get('ProjectName');
   }

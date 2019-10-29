@@ -170,8 +170,8 @@ export class ProjectService extends EndpointFactory {
         const endpointUrl = `${this.projectInputUrl}/${projectId}`;
         return this.httpClient.get(endpointUrl);
     }
-    getProjectInputAuditData(projectId, serviceApplicationId){
-        const endpointUrl = `${this.projectInputAuditUrl}/${projectId}/${serviceApplicationId}`;
+    getProjectInputAuditData(projectRequirementId, serviceApplicationId){
+        const endpointUrl = `${this.projectInputAuditUrl}/${projectRequirementId}/${serviceApplicationId}`;
         return this.httpClient.get(endpointUrl);
     }
     getProjectRawMaterialData(projectId){

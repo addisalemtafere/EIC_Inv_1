@@ -1,5 +1,5 @@
 <mat-card class="margin-2">
-  <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
+  <div fxFlex="50">
   <form [formGroup]="projectCostForm" countryCity novalidate #costF>
     <input type="number" formControlName="ProjectId" hidden>
     <mat-card-content>
@@ -37,7 +37,9 @@
         </div>
       </div>
       <div *ngIf="!(ServiceId=='1234' && editMode) " style="padding: 10px 20px; border-right: 1px solid #eee;" >
-        <h4 *ngIf="!(ServiceId=='1234' && (ServiceId=='1234' && editMode))"> Cost Break Down</h4>
+        <h4 class="sub-title" *ngIf="!(ServiceId=='1234' && (ServiceId=='1234' && editMode))"> 
+          Cost Break Down
+        </h4>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field>
             <mat-label>{{'investors.editor.LandCost' | translate}}</mat-label>
@@ -128,7 +130,7 @@
             <input type="number" #TotalCostInBirr matInput formControlName="TotalInBirr" placeholder="Total/Birr/">
           </mat-form-field>
         </div>
-        <h4> Source of Finance </h4>
+        <h4 class="sub-title"> Source of Finance </h4>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field>
             <mat-label>{{'investors.editor.EquityFinance' | translate}}</mat-label>
@@ -227,7 +229,7 @@
         </div>
         <div *ngIf="!(ServiceId=='1234' && editMode) " style="padding: 10px 20px; border-right: 1px solid #eee;"
          >
-          <h4 *ngIf="!(ServiceId=='1234' && (ServiceId=='1234' && editMode))"> Cost Break Down</h4>
+          <h4 *ngIf="!(ServiceId=='1234' && (ServiceId=='1234' && editMode))" class="sub-title"> Cost Break Down</h4>
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field>
               <mat-label>{{'investors.editor.LandCost' | translate}}</mat-label>
@@ -318,7 +320,7 @@
               <input type="number" #TotalCostInBirr matInput formControlName="TotalInBirr" placeholder="Total/Birr/">
             </mat-form-field>
           </div>
-          <h4> Source of Finance </h4>
+          <h4 class="sub-title"> Source of Finance </h4>
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field>
               <mat-label>{{'investors.editor.EquityFinance' | translate}}</mat-label>
@@ -384,7 +386,7 @@
             <span>{{'common.commands.Update'|translate}}</span>
           </button>
         </mat-card-actions>
-        <mat-card-actions fxLayoutAlign="end end"  *ngIf="serviceId">
+        <mat-card-actions fxLayoutAlign="end end"  *ngIf="serviceId && serviceList.CostUpdate == 1">
           <button [disabled]="projectCostAmendForm.invalid" mat-raised-button color="primary"
             (click)="approve()">{{'common.commands.Approve'|translate}}</button>
         </mat-card-actions>

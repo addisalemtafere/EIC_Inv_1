@@ -34,7 +34,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <h4>Permanent</h4>
+        <h4 class="sub-title">Permanent</h4>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field>
             <input name="PermanentFemale" matInput formControlName="PermanentFemale" type="number" #pf
@@ -61,7 +61,7 @@
               type="number" #totalPermanent matInput placeholder="Total">
           </mat-form-field>
         </div>
-        <h4>Temporary</h4>
+        <h4 class="sub-title" >Temporary</h4>
         <div fxLayout="row wrap" fxLayoutAlign="start " class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field>
             <input name="TemporaryFemale" matInput #Tf formControlName="TemporaryFemale" placeholder="Female * :"
@@ -95,7 +95,7 @@
         </div>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em" *ngIf="ServiceId=='1023'">
           <!-- <h4>Current</h4> -->
-          <h4>Permanent</h4>
+          <h4 class="sub-title">Permanent</h4>
             <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
               <mat-form-field>
                 <input name="PermanentFemale" matInput formControlName="CurrentPermanentFemale" type="number" #pf
@@ -124,7 +124,7 @@
             </div>
             <br>
             <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-              <h4>Temporary</h4>
+              <h4 class="sub-title">Temporary</h4>
             </div>
               <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
                 <mat-form-field>
@@ -209,7 +209,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <h4>Permanent</h4>
+        <h4 class="sub-title">Permanent</h4>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field>
             <input name="PermanentFemale" matInput formControlName="PermanentFemale" type="number" #pf
@@ -234,7 +234,7 @@
               #totalPermanent matInput placeholder="Total">
           </mat-form-field>
         </div>
-        <h4>Temporary</h4>
+        <h4 class="sub-title">Temporary</h4>
         <div fxLayout="row wrap" fxLayoutAlign="start " class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field>
             <input name="TemporaryFemale" matInput #Tf formControlName="TemporaryFemale" placeholder="Female * :"
@@ -268,7 +268,7 @@
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em"
           *ngIf="ServiceId=='1023'">
           <!-- <h4>Current</h4> -->
-          <h4>Permanent</h4>
+          <h4 class="sub-title">Permanent</h4>
           <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
             <mat-form-field>
               <input name="PermanentFemale" matInput formControlName="CurrentPermanentFemale" type="number" #pf
@@ -297,7 +297,7 @@
           </div>
           <br>
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <h4>Temporary</h4>
+            <h4 class="sub-title">Temporary</h4>
           </div>
           <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
             <mat-form-field>
@@ -344,7 +344,7 @@
                 <span>{{'common.commands.Update'|translate}}</span>
               </button>
             </mat-card-actions>
-            <mat-card-actions fxLayoutAlign="end end" *ngIf="serviceId">
+            <mat-card-actions fxLayoutAlign="end end" *ngIf="serviceId && serviceList.EmploymentUpdate == 1">
               <button [disabled]="employmentAmendForm.invalid" mat-raised-button color="primary"
                 (click)="approve()">{{'common.commands.Approve'|translate}}</button>
             </mat-card-actions>
@@ -352,6 +352,6 @@
     </div>
   </mat-card-content>
 </mat-card>
-<button class="custom-button" (click)="back()" color="warn" type="button">
+<!-- <button class="custom-button" (click)="back()" color="warn" type="button">
   back
-</button>
+</button> -->

@@ -6,7 +6,7 @@
   <mat-card-content>
     <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
       <form class="margin-2" [formGroup]="projectInputForm" novalidate>
-        <h4>Project  Input</h4>
+        <h4 class="sub-title">Project  Input</h4>
         <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"
           fxLayoutGap="2em">
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
@@ -39,7 +39,7 @@
             </mat-form-field>
           </div>
         </div>
-        <h4 *ngIf="ServiceId=='1234'">Detail</h4>
+        <h4 *ngIf="ServiceId=='1234'" class="sub-title">Detail</h4>
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field>
               <mat-label>{{'investors.editor.ElectricPower' | translate}} (kwh) :</mat-label>
@@ -114,7 +114,7 @@
     </div>
      <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
       <form class="margin-2" [formGroup]="projectInputAmendForm" novalidate>
-        <h4>Project  Input</h4>
+        <h4 class="sub-title">Project  Input</h4>
         <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"
           fxLayoutGap="2em">
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
@@ -201,15 +201,18 @@
           </div>
           <mat-card-actions fxLayoutAlign="end end" *ngIf="!serviceId">
             <button [disabled]="!projectInputAmendForm.valid" 
+            *ngIf="!updateData"
              mat-raised-button color="primary"  (click)="create()">
               <span class="agree">{{'common.commands.Save'|translate}}</span>
             </button>
-            <button [disabled]="!projectInputAmendForm.valid"  mat-raised-button color="primary" 
+            <button [disabled]="!projectInputAmendForm.valid" 
+            *ngIf="updateData"
+             mat-raised-button color="primary" 
              (click)="update()">
               <span>{{'common.commands.Update'|translate}}</span>
             </button>
           </mat-card-actions>
-          <mat-card-actions fxLayoutAlign="end end" *ngIf="serviceId">
+          <mat-card-actions fxLayoutAlign="end end" *ngIf="serviceId && serviceList.InputUpdate == 1">
             <button [disabled]="projectInputAmendForm.invalid" mat-raised-button color="primary"
               (click)="approve()">{{'common.commands.Approve'|translate}}</button>
           </mat-card-actions>

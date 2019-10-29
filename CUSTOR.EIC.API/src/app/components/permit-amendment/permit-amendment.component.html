@@ -1,5 +1,5 @@
-<mat-tab-group #stepper>
-    <mat-tab label="Service Information" *ngIf="!serviceId">
+ <mat-tab-group #stepper>
+    <mat-tab label="Service Information" *ngIf="!serviceId && serviceApplicationId==0">
         <ng-template matTabContent>
             <app-service-requirement></app-service-requirement>
             <mat-card-footer class="mt-4 p-3">
@@ -15,10 +15,11 @@
     </mat-tab>
     <mat-tab label="View Document" *ngIf="serviceId">
         <ng-template matTabContent>
-            <mat-card  class="margin-2 simple-card">
+            <mat-card class="margin-2 simple-card">
                 <mat-card-header>
                     <mat-card-subtitle class="sub-title"></mat-card-subtitle>
-                    <button class="margin-10 certificate-title" mat-raised-button="" (click)="addMessage()" color="primary">
+                    <button class="margin-10 certificate-title" mat-raised-button="" (click)="addMessage()"
+                        color="primary">
                         Add Message
                     </button>
                 </mat-card-header>
@@ -35,7 +36,7 @@
             </mat-card-footer>
         </ng-template>
     </mat-tab>
-    <mat-tab label="Profile" [disabled]="nextIndex < 2">
+    <mat-tab label="Profile">
         <ng-template matTabContent>
             <app-project-profile></app-project-profile>
             <mat-card-footer class="mt-4 p-3">
@@ -44,16 +45,10 @@
                         {{'common.commands.Back' | translate}}</button>
                     <button [disabled]="false" type="button" mat-raised-button (click)="next()"
                         color="primary">{{'common.commands.Next' | translate}}</button>
-                    <!-- <button [disabled]="false" type="button" mat-raised-button
-                    *ngIf="!serviceId"
-                     (click)="finish()"
-                        color="primary">{{'common.commands.Finish' | translate}}
-                    </button> -->
                 </div>
             </mat-card-footer>
         </ng-template>
     </mat-tab>
-
     <mat-tab label="Input" [disabled]="nextIndex < 3">
         <ng-template matTabContent>
             <app-input></app-input>
@@ -80,7 +75,6 @@
             </mat-card-footer>
         </ng-template>
     </mat-tab>
-
     <mat-tab label="cost" [disabled]="nextIndex < 5">
         <ng-template matTabContent>
             <app-cost></app-cost>
@@ -133,25 +127,18 @@
             </mat-card-footer>
         </ng-template>
     </mat-tab>
-    <mat-tab label="Document" [disabled]="nextIndex < 9">
+    <mat-tab label="Document" *ngIf="serviceApplicationId != 0">
         <ng-template matTabContent>
             <app-document></app-document>
             <mat-card-footer class="mt-4 p-3">
                 <div fxFlex="100" fxLayoutAlign="end" class="mt-2" fxLayoutGap="5px">
                     <button type="button" mat-stroked-button color="warn" (click)="back()">
                         {{'common.commands.Back' | translate}}</button>
-                    <button [disabled]="false" type="button"
-                    *ngIf="!serviceId"
-                     mat-raised-button (click)="finish()"
+                    <button [disabled]="false" type="button"  mat-raised-button (click)="finish()"
                         color="primary">{{'common.commands.Finish' | translate}}</button>
                 </div>
             </mat-card-footer>
         </ng-template>
     </mat-tab>
-
-
-
-
-
-
-</mat-tab-group>
+</mat-tab-group> 
+<!-- <h2>Hello world</h2> -->

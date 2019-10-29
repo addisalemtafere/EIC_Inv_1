@@ -239,7 +239,10 @@
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field class="full-width">
             <mat-label>{{'investors.editor.ProjectDescription' | translate}}</mat-label>
-            <textarea rows="2" matInput formControlName="ProjectDescription"></textarea>
+            <textarea rows="2" matInput required="required" formControlName="ProjectDescription"></textarea>
+          <mat-error *ngIf="ProjectDescription.hasError('required')">
+            {{'common.validation.Required' | translate}}
+          </mat-error>
           </mat-form-field>
         </div>
         <h4 class="sub-title">Project Address</h4>
@@ -295,7 +298,8 @@
             </mat-checkbox>
           </div>
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field *ngIf="IsIndustrialPark">
+         
+            <mat-form-field *ngIf="projectAmendForm.controls.IsIndustrialPark.value ==true" >
               <mat-label>{{'investors.editor.IndustrialPark' | translate}}</mat-label>
               <mat-select formControlName="IndustrialParkId">
                 <mat-option *ngFor="let site of allSiteList" [value]="site.SiteId">
@@ -356,7 +360,7 @@
             <button [disabled]="projectAmendForm.invalid" mat-raised-button color="primary" *ngIf="updateData"
               (click)="update()">{{'common.commands.Update'|translate}}</button>
           </mat-card-actions>
-          <mat-card-actions fxLayoutAlign="end end" *ngIf="serviceId">
+          <mat-card-actions fxLayoutAlign="end end" *ngIf="serviceId && serviceList.ProfileUpdate == 1">
             <button [disabled]="projectAmendForm.invalid" mat-raised-button color="primary"
               (click)="approve()">{{'common.commands.Approve'|translate}}</button>
           </mat-card-actions>

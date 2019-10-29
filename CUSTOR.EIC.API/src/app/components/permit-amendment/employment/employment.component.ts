@@ -13,7 +13,15 @@ import { ServiceApplicationService } from "../service/service-application.servic
 import { ToastrService } from 'ngx-toastr';
 import { ErrorMessage } from '@custor/services/errMessageService';
 import { ConfigurationService } from '@custor/services/configuration.service';
-import { ProjectStage, FormOfOwnership, ServiceTypes } from '@custor/const/consts';
+import {
+  ServiceTypes, AMENDMENT_STEP,
+  ENG_SAVE_SUCCESS_MSG, ENG_UPDATE_SUCCESS_MSG, ENG_NOT_FOUND_MSG,
+  ENG_SAVE_ERR_MSG, ENG_UPDATE_ERR_MSG,
+
+  AMH_SAVE_SUCCESS_MSG, AMH_UPDATE_SUCCESS_MSG, AMH_NOT_FOUND_MSG,
+  AMH_SAVE_ERR_MSG, AMH_UPDATE_ERR_MSG
+
+} from '@custor/const/consts';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectOfficerService } from '../service/project-officer.service';
 @Component({
@@ -30,13 +38,16 @@ export class EmploymentComponent implements OnInit {
   projectEmploymentData:any;
   projectEmploymentPostData:any;
   projectEmployment:any;
+  response:any;
   amendment = ServiceTypes[4].ServiceId;
   updateData = false;
   projectId: any; serviceId: any; ProjectEmploymentId :any;
   InvestorId: any;IsDeleted: any;IsActive: any;
+  serviceList:any;
   constructor(private serviceApplicationApiService: ServiceApplicationService,
     private configService:ConfigurationService,
     private projectService: ProjectService,
+    private toaster : ToastrService,
     private activatedRoute: ActivatedRoute,
     private projectOfficerService: ProjectOfficerService,
     private formBuilder : FormBuilder) { 
@@ -47,16 +58,29 @@ export class EmploymentComponent implements OnInit {
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
     }
+    else {
+      this.getUpdatedList();
+    }
     this.initForm();
     this.initViewForm();
+  }
+  getUpdatedList() {
+    this.serviceApplicationApiService.getAddedServiceList(this.projectId, this.serviceApplicationId).subscribe(result => {
+      console.log(result)
+      if (result != null) {
+        this.serviceList = result;
+      }
+    });
   }
   checkServiceApplication() {
     const id = 2092;
     this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
       .subscribe(result => {
+        console.log(result)
         if (result != null) {
           this.existingServiceApplication = result;
-          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationID;
+          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+          this.getUpdatedList();
         }
         else {
           this.serviceApplicationId = 0;
@@ -80,7 +104,14 @@ export class EmploymentComponent implements OnInit {
         this.ProjectEmploymentId = this.projectEmploymentData.ProjectEmploymentId;
         this.employmentForm.patchValue(this.projectEmploymentData);
       }
-      this.searchDataFromAudit(projectId,this.serviceApplicationId);
+      if (this.serviceApplicationId == 0) {
+        this.appendPreviousDataToNewForm();
+      }
+      else{
+        console.log(this.serviceApplicationId)
+        console.log(this.projectId)
+        this.searchDataFromAudit(projectId,this.serviceApplicationId);
+      }
     })
   }
   searchDataFromAudit(projectId,serviceApplicationId) {
@@ -182,11 +213,46 @@ export class EmploymentComponent implements OnInit {
     console.log(this.getEditedData());
     this.projectService.saveEmploymentData(this.getEditedData()).subscribe(res => {
       console.log(res)
+      if (res) {
+        console.log(res)
+        this.updateData = true;
+        this.response = res;
+        this.serviceApplicationId = this.response.ServiceApplicationId
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
     })
   }
   update() {
     this.projectService.updateEmploymentData(this.getEditedData()).subscribe(res => {
-      console.log(res)
+      if (res) {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_UPDATE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
     })
   }
   approve() {
@@ -201,7 +267,8 @@ export class EmploymentComponent implements OnInit {
     this.projectEmployment.IsActive = (this.IsActive) ? this.IsActive : true;
     this.projectEmployment.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
     this.projectEmployment.ProjectEmploymentId = (this.ProjectEmploymentId) ? this.ProjectEmploymentId : 0;
-
+    this.projectEmployment.CurrentStep = AMENDMENT_STEP[6].Step;
+    this.projectEmployment.ServiceId = this.amendment;
     if (this.serviceApplicationId == 0) {
       this.projectEmployment.ServiceApplicationId = null
     }

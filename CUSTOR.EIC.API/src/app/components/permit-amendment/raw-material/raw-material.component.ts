@@ -5,10 +5,17 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ProjectInputModel } from '../../../model/ProjectInput.model';
 import { ProjectStatusModel, QuarterModel } from '../../../model/lookupData';
-import { ProjectStatus, Quarter } from '@custor/const/consts';
+import {
+  ProjectStatus, Quarter, ServiceTypes,
+  AMENDMENT_STEP,
+  ENG_SAVE_SUCCESS_MSG, ENG_UPDATE_SUCCESS_MSG, ENG_NOT_FOUND_MSG,
+  ENG_SAVE_ERR_MSG, ENG_UPDATE_ERR_MSG,
+
+  AMH_SAVE_SUCCESS_MSG, AMH_UPDATE_SUCCESS_MSG, AMH_NOT_FOUND_MSG,
+  AMH_SAVE_ERR_MSG, AMH_UPDATE_ERR_MSG
+} from '@custor/const/consts';
 import { ErrorMessage } from '../../../../@custor/services/errMessageService';
 import { ActivatedRoute } from '@angular/router';
-import { ProjectStage, FormOfOwnership, ServiceTypes } from '@custor/const/consts';
 import { ConfigurationService } from '@custor/services/configuration.service';
 import { ProjectService } from '../service/project.service';
 import { ServiceApplicationService } from "../service/service-application.service";
@@ -26,6 +33,7 @@ export class RawMaterialComponent implements OnInit {
   editMode = false;
   rawInputId: number;
   projectRawMaterial: any;
+  response: any;
   loading = false;
   subscription: Subscription;
   projectInputData:any;
@@ -52,8 +60,10 @@ export class RawMaterialComponent implements OnInit {
   IsActive : any;
   IsDeleted: any;
   ProjectInputId: any;
+  serviceList: any;
   constructor(private formBuilder: FormBuilder,
     private errMsg: ErrorMessage,
+    private toaster: ToastrService,
     private serviceApplicationApiService: ServiceApplicationService,
     private projectService: ProjectService,
     private configService: ConfigurationService,
@@ -65,10 +75,20 @@ export class RawMaterialComponent implements OnInit {
     this.serviceApplicationId = this.route.snapshot.params.serviceApplicationId;
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
+    } else {
+      this.getUpdatedList();
     }
     this.initForm();
     this.initViewForm();
     this.initStaticData(this.currentLang);
+  }
+  getUpdatedList() {
+    this.serviceApplicationApiService.getAddedServiceList(this.projectId, this.serviceApplicationId).subscribe(result => {
+      console.log(result)
+      if (result != null) {
+        this.serviceList = result;
+      }
+    });
   }
   checkServiceApplication() {
     const id = 2092;
@@ -78,6 +98,7 @@ export class RawMaterialComponent implements OnInit {
         if (result != null) {
           this.existingServiceApplication = result;
           this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+          this.getUpdatedList();
         }
         else {
           this.serviceApplicationId = 0;
@@ -170,8 +191,13 @@ export class RawMaterialComponent implements OnInit {
     this.projectRawMaterialForm.patchValue({
       IsForeign: this.projectInputData[index].IsForeign.toString()
     });
-    console.log(index)
-    this.searchDataFromAudit(this.ProjectInputId, this.serviceApplicationId);
+    console.log(index);
+    if (this.serviceApplicationId == 0) {
+      this.appendPreviousDataToNewForm();
+    }
+    else {
+      this.searchDataFromAudit(this.ProjectInputId, this.serviceApplicationId);
+    }
   }
   searchDataFromAudit(ProjectInputId, serviceApplicationId) {
     console.log(ProjectInputId)
@@ -189,6 +215,7 @@ export class RawMaterialComponent implements OnInit {
       }
       else {
         console.log("no data found on audit table");
+        this.editModeInput = false;
         console.log('user doesn\'t exist on current database');
         this.appendPreviousDataToNewForm();
       }
@@ -209,13 +236,47 @@ export class RawMaterialComponent implements OnInit {
   create(){
     console.log(this.getEditedData());
     this.projectService.saveRawMaterialData(this.getEditedData()).subscribe(res => {
-      console.log(res)
+      if (res) {
+        console.log(res)
+        this.updateData = true;
+        this.response = res;
+        this.serviceApplicationId = this.response.ServiceApplicationId
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
     })
   }
   update(){
     console.log(this.getEditedData());
     this.projectService.updateRawMaterialData(this.getEditedData()).subscribe(res => {
-      console.log(res)
+      if (res) {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_UPDATE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
     })
   }
   approve(){
@@ -233,6 +294,8 @@ export class RawMaterialComponent implements OnInit {
     this.projectRawMaterial.IsActive = (this.IsActive) ? this.IsActive : true;
     this.projectRawMaterial.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
     this.projectRawMaterial.ProjectInputId = (this.ProjectInputId) ? this.ProjectInputId:0
+    this.projectRawMaterial.CurrentStep = AMENDMENT_STEP[3].Step;
+    this.projectRawMaterial.ServiceId = this.amendment;
     if (this.serviceApplicationId == 0) {
       this.projectRawMaterial.ServiceApplicationId = null
     }

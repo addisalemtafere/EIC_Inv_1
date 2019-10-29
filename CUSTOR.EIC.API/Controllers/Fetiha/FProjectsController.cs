@@ -53,17 +53,17 @@ namespace EIC.Investment.API.Controllers
       return await projectsRepository.getProjectRequirementDetial(ProjectId);
     }
 
-    [HttpGet("getProjectRequirementAudit/{ProjectId}/{serviceApplicationId}")]
+    [HttpGet("getProjectRequirementAudit/{ProjectRquirementId}/{serviceApplicationId}")]
 
-    public async Task<ProjectRequirementAudit> getProjectRequirementAudit(int ProjectId, int serviceApplicationId)
+    public async Task<ProjectRequirementAudit> getProjectRequirementAudit(int ProjectRquirementId, int serviceApplicationId)
     {
       if(serviceApplicationId == 0)
       {
-        return await projectsRepository.getProjectRequirementDetialAudit(ProjectId);
+        return await projectsRepository.getProjectRequirementDetialAudit(ProjectRquirementId);
       }
       else
       {
-        return await projectsRepository.getProjectRequirementServiceApplicationAudit(ProjectId, serviceApplicationId);
+        return await projectsRepository.getProjectRequirementServiceApplicationAudit(ProjectRquirementId, serviceApplicationId);
       }
      
     }

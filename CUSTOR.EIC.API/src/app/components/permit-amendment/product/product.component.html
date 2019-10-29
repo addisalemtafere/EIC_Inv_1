@@ -58,7 +58,7 @@
     </mat-table>
   </mat-card-content>
   <mat-card-actions fxLayoutAlign="end end">
-    <button mat-raised-button color="primary" (click)="approve()">
+    <button mat-raised-button color="primary" *ngIf="serviceId && serviceList.ProductUpdate == 1" (click)="approve()">
       {{'common.commands.Approve'|translate}}</button>
   </mat-card-actions>
 </mat-card> 
@@ -148,11 +148,11 @@
             </mat-form-field>
           </div>
           <div>
-            <button mat-raised-button color="primary" *ngIf="!editMode" 
+            <button mat-raised-button color="primary" *ngIf="!editModeInput" 
              [disabled]="!productAmendForm.valid" (click)="create()">
               Save
             </button>
-            <a mat-raised-button color="primary" *ngIf="editMode" 
+            <a mat-raised-button color="primary" *ngIf="editModeInput" 
               color="primary" (click)="update()">
               Update
             </a>

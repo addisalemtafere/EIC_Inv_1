@@ -158,7 +158,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
     public partial class ProjectRequirementServiceApplicationAudit : ProjectRequirementAudit
     {
         public int ? CurrentStatusId { get; set; }
-        public int ? InvestorId { get; set; }
+        public int  InvestorId { get; set; }
+        public int ? ServiceId { get; set; }
         
 
         public int ? CurrentStep { get; set; }
@@ -218,6 +219,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
     public partial class ProjectCostInvestorAudit : ProjectCostAudit
     {
         public int ? InvestorId { get; set; }
+        public int ? CurrentStep { get; set; }
+        public int ? ServiceId { get; set; }
     }
 
     public partial class ProjectEmploymentAudit
@@ -270,6 +273,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
     public partial class ProjectEmploymentInvestorAudit : ProjectEmploymentAudit
     {
         public int ? InvestorId { get; set; }
+        public int ? CurrentStep { get; set; }
+        public int ? ServiceId { get; set; }
     }
     public partial class ProjectNationalityCompositionAudit
     {
@@ -301,6 +306,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
     public partial class ProjectNationalityCompositionInvestorAudit : ProjectNationalityCompositionAudit
     {
         public int? InvestorId { get; set; }
+        public int? CurrentStep { get; set; }
+        public int? ServiceId { get; set; }
     }
 
     public partial class ProjectOutputAudit
@@ -343,6 +350,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
     public partial class ProjectOutputInvestorAudit : ProjectOutputAudit
     {
         public int? InvestorId { get; set; }
+        public int? ServiceId { get; set; }
+        public int? CurrentStep { get; set; }
     }
     public partial class ProjectInputAudit
     {
@@ -373,7 +382,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
     }
     public partial class ProjectInputInvestorAudit : ProjectInputAudit
     {
-        public int? InvestorId { get; set; }
+        public int InvestorId { get; set; }
+        public int? ServiceId { get; set; }
+        public int? CurrentStep { get; set; }
     }
 
 }

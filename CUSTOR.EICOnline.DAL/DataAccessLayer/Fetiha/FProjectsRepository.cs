@@ -13,10 +13,14 @@ using CUSTOR.EICOnline.DAL.EntityLayer.Fetiha;
 
 namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
 {
-    public class FProjectsRepository : EFRepository<ApplicationDbContext, ProjectAudit>
+    public class FProjectsRepository 
     {
-        public FProjectsRepository(ApplicationDbContext context) : base(context)
+        private readonly ApplicationDbContext Context;
+        private readonly ServiceApplicationRepository serviceAppRepo;
+        public FProjectsRepository(ApplicationDbContext _context, ServiceApplicationRepository _serviceAppRepo) 
         {
+            Context = _context;
+            serviceAppRepo = _serviceAppRepo;
         }
 
         public async Task <ProjectAuditAddressDTO> GetProjectProfileByServiceApplicationProjectId(int ProjectId ,int serviceApplicationId)
@@ -70,7 +74,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
             }
             catch (Exception ex)
             {
-                SetError(ex);
+                //SetError(ex);
                 return null;
             }
         }
@@ -124,7 +128,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
             }
             catch (Exception ex)
             {
-                SetError(ex);
+             //   SetError(ex);
                 return null;
             }
         }
@@ -395,11 +399,11 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
             }
 
         }
-        public async Task<ProjectRequirementAudit> getProjectRequirementDetialAudit(int ProjectId)
+        public async Task<ProjectRequirementAudit> getProjectRequirementDetialAudit(int ProjectRquirementId)
         {
             try
             {
-                var projectInput = await Context.ProjectRequirementAudit.SingleOrDefaultAsync(m => m.ProjectId == ProjectId);
+                var projectInput = await Context.ProjectRequirementAudit.SingleOrDefaultAsync(m => m.ProjectRequirementId == ProjectRquirementId);
                 return projectInput;
             }
             catch (Exception ex)
@@ -487,18 +491,27 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
         {
             ServiceApplication existingServiceApplication = null;
             ProjectInputAudit projectInput = Mapper.Map<ProjectInputAudit>(postedData);
+            existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
+            var existing_share = await Context.ProjectNationalityCompositionAudit.Where(p => p.ProjectNationalityCompositionId == postedData.ProjectNationalityCompositionId).FirstOrDefaultAsync();
+
             using (var transaction = await Context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
-                    existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
-                    existingServiceApplication.CurrentStep = 5;
-                    Context.Update(existingServiceApplication);
-
-                    var existing_share = await Context.ProjectNationalityCompositionAudit.Where(p => p.ProjectNationalityCompositionId == postedData.ProjectNationalityCompositionId).FirstOrDefaultAsync();
-                    existing_share = Mapper.Map(postedData, existing_share);
-                    Context.Update(existing_share);
+                    if(existingServiceApplication != null)
+                    {
+                        existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                        existingServiceApplication.CurrentStep = 5;
+                        Context.Update(existingServiceApplication);
+                    }
+                    if(existing_share != null)
+                    {
+                        existing_share.Nationality = postedData.Nationality;
+                        existing_share.Description = postedData.Description;
+                        existing_share.SharePercent = postedData.SharePercent;
+                        existing_share.Qty = postedData.Qty;
+                        Context.Update(existing_share);
+                    }
                     Context.SaveChanges();
                     transaction.Commit();
                     return postedData;
@@ -546,10 +559,18 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
                     existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
                     existingServiceApplication.CurrentStep = 5;
                     Context.Update(existingServiceApplication);
-                    var existing_output = await Context.ProjectOutputAudit.Where(p => p.ProjectOutputId == postedData.ProjectOutputId).FirstOrDefaultAsync();
-                    existing_output.EventDatetime = DateTime.Now;
-                    var updated_output = Mapper.Map(postedData, existing_output);
-                    Context.Update(updated_output);
+                    var output_filtered = await Context.ProjectOutputAudit.Where(p => p.ProjectOutputId == postedData.ProjectOutputId).FirstOrDefaultAsync();
+                    if(output_filtered != null)
+                    {
+                        output_filtered.ProductName = postedData.ProductName;
+                        output_filtered.ProductQty = postedData.ProductQty;
+                        output_filtered.ProductUnit = postedData.ProductUnit;
+                        output_filtered.DomesticMarketShare = postedData.DomesticMarketShare;
+                        output_filtered.ExportMarketShare = postedData.ExportMarketShare;
+                        output_filtered.EventDatetime = DateTime.Now;
+                        Context.Update(output_filtered);
+
+                    }
                     Context.SaveChanges();
                     transaction.Commit();
                     return postedData;
@@ -562,19 +583,33 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
         }
         public async Task <ProjectEmploymentAudit> updateEmploymentData (ProjectEmploymentAudit postedData)
         {
-             ServiceApplication existingServiceApplication = null;
+            var existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
+            var employment_to_update = await Context.ProjectEmploymentAudit.Where(p => p.ProjectEmploymentId == postedData.ProjectEmploymentId).FirstOrDefaultAsync();
+
             using (var transaction = await Context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
-                    existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
-                    existingServiceApplication.CurrentStep = 5;
-                    Context.Update(existingServiceApplication);
-                    var existing_employment = await Context.ProjectEmploymentAudit.Where(p => p.ProjectEmploymentId == postedData.ProjectEmploymentId).FirstOrDefaultAsync();
-                    existing_employment.EventDatetime = DateTime.Now;
-                    var updated_employment = Mapper.Map(postedData, existing_employment);
-                    Context.Update(updated_employment);
+                    if(existingServiceApplication != null)
+                    {
+                        existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                        existingServiceApplication.CurrentStep = 5;
+                        Context.Update(existingServiceApplication);
+                    }
+                    if(employment_to_update != null)
+                    {
+                        employment_to_update.PermanentFemale = postedData.PermanentFemale;
+                        employment_to_update.PermanentMale = postedData.PermanentMale;
+                        employment_to_update.TemporaryFemale = postedData.TemporaryFemale;
+                        employment_to_update.TemporaryMale = postedData.TemporaryMale;
+                        employment_to_update.PermanentForeignFemale = postedData.PermanentForeignFemale;
+                        employment_to_update.PermanentForeignMale = postedData.PermanentForeignMale;
+                        employment_to_update.TemporaryForeignFemale = postedData.TemporaryForeignFemale;
+                        employment_to_update.TemporaryForeignMale = postedData.TemporaryForeignMale;
+                        employment_to_update.Remark = postedData.Remark;
+                        employment_to_update.EventDatetime = DateTime.Now;
+                        Context.Update(employment_to_update);
+                    }
                     Context.SaveChanges();
                     transaction.Commit();
                     return postedData;
@@ -587,20 +622,40 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
         }
         public async Task<ProjectCostAudit> updateProjectCostData(ProjectCostAudit postedData)
         {
-           // ServiceApplication existingServiceApplication = null;
+            var existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
+            var cost_to_update = await Context.ProjectCostAudit.Where(p => p.ProjectCostId == postedData.ProjectCostId).FirstOrDefaultAsync();
             using (var transaction = await Context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    //existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
-                    //existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
-                    //existingServiceApplication.CurrentStep = 2;
-                    //Context.Update(existingServiceApplication);
-                    var existing_cost = await Context.ProjectCostAudit.Where(p => p.ProjectCostId == postedData.ProjectCostId).FirstOrDefaultAsync();
-                    existing_cost.EventDatetime = DateTime.Now;
-                    var updated_cost = Mapper.Map(postedData, existing_cost);
-                    Context.Update(updated_cost);
-                    Context.SaveChanges();
+                    if (existingServiceApplication != null)
+                    {
+                        existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                        existingServiceApplication.CurrentStep = 2020;
+                        Context.Update(existingServiceApplication);
+                    }
+                       
+                    if (cost_to_update != null)
+                    {
+                        //var updated_cost = Mapper.Map(postedData, existing_cost);
+                        cost_to_update.LandCost = postedData.LandCost;
+                        cost_to_update.LandCostInBirr = postedData.LandCostInBirr;
+                        cost_to_update.MachineryCost = postedData.MachineryCost;
+                        cost_to_update.MachineryCostInBirr = postedData.MachineryCostInBirr;
+                        cost_to_update.BuildingCost = postedData.BuildingCost;
+                        cost_to_update.BuildingCostInBirr = postedData.BuildingCostInBirr;
+                        cost_to_update.OfficeEquipmentCost = postedData.OfficeEquipmentCost;
+                        cost_to_update.OfficeEquipmentCostInBirr = postedData.OfficeEquipmentCostInBirr;
+                        cost_to_update.OtherCapitalCost = postedData.OtherCapitalCost;
+                        cost_to_update.OtherCapitalCostInBirr = postedData.OtherCapitalCostInBirr;
+                        cost_to_update.EquityFinance = postedData.EquityFinance;
+                        cost_to_update.LoanFinance = postedData.LoanFinance;
+                        cost_to_update.OtherSourceFinance = postedData.OtherSourceFinance;
+                        cost_to_update.OtherSourceDescription = postedData.OtherSourceDescription;
+                        cost_to_update.Remark = postedData.Remark;
+                        Context.Update(cost_to_update);
+                        Context.SaveChanges();
+                    }
                     transaction.Commit();
                     return postedData;
                 }
@@ -661,13 +716,12 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
                     Context.Update(existing_address);
 
                     var existing_project = await Context.ProjectAudit.Where(p => p.ProjectId == postedProfile.ProjectId).FirstOrDefaultAsync();
-                  //  existing_project = Mapper.Map<ProjectAudit>(existing_project);
                     existing_project = Mapper.Map(postedProfile, existing_project);
 
                     Context.Update(existing_project);
                     Context.SaveChanges();
                     transaction.Commit();
-                    return a;
+                    return postedProfile;
                 }
                 catch (Exception ex)
                 {
@@ -679,55 +733,26 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
         }
         public async Task<ProjectInputInvestorAudit> saveRawMaterialData(ProjectInputInvestorAudit postedData)
         {
-            ServiceApplication serviceApplication = null;
-            ServiceApplication existingServiceApplication = null;
+            
             ProjectInputAudit rawMaterial = Mapper.Map<ProjectInputAudit>(postedData);
-            if (postedData.ServiceApplicationId != null)
-            {
-                existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
-                existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
-                existingServiceApplication.CurrentStep = 4;
-            }
-            else
-            {
-               serviceApplication = new ServiceApplication
-                {
-                    InvestorId = postedData.InvestorId,
-                    ProjectId = postedData.ProjectId,
-                   CaseNumber = "0009998",
-                    ServiceId = 1028,
-                    StartDate = DateTime.Now,
-                    EventDatetime = DateTime.Now,
-                    ServiceNameAmharic = "",
-                   ServiceNameEnglish = "",
-                    CurrentStatusId = 44450,
-                    CurrentStep = 4,
-                };
-            }
             using (var transaction = await Context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    if (postedData.ServiceApplicationId != null)
+                    if (postedData.ServiceApplicationId == null)
                     {
-                        Context.Update(existingServiceApplication);
-                        Context.SaveChanges();
+                        var serviceApplicationData =
+                            await serviceAppRepo.ManageServiceApplication(0, postedData.InvestorId, postedData.ServiceId,
+                            postedData.ProjectId, postedData.CurrentStep);
+                        rawMaterial.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
                     }
                     else
                     {
-                        Context.Add(serviceApplication);
-                        Context.SaveChanges();
-
+                        var serviceApplicationData =
+                        await serviceAppRepo.ManageServiceApplication(postedData.ServiceApplicationId, postedData.InvestorId, postedData.ServiceId,
+                        postedData.ProjectId, postedData.CurrentStep);
+                        rawMaterial.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
                     }
-                    if (postedData.ServiceApplicationId != null)
-                    {
-                        rawMaterial.ServiceApplicationId = postedData.ServiceApplicationId;
-                    }
-                    else
-                    {
-                        rawMaterial.ServiceApplicationId = serviceApplication.ServiceApplicationId;
-                    }
-
                     var projectRawMaterial = new ProjectInputAudit
                     {
                         ProjectId = postedData.ProjectId,
@@ -742,7 +767,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
                     Context.ProjectInputAudit.Add(projectRawMaterial);
                     Context.SaveChanges();
                     transaction.Commit();
-                    return postedData;
+                    return Mapper.Map<ProjectInputInvestorAudit>(projectRawMaterial);
                 }
                 catch (Exception ex)
                 {
@@ -753,52 +778,23 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
         }
         public async Task <ProjectRequirementServiceApplicationAudit> saveProjectInputData(ProjectRequirementServiceApplicationAudit postedData)
         {
-            ServiceApplication serviceApplication = null;
-            ServiceApplication existingServiceApplication = null;
             ProjectRequirementAudit InputData = Mapper.Map<ProjectRequirementAudit>(postedData);
-            if (postedData.ServiceApplicationId != null)
-            {
-                existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
-                existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
-                existingServiceApplication.CurrentStep = 3;
-            }
-            else
-            {
-                serviceApplication = new ServiceApplication
+            using (var transaction = await Context.Database.BeginTransactionAsync()) {
+                try
                 {
-                    InvestorId = postedData.InvestorId,
-                    ProjectId = postedData.ProjectId,
-                    CaseNumber = "0009998",
-                    ServiceId = 1028,
-                    StartDate = DateTime.Now,
-                    EventDatetime = DateTime.Now,
-                    ServiceNameAmharic = "",
-                    ServiceNameEnglish = "",
-                    CurrentStatusId = 44450,
-                    CurrentStep = 3,
-                };
-            }
-            try {
-                using (var transaction = await Context.Database.BeginTransactionAsync())
-                {
-                    if (postedData.ServiceApplicationId != null)
+                    if (postedData.ServiceApplicationId == null)
                     {
-                        Context.Update(existingServiceApplication);
-                        Context.SaveChanges();
+                        var serviceApplicationData =
+                            await serviceAppRepo.ManageServiceApplication(0, postedData.InvestorId, postedData.ServiceId,
+                            postedData.ProjectId, postedData.CurrentStep);
+                        InputData.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
                     }
                     else
                     {
-                        Context.Add(serviceApplication);
-                        Context.SaveChanges();
-
-                    }
-                    if (postedData.ServiceApplicationId != null)
-                    {
-                        InputData.ServiceApplicationId = postedData.ServiceApplicationId;
-                    }
-                    else
-                    {
-                        InputData.ServiceApplicationId = serviceApplication.ServiceApplicationId;
+                        var serviceApplicationData =
+                        await serviceAppRepo.ManageServiceApplication(postedData.ServiceApplicationId, postedData.InvestorId, postedData.ServiceId,
+                        postedData.ProjectId, postedData.CurrentStep);
+                        InputData.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
                     }
 
                     Context.ProjectRequirementAudit.Add(InputData);
@@ -806,67 +802,40 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
                     transaction.Commit();
                     return Mapper.Map<ProjectRequirementServiceApplicationAudit>(InputData);
                 }
+                catch (Exception ex)
+                {
+                    string s = ex.Message;
+                    throw new Exception(ex.InnerException.ToString());
+                }
 
 
-            }
-            catch (Exception ex)
-            {
-                string s = ex.Message;
-                throw new Exception(ex.InnerException.ToString());
             }
 
         }
 
         public async Task <ProjectOutputInvestorAudit> saveOutPutData(ProjectOutputInvestorAudit postedData)
         {
-            ServiceApplication serviceApplication = null;
-            ServiceApplication existingServiceApplication = null;
             ProjectOutputInvestorAudit projectOutPutData = Mapper.Map<ProjectOutputInvestorAudit>(postedData);
-            if (postedData.ServiceApplicationId != null)
-            {
-                existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
-                existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
-                existingServiceApplication.CurrentStep = 3;
-            }
-            else
-            {
-                serviceApplication = new ServiceApplication
-                {
-                    InvestorId = postedData.InvestorId,
-                    ProjectId = postedData.ProjectId,
-                    CaseNumber = "0009998",
-                    ServiceId = 1028,
-                    StartDate = DateTime.Now,
-                    EventDatetime = DateTime.Now,
-                    ServiceNameAmharic = "",
-                    ServiceNameEnglish = "",
-                    CurrentStatusId = 44450,
-                    CurrentStep = 3,
-                };
-            }
+          
             try
             {
                 using (var transaction = await Context.Database.BeginTransactionAsync())
                 {
-                    if (postedData.ServiceApplicationId != null)
+                    if (postedData.ServiceApplicationId == null)
                     {
-                        Context.Update(existingServiceApplication);
-                        Context.SaveChanges();
+                        var serviceApplicationData =
+                            await serviceAppRepo.ManageServiceApplication(0, postedData.InvestorId, postedData.ServiceId,
+                            postedData.ProjectId, postedData.CurrentStep);
+                        projectOutPutData.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
                     }
                     else
                     {
-                        Context.Add(serviceApplication);
-                        Context.SaveChanges();
+                        var serviceApplicationData =
+                        await serviceAppRepo.ManageServiceApplication(postedData.ServiceApplicationId, postedData.InvestorId, postedData.ServiceId,
+                        postedData.ProjectId, postedData.CurrentStep);
+                        projectOutPutData.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
+                    }
 
-                    }
-                    if (postedData.ServiceApplicationId != null)
-                    {
-                        projectOutPutData.ServiceApplicationId = postedData.ServiceApplicationId;
-                    }
-                    else
-                    {
-                        projectOutPutData.ServiceApplicationId = serviceApplication.ServiceApplicationId;
-                    }
                     Context.ProjectOutputAudit.Add(projectOutPutData);
                     Context.SaveChanges();
                     transaction.Commit();
@@ -882,53 +851,27 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
         public async Task <ProjectNationalityCompositionInvestorAudit> saveShareData(ProjectNationalityCompositionInvestorAudit postedData)
         {
             ServiceApplication serviceApplication = null;
-            ServiceApplication existingServiceApplication = null;
             ProjectNationalityCompositionInvestorAudit shareData = Mapper.Map<ProjectNationalityCompositionInvestorAudit>(postedData);
-            if (postedData.ServiceApplicationId != null)
-            {
-                existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
-                existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
-                existingServiceApplication.CurrentStep = 3;
-            }
-            else
-            {
-                serviceApplication = new ServiceApplication
-                {
-                    InvestorId = postedData.InvestorId,
-                    ProjectId = postedData.ProjectId,
-                    CaseNumber = "0009998",
-                    ServiceId = 1028,
-                    StartDate = DateTime.Now,
-                    EventDatetime = DateTime.Now,
-                    ServiceNameAmharic = "",
-                    ServiceNameEnglish = "",
-                    CurrentStatusId = 44450,
-                    CurrentStep = 3,
-                };
-            }
+            
             try
             {
                 using (var transaction = await Context.Database.BeginTransactionAsync())
                 {
-                    if (postedData.ServiceApplicationId != null)
+                    if (postedData.ServiceApplicationId == null)
                     {
-                        Context.Update(existingServiceApplication);
-                        Context.SaveChanges();
+                        var serviceApplicationData =
+                            await serviceAppRepo.ManageServiceApplication(0, postedData.InvestorId, postedData.ServiceId,
+                            postedData.ProjectId, postedData.CurrentStep);
+                        shareData.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
                     }
                     else
                     {
-                        Context.Add(serviceApplication);
-                        Context.SaveChanges();
+                        var serviceApplicationData =
+                        await serviceAppRepo.ManageServiceApplication(postedData.ServiceApplicationId, postedData.InvestorId, postedData.ServiceId,
+                        postedData.ProjectId, postedData.CurrentStep);
+                        shareData.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
+                    }
 
-                    }
-                    if (postedData.ServiceApplicationId != null)
-                    {
-                        shareData.ServiceApplicationId = postedData.ServiceApplicationId;
-                    }
-                    else
-                    {
-                        shareData.ServiceApplicationId = serviceApplication.ServiceApplicationId;
-                    }
                     Context.ProjectNationalityCompositionAudit.Add(shareData);
                     Context.SaveChanges();
                     transaction.Commit();
@@ -944,58 +887,29 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
 
         public async Task <ProjectEmploymentInvestorAudit> saveEmploymentData(ProjectEmploymentInvestorAudit postedData)
         {
-            ServiceApplication serviceApplication = null;
-            ServiceApplication existingServiceApplication = null;
             ProjectEmploymentAudit EmployeeData = Mapper.Map<ProjectEmploymentAudit>(postedData);
-            if (postedData.ServiceApplicationId != null)
-            {
-                existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
-                existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
-                existingServiceApplication.CurrentStep = 3;
-            }
-            else
-            {
-                serviceApplication = new ServiceApplication
-                {
-                    InvestorId = postedData.InvestorId,
-                    ProjectId = postedData.ProjectId,
-                    CaseNumber = "0009998",
-                    ServiceId = 1028,
-                    StartDate = DateTime.Now,
-                    EventDatetime = DateTime.Now,
-                    ServiceNameAmharic = "",
-                    ServiceNameEnglish = "",
-                    CurrentStatusId = 44450,
-                    CurrentStep = 3,
-                };
-            }
             try
             {
                 using (var transaction = await Context.Database.BeginTransactionAsync())
                 {
-                    if (postedData.ServiceApplicationId != null)
+                    if (postedData.ServiceApplicationId == null)
                     {
-                        Context.Update(existingServiceApplication);
-                        Context.SaveChanges();
+                        var serviceApplicationData =
+                            await serviceAppRepo.ManageServiceApplication(0, postedData.InvestorId, postedData.ServiceId,
+                            postedData.ProjectId, postedData.CurrentStep);
+                         EmployeeData.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
                     }
                     else
                     {
-                        Context.Add(serviceApplication);
-                        Context.SaveChanges();
-
-                    }
-                    if (postedData.ServiceApplicationId != null)
-                    {
-                        EmployeeData.ServiceApplicationId = postedData.ServiceApplicationId;
-                    }
-                    else
-                    {
-                        EmployeeData.ServiceApplicationId = serviceApplication.ServiceApplicationId;
+                        var serviceApplicationData =
+                        await serviceAppRepo.ManageServiceApplication(postedData.ServiceApplicationId, postedData.InvestorId, postedData.ServiceId,
+                        postedData.ProjectId, postedData.CurrentStep);
+                        EmployeeData.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
                     }
                     Context.ProjectEmploymentAudit.Add(EmployeeData);
                     Context.SaveChanges();
                     transaction.Commit();
-                    return postedData;
+                    return Mapper.Map<ProjectEmploymentInvestorAudit> (postedData);
                 }
             }
             catch (Exception ex)
@@ -1006,59 +920,29 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
         }
         public async Task<ProjectCostInvestorAudit> saveProjectCostData (ProjectCostInvestorAudit postedData)
         {
-            ServiceApplication serviceApplication = null;
-            ServiceApplication existingServiceApplication = null;
             ProjectCostAudit CostData = Mapper.Map<ProjectCostAudit>(postedData);
-            if (postedData.ServiceApplicationId != null)
-            {
-                existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedData.ServiceApplicationId);
-                existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
-                existingServiceApplication.CurrentStep = 3;
-            }
-            else
-            {
-                serviceApplication = new ServiceApplication
-                {
-                    InvestorId = postedData.InvestorId,
-                    ProjectId = postedData.ProjectId,
-                    CaseNumber = "0009998",
-                    ServiceId = 1028,
-                    StartDate = DateTime.Now,
-                    EventDatetime = DateTime.Now,
-                    ServiceNameAmharic = "",
-                    ServiceNameEnglish = "",
-                    CurrentStatusId = 44450,
-                    CurrentStep = 3,
-                };
-            }
-
             try
             {
                 using (var transaction = await Context.Database.BeginTransactionAsync())
                 {
-                    if (postedData.ServiceApplicationId != null)
+                    if (postedData.ServiceApplicationId == null)
                     {
-                        Context.Update(existingServiceApplication);
-                        Context.SaveChanges();
+                        var serviceApplicationData =
+                            await serviceAppRepo.ManageServiceApplication(0, postedData.InvestorId, postedData.ServiceId,
+                            postedData.ProjectId, postedData.CurrentStep);
+                            CostData.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
                     }
                     else
                     {
-                        Context.Add(serviceApplication);
-                        Context.SaveChanges();
-
-                    }
-                    if (postedData.ServiceApplicationId != null)
-                    {
-                        CostData.ServiceApplicationId = postedData.ServiceApplicationId;
-                    }
-                    else
-                    {
-                        CostData.ServiceApplicationId = serviceApplication.ServiceApplicationId;
+                        var serviceApplicationData =
+                        await serviceAppRepo.ManageServiceApplication(postedData.ServiceApplicationId, postedData.InvestorId, postedData.ServiceId,
+                        postedData.ProjectId, postedData.CurrentStep);
+                        CostData.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
                     }
                     Context.ProjectCostAudit.Add(CostData);
                     Context.SaveChanges();
                     transaction.Commit();
-                    return postedData;
+                    return Mapper.Map<ProjectCostInvestorAudit>(CostData);
                 }
             }
             catch (Exception ex)
@@ -1069,53 +953,30 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
         }
         public async Task<ProjectAddressDTO> saveProjectProfileData(ProjectAddressDTO postedProfile)
         {
-            ServiceApplication serviceApplication = null;
             AddressAudit address = null;
-            ServiceApplication existingServiceApplication = null;
             ProjectAudit project = Mapper.Map<ProjectAudit>(postedProfile);
-            ProjectAddressDTO a = null;
+            int ? serviceAppId =0;
+           
             try
             {
-                if (postedProfile.ServiceApplicationId != null)
+                if (postedProfile.ServiceApplicationId == null)
                 {
-                    existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == postedProfile.ServiceApplicationId);
-                    existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                   var serviceApplicationData =
+                       await serviceAppRepo.ManageServiceApplication(0, postedProfile.InvestorId, postedProfile.ServiceId,
+                       postedProfile.ProjectId, postedProfile.CurrentStep);
+                       project.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
+                       serviceAppId = serviceApplicationData.ServiceApplicationId;
                 }
                 else
                 {
-                    serviceApplication = new ServiceApplication
-                    {
-                        InvestorId = postedProfile.InvestorId,
-                        ProjectId = postedProfile.ProjectId,
-                        CaseNumber = "0009998",
-                        ServiceId = 1028,
-                        StartDate = DateTime.Now,
-                        EventDatetime = DateTime.Now,
-                        ServiceNameAmharic = "",
-                        ServiceNameEnglish = "",
-                    };
+                       var serviceApplicationData =
+                       await serviceAppRepo.ManageServiceApplication(postedProfile.ServiceApplicationId, postedProfile.InvestorId, postedProfile.ServiceId,
+                       postedProfile.ProjectId, postedProfile.CurrentStep);
+                       project.ServiceApplicationId = serviceApplicationData.ServiceApplicationId;
+                       serviceAppId = postedProfile.ServiceApplicationId;
                 }
                 using (var transaction = await Context.Database.BeginTransactionAsync())
                 {
-                    if (postedProfile.ServiceApplicationId != null)
-                    {
-                        Context.Update(existingServiceApplication);
-                        Context.SaveChanges();
-                    }
-                    else
-                    {
-                        Context.Add(serviceApplication);
-                        Context.SaveChanges();
-
-                    }
-                    if (postedProfile.ServiceApplicationId != null)
-                    {
-                        project.ServiceApplicationId = postedProfile.ServiceApplicationId;
-                    }
-                    else
-                    {
-                        project.ServiceApplicationId = serviceApplication.ServiceApplicationId;
-                    }
                     Context.ProjectAudit.Add(project);
                     address = new AddressAudit
                     {
@@ -1139,14 +1000,13 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
                         IsActive = postedProfile.IsActive,
                         IsDeleted = postedProfile.IsDeleted,
                         CreatedUserId = postedProfile.CreatedUserId,
-                        ServiceApplicationId = serviceApplication.ServiceApplicationId,
+                        ServiceApplicationId = serviceAppId,
                     };
                     Context.AddressAudit.Add(address);
                     Context.SaveChanges();
                     transaction.Commit();
                 }
-
-                return a;
+                return postedProfile;
             }
             catch (Exception ex)
             {

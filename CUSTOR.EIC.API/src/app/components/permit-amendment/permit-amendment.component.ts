@@ -12,6 +12,10 @@ import { ServiceService } from '../../Services/service.service';
 import { Subscription } from 'rxjs';
 import { ProjectService } from './service/project.service';
 import { NotificationComponent } from "../project-profile/notification/notification.component";
+import { ServiceApplicationService } from './service/service-application.service';
+import { ServiceType } from '../../model/lookupData';
+import { ServiceTypes } from '@custor/const/consts';
+//} from '';
 @Component({
   selector: 'app-permit-amendment',
   templateUrl: './permit-amendment.component.html',
@@ -30,8 +34,10 @@ export class PermitAmendmentComponent implements OnInit, AfterViewInit, AfterCon
   displayedColumnsNotification = [
     'date', 'subject', 'message'
   ];
-  serviceApplicationId : any;
-  serviceId : any;
+  serviceApplicationId: any; serviceId: any; projectId: any;
+  existingServiceApplication: any;
+  amendment = ServiceTypes[4].ServiceId;
+
   constructor(private errMsg: ErrorMessage,
     private router: Router,
     private dataSharing: DataSharingService,
@@ -43,11 +49,30 @@ export class PermitAmendmentComponent implements OnInit, AfterViewInit, AfterCon
     private projectService: ProjectService,
     public dialog: MatDialog,
     private formService: FormService,
+    private serviceApplicationApiService: ServiceApplicationService,
     private notifificationService: NotificationService) {
     //serviceId
     this.serviceApplicationId = this.activatedRoute.snapshot.params.serviceApplicationId;
     this.serviceId = this.activatedRoute.snapshot.params.serviceId;
+    this.projectId = this.activatedRoute.snapshot.params.projectId;
+    if (this.serviceApplicationId == 0) {
+      this.checkServiceApplication();
+    }
 
+  }
+  checkServiceApplication() {
+    this.serviceApplicationApiService.CheckProjectServiceApplicationFromApi(this.projectId, this.amendment)
+      .subscribe(result => {
+        console.log(result)
+        if (result != null) {
+          this.existingServiceApplication = result;
+          console.log(this.existingServiceApplication)
+          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+        }
+        else {
+          this.serviceApplicationId = 0;
+        }
+      });
   }
   addMessage() {
     const dialogConfig = new MatDialogConfig();
@@ -55,7 +80,7 @@ export class PermitAmendmentComponent implements OnInit, AfterViewInit, AfterCon
     dialogConfig.data = {
       ServiceApplicationId: this.serviceApplicationId,
     };
-    console.log(dialogConfig.data )
+    console.log(dialogConfig.data)
     this.dialog.open(NotificationComponent, dialogConfig);
     // this.dialog.open(NotificationComponent);
 
@@ -122,8 +147,13 @@ export class PermitAmendmentComponent implements OnInit, AfterViewInit, AfterCon
       console.log(this.stepper);
     }
   }
+  back() {
+    if (this.steeperIndex > 0) {
+      this.steeperIndex--;
+      this.stepper.selectedIndex = this.steeperIndex;
+    }
+  }
   finish() {
-    this.serviceApplicationId = this.activatedRoute.snapshot.params.serviceApplicationId;
     this.projectService.finishProject(this.serviceApplicationId).subscribe(res => {
       console.log(res)
     })

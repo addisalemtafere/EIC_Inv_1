@@ -40,6 +40,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbSet<ProjectOutputAudit> ProjectOutputAudit { get; set; }
         public virtual DbSet<ProjectEmploymentAudit> ProjectEmploymentAudit { get; set; }
         public virtual DbSet<ProjectInputAudit> ProjectInputAudit { get; set; }
+        public virtual DbSet<ServiceApplicationAmendment> ServiceApplicationAmendment { get; set; }
         public DbSet<Followup> Followups { get; set; }
 
         public DbSet<CompanyClearance> CompanyClearances { get; set; }

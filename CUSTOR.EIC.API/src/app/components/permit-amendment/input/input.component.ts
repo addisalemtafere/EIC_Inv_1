@@ -6,7 +6,14 @@ import { FormService } from '../../../../@custor/validation/custom/form';
 import { ErrorMessage } from '../../../../@custor/services/errMessageService';
 import { ActivatedRoute } from '@angular/router';
 import { ServiceApplicationService } from "../service/service-application.service";
-import { ProjectStage, FormOfOwnership, ServiceTypes } from '@custor/const/consts';
+import {
+  ProjectStage, AMENDMENT_STEP, ServiceTypes,
+  ENG_SAVE_SUCCESS_MSG, ENG_UPDATE_SUCCESS_MSG, ENG_NOT_FOUND_MSG,
+  ENG_SAVE_ERR_MSG, ENG_UPDATE_ERR_MSG,
+
+  AMH_SAVE_SUCCESS_MSG, AMH_UPDATE_SUCCESS_MSG, AMH_NOT_FOUND_MSG,
+  AMH_SAVE_ERR_MSG, AMH_UPDATE_ERR_MSG,
+} from '@custor/const/consts';
 import { ConfigurationService } from '@custor/services/configuration.service';
 import { ProjectService } from '../service/project.service';
 import { ProjectOfficerService } from '../service/project-officer.service';
@@ -20,7 +27,7 @@ export class InputComponent implements OnInit {
   projectInputAmendForm: FormGroup;
   editMode = false;
   editModeInput = false;
-  projectInput :any;
+  projectInput: any;
   rawInputId: number;
   loading = false;
   subscription: Subscription;
@@ -31,20 +38,23 @@ export class InputComponent implements OnInit {
   updateData = false;
   amendment = ServiceTypes[4].ServiceId;
   public existingServiceApplication: any;
-  projectRequirementId : any
+  projectRequirementId: any
   serviceApplicationId: any;
   currentLang: string;
-  projectInputData:any;
-  projectInputPostData:any;
-  InvestorId:any;
-  IsDeleted : any;
-  IsActive:any;
+  projectInputData: any;
+  projectInputPostData: any;
+  InvestorId: any;
+  IsDeleted: any;
+  IsActive: any;
+  response: any;
   ProjectRequirementId: number;
+  serviceList: any;
 
   constructor(private formBuilder: FormBuilder,
     private errMsg: ErrorMessage,
     private serviceApplicationApiService: ServiceApplicationService,
     public route: ActivatedRoute,
+    private toaster: ToastrService,
     private projectService: ProjectService,
     private projectOfficerService: ProjectOfficerService,
     private configService: ConfigurationService) {
@@ -56,16 +66,37 @@ export class InputComponent implements OnInit {
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
     }
+    else {
+      this.getUpdatedList();
+    }
     this.initViewForm();
     this.initForm();
   }
-
+  getUpdatedList() {
+    this.serviceApplicationApiService.getAddedServiceList(this.projectId, this.serviceApplicationId).subscribe(result => {
+      console.log(result)
+      if (result != null) {
+        this.serviceList = result;
+      }
+    });
+  }
   ngOnInit() {
     if (this.projectId) {
       this.getProjectInputData(this.projectId);
     }
   }
-  getProjectInputData(projectId){
+  checkServiceApplication() {
+    const id = 2092;
+    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
+      .subscribe(result => {
+        if (result != null) {
+          this.existingServiceApplication = result;
+          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+          this.getUpdatedList();
+        }
+      });
+  }
+  getProjectInputData(projectId) {
     this.projectService.getProjectInputData(projectId).subscribe(res => {
       console.log(res);
       if (res == null) {
@@ -77,12 +108,17 @@ export class InputComponent implements OnInit {
         console.log(this.projectInputData)
         this.projectInputForm.patchValue(this.projectInputData);
       }
-      this.searchDataFromAudit(this.projectId, this.serviceApplicationId);
-  })
-}
-  searchDataFromAudit(projectId,serviceApplicationId){
+      if (this.serviceApplicationId == 0){
+        this.appendPreviousDataToNewForm();
+      }
+      else{
+        this.searchDataFromAudit(this.projectRequirementId, this.serviceApplicationId);
+      }
+    })
+  }
+  searchDataFromAudit(projectRequirementId, serviceApplicationId) {
     console.log(serviceApplicationId)
-    this.projectService.getProjectInputAuditData(projectId, serviceApplicationId).subscribe(res => {
+    this.projectService.getProjectInputAuditData(projectRequirementId, serviceApplicationId).subscribe(res => {
       console.log(res)
       if (res != null) {
         console.log("data found on audit table")
@@ -97,31 +133,22 @@ export class InputComponent implements OnInit {
         console.log('user doesn\'t exist on current database');
         this.appendPreviousDataToNewForm();
       }
-  })
-}
-  appendPreviousDataToNewForm(){
+    })
+  }
+  appendPreviousDataToNewForm() {
     console.log('no data in new database');
     console.log(this.projectInputData)
     this.updateData = false;
     this.projectInputAmendForm.patchValue(this.projectInputData);
     console.log(this.projectInputAmendForm.patchValue(this.projectInputData))
   }
-  
-  checkServiceApplication() {
-    const id = 2092;
-    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
-      .subscribe(result => {
-        if (result != null) {
-          this.existingServiceApplication = result;
-          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
-        }
-      });
-  }
-  initViewForm(){
+
+ 
+  initViewForm() {
     this.projectInputForm = this.formBuilder.group({
       ProjectId: [], ElectricPower: [], Water: [], OtherUtility: [], LandIndustrial: [],
-      LandAgricultural: [], LandService: [], OwnLand: [], LeaseLand: [], RentalLand:[],
-      Quarter: [], RegistrationYear: [], ProjectStatus: [], Remark: [], workFlowId:[],
+      LandAgricultural: [], LandService: [], OwnLand: [], LeaseLand: [], RentalLand: [],
+      Quarter: [], RegistrationYear: [], ProjectStatus: [], Remark: [], workFlowId: [],
     });
     this.projectInputForm.disable();
   }
@@ -144,13 +171,15 @@ export class InputComponent implements OnInit {
       workFlowId: []
     })
   }
- 
+
   getEditedData() {
     this.projectInput = this.projectInputAmendForm.value;
     this.projectInput.ProjectId = this.projectId;
     this.projectInput.InvestorId = (this.InvestorId) ? this.InvestorId : 0;;
     this.projectInput.IsActive = (this.IsActive) ? this.IsActive : true;
     this.projectInput.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
+    this.projectInput.CurrentStep = AMENDMENT_STEP[2].Step;
+    this.projectInput.ServiceId = this.amendment;
     this.projectInput.projectRequirementId = (this.projectRequirementId) ? this.projectRequirementId : 0;
     if (this.serviceApplicationId == 0) {
       this.projectInput.ServiceApplicationId = null
@@ -163,12 +192,47 @@ export class InputComponent implements OnInit {
   create() {
     console.log(this.getEditedData());
     this.projectService.saveInputData(this.getEditedData()).subscribe(res => {
-      console.log(res)
+      if (res) {
+        console.log(res)
+        this.updateData = true;
+        this.response = res;
+        this.serviceApplicationId = this.response.ServiceApplicationId
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
+
     })
   }
-  update(){
+  update() {
     this.projectService.updateInputData(this.getEditedData()).subscribe(res => {
-      console.log(res)
+      if (res) {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_UPDATE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
     })
   }
   approve() {

@@ -299,6 +299,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   nextStep(step: number, projectId: any, serviceApplicationId: any, serviceId: any, title: string, workFlowId: any, InvestorId: any, investorName: string, projectName: string) {
+    alert(step);
     const id = serviceApplicationId;
     const investorId = InvestorId;
     let stepIndex;
@@ -383,7 +384,15 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         break;
     }
   }
-
+  review(serviceId, investorId, serviceApplicationId, projectId, workflowId){
+    console.log(serviceId)
+    console.log(investorId)
+    console.log(serviceApplicationId);
+    console.log(projectId);
+    this.router.navigate(['permit-amendment/amend-project/' + serviceId +
+            '/' + investorId + '/' + serviceApplicationId + '/' 
+            + projectId + '/' + workflowId]);
+  }
   getAllService() {
     this.service.getAll()
       .subscribe(result => {

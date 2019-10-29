@@ -8,9 +8,35 @@
         <div class="header-description ">
           <strong>Required Scanned Documents to be Uploaded <i>(Pdf format only)</i> </strong>
         </div> -->
-        <mat-list fxLayout="column"  style="margin: 10px 20px;"fxFlex.lt-md="100" fxFlex.gt-sm="100" fxLayoutGap="10px" class="custom-mat-list">
+        <mat-list fxLayout="column"  *ngIf="serviceList == null" style="margin: 10px 20px;" fxFlex.lt-md="100" fxFlex.gt-sm="100" fxLayoutGap="10px"
+          class="custom-mat-list">
           <mat-list-item *ngFor="let item of checkLists;let i=index" class="mat-elevation-z2">
             {{item.DescriptionEnglish}}
+          </mat-list-item>
+        </mat-list>
+
+        <mat-list *ngIf="serviceList != null" fxLayout="column" style="margin: 10px 20px;" fxFlex.lt-md="100" fxFlex.gt-sm="100" fxLayoutGap="10px"
+          class="custom-mat-list">
+          <mat-list-item class="mat-elevation-z2" *ngIf="serviceList.ProfileUpdate == 1">
+            Project Profile Data Updated
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2" *ngIf="serviceList.InputUpdate == 1">
+            Project Input Data Updated
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2" *ngIf="serviceList.RawMaterialUpdate == 1">
+            Project Raw Material Data Updated
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2" *ngIf="serviceList.CostUpdate == 1">
+            Project Cost Data Updated
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2" *ngIf="serviceList.EmploymentUpdate == 1">
+            Project Employment Data Updated
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2" *ngIf="serviceList.ShareUpdate == 1">
+            Project Share Data Updated
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2" *ngIf="serviceList.ProductUpdate == 1">
+            Project Product Data Updated
           </mat-list-item>
         </mat-list>
 
@@ -18,7 +44,7 @@
     </div>
   </mat-card-content>
 
-  
+
   <!-- <mat-card-actions align="start center">
     <div fxLayout="row" fxLayoutGap="2em">
     </div>

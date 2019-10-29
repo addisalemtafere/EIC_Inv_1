@@ -1,17 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import {AccountService} from '@custor/services/security/account.service';
-import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {CustomValidators} from '@custor/validation/custom/custom_validators';
-import {Permission} from "../../../model/security/permission.model";
-import {FormService} from '@custor/validation/custom/form';
-import {ProjectStageModel} from '../../../model/lookupData';
-import { ProjectStage, FormOfOwnership, ServiceTypes} from '@custor/const/consts';
-import {FormOfOwnershipModel} from '../../../model/EnumModel';
-import {RegionModel} from '../../../model/address/Region.model';
-import {ZoneModel} from '../../../model/address/Zone.model';
-import {WoredaModel} from '../../../model/address/Woreda.model';
-import {KebeleModel} from '../../../model/address/Kebele.model';
-import {AddressService} from '../../../Services/Address/address.service';
+import { AccountService } from '@custor/services/security/account.service';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { CustomValidators } from '@custor/validation/custom/custom_validators';
+import { Permission } from "../../../model/security/permission.model";
+import { FormService } from '@custor/validation/custom/form';
+import { ProjectStageModel } from '../../../model/lookupData';
+import {
+  ProjectStage, FormOfOwnership, ServiceTypes, AMENDMENT_STEP,
+  ENG_SAVE_SUCCESS_MSG, ENG_UPDATE_SUCCESS_MSG, ENG_NOT_FOUND_MSG,
+  ENG_SAVE_ERR_MSG, ENG_UPDATE_ERR_MSG,
+
+  AMH_SAVE_SUCCESS_MSG, AMH_UPDATE_SUCCESS_MSG, AMH_NOT_FOUND_MSG,
+  AMH_SAVE_ERR_MSG, AMH_UPDATE_ERR_MSG,
+
+} from '@custor/const/consts';
+import { FormOfOwnershipModel } from '../../../model/EnumModel';
+import { RegionModel } from '../../../model/address/Region.model';
+import { ZoneModel } from '../../../model/address/Zone.model';
+import { WoredaModel } from '../../../model/address/Woreda.model';
+import { KebeleModel } from '../../../model/address/Kebele.model';
+import { AddressService } from '../../../Services/Address/address.service';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorMessage } from '@custor/services/errMessageService';
 import { ConfigurationService } from '@custor/services/configuration.service';
@@ -25,7 +33,7 @@ import { ActivityModel } from '../../../model/activity';
 import { InvactivityService } from '../../setting/category-tabs/InvActivity/invactivity.service';
 import { InvActivityModel } from '../../../model/invactivity';
 import { SiteService } from '../../../Services/site.service';
- import { ProjectService} from '../service/project.service';
+import { ProjectService } from '../service/project.service';
 import { ServiceApplicationService } from "../service/service-application.service";
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectOfficerService } from '../service/project-officer.service';
@@ -41,9 +49,9 @@ export class ProjectProfileComponent implements OnInit {
   projectForm: FormGroup;
   projectAmendForm: FormGroup;
   formOfOwnershipList: FormOfOwnershipModel[] = [];
-  InvestorId:any;
-  ServiceId :any;
-  projectProfile :any;
+  InvestorId: any;
+  ServiceId: any;
+  projectProfile: any;
   regions: RegionModel[] = [];
   projectStage: ProjectStageModel[] = [];
   zones: ZoneModel[] = [];
@@ -62,22 +70,24 @@ export class ProjectProfileComponent implements OnInit {
   public investmentActivity: InvActivityModel[];
   public filterInvestmentActivityList: InvActivityModel[];
   public allSiteList: SiteModel[] = [];
-  public projectData : any;
-  public existingServiceApplication : any;
-  serviceApplicationId : any;
+  public projectData: any;
+  public existingServiceApplication: any;
+  serviceApplicationId: any;
   currentLang: string;
-  projectPostDTO : any;
-  projectId : any;
+  projectPostDTO: any;
+  projectId: any;
   AddressId; CreatedUserId; IsMainOffice;
   IsDeleted: boolean = false;
   IsActive: boolean = false;
-  serviceId : number ;
-  constructor(  private formBuilder: FormBuilder,
+  serviceId: number;
+  response :any;
+  serviceList :any;
+  constructor(private formBuilder: FormBuilder,
     private addressService: AddressService,
     private serviceApplicationApiService: ServiceApplicationService,
-    private toastr: ToastrService,
+    private toaster: ToastrService,
     private errMsg: ErrorMessage,
-    public accountServices: AccountService, 
+    public accountServices: AccountService,
     private projectService: ProjectService,
     private sectorService: SectorService,
     public activityService: ActivityService,
@@ -91,36 +101,54 @@ export class ProjectProfileComponent implements OnInit {
     this.projectId = this.activatedRoute.snapshot.params.projectId;
     this.serviceApplicationId = this.activatedRoute.snapshot.params.serviceApplicationId;
     this.serviceId = this.activatedRoute.snapshot.params.serviceId;
-     if (this.serviceApplicationId == 0){
-        this.checkServiceApplication();
-     }
+    if (this.serviceApplicationId == 0) {
+      this.checkServiceApplication();
+    }
+    else{
+      this.getUpdatedList();
+    }
     this.initForm();
     this.initViewForm();
-   }
+  }
+  
   checkServiceApplication() {
-    const id = 2092;
     this.InvestorId = 2092;
-    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
+    this.serviceApplicationApiService.checkServiceApplicationFromApi(this.InvestorId, this.amendment)
       .subscribe(result => {
+        console.log(result)
         if (result != null) {
           this.existingServiceApplication = result;
           this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+          this.getUpdatedList();
         }
       });
+  }
+  getUpdatedList() {
+    this.serviceApplicationApiService.getAddedServiceList(this.projectId, this.serviceApplicationId).subscribe(result => {
+      console.log(result)
+      if (result != null) {
+        this.serviceList = result;
+      }
+    });
   }
   ngOnInit() {
     this.initStaticData("en");
     this.fillAddressLookups();
-    
+
   }
-  getProjectData(projectId){
-    this.projectService.getProjectData(projectId).subscribe(res=>{
+  getProjectData(projectId) {
+    this.projectService.getProjectData(projectId).subscribe(res => {
       console.log(res);
 
       if (res == null) {
-        alert("no record found")
+        if (this.currentLang == 'en') {
+          this.toaster.error(ENG_NOT_FOUND_MSG)
+        }
+        else {
+          this.toaster.error(AMH_NOT_FOUND_MSG)
+        }
       }
-      else{
+      else {
         this.projectData = res;
         this.projectForm.patchValue(this.projectData);
         console.log(this.projectData.ProjectStage)
@@ -141,8 +169,8 @@ export class ProjectProfileComponent implements OnInit {
       // this.projectForm.parent();
     })
   }
-  searchDataFromAudit(projectId,serviceApplicationId){
-    
+  searchDataFromAudit(projectId, serviceApplicationId) {
+    console.log(serviceApplicationId)
     this.projectService.getProjectAuditData(projectId, serviceApplicationId).subscribe(res => {
       console.log(res)
       if (res != null) {
@@ -156,14 +184,14 @@ export class ProjectProfileComponent implements OnInit {
         this.updateData = true;
         this.setNewForm();
       }
-      else{
+      else {
         console.log("no data found on audit table");
         console.log('user doesn\'t exist on current database');
         this.appendPreviousDataToNewForm();
       }
     })
   }
-  setNewForm(){
+  setNewForm() {
     console.log(this.projectPostDTO)
     setTimeout(() => {
       if (this.projectPostDTO.ZoneId != null) {
@@ -177,39 +205,76 @@ export class ProjectProfileComponent implements OnInit {
       }
     }, 100);
   }
-  setViewForm(){
+  setViewForm() {
 
   }
-  create(){
+  create() {
     console.log("create");
     console.log(this.getEditedData());
     this.projectService.saveProjectData(this.getEditedData()).subscribe(res => {
-        console.log(res)
+      console.log(res)
+      if (res) {
+        this.updateData = true;
+        this.response = res;
+        this.serviceApplicationId = this.response.ServiceApplicationId
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
+
     })
   }
   update() {
     this.projectService.updateProjectData(this.getEditedData()).subscribe(res => {
-      console.log(res)
+      if (res) {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_UPDATE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
     })
   }
-  getEditedData(){
+  getEditedData() {
     this.projectProfile = this.projectAmendForm.value;
-    this.projectProfile.ProjectId = this.projectId ;
-    this.projectProfile.InvestorId = (this.InvestorId) ? this.InvestorId : 0;;
-    this.projectProfile.AddressId = (this.AddressId) ? this.AddressId : 0;;
+    this.projectProfile.ProjectId = this.projectId;
+    this.projectProfile.InvestorId = (this.InvestorId) ? this.InvestorId : 0;
+    this.projectProfile.AddressId = (this.AddressId) ? this.AddressId : 0;
     this.projectProfile.IsActive = (this.IsActive) ? this.IsActive : true;
     this.projectProfile.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
     this.projectProfile.IsMainOffice = (this.IsMainOffice) ? this.IsMainOffice : false;
-    if (this.serviceApplicationId == 0){
+    this.projectProfile.CurrentStep = AMENDMENT_STEP[1].Step;
+    this.projectProfile.ServiceId =this.amendment;
+    if (this.serviceApplicationId == 0) {
       this.projectProfile.ServiceApplicationId = null
     }
-    else{
+    else {
       this.projectProfile.ServiceApplicationId = this.serviceApplicationId;
     }
     return this.projectProfile;
   }
-  
-  appendPreviousDataToNewForm(){
+
+  appendPreviousDataToNewForm() {
     console.log('no data in new database');
     console.log(this.projectData)
     console.log(this.projectData.RegionId)
@@ -228,16 +293,16 @@ export class ProjectProfileComponent implements OnInit {
       }
     }, 100);
   }
-   fillAddressLookups() {
+  fillAddressLookups() {
     this.getRegions();
     this.getAllZones();
     // // this.getAllWoredas();
-     this.getAllSector();
-     this.getAllSubSector();
-     this.getAllActivityService();
-     this.getAllInvestmentActivity();
-     this.getAllSite();
-   }
+    this.getAllSector();
+    this.getAllSubSector();
+    this.getAllActivityService();
+    this.getAllInvestmentActivity();
+    this.getAllSite();
+  }
   private getAllSite() {
     this.siteService.getAll()
       .subscribe(result => {
@@ -256,7 +321,7 @@ export class ProjectProfileComponent implements OnInit {
       .subscribe(result => {
         this.sectorList = result;
       },
-        error => this.toastr.error(this.errMsg.getError(error)
+        error => this.toaster.error(this.errMsg.getError(error)
         ));
   }
   getAllActivityService() {
@@ -264,7 +329,7 @@ export class ProjectProfileComponent implements OnInit {
       .subscribe(result => {
         this.activity = result;
         this.filterActivityLIst = result;
-      }, error => this.toastr.error(this.errMsg.getError(error)));
+      }, error => this.toaster.error(this.errMsg.getError(error)));
   }
 
   getAllInvestmentActivity() {
@@ -275,7 +340,7 @@ export class ProjectProfileComponent implements OnInit {
         }
         this.investmentActivity = result;
         this.filterInvestmentActivityList = result;
-      }, error => this.toastr.error(this.errMsg.getError(error)));
+      }, error => this.toaster.error(this.errMsg.getError(error)));
   }
   getAllSubSector() {
     this.subSectorService.getSubSectors(this.currentLang)
@@ -283,14 +348,34 @@ export class ProjectProfileComponent implements OnInit {
         this.subSectorList = result;
         this.filterSubSectorList = result;
       },
-        error => this.toastr.error(this.errMsg.getError(error)));
+        error => this.toaster.error(this.errMsg.getError(error)));
   }
-   getRegions() {
+  filterSubSector(SubSecId: string) {
+    if (!SubSecId) {
+      return;
+    }
+    this.filterActivityLIst = null;
+    this.filterSubSectorList = this.subSectorList.filter((item) => {
+      return item.SectorId == SubSecId;
+    });
+  }
+  filterActivity(activityId: number) {
+    if (!activityId) {
+      return;
+    }
+
+    this.filterActivityLIst = this.activity.filter((item) => {
+      return item.SubSectorId === activityId;
+    });
+  }
+
+  
+  getRegions() {
     this.addressService.getRegions()
       .subscribe(result => {
-          this.regions = result;
-        },
-        error => this.toastr.error(this.errMsg.getError(error)));
+        this.regions = result;
+      },
+        error => this.toaster.error(this.errMsg.getError(error)));
   }
   getAllZones() {
     this.addressService.getAllZonesByLang(this.currentLang)
@@ -314,7 +399,7 @@ export class ProjectProfileComponent implements OnInit {
       return item.RegionId === regionCode;
     });
   }
-   initStaticData(currentLang) {
+  initStaticData(currentLang) {
     let formOfOwnership: FormOfOwnershipModel = new FormOfOwnershipModel();
     FormOfOwnership.forEach(pair => {
       formOfOwnership = {
@@ -334,42 +419,45 @@ export class ProjectProfileComponent implements OnInit {
       this.projectStage.push(projectSage);
     });
   }
-  getIsChecked(){
+  IsOromiaRegion() {
 
   }
-  IsOromiaRegion(){
+  filterInvestmentActivity(InvActivityId: number) {
+    if (!InvActivityId) {
+      return;
+    }
+    this.filterInvestmentActivityList = this.investmentActivity.filter((item) => {
+      return item.ActivityId === InvActivityId;
+    });
+  }
 
-  }
-  filterInvestmentActivity(data){
-    console.log(data)
-  }
-  approve(){
-    
+  approve() {
+
     this.projectOfficerService.approveProjectProfile(this.getEditedData()).subscribe(res => {
       console.log(res)
     })
   }
-  initViewForm(){
+  initViewForm() {
     this.projectForm = this.formBuilder.group({
-      ProjectName: [], ProjectStage: [], startViewDate: [], EndingViewDate:[],
-      operationViewDate: [], EnvironmentalImpact: [], ProjectDescription: [], RegionId:[],
-      ZoneId: [], WoredaId: [], WoredaEngId: [], KebeleId: [], KebeleEngId:[],
-      SpecificAreaName: [], IsIndustrialPark: [], IndustrialParkId: [], IsOromiaSpecialZone:[],
-      InvActivityId: [], ActivityId: [], SubSectorId: [], SectorId:[],
+      ProjectName: [], ProjectStage: [], startViewDate: [], EndingViewDate: [],
+      operationViewDate: [], EnvironmentalImpact: [], ProjectDescription: [], RegionId: [],
+      ZoneId: [], WoredaId: [], WoredaEngId: [], KebeleId: [], KebeleEngId: [],
+      SpecificAreaName: [], IsIndustrialPark: [], IndustrialParkId: [], IsOromiaSpecialZone: [],
+      InvActivityId: [], ActivityId: [], SubSectorId: [], SectorId: [],
     });
     this.projectForm.disable();
   }
   initForm() {
     // console.log(this.ServiceId);
-   
+
     this.projectAmendForm = this.formBuilder.group({
       ProjectName: ['', Validators.compose([Validators.required,
-        CustomValidators.validateCharacters, Validators.minLength(2)])],
+      CustomValidators.validateCharacters, Validators.minLength(2)])],
       InvestorId: [this.InvestorId],
       ServiceId: [this.ServiceId],
       ParentProjectId: ['0'],
       CreatedUserName: this.accountServices.currentUser.UserName,
-      ProjectDescription: ['', [Validators.minLength(2)]],
+      ProjectDescription: ['', [Validators.required,Validators.minLength(2)]],
       StartDate: ['', [Validators.required]],
       OperationDate: ['', Validators.required],
       SectorId: [''],
@@ -384,16 +472,16 @@ export class ProjectProfileComponent implements OnInit {
       CreatedUserId: [],
       ProjectStage: ['', Validators.required],
       InvestmentPermitNo: [''],
-      RegionId :[''],
-      ZoneId :[''],
-      WoredaId :[''],
-      WoredaEngId :[''],
-      KebeleId :[''],
-      KebeleEngId :[''],
-      SpecificAreaName :[''],
-      IsIndustrialPark :[''],
-      IndustrialParkId :[''],
-      Remark :[''],
+      RegionId: [''],
+      ZoneId: [''],
+      WoredaId: [''],
+      WoredaEngId: [''],
+      KebeleId: [''],
+      KebeleEngId: [''],
+      SpecificAreaName: [''],
+      IsIndustrialPark: [''],
+      IndustrialParkId: [''],
+      Remark: [''],
       // 'address': new FormGroup({
       //   ParentId: new FormControl(),
       //   RegionId: new FormControl(),
@@ -409,28 +497,29 @@ export class ProjectProfileComponent implements OnInit {
       // })
     });
   }
-  get ProjectName(){
+  
+  get ProjectName() {
     return this.projectAmendForm.get('ProjectName');
   }
-  get ProjectDescription(){
+  get ProjectDescription() {
     return this.projectAmendForm.get('ProjectDescription');
   }
-  get StartDate(){
+  get StartDate() {
     return this.projectAmendForm.get('StartDate');
   }
-  get OperationDate(){
+  get OperationDate() {
     return this.projectAmendForm.get('OperationDate');
   }
-  get EndingDate(){
+  get EndingDate() {
     return this.projectAmendForm.get('EndingDate');
   }
-  get EnvironmentalImpact(){
+  get EnvironmentalImpact() {
     return this.projectAmendForm.get('EnvironmentalImpact');
   }
-  get ProjectStage(){
+  get ProjectStage() {
     return this.projectAmendForm.get('ProjectStage');
   }
-  get RegionId(){
+  get RegionId() {
     return this.projectAmendForm.get('RegionId');
   }
   get ZoneId() {

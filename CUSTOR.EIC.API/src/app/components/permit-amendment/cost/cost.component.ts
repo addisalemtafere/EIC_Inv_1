@@ -6,7 +6,13 @@ import { ActivatedRoute } from "@angular/router";
 import { CurrencyType, ProjectStatusModel, QuarterModel } from "../../../model/lookupData";
 import { CurrencyTypes, ProjectStatus, Quarter } from "@custor/const/consts";
 import { ProjectService } from '../service/project.service';
-import { ProjectStage, FormOfOwnership, ServiceTypes } from '@custor/const/consts';
+import {
+  AMENDMENT_STEP,
+  ENG_SAVE_SUCCESS_MSG, ENG_UPDATE_SUCCESS_MSG, ENG_NOT_FOUND_MSG,
+  ENG_SAVE_ERR_MSG, ENG_UPDATE_ERR_MSG,
+
+  AMH_SAVE_SUCCESS_MSG, AMH_UPDATE_SUCCESS_MSG, AMH_NOT_FOUND_MSG,
+  AMH_SAVE_ERR_MSG, AMH_UPDATE_ERR_MSG, ServiceTypes } from '@custor/const/consts';
 import { ServiceApplicationService } from "../service/service-application.service";
 import { ProjectOfficerService } from '../service/project-officer.service';
 @Component({
@@ -30,13 +36,14 @@ export class CostComponent implements OnInit {
   projectCostPostDTO: any;
   updateData = false;
   serviceApplicationId:any;
+  response:any;
   existingServiceApplication:any;
   projectCost: any; serviceId: any; InvestorId: any; ProjectCostId:any;
   IsDeleted: any;IsActive: any;
   amendment = ServiceTypes[4].ServiceId; 
-
+  serviceList: any;
   constructor(private formBuilder: FormBuilder,
-    public toastr: ToastrService,
+    public toaster: ToastrService,
     public route: ActivatedRoute,
     private serviceApplicationApiService: ServiceApplicationService,
     private projectOfficerService: ProjectOfficerService,
@@ -49,8 +56,19 @@ export class CostComponent implements OnInit {
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
     }
+    else {
+      this.getUpdatedList();
+    }
     this.initForm();
     this.initViewForm();
+  }
+  getUpdatedList() {
+    this.serviceApplicationApiService.getAddedServiceList(this.projectId, this.serviceApplicationId).subscribe(result => {
+      console.log(result)
+      if (result != null) {
+        this.serviceList = result;
+      }
+    });
   }
   checkServiceApplication() {
     const id = 2092;
@@ -59,6 +77,7 @@ export class CostComponent implements OnInit {
         if (result != null) {
           this.existingServiceApplication = result;
           this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+          this.getUpdatedList();
         }
       });
   }
@@ -83,7 +102,12 @@ export class CostComponent implements OnInit {
         this.ProjectCostId = this.projectCostData.ProjectCostId
         this.projectCostForm.patchValue(this.projectCostData);
       }
-      this.searchDataFromAudit(projectId , this.serviceApplicationId);
+      if (this.serviceApplicationId == 0) {
+        this.appendPreviousDataToNewForm();
+      }
+      else{
+        this.searchDataFromAudit(projectId , this.serviceApplicationId);
+      }
     })
   }
   searchDataFromAudit(projectId, serviceApplicationId) {
@@ -280,13 +304,47 @@ export class CostComponent implements OnInit {
   create() {
     console.log(this.getEditedData())
     this.projectService.saveCostData(this.getEditedData()).subscribe(res => {
-      console.log(res)
+      if (res) {
+        console.log(res)
+        this.updateData = true;
+        this.response = res;
+        this.serviceApplicationId = this.response.ServiceApplicationId
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
     })
   }
   update() {
     console.log(this.getEditedData())
     this.projectService.updateCostData(this.getEditedData()).subscribe(res => {
-      console.log(res)
+      if (res) {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_UPDATE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
     })
   }
   approve(){
@@ -301,6 +359,8 @@ export class CostComponent implements OnInit {
     this.projectCost.IsActive = (this.IsActive) ? this.IsActive : true;
     this.projectCost.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
     this.projectCost.ProjectCostId = (this.ProjectCostId) ? this.ProjectCostId : 0;
+    this.projectCost.CurrentStep = AMENDMENT_STEP[4].Step;
+    this.projectCost.ServiceId = this.amendment;
     if (this.serviceApplicationId == 0) {
       this.projectCost.ServiceApplicationId = null
     }

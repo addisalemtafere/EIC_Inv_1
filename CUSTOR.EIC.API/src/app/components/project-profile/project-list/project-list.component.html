@@ -163,19 +163,28 @@
        <!--<mat-icon color="primary" class="mat-18">navigate_next</mat-icon>-->
        {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId }}
               </a>
-              <a class="pointer custom-button2" style=""
+              <a class="pointer custom-button2" 
                  *ngIf="serviceApplicationList?.CurrentStatusId!==applicationS.Drafted && serviceApplicationList?.CurrentStatusId!==applicationS.Completed
-                  && serviceApplicationList.IsSelfService==true"
+                  && serviceApplicationList.IsSelfService==true && serviceApplicationList.ServiceId !='1028'"
                  (click)="nextStep(18,
-            serviceApplicationList.ProjectId,
-            serviceApplicationList.ServiceApplicationId,
-            serviceApplicationList.ServiceId,
-            serviceApplicationList.ServiceNameEnglish,
-             serviceApplicationList?.ServiceWorkflow[0].ServiceWorkflowId,serviceApplicationList.InvestorId,
-             serviceApplicationList.InvestorNameEnglish,
-             serviceApplicationList.ProjectNameEnglish
+                    serviceApplicationList.ProjectId,
+                    serviceApplicationList.ServiceApplicationId,
+                    serviceApplicationList.ServiceId,
+                    serviceApplicationList.ServiceNameEnglish,
+                    serviceApplicationList?.ServiceWorkflow[0].ServiceWorkflowId,serviceApplicationList.InvestorId,
+                    serviceApplicationList.InvestorNameEnglish,
+                    serviceApplicationList.ProjectNameEnglish
              )">
                 Review
+              </a>
+              <a class="pointer custom-button2"
+                *ngIf="serviceApplicationList.ServiceId=='1028'"
+                 (click)="review(serviceApplicationList.ServiceId,
+                                serviceApplicationList.InvestorId,
+                                serviceApplicationList.ServiceApplicationId,
+                                serviceApplicationList.ProjectId,0)"
+                 >
+                  REVIEW
               </a>
 
 </span>

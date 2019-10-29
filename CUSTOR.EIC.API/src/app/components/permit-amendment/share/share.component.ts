@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ProjectStage, FormOfOwnership, ServiceTypes } from '@custor/const/consts';
+import { ServiceTypes
+  , AMENDMENT_STEP,
+  ENG_SAVE_SUCCESS_MSG, ENG_UPDATE_SUCCESS_MSG, ENG_NOT_FOUND_MSG,
+  ENG_SAVE_ERR_MSG, ENG_UPDATE_ERR_MSG,
+
+  AMH_SAVE_SUCCESS_MSG, AMH_UPDATE_SUCCESS_MSG, AMH_NOT_FOUND_MSG,
+  AMH_SAVE_ERR_MSG, AMH_UPDATE_ERR_MSG
+} from '@custor/const/consts';
 import { ConfigurationService } from '@custor/services/configuration.service';
 import { ServiceApplicationModel } from '../../../model/ServiceApplication.model';
 import { ServiceApplicationService } from '../service/service-application.service';
@@ -44,7 +51,7 @@ export class ShareComponent implements OnInit {
   editModeInput = false;
   nationList: NationalityModel[] = [];
   displayedColumns = ['No', 'Nationality', 'Qty', 'SharePercent', 'Description', 'Action'];
-
+  response:any; serviceList:any;
   constructor(private configService: ConfigurationService,
     private formBuilder: FormBuilder,
     private errMsg: ErrorMessage,
@@ -52,6 +59,7 @@ export class ShareComponent implements OnInit {
     public route: ActivatedRoute,
     private projectOfficerService: ProjectOfficerService,
     private addressService: AddressService,
+    private toaster :ToastrService,
     private nationalityCompositionService: ProjectNationalityCompositionService,
     private serviceApplicationApiService: ServiceApplicationService) {
     this.currentLang = this.configService.language;
@@ -60,11 +68,21 @@ export class ShareComponent implements OnInit {
     this.serviceApplicationId = this.route.snapshot.params.serviceApplicationId;
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
+    } else {
+      this.getUpdatedList();
     }
     this.getAllNation();
     this.initForm();
     this.initViewForm();
     // this.projectId = 28174;
+  }
+  getUpdatedList() {
+    this.serviceApplicationApiService.getAddedServiceList(this.projectId, this.serviceApplicationId).subscribe(result => {
+      console.log(result)
+      if (result != null) {
+        this.serviceList = result;
+      }
+    });
   }
   private getAllNation() {
     this.addressService.getNationality(this.currentLang)
@@ -80,7 +98,8 @@ export class ShareComponent implements OnInit {
       .subscribe(result => {
         if (result != null) {
           this.existingServiceApplication = result;
-          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationID;
+          this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+          this.getUpdatedList();
         }
         else {
           this.serviceApplicationId = 0;
@@ -129,7 +148,13 @@ export class ShareComponent implements OnInit {
     this.shareEditIndex = index;
     this.productShare = this.nationalityCompositionData[index];
     this.projectShareForm.patchValue(this.productShare);
-    this.searchDataFromAudit(id , this.serviceApplicationId);
+    if (this.serviceApplicationId == 0) {
+      this.appendPreviousDataToNewForm();
+    }
+    else{
+
+      this.searchDataFromAudit(id , this.serviceApplicationId);
+    }
   }
   searchDataFromAudit(projectCompositionId,serviceApplicationId) {
     this.projectService.getProjectSharePercentAuditData(projectCompositionId, serviceApplicationId).subscribe(res => {
@@ -144,6 +169,7 @@ export class ShareComponent implements OnInit {
         this.editModeInput = true;
       }
       else {
+        this.editModeInput = false;
         console.log("no data found on audit table");
         console.log('user doesn\'t exist on current database');
         this.appendPreviousDataToNewForm();
@@ -157,12 +183,48 @@ export class ShareComponent implements OnInit {
     console.log(this.getEditedData());
     this.projectService.saveShareData(this.getEditedData()).subscribe(res => {
       console.log(res)
+      if (res) {
+        console.log(res)
+        this.updateData = true;
+        this.response = res;
+        this.serviceApplicationId = this.response.ServiceApplicationId
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_SAVE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
     })
   }
   update() {
     console.log(this.getEditedData());
     this.projectService.updateShareData(this.getEditedData()).subscribe(res => {
       console.log(res)
+      if (res) {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_SUCCESS_MSG)
+        }
+        else {
+          this.toaster.success(AMH_UPDATE_SUCCESS_MSG)
+        }
+      }
+      else {
+        if (this.currentLang == 'en') {
+          this.toaster.success(ENG_UPDATE_ERR_MSG)
+        }
+        else {
+          this.toaster.success(AMH_SAVE_ERR_MSG)
+        }
+      }
     })
   }
   approve() {
@@ -179,6 +241,8 @@ export class ShareComponent implements OnInit {
     this.projectShare.IsActive = (this.IsActive) ? this.IsActive : true;
     this.projectShare.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
     this.projectShare.ProjectInputId = (this.ProjectNationalityCompositionId) ? this.ProjectNationalityCompositionId : 0
+    this.projectShare.CurrentStep = AMENDMENT_STEP[5].Step;
+    this.projectShare.ServiceId = this.amendment;
     if (this.serviceApplicationId == 0) {
       this.projectShare.ServiceApplicationId = null
     }

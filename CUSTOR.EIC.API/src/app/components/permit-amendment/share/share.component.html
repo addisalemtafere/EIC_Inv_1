@@ -75,7 +75,7 @@
     <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
       <form [formGroup]="projectShareForm" novalidate>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-          <mat-form-field fxLayoutGap="4em" >
+          <mat-form-field fxLayoutGap="4em">
             <mat-label>Nationality * :</mat-label>
             <mat-select formControlName="Nationality">
               <mat-option *ngFor="let nation of nationList" [value]="nation.id">
@@ -83,17 +83,17 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field fxLayoutGap="4em" >
+          <mat-form-field fxLayoutGap="4em">
             <mat-label>Quantity *:</mat-label>
             <input type="number" formControlName="Qty" matInput>
           </mat-form-field>
         </div>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-          <mat-form-field fxLayoutGap="4em" >
+          <mat-form-field fxLayoutGap="4em">
             <mat-label>Share Percent % *:</mat-label>
             <input type="number" formControlName="SharePercent" matInput>
           </mat-form-field>
-          <mat-form-field  fxLayoutGap="4em">
+          <mat-form-field fxLayoutGap="4em">
             <mat-label>Description :</mat-label>
             <textarea formControlName="Description" matInput>
                  </textarea>
@@ -104,7 +104,7 @@
     <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
       <form [formGroup]="projectShareAmendForm" novalidate>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-          <mat-form-field fxLayoutGap="4em" >
+          <mat-form-field fxLayoutGap="4em">
             <mat-label>Nationality * :</mat-label>
             <mat-select formControlName="Nationality">
               <mat-option *ngFor="let nation of nationList" [value]="nation.id">
@@ -112,17 +112,17 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field fxLayoutGap="4em" >
+          <mat-form-field fxLayoutGap="4em">
             <mat-label>Quantity *:</mat-label>
             <input type="number" formControlName="Qty" matInput>
           </mat-form-field>
         </div>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-          <mat-form-field fxLayoutGap="4em" >
+          <mat-form-field fxLayoutGap="4em">
             <mat-label>Share Percent % *:</mat-label>
             <input type="number" formControlName="SharePercent" matInput>
           </mat-form-field>
-          <mat-form-field  fxLayoutGap="4em">
+          <mat-form-field fxLayoutGap="4em">
             <mat-label>Description :</mat-label>
             <textarea formControlName="Description" matInput>
                  </textarea>
@@ -139,10 +139,10 @@
       </form>
     </div>
   </mat-card-content>
-    <mat-card-actions fxLayoutAlign="end end">
-      <button mat-raised-button color="primary" (click)="approve()">
-        {{'common.commands.Approve'|translate}}</button>
-    </mat-card-actions>
+  <!-- <mat-card-actions fxLayoutAlign="end end">
+    <button mat-raised-button color="primary" *ngIf="serviceId && serviceList.ShareUpdate == 1" (click)="approve()">
+      {{'common.commands.Approve'|translate}}</button>
+  </mat-card-actions> -->
 </mat-card>
 
 
