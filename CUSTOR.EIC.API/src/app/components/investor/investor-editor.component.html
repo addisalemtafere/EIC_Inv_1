@@ -104,20 +104,20 @@
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.GrandNameEng' | translate}}</mat-label>
             <input matInput formControlName="cGrandNameEng"/>
-            <mat-error *ngIf="grandNameEng.hasError('required')">
-              {{'common.validation.Required' | translate}}
-            </mat-error>
+<!--            <mat-error *ngIf="grandNameEng.hasError('required')">-->
+<!--              {{'common.validation.Required' | translate}}-->
+<!--            </mat-error>-->
             <mat-error *ngIf="grandNameEng.hasError('maxlength')">
               {{'common.validation.MaxLengthChar' | translate: {'max': '15'} }}
             </mat-error>
-            <mat-error *ngIf="!grandNameEng.hasError('required') && grandNameEng.hasError('minlength')">
+            <mat-error *ngIf="grandNameEng.hasError('minlength')">
               {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
             </mat-error>
-            <mat-error *ngIf="!grandNameEng.hasError('required') && !grandNameEng.hasError('maxlength')
-             && !grandNameEng.hasError('minlength')
-                                && grandNameEng.hasError('pattern')">
-              {{'common.validation.UseLatinOnly' | translate}}
-            </mat-error>
+<!--            <mat-error *ngIf="!grandNameEng.hasError('maxlength')-->
+<!--             && !grandNameEng.hasError('minlength')-->
+<!--                                && grandNameEng.hasError('pattern')">-->
+<!--              {{'common.validation.UseLatinOnly' | translate}}-->
+<!--            </mat-error>-->
           </mat-form-field>
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.FirstName' | translate}}</mat-label>
@@ -338,7 +338,7 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
-
+              <mat-label>{{'investors.editor.WoredaEnglish' | translate}}</mat-label>
               <input matInput formControlName="WoredaEngId" />
               <!--<span *ngIf="isInvestor">-->
               <mat-error *ngIf="woredaEng.hasError('required')">

@@ -785,8 +785,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       this.grandName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
         Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
     }
-    this.woredaEng.setValidators([Validators.compose([Validators.maxLength(20),
-      Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    this.woredaEng.setValidators([Validators.compose([Validators.maxLength(20)])]);
     if (!this.isInvestor) {
       this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
         Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
@@ -794,8 +793,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.woreda.setValidators([Validators.compose([Validators.maxLength(20),
       Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
     if (!this.isInvestor) {
-      this.woreda.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
-        Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      this.woreda.setValidators([Validators.compose([Validators.required, Validators.maxLength(20)])]);
     }
     this.kebeleEng.setValidators([Validators.compose([Validators.maxLength(20),
       Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
@@ -806,8 +804,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.kebele.setValidators([Validators.compose([Validators.maxLength(20),
       Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
     if (!this.isInvestor) {
-      this.kebele.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
-        Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      this.kebele.setValidators([Validators.compose([Validators.required, Validators.maxLength(20)])]);
     }
     // this.phoneDirect.setValidators([Validators.compose([Validators.maxLength(10)])]);
     // this.CellPhoneNo.setValidators([Validators.compose([Validators.required])]);
