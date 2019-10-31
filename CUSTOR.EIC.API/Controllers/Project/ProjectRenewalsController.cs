@@ -48,6 +48,16 @@ namespace CUSTOR.EICOnline.API.Controllers
       //return projectRenewal;
 
     }
+    [HttpGet("ServiceAppWithRenewal/{id}")]
+    public ProjectRenewal GetServiceAppWithRenewal([FromRoute] int id)
+    {
+      return RenewalRepository.GetServiceAppWithRenewal(id);
+      //var projectRenewal = context.ProjectRenewal
+      //  .Where(p => p.ProjectId == id).OrderByDescending(x => x.ProjectRenewalId).AsEnumerable();
+      //int num = projectRenewal.Count();
+      //return projectRenewal;
+
+    }
     [HttpGet("ByProjectId/{id}")]
     public async Task<List<ProjectRenewal>> GetProjectRenewalsByProjectIdAsync([FromRoute] int id)
     {

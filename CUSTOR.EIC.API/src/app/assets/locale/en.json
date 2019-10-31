@@ -96,7 +96,10 @@
     "capitalRegistration": "Capital Registration",
     "customerRegistration": "Customer Registration",
     "changePassword": "Change Password",
-    "lettertemplate": "Letter Tempalte"
+    "lettertemplate": "Letter Tempalte",
+    "TaxExemption": "Tax Exemption",
+    "DutyFree": "Duty Free",
+    "DataBrowser": "Incentive Data Browser"
   },
   "pageHeader": {
     "Dashboard": "Dashboard",

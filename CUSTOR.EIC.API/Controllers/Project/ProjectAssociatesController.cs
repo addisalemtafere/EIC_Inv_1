@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.EICOnline.DAL.EntityLayer;
@@ -82,8 +82,17 @@ namespace CUSTOR.EICOnline.API.Controllers.Project
         public async Task<IActionResult> PostProjectAssociate([FromBody] ProjectAssociate projectAssociate)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            _context.ProjectAssociate.Add(projectAssociate);
+            // if there is a project manager delete it
+      var projectmanager = await _context.ProjectAssociate.SingleOrDefaultAsync(m => m.ProjectId == projectAssociate.ProjectId);
+      if (projectmanager == null)
+      {
+      }
+      else
+      {
+        _context.ProjectAssociate.Remove(projectmanager);
+        await _context.SaveChangesAsync();
+      }
+      _context.ProjectAssociate.Add(projectAssociate);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProjectAssociate", new {id = projectAssociate.ProjectAssociateId},

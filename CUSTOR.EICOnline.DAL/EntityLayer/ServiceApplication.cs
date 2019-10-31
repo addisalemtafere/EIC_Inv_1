@@ -112,6 +112,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         [Key] public int IncentiveBoMRequestItemId { get; set; }
         public int ServiceApplicationId { get; set; }
         public int? ProjectId { get; set; }
+        public int? Phase { get; set; }
         public string Description { get; set; }
         public string HsCode { get; set; }
         public decimal Quantity { get; set; }

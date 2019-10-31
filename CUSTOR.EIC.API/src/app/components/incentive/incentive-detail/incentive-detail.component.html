@@ -16,22 +16,21 @@
         <!--{{'common.validation.Required' | translate}}-->
         <!--</mat-error>-->
       </mat-form-field>
-    </div>
-    <div style="padding: 10px">
-      <button color="primary" mat-raised-button="" (click)="showLetter()">
-        Show Letter
-      </button>
-    </div>
-    <div style="padding: 10px">
+      <div style="padding: 10px">
+        <button color="primary" mat-raised-button="" (click)="showLetter()">
+          Show Letter
+        </button>
+      </div>
+      <div style="padding: 10px">
         <span *ngIf="isVisibleShowBalance">
         <button color="primary" mat-raised-button="" (click)="showBalance()">
           Show Balance
         </button>
           <!--</div>-->
           </span>
+      </div>
     </div>
   </div>
-
   <!--<span ngif="ShowItemDetails">-->
 </form>
 <mat-card class="margin-2 padding-0">
@@ -53,7 +52,7 @@
       <ng-container matColumnDef="No">
         <mat-header-cell [fxFlex]="6" *matHeaderCellDef>No</mat-header-cell>
         <mat-cell [fxFlex]="6" *matCellDef="let itemList;let i=index;">
-          {{i+1}}
+          {{i + 1}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="IncentiveItem">

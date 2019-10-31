@@ -67,8 +67,6 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       else
       {
         incentiveBoMRequestItem.IsApproved = true;
-
-
         _context.Entry(incentiveBoMRequestItem).State = EntityState.Modified;
 
         ServiceApplication serviceApplication = _context.ServiceApplication.First(p =>
@@ -140,7 +138,13 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
     {
       return await _itemsRepository.GetIncentiveBoMRequestItemByProjectId(id, lang, page, pageSize);
     }
-
+//    [HttpGet]
+//    [Route("GetByProjectId/{id:int}/{lang}")]
+//    public async Task<IEnumerable<IncentiveBoMRequestItemDTO>> GetIncentiveRequestsByProjectId(int id, string lang,
+//      int page = -1, int pageSize = 10)
+//    {
+//      return await _itemsRepository.GetIncentiveBoMRequestItemByProjectId(id, lang, page, pageSize);
+//    }
     // PUT: api/IncentiveBoMRequestItems/5
     [HttpPut("{id}")]
     public async Task<IncentiveBoMRequestItem> PutIncentiveBoMRequestItem([FromRoute] int id,
@@ -160,6 +164,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         incentiveBoMRequestItem.IsApproved = false;
       }
 
+      incentiveBoMRequestItem.IncentiveCategoryId = 10778;
       _context.Entry(incentiveBoMRequestItem).State = EntityState.Modified;
 
       try
@@ -190,6 +195,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       [FromBody] IncentiveBoMRequestItem incentiveBoMRequestItem)
     {
       incentiveBoMRequestItem.IncentiveCategoryId = 10778;
+      incentiveBoMRequestItem.Balance = incentiveBoMRequestItem.Quantity;
       //if (!ModelState.IsValid)
       //{
       //  return BadRequest(ModelState);
@@ -283,12 +289,26 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       }
     }
 
+    [HttpGet("GetByBomId/{id:int}")]
+    public async Task<IActionResult> GetByBomId(int id)
+    {
+      var incentiveBoMRequestItem =
+        await _context.IncentiveBoMRequestItem.SingleOrDefaultAsync(m => m.IncentiveBoMRequestItemId == id);
+
+      if (incentiveBoMRequestItem == null)
+      {
+        return NotFound();
+      }
+
+      return Ok(incentiveBoMRequestItem);
+    }
+
     [HttpGet("GetByProjectId/{id:int}/{lang}")]
     public IEnumerable<IncentiveBomDto> GetByProjectId(int id)
     {
       var ProjectId = new SqlParameter("@ProjectId", id);
       IEnumerable<IncentiveBomDto> series = _context.Query<IncentiveBomDto>().FromSql(
-          "select ServiceApplicationId,ProjectId,DescriptionEnglish as Description,Cast(UpLoadDate as Date) as UpLoadDate,(select English from Lookup Where IncentiveBoMRequestItem.Phase=Lookup.LookupId) as strPhase,Phase,count(IncentiveBoMRequestItemId) as Quantity from IncentiveBoMRequestItem "
+          "select ServiceApplicationId,ProjectId,DescriptionEnglish as Description,Cast(UpLoadDate as Date) as UpLoadDate,(select English from Lookup Where IncentiveBoMRequestItem.Phase=Lookup.LookupId) as strPhase,Phase,count(Distinct IncentiveBoMRequestItemId) as Quantity from IncentiveBoMRequestItem "
           + " Inner Join LookUpType on LookupType.LookUpTypeId = IncentiveBoMRequestItem.IncentiveCategoryId "
           + " where IsApproved=1 AND IncentiveCategoryId=10778 AND ProjectId={0}"
           + " group by ServiceApplicationId,ProjectId,IncentiveCategoryId,LookUpType.DescriptionEnglish,Cast(UpLoadDate as Date),Phase ",

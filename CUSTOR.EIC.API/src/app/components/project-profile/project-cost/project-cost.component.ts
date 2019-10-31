@@ -7,10 +7,10 @@ import {
   ValidationErrors,
   ValidatorFn,
   Validators
+
 } from '@angular/forms';
 import {ProjectCostModel} from '../../../model/ProjectCost.model';
 import {MatSnackBar} from '@angular/material';
-
 import {ProjectCostService} from '../../../Services/project-cost.service';
 import {DataSharingService} from '../../../Services/data-sharing.service';
 import {Subscription} from 'rxjs';
@@ -35,7 +35,7 @@ export class ProjectCostComponent
   implements OnInit, OnDestroy, AfterContentChecked {
   editMode = false;
   loading = false;
-  subscription: Subscription;
+  // subscription: Subscription;
   costId: number;
   projectId: number;
   projectCostForm: FormGroup;

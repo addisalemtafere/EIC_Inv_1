@@ -113,7 +113,7 @@ export class LetterComponent implements OnInit {
     this.initForm();
     this.getEthiopianDate();
     this.ProjectId = this.route.snapshot.params['projectId'] || this.route.snapshot.params['ProjectId'];
-    this.InvestorId = this.route.snapshot.params['InvestorId'];
+    //this.InvestorId = this.route.snapshot.params['InvestorId'];
     if (this.route.snapshot.params['isForDetail'] == 1) {
       this.getLetter();
       this.getLookups();
@@ -206,7 +206,7 @@ export class LetterComponent implements OnInit {
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
-            // console.log(this.letterModelList);
+            console.log(this.letterModelList);
             this.dataSource = new MatTableDataSource<LetterModel>(this.letterModelList);
           }
         },

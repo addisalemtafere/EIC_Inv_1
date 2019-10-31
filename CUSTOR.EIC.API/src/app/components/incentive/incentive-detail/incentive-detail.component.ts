@@ -178,18 +178,15 @@ export class IncentiveDetailComponent implements OnInit {
     console.log(this.currentCategoryId);
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {      // this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
       this.router.navigate(['bom-balance/' + this.projectId + '/' + 0 + '/' + 0]);
-
     } else if (this.currentCategoryId == 10777) {
       this.router.navigate(['sparepart-balance/' + this.projectId + '/' + 0]);
     }
   }
 
   showLetter() {
-
     this.serviceId = 0;
     this.serviceApplicationId = 0;
-
-    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + this.isForDetail]);
+    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + 1]);
   }
 
   compareIds(id1: any, id2: any): boolean {

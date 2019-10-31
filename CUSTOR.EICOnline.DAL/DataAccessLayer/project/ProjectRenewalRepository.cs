@@ -35,6 +35,19 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer {
                 throw new Exception(ex.Message);
             }
         }
+        public ProjectRenewal GetServiceAppWithRenewal(int id)
+        {
+            try
+            {
+                ProjectRenewal projectRenewal = context.ProjectRenewal
+                  .Where(p => p.ServiceApplicationId == id).FirstOrDefault();
+                return projectRenewal;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public async Task<List<ProjectRenewal>> GetProjectRenewalsByProjectIdAsync(int id)
         {
             List<ProjectRenewal> projectRenewal = await context.ProjectRenewal

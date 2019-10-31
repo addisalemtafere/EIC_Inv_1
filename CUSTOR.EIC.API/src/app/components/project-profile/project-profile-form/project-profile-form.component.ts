@@ -49,6 +49,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   @ViewChild('costF') costForm: NgForm;
   formOfOwnershipList: FormOfOwnershipModel[] = [];
   subscription: Subscription;
+  public validateStart: boolean;
+  public validateOperation: boolean;
   serviceIdSubscription: Subscription;
   public IsOromia = false;
   editMode = false;
@@ -183,6 +185,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     } else {
       this.editMode = false;
     }
+    this.validateStart = true;
+    this.validateOperation = true;
   }
   getProjectDetail() {
     this.projectProfileService
@@ -363,12 +367,32 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   onSubmit() {
-    console.log(this.projectForm.value);
+    let D1 = new Date(this.StartDate.value);
+    let D2 = new Date(this.EndingDate.value);
+    let D3 = new Date(this.OperationDate.value);
+    if (D2 > D1) {
+      this.validateStart = true;
+    } else {
+      this.validateStart = false;
+    }
+    // else {
+    //   this.toastr.show('invalid Date for ending date');
+    // }
+    if (D3 < D2 && D3 > D1) {
+    this.validateOperation = true;
+    } else {
+      this.validateOperation = false;
+    }
+    // else {
+    //   this.toastr.show('invalid Date for operation date');
+    // }
+    // else {
+    //   this.toastr.show('Not Valid');
+    // }
     this.loading = true;
     this.formService.markFormGroupTouched(this.projectForm);
-    if (this.projectForm.valid) {
+    if (this.projectForm.valid && this.validateOperation && this.validateStart) {
       if (!this.editMode) {
-
         this.projectProfileService.create(this.projectForm.value)
           .subscribe(result => {
             this.projectId = result.ProjectId;
@@ -394,8 +418,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       this.formErrors = this.formService.validateForm(this.projectForm, this.formErrors, false);
     }
   }
-
-
   saveAddress() {
     this.projectForm.get('address').patchValue({
       ParentId: this.projectId
@@ -405,6 +427,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         .subscribe(result => {
           this.notification('address updated');
         });
+      setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
+      setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
     } else {
       console.log(this.projectForm.get('address').value);
       this.addressService.saveAddress(this.projectForm.get('address').value)
@@ -430,11 +454,11 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       Validators.maxLength(100)])],
       StartDate: ['', [Validators.required]],
       OperationDate: ['', Validators.required],
-      SectorId: [''],
-      SubSectorId: [''],
-      ActivityId: [''],
+      SectorId: ['', Validators.required],
+      SubSectorId: ['', Validators.required],
+      ActivityId: ['', Validators.required],
       IsOromiaSpecialZone: [''],
-      InvActivityId: [''],
+      InvActivityId: ['', Validators.required],
       EndingDate: ['', Validators.required],
       IsSelfService: [false],
       EnvironmentalImpact: ['', [Validators.minLength(2)]],
@@ -535,6 +559,16 @@ get ProjectDescription() {
   get ProjectName() {
     return this.projectForm.get('ProjectName');
   }
+  get EndingDate() {
+    return this.projectForm.get('EndingDate');
+  }
+  get StartDate() {
+    return this.projectForm.get('StartDate');
+  }
+  get OperationDate() {
+    return this.projectForm.get('OperationDate');
+  }
+
   get ProjectStage() {
     return this.projectForm.get('ProjectStage');
   }
