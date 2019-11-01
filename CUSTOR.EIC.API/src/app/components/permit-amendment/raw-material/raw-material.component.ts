@@ -45,7 +45,7 @@ export class RawMaterialComponent implements OnInit {
   public projectStatus: ProjectStatusModel[] = [];
   public Quarter: QuarterModel[] = [];
   public ServiceId: number;
-  public InvestorId: number;
+  public InvestorId: any;
   public workFlowId: string;
   public serviceApplicationId: number;
   projectRawMaterialData: any;
@@ -73,6 +73,7 @@ export class RawMaterialComponent implements OnInit {
     this.projectId = this.route.snapshot.params.projectId;
     this.serviceId = this.route.snapshot.params.serviceId;
     this.serviceApplicationId = this.route.snapshot.params.serviceApplicationId;
+    this.InvestorId = localStorage.getItem('InvestorId');
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
     } else {
@@ -91,9 +92,7 @@ export class RawMaterialComponent implements OnInit {
     });
   }
   checkServiceApplication() {
-    const id = 2092;
-    this.InvestorId = id;
-    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
+    this.serviceApplicationApiService.checkServiceApplicationFromApi(this.InvestorId, this.amendment)
       .subscribe(result => {
         if (result != null) {
           this.existingServiceApplication = result;
@@ -211,6 +210,9 @@ export class RawMaterialComponent implements OnInit {
         this.editModeInput = true;
         this.projectRawMaterialPostData = res;
         this.projectRawMaterialAmendForm.patchValue(res);
+        this.projectRawMaterialAmendForm.patchValue({
+          IsForeign: this.projectRawMaterialPostData.IsForeign.toString()
+        });
         this.updateData = true;
       }
       else {
@@ -239,6 +241,7 @@ export class RawMaterialComponent implements OnInit {
       if (res) {
         console.log(res)
         this.updateData = true;
+        this.editModeInput = true;
         this.response = res;
         this.serviceApplicationId = this.response.ServiceApplicationId
         if (this.currentLang == 'en') {
@@ -303,5 +306,8 @@ export class RawMaterialComponent implements OnInit {
       this.projectRawMaterial.ServiceApplicationId = this.serviceApplicationId;
     }
     return this.projectRawMaterial;
+  }
+  get RawMaterialType(){
+    return this.projectRawMaterialAmendForm.get("RawMaterialType");
   }
 }

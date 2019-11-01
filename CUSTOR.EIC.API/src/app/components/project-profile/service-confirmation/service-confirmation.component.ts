@@ -43,6 +43,7 @@ export class ServiceConfirmationComponent implements OnInit {
 
   ngOnInit() {
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    console.log(this.ServiceApplicationId)
     this.ProjectId = this.route.snapshot.params['ProjectId'];
     this.getServiceApplication();
     this.getProjectAssociate(this.ProjectId);

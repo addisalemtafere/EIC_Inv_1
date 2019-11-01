@@ -49,7 +49,7 @@ namespace CUSTOR.EICOnline.DAL
             try
             {
                 sa = Context.ServiceApplication.OrderByDescending(m => m.UpdatedEventDatetime)
-                     .FirstOrDefault(m => m.ServiceId == requestedServiceId && m.ProjectId == projectId && m.IsActive != true);  
+                     .FirstOrDefault(m => m.ServiceId == requestedServiceId && m.ProjectId == projectId);  
             }
             catch (Exception ex)
             {

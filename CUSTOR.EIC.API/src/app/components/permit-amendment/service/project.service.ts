@@ -44,6 +44,7 @@ export class ProjectService extends EndpointFactory {
 
 
     private readonly _finishServiceApplicationUrl = "api/FProjects/finishServiceApplication"
+    private readonly _completeServiceApplicationUrl = "api/FProjects/completeServiceApplication"
 
     constructor(private httpClient: HttpClient,
         private config: ConfigurationService,
@@ -153,6 +154,10 @@ export class ProjectService extends EndpointFactory {
     }
     get finishServiceApplicationUrl(){
         return this.config.baseUrl + this._finishServiceApplicationUrl;
+
+    }
+    get completeProjectServiceApplicationUrl(){
+        return this.config.baseUrl + this._completeServiceApplicationUrl;
 
     }
 
@@ -279,6 +284,10 @@ export class ProjectService extends EndpointFactory {
 
     finishProject(serviceApplicationId : number){
         const endpointUrl = `${this.finishServiceApplicationUrl}/${serviceApplicationId}`;
+        return this.httpClient.put(endpointUrl, serviceApplicationId);
+    }
+    completeProject(serviceApplicationId : number){
+        const endpointUrl = `${this.completeProjectServiceApplicationUrl}/${serviceApplicationId}`;
         return this.httpClient.put(endpointUrl, serviceApplicationId);
     }
     // saveProfileData(data: any) {

@@ -34,9 +34,9 @@
       </mat-form-field>
     </div>
   </div> -->
-<!-- <mat-card-subtitle class="sub-title">
+  <!-- <mat-card-subtitle class="sub-title">
      <span *ngIf="editMode">Detail</span> -->
-    <!--<div fxFlex="15" class="block">
+  <!--<div fxFlex="15" class="block">
       <a class="custom-button pointer" color="primary" (click)="onSubmitRawMaterial()">
          <mat-icon color="primary" class="mat-18">done</mat-icon>
         <span>Add</span>
@@ -44,7 +44,7 @@
     </div>
     <mat-divider></mat-divider>
   </mat-card-subtitle>-->
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em" >
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
     <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
       <form [formGroup]="projectRawMaterialForm" novalidate>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
@@ -71,32 +71,35 @@
       <form [formGroup]="projectRawMaterialAmendForm" novalidate>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field>
-            <mat-label>Raw Material Type * :</mat-label>
-            <input id="" type="text" matInput formControlName="RawMaterialType">
-            <mat-error></mat-error>
+            <mat-label>
+              {{'investors.editor.RawMaterialType' | translate}}
+            </mat-label>
+            <input id="" type="text" required matInput formControlName="RawMaterialType">
+            <mat-error *ngIf="RawMaterialType.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
           </mat-form-field>
-          <mat-radio-group formControlName="IsForeign">
+          <mat-radio-group formControlName="IsForeign" required>
             <mat-radio-button value="false">Local</mat-radio-button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <mat-radio-button value="true">Foreign</mat-radio-button>
           </mat-radio-group>
         </div>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-          <mat-form-field class="full-width">
-            <textarea placeholder="Remark :" formControlName="Remark" matInput rows="2">
+          <mat-form-field>
+            <textarea placeholder="Remark" formControlName="Remark" matInput rows="2">
                       </textarea>
           </mat-form-field>
         </div>
-        <div fxLayout="row wrap" fxLayoutAlign="start" 
-            class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-          <a class="custom-button pointer" *ngIf="!editModeInput" color="primary" 
-              (click)="create()">
+        <mat-card-actions fxLayoutAlign="" *ngIf="!serviceId">
+          <button class="custom-button pointer" [disabled]="projectRawMaterialAmendForm.invalid" *ngIf="!editModeInput"
+            color="primary" (click)="create()">
             Save
-          </a>
-          <a class="custom-button pointer"  *ngIf="editModeInput" color="primary" 
-              (click)="update()">
+          </button>
+          <button class="custom-button pointer" *ngIf="editModeInput" color="primary"
+            [disabled]="projectRawMaterialAmendForm.invalid" (click)="update()">
             Update
-          </a>
-        </div>
+          </button>
+        </mat-card-actions>
       </form>
     </div>
   </div>
@@ -157,7 +160,6 @@
     </mat-table>
   </mat-card-content>
   <mat-card-actions fxLayoutAlign="end end" *ngIf="serviceId && serviceList.RawMaterialUpdate == 1">
-    <button  mat-raised-button color="primary"
-      (click)="approve()">{{'common.commands.Approve'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="approve()">{{'common.commands.Approve'|translate}}</button>
   </mat-card-actions>
 </mat-card>

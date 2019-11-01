@@ -55,6 +55,8 @@ export class EmploymentComponent implements OnInit {
     this.projectId = this.activatedRoute.snapshot.params.projectId;
     this.serviceApplicationId = this.activatedRoute.snapshot.params.serviceApplicationId;
     this.serviceId = this.activatedRoute.snapshot.params.serviceId;
+    this.InvestorId = localStorage.getItem('InvestorId');
+    console.log(this.InvestorId)
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
     }
@@ -73,8 +75,7 @@ export class EmploymentComponent implements OnInit {
     });
   }
   checkServiceApplication() {
-    const id = 2092;
-    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
+    this.serviceApplicationApiService.checkServiceApplicationFromApi(this.InvestorId, this.amendment)
       .subscribe(result => {
         console.log(result)
         if (result != null) {
@@ -263,7 +264,7 @@ export class EmploymentComponent implements OnInit {
   getEditedData() {
     this.projectEmployment = this.employmentAmendForm.value;
     this.projectEmployment.ProjectId = this.projectId;
-    this.projectEmployment.InvestorId = (this.InvestorId) ? this.InvestorId : 0;;
+    this.projectEmployment.InvestorId = (this.InvestorId) ? this.InvestorId : 0;
     this.projectEmployment.IsActive = (this.IsActive) ? this.IsActive : true;
     this.projectEmployment.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
     this.projectEmployment.ProjectEmploymentId = (this.ProjectEmploymentId) ? this.ProjectEmploymentId : 0;
@@ -277,6 +278,45 @@ export class EmploymentComponent implements OnInit {
     }
     return this.projectEmployment;
   }
+  get PermanentFemale(){
+    return this.employmentAmendForm.get("PermanentFemale");
+  }
+  get PermanentMale(){
+    return this.employmentAmendForm.get("PermanentMale");
+  }
+  get TemporaryFemale(){
+    return this.employmentAmendForm.get("TemporaryFemale");
+  }
+  get TemporaryMale(){
+    return this.employmentAmendForm.get("TemporaryMale");
+  }
+  get PermanentForeignFemale(){
+    return this.employmentAmendForm.get("PermanentForeignFemale");
+  }
+  
+  get PermanentForeignMale(){
+    return this.employmentAmendForm.get("PermanentForeignMale");
+  }
+  get TemporaryForeignFemale(){
+    return this.employmentAmendForm.get("TemporaryForeignFemale");
+  }
+  
+  get TemporaryForeignMale(){
+    return this.employmentAmendForm.get("TemporaryForeignMale");
+  }
+  
+  
+
+  // CurrentPermanentFemale: [0, [Validators.required, Validators.min(0)]],
+  // CurrentPermanentMale: [0, [Validators.required, Validators.min(0)]],
+  // CurrentTemporaryFemale: [0, [Validators.required, Validators.min(0)]],
+  // CurrentTemporaryMale: [0, [Validators.required, Validators.min(0)]],
+  // CurrentPermanentForeignFemale: [0, [Validators.required, Validators.min(0)]],
+  // CurrentPermanentForeignMale: [0, [Validators.required, Validators.min(0)]],
+  // CurrentTemporaryForeignFemale: [0, [Validators.required, Validators.min(0)]],
+  // CurrentTemporaryForeignMale: [0, [Validators.required, Validators.min(0)]],
+  // CurrentTotalPermanent: [{ value: '', disabled: true }],
+  // CurrentTotalTempo: [{ value: '', disabled: true }],
 
 
 }

@@ -1,16 +1,10 @@
-<div
-  id="app_container"
-  [class.is-mobile]="mobileQuery.matches"
-  class="nav-container">
-  <mat-toolbar
-    style="margin-bottom: 5px"
-    color="primary"
-    class="mat-elevation-z3 app-toolbar">
+<div id="app_container" [class.is-mobile]="mobileQuery.matches" class="nav-container">
+  <mat-toolbar style="margin-bottom: 5px" color="primary" class="mat-elevation-z3 app-toolbar">
     <button mat-icon-button *ngIf="isLogged !== 'false'">
       <mat-icon>menu</mat-icon>
     </button>
     <!-- <h1 class="app-name"><a routerLink="/">{{appTitle}}</a></h1> -->
-    <a style="margin-top: 12px" (click)="goToHome()"><img src="../assets/logo/eInvest.png"/></a>
+    <a style="margin-top: 12px" (click)="goToHome()"><img src="../assets/logo/eInvest.png" /></a>
 
     <span class="app-toolbar-spacer"></span>
     <!-- <app-theme-picker></app-theme-picker> -->
@@ -33,17 +27,11 @@
       <mat-icon>lock_open</mat-icon>
       <span>{{ "mainMenu.Login" | translate }}</span>
     </button>
-    <button
-      *ngIf="(isLoggedIn$ | async)"
-      mat-button
-      (click)="viewNotification()">
+    <button *ngIf="(isLoggedIn$ | async)" mat-button (click)="viewNotification()">
       <mat-icon matBadge="{{ numberOfNotification }}" matBadgeColor="warn">notifications</mat-icon>
     </button>
 
-    <button
-      *ngIf="isLogged === 'false'"
-      mat-button
-      (click)="router.navigateByUrl('/register')">
+    <button *ngIf="isLogged === 'false'" mat-button (click)="router.navigateByUrl('/register')">
       <mat-icon>person</mat-icon>
       <span>{{ "mainMenu.Register" | translate }}</span>
     </button>
@@ -51,11 +39,7 @@
       <mat-icon class="menu-button">account_circle</mat-icon>
       <span>{{ currentUsername }}</span>
     </button>
-    <button
-      *ngIf="isLogged !== 'false'"
-      class="side-button"
-      mat-button
-      [matMenuTriggerFor]="accountMenu"
+    <button *ngIf="isLogged !== 'false'" class="side-button" mat-button [matMenuTriggerFor]="accountMenu"
       matTooltip="{{ 'mainMenu.UserAccount' | translate }}">
       <!--<mat-icon class="menu-button">account_circle</mat-icon>-->
       <mat-icon class="menu-button">more_vert</mat-icon>
@@ -66,10 +50,7 @@
       <!--<mat-icon>person</mat-icon>-->
       <!--<span>{{'mainMenu.Profile' | translate}}</span>-->
       <!--</button>-->
-      <button
-        *ngIf="(isLoggedIn$ | async)"
-        mat-menu-item
-        (click)="router.navigateByUrl('/manage-password/1')">
+      <button *ngIf="(isLoggedIn$ | async)" mat-menu-item (click)="router.navigateByUrl('/manage-password/1')">
         <mat-icon>settings</mat-icon>
         <span>{{ "mainMenu.changePassword" | translate }}</span>
       </button>
@@ -80,62 +61,36 @@
     </mat-menu>
   </mat-toolbar>
   <!--{{isLoggedIn$}}-->
-  <mat-sidenav-container
-    style="margin-top: 2px"
-    class="app-sidenav-container"
+  <mat-sidenav-container style="margin-top: 2px" class="app-sidenav-container"
     [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav
-      *ngIf="(isLoggedIn$ | async)"
-      #mainNav
-      class="app-sidenav-nav mat-elevation-z6"
-      [mode]="mobileQuery.matches ? 'over' : 'side'"
-      [fixedInViewport]="mobileQuery.matches"
-      fixedTopGap="56"
+    <mat-sidenav *ngIf="(isLoggedIn$ | async)" #mainNav class="app-sidenav-nav mat-elevation-z6"
+      [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
       [opened]="!mobileQuery.matches">
       <mat-nav-list>
-        <a
-          *ngIf="!isLogged"
-          mat-list-item
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
+        <a *ngIf="!isLogged" mat-list-item routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           routerLink="/login">
           <mat-icon>dashboard</mat-icon>
           {{ "mainMenu.Home" | translate }}
         </a>
-        <a
-          *ngIf="isInvestor"
-          mat-list-item
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
+        <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           routerLink="/dashboard">
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
 
-        <a
-          *ngIf="
-            !isInvestor && !canViewReadOnlyData && !canManageLookupsPermission          "
-          mat-list-item
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          routerLink="/officer-dashboard">
+        <a *ngIf="
+            !isInvestor && !canViewReadOnlyData && !canManageLookupsPermission          " mat-list-item
+          routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/officer-dashboard">
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </a>
-        <a
-          *ngIf="!isInvestor && !canManageManageIncentiveAssignedServices"
-          mat-list-item
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          routerLink="/management-dashboard">
+        <a *ngIf="!isInvestor && !canManageManageIncentiveAssignedServices" mat-list-item routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }" routerLink="/management-dashboard">
           <mat-icon class="mat-18">collections</mat-icon>
           Management Dashboard
         </a>
 
-        <mat-expansion-panel
-          *ngIf="isInvestor"
-          #profile
-          [class.mat-elevation-z0]="!profile.expanded">
+        <mat-expansion-panel *ngIf="isInvestor" #profile [class.mat-elevation-z0]="!profile.expanded">
           <mat-expansion-panel-header style="font-size: 16px;">
             <mat-panel-title>
               <mat-icon>reorder</mat-icon>
@@ -144,51 +99,42 @@
           </mat-expansion-panel-header>
 
           <mat-list dense class="mat-expansion-panel-body">
-            <a
-              *ngIf="isInvestor"
-              mat-list-item
-              routerLinkActive="active"
-              (click)="Investor()">
+            <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" (click)="Investor()">
               <mat-icon color="primary" class="mat-18">account_circle</mat-icon>
-              {{ "mainMenu.InvestorProfile" | translate }}</a>
-              
-            <a *ngIf="isInvestor"
-               (click)="toMangerList()"
-               mat-list-item
-               routerLinkActive="active">
+              {{ "mainMenu.InvestorProfile" | translate }}
+            </a>
+
+            <a *ngIf="isInvestor" (click)="toMangerList()" mat-list-item routerLinkActive="active">
               <mat-icon color="primary">people</mat-icon>
-              {{ "mainMenu.associate" | translate }}</a
-            >
-            <a *ngIf="isInvestor"
-               (click)="toServiceList()"
-               mat-list-item
-               routerLinkActive="active">
+              {{ "mainMenu.associate" | translate }}
+            </a>
+            <a *ngIf="isInvestor" (click)="toServiceList()" mat-list-item routerLinkActive="active">
               <mat-icon color="primary" class="mat-18">view_list</mat-icon>
-              {{ "mainMenu.Services" | translate }}</a>
+              {{ "mainMenu.Services" | translate }}
+            </a>
           </mat-list>
         </mat-expansion-panel>
 
         <mat-expansion-panel *ngIf="isInvestor" #profile [class.mat-elevation-z0]="!profile.expanded">
           <mat-expansion-panel-header style="font-size: 16px;">
             <mat-panel-title>
-              <mat-icon>library_add</mat-icon>
+              <mat-icon>assessment</mat-icon>
               {{ "mainMenu.Amendment" | translate }}
             </mat-panel-title>
           </mat-expansion-panel-header>
-        
+
           <mat-list dense class="mat-expansion-panel-body">
-            <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" 
-             routerLinkActive="active" 
-              routerLink="/amendment"
-            >
+            <!-- <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLinkActive="active"
+              routerLink="/amendment">
               <mat-icon color="primary" class="mat-18">account_circle</mat-icon>
               {{ "mainMenu.InvestorProfileAmendment" | translate }}
+            </a> -->
+            <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLinkActive="active"
+              routerLink="/permit-amendment">
+              <mat-icon color="primary" class="mat-18">edit</mat-icon>
+              {{ "mainMenu.InvestmentPermitAmendment" | translate }}
             </a>
-        <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLinkActive="active" routerLink="/permit-amendment">
-          <mat-icon color="primary" class="mat-18">view_list</mat-icon>
-          {{ "mainMenu.InvestmentPermitAmendment" | translate }}
-        </a>
-           
+
           </mat-list>
         </mat-expansion-panel>
         <!--<a *ngIf="canViewTasks " mat-list-item routerLinkActive="active"-->
@@ -197,51 +143,36 @@
         <!--{{'mainMenu.customerRegistration' | translate}}-->
         <!--</a>-->
 
-        <a *ngIf="isInvestor"
-           mat-list-item
-           routerLinkActive="active"
-           routerLink="/appointment">
+        <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLink="/appointment">
           <mat-icon>announcement</mat-icon>
           Notifications
         </a>
-     
-        <a *ngIf="isInvestor"
-           mat-list-item
-           routerLinkActive="active"
-           routerLink="/draft-application">
+
+        <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLink="/draft-application">
           <mat-icon>drafts</mat-icon>
           Draft Application
         </a>
-        <a *ngIf="isInvestor"
-           mat-list-item
-           routerLinkActive="active"
-           routerLink="/archive-application">
+        <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLink="/archive-application">
           <mat-icon>library_add</mat-icon>
           Archive application
         </a>
-        <a *ngIf="isInvestor"
-           mat-list-item
-           routerLinkActive="active"
-           (click)="startService('1001', 'incentive Detail')">
+        <a *ngIf="isInvestor" mat-list-item routerLinkActive="active"
+          (click)="startService('1001', 'incentive Detail')">
           <mat-icon>library_add</mat-icon>
           Incentive Detail
         </a>
-        <a mat-list-item 
+        <!-- <a mat-list-item 
         routerLinkActive="active" 
         routerLink="/amendment">
           <mat-icon>library_add</mat-icon>
           {{ "mainMenu.Amendment" | translate }}
-        </a>
-        <a
-          *ngIf="canViewTasks"
-          mat-list-item=""
-          (click)="startService('1001', 'capitalRegistration')"        >
+        </a> -->
+        <a *ngIf="canViewTasks" mat-list-item="" (click)="startService('1001', 'capitalRegistration')">
           <mat-icon>reorder</mat-icon>
           {{ "mainMenu.capitalRegistration" | translate }}
         </a>
-        <mat-expansion-panel
-          *ngIf="
-            canManageManageIncentiveAssignedServices || canManageAssignedServicesPermission "          #serv
+        <mat-expansion-panel *ngIf="
+            canManageManageIncentiveAssignedServices || canManageAssignedServicesPermission " #serv
           [class.mat-elevation-z0]="!serv.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -251,27 +182,20 @@
           </mat-expansion-panel-header>
           <mat-list dense class="mat-expansion-panel-body">
             <mat-list-item *ngFor="let item of serviceList">
-              <a (click)="startService(item.ServiceId, item.DisplayNameEnglish)"
-                 mat-list-item
-                 routerLinkActive="active">
+              <a (click)="startService(item.ServiceId, item.DisplayNameEnglish)" mat-list-item
+                routerLinkActive="active">
                 <mat-icon color="primary">{{ item.Icon }}</mat-icon>
                 {{ item.DisplayNameEnglish | filterPipe: 14 }}
               </a>
             </mat-list-item>
           </mat-list>
         </mat-expansion-panel>
-        <a
-          *ngIf="canManageManageAftercareData"
-          mat-list-item=""
-          (click)="startService('1234', 'Aftercare')">
+        <a *ngIf="canManageManageAftercareData" mat-list-item="" (click)="startService('1234', 'Aftercare')">
           <mat-icon>reorder</mat-icon>
           {{ "mainMenu.Aftercare" | translate }}
         </a>
 
-        <mat-expansion-panel
-          *ngIf="canManageSettings"
-          #Category
-          [class.mat-elevation-z0]="!Category.expanded">
+        <mat-expansion-panel *ngIf="canManageSettings" #Category [class.mat-elevation-z0]="!Category.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>reorder</mat-icon>
@@ -282,35 +206,33 @@
           <mat-list dense class="mat-expansion-panel-body">
             <a mat-list-item routerLinkActive="active" routerLink="address">
               <mat-icon color="primary" class="mat-18">edit_location</mat-icon>
-              {{ "mainMenu.address" | translate }}</a>
+              {{ "mainMenu.address" | translate }}
+            </a>
             <a mat-list-item routerLinkActive="active" routerLink="category">
               <mat-icon color="primary" class="mat-18">subject</mat-icon>
-              {{ "mainMenu.Category" | translate }}</a
-            >
+              {{ "mainMenu.Category" | translate }}
+            </a>
             <a mat-list-item routerLinkActive="active" routerLink="lookup-tab">
               <mat-icon color="primary" class="mat-18">subject</mat-icon>
-              {{ "mainMenu.lookup" | translate }}</a>
-            <a
-              mat-list-item
-              routerLinkActive="active"
-              routerLink="services-tab">
+              {{ "mainMenu.lookup" | translate }}
+            </a>
+            <a mat-list-item routerLinkActive="active" routerLink="services-tab">
               <mat-icon color="primary" class="mat-18">room_service</mat-icon>
               {{ "mainMenu.Service" | translate }}
             </a>
             <a mat-list-item routerLinkActive="active" routerLink="other">
               <mat-icon color="primary" class="mat-18">settings</mat-icon>
-              {{ "mainMenu.site" | translate }}</a>
-            <a mat-list-item
-               routerLinkActive="active"
-               routerLink="lettertempalte">
+              {{ "mainMenu.site" | translate }}
+            </a>
+            <a mat-list-item routerLinkActive="active" routerLink="lettertempalte">
               <mat-icon color="primary" class="mat-18">settings</mat-icon>
-              {{ "mainMenu.lettertemplate" | translate }}</a>
+              {{ "mainMenu.lettertemplate" | translate }}
+            </a>
           </mat-list>
         </mat-expansion-panel>
 
         <mat-expansion-panel
-          *ngIf="            (canManageRoles || canManageUsers || canManageAdmins) && !isInvestor          "
-          #admin
+          *ngIf="            (canManageRoles || canManageUsers || canManageAdmins) && !isInvestor          " #admin
           [class.mat-elevation-z0]="!admin.expanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -320,50 +242,37 @@
           </mat-expansion-panel-header>
           <a *ngIf="canManageUsers" mat-list-item routerLink="/admin/users">
             <mat-icon>people</mat-icon>
-            {{ "mainMenu.Users" | translate }}</a>
-          <a
-            *ngIf="canManageRoles"
-            mat-list-item
-            routerLinkActive="active"
-            routerLink="/admin/roles">
+            {{ "mainMenu.Users" | translate }}
+          </a>
+          <a *ngIf="canManageRoles" mat-list-item routerLinkActive="active" routerLink="/admin/roles">
             <mat-icon>security</mat-icon>
-            {{ "mainMenu.Roles" | translate }}</a>
+            {{ "mainMenu.Roles" | translate }}
+          </a>
         </mat-expansion-panel>
       </mat-nav-list>
 
       <mat-nav-list *ngIf="canViewReadOnlyData">
-        <a
-          mat-list-item
-          routerLinkActive="active"
-          routerLink="/search-browser/0/0/0">
+        <a mat-list-item routerLinkActive="active" routerLink="/search-browser/0/0/0">
           <mat-icon class="mat-18">group_work</mat-icon>
           Projects
         </a>
       </mat-nav-list>
 
       <mat-nav-list *ngIf="!isInvestor">
-        <a
-          mat-list-item
-          routerLinkActive="active"
-          target="_blank"
-
+        <a mat-list-item routerLinkActive="active" target="_blank"
           href="http://www.invest-ethiopia.com:9090/default.aspx">
           <mat-icon class="mat-48">trending_up</mat-icon>
           Report
         </a>
       </mat-nav-list>
       <mat-nav-list *ngIf="!isInvestor">
-        <a mat-list-item routerLinkActive="active"
-           tinfoarget="_blank"
-           href="/help">
+        <a mat-list-item routerLinkActive="active" tinfoarget="_blank" href="/help">
           <mat-icon>help</mat-icon>
           Help
         </a>
       </mat-nav-list>
       <mat-nav-list *ngIf="isInvestor">
-        <a mat-list-item routerLinkActive="active"
-           tinfoarget="_blank"
-           href="/Help">
+        <a mat-list-item routerLinkActive="active" tinfoarget="_blank" href="/Help">
           <mat-icon>help</mat-icon>
           Help
         </a>

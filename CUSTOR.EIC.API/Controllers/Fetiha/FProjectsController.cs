@@ -137,7 +137,7 @@ namespace EIC.Investment.API.Controllers
     }
 
     [HttpGet("getPermitList/{InvestorId}")]
-    public async Task<List<Project>> getPermitList(int InvestorId)
+    public async Task<List<ProjectListDTO>> getPermitList(int InvestorId)
     {
       return await projectsRepository.getPermitListByInvestorId(InvestorId);
     }
@@ -213,6 +213,11 @@ namespace EIC.Investment.API.Controllers
     public async Task<ServiceApplication> finishProjectServiceApplication(int serviceApplicationId)
     {
       return await projectsRepository.finishProjectServiceApplication(serviceApplicationId);
+    }
+    [HttpPut("completeServiceApplication/{serviceApplicationId}")]
+    public async Task<ServiceApplication> completeServiceApplication(int serviceApplicationId)
+    {
+      return await projectsRepository.completeProjectServiceApplication(serviceApplicationId);
     }
     //saveInputData
     [HttpPost("saveInputData")]

@@ -87,7 +87,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
 
     }
 
-
+    public class ProjectListDTO
+    {
+        public int ProjectId { get; set; }
+        public int InvestorId { get; set; }
+        public int ServiceApplicationId { get; set; }
+        public int CurrentStatusId { get; set; }
+        public string ProjectName { get; set; }
+        public int ServiceId { get; set; }
+    }
     public class ProjectAddressDTO : Fproject
     {
         public int? AddressId { get; set; }

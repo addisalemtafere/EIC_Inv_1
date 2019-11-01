@@ -15,6 +15,7 @@ import { NotificationComponent } from "../project-profile/notification/notificat
 import { ServiceApplicationService } from './service/service-application.service';
 import { ServiceType } from '../../model/lookupData';
 import { ServiceTypes } from '@custor/const/consts';
+import { ToastrService } from 'ngx-toastr';
 //} from '';
 @Component({
   selector: 'app-permit-amendment',
@@ -37,7 +38,7 @@ export class PermitAmendmentComponent implements OnInit, AfterViewInit, AfterCon
   serviceApplicationId: any; serviceId: any; projectId: any;
   existingServiceApplication: any;
   amendment = ServiceTypes[4].ServiceId;
-
+  isInvestor:boolean;
   constructor(private errMsg: ErrorMessage,
     private router: Router,
     private dataSharing: DataSharingService,
@@ -47,6 +48,7 @@ export class PermitAmendmentComponent implements OnInit, AfterViewInit, AfterCon
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private projectService: ProjectService,
+    private toaster: ToastrService,
     public dialog: MatDialog,
     private formService: FormService,
     private serviceApplicationApiService: ServiceApplicationService,
@@ -156,6 +158,25 @@ export class PermitAmendmentComponent implements OnInit, AfterViewInit, AfterCon
   finish() {
     this.projectService.finishProject(this.serviceApplicationId).subscribe(res => {
       console.log(res)
+      if (res) {
+        this.toaster.success("Project Finished")
+        this.router.navigate(['permit-amendment']);
+      }
     })
+  }
+  complete() {
+    this.projectService.completeProject(this.serviceApplicationId).subscribe(res => {
+      console.log(res)
+      if (res) {
+        this.toaster.success("Project Completed")
+        this.router.navigate(['officer-dashboard']);
+      }
+    })
+  }
+  backToDashBoard() {
+    this.router.navigate(['officer-dashboard']);
+  }
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
   }
 }

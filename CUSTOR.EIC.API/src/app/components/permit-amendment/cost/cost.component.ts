@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { AbstractControl, FormBuilder,FormControl,FormGroup,ValidationErrors,ValidatorFn,Validators} from "@angular/forms";
 import { ErrorMessage } from "@custor/services/errMessageService";
 import { ToastrService } from "ngx-toastr";
@@ -15,12 +15,13 @@ import {
   AMH_SAVE_ERR_MSG, AMH_UPDATE_ERR_MSG, ServiceTypes } from '@custor/const/consts';
 import { ServiceApplicationService } from "../service/service-application.service";
 import { ProjectOfficerService } from '../service/project-officer.service';
+import { determineId } from '@custor/helpers/compare';
 @Component({
   selector: 'app-cost',
   templateUrl: './cost.component.html',
   styleUrls: ['./cost.component.scss']
 })
-export class CostComponent implements OnInit {
+export class CostComponent implements OnInit, AfterContentChecked {
   editMode = false;
   loading = false;
   costId: number;
@@ -52,7 +53,8 @@ export class CostComponent implements OnInit {
     this.projectId = this.route.snapshot.params.projectId;
     this.serviceApplicationId = this.route.snapshot.params.serviceApplicationId;
     this.serviceId = this.route.snapshot.params.serviceId;
-    this.InvestorId = 2092;
+    this.InvestorId = localStorage.getItem('InvestorId');
+    console.log(this.InvestorId)
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
     }
@@ -71,8 +73,7 @@ export class CostComponent implements OnInit {
     });
   }
   checkServiceApplication() {
-    const id = 2092;
-    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
+    this.serviceApplicationApiService.checkServiceApplicationFromApi(this.InvestorId, this.amendment)
       .subscribe(result => {
         if (result != null) {
           this.existingServiceApplication = result;
@@ -174,7 +175,7 @@ export class CostComponent implements OnInit {
         EquityFinance: new FormControl(0),
 
         LoanFinance: new FormControl(0),
-        OtherSourceFinance: new FormControl(0),
+        OtherSourceFinance: new FormControl(0, Validators.compose([Validators.required, Validators.min(0)])),
         OtherSourceDescription: new FormControl(0),
 
         ActualCostInForeign: new FormControl(0),
@@ -192,18 +193,16 @@ export class CostComponent implements OnInit {
         Total: new FormControl(""),
         TotalInBirr: new FormControl("")
       },
+
+      
     );
-    
-    // this.projectCostForm = this.formBuilder.group({
-    //   ProjectId: [], workFlowId: [], LandCost: [], LandCostInBirr: [], BuildingCost: [], BuildingCostInBirr: [],
-    //   MachineryCost: [], MachineryCostInBirr: [], TransportCost: [], TransportCostInBirr: [],
-    //   OfficeEquipmentCost: [], OfficeEquipmentCostInBirr: [], OtherCapitalCost: [],
-    //   OtherCapitalCostBirr: [], InitialWorkingCapitalCost: [], InitialWorkingCapitalCostInBirr: [], 
-    //   EquityFinance: [], LoanFinance: [], OtherSourceFinance: [], OtherSourceDescription: [],
-    //   ActualCostInForeign: [], ExchangeRate: [], Unit: [], Quarter: [],Total:[],TotalInBirr:[],
-    //   CapitalRegistrationDatetime: [], ReagistrationYear: [], ProjectStatus: [], Remark: []
-    // });
+    this.projectCostAmendForm
+      .get('Total')
+      .valueChanges.subscribe((intLegal: number) => {
+        this.sumOfPlan = intLegal;
+      });
   }
+ 
   initForm() {
     this.projectCostForm = new FormGroup(
       {
@@ -270,6 +269,39 @@ export class CostComponent implements OnInit {
         this.sumOfPlan = intLegal;
       });
   }
+  private sumAll() {
+    const total =
+      this.projectCostAmendForm.get('LandCost').value +
+      this.projectCostAmendForm.get('BuildingCost').value +
+      this.projectCostAmendForm.get('MachineryCost').value +
+      this.projectCostAmendForm.get('TransportCost').value +
+      this.projectCostAmendForm.get('OfficeEquipmentCost').value +
+      this.projectCostAmendForm.get('OtherCapitalCost').value +
+      this.projectCostAmendForm.get('InitialWorkingCapitalCost').value;
+
+    this.projectCostAmendForm.patchValue({
+      Total: total
+    });
+  }
+  private sumAllInBirr() {
+    const totalInBirr =
+      this.projectCostAmendForm.get('LandCostInBirr').value +
+      this.projectCostAmendForm.get('BuildingCostInBirr').value +
+      this.projectCostAmendForm.get('MachineryCostInBirr').value +
+      this.projectCostAmendForm.get('TransportCostInBirr').value +
+      this.projectCostAmendForm.get('OfficeEquipmentCostInBirr').value +
+      this.projectCostAmendForm.get('OtherCapitalCostInBirr').value +
+      this.projectCostAmendForm.get('InitialWorkingCapitalCostInBirr').value;
+
+    this.projectCostAmendForm.patchValue({
+      TotalInBirr: totalInBirr
+    });
+  }
+  ngAfterContentChecked(): void {
+
+    this.sumAll();
+     this.sumAllInBirr();
+  }
   initStaticData(currentLang) {
     let quan: CurrencyType = new CurrencyType();
     CurrencyTypes.forEach(pair => {
@@ -280,6 +312,7 @@ export class CostComponent implements OnInit {
       };
       this.currencyTypes.push(quan);
     });
+    console.log(CurrencyTypes)
     let projectStatus1: ProjectStatusModel = new ProjectStatusModel();
     ProjectStatus.forEach(pair => {
       projectStatus1 = {
@@ -300,7 +333,11 @@ export class CostComponent implements OnInit {
       this.Quarter.push(Quarter1);
     });
   }
-
+  compareIds(id1: any, id2: any): boolean {
+    const a1 = determineId(id1);
+    const a2 = determineId(id2);
+    return a1 === a2;
+  }
   create() {
     console.log(this.getEditedData())
     this.projectService.saveCostData(this.getEditedData()).subscribe(res => {
@@ -369,4 +406,78 @@ export class CostComponent implements OnInit {
     }
     return this.projectCost;
   }
+  get LandCost(){
+    return this.projectCostAmendForm.get("LandCost");
+  }
+  get LandCostInBirr(){
+    return this.projectCostAmendForm.get("LandCostInBirr");
+  }
+  get BuildingCost(){
+    return this.projectCostAmendForm.get("BuildingCost");
+  }
+  get BuildingCostInBirr(){
+    return this.projectCostAmendForm.get("BuildingCostInBirr");
+  }
+  get MachineryCost(){
+    return this.projectCostAmendForm.get("MachineryCost");
+  }
+  get MachineryCostInBirr(){
+    return this.projectCostAmendForm.get("MachineryCostInBirr");
+  }
+  get TransportCost(){
+    return this.projectCostAmendForm.get("TransportCost");
+  }
+  get TransportCostInBirr(){
+    return this.projectCostAmendForm.get("TransportCostInBirr");
+  }
+  get OfficeEquipmentCost(){
+    return this.projectCostAmendForm.get("OfficeEquipmentCost");
+  }
+  get OfficeEquipmentCostInBirr(){
+    return this.projectCostAmendForm.get("OfficeEquipmentCostInBirr");
+  }
+  get OtherCapitalCost(){
+    return this.projectCostAmendForm.get("OtherCapitalCost");
+  }
+  get OtherCapitalCostInBirr(){
+    return this.projectCostAmendForm.get("OtherCapitalCostInBirr");
+  }
+  get OtherCapitalCostBirr(){
+    return this.projectCostAmendForm.get("OtherCapitalCostBirr");
+  }
+  get InitialWorkingCapitalCost(){
+    return this.projectCostAmendForm.get("InitialWorkingCapitalCost");
+  }
+  get InitialWorkingCapitalCostInBirr(){
+    return this.projectCostAmendForm.get("InitialWorkingCapitalCostInBirr");
+  }
+     
+  // get EquityFinance(){
+  //   return this.projectCostAmendForm.get("EquityFinance");
+  // }
+  // get LoanFinance(){
+  //   return this.projectCostAmendForm.get("LoanFinance");
+  // }
+  get OtherSourceFinance(){
+    return this.projectCostAmendForm.get("OtherSourceFinance");
+  }
+     
+  
+    //   EquityFinance: [], LoanFinance: [], OtherSourceFinance: [], OtherSourceDescription: [],
+    //   ActualCostInForeign: [], ExchangeRate: [], Unit: [], Quarter: [],Total:[],TotalInBirr:[],
+    //   CapitalRegistrationDatetime: [], ReagistrationYear: [], ProjectStatus: [], Remark: []
 }
+export const sumOfSourceFinanceValidator: ValidatorFn = (
+  control: FormGroup
+): ValidationErrors | null => {
+  const loanFinance: AbstractControl | null = control.get('LoanFinance');
+  const equityFinance: AbstractControl | null = control.get('EquityFinance');
+  const otherSourceFinance: AbstractControl | null = control.get(
+    'OtherSourceFinance'
+  );
+  const total: AbstractControl | null = control.get('Total');
+
+  const sourceTotal =
+    loanFinance.value + equityFinance.value + otherSourceFinance.value;
+     return sourceTotal !== total.value ? { sumIsNotEqual: true } : null;
+};

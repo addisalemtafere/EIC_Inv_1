@@ -8,7 +8,8 @@ import { ProjectOutputModel } from '../../../model/ProjectOutput.model';
 import { ProjectService } from '../service/project.service';
 import { MatTableDataSource } from '@angular/material';
 import { ServiceApplicationService } from '../service/service-application.service';
-import { ServiceTypes, UnitTypes,
+import {
+  ServiceTypes, UnitTypes,
   AMENDMENT_STEP,
   ENG_SAVE_SUCCESS_MSG, ENG_UPDATE_SUCCESS_MSG, ENG_NOT_FOUND_MSG,
   ENG_SAVE_ERR_MSG, ENG_UPDATE_ERR_MSG,
@@ -16,7 +17,7 @@ import { ServiceTypes, UnitTypes,
   AMH_SAVE_SUCCESS_MSG, AMH_UPDATE_SUCCESS_MSG, AMH_NOT_FOUND_MSG,
   AMH_SAVE_ERR_MSG, AMH_UPDATE_ERR_MSG
 } from '@custor/const/consts';
-import {  UnitType } from '../../../model/lookupData';
+import { UnitType } from '../../../model/lookupData';
 import { ProjectOfficerService } from '../service/project-officer.service';
 import { ConfigurationService } from '../../../../@custor/services/configuration.service';
 @Component({
@@ -48,7 +49,7 @@ export class ProductComponent implements OnInit {
   IsDeleted: any;
   IsActive: any;
   response: any;
-  currentLang : string;
+  currentLang: string;
   amendment = ServiceTypes[4].ServiceId;
   displayedColumns = [
     'No', 'ProductName', 'ProductQty', 'DomesticMarketShare', 'ExportMarketShare', 'Action'
@@ -56,11 +57,13 @@ export class ProductComponent implements OnInit {
   public unitTypes: UnitType[] = [];
   productData: any
   serviceList: any
+  exp: any ;
+  exp2: any ;
   constructor(private formBuilder: FormBuilder,
     private errMsg: ErrorMessage,
     private projectService: ProjectService,
     private configService: ConfigurationService,
-    private toaster : ToastrService,
+    private toaster: ToastrService,
     private serviceApplicationApiService: ServiceApplicationService,
     private projectOfficerService: ProjectOfficerService,
     public route: ActivatedRoute) {
@@ -68,6 +71,8 @@ export class ProductComponent implements OnInit {
     this.projectId = this.route.snapshot.params.projectId;
     this.serviceId = this.route.snapshot.params.serviceId;
     this.serviceApplicationId = this.route.snapshot.params.serviceApplicationId;
+    this.InvestorId = localStorage.getItem('InvestorId');
+    console.log(this.InvestorId)
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
     }
@@ -87,8 +92,6 @@ export class ProductComponent implements OnInit {
     });
   }
   checkServiceApplication() {
-    const id = 2092;
-    this.InvestorId = id;
     this.serviceApplicationApiService.checkServiceApplicationFromApi(this.InvestorId, this.amendment)
       .subscribe(result => {
         if (result != null) {
@@ -101,7 +104,7 @@ export class ProductComponent implements OnInit {
         }
       });
   }
-  initStaticData(){
+  initStaticData() {
     let unit: UnitType = new UnitType();
     UnitTypes.forEach(pair => {
       unit = {
@@ -114,9 +117,8 @@ export class ProductComponent implements OnInit {
   }
   ngOnInit() {
     // this.ServiceId = this.route.snapshot.params['ServiceId'];
-    this.InvestorId = this.route.snapshot.params['InvestorId'];
-    this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.autoSum();
     this.getProjectOutPut();
   }
   getProjectOutPut() {
@@ -136,14 +138,14 @@ export class ProductComponent implements OnInit {
     console.log(this.productEdit)
     this.productForm.patchValue(this.productEdit);
     this.productForm.controls.DomesticMarketShare.patchValue(this.productEdit.DomesticMarketShare)
-    if(this.serviceApplicationId == 0){
+    if (this.serviceApplicationId == 0) {
       this.appendPreviousDataToNewForm();
     }
-    else{
+    else {
       this.searchDataFromAudit(ProjectOutputId, this.serviceApplicationId);
     }
   }
-  searchDataFromAudit(ProjectOutputId, serviceApplicationId){
+  searchDataFromAudit(ProjectOutputId, serviceApplicationId) {
     console.log(ProjectOutputId)
     this.projectService.getProjectOutPutAuditData(ProjectOutputId, serviceApplicationId).subscribe(res => {
       console.log(res)
@@ -164,7 +166,7 @@ export class ProductComponent implements OnInit {
       }
     })
   }
-  appendPreviousDataToNewForm(){
+  appendPreviousDataToNewForm() {
     this.productAmendForm.patchValue(this.productEdit);
     console.log(this.productEdit)
     this.productAmendForm.get('sharePercent').patchValue(
@@ -216,7 +218,7 @@ export class ProductComponent implements OnInit {
     });
     this.productForm.disable();
   }
-  create(){
+  create() {
     this.projectService.saveOutPutData(this.getEditedData()).subscribe(res => {
       if (res) {
         console.log(res)
@@ -240,7 +242,7 @@ export class ProductComponent implements OnInit {
       }
     })
   }
-  update(){
+  update() {
     this.projectService.updateOutPutData(this.getEditedData()).subscribe(res => {
       console.log(res)
       if (res) {
@@ -261,7 +263,7 @@ export class ProductComponent implements OnInit {
       }
     })
   }
-  approve(){
+  approve() {
     this.projectOfficerService.approveProjectOutPut(this.projectId).subscribe(res => {
       console.log(res)
     })
@@ -269,7 +271,7 @@ export class ProductComponent implements OnInit {
   getEditedData() {
     this.projectProduct = this.productAmendForm.value;
     this.projectProduct.ProjectId = this.projectId;
-    this.projectProduct.InvestorId = (this.InvestorId) ? this.InvestorId : 0;;
+    this.projectProduct.InvestorId = (this.InvestorId) ? this.InvestorId : 0;
     this.projectProduct.IsActive = (this.IsActive) ? this.IsActive : true;
     this.projectProduct.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
     this.projectProduct.ProjectOutputId = (this.ProjectOutputId) ? this.ProjectOutputId : 0;
@@ -282,5 +284,30 @@ export class ProductComponent implements OnInit {
       this.projectProduct.ServiceApplicationId = this.serviceApplicationId;
     }
     return this.projectProduct;
+  }
+  get ProductName() {
+    return this.productAmendForm.get("ProductName")
+  }
+  get ProductQty() {
+    return this.productAmendForm.get("ProductQty")
+  }
+  get ProductUnit() {
+    return this.productAmendForm.get("ProductUnit")
+  }
+  get DomesticMarketShare() {
+    return this.productAmendForm.get("DomesticMarketShare")
+  }
+  get ExportMarketShare() {
+    return this.productAmendForm.get("ExportMarketShare")
+  }
+
+  private autoSum() {
+    this.productAmendForm.get('DomesticMarketShare')
+      .valueChanges.subscribe(result => {
+        this.exp = 100 - result;
+        this.productAmendForm.patchValue({
+          ExportMarketShare: this.exp
+        });
+      });
   }
 }

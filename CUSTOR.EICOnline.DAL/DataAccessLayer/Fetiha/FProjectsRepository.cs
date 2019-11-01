@@ -206,12 +206,24 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
             }
 
         }
-        public async Task<List<Project>> getPermitListByInvestorId(int InvesorId)
+        public async Task<List<ProjectListDTO>> getPermitListByInvestorId(int InvesorId)
         {
             try
             {
-                var projects = await Context.Project.Where(m => m.InvestorId == InvesorId && m.IsDeleted == false)
-                                    .Include(s => s.ServiceApplication).ToListAsync();
+               // var projects = await Context.Project.Where(m => m.InvestorId == InvesorId && m.IsDeleted == false)
+                              //      .Include(s => s.ServiceApplication).ToListAsync();
+                var projects = await (from p in Context.Project
+                                               join s in Context.ServiceApplication
+                                               on p.ProjectId equals s.ProjectId
+                                               where p.InvestorId == InvesorId && s.CurrentStatusId != 44446
+                                               && s.CurrentStatusId != 44448 && s.ServiceId == 13
+                                               select new ProjectListDTO
+                                               {
+                                                   ProjectId = p.ProjectId,
+                                                   ProjectName = p.ProjectName,
+                                                   InvestorId = p.InvestorId,
+                                                 
+                                               }).ToListAsync();
                 return projects;
             }
             catch (Exception ex)
@@ -458,6 +470,26 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
                                             }
                                             ).FirstOrDefaultAsync();
                 return projectAddress;
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
+        }
+        public async Task<ServiceApplication> completeProjectServiceApplication(int serviceApplicationId)
+        {
+            ServiceApplication existingServiceApplication = null;
+            try
+            {
+                existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == serviceApplicationId);
+                existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                existingServiceApplication.CurrentStep = 7;
+                existingServiceApplication.IsActive = true;
+                existingServiceApplication.CurrentStatusId = 44448;
+                Context.Update(existingServiceApplication);
+                Context.SaveChanges();
+                return existingServiceApplication;
             }
             catch (Exception ex)
             {

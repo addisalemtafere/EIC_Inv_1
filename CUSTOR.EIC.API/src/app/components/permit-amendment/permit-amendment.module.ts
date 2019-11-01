@@ -20,17 +20,19 @@ import { ProductComponent } from './product/product.component';
 import { DocumentComponent } from './document/document.component';
 import { PermitListComponent } from './permit-list/permit-list.component';
 import { NotificationComponent } from '../project-profile/notification/notification.component';
-
+import { ServiceConfirmationModule } from '../project-profile/service-confirmation/ServiceConfirmation.module';
+import { ConformationMessageComponent } from './conformation-message/conformation-message.component';
 @NgModule({
   imports: [CommonModule,
     SharedModule,
-    PermitAmendmentRouting
+    PermitAmendmentRouting,
+    ServiceConfirmationModule,
   ],
   declarations: [PermitAmendmentComponent, ProjectProfileComponent,
      ServiceRequirementComponent, InputComponent, RawMaterialComponent, 
      CostComponent, EmploymentComponent, ShareComponent, ProductComponent, 
     NotificationComponent,
-     DocumentComponent, PermitListComponent],
+     DocumentComponent, PermitListComponent, ConformationMessageComponent],
   exports: [PermitAmendmentComponent],
   providers: [AddressService, ServiceApplicationService, SiteService,
      ProjectNationalityCompositionService],

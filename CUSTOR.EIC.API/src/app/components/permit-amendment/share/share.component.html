@@ -105,37 +105,48 @@
       <form [formGroup]="projectShareAmendForm" novalidate>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field fxLayoutGap="4em">
-            <mat-label>Nationality * :</mat-label>
-            <mat-select formControlName="Nationality">
+            <mat-label>{{'investors.editor.Nationality' | translate}}</mat-label>
+            <mat-select formControlName="Nationality" required>
               <mat-option *ngFor="let nation of nationList" [value]="nation.id">
                 {{nation.descriptionEnglish}}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="Nationality.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
           </mat-form-field>
           <mat-form-field fxLayoutGap="4em">
-            <mat-label>Quantity *:</mat-label>
-            <input type="number" formControlName="Qty" matInput>
+            <mat-label>{{'investors.editor.Quantity' | translate}}</mat-label>
+            <input type="number" formControlName="Qty" matInput required>
+            <mat-error *ngIf="Qty.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
           </mat-form-field>
         </div>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field fxLayoutGap="4em">
-            <mat-label>Share Percent % *:</mat-label>
-            <input type="number" formControlName="SharePercent" matInput>
+            <mat-label>{{'investors.editor.SharePercent' | translate}}</mat-label>
+            <input type="number" formControlName="SharePercent" required matInput>
+            <mat-error *ngIf="SharePercent.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
           </mat-form-field>
           <mat-form-field fxLayoutGap="4em">
-            <mat-label>Description :</mat-label>
+            <mat-label>{{'investors.editor.Description' | translate}} </mat-label>
             <textarea formControlName="Description" matInput>
                  </textarea>
           </mat-form-field>
         </div>
-        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-          <a class="custom-button pointer" *ngIf="!editModeInput" color="primary" (click)="create()">
-            Save
-          </a>
-          <a class="custom-button pointer" *ngIf="editModeInput" color="primary" (click)="update()">
-            Update
-          </a>
-        </div>
+        <mat-card-actions fxLayoutAlign="end end" *ngIf="!serviceId">
+          <button class="custom-button pointer" [disabled]="projectShareAmendForm.invalid" *ngIf="!editModeInput"
+            color="primary" (click)="create()">
+            {{'common.commands.Save'|translate}}
+          </button>
+          <button class="custom-button pointer" [disabled]="projectShareAmendForm.invalid" *ngIf="editModeInput"
+            color="primary" (click)="update()">
+            {{'common.commands.Update'|translate}}
+          </button>
+        </mat-card-actions>
       </form>
     </div>
   </mat-card-content>

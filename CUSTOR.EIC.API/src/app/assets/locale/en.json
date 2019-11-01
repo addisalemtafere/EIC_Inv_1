@@ -221,6 +221,8 @@
       "OfficeEquipmentCost":"Office Equipment Cost",
       "OfficeEquipmentCostInBirr":"Office Equipment Cost In Birr",
       "OtherCapitalCost":"Other Capital Cost",
+      "BuildingCost": "Building Cost",
+      "BuildingCostInBirr": "Building Cost In Birr",
       "OtherCapitalCostInBirr":"Other Capital Cost In Birr",
       "InitialWorkingCapitalCost":"Initial Working Capital Cost",
       "InitialWorkingCapitalCostInBirr":"Initial Working Capital Cost In Birr",
@@ -252,7 +254,15 @@
       "LandService": "Land Service",
       "OwnLand": "Own Land",
       "RentalLand": "Rental Land",
-      "LeaseLand": "Lease Land"
+      "LeaseLand": "Lease Land",
+
+      "RawMaterialType": "Raw Material Type",
+      "SharePercent": "Share Percent",
+      "Quantity": "Quantity",
+      "Description": "Description",
+      "CurrencyType": "Currency Type"
+      
+
 
     }
   },

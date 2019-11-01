@@ -66,6 +66,7 @@ export class ShareComponent implements OnInit {
     this.projectId = this.route.snapshot.params.projectId;
     this.serviceId = this.route.snapshot.params.serviceId;
     this.serviceApplicationId = this.route.snapshot.params.serviceApplicationId;
+    this.InvestorId = localStorage.getItem('InvestorId');
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
     } else {
@@ -92,8 +93,7 @@ export class ShareComponent implements OnInit {
       });
   }
   checkServiceApplication() {
-    const id = 2092;
-    this.InvestorId = id;
+   
     this.serviceApplicationApiService.checkServiceApplicationFromApi(this.InvestorId, this.amendment)
       .subscribe(result => {
         if (result != null) {
@@ -186,6 +186,7 @@ export class ShareComponent implements OnInit {
       if (res) {
         console.log(res)
         this.updateData = true;
+        this.editModeInput = true;
         this.response = res;
         this.serviceApplicationId = this.response.ServiceApplicationId
         if (this.currentLang == 'en') {
@@ -251,5 +252,13 @@ export class ShareComponent implements OnInit {
     }
     return this.projectShare;
   }
-
+  get Nationality(){
+    return this.projectShareAmendForm.get("Nationality")
+  }
+  get Qty(){
+    return this.projectShareAmendForm.get("Qty")
+  }
+  get SharePercent(){
+    return this.projectShareAmendForm.get("SharePercent")
+  }
 }

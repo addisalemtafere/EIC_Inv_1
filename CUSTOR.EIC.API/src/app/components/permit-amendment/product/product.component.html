@@ -1,7 +1,7 @@
-<mat-card class="margin-2 padding-0" *ngIf="productData.length>0" >
+<mat-card class="margin-2 padding-0" *ngIf="productData.length>0">
   <mat-card-header>
     <mat-card-subtitle class="sub-title">List of product
-   <mat-divider></mat-divider>
+      <mat-divider></mat-divider>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
@@ -39,7 +39,8 @@
         <mat-header-cell fxFlex="15" *matHeaderCellDef>Action</mat-header-cell>
         <mat-cell fxFlex="15" *matCellDef="let productData;let i=index;">
           <div>
-            <a class="pointer" mat-min-fab matTooltip="Click here to edit the product" (click)="onEditProduct(i,productData.ProjectOutputId)">
+            <a class="pointer" mat-min-fab matTooltip="Click here to edit the product"
+              (click)="onEditProduct(i,productData.ProjectOutputId)">
               <mat-icon color="primary" class="mat-18">edit</mat-icon>
               Edit
             </a>
@@ -61,7 +62,7 @@
     <button mat-raised-button color="primary" *ngIf="serviceId && serviceList.ProductUpdate == 1" (click)="approve()">
       {{'common.commands.Approve'|translate}}</button>
   </mat-card-actions>
-</mat-card> 
+</mat-card>
 
 <mat-card class="mat-elevation-z8" *ngIf="editMode">
   <mat-card-header class="custom-mat-card-header" fxLayout="row">
@@ -71,8 +72,7 @@
   <mat-card-content>
     <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
       <form [formGroup]="productForm" novalidate>
-        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em"
-         >
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field>
               <mat-label>{{'investors.editor.ProductName' | translate}}</mat-label>
@@ -97,13 +97,11 @@
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field>
               <mat-label>{{'investors.editor.DomesticMarketShare' | translate}}</mat-label>
-              <input #DMS type="number" matInput formControlName="DomesticMarketShare"
-                >
+              <input #DMS type="number" matInput formControlName="DomesticMarketShare">
             </mat-form-field>
             <mat-form-field>
               <mat-label>{{'investors.editor.ExportMarketShare' | translate}}</mat-label>
-              <input #EMS type="number" matInput formControlName="ExportMarketShare"
-                >
+              <input #EMS type="number" matInput formControlName="ExportMarketShare">
             </mat-form-field>
           </div>
         </div>
@@ -112,18 +110,23 @@
 
     <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
       <form [formGroup]="productAmendForm" novalidate>
-        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em"
-          >
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field>
               <mat-label>{{'investors.editor.ProductName' | translate}}</mat-label>
-              <input type="text" matInput formControlName="ProductName">
+              <input type="text" matInput formControlName="ProductName" required>
+              <mat-error *ngIf="ProductName.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
             <mat-form-field>
               <mat-label>{{'investors.editor.ProductQty' | translate}}</mat-label>
               <input type="number" matInput formControlName="ProductQty">
+              <mat-error *ngIf="ProductQty.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
             <mat-form-field>
               <mat-label>{{'investors.editor.ProductUnit' | translate}}</mat-label>
@@ -133,6 +136,9 @@
                   <span>{{unit.DescriptionEnglish}}</span>
                 </mat-option>
               </mat-select>
+              <mat-error *ngIf="ProductUnit.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
@@ -140,24 +146,34 @@
               <mat-label>{{'investors.editor.DomesticMarketShare' | translate}}</mat-label>
               <input #DMS type="number" matInput formControlName="DomesticMarketShare"
                 [errorStateMatcher]="confirmValidParentMatcher">
+              <mat-error *ngIf="DomesticMarketShare.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
             <mat-form-field>
               <mat-label>{{'investors.editor.ExportMarketShare' | translate}}</mat-label>
               <input #EMS type="number" matInput formControlName="ExportMarketShare"
                 [errorStateMatcher]="confirmValidParentMatcher">
+              <mat-error *ngIf="ExportMarketShare.hasError('required')">
+                {{'common.validation.Required' | translate}}
+              </mat-error>
             </mat-form-field>
+            <p *ngIf="(ExportMarketShare.value) + (DomesticMarketShare.value) > 100 " class="red">
+              Sum of Export MarketShare and Domestic Market share Can't be greater than 100
+            </p>
           </div>
-          <div>
+          <mat-card-actions fxLayoutAlign="end end" *ngIf="!serviceId">
             <button mat-raised-button color="primary" *ngIf="!editModeInput" 
-             [disabled]="!productAmendForm.valid" (click)="create()">
-              Save
+            [disabled]="!productAmendForm.valid || (ExportMarketShare.value) + (DomesticMarketShare.value) > 100"
+              (click)="create()">
+              {{'common.commands.Save'|translate}}
             </button>
-            <a mat-raised-button color="primary" *ngIf="editModeInput" 
+            <a mat-raised-button color="primary" *ngIf="editModeInput"
+             [disabled]="!productAmendForm.valid || (ExportMarketShare.value) + (DomesticMarketShare.value) > 100"
               color="primary" (click)="update()">
-              Update
+              {{'common.commands.Update'|translate}}
             </a>
-          </div>
-
+          </mat-card-actions>
         </div>
       </form>
     </div>

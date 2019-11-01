@@ -62,7 +62,8 @@ export class InputComponent implements OnInit {
     this.projectId = this.route.snapshot.params.projectId;
     this.serviceApplicationId = this.route.snapshot.params.serviceApplicationId;
     this.serviceId = this.route.snapshot.params.serviceId;
-    this.InvestorId = 2092;
+    this.InvestorId = localStorage.getItem('InvestorId');
+    console.log(this.InvestorId)
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
     }
@@ -86,8 +87,7 @@ export class InputComponent implements OnInit {
     }
   }
   checkServiceApplication() {
-    const id = 2092;
-    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
+    this.serviceApplicationApiService.checkServiceApplicationFromApi(this.InvestorId, this.amendment)
       .subscribe(result => {
         if (result != null) {
           this.existingServiceApplication = result;
@@ -108,10 +108,10 @@ export class InputComponent implements OnInit {
         console.log(this.projectInputData)
         this.projectInputForm.patchValue(this.projectInputData);
       }
-      if (this.serviceApplicationId == 0){
+      if (this.serviceApplicationId == 0) {
         this.appendPreviousDataToNewForm();
       }
-      else{
+      else {
         this.searchDataFromAudit(this.projectRequirementId, this.serviceApplicationId);
       }
     })
@@ -143,7 +143,7 @@ export class InputComponent implements OnInit {
     console.log(this.projectInputAmendForm.patchValue(this.projectInputData))
   }
 
- 
+
   initViewForm() {
     this.projectInputForm = this.formBuilder.group({
       ProjectId: [], ElectricPower: [], Water: [], OtherUtility: [], LandIndustrial: [],
@@ -155,7 +155,7 @@ export class InputComponent implements OnInit {
   initForm() {
     this.projectInputAmendForm = this.formBuilder.group({
       ProjectId: [],
-      ElectricPower: [0, [Validators.required, Validators.min(0)]],
+      ElectricPower: ['', [Validators.required, Validators.min(0)]],
       Water: [0, [Validators.required, Validators.min(0)]],
       OtherUtility: [0, [Validators.min(0)]],
       LandIndustrial: [0, [Validators.required, Validators.min(0)]],
@@ -175,7 +175,7 @@ export class InputComponent implements OnInit {
   getEditedData() {
     this.projectInput = this.projectInputAmendForm.value;
     this.projectInput.ProjectId = this.projectId;
-    this.projectInput.InvestorId = (this.InvestorId) ? this.InvestorId : 0;;
+    this.projectInput.InvestorId = (this.InvestorId) ? this.InvestorId : 0;
     this.projectInput.IsActive = (this.IsActive) ? this.IsActive : true;
     this.projectInput.IsDeleted = (this.IsDeleted) ? this.IsDeleted : false;
     this.projectInput.CurrentStep = AMENDMENT_STEP[2].Step;
@@ -240,5 +240,30 @@ export class InputComponent implements OnInit {
     this.projectOfficerService.approveProjectInput(this.getEditedData()).subscribe(res => {
       console.log(res)
     })
+  }
+
+  get ElectricPower() {
+    return this.projectInputAmendForm.get("ElectricPower");
+  }
+  get Water() {
+    return this.projectInputAmendForm.get("Water");
+  }
+  get LandIndustrial() {
+    return this.projectInputAmendForm.get("LandIndustrial");
+  }
+  get LandAgricultural() {
+    return this.projectInputAmendForm.get("LandAgricultural");
+  }
+  get LandService() {
+    return this.projectInputAmendForm.get("LandService");
+  }
+  get OwnLand() {
+    return this.projectInputAmendForm.get("OwnLand");
+  }
+  get LeaseLand() {
+    return this.projectInputAmendForm.get("LeaseLand");
+  }
+  get RentalLand() {
+    return this.projectInputAmendForm.get("RentalLand");
   }
 }

@@ -101,6 +101,8 @@ export class ProjectProfileComponent implements OnInit {
     this.projectId = this.activatedRoute.snapshot.params.projectId;
     this.serviceApplicationId = this.activatedRoute.snapshot.params.serviceApplicationId;
     this.serviceId = this.activatedRoute.snapshot.params.serviceId;
+    this.InvestorId = localStorage.getItem('InvestorId');
+    console.log(this.InvestorId)
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();
     }
@@ -112,7 +114,7 @@ export class ProjectProfileComponent implements OnInit {
   }
   
   checkServiceApplication() {
-    this.InvestorId = 2092;
+   
     this.serviceApplicationApiService.checkServiceApplicationFromApi(this.InvestorId, this.amendment)
       .subscribe(result => {
         console.log(result)
@@ -451,10 +453,9 @@ export class ProjectProfileComponent implements OnInit {
     // console.log(this.ServiceId);
 
     this.projectAmendForm = this.formBuilder.group({
-      ProjectName: ['', Validators.compose([Validators.required,
-      CustomValidators.validateCharacters, Validators.minLength(2)])],
+      ProjectName: ['0', Validators.compose([Validators.required,CustomValidators.validateCharacters, Validators.minLength(2)])],
       InvestorId: [this.InvestorId],
-      ServiceId: [this.ServiceId],
+      ServiceId: [this.amendment],
       ParentProjectId: ['0'],
       CreatedUserName: this.accountServices.currentUser.UserName,
       ProjectDescription: ['', [Validators.required,Validators.minLength(2)]],

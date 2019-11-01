@@ -384,11 +384,20 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         break;
     }
   }
+  response(serviceId, investorId, serviceApplicationId, projectId, workflowId){
+    console.log("Response");console.log(serviceId);console.log(investorId);
+    console.log(serviceApplicationId); console.log(projectId);console.log(workflowId);
+    this.router.navigate(['/officer/' + serviceId + '/' + investorId + '/' + serviceApplicationId + '/' + workflowId + '/' + projectId]);
+  }
   review(serviceId, investorId, serviceApplicationId, projectId, workflowId){
     console.log(serviceId)
     console.log(investorId)
     console.log(serviceApplicationId);
     console.log(projectId);
+    console.log(workflowId);
+    console.log('permit-amendment/amend-project/' + serviceId +
+      '/' + investorId + '/' + serviceApplicationId + '/'
+      + projectId + '/' + workflowId)
     this.router.navigate(['permit-amendment/amend-project/' + serviceId +
             '/' + investorId + '/' + serviceApplicationId + '/' 
             + projectId + '/' + workflowId]);

@@ -43,7 +43,11 @@ export class DocumentComponent implements OnInit {
     public errMsg: ErrorMessage,
     private serviceApplicationApiService: ServiceApplicationService,
     private investorService: InvestorService) {
-    this.InvestorId = 2092;
+    this.InvestorId = localStorage.getItem('InvestorId');
+    console.log(this.InvestorId)
+    if(this.InvestorId == null){
+      this.InvestorId = this.route.snapshot.params.investorId;
+    }
     this.serviceApplicationId = this.route.snapshot.params.serviceApplicationId;
     if (this.serviceApplicationId == 0) {
       this.checkServiceApplication();

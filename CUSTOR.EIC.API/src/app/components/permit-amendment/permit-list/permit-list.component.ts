@@ -6,6 +6,7 @@ import { MatSnackBar, MatTableDataSource } from '@angular/material';
 import {  ServiceTypes } from '@custor/const/consts';
 import { ServiceApplicationService } from "../service/service-application.service";
 import { Router } from '@angular/router';
+import { ToastRef } from 'ngx-toastr';
 @Component({
   selector: 'app-permit-list',
   templateUrl: './permit-list.component.html',
@@ -20,7 +21,7 @@ export class PermitListComponent implements OnInit {
   dataSource : any;
   AllowCascading = true;
   currentLang : string;
-  investorId : any
+  InvestorId : any
   serviceApplicationId:any;
   amendment = ServiceTypes[4].ServiceId;
   constructor(private configService: ConfigurationService,
@@ -29,11 +30,13 @@ export class PermitListComponent implements OnInit {
     private serviceApplicationApiService: ServiceApplicationService,
     public route: ActivatedRoute) { 
     this.currentLang = this.configService.language;
+    this.InvestorId = localStorage.getItem('InvestorId');
+    console.log(this.InvestorId )
+    console.log(this.InvestorId)
   }
 
   ngOnInit() {
-    this.investorId = 2188;
-    this.getPermitList(this.investorId);
+    this.getPermitList(this.InvestorId);
   }
   getPermitList(investorId){
     console.log(investorId)
@@ -55,6 +58,10 @@ export class PermitListComponent implements OnInit {
         if (result != null) {
           this.existingServiceApplication = result;
           console.log(this.existingServiceApplication)
+          if (this.existingServiceApplication.CurrentStatusId == 44446 ){
+            alert("You have already submitted an amendment request, wait until you here the response")
+            return;
+          }
           this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationId;
         }
         else {
