@@ -314,7 +314,8 @@
     "CurrencyType": "Currency Type",
     "Amount": "Amount",
     "InvoiceNo": "InvoiceNo",
-    "Phase": "Batch"
+    "Phase": "Batch",
+    "FileNo": "FileNo"
   },
   "incentiverequestitem": {
     "IncentiveItem": "Incentive Item",
@@ -327,7 +328,9 @@
   },
   "taxexemption": {
     "RevenueBranch": "Revenue Branch",
-    "ExemptionYear": "Exemption Year"
+    "ExemptionYear": "Exemption Year",
+    "FileNo": "FileNo",
+    "BusinessLicenseNo": "BusinessLicenseNo"
   },
   "billofmaterrial": {
     "Phase": "Batch",

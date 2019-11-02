@@ -192,7 +192,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
         console.log(result);
         if (this.itemList.length > 0) {
           this.showDetail = true;
-          this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
+          this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result);
           this.loading = false;
           this.dataSource.paginator = this.paginator;
         } else {
