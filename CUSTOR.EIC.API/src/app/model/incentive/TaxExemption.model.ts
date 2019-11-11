@@ -6,6 +6,8 @@ export class TaxExemptionModel {
   public ExemptionYearRequested: number;
   public RevenueBranch: number;
   public RevenueBranchDescription: string;
+  public FileNo: string;
+  public BusinessLicenseNo: string;
   public EffectiveStartDate?: Date;
   public IsApproved?: boolean;
 }

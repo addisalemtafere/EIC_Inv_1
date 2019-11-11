@@ -289,6 +289,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       Quantity: this.IncentiveRequestModel.Quantity == null ? 0 : this.IncentiveRequestModel.Quantity,
       CustomsSiteId: this.IncentiveRequestModel.CustomsSiteId == null ? 0 : this.IncentiveRequestModel.CustomsSiteId,
       Phase: this.IncentiveRequestModel.Phase == null ? 0 : this.IncentiveRequestModel.Phase,
+      FileNo: this.IncentiveRequestModel.FileNo,
+      IsBankPermit: this.IncentiveRequestModel.IsBankPermit,
+      IsExporter: this.IncentiveRequestModel.IsExporter,
       // IsApproved: this.IncentiveRequestModel.IsApproved
     });
     // // console.log(this.IncentiveRequestModel);
@@ -309,6 +312,8 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       InvoiceNo: ['', Validators.compose([Validators.required, Validators.maxLength(15)])],
       ExchangeRate: [this.ExchangeRate, Validators.required],
       FileNo: ['', Validators.required],
+      IsBankPermit: [false, Validators.required],
+      IsExporter: [false, Validators.required],
     });
   }
 
@@ -519,6 +524,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       RequestDate: formModel.RequestDate,
       InvoiceNo: formModel.InvoiceNo,
       Phase: formModel.Phase,
+      FileNo:formModel.FileNo,
+      IsBankPermit:formModel.IsBankPermit,
+      IsExporter:formModel.IsExporter,
       ProjectId: this.ProjectId,
       ServiceApplicationId: this.ServiceApplicationId
     };

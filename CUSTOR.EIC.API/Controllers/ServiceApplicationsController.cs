@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
@@ -102,17 +103,18 @@ namespace EIC.Investment.API.Controllers
     }
 
     [HttpGet("BillOfMaterialByProjectId/{id}/{phase}/{lang}")]
-    public async Task<IEnumerable<ServiceAppDto>> GetServiceApplicationBillOfMaterialByProjectId([FromRoute] int id,
+    public IEnumerable<ServiceAppDto1> GetBillOfMaterialByProjectId([FromRoute] int id,
       int phase, string lang)
     {
-      string FieldName = StaticDataHelper.GetFieldName(lang);
-      string query1 =
-        $@"(select IncentiveBoMRequestItemId,(Select {FieldName} from Lookup Where LookUpTypeId='10780' AND Lookup.LookupId=IncentiveBoMRequestItem.RejectionReason) as RejectionReason,Balance,Phase
-						   ,IncentiveBoMRequestItem.ServiceApplicationId,IncentiveBoMRequestItem.ProjectId,Description,HsCode,Quantity,MesurmentUnit,IsApproved from IncentiveBoMRequestItem)";
-      IQueryable<ServiceAppDto> ServiceAppDto = _context.ServiceAppDto
-        .Where(m => m.ProjectId == id && m.Phase == phase && m.IsApproved == true)
-        .FromSql(query1);
-      return ServiceAppDto;
+      //string FieldName = StaticDataHelper.GetFieldName(lang);
+      var ProjectId = new SqlParameter("@ProjectId", id);
+      var Phase = new SqlParameter("@Phase", phase);
+      IEnumerable<ServiceAppDto1> series = _context.Query<ServiceAppDto1>().FromSql(
+          "(select  IncentiveBoMRequestItem.Description,IncentiveBoMRequestItem.Quantity,IncentiveBoMRequestItem.Balance,HSCode,MesurmentUnit,IncentiveBoMRequestItem.ProjectId,IncentiveBoMRequestItem.IsApproved,Phase from IncentiveBoMRequestItem"
+          + " WHERE IsApproved=1 " + " AND ProjectId=" + id + " AND Phase=" + phase + " )",
+          id, phase)
+        .ToList();
+      return series;
     }
 
     [HttpGet("ServiceApplicationCancellation/{id}")]

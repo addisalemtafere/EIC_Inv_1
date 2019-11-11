@@ -77,7 +77,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public virtual DbSet<RoleClaim> RoleClaim { get; set; }
         public virtual DbSet<ServiceApplication> ServiceApplication { get; set; }
         public virtual DbSet<ServiceAppDto> ServiceAppDto { get; set; }
-
+        
         //public virtual DbSet<ServiceApplicationWorkflow> ServiceApplicationWorkflow { get; set; }
         public virtual DbSet<ServiceOutput> ServiceOutput { get; set; }
 
@@ -129,7 +129,10 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbQuery<series> series { get; set; }
         public DbQuery<IncentiveDetailDto> IncentiveDetailDto { get; set; }
         public DbQuery<IncentiveBomDto> IncentiveBomDto { get; set; }
+        public DbQuery<ServiceAppDto1> ServiceAppDto1 { get; set; }
 
+        
+        
 
         public DbSet<tblDivision> Division { get; set; }
         public DbSet<Group> Group { get; set; }
