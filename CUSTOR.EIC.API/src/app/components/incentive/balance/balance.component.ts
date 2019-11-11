@@ -30,7 +30,7 @@ export class BalanceComponent implements OnInit, AfterViewInit {
   documentForm: FormGroup;
   serviceList: ServiceModel[] = [];
   displayedColumns = [
-    'No', 'Description', 'HsCode', 'Quantity', 'MesurmentUnit', 'Balance'
+    'No', 'Description', 'HsCode', 'MesurmentUnit', 'Quantity', 'Balance'
   ];
   displayedGroupedColumns = [
     'No', 'IncentiveCategory', 'UploadDate', 'UploadQuantity', 'Phase', 'Action'
