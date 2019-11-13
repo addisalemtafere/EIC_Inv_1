@@ -27,43 +27,44 @@ namespace CUSTOR.EICOnline.DAL
             int pageSize = 15)
         {
             IEnumerable<InvestmentActivity> InvActs = null;
-            string cacheKey = "InvActivityKey";
-            var cachedInvActivitys = await distributedCache.GetStringAsync(cacheKey);
-            if (cachedInvActivitys != null)
-            {
-                InvActs = JsonConvert.DeserializeObject<IEnumerable<InvestmentActivity>>(cachedInvActivitys);
-            }
-            else
-            {
-                InvActs = await Context.InvestmentActivity
-                    .OrderBy(Act => Act.DescriptionEnglish)
-                    .Select(r => new InvestmentActivity()
-                    {
-                        ActivityId = r.ActivityId,
-                        InvActivityId = r.InvActivityId,
-                        Description = (lang == "et") ? r.Description : r.DescriptionEnglish
-                    }).ToListAsync();
-                if (page > 0)
+//            string cacheKey = "InvActivityKey";
+//            var cachedInvActivitys = await distributedCache.GetStringAsync(cacheKey);
+//            if (cachedInvActivitys != null)
+//            {
+//                InvActs = JsonConvert.DeserializeObject<IEnumerable<InvestmentActivity>>(cachedInvActivitys);
+//            }
+//            else
+//            {
+            InvActs = await Context.InvestmentActivity
+                .OrderBy(Act => Act.DescriptionEnglish)
+                .Select(r => new InvestmentActivity()
                 {
-                    InvActs = InvActs
-                        .Skip((page - 1) * pageSize)
-                        .Take(pageSize);
-                }
-
-                DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
-                await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(InvActs), cacheOptions);
+                    ActivityId = r.ActivityId,
+                    InvActivityId = r.InvActivityId,
+                    Description = (lang == "et") ? r.Description : r.DescriptionEnglish
+                }).ToListAsync();
+            if (page > 0)
+            {
+                InvActs = InvActs
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
             }
+
+//                DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions()
+//                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(settings.ExpirationPeriod));
+//                await distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(InvActs), cacheOptions);
+//            }
 
             return InvActs.ToList();
         }
 
-        public async Task<List<InvestmentActivity>> GetInvestmentActivitysByParent(int id,int page = 0, int pageSize = 15)
+        public async Task<List<InvestmentActivity>> GetInvestmentActivitysByParent(int id, int page = 0,
+            int pageSize = 15)
 
         {
             IQueryable<InvestmentActivity> Acts = Context.InvestmentActivity
                 .Include(a => a.Activity)
-                .Where(sb => sb.ActivityId==id)
+                .Where(sb => sb.ActivityId == id)
                 .OrderBy(Act => Act.InvActivityId);
             if (page > 0)
             {
