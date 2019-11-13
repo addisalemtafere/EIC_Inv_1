@@ -91,20 +91,24 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   onSubmit() {
     this.formService.markFormGroupTouched(this.employmetForm);
     if (this.employmetForm.valid) {
-      if (!this.editMode) {
-        this.employmentService.create(this.employmetForm.value)
-          .subscribe(result => {
-            setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
-            setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
-            this.notification('saved');
-          }, error => this.toastr.error(this.errMsg.getError(error)));
-      } else {
-        this.employmentService.update(this.employmetForm.value, this.empId)
-          .subscribe(result => {
-            this.notification('updated');
-            setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
-            setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
-          }, error => this.toastr.error(this.errMsg.getError(error)));
+      if (this.employmetForm.get('totalEmployee').value > 0)
+        if (!this.editMode) {
+          this.employmentService.create(this.employmetForm.value)
+            .subscribe(result => {
+              setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
+              setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
+              this.notification('saved');
+            }, error => this.toastr.error(this.errMsg.getError(error)));
+        } else {
+          this.employmentService.update(this.employmetForm.value, this.empId)
+            .subscribe(result => {
+              this.notification('updated');
+              setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
+              setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
+            }, error => this.toastr.error(this.errMsg.getError(error)));
+        }
+      else {
+        this.toastr.error('The sum of total Employee must be greater than zero');
       }
     } else {
       this.formErrors = this.formService.validateForm(this.employmetForm, this.formErrors, false);

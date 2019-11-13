@@ -163,22 +163,28 @@ export class ProjectCostComponent
   onSubmit() {
     this.formService.markFormGroupTouched(this.projectCostForm);
     if (this.projectCostForm.valid) {
-      if (!this.editMode) {
-        this.projectCostService
-          .create(this.projectCostForm.value)
-          .subscribe(result => {
-            setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
-            setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
-            this.notification('saved');
-          });
+      if (this.projectCostForm.get('Total').value + this.projectCostForm.get('TotalInBirr').value > 0) {
+        if (!this.editMode) {
+
+          this.projectCostService
+            .create(this.projectCostForm.value)
+            .subscribe(result => {
+              setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
+              setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
+              this.notification('saved');
+            });
+
+        } else {
+          this.projectCostService
+            .update(this.projectCostForm.value, this.costId)
+            .subscribe(result => {
+              this.notification('updated');
+              setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
+              setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
+            });
+        }
       } else {
-        this.projectCostService
-          .update(this.projectCostForm.value, this.costId)
-          .subscribe(result => {
-            this.notification('updated');
-            setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
-            setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
-          });
+        this.toastr.error('The sum of project cost must be greater than zero');
       }
     } else {
       this.formErrors = this.formService.validateForm(
