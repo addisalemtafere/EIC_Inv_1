@@ -438,7 +438,6 @@ export class CertificateComponent implements OnInit {
 
       case 1:
         this.router.navigate(['associate/list']);
-
         break;
 
       case 2:

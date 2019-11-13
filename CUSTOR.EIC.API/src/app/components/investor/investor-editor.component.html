@@ -113,11 +113,6 @@
             <mat-error *ngIf="grandNameEng.hasError('minlength')">
               {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
             </mat-error>
-<!--            <mat-error *ngIf="!grandNameEng.hasError('maxlength')-->
-<!--             && !grandNameEng.hasError('minlength')-->
-<!--                                && grandNameEng.hasError('pattern')">-->
-<!--              {{'common.validation.UseLatinOnly' | translate}}-->
-<!--            </mat-error>-->
           </mat-form-field>
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.FirstName' | translate}}</mat-label>
@@ -161,18 +156,18 @@
             <mat-label>{{'investors.editor.GrandName' | translate}}</mat-label>
             <input matInput formControlName="cGrandName" />
             <!--<span *ngIf="isInvestor">-->
-            <mat-error *ngIf="grandName.hasError('required')">
-              {{'common.validation.Required' | translate}}
-            </mat-error>
+<!--            <mat-error *ngIf="grandName.hasError('required')">-->
+<!--              {{'common.validation.Required' | translate}}-->
+<!--            </mat-error>-->
             <!--</span>-->
-            <mat-error *ngIf="!grandName.hasError('required') && grandName.hasError('minlength')">
-              {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
-            </mat-error>
+<!--            <mat-error *ngIf="!grandName.hasError('required') && grandName.hasError('minlength')">-->
+<!--              {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}-->
+<!--            </mat-error>-->
             <!--<span *ngIf="!isInvestor">-->
-            <mat-error *ngIf="!grandName.hasError('required') && !grandName.hasError('minlength')
-                                && grandName.hasError('pattern')">
-              {{'common.validation.UseEthiopicOnly' | translate}}
-            </mat-error>
+<!--            <mat-error *ngIf="!grandName.hasError('required') && !grandName.hasError('minlength')-->
+<!--                                && grandName.hasError('pattern')">-->
+<!--              {{'common.validation.UseEthiopicOnly' | translate}}-->
+<!--            </mat-error>-->
             <!--</span>-->
           </mat-form-field>
         </div>
