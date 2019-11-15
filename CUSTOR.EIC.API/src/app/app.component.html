@@ -151,7 +151,7 @@
               (click)="Investor()">
               <mat-icon color="primary" class="mat-18">account_circle</mat-icon>
               {{ "mainMenu.InvestorProfile" | translate }}</a>
-              
+
             <a *ngIf="isInvestor"
                (click)="toMangerList()"
                mat-list-item
@@ -180,7 +180,7 @@
           <mat-icon>announcement</mat-icon>
           Notifications
         </a>
-     
+
         <a *ngIf="isInvestor"
            mat-list-item
            routerLinkActive="active"
@@ -202,8 +202,8 @@
           <mat-icon>library_add</mat-icon>
           Incentive Detail
         </a>
-        <a mat-list-item 
-        routerLinkActive="active" 
+        <a mat-list-item
+        routerLinkActive="active"
         routerLink="/amendment">
           <mat-icon>library_add</mat-icon>
           {{ "mainMenu.Amendment" | translate }}
@@ -261,8 +261,7 @@
               {{ "mainMenu.address" | translate }}</a>
             <a mat-list-item routerLinkActive="active" routerLink="category">
               <mat-icon color="primary" class="mat-18">subject</mat-icon>
-              {{ "mainMenu.Category" | translate }}</a
-            >
+              {{ "mainMenu.Category" | translate }}</a>
             <a mat-list-item routerLinkActive="active" routerLink="lookup-tab">
               <mat-icon color="primary" class="mat-18">subject</mat-icon>
               {{ "mainMenu.lookup" | translate }}</a>

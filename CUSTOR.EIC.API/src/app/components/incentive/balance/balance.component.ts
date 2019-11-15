@@ -19,7 +19,8 @@ import {ConfigurationService} from '@custor/services/configuration.service';
 @Component({
   selector: 'app-balance',
   templateUrl: './balance.component.html',
-  styleUrls: ['./balance.component.scss']
+  styleUrls: ['./balance.component.scss'],
+  providers: [ConfigurationService]
 })
 export class BalanceComponent implements OnInit, AfterViewInit {
 

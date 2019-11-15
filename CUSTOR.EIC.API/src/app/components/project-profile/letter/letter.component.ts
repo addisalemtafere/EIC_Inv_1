@@ -30,7 +30,8 @@ import {ServiceEnum} from "../../../enum/enums";
 @Component({
   selector: 'app-letter',
   templateUrl: './letter.component.html',
-  styleUrls: ['./letter.component.scss']
+  styleUrls: ['./letter.component.scss'],
+  providers: [ConfigurationService]
 })
 export class LetterComponent implements OnInit {
 
@@ -113,7 +114,6 @@ export class LetterComponent implements OnInit {
     this.initForm();
     this.getEthiopianDate();
     this.ProjectId = this.route.snapshot.params['projectId'] || this.route.snapshot.params['ProjectId'];
-    //this.InvestorId = this.route.snapshot.params['InvestorId'];
     if (this.route.snapshot.params['isForDetail'] == 1) {
       this.getLetter();
       this.getLookups();
