@@ -26,14 +26,14 @@ import {ConfigurationService} from "@custor/services/configuration.service";
   selector: 'app-incentive-detail',
   templateUrl: './incentive-detail.component.html',
   styleUrls: ['./incentive-detail.component.scss'],
-  providers: [ConfigurationService]
+  providers:[ConfigurationService]
 })
 export class IncentiveDetailComponent implements OnInit {
   @ViewChild('form')
 
   incentiveRequestItemSub: Subscription;
   lookupSub: Subscription;
-  title: any;
+  title: string;
   isNewIncentiveRequestItem = false;
   IncentiveRequestModel: IncentiveRequestModel;
   IncentiveRequestModels: IncentiveRequestModel[] = [];
@@ -64,7 +64,6 @@ export class IncentiveDetailComponent implements OnInit {
   projectId: any;
   serviceId: any;
   serviceApplicationId: any;
-
   private currentLang: string;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -108,7 +107,7 @@ export class IncentiveDetailComponent implements OnInit {
 
   initForm() {
     this.incentiveDetailForm = this.fb.group({
-      //IncentiveCategoryId: ['', Validators.required]
+      IncentiveCategoryId: ['']
     });
   }
 
@@ -142,7 +141,8 @@ export class IncentiveDetailComponent implements OnInit {
         // console.log(this.items);
         this.dataSource = new MatTableDataSource<IncentiveRequestDetailModel>(this.items);
         this.loading = false;
-      } else {
+      }
+      else {
         if (categoryId == 10778 || categoryId == 10782) {
           this.isVisibleShowBalance = false;
         }
@@ -159,9 +159,7 @@ export class IncentiveDetailComponent implements OnInit {
     this.currentCategoryId = categoryCode;
     console.log(this.currentCategoryId);
     if (categoryCode === 10778 || categoryCode === 10782 || categoryCode === 10777) {
-
       this.isVisibleShowBalance = true;
-
     } else {
       this.isVisibleShowBalance = false;
     }
@@ -176,10 +174,8 @@ export class IncentiveDetailComponent implements OnInit {
 
   showBalance() {
     console.log(this.currentCategoryId);
-    if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {
-      this.serviceApplicationId = 0;
-      this.serviceId = 0;
-      this.router.navigate(['bom-balance/' + this.projectId + '/' + this.serviceApplicationId + '/' + this.serviceId]);
+    if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {      // this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
+      this.router.navigate(['bom-balance/' + this.projectId + '/' + 0 + '/' + 0]);
     } else if (this.currentCategoryId == 10777) {
       this.router.navigate(['sparepart-balance/' + this.projectId + '/' + 0]);
     }
@@ -188,7 +184,9 @@ export class IncentiveDetailComponent implements OnInit {
   showLetter() {
     this.serviceId = 0;
     this.serviceApplicationId = 0;
-    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + this.isForDetail]);
+    // console.log('letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + 1)
+    // return
+    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + 1]);
   }
 
   compareIds(id1: any, id2: any): boolean {

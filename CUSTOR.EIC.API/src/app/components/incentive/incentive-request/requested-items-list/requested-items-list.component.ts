@@ -190,7 +190,7 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     this.currentCategoryId = this.activatedRoute.snapshot.params['categoryId'];
     this.serviceApplicationId = this.activatedRoute.snapshot.params['ServiceApplicationId'];
     this.projectId = this.activatedRoute.snapshot.params['projectId'];
-    this.serviceId = this.activatedRoute.snapshot.params['serviceId'];
+    this.serviceId = this.activatedRoute.snapshot.params['serviceId'] || this.activatedRoute.snapshot.params['ServiceId'];
     this.phaseId = this.activatedRoute.snapshot.params['Phase'];
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782 || this.currentCategoryId == 10777) {
       this.isVisibleShowBalance = true;
