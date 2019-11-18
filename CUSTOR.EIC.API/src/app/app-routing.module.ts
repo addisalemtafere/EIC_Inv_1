@@ -388,7 +388,7 @@ import {AuthGuard} from '@custor/services/security/auth-guard.service';
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-profile/:InvestorId',
+        path: 'investor-profile',
         loadChildren: 'app/components/investor/investor-profile/investor-profile.module#InvestorProfileModule',
         canActivate: [AuthGuard]
       },

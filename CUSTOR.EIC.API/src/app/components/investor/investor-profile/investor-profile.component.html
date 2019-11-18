@@ -8,19 +8,59 @@
   </div>
 </div>
 
-<mat-tab-group #stepper [selectedIndex]="registrationIndex">
+<div [@fadeInOut] style="width: 400px;    height: 228px;" class="page-content mat-elevation-z8 margin-2"
+  fxLayout="column" fxLayoutAlign="center center" *ngIf="completed">
+  <div fxLayout="row" fxLayoutAlign="space-around center" class="content">
+    <div class="info-nag">
+      <div class="info-split info-info"><i></i></div>
+      <div class="success-info info-text" >
+        Dear customer.<br>
+        Your Profile Registration is Complete.
+        An Officer Will Review Your Application and will Respond!!
+        <br>
+        <button color="primary" style="margin: 15px;" mat-raised-button (click)="toServiceList()">
+          <mat-icon class="mat-18">link</mat-icon>
+          Go to Service List
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <mat-tab label="Investor">
+<mat-tab-group #stepper [selectedIndex]="registrationIndex" *ngIf="!completedProfile">
+
+  <mat-tab label="Investor" *ngIf="!completed">
     <ng-template matTabContent>
       <app-edit-investor></app-edit-investor>
     </ng-template>
   </mat-tab>
 
-  <mat-tab label="Manager" [disabled]="nextIndex <2 || hasInvestor==null ">
+  <mat-tab label="Manager" [disabled]="nextIndex <2 || hasInvestor==null " *ngIf="!completed">
     <ng-template matTabContent>
+      <mat-card *ngIf="!isInvestor" class="margin-2 simple-card">
+        <mat-card-header>
+          <mat-card-subtitle class="sub-title"></mat-card-subtitle>
+          <button class="margin-10 certificate-title" mat-raised-button="" (click)="addMessage()" color="primary">
+            Add Message
+          </button>
+        </mat-card-header>
+      </mat-card>
       <app-associate-form></app-associate-form>
     </ng-template>
   </mat-tab>
+  <!-- <mat-tab label="Document">
+    <ng-template matTabContent>
+      <mat-card *ngIf="!isInvestor" class="margin-2 simple-card">
+        <mat-card-header>
+          <mat-card-subtitle class="sub-title"></mat-card-subtitle>
+          <button class="margin-10 certificate-title" mat-raised-button="" (click)="addMessage()" color="primary">
+            Add Message
+          </button>
+        </mat-card-header>
+      </mat-card>
+      <app-service-prerequisite></app-service-prerequisite>
+    </ng-template>
+  </mat-tab> -->
 
   <mat-tab *ngIf="isInvestor" [disabled]="nextIndex<3" label="Message">
     <ng-template matTabContent>
@@ -28,22 +68,39 @@
 
       <!--      <app-page-header title="Confirm" icon="error"></app-page-header>-->
       <div [@fadeInOut] style="width: 400px;    height: 228px;" class="page-content mat-elevation-z8 margin-2"
-           fxLayout="column"
-           fxLayoutAlign="center center">
+        fxLayout="column" fxLayoutAlign="center center">
 
         <div fxLayout="row" fxLayoutAlign="space-around center" class="content">
           <div class="info-nag">
             <div class="info-split info-info"><i></i></div>
-            <div class="success-info info-text">
+            <!-- <div class="success-info info-text">
               Dear customer; Thank you for registering.<br>
-              Your Profile Registration is Complete. You can now apply for different online services!!
-            </div>
-            <div class="success-info info-text">
-              <button color="primary" mat-raised-button (click)="toServiceList()">
-                <mat-icon class="mat-18">link</mat-icon>
-                Go to Service List
+              Your Profile Registration is Complete. 
+              An Officer Will Review Your Application and will Respond!!
+            </div> -->
+            <div class="success-info info-text" *ngIf="!completed">
+              Your application Case Number is: <span class="strongText">
+                {{ServiceApplicationId}}</span>
+              <br>
+              Click <strong class="strongText">Submit</strong>
+              If you are done with your requests.<br>
+              <mat-icon color="warn" class="mat-18">warning</mat-icon>
+              If your application is not submitted, the application may
+              not reviewed by our staff.
+
+              <button (click)="submitApplication()" style="margin: 10px;background-color: #0c97a8;" mat-raised-button>
+                <mat-icon style="color: white;font-weight: bolder" class="48">done</mat-icon>
+                <span style="margin: 10px;background-color: #0c97a8;font-weight: bolder;" class="agree">Submit</span>
               </button>
             </div>
+            <!-- <div style="padding-top: 100px" fxLayoutAlign="center center" class="" fxFlex="">
+              
+              <button (click)="back()" style="margin: 10px;" color="warn" mat-raised-button>
+                <mat-icon class="mat-18">close</mat-icon>
+                <span class="agree">close</span>
+              </button>
+            </div> -->
+
             <br>
           </div>
         </div>
@@ -52,4 +109,3 @@
     </ng-template>
   </mat-tab>
 </mat-tab-group>
-

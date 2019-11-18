@@ -39,10 +39,13 @@ export class NotificationComponent implements OnInit, AfterContentChecked, After
     @Inject(MAT_DIALOG_DATA) data,
     public serviceApplicationService: ServiceApplicationService) {
     this.ServiceApplicationId = data.ServiceApplicationId;
+    // alert("here");
+    // alert(this.ServiceApplicationId)
+    console.log(this.ServiceApplicationId)
   }
 
   ngOnInit() {
-
+    
     // this.ServiceId = this.route.snapshot.params['ServiceId'];
     // this.InvestorId = this.route.snapshot.params['InvestorId'];
     // this.workFlowId = this.route.snapshot.params['workFlowId'];

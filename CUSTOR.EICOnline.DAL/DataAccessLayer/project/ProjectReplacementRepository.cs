@@ -84,9 +84,11 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer {
                 // end of update service application
                 return postProjectSubstitute;
             }
+             
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
             }
         }
         public async Task<ProjectSubstitute> PutProjectSubstitute(int id, ProjectSubstitute projectSubstitute)

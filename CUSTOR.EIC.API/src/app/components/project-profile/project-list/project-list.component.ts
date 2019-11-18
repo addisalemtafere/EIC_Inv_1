@@ -299,7 +299,6 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
 
   nextStep(step: number, projectId: any, serviceApplicationId: any, serviceId: any, title: string, workFlowId: any, InvestorId: any, investorName: string, projectName: string) {
-    alert(step);
     const id = serviceApplicationId;
     const investorId = InvestorId;
     let stepIndex;
@@ -391,16 +390,22 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
   review(serviceId, investorId, serviceApplicationId, projectId, workflowId){
     console.log(serviceId)
-    console.log(investorId)
-    console.log(serviceApplicationId);
-    console.log(projectId);
-    console.log(workflowId);
-    console.log('permit-amendment/amend-project/' + serviceId +
-      '/' + investorId + '/' + serviceApplicationId + '/'
-      + projectId + '/' + workflowId)
-    this.router.navigate(['permit-amendment/amend-project/' + serviceId +
-            '/' + investorId + '/' + serviceApplicationId + '/' 
-            + projectId + '/' + workflowId]);
+    console.log(serviceId == 1269)
+    console.log(serviceId == '1269')
+    // console.log(investorId)
+    // console.log(serviceApplicationId);
+    // console.log(projectId);
+    // console.log(workflowId);
+    // console.log('permit-amendment/amend-project/' + serviceId +
+    //   '/' + investorId + '/' + serviceApplicationId + '/'
+    //   + projectId + '/' + workflowId)
+    if (serviceId == 1028){
+      this.router.navigate(['permit-amendment/amend-project/' + serviceId +'/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workflowId]);
+    }
+    if (serviceId == 1269){
+      this.router.navigate(['investor-profile/' + investorId + '/' + serviceApplicationId + '/' + serviceId]);
+    }
+    
   }
   getAllService() {
     this.service.getAll()

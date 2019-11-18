@@ -68,8 +68,8 @@ export class ManagerService extends EndpointFactory  {
         var endPointUrl = `${this.managersListUrl}/${investorId}`;
         return this.httpClient.get(endPointUrl);
     }
-    getNewAssociateListByInvestorId(investorId:number){
-        var endPointUrl = `${this.newManagersListUrl}/${investorId}`;
+    getNewAssociateListByInvestorId(investorId:number, serviceApplicationId){
+        var endPointUrl = `${this.newManagersListUrl}/${investorId}/${serviceApplicationId}`;
         return this.httpClient.get(endPointUrl);
     }
     getManagerAuditByInvestorId(investorId: number) {

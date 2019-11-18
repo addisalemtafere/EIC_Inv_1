@@ -308,12 +308,23 @@
       </div>
       <!-- <mat-divider></mat-divider> -->
 
-      <div mat-dialog-actions style="margin: auto; text-align: center">
-        <button mat-raised-button type="submit" color="primary" style="margin-right: 10px">
+      <div mat-dialog-actions style="margin: auto; text-align: center" *ngIf="isInvestor && serviceApplicationStatus !='44447'">
+        <button mat-raised-button type="submit" *ngIf="!ServiceApplicationId" color="primary" style="margin-right: 10px">
           {{'common.commands.Save' | translate}}
+        </button>
+        <button mat-raised-button type="submit" *ngIf="ServiceApplicationId" color="primary" style="margin-right: 10px">
+          {{'common.commands.Update' | translate}}
         </button>
         <button mat-raised-button (click)="onBack()" color="warn" type="button">
           {{'common.commands.Cancel' | translate}}
+        </button>
+      </div>
+      <div mat-dialog-actions style="margin: 15px; text-align: center" *ngIf="!isInvestor && serviceApplicationStatus !='44447'">
+        <!-- <button mat-raised-button (click)="approve()" color="primary" style="margin-right: 10px">
+          {{'common.commands.Approve' | translate}}
+        </button> -->
+        <button mat-raised-button (click)="next()" color="warn" type="button">
+          {{'common.commands.Next' | translate}}
         </button>
       </div>
     </div>

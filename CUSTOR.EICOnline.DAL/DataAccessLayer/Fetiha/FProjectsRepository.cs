@@ -215,8 +215,8 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha
                 var projects = await (from p in Context.Project
                                                join s in Context.ServiceApplication
                                                on p.ProjectId equals s.ProjectId
-                                               where p.InvestorId == InvesorId && s.CurrentStatusId != 44446
-                                               && s.CurrentStatusId != 44448 && s.ServiceId == 13
+                                               where p.InvestorId == InvesorId && s.CurrentStatusId == 44449
+                                               && s.ServiceId == 13
                                                select new ProjectListDTO
                                                {
                                                    ProjectId = p.ProjectId,

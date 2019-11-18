@@ -85,7 +85,7 @@ export class ManagerListComponent implements OnInit {
        })
    }
   getNewManagersList(investorId){
-    this.managerService.getNewAssociateListByInvestorId(investorId)
+    this.managerService.getNewAssociateListByInvestorId(investorId, this.serviceApplicationID)
       .subscribe(result => {
         this.managers = result;
         console.log(this.managers);

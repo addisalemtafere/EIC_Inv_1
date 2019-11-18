@@ -47,10 +47,10 @@ namespace CUSTOR.EICOnline.API.Controllers
     {
       return associateRepository.GetManagers(InvestorId);
     }
-    [HttpGet("NewManagersList/{InvestorId}")]
-    public Task<List<AssociateAuditListDTO>> GetNewManagersListByInvestorId([FromRoute] int InvestorId)
+    [HttpGet("NewManagersList/{InvestorId}/{serviceApplicationId}")]
+    public Task<List<AssociateAuditListDTO>> GetNewManagersListByInvestorId([FromRoute] int InvestorId , int serviceApplicationId)
     {
-      return associateRepository.GetNewManagersList(InvestorId);
+      return associateRepository.GetNewManagersList(InvestorId , serviceApplicationId);
 
     }
     [HttpGet("NewManagerById/{id}")]

@@ -72,11 +72,21 @@ namespace EICOnline.Controllers
     {
       return await InvestorRepo.GetRecordByUserId(id);
     }
-
+    [HttpGet("api/UserServiceApplication/{investorId}")]
+    public async Task<ServiceApplication> GetUserServiceApplication(int investorId)
+    {
+      return await InvestorRepo.GetUserServiceApplication(investorId);
+    }
     [HttpGet("api/InvestorByTIN/{id}")]
     public async Task<IEnumerable<Investor>> GetInvestorByTIN(string id)
     {
       return await InvestorRepo.GetRecordByTIN(id);
+    }
+
+    [HttpGet("api/CheckServiceApplication/{serviceApplicationId}")]
+    public async Task<ServiceApplication> CheckUserServiceApplicationStatus(int serviceApplicationId)
+    {
+      return await InvestorRepo.CheckUserServiceApplicationStatus(serviceApplicationId);
     }
 
     [HttpPost("api/SearchInvestor")]
@@ -107,6 +117,11 @@ namespace EICOnline.Controllers
       if (!await InvestorRepo.DeleteInvestor(id))
         throw new ApiException("Record could not be deleted");
       return Ok();
+    }
+    [HttpPut("api/SubmitServiceApplication/{serviceApplicationId}")]
+    public async Task<ServiceApplication> finishProjectServiceApplication(int serviceApplicationId)
+    {
+      return await InvestorRepo.finishProjectServiceApplication(serviceApplicationId);
     }
   }
 }

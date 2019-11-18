@@ -71,5 +71,8 @@ export class PermitListComponent implements OnInit {
       });
     console.log(this.serviceApplicationId)
   }
+  goToSync(){
+    this.router.navigate(['permit-amendment/syncFusion']);
+  }
 
 }

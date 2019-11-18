@@ -99,6 +99,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   public isInvestor: boolean;
   private isNew: any;
   private CurrentUserId: string;
+  existingServiceApplication : any;
+  serviceApplicationStatus : any;
   constructor(private route: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
@@ -302,6 +304,10 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   ngOnInit() {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    if(this.ServiceApplicationId == undefined){
+      this.ServiceApplicationId = localStorage.getItem('user-serviceApplicationId');
+    }
+    console.log(this.ServiceApplicationId)
     this.loadingIndicator = false;
     this.currentLang = this.configService.language;
     this.initStaticData('this.currentLang');
@@ -310,9 +316,16 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.fillAddressLookups();
     this.formControlValueChanged();
     this.getMajorDivisions();
+    this.checkServiceApplication();
     const id = this.route.snapshot.params['InvestorId'];
-    if (this.ServiceId !== undefined || this.ServiceId == ServiceEnum.CommercialRegistration) {
+    console.log("=======================")
+    console.log(ServiceEnum.CommercialRegistration)
+    console.log("=======================")
+    if (this.ServiceId !== undefined && this.ServiceId == ServiceEnum.CommercialRegistration) {
       this.isCommercialReg = true;
+    }
+    if (this.ServiceId !== undefined && this.ServiceId == 1269){
+
     }
     // console.log(this.ServiceId);
     // console.log(this.isCommercialReg);
@@ -332,10 +345,17 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
 
   }
-
+  checkServiceApplication(){
+    this.custService.checkServiceApplication(this.ServiceApplicationId).subscribe(res=>{
+      this.existingServiceApplication = res;
+      this.serviceApplicationStatus = this.existingServiceApplication.CurrentStatusId
+      console.log(this.existingServiceApplication)
+    })
+  }
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
     console.log(this.isInvestor);
+    // alert(this.accountService.getUserType())
   }
 
   getMajorDivisions() {
@@ -826,7 +846,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
             } else {
-              this.router.navigate(['investor-profile/' + investor.InvestorId]);
+              console.log("am here")
+              this.router.navigate(['investor-profile/' + investor.InvestorId +'/'+this.ServiceApplicationId]);
               setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
             }
@@ -840,7 +861,13 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         err => this.handleError(err)
       );
   }
-
+  next(){
+    console.log(this.dataSharing.currentIndex)
+    // this.dataSharing.currentIndex.next(2);
+    // this.router.navigate(['investor-profile/' + this.investor + '/' + this.ServiceApplicationId]);
+    setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+    setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
+  }
   getRegistrationCatagoryData(Tin: string) {
     this.registrationCatagoryService.getRegistrationCatagoriesByTin(Tin)
       .subscribe((result: RegistrationCatagory[]) => {
@@ -1087,7 +1114,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       Email: add.Email,
       OtherAddress: add.OtherAddress,
       UserName: this.accountService.currentUser.UserName,
-      AddressId: this.isNewInvestor ? 0 : this.investor.AddressId
+      AddressId: this.isNewInvestor ? 0 : this.investor.AddressId,
+      ServiceApplicationId: this.ServiceApplicationId
     };
   }
 

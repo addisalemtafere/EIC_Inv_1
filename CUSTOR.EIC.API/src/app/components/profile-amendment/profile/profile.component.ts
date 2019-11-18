@@ -19,6 +19,7 @@ import { FormOfOwnershipModel } from "../../../model/EnumModel";
 import { FormOfOwnership, ServiceTypes } from "@custor/const/consts";
 import { ServiceApplicationService } from "./../service/service-application.service";
 import { ProfileService } from '../service/profile.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -39,6 +40,7 @@ export class ProfileComponent implements OnInit {
   public TitleLookup: LookupsModel[];
   countryList = [];
   isCompany: boolean;
+  isCompanyView: boolean;
   originFlag: boolean;
   branch: boolean;
   formOfOwnershipList: FormOfOwnershipModel[] = [];
@@ -71,19 +73,23 @@ export class ProfileComponent implements OnInit {
     private ngxUiLoader: NgxUiLoaderService,
     private lookUpService: LookUpService,
     private addressService: AddressService,
+    private activatedRoute: ActivatedRoute,
     private serviceApplicationApiService: ServiceApplicationService,
     private profileService: ProfileService,
     private configService: ConfigurationService) {
+
+    this.serviceApplicationId = this.activatedRoute.snapshot.params.serviceApplicationId;
     this.currentLang = this.configService.language;
+    this.InvestorId = localStorage.getItem('InvestorId');
     this.checkServiceApplication();
     this.initForm();
     this.initViewForm();
 
   }
   checkServiceApplication() {
-    const id = 2092;
-    this.serviceApplicationApiService.checkServiceApplicationFromApi(id, this.amendment)
+    this.serviceApplicationApiService.checkServiceApplicationFromApi(this.InvestorId, this.amendment)
       .subscribe(result => {
+        console.log(result);
         if (result != null) {
           this.existingServiceApplication = result;
           this.serviceApplicationId = this.existingServiceApplication.ServiceApplicationID;
@@ -98,21 +104,35 @@ export class ProfileComponent implements OnInit {
     this.fillAddressLookups();
     this.initStaticData(this.currentLang);
     this.initStaticDataOwnerShip(this.currentLang);
-    const id = 2092;
-    this.InvestorId = id;
-    if (id) {
-      this.getInvestorData(id);
+    
+    if (this.InvestorId) {
+      this.getInvestorData(this.InvestorId);
     }
   }
   getInvestorData(investorId) {
     // GET DATA FROM MAIN TABLE (investor)
     this.profileService.getInvestorData(investorId).subscribe(result => {
+    
+      console.log(result)
+     
       if (result == null) {
         alert("no record found")
       }
       else {
         this.profileData = result;
+        if (this.profileData.LegalStatus > 1){
+          // this.isCompany = true;
+          this.isCompanyView = true;
+          this.profileViewForm.controls.CompanyName.setValue(this.profileData.FirstName);
+          this.profileViewForm.controls.CompanyNameEng.setValue(this.profileData.FirstNameEng);
+        }
+        else{
+          this.isCompanyView = false;
+        }
+        console.log(this.isCompany)
         // Other Data
+       
+        console.log(Number(this.profileData.MobilePhone));
         this.IsActive = this.profileData.IsActive;
         this.Deleted = this.profileData.Deleted;
         this.AddressId = this.profileData.AddressId;
@@ -125,6 +145,7 @@ export class ProfileComponent implements OnInit {
         this.profileViewForm.patchValue(result);
         this.profileViewForm.controls.Gender.setValue(Number(this.profileData.Sex));
         this.profileViewForm.controls.Title.setValue(Number(this.profileData.Title));
+        this.profileViewForm.controls.CellPhoneNo.setValue(Number(this.profileData.MobilePhone));
         this.AddressId = this.profileData.AddressId;
         this.ProjectId = this.profileData.ProjectId;
         this.setViewForm();
@@ -140,9 +161,20 @@ export class ProfileComponent implements OnInit {
         console.log(res)
         console.log("check service application id later")
         this.profilePostDTO = res;
+        if (this.profilePostDTO.LegalStatus > 1) {
+          this.isCompany = true;
+        
+          this.profileTestForm.controls.CompanyName.setValue(this.profileData.FirstName);
+          this.profileTestForm.controls.CompanyNameEng.setValue(this.profileData.FirstNameEng);
+        }
+        else {
+          this.isCompany = false;
+         
+        }
         this.profileTestForm.patchValue(res);
        // this.profileForm.controls.Sex.setValue(Number(this.profilePostDTO.Sex));
         this.profileTestForm.controls.Title.setValue(Number(this.profilePostDTO.Title));
+        this.profileTestForm.controls.CellPhoneNo.setValue(Number(this.profilePostDTO.MobilePhone));
         this.profileTestForm.patchValue({
           Nationality: Number(this.profilePostDTO.Nationality) || '',
         });
@@ -169,7 +201,7 @@ export class ProfileComponent implements OnInit {
       this.filteredViewZones =
         this.zones.filter((item) => item.RegionId === this.profileData.RegionId);
     }
-    console.log(this.filteredViewZones)
+    // console.log(this.filteredViewZones)
     if (this.profileData.WoredaId != null) {
       this.getKebeleByWoredaId(this.profileData.WoredaId);
     }
@@ -196,7 +228,17 @@ export class ProfileComponent implements OnInit {
     console.log('no data in new database');
     console.log(this.profileData)
     this.updateData = false;
+    if (this.profileData.LegalStatus > 1) {
+      this.isCompany = true;
+      this.profileTestForm.controls.CompanyName.setValue(this.profileData.FirstName);
+      this.profileTestForm.controls.CompanyNameEng.setValue(this.profileData.FirstNameEng);
+    }
+    else {
+      this.isCompany = false;
+    }
+    console.log(Number(this.profileData.MobilePhone))
     this.profileTestForm.patchValue(this.profileData);
+    this.profileTestForm.controls.CellPhoneNo.setValue(Number(this.profileData.MobilePhone));
     console.log(this.profileTestForm.patchValue(this.profileData))
 
     setTimeout(() => {
@@ -229,6 +271,7 @@ export class ProfileComponent implements OnInit {
       legalS = { 'Id': pair.Id.toString(), 'Desc': (currentLang === 'et' ? pair.Description : pair.DescriptionEnglish) };
       this.legalStatuses.push(legalS);
     });
+    console.log(this.legalStatuses)
   }
   getCountries() {
     // this.ngxUiLoader.startBackground();
@@ -326,7 +369,7 @@ export class ProfileComponent implements OnInit {
       .subscribe(result => {
         // this.kebeles = result;
         this.filteredKebeles = result;
-        console.log(this.filteredKebeles)
+        // console.log(this.filteredKebeles)
       });
   }
   initViewForm() {
@@ -334,7 +377,8 @@ export class ProfileComponent implements OnInit {
     this.profileViewForm = this.fb.group({
       LegalStatus: [], Tin: [], FirstName: [], FatherName: [], GrandName: [], FirstNameEng: [],
       FatherNameEng: [], GrandNameEng: [], Nationality: [], Gender: [], Title: [], ParentId: [],
-      RegionId: [], ZoneId: [], WoredaId: [], KebeleId: [], CellPhoneNo: [], HouseNo: [],
+      RegionId: [], ZoneId: [], WoredaId: [], WoredaEngId: [], KebeleId: [], KebeleEngId:[],
+      CellPhoneNo: [], HouseNo: [], Fax: [], CompanyNameEng: [], CompanyName :[],
       TeleNo: [], FaxNo: [], OtherAddress: [], Pobox: [], Email: [], Remark: [], FormOfOwnership: []
     });
     this.profileTestForm = this.fb.group({
@@ -343,25 +387,42 @@ export class ProfileComponent implements OnInit {
         [Validators.required, Validators.pattern(NUMERIC_REGEX), Validators.minLength(10),
         Validators.maxLength(10)]
       )],
-      FirstNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
+      FirstNameEng: ['', [Validators.compose([Validators.minLength(2),
       Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      FatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
+      FatherNameEng: ['', [Validators.compose([Validators.minLength(2),
       Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      GrandNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
+      GrandNameEng: ['', [Validators.compose([Validators.minLength(2),
       Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
+      // FirstNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
+      // Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
+      // FatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
+      // Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
+      // GrandNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
+      // Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
 
-      FirstName: ['', Validators.compose([Validators.required, Validators.minLength(2),
+      FirstName: ['', Validators.compose([ Validators.minLength(2),
       Validators.pattern(ET_ALPHABET_REGEX)])],
-      FatherName: ['', Validators.compose([Validators.required, Validators.minLength(2),
+      FatherName: ['', Validators.compose([ Validators.minLength(2),
       Validators.pattern(ET_ALPHABET_REGEX)])],
       GrandName: ['', Validators.pattern(ET_ALPHABET_REGEX)],
+      // FirstName: ['', Validators.compose([Validators.required, Validators.minLength(2),
+      // Validators.pattern(ET_ALPHABET_REGEX)])],
+      // FatherName: ['', Validators.compose([Validators.required, Validators.minLength(2),
+      // Validators.pattern(ET_ALPHABET_REGEX)])],
+      // GrandName: ['', Validators.pattern(ET_ALPHABET_REGEX)],
+
+      CompanyNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
+      Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
+      CompanyName: ['', Validators.compose([Validators.required, Validators.minLength(2),
+      Validators.pattern(ET_ALPHABET_REGEX)])],
+
       Nationality: [''], // Ethiopian
       Gender: [''],
       Title: [''],
       ParentId: [''],
       RegionId: ['', [Validators.required]],
       ZoneId: ['', [Validators.required]],
-      WoredaId: ['', [Validators.required]],
+      WoredaId: [''],
       WoredaEngId: [''],
       KebeleId: [''],
       KebeleEngId: [''],
@@ -373,6 +434,7 @@ export class ProfileComponent implements OnInit {
       Pobox: [''],
       FormOfOwnership: [''],
       Email: [''],
+     
       Remark: ['']
     });
     // this.profileTestForm = this.fb.group({
@@ -388,6 +450,12 @@ export class ProfileComponent implements OnInit {
   }
   get FirstName() {
     return this.profileTestForm.get('FirstName')
+  }
+  get CompanyName() {
+    return this.profileTestForm.get('CompanyName')
+  }
+  get CompanyNameEng() {
+    return this.profileTestForm.get('CompanyNameEng')
   }
   get FirstNameEng() {
     return this.profileTestForm.get('FirstNameEng')
@@ -480,7 +548,7 @@ export class ProfileComponent implements OnInit {
         'Id': pair.Id.toString(),
         'Desc': (currentLang === 'et' ? pair.Description : pair.DescriptionEng)
       };
-      // console.log(formOfOwnership);
+      //  console.log(formOfOwnership);
       this.formOfOwnershipList.push(formOfOwnership);
     });
   }
@@ -521,6 +589,12 @@ export class ProfileComponent implements OnInit {
     this.profile.IsMainOffice = (this.IsMainOffice) ? this.IsMainOffice : false;
     this.profile.PaidCapital =this.PaidCapital ;
     this.profile.SighnedCapital =this.SighnedCapital;
+    if (this.serviceApplicationId == 0) {
+      this.profile.ServiceApplicationId = null
+    }
+    else {
+      this.profile.ServiceApplicationId = this.serviceApplicationId;
+    }
     console.log(this.profile);
     return this.profile;
   }

@@ -75,6 +75,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   projectStage: ProjectStageModel[] = [];
   approve: ProjectRenewalModel;
   public formErrors = {
+    // EnvironmentalImpact: 'Enter Description in between 2 - 100 characters!',
     ProjectName: 'at least three characters!',
     ProjectDescription: 'Enter Description in between 2 - 100 characters!',
     StartDate: 'Enter a Valid Date!',
@@ -457,11 +458,11 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       SectorId: ['', Validators.required],
       SubSectorId: ['', Validators.required],
       ActivityId: ['', Validators.required],
-      IsOromiaSpecialZone: [''],
       InvActivityId: ['', Validators.required],
+      IsOromiaSpecialZone: [''],
       EndingDate: ['', Validators.required],
       IsSelfService: [false],
-      EnvironmentalImpact: ['', [Validators.minLength(2)]],
+      EnvironmentalImpact: ['', [Validators.required,Validators.minLength(2)]],
       AssignedUserId: [this.accountService.currentUser.Id],
       CreatedUserId: [this.accountService.currentUser.Id],
       ProjectStage: [null, Validators.required],
@@ -567,6 +568,21 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
   get OperationDate() {
     return this.projectForm.get('OperationDate');
+  }
+  get SectorId() {
+    return this.projectForm.get('SectorId');
+  }
+  get SubSectorId() {
+    return this.projectForm.get('SubSectorId');
+  }
+  get ActivityId() {
+    return this.projectForm.get('ActivityId');
+  }
+  get InvActivityId() {
+    return this.projectForm.get('InvActivityId');
+  }
+  get EnvironmentalImpact() {
+    return this.projectForm.get('EnvironmentalImpact');
   }
 
   get ProjectStage() {

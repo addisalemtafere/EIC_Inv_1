@@ -131,7 +131,7 @@
             <mat-header-cell fxFlex="10" *matHeaderCellDef>Next Step</mat-header-cell>
             <mat-cell fxFlex="10" *matCellDef="let serviceApplicationList;">
 
-              <span *ngIf="serviceApplicationList?.CurrentStatusId !== applicationS.approved">
+              <div *ngIf="serviceApplicationList?.CurrentStatusId !== applicationS.approved">
                 <a class="pointer custom-button2" style=""
                   *ngIf="serviceApplicationList?.CurrentStatusId===applicationS.Drafted && serviceApplicationList.IsSelfService==false"
                   (click)="nextStep(serviceApplicationList?.ServiceWorkflow[0]?.NextStepId,
@@ -147,8 +147,10 @@
                   <!--<mat-icon color="primary" class="mat-18">navigate_next</mat-icon>-->
                   {{serviceApplicationList?.ServiceWorkflow[0]?.NextStepId }}
                 </a>
-                <a class="pointer custom-button2" *ngIf="serviceApplicationList?.CurrentStatusId!==applicationS.Drafted && serviceApplicationList?.CurrentStatusId!==applicationS.Completed
-                  && serviceApplicationList.IsSelfService==true && serviceApplicationList.ServiceId !='1028'" (click)="nextStep(18,
+                <a class="pointer custom-button2" 
+                *ngIf="serviceApplicationList?.CurrentStatusId!==applicationS.Drafted && serviceApplicationList?.CurrentStatusId!==applicationS.Completed
+                  && serviceApplicationList.IsSelfService==true && serviceApplicationList.ServiceId !='1028' && serviceApplicationList.ServiceId !='1269'"
+                   (click)="nextStep(18,
                     serviceApplicationList.ProjectId,
                     serviceApplicationList.ServiceApplicationId,
                     serviceApplicationList.ServiceId,
@@ -157,16 +159,23 @@
                     serviceApplicationList.InvestorNameEnglish,
                     serviceApplicationList.ProjectNameEnglish
              )">
-                  Review
+                  Review 
                 </a>
-                <a class="pointer custom-button2" *ngIf="serviceApplicationList.ServiceId=='1028'" (click)="review(serviceApplicationList.ServiceId,
+                <!-- <a class="pointer custom-button2"
+                 *ngIf="" (click)="review(serviceApplicationList.ServiceId,
+                                serviceApplicationList.InvestorId,
+                                serviceApplicationList.ServiceApplicationId,
+                                serviceApplicationList.ProjectId,0)">
+                  REVIEW
+                </a> -->
+                <a class="pointer custom-button2" *ngIf="serviceApplicationList.ServiceId=='1028' || serviceApplicationList.ServiceId=='1269'" (click)="review(serviceApplicationList.ServiceId,
                                 serviceApplicationList.InvestorId,
                                 serviceApplicationList.ServiceApplicationId,
                                 serviceApplicationList.ProjectId,0)">
                   REVIEW
                 </a>
 
-              </span>
+              </div>
               <span *ngIf="serviceApplicationList.IsApproved">
 
                 <a class="pointer custom-button2" style=""

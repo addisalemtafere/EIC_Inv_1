@@ -44,7 +44,8 @@ import {DocumentPipePipe} from './pipe/document-pipe.pipe';
 import {CustomerServicesService} from './components/home/customer-service.service';
 import {SharedModule} from '@custor/modules/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NotificationsComponent} from './components/notifications/notifications.component';
+// commented by fetiha
+// import { NotificationsComponent} from './components/notifications/notifications.component';
 import {BaseComponent} from './components/base-components/base.component';
 import {GlobalErrorHandlerService} from '@custor/services/global-error-handler.service';
 import {AppComponent} from './app.component';
@@ -95,7 +96,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // NotificationComponent,
     // ServiceInitComponent,
 
-    NotificationsComponent,
+    // COMMENTED BY FETIHA
+    // NotificationsComponent,
+    // END OF COMMENT
 
     BaseComponent,
 
@@ -145,7 +148,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   ],
   entryComponents: [
     // NotificationComponent,
-    NotificationsComponent,
+    //COMMENTED BY FETIHA
+    // NotificationsComponent,
+    // END OF COMMENT
     // TaskDispatcherComponent,
 
     // ServiceInitComponent,

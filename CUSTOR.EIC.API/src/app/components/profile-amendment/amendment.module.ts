@@ -6,23 +6,25 @@ import { SharedModule} from "@custor/modules/shared.module";
 import { ProfileComponent } from './profile/profile.component';
 import { ManagerListComponent } from './manager-list/manager-list.component';
 import { ServiceApplicationService} from "./service/service-application.service";
-import { NotificationsComponent } from '../notifications/notifications.component';
+// import { NotificationsComponent } from '../notifications/notifications.component';
 import { ManagerComponent } from './manager/manager.component';
 import { ManagerEditComponent } from './manager-edit/manager-edit.component';
 import { AddressService } from '../../Services/Address/address.service';
 import { MatDialog, MatDialogConfig, MatStepper } from '@angular/material';
+import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 // import { AmendmentRouting } from './amendment-routing';
 
 @NgModule({
   imports: [CommonModule,
     SharedModule,
+    RichTextEditorModule,
     AmendmentRouting
   ],
-  declarations: [AmendmentComponent, ProfileComponent, ManagerListComponent, ManagerComponent, ManagerEditComponent, NotificationsComponent],
+  declarations: [AmendmentComponent, ProfileComponent, ManagerListComponent, ManagerComponent, ManagerEditComponent],
   exports: [AmendmentComponent],
   providers: [ServiceApplicationService, AddressService],
   entryComponents: [
-    NotificationsComponent,
+    // NotificationsComponent,
   ],
 
 })

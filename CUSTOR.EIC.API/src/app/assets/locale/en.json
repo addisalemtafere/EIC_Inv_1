@@ -266,6 +266,11 @@
 
     }
   },
+  "TableHeaders":{
+   "FullNameAmh":"Name in Amh",
+   "FullNameEng":"Name in English"
+
+  },
   "form": {
     "ErrorCaption": "Error in Form",
     "ErrorMessage": "Please correct any errors and try again."

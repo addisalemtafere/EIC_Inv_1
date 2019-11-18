@@ -17,13 +17,15 @@ namespace CUSTOR.EICOnline.DAL
         {
         }
 
-        public async Task<List<AssociateAuditListDTO>> GetNewManagersList(int InvestorId)
+        public async Task<List<AssociateAuditListDTO>> GetNewManagersList(int InvestorId , int serviceApplicationId)
         {
             List<AssociateAuditListDTO> active_managersList = null;
             try
             {
                 active_managersList = (from c in Context.AssociateAudit
-                                       where c.InvestorId == InvestorId && c.IsNew == true
+                                       join s in Context.ServiceApplication
+                                       on c.ServiceApplicationId equals s.ServiceApplicationId
+                                       where c.InvestorId == InvestorId && c.IsNew == true && s.ServiceApplicationId == serviceApplicationId
                                        select new AssociateAuditListDTO
                                        {
                                            id = c.id,
