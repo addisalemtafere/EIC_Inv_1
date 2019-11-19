@@ -101,6 +101,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   private CurrentUserId: string;
   existingServiceApplication : any;
   serviceApplicationStatus : any;
+  investorId : any;
   constructor(private route: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
@@ -116,13 +117,55 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               private toastr: ToastrService,
               private fb: FormBuilder) {
     this.checkAuthoriation();
-    // create an empty object from the Investor model
+    this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
+    this.investorId = this.route.snapshot.params['InvestorId'];
+    if (this.ServiceApplicationId == undefined) {
+      this.checkServiceApplication();
+    }
     this.investor = <Investor>{};
-    // initialize the form
     this.initForm();
-    // // console.log(this.accountService.currentUser.Roles);
   }
 
+
+  ngOnInit() {
+    
+  
+    this.loadingIndicator = false;
+    this.currentLang = this.configService.language;
+    this.initStaticData('this.currentLang');
+    this.initStaticDataOwnerShip(this.currentLang);
+    this.getUserType();
+    this.fillAddressLookups();
+    this.formControlValueChanged();
+    this.getMajorDivisions();
+    this.checkServiceApplication();
+    const id = this.route.snapshot.params['InvestorId'];
+   
+    if (this.ServiceId !== undefined && this.ServiceId == ServiceEnum.CommercialRegistration) {
+      this.isCommercialReg = true;
+    }
+    if (this.ServiceId !== undefined && this.ServiceId == 1269) {
+
+    }
+    if (id < 1) {
+      this.isNewInvestor = true;
+      this.isCompany = false;
+      this.title = 'Create a new Investor';
+      return;
+    }
+    if (id) {
+      this.getInvestor(id);
+    }
+  }
+  checkServiceApplication() {
+    this.custService.getUserServiceApplication(this.investorId ).subscribe(res => {
+      this.existingServiceApplication = res;
+      this.ServiceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+      this.serviceApplicationStatus = this.existingServiceApplication.CurrentStatusId;
+      console.log(this.existingServiceApplication)
+    })
+  }
   get canManageInvestors() {
     return this.accountService.userHasPermission(Permission.manageInvestorsPermission);
   }
@@ -301,57 +344,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     });
   }
 
-  ngOnInit() {
-    this.ServiceId = this.route.snapshot.params['ServiceId'];
-    this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    if(this.ServiceApplicationId == undefined){
-      this.ServiceApplicationId = localStorage.getItem('user-serviceApplicationId');
-    }
-    console.log(this.ServiceApplicationId)
-    this.loadingIndicator = false;
-    this.currentLang = this.configService.language;
-    this.initStaticData('this.currentLang');
-    this.initStaticDataOwnerShip(this.currentLang);
-    this.getUserType();
-    this.fillAddressLookups();
-    this.formControlValueChanged();
-    this.getMajorDivisions();
-    this.checkServiceApplication();
-    const id = this.route.snapshot.params['InvestorId'];
-    console.log("=======================")
-    console.log(ServiceEnum.CommercialRegistration)
-    console.log("=======================")
-    if (this.ServiceId !== undefined && this.ServiceId == ServiceEnum.CommercialRegistration) {
-      this.isCommercialReg = true;
-    }
-    if (this.ServiceId !== undefined && this.ServiceId == 1269){
-
-    }
-    // console.log(this.ServiceId);
-    // console.log(this.isCommercialReg);
-    console.log(id);
-
-    if (id < 1) {
-      this.isNewInvestor = true;
-      this.isCompany = false;
-      this.title = 'Create a new Investor';
-      return;
-    }
-    if (id) {
-      // to-do
-      // get the selected investor either through @Input or shared service
-      this.getInvestor(id);
-    }
-
-
-  }
-  checkServiceApplication(){
-    this.custService.checkServiceApplication(this.ServiceApplicationId).subscribe(res=>{
-      this.existingServiceApplication = res;
-      this.serviceApplicationStatus = this.existingServiceApplication.CurrentStatusId
-      console.log(this.existingServiceApplication)
-    })
-  }
+ 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
     console.log(this.isInvestor);
@@ -380,7 +373,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
             this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
               Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-            this.grandNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+            this.grandNameEng.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
           this.firstName.setValidators([Validators.compose([ Validators.minLength(2),
             Validators.pattern(ET_ALPHABET_REGEX)])]);
@@ -397,7 +390,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             this.grandName.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(50),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
           if (!this.isInvestor) {
-            this.grandName.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50),
+            this.grandName.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(50),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
           }
             this.woreda.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15),
@@ -847,7 +840,12 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
             } else {
               console.log("am here")
-              this.router.navigate(['investor-profile/' + investor.InvestorId +'/'+this.ServiceApplicationId]);
+              if(this.ServiceApplicationId != undefined){
+                this.router.navigate(['investor-profile/' + investor.InvestorId +'/'+this.ServiceApplicationId]);
+              }
+              else{
+                this.router.navigate(['investor-profile/' + investor.InvestorId])
+              }
               setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
             }

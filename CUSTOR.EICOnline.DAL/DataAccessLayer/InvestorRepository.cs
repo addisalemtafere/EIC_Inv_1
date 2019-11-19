@@ -108,6 +108,7 @@ namespace CUSTOR.EICOnline.DAL
                 {
                     existingServiceApplication = Context.ServiceApplication.FirstOrDefault(s => s.ServiceApplicationId == postedInvestor.ServiceApplicationId);
                     existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                    postedInvestor.ServiceApplicationId = postedInvestor.ServiceApplicationId;
                     Context.Update(existingServiceApplication);
                     Context.Update(inv);
                 }
@@ -137,6 +138,7 @@ namespace CUSTOR.EICOnline.DAL
                         ServiceNameEnglish = service.DisplayNameEnglish,
                     };
                     Context.Add(serviceApplication);
+                    postedInvestor.ServiceApplicationId = serviceApplication.ServiceApplicationId;
                     Context.SaveChanges();
                 }
                 

@@ -125,11 +125,14 @@
               <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
                 <mat-form-field fxLayoutGap="4em" class="col4">
                   <mat-label>{{'investors.editor.Title' | translate}}</mat-label>
-                  <mat-select formControlName="Title">
+                  <mat-select formControlName="Title" required>
                     <mat-option *ngFor="let title of TitleLookup" [value]="title.LookupId">
                       {{title.English}}
                     </mat-option>
                   </mat-select>
+                  <mat-error *ngIf="Title.hasError('required')">
+                    {{'common.validation.Required' | translate}}
+                  </mat-error>
                 </mat-form-field>
                 <mat-form-field fxLayoutGap="4em" class="col4">
                   <mat-label>{{'investors.editor.Gender' | translate}}</mat-label>
@@ -309,10 +312,14 @@
       <!-- <mat-divider></mat-divider> -->
 
       <div mat-dialog-actions style="margin: auto; text-align: center" *ngIf="isInvestor && serviceApplicationStatus !='44447'">
-        <button mat-raised-button type="submit" *ngIf="!ServiceApplicationId" color="primary" style="margin-right: 10px">
+        <button mat-raised-button type="submit" *ngIf="!ServiceApplicationId"
+        [disabled]="associateForm.invalid"
+        color="primary" style="margin-right: 10px">
           {{'common.commands.Save' | translate}}
         </button>
-        <button mat-raised-button type="submit" *ngIf="ServiceApplicationId" color="primary" style="margin-right: 10px">
+        <button mat-raised-button type="submit" *ngIf="ServiceApplicationId"
+          [disabled]="associateForm.invalid"
+        color="primary" style="margin-right: 10px">
           {{'common.commands.Update' | translate}}
         </button>
         <button mat-raised-button (click)="onBack()" color="warn" type="button">
