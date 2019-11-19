@@ -37,7 +37,7 @@ namespace CUSTOR.EICOnline.DAL
                 //int m = (int)AddressType.eInvestor;
 
                 add = await Context.Address
-                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eInvestor);
+                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eInvestor);
 
                 foreach (var item in catagory)
                 {
@@ -61,13 +61,16 @@ namespace CUSTOR.EICOnline.DAL
         {
             bool isUpdate = (postedInvestor.InvestorId > 0);
             Investor inv = InvestorHelper.GetInvestor(postedInvestor);
-
-            //inv.UserId = appUser.Id; //redundent
-            //Context.CurrentUserId = appUser.Id;
-            //Context.CurrentUserName = appUser.FullName;
-
+            
             try
             {
+                if (!isUpdate)
+                {
+                    inv.UserId = appUser.Id; //redundent
+                    Context.CurrentUserId = appUser.Id;
+                    Context.CurrentUserName = appUser.FullName;
+                }
+
                 if (isUpdate)
                     Context.Update(inv);
                 else
@@ -118,7 +121,7 @@ namespace CUSTOR.EICOnline.DAL
             Investor investor = null;
             try
             {
-                int id = (int)InvestorId;
+                int id = (int) InvestorId;
                 investor = await Context.Investors
                     //.Include(p => p.Associate)
                     .FirstOrDefaultAsync(inv => inv.InvestorId == id);
@@ -141,7 +144,7 @@ namespace CUSTOR.EICOnline.DAL
             List<Investor> investor = null;
             try
             {
-                string id = (string)UserId;
+                string id = (string) UserId;
                 investor = await Context.Investors
                     .Where(inv => inv.UserId == id)
                     .ToListAsync();
@@ -164,7 +167,7 @@ namespace CUSTOR.EICOnline.DAL
             List<Investor> investor = null;
             try
             {
-                string id = (string)Tin;
+                string id = (string) Tin;
                 investor = await Context.Investors
                     .Where(inv => inv.Tin == id)
                     .ToListAsync();
@@ -293,7 +296,7 @@ namespace CUSTOR.EICOnline.DAL
 
 
                     var add = await Context.Address
-                        .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eManager);
+                        .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eManager);
 
                     if (add != null)
                     {

@@ -273,7 +273,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
       this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
     } else {
       this.router.navigate(['search-browser/' + serviceId + '/' + 0 + '/' + 0 + '/' + this.isTitle]);
-
     }
     // }
   }

@@ -91,7 +91,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   onSubmit() {
     this.formService.markFormGroupTouched(this.employmetForm);
     if (this.employmetForm.valid) {
-      if (this.employmetForm.get('totalEmployee').value > 0)
+      // if (this.employmetForm.get('CurrenttotalEmployee').value > 0) {
         if (!this.editMode) {
           this.employmentService.create(this.employmetForm.value)
             .subscribe(result => {
@@ -107,9 +107,9 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
               setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
             }, error => this.toastr.error(this.errMsg.getError(error)));
         }
-      else {
-        this.toastr.error('The sum of total Employee must be greater than zero');
-      }
+      // } else {
+      //   this.toastr.error('The sum of total Employee must be greater than zero');
+      // }
     } else {
       this.formErrors = this.formService.validateForm(this.employmetForm, this.formErrors, false);
     }
