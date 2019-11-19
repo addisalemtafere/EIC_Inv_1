@@ -402,7 +402,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     if (serviceId == 1028){
       this.router.navigate(['permit-amendment/amend-project/' + serviceId +'/' + investorId + '/' + serviceApplicationId + '/' + projectId + '/' + workflowId]);
     }
-    if (serviceId == 1269){
+    if (serviceId == 1239){
       this.router.navigate(['investor-profile/' + investorId + '/' + serviceApplicationId + '/' + serviceId]);
     }
     

@@ -6,6 +6,7 @@ import { AccountService } from "@custor/services/security/account.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { InvestorService } from '../investor.service';
 import { NotificationComponent } from "../../project-profile/notification/notification.component";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-investor-profile',
@@ -25,25 +26,33 @@ export class InvestorProfileComponent implements OnInit {
   public investorId :any;
   public ServiceApplicationId :any;
   public serviceId :any;
+  public existingServiceApplication :any;
+  public serviceApplicationStatus :any;
   public completed = false;
   public completedProfile = false;
   constructor(private dataSharing: DataSharingService,
     private router: Router,
+    private toaster : ToastrService,
     public activatedRoute: ActivatedRoute,
     private investorService: InvestorService,
     public dialog: MatDialog,
     private accountService: AccountService) {
-    console.log(this.activatedRoute.snapshot.params)
     this.investorId = this.activatedRoute.snapshot.params.InvestorId;
-    this.ServiceApplicationId = this.activatedRoute.snapshot.params.ServiceApplicationId;
-    if (this.ServiceApplicationId==undefined){
-      this.ServiceApplicationId = localStorage.getItem('user-serviceApplicationId');
-      console.log(this.ServiceApplicationId)
-    } 
-    console.log(this.ServiceApplicationId);
-    console.log(this.investorId);
+    
+  }
+  checkServiceApplication() {
+    this.investorService.getUserServiceApplication(this.investorId).subscribe(res => {
+      this.existingServiceApplication = res;
+      this.ServiceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+      this.serviceApplicationStatus = this.existingServiceApplication.CurrentStatusId;
+      console.log(this.existingServiceApplication)
+    })
   }
   ngOnInit() {
+    this.ServiceApplicationId = this.activatedRoute.snapshot.params.ServiceApplicationId;
+    if (this.ServiceApplicationId == undefined) {
+      this.checkServiceApplication();
+    } 
     this.hasInvestor = localStorage.getItem('InvestorId');
     console.log(localStorage.getItem('profile-completed'))
     if (localStorage.getItem('profile-completed') == 'true'){
@@ -54,8 +63,11 @@ export class InvestorProfileComponent implements OnInit {
       }
       else{
         console.log("profile completed");
-        this.completed = true;
-        this.completedProfile = true;
+        /// TEMPORARY
+        this.completed = false;
+        this.completedProfile = false;
+
+        // TEMPORARY
       }
       
     }
@@ -100,9 +112,41 @@ export class InvestorProfileComponent implements OnInit {
     this.router.navigate(['/service-list']);
   }
   submitApplication(){
-    this.investorService.submitServiceApplication(this.ServiceApplicationId).subscribe(res=>{
-      console.log(res)
-      this.completed = true;
+    // if (this.ServiceApplicationId == undefined){
+    //   this.checkServiceApplication();
+    // }
+    console.log(this.ServiceApplicationId);
+    if (this.ServiceApplicationId == undefined){
+      this.getServiceApplicationIdAndFinish();
+    }
+    if (this.ServiceApplicationId != undefined){
+      this.investorService.submitServiceApplication(this.ServiceApplicationId).subscribe(res => {
+        console.log(res)
+        if (res) {
+          this.toaster.success('Your Application has been Submited');
+          this.completed = true;
+          this.router.navigate(['/dashboard']);
+        }
+      })
+    }
+   
+    
+  }
+  getServiceApplicationIdAndFinish(){
+    this.investorService.getUserServiceApplication(this.investorId).subscribe(res => {
+      this.existingServiceApplication = res;
+      this.ServiceApplicationId = this.existingServiceApplication.ServiceApplicationId;
+      this.serviceApplicationStatus = this.existingServiceApplication.CurrentStatusId;
+      if(this.ServiceApplicationId){
+        this.investorService.submitServiceApplication(this.ServiceApplicationId).subscribe(res => {
+          console.log(res)
+          if (res) {
+            this.completed = true;
+            this.toaster.success('Your Application has been Submited');
+            this.router.navigate(['/dashboard']);
+          }
+        })
+      }
     })
   }
   addMessage(){

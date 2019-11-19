@@ -345,7 +345,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       cGrandName: ['', Validators.pattern(ET_ALPHABET_REGEX)],
       cNationality: [''], // Ethiopian
       cGender: ['1'],
-      Title: ['100'],
+      Title: ['', Validators.required],
       workFlowId: this.workFlowId,
       Origin: [false],
       'address': new FormGroup({

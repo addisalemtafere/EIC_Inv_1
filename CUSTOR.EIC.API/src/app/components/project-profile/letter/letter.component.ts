@@ -84,7 +84,16 @@ export class LetterComponent implements OnInit {
   public gridData: any;
   public showTemplate: boolean = false;
   public rteValue:string =``;
-
+  public tools: object = {
+    items: ['Undo', 'Redo', '|',
+      'Bold', 'Italic', 'Underline', 'StrikeThrough', '|',
+      'FontName', 'FontSize', 'FontColor', '|',
+      'LowerCase', 'UpperCase', '|',
+      'Formats', 'Alignments', '|', 'OrderedList', 'UnorderedList', '|',
+      'Indent', 'Outdent', '|', 'CreateLink',
+      'Image', '|', 'ClearFormat', 'Print',  '|', 'FullScreen']
+  };
+  public height: number = 1000;
  // public data: Object = '<p>Badminton</p>';
   constructor(
     private lettertepmlateService: LettertepmlateService,
