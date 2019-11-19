@@ -89,6 +89,14 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
     return this.taxexemptionForm.get('RequestDate');
   }
 
+  get FileNo() {
+    return this.taxexemptionForm.get('FileNo');
+  }
+
+  get BusinessLicenseNo() {
+    return this.taxexemptionForm.get('BusinessLicenseNo');
+  }
+
   // private getServiceApplicationRenewal() {
   //   this.projectRenewalService.getRenewalByServiceApplicationId(this.ServiceApplicationId).subscribe(result => {
   //     // console.log(result.ProjectRenewal[0]);
@@ -196,7 +204,9 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
         value: '',
         disabled: true
       }, Validators.compose([Validators.required, Validators.maxLength(1), Validators.pattern('^[0-9 .]+$')])],
-      RequestDate: [new Date(), Validators.required]
+      RequestDate: [new Date(), Validators.required],
+      FileNo: ['', Validators.required],
+      BusinessLicenseNo: ['', Validators.required]
     });
   }
 
@@ -218,28 +228,28 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   public onSubmit() {
+    console.log('hi');
     if (this.hasValidationErrors()) {
       return;
-    }
-    else {
-      if (this.editMode === false) {
-        this.projectProfileService.ProjectsDetail(+this.ProjectId).subscribe(result => {
-          if (result.BusinessLicenseNo == null) {
-            this.existanceNotification('The Project Does not Have Business License');
-            return;
-          }
-          else if (this.TaxExemptionModels.length > 0 && this.isNewTaxExemption) {
-            this.existanceNotification('Tax Exemption Incentive Already Given');
-            return;
-          }
-          else {
-            this.doSaveExemption();
-          }
+    } else {
+      // if (this.editMode === false) {
+      // this.projectProfileService.ProjectsDetail(+this.ProjectId).subscribe(result => {
+      // if (result.BusinessLicenseNo == null) {
+      //   this.existanceNotification('The Project Does not Have Business License');
+      //   return;
+      // }
+      // else if (this.TaxExemptionModels.length > 0 && this.isNewTaxExemption) {
+      //   this.existanceNotification('Tax Exemption Incentive Already Given');
+      //   return;
+      // }
+      // else {
+      this.doSaveExemption();
+      // }
 
-        }, error => this.errMsg.getError(error));
+      // }, error => this.errMsg.getError(error));
 
 
-      }//TODO  Jumped Validators
+      // }//TODO  Jumped Validators
       this.loadingIndicator = true;
 
     }
@@ -345,6 +355,8 @@ export class TaxExemptionComponent implements OnInit, OnDestroy, AfterContentChe
       RevenueBranch: formModel.RevenueBranch,
       RevenueBranchDescription: this.setSelectedValue,
       RequestDate: formModel.RequestDate,
+      FileNo: formModel.FileNo,
+      BusinessLicenseNo: formModel.BusinessLicenseNo,
       ExemptionYearRequested: this.taxexemptionForm.get('ExemptionYearRequested').value,
       ProjectId: +this.ProjectId
     };

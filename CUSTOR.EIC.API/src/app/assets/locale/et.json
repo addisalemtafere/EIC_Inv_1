@@ -94,8 +94,13 @@
     "customerRegistration": "Customer Registration",
     "changePassword": "Change Password",
     "lettertemplate": "Letter Tempalte",
+    "commericalRegistration": "Commercial Registration",
+    "TaxExemption": "ግብር እፎይታ",
+    "DutyFree": "ቀረጥ ነጻ",
+    "DataBrowser": "Incentive Data Browser",
     "Amendment": "ማሻሻያ",
     "commericalRegistration": "Commercial Registration"
+
   },
   "pageHeader": {
     "Dashboard": "Dashboard",
@@ -279,7 +284,8 @@
     "CurrencyType": "ገንዘብ አይነት",
     "Amount": "መጠን",
     "InvoiceNo": "ኢንቮይስ ቁጥር",
-    "Phase": "ዙር"
+    "Phase": "ዙር",
+    "FileNo": "ፋይል ቁጥር"
   },
   "incentiverequest": {
     "CustomsBranch": "ጉምሩክ ጣቢያ",
@@ -301,7 +307,9 @@
   },
   "taxexemption": {
     "RevenueBranch": "የገቢዎች ቅርንጫፍ",
-    "ExemptionYear": "የእፎይታ ጊዜ"
+    "ExemptionYear": "የእፎይታ ጊዜ",
+    "FileNo": "ፋይል ቁጥር",
+    "BusinessLicenseNo": "ንግድ ፍቃድ ቁጥር"
   },
   "billofmaterrial": {
     "Phase": "ዙር",

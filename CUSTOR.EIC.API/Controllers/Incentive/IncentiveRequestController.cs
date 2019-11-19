@@ -40,6 +40,14 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       return await _IncentiveRequestRepoo.GetIncentiveRequestsByServiceAppIds(lang,id, page, pageSize);
     }
     [HttpGet]
+    [Route("api/IncentiveRequest/ByProjectId/{id:int}/{lang}")]
+    public async Task<IEnumerable<IncentiveRequestsDTO>> GetIncentiveRequestsByProjectId(string lang, int id,
+      int page = -1,
+      int pageSize = 10)
+    {
+      return await _IncentiveRequestRepoo.GetIncentiveRequestsByProjectIds(lang,id, page, pageSize);
+    }
+    [HttpGet]
     [Route("api/IncentiveRequest/ByServiceAppIds/{id:int}/{lang}")]
     public async Task<IEnumerable<IncentiveRequestDTO>> GetIncentiveRequestsByServiceAppIds(string lang, int id,
       int page = -1,

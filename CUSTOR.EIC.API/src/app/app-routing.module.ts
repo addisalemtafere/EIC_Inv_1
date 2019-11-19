@@ -145,7 +145,7 @@ import {AuthGuard} from '@custor/services/security/auth-guard.service';
       },
       {
         path: 'letter/:projectId/:serviceId/:serviceApplicationId/:isForDetail',
-        loadChildren: './components/project-profile/letter/letter.module#LetterModule',
+        loadChildren: 'app/components/project-profile/letter/letter.module#LetterModule',
         canActivate: [AuthGuard]
       },
       {
@@ -280,7 +280,7 @@ import {AuthGuard} from '@custor/services/security/auth-guard.service';
         canActivate: [AuthGuard]
       },
       {
-        path: 'search-browser/:ServiceId/:InvestorId/:ProjectId',
+        path: 'search-browser/:ServiceId/:InvestorId/:ProjectId/:Title',
         loadChildren: 'app/components/search-browser/search-browser.module#SearchBrowserModule',
         canActivate: [AuthGuard]
       },
@@ -407,7 +407,7 @@ import {AuthGuard} from '@custor/services/security/auth-guard.service';
 
       {path: '', loadChildren: 'app/components/home/landing.module#LandingModule'},
       {
-        path: 'project-search/:ServiceId/:InvestorId/:ProjectId',
+        path: 'project-search/:ServiceId/:InvestorId/:ProjectId/:Title',
         loadChildren: 'app/components/project-profile/project-search/project-search.module#ProjectSearchModule',
         canActivate: [AuthGuard]
       },

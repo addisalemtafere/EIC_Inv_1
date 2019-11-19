@@ -144,6 +144,7 @@ export class AppConfiguration {
     ServiceApplicationCancellation: 'api/ServiceApplications/ServiceApplicationCancellation',
     ServiceApplicationSubstitute: 'api/ServiceApplications/ServiceApplicationSubstitute',
     ServiceApplicationBillOfMaterial: 'api/ServiceApplications/ServiceApplicationBillOfMaterial',
+    BillOfMaterialByProjectId: 'api/ServiceApplications/BillOfMaterialByProjectId',
 
     ProjectsByInvestorId: 'api/Projects/ByInvestorId',
     SearchInvestor: 'api/SearchInvestor',
@@ -220,6 +221,7 @@ export class AppConfiguration {
     CapitalRegistrations: 'api/CapitalRegistrations',
     CapitalRegistrationsByProject: 'api/CapitalRegistrations/ByProject',
     incentiveRequestByServiceAppId: 'api/IncentiveRequest/ByServiceAppId',
+    incentiveRequestByProjectId: 'api/IncentiveRequest/ByProjectId',
     incentiveRequestByServiceAppIds: 'api/IncentiveRequest/ByServiceAppIds',
 
     IncentiveRequestDetailofSparePart: 'api/IncentiveRequestDetail/getSparePart',
@@ -235,7 +237,9 @@ export class AppConfiguration {
 
 
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
-    IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/GetByProjectId',
+    IncentiveBoMImportItemByProjectIds: 'api/IncentiveBoMRequestItems/GetByProjectId',
+    IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/ByProjectId',
+    IncentiveBoMImportItemByBomId: 'api/IncentiveBoMRequestItems/GetByBomId',
 
 
     lettersByProjectId: 'api/letters/ByProjectId',

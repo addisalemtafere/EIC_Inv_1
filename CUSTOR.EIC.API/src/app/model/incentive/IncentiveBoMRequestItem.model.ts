@@ -19,6 +19,7 @@ export class IncentiveBoMRequestItemModel {
   public IsDeleted: Boolean;
   public ApprovedQuantity?: number;
   public Balance?: number;
+  public Phase?: number;
   public EventDatetime?: Date;
   public UploadDate?: Date;
   public CreatedUserId: number;

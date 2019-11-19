@@ -61,6 +61,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   private investors: Investor[];
   public projectList: ProjectModel[];
   private ServiceId: any;
+  private Title: any;
   private isForDetail: any;
   private ServiceApplicationId: any;
   private InvestorId: any;
@@ -83,7 +84,8 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   ngOnInit() {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
-    console.log(this.ServiceId);
+    this.Title = this.route.snapshot.params['Title'];
+    console.log(this.ServiceId)
     this.initForm();
     this.getInvestors();
     this.title = localStorage.getItem('title');
@@ -159,7 +161,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
     } else {
       // localStorage.setItem('InvestorId', InvestorId);
-      this.router.navigate(['/project-search/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
+      this.router.navigate(['/project-search/' + this.ServiceId + '/' + InvestorId + '/' + 0 + '/' + this.Title]);
 
     }
   }
@@ -345,7 +347,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   startApplication(projectList: ProjectModel) {
-
     const projectName = projectList.ProjectName;
     const projectId = projectList.ProjectId;
     const projectStatus = projectList.ProjectStatus;

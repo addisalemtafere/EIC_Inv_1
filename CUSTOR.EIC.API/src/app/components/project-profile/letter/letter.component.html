@@ -1,6 +1,7 @@
 <form [formGroup]="letterForm" novalidate>
   <mat-card class="margin-2 margin-top-20">
-    <div fxFlex="25" style="float: right;">
+
+    <!-- <div fxFlex="25" style="float: right;">
       <div fxFlex="25" style="float: right;margin-right: 20px;">
         <span *ngIf="ShowSave">
           <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
@@ -12,8 +13,7 @@
           Letter</button>
       </span>
       <mat-divider></mat-divider>
-    </div>
-
+    </div> -->
     <div fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em">
       <div class="block" fxLayoutGap="2em">
         <mat-form-field style="width: 150px">
@@ -26,6 +26,21 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <div fxFlex="25" style="float: right;">
+        <span *ngIf="attachment">
+        <mat-form-field [fxFlex]="20">
+          <mat-label>Attachment</mat-label>
+          <input type="text" matInput required
+                 formControlName="Attachment">
+          <mat-error *ngIf="Attachment.hasError('pattern')">
+            Only neumbric charcters are allowed!
+          </mat-error>
+          <mat-error *ngIf="!Attachment.hasError('maxlength')">
+            Maximum charcters length is 2!
+          </mat-error>
+        </mat-form-field>
+        </span>
+        </div>
         <span *ngIf="revenueBranchu">
           <mat-form-field fxFlex="40">
             <mat-label>Revenue Branch</mat-label>
@@ -57,40 +72,35 @@
             </mat-error>
           </mat-form-field>
         </span>
-        <span *ngIf="inoviceNo">
-          <mat-form-field [fxFlex]="20">
-            <mat-label>Invoice No</mat-label>
-            <input type="text" matInput required formControlName="InvoiceNo">
-          </mat-form-field>
-        </span>
-        <span *ngIf="categoryCode">
-          <mat-form-field [fxFlex]="20">
-            <mat-label>Category Code</mat-label>
-            <input type="text" matInput required formControlName="CategoryCode">
-          </mat-form-field>
-        </span>
-
-        <span *ngIf="chassisNo">
-          <mat-form-field [fxFlex]="20">
-            <mat-label>Chassis No</mat-label>
-            <input type="text" matInput required formControlName="ChassisNo">
-          </mat-form-field>
-        </span>
+        
       </div>
-
+      <span *ngIf="isForDetails">
+      <button mat-raised-button="" color="primary" *ngIf="enableButtonGenerate"
+              (click)="generatePDF()">Generate Letter</button>
+        </span>
+      <div fxFlex="25" style="float: right;margin-right: 20px;">
+        <span *ngIf="ShowSave">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+        <mat-divider></mat-divider>
+          </span>
+      </div>
     </div>
     <!--apiKey="4yzxfc219romk1dtk7h8c9q8zci4aj73ls684uxob669uvo4"-->
-    <editor id="letterContent" apiKey="vjqlb0zduwhi2tlmowu26x439bchzpwpe0pu5es07n6hpryn" class="full-width"
+    <!-- <editor id="letterContent" apiKey="vjqlb0zduwhi2tlmowu26x439bchzpwpe0pu5es07n6hpryn" class="full-width"
       formControlName="LetterContent" [init]="{plugins: 'print',
             height : 600,
             theme: 'modern',
             toolbar_items_size: 'small'}">
 
-    </editor>
-
+    </editor> -->
   </mat-card>
+  <div fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em">
+    <ejs-richtexteditor id='defaultRTE' [value]='rteValue' [placeholder]='placeholder' [showCharCount]='true'>
+    </ejs-richtexteditor>
+  </div>
 </form>
-<!-- <mat-card class="margin-2 padding-0" style="width: 920px">
+<br><br><br>
+ <mat-card class="margin-2 padding-0" style="width: 920px">
   <mat-card-header>
     <mat-card-subtitle class="sub-title">List of Letters
     </mat-card-subtitle>
@@ -135,9 +145,6 @@
       </mat-row>
     </mat-table>
   </mat-card-content>
-</mat-card> -->
-<ejs-richtexteditor id='defaultRTE' [value]='rteValue' [placeholder]='placeholder'  [showCharCount]='true' >
- 
+</mat-card>
 
-</ejs-richtexteditor>
 

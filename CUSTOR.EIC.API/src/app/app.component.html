@@ -230,7 +230,19 @@
             </a>
           </mat-list>
         </mat-expansion-panel>
-
+        <mat-expansion-panel
+          *ngIf="canManageManageIncentiveAssignedServices"
+          #DataBrowser
+          [class.mat-elevation-z0]="!DataBrowser.expanded">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>reorder</mat-icon>
+              <a  mat-list-item=""
+                  (click)="startService('1045', 'DataBrowser')">
+                {{ "mainMenu.DataBrowser" | translate }}</a>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
         <mat-expansion-panel
           *ngIf="            (canManageRoles || canManageUsers || canManageAdmins) && !isInvestor          " #admin
           [class.mat-elevation-z0]="!admin.expanded">

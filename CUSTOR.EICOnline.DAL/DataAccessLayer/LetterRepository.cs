@@ -17,8 +17,11 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
         public Task<List<Letter>> GetLetters(int id, string letterType, string letterType1, int page = 0,
             int pageSize = 15)
         {
+//            string query1 =
+//                $@"(select distinct (Select English from Lookup Where Lookup.LookupId=Letter.LetterType) as LetterType,LetterId,LetterContent,UserName,ProjectId,RequestDate,LetterNo from Letter)";
             IQueryable<Letter> Letters = Context.Letter
                 .Where(Let => Let.ProjectId == id && (Let.LetterType == letterType || Let.LetterType == letterType1))
+                //.FromSql(query1)
                 .OrderBy(Let => Let.LetterId);
             if (page > 0)
             {
@@ -32,9 +35,10 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
 
         public Task<List<Letter>> GetLettersByProjectId(string lang, int id, int page = 0, int pageSize = 15)
         {
-            string FieldName = StaticDataHelper.GetFieldName(lang);
+//            string FieldName = StaticDataHelper.GetFieldName(lang);
+//            (Select {FieldName} from Lookup Where Lookup.LookupId=Letter.LetterType) as
             string query1 =
-                $@"(select (Select {FieldName} from Lookup Where LookUpTypeId='10783' AND Lookup.LookupId=Letter.LetterType) as LetterType from Letter)";
+                $@"(select distinct  LetterType,LetterId,LetterContent,UserName,ProjectId,RequestDate,LetterNo from Letter)";
 
             IQueryable<Letter> Letters = Context.Letter
                 .Where(Let => Let.ProjectId == id)

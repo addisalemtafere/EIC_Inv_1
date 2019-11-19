@@ -795,35 +795,27 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
         Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
     }
-    this.grandName.setValidators([Validators.compose([Validators.minLength(2),
+    this.grandName.setValidators([Validators.compose([Validators.minLength(1),
       Validators.pattern(ET_ALPHABET_REGEX)])]);
     if (!this.isInvestor) {
-      this.grandName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+      this.grandName.setValidators([Validators.compose([Validators.minLength(1),
         Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
     }
-    this.woredaEng.setValidators([Validators.compose([Validators.maxLength(20),
-      Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    this.woredaEng.setValidators([Validators.compose([Validators.maxLength(20)])]);
     if (!this.isInvestor) {
-      this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
-        Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.maxLength(20)])]);
     }
-    this.woreda.setValidators([Validators.compose([Validators.maxLength(20),
-      Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    this.woreda.setValidators([Validators.compose([Validators.maxLength(20)])]);
     if (!this.isInvestor) {
-      this.woreda.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
-        Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      this.woreda.setValidators([Validators.compose([Validators.required, Validators.maxLength(20)])]);
     }
-    this.kebeleEng.setValidators([Validators.compose([Validators.maxLength(20),
-      Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    this.kebeleEng.setValidators([Validators.compose([Validators.maxLength(20)])]);
     if (!this.isInvestor) {
-      this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
-        Validators.pattern(ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.maxLength(20)])]);
     }
-    this.kebele.setValidators([Validators.compose([Validators.maxLength(20),
-      Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+    this.kebele.setValidators([Validators.compose([Validators.maxLength(20)])]);
     if (!this.isInvestor) {
-      this.kebele.setValidators([Validators.compose([Validators.required, Validators.maxLength(20),
-        Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX)])]);
+      this.kebele.setValidators([Validators.compose([Validators.required, Validators.maxLength(20)])]);
     }
     this.nationality.setValidators([Validators.required]);
     // this.phoneDirect.setValidators([Validators.compose([Validators.maxLength(10)])]);

@@ -35,6 +35,7 @@
             <ejs-richtexteditor id='apiRTE' #apiRTE [placeholder]='placeholder' [showCharCount]='true'>
             </ejs-richtexteditor>
           </div>
+<<<<<<< HEAD
           <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
 
             <div class="block" fxFlex="10%">
@@ -43,6 +44,30 @@
                 {{editMode ? 'Update' : 'Save'}}
               </button>
             </div>
+=======
+        </div>
+      </div>
+      <div fxFlex="75" fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em" style="padding: 10px;"
+           fxFill="100">
+        <!--<editor id="letterContent"-->
+                <!--apiKey="4yzxfc219romk1dtk7h8c9q8zci4aj73ls684uxob669uvo4"-->
+                <!--class="full-width"-->
+                <!--formControlName="LetterContent"-->
+                <!--[init]="{plugins: 'print',-->
+            <!--height : 600,-->
+            <!--theme: 'modern',-->
+<!--toolbar_items_size: 'small'}">-->
+        <!--</editor>-->
+        <!--<angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent"></angular-editor>-->
+      </div>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
+        <div class="block" fxFlex="10%">
+          <button class="custom-button" (click)="onSubmit()">
+            <mat-icon color="accent" class="mat-18">done</mat-icon>
+            {{editMode ? 'Save' : 'Add'}}
+          </button>
+        </div>
+>>>>>>> 5a1f99a32a767371e7183acd8d59942582fce2cc
 
           </div>
         </mat-card-content>
@@ -53,6 +78,7 @@
   <!--<angular-editor id="editor1" formControlName="htmlContent1" [config]="editorConfig"></angular-editor>-->
 </mat-card>
 <!--*ngIf="LetterTemplateModels.length>0"-->
+<<<<<<< HEAD
 <mat-card class="mat-elevation-z8 " style="margin-top: 2em" >
   <mat-card-header>
     <mat-card-subtitle class="sub-title">List of Letter Template
@@ -102,3 +128,55 @@
     </mat-table>
   </mat-card-content>
 </mat-card>
+=======
+<div fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em">
+  <mat-card class="mat-elevation-z8" fxFlex="90">
+    <mat-card-header>
+      <mat-card-subtitle class="sub-title">List of Letter Template
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="spinner-container" *ngIf="loading ">
+        <mat-progress-bar mode="query"></mat-progress-bar>
+      </div>
+      <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="LetterType">
+          <mat-header-cell *matHeaderCellDef fxFlex="50">Letter Type</mat-header-cell>
+          <mat-cell *matCellDef="let LetterTemplateModels" fxFlex="50"> {{LetterTemplateModels.LetterType}}
+          </mat-cell>
+        </ng-container>
+        <!--<ng-container matColumnDef="Title" >-->
+        <!--<mat-header-cell *matHeaderCellDef fxFlex="20" >Title</mat-header-cell>-->
+        <!--<mat-cell *matCellDef="let LetterTemplateModels" fxFlex="20"> {{LetterTemplateModels.Title  }}</mat-cell>-->
+        <!--</ng-container>-->
+        <!--<ng-container matColumnDef="ToOrg" >-->
+        <!--<mat-header-cell *matHeaderCellDef fxFlex="8"> ToOrg</mat-header-cell>-->
+        <!--<mat-cell *matCellDef="let LetterTemplateModels" fxFlex="8"> {{LetterTemplateModels.ToOrg }}</mat-cell>-->
+        <!--</ng-container>-->
+        <ng-container matColumnDef="Action">
+          <mat-header-cell fxFlex="18" *matHeaderCellDef>Action</mat-header-cell>
+          <mat-cell fxFlex="18" *matCellDef="let LetterTemplateModels;let i=index;">
+            <div>
+              <a class="pointer" mat-min-fab matTooltip="Click here to edit the product"
+                 (click)="onEditLetterTemplate(i)">
+                <mat-icon color="primary" class="mat-18">edit</mat-icon>
+                Edit
+              </a>
+              <a class="pointer" mat--mini-fab color="warn" matTooltip="Click here to delete the product"
+                 (click)="deleteLetterTemplate(i,LetterTemplateModels.IncentiveRequestItemId)">
+                <mat-icon color="warn">delete</mat-icon>
+                Delete
+              </a>
+            </div>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns">
+        </mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+        </mat-row>
+      </mat-table>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+>>>>>>> 5a1f99a32a767371e7183acd8d59942582fce2cc

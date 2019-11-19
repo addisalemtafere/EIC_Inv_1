@@ -57,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   private m: IncentiveLogModel;
   private subscription: Subscription;
   private allServices: ServiceModel[] = [];
+  private isTitle: number;
 
   constructor(storageManager: LocalStoreManager,
               public notificationService: NotificationService,
@@ -173,7 +174,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         if (this.authService.isLoggedIn) {
           this.getAllServices();
         }
-      //  alert(url.indexOf('dashboard'))
+        //  alert(url.indexOf('dashboard'))
         if ((url.indexOf('dashboard') > 0)) {
 
           if (this.authService.isLoggedIn) {
@@ -260,15 +261,21 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   public startService(serviceId: any, title: string) {
     localStorage.setItem('title', title);
+    console.log("i am here search browser 11");
+    if (title == "databrowser" || title == "DataBrowser") {
+      this.isTitle = 1;
+    } else {
+      this.isTitle = 0;
+    }
+    // if (serviceId == 1235) {
     console.log("i am here search browser 22");
-
     if (serviceId == ServiceEnum.NewIP) {
-      console.log("i am here");
       this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
     } else {
-      this.router.navigate(['search-browser/' + serviceId + '/' + 0 + '/' + 0]);
+      this.router.navigate(['search-browser/' + serviceId + '/' + 0 + '/' + 0 + '/' + this.isTitle]);
 
     }
+    // }
   }
 
   clearLocalStorage() {

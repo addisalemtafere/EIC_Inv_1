@@ -146,6 +146,10 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     return this.incentiveRequestItemForm.get('IncentiveCategoryId');
   }
 
+  get FileNo() {
+    return this.incentiveRequestItemForm.get('FileNo');
+  }
+
   ngOnInit() {
     this.currentLang = this.configService.language;
     this.initForm();
@@ -163,8 +167,13 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       .subscribe((params: Params) => {
         // this.projectId = +params['id'];
         // if (16107 > 1) {
-        this.getIncentiveReaquestItmes(this.ProjectId, this.ServiceApplicationId);
-        this.getIncentiveReaquestItmesByServiceAppId(this.ServiceApplicationId);
+        if (this.ServiceApplicationId == 0) {
+          //this.getIncentiveReaquestItmesByProjectId(this.ProjectId);
+          this.hasManyDetial = true;
+        } else {
+          this.getIncentiveReaquestItmes(this.ProjectId, this.ServiceApplicationId);
+          this.getIncentiveReaquestItmesByServiceAppId(this.ServiceApplicationId);
+        }
         // }
       });
   }
@@ -213,6 +222,16 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
 
   getIncentiveReaquestItmesByServiceAppId(ServiceApplicationId) {
     this.IncentiveRequestService.getIncentiveRequestByServiceApplicationId(ServiceApplicationId, this.currentLang).subscribe(result => {
+      if (result.length > 0) {
+        this.IncentiveRequestModels = result;
+        this.dataSource = new MatTableDataSource<IncentiveRequestModel>(this.IncentiveRequestModels);
+        this.loading = false;
+      }
+    }, error => this.errMsg.getError(error));
+  }
+
+  getIncentiveReaquestItmesByProjectId(ProjectId) {
+    this.IncentiveRequestService.getIncentiveRequestByProjectsId(ProjectId, this.currentLang).subscribe(result => {
       if (result.length > 0) {
         this.IncentiveRequestModels = result;
         this.dataSource = new MatTableDataSource<IncentiveRequestModel>(this.IncentiveRequestModels);
@@ -270,6 +289,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       Quantity: this.IncentiveRequestModel.Quantity == null ? 0 : this.IncentiveRequestModel.Quantity,
       CustomsSiteId: this.IncentiveRequestModel.CustomsSiteId == null ? 0 : this.IncentiveRequestModel.CustomsSiteId,
       Phase: this.IncentiveRequestModel.Phase == null ? 0 : this.IncentiveRequestModel.Phase,
+      FileNo: this.IncentiveRequestModel.FileNo,
+      IsBankPermit: this.IncentiveRequestModel.IsBankPermit,
+      IsExporter: this.IncentiveRequestModel.IsExporter,
       // IsApproved: this.IncentiveRequestModel.IsApproved
     });
     // // console.log(this.IncentiveRequestModel);
@@ -289,6 +311,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       MotorNo: ['', Validators.required],
       InvoiceNo: ['', Validators.compose([Validators.required, Validators.maxLength(15)])],
       ExchangeRate: [this.ExchangeRate, Validators.required],
+      FileNo: ['', Validators.required],
+      IsBankPermit: [false, Validators.required],
+      IsExporter: [false, Validators.required],
     });
   }
 
@@ -306,11 +331,10 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
 
     if (this.hasValidationErrors()) {
       return;
-    }
-    // else if (this.CheckExistance()) {
-    //   return;
-    // }
-    else {
+    } else if (this.CheckExistance() == true) {
+      this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
+      return;
+    } else {
       this.loadingIndicator = true;
       return this.IncentiveRequestService.saveIncentiveRequest(
         this.getEditedIncentiveItem()).subscribe((incentiveRequestModel: IncentiveRequestModel) => {
@@ -320,7 +344,7 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     }
   }
 
-  CheckExistance() {
+  public CheckExistance() {
     if (this.incentiveRequestItemForm.get('IncentiveCategoryId').value == '10778') {
       this.IncentiveRequestItemService
         .getIncentiveBoMRequestDetails(this.ProjectId, this.incentiveRequestItemForm.get('IncentiveCategoryId').value, this.incentiveRequestItemForm.get('Phase').value)
@@ -328,10 +352,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
           // console.log(this.BOMItems);
           this.BOMItems = items;
           if (this.BOMItems.length === 0) {
-            this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
+            //this.toastr.error('You Cannot Save Incentive Request, Because there is no Uploaded Construction Materials in this Batch  ');
             return true;
-          }
-          else {
+          } else {
             return false;
           }
 
@@ -340,13 +363,15 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
     return false;
   }
 
-
   onEditIncentiveItem(index: number) {
     this.editMode = true;
     this.IncentiveItemtEditIndex = index;
     this.IncentiveRequestModel = this.IncentiveRequestModels[index];
     this.incentiveRequestItemForm.patchValue(this.IncentiveRequestModel);
-    this.isNewIncentiveRequestItem = true;
+    if (this.IncentiveRequestModel.IncentiveCategoryId == 10778) {
+      this.showPhase = true;
+    }
+    this.isNewIncentiveRequestItem = false;
   }
 
   hasValidationErrors() {
@@ -499,6 +524,9 @@ export class IncentiveRequestComponent implements OnInit, OnDestroy, AfterConten
       RequestDate: formModel.RequestDate,
       InvoiceNo: formModel.InvoiceNo,
       Phase: formModel.Phase,
+      FileNo:formModel.FileNo,
+      IsBankPermit:formModel.IsBankPermit,
+      IsExporter:formModel.IsExporter,
       ProjectId: this.ProjectId,
       ServiceApplicationId: this.ServiceApplicationId
     };
