@@ -23,7 +23,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public int ServiceApplicationId { get; set; }
         public int? ProjectId { get; set; }
-        public int InvestorId { get; set; }
+        public int? InvestorId { get; set; }
         public int? ServiceId { get; set; }
         public int? CurrentStep { get; set; }
         public int? TodoTaskId { get; set; }
@@ -59,7 +59,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public Investor Investor { get; set; }
 
         public Project Project { get; set; }
-
+        // ADDED BY FETIHA
+        public int ? Status { get; set; }
         //public IncentiveBoMRequestItem IncentiveBoMRequestItem { get; set; }
         public Service Service { get; set; }
         public TodoTask TodoTask { get; set; }

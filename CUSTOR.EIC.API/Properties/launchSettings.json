@@ -18,7 +18,8 @@
       "launchUrl": "http://localhost:5050",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:5050"
     },
     "EICOnline": {
       "commandName": "IISExpress",

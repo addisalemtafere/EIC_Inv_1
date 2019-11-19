@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {MatSnackBar, MatTableDataSource} from '@angular/material';
 import {determineId} from '@custor/helpers/compare';
 import {AppConfiguration} from '../../config/appconfig';
@@ -15,12 +15,13 @@ import {LettertepmlateService} from './lettertepmlate.service';
 import {ConfigurationService} from "@custor/services/configuration.service";
 // import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-
+import { RichTextEditorComponent, CountService } from '@syncfusion/ej2-angular-richtexteditor';
 @Component({
   selector: 'app-lettertemplate',
   templateUrl: './lettertemplate.component.html',
   styleUrls: ['./lettertemplate.component.scss'],
-  providers:[ConfigurationService]
+  providers:[ConfigurationService],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LettertemplateComponent implements OnInit, OnDestroy {
   // public Editor = ClassicEditor;
@@ -65,14 +66,19 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   //   toolbarPosition: 'top',
   // };
   @ViewChild('form')
+  @ViewChild('apiRTE')
+  public rteObj: RichTextEditorComponent;
   incentiveRequestItemSub: Subscription;
   lookupSub: Subscription;
   title: string;
+  LetterTemplateId: any;
   isNewLetterTempalte = false;
+  showTextEditor = false;
   LetterTemplateModel: LetterTemplateModel;
   LetterTemplateModels: LetterTemplateModel[] = [];
   letterTemplateForm: FormGroup;
   editMode = false;
+  addMode = false;
   loading = false;
   dataSource: any;
   letterTemplateItemtEditIndex: number;
@@ -87,7 +93,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   private form: NgForm;
   private tinymce: any;
   private currentLang: string;
-
+  public rteValue: string ;
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               public route: ActivatedRoute,
@@ -111,7 +117,11 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     this.getIncentiveReaquestItmes();
     this.getItemLookup();
   }
-
+  addLetter(){
+    console.log("dfsd");
+    this.isNewLetterTempalte = true;
+    this.addMode = true;
+  }
   onClear() {
     this.editMode = false;
     this.letterTemplateForm.reset();
@@ -159,10 +169,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit() {
-    // if (!this.letterTemplateForm.valid) {
-    //   return;
-    // }
-
+    console.log(this.getEditedLetterTemplate());
     this.loadingIndicator = true;
     return this.LettertepmlateService.saveletterTemplate(
       this.getEditedLetterTemplate()).subscribe((LetterTemplateModel: LetterTemplateModel) => {
@@ -230,10 +237,17 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
 
   private getEditedLetterTemplate(): LetterTemplateModel {
     const formModel = this.letterTemplateForm.value;
+    console.log(formModel);
+    alert(this.rteObj.value);
+    // 
+    // if(this.isNewLetterTempalte !== true){
+    //   this.LetterTemplateId = this.LetterTemplateModel.LetterTemplateId
+    // }
     return {
+      // LetterTemplateId:  this.LetterTemplateId,
       LetterTemplateId: this.isNewLetterTempalte ? 0 : this.LetterTemplateModel.LetterTemplateId,
       LetterType: formModel.LetterType,
-      LetterContent: formModel.LetterContent,
+      LetterContent: this.rteObj.value,
       IsActive: true,
     };
   }

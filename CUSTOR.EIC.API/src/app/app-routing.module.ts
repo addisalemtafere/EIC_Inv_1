@@ -238,7 +238,12 @@ import {AuthGuard} from '@custor/services/security/auth-guard.service';
       },
       {
         path: 'amendment',
-        loadChildren: 'app/components/amendment/amendment.module#AmendmentModule',
+        loadChildren: 'app/components/profile-amendment/amendment.module#AmendmentModule',
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'permit-amendment',
+        loadChildren: 'app/components/permit-amendment/permit-amendment.module#PermitAmendmentModule',
         canActivate: [AuthGuard]
       },
       {
@@ -383,7 +388,7 @@ import {AuthGuard} from '@custor/services/security/auth-guard.service';
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-profile/:InvestorId',
+        path: 'investor-profile',
         loadChildren: 'app/components/investor/investor-profile/investor-profile.module#InvestorProfileModule',
         canActivate: [AuthGuard]
       },

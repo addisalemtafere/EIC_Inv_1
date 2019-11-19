@@ -134,7 +134,22 @@ namespace EIC.Investment.API.Controllers
         .SingleOrDefaultAsync(m => m.ServiceApplicationId == id);
       return serviceApplication;
     }
+    [HttpGet("CheckServiceApplication/{investorId}/{requestedServiceId}")]
+    public ServiceApplication CheckServiceApplication(int investorId, int requestedServiceId)
+    {
+      return _repository.CheckServiceApplicationApi(investorId, requestedServiceId);
+    }
+    [HttpGet("GetServiceList/{projectId}/{serviceApplicationId}")]
+    public ServiceApplicationAmendment GetServiceList(int projectId, int serviceApplicationId)
+    {
+      return _repository.GetServiceList(projectId, serviceApplicationId);
+    }
 
+    [HttpGet("CheckProjectServiceApplication/{projectId}/{requestedServiceId}")]
+    public ServiceApplication CheckProjectServiceApplication(int projectId, int requestedServiceId)
+    {
+      return _repository.CheckProjectServiceApplication(projectId, requestedServiceId);
+    }
     [HttpGet("ByInvestorId/{id}")]
     public IEnumerable<ServiceApplication> GetServiceApplicationByInvestorId([FromRoute] int id)
     {

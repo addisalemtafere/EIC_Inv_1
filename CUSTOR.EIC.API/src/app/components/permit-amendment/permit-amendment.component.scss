@@ -1,0 +1,25 @@
+.mess-body {
+  padding: 20px;
+  line-height: 1.428571429;
+  color: #333;
+  font-size: 15px;
+  padding: 10px;
+  line-height: 20px !important;
+  text-align: justify !important;
+  font-weight: bolder !important;
+}
+
+mat-card {
+  transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+  display: block;
+  position: relative;
+  padding: 0px !important;
+  border-radius: 2px;
+}
+mat-card-footer,
+.mat-card-footer {
+  margin: 0px 0px 0px 0px !important;
+  background: #fff;
+  border-radius: 4px;
+  padding :14px 10px;
+}

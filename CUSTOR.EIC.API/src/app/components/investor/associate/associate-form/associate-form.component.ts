@@ -84,7 +84,9 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   investor: Investor;
   private assoId: any;
   public isInvestor: boolean;
-
+  public ServiceApplicationId;
+  existingServiceApplication: any;
+  serviceApplicationStatus: any;
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
@@ -133,10 +135,15 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.investorId = this.activatedRoute.snapshot.params['InvestorId'];
     this.assoId = this.activatedRoute.snapshot.params['associateId'];
     this.workFlowId = this.activatedRoute.snapshot.params['workFlowId'];
+    this.ServiceApplicationId = this.activatedRoute.snapshot.params['ServiceApplicationId'];
+    if (this.ServiceApplicationId == undefined) {
+      this.ServiceApplicationId = localStorage.getItem('user-serviceApplicationId');
+    }
     this.getUserType();
     this.initStaticData(this.currentLang);
     this.fillAddressLookups();
     this.formControlValueChanged();
+    this.checkServiceApplication();
     this.imgBase64 = '';
     if (id < 1 || this.assoId < 1) {
       this.isNewInvestor = true;
@@ -157,9 +164,19 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     }
 
   }
-
+  checkServiceApplication() {
+    this.custService.checkServiceApplication(this.ServiceApplicationId).subscribe(res => {
+      this.existingServiceApplication = res;
+      this.serviceApplicationStatus = this.existingServiceApplication.CurrentStatusId
+      console.log(this.existingServiceApplication)
+    })
+  }
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
+    // alert(this.isInvestor)
+  }
+  approve(){
+    console.log("approve")
   }
 
   private getPermissions() {
@@ -424,7 +441,6 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       .subscribe((associate: AssociateDTO) => {
           this.saveCompleted(associate);
           localStorage.setItem('profile-completed', 'true');
-          this.toastr.show('success');
         },
         err => this.handleError(err)
       );
@@ -438,7 +454,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.loadingIndicator = false;
     this.toastr.success('Record saved successfully!');
     this.dataSharing.investorTabSelectedIndex.next(2);
-    this.router.navigate(['/associate/list']);
+    // this.router.navigate(['/associate/list']);
     setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
   }

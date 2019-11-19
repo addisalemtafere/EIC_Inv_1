@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CUSTOR.EICOnline.DAL.DataAccessLayer;
 using CUSTOR.EICOnline.DAL.EntityLayer.AllAddress;
 using CUSTOR.EICOnline.DAL.EntityLayer.business;
+using CUSTOR.EICOnline.DAL.EntityLayer.Fetiha;
 using CUSTOR.EICOnline.DAL.EntityLayer.Incentive;
 using CUSTOR.Security;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -27,7 +28,19 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public DbSet<Investor> Investors { get; set; }
         //by gebre
+        //by Fetiha
+        public DbSet<InvestorAudit> InvestorAudit { get; set; }
+        public DbSet<AssociateAudit> AssociateAudit { get; set; }
 
+        public DbSet<ProjectAudit> ProjectAudit { get; set; }
+
+        public DbSet<AddressAudit> AddressAudit { get; set; }
+        public DbSet<ProjectCostAudit> ProjectCostAudit { get; set; }
+        public DbSet<ProjectNationalityCompositionAudit> ProjectNationalityCompositionAudit { get; set; }
+        public DbSet<ProjectOutputAudit> ProjectOutputAudit { get; set; }
+        public virtual DbSet<ProjectEmploymentAudit> ProjectEmploymentAudit { get; set; }
+        public virtual DbSet<ProjectInputAudit> ProjectInputAudit { get; set; }
+        public virtual DbSet<ServiceApplicationAmendment> ServiceApplicationAmendment { get; set; }
         public DbSet<Followup> Followups { get; set; }
 
         public DbSet<CompanyClearance> CompanyClearances { get; set; }
@@ -71,6 +84,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public virtual DbSet<ProjectOutput> ProjectOutput { get; set; }
         public virtual DbSet<ProjectRenewal> ProjectRenewal { get; set; }
         public virtual DbSet<ProjectRequirement> ProjectRequirement { get; set; }
+        public virtual DbSet<ProjectRequirementAudit> ProjectRequirementAudit { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Nationality> Nationality { get; set; }
         public virtual DbSet<NationalityDTO> NationalityDTO { get; set; }
@@ -142,7 +156,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbSet<BudgetYearType> BudgetYearTypes { get; set; }
         public DbSet<Registration> Registrations { get; set; }
         public DbSet<RegistrationCatagory> RegistrationCatagorys { get; set; }
-
+        public  DbSet<RegistrationCatagoryAudit> RegistrationCatagoryAudit { get; set; }
         public DbSet<Business> Businesses { get; set; }
         public DbSet<BusinessLicensingGroup> BusinessLicensingGroup { get; set; }
         public DbSet<tblBusinessBranch> tblBusinessBranch { get; set; }

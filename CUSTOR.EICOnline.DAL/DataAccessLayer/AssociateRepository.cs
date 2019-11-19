@@ -64,7 +64,87 @@ namespace CUSTOR.EICOnline.DAL
             return AssociateHelper.GetAssociateDTO(associate, add);
         }
 
+        public async Task<List<AssociateListDTO>> GetManagers(int InvestorId){
 
+            List<AssociateListDTO> active_managersList = null;
+            try
+            {
+                active_managersList = (from c in Context.Associate
+                                       join nat in Context.Nationality
+                                       on c.Nationality equals nat.id
+                                       select new AssociateListDTO
+                                       {
+                                           AssociateId = c.AssociateId,
+                                           Tin = c.Tin,
+                                           FullName = c.FirstName + " " + c.FatherName + " " + c.GrandName,
+                                           FullNameEng = c.FirstNameEng + " " + c.FatherNameEng + " " + c.GrandNameEng,
+                                           Nationality = nat.description,
+                                       }).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
+
+
+            return active_managersList;
+        }
+        public async Task<Associate> GetManagerByIvestorId (int InvestorId)
+        {
+            Associate manager = null;
+            try
+            {
+               manager = await Context.Associate.FirstOrDefaultAsync(p => p.InvestorId == InvestorId);
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
+            return manager;
+
+        }
+        public async Task <AssociateAudit> GetManagerAuditByIvestorId(int InvestorId)
+        {
+            AssociateAudit manager = null;
+            try
+            {
+                manager = await Context.AssociateAudit.FirstOrDefaultAsync(p => p.InvestorId == InvestorId);
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
+            return manager;
+        }
+        public async Task<List<AssociateAuditDTO>> GetManagersFromAudit(int InvestorId){
+
+            List<AssociateAuditDTO> active_managersList = null;
+            try
+            {
+                active_managersList = (from c in Context.AssociateAudit
+                                       join nat in Context.Nationality
+                                       on c.Nationality equals nat.id
+                                       where c.InvestorId == InvestorId
+                                       select new AssociateAuditDTO
+                                       {
+                                           AssociateId = c.AssociateId,
+                                           Tin = c.Tin,
+                                           FullName = c.FirstName + " " + c.FatherName + " " + c.GrandName,
+                                           FullNameEng = c.FirstNameEng + " " + c.FatherNameEng + " " + c.GrandNameEng,
+                                           Nationality = nat.description,
+                                       }).ToList();
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
+            return active_managersList;
+        }
         public async Task<AssociateDTO> GetAssociateByInvestorId(int InvestorId)
         {
             Associate associate = null;

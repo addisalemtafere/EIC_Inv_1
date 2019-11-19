@@ -1,0 +1,37 @@
+<!-- <button  (click)="goToSync()">Test Sync Fusion</button> -->
+<mat-card class="margin-2 padding-0">
+  <mat-card-content *ngIf="permitList.length>0">
+    <mat-table style="border:1px solid #f1f1f1;" 
+    class="full-width" #table [dataSource]="dataSource">
+      <ng-container style="width: 10px !important;" matColumnDef="No">
+        <mat-header-cell style="width: 10px !important;" *matHeaderCellDef>#</mat-header-cell>
+        <mat-cell style="width: 10px !important;" *matCellDef="let permitList;let i=index;">
+          {{i+1}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ProjectName">
+        <mat-header-cell *matHeaderCellDef>Project Name</mat-header-cell>
+        <mat-cell *matCellDef="let permitList"> {{permitList.ProjectName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let permitList;let i=index;">
+          <div>
+            <a class="pointer" mat-min-fab matTooltip="Click here to edit the Share"
+              (click)="onEdit(permitList.ProjectId)">
+              <mat-icon color="primary" class="mat-18">edit {{permitList.ProjectId}}</mat-icon>
+              Edit
+            </a>
+          </div>
+        </mat-cell>
+      </ng-container> 
+      <mat-header-row *matHeaderRowDef="displayedColumns">
+      </mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card> 

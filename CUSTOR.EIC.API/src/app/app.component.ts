@@ -210,8 +210,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
-    // alert(this.isInvestor);
-
   }
 
   CheckLoginStatus() {
@@ -321,6 +319,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   Investor() {
+
+    console.log(localStorage.getItem('InvestorId'))
     if (localStorage.getItem('InvestorId') !== null || localStorage.getItem('profile-completed') == 'false') {
       if (localStorage.getItem('profile-completed') == 'false') {
         this.router.navigate(['investor-profile', localStorage.getItem('InvestorId')]);

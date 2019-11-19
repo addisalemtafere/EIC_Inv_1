@@ -8,6 +8,7 @@ import {AngConfirmDialogComponent} from '../../@custor/components/confirm-dialog
 import {PageHeaderComponent} from '../components/shared/page-header.component';
 import {UserEditorComponent} from '../../app/admin/users/user-editor.component';
 import {AppDialogComponent} from '../components/app-dialog/app-dialog.component';
+import { NotificationsComponent } from '../../app/components/notifications/notifications.component';
 import {GroupByPipe} from '../pipes/group-by.pipe';
 import {CommonModule} from '@angular/common';
 // import {CountryPipe} from '../../app/pipe/country-pipe.pipe';
@@ -108,11 +109,13 @@ import {ServicePrerequisiteService} from "../../app/components/setting/services-
     //CustomsbranchPipe,
     //LookupReasonPipe,
     //LetterLookupPipe,
+    NotificationsComponent,
     LookupPhasePipe
 
   ],
   entryComponents: [
     AngConfirmDialogComponent,
+    NotificationsComponent,
     AppDialogComponent
   ],
   providers: [ServicePrerequisiteService],

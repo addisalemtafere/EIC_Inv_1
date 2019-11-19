@@ -1,24 +1,24 @@
-﻿import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {ServiceModel} from '../../model/Service.model';
-import {ServiceService} from '../../Services/service.service';
-import {ServiceapplicationService} from '../setting/services-tabs/serviceApplication/serviceapplication.service';
-import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
-import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ProjectProfileService} from '../../Services/project-profile.service';
-import {AccountService} from '@custor/services/security/account.service';
-import {DataSharingService} from '../../Services/data-sharing.service';
-import {FormService} from '@custor/validation/custom/form';
-import {ErrorMessage} from '@custor/services/errMessageService';
-import {NotificationService} from '../../Services/notification.service';
-import {NotificationModel} from '../../model/Notification.model';
-import {Utilities} from '@custor/helpers/utilities';
-import {Investor} from '../../model/investor';
-import {ToastrService} from 'ngx-toastr';
-import {InvestorService} from '../investor/investor.service';
-import {Permission} from '../../model/security/permission.model';
-import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
+﻿import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ServiceModel } from '../../model/Service.model';
+import { ServiceService } from '../../Services/service.service';
+import { ServiceapplicationService } from '../setting/services-tabs/serviceApplication/serviceapplication.service';
+import { ServiceApplicationModel } from '../../model/ServiceApplication.model';
+import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectProfileService } from '../../Services/project-profile.service';
+import { AccountService } from '@custor/services/security/account.service';
+import { DataSharingService } from '../../Services/data-sharing.service';
+import { FormService } from '@custor/validation/custom/form';
+import { ErrorMessage } from '@custor/services/errMessageService';
+import { NotificationService } from '../../Services/notification.service';
+import { NotificationModel } from '../../model/Notification.model';
+import { Utilities } from '@custor/helpers/utilities';
+import { Investor } from '../../model/investor';
+import { ToastrService } from 'ngx-toastr';
+import { InvestorService } from '../investor/investor.service';
+import { Permission } from '../../model/security/permission.model';
+import { ApplicationStatusEnum, ServiceEnum } from "../../enum/enums";
 
 @Component({
   selector: 'app-my-dashboard',
@@ -44,21 +44,23 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   public dataSourceNotitification: MatTableDataSource<NotificationModel>;
   private investors: Investor[];
   public applicationStatusEnum = ApplicationStatusEnum;
-
+  existingServiceApplication: any;
+  ServiceApplicationId: any;
+  CurrentStatusId: number;
   constructor(private projectProfileService: ProjectProfileService,
-              private errMsg: ErrorMessage,
-              private router: Router,
-              private toastr: ToastrService,
-              private invService: InvestorService,
-              private dataSharing: DataSharingService,
-              private route: ActivatedRoute,
-              public dialog: MatDialog,
-              private accountService: AccountService,
-              private service: ServiceService,
-              private formBuilder: FormBuilder,
-              private formService: FormService,
-              private notifificationService: NotificationService,
-              private serviceApplication: ServiceapplicationService) {
+    private errMsg: ErrorMessage,
+    private router: Router,
+    private toastr: ToastrService,
+    private invService: InvestorService,
+    private dataSharing: DataSharingService,
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private accountService: AccountService,
+    private service: ServiceService,
+    private formBuilder: FormBuilder,
+    private formService: FormService,
+    private notifificationService: NotificationService,
+    private serviceApplication: ServiceapplicationService) {
   }
 
   get canManageTask() {
@@ -71,6 +73,8 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.dataSource.paginator = this.paginator);
 
     this.getAllNotification(this.accountService.currentUser.Id);
+    this.getServiceApplication();
+
     this.checkInvestor();
 
   }
@@ -82,6 +86,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   getServiceApplication() {
     this.serviceApplication.getServiceApplicationsByInvestorId(localStorage.getItem('InvestorId'))
       .subscribe(result => {
+        console.log(result)
         this.dataSource = new MatTableDataSource<ServiceApplicationModel>(result);
         this.loading = false;
         this.serviceApplicationList = result;
@@ -89,7 +94,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   }
 
   nextStep(step: number, projectId: any, serviceApplicationId: any, serviceId: any, title: string, workFlowId: any,
-           investorName: string, projectName: string) {
+    investorName: string, projectName: string) {
     let stepIndex;
 
     localStorage.setItem('title', 'New Ip');
@@ -254,7 +259,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
 
     switch (serviceId) {
-      case ServiceEnum.NewIP :
+      case ServiceEnum.NewIP:
       case ServiceEnum.Expansion:
         this.router.navigate(['/service-detail', projectId]);
         break;
@@ -302,7 +307,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
         this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId + '/' + 0]);
         break;
       default:
-        this.router.navigate(['/notfound'], {relativeTo: this.route});
+        this.router.navigate(['/notfound'], { relativeTo: this.route });
         break;
     }
   }
@@ -338,6 +343,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
 
   checkInvestor() {
     // // console.log(this.accountService.currentUser.Tin);
+    console.log("here")
     if (this.accountService.currentUser.Tin !== null) {
       this.getInvestorsByUserId();
 
@@ -350,32 +356,79 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
     console.log(this.accountService.currentUser.Id);
     this.invService.getInvestorByUserId(this.accountService.currentUser.Id)
       .subscribe(result => {
-          // console.log(result);
-          this.investors = result;
-          console.log(this.investors);
-          if (this.investors.length === 0 || this.investors[0].IsActive == false) {
-            if (this.investors.length !== 0) {
-              console.log('Profile incomlete1');
-              localStorage.setItem('profile-completed', 'false');
-              this.router.navigate(['investor-profile', this.investors[0].InvestorId]);
-            } else {
-              console.log('Profile incomlete2');
-              this.router.navigate(['investor-profile/0']);
-            }
+        // console.log(result);
+        this.investors = result;
+        console.log(this.investors);
+        if (this.investors.length === 0 || this.investors[0].IsActive == false) {
+          if (this.investors.length !== 0) {
+            console.log('Profile incomlete1');
+            console.log(this.investors[0].InvestorId);
+            localStorage.setItem('profile-completed', 'false');
+            this.invService.getUserServiceApplication(this.investors[0].InvestorId).
+              subscribe(res => {
+                console.log(res)
+                if (res != null) {
+                  // alert(res)
+                  this.existingServiceApplication = res;
+                  this.ServiceApplicationId = this.existingServiceApplication.ServiceApplicationId
+                  this.CurrentStatusId = this.existingServiceApplication.CurrentStatusId
+                  console.log(this.CurrentStatusId)
+                  if (this.CurrentStatusId == 44450){
+                    console.log("drafted")
+                     this.router.navigate(['investor-profile/', this.investors[0].InvestorId, this.ServiceApplicationId]);
+                  }
+                }
+              })
+            //this.getUserServiceApplication(this.investors[0].InvestorId)
+           this.router.navigate(['investor-profile', this.investors[0].InvestorId]);
 
-
-            localStorage.setItem('ServiceId', '1235');
-            this.toastr.success('Dear customer Please complete your Profile', 'Well Come !!!', {
-              closeButton: true,
-            });
           } else {
-            localStorage.setItem('InvestorId', this.investors[0].InvestorId.toString());
-            localStorage.setItem('InvestorId', this.investors[0].InvestorId.toString());
-            localStorage.setItem('profile-completed', this.investors[0].IsActive.toString());
-            this.getServiceApplication();
-
+            console.log('Profile incomlete2');
+            this.router.navigate(['investor-profile/0']);
           }
-        },
+
+
+          localStorage.setItem('ServiceId', '1235');
+          this.toastr.success('Dear customer Please complete your Profile', 'Well Come !!!', {
+            closeButton: true,
+          });
+        } else {
+         
+          this.invService.getUserServiceApplication(this.investors[0].InvestorId).
+            subscribe(res => {
+              console.log(res)
+              if (res != null) {
+                // alert(res)
+                console.log("==========am here=============")
+                console.log(res);
+                console.log("==========am here=============")
+                this.existingServiceApplication = res;
+                this.ServiceApplicationId = this.existingServiceApplication.ServiceApplicationId
+                this.CurrentStatusId = this.existingServiceApplication.CurrentStatusId;
+                console.log(this.ServiceApplicationId.toString())
+                localStorage.setItem('user-serviceApplicationId', this.ServiceApplicationId.toString());
+                console.log(this.CurrentStatusId)
+                if (this.CurrentStatusId == 44440) {
+                  console.log("rejected")
+                 // this.router.navigate(['investor-profile/', this.investors[0].InvestorId, this.ServiceApplicationId]);
+                  localStorage.setItem('profile-completed', 'false');
+                }
+                if (this.CurrentStatusId == 44447){
+                  localStorage.setItem('profile-completed', this.investors[0].IsActive.toString());
+                  localStorage.setItem('profile-approved', this.investors[0].IsActive.toString());
+                }
+                else{
+                  console.log("profile completed")
+                  localStorage.setItem('profile-completed', this.investors[0].IsActive.toString());
+                }
+              }
+            })
+          localStorage.setItem('InvestorId', this.investors[0].InvestorId.toString());
+          localStorage.setItem('InvestorId', this.investors[0].InvestorId.toString());
+          this.getServiceApplication();
+
+        }
+      },
         error => {
           this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
         });
@@ -386,17 +439,17 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
 
     this.invService.getInvestorByUserId(this.accountService.currentUser.Tin)
       .subscribe(result => {
-          // console.log(result);
-          this.investors = result;
-          // console.log(result);
-          if (!this.investors) {
-            this.toastr.error('No records were found to list', 'Error', {
-              closeButton: true,
-            });
-          } else {
-            localStorage.setItem('InvestorId', this.investors[0].InvestorId.toString());
-          }
-        },
+        // console.log(result);
+        this.investors = result;
+        // console.log(result);
+        if (!this.investors) {
+          this.toastr.error('No records were found to list', 'Error', {
+            closeButton: true,
+          });
+        } else {
+          localStorage.setItem('InvestorId', this.investors[0].InvestorId.toString());
+        }
+      },
         error => {
           this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
         });
@@ -422,7 +475,7 @@ export class MyDashboardComponent implements OnInit, AfterViewInit {
   getClassType(statusId: number) {
     let className;
     switch (statusId) {
-      case  ApplicationStatusEnum.approved :
+      case ApplicationStatusEnum.approved:
         className = 'Approved';
         break;
       case ApplicationStatusEnum.Completed:

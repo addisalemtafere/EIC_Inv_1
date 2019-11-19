@@ -76,7 +76,9 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer {
                 }
                 else
                 {
-                    projectRenewal[0].ProjectStatus = pro.ProjectStatus;
+                    projectRenewal = new List<ProjectRenewal>() { new ProjectRenewal() { ProjectStatus = pro.ProjectStatus } };
+                  //  projectRenewal.Add
+                   // projectRenewal[0].ProjectStatus = pro.ProjectStatus;
                 }
             }
             catch (Exception ex)

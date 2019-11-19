@@ -26,7 +26,8 @@ export enum ServiceEnum {
   DutyFreeIncentive = 1046,
   UploadingOfConstructionMaterial = 1047,
   UploadingOfRawMaterial = 1054,
-  BusinessLicense = 1236
+  BusinessLicense = 1236,
+  PermitAmendment = 1028
 }
 export enum RenewalSteps {
   ServiceInfo = 0,
