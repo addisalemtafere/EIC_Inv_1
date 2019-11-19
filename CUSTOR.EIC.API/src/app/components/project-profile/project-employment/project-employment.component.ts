@@ -1,17 +1,17 @@
-import {AfterContentChecked, Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ProjectEmploymentModel} from '../../../model/ProjectEmployment.model';
-import {ProjectEmploymentService} from '../../../Services/project-employment.service';
-import {ToastrService} from 'ngx-toastr';
-import {Subscription} from 'rxjs';
-import {DataSharingService} from '../../../Services/data-sharing.service';
-import {MatSnackBar} from '@angular/material';
-import {FormService} from '@custor/validation/custom/form';
-import {ErrorMessage} from '@custor/services/errMessageService';
-import {ActivatedRoute, Params} from '@angular/router';
-import {ProjectProfileService} from '../../../Services/project-profile.service';
-import {ProjectStatusModel, QuarterModel} from '../../../model/lookupData';
-import {ProjectStatus, Quarter} from '@custor/const/consts';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProjectEmploymentModel } from '../../../model/ProjectEmployment.model';
+import { ProjectEmploymentService } from '../../../Services/project-employment.service';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { DataSharingService } from '../../../Services/data-sharing.service';
+import { MatSnackBar } from '@angular/material';
+import { FormService } from '@custor/validation/custom/form';
+import { ErrorMessage } from '@custor/services/errMessageService';
+import { ActivatedRoute, Params } from '@angular/router';
+import { ProjectProfileService } from '../../../Services/project-profile.service';
+import { ProjectStatusModel, QuarterModel } from '../../../model/lookupData';
+import { ProjectStatus, Quarter } from '@custor/const/consts';
 
 @Component({
   selector: 'app-project-employment',
@@ -47,15 +47,15 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   private projectId: any;
 
   constructor(private formBuilder: FormBuilder,
-              public formService: FormService,
-              private errMsg: ErrorMessage,
-              public route: ActivatedRoute,
-              public projectProfileService: ProjectProfileService,
-              private snackbar: MatSnackBar,
-              private dataSharingService: DataSharingService,
-              private toastr: ToastrService,
-              private dataSharing: DataSharingService,
-              private employmentService: ProjectEmploymentService) {
+    public formService: FormService,
+    private errMsg: ErrorMessage,
+    public route: ActivatedRoute,
+    public projectProfileService: ProjectProfileService,
+    private snackbar: MatSnackBar,
+    private dataSharingService: DataSharingService,
+    private toastr: ToastrService,
+    private dataSharing: DataSharingService,
+    private employmentService: ProjectEmploymentService) {
     this.employmentData = <ProjectEmploymentModel>{};
   }
 
@@ -87,11 +87,27 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
       }
     }, error => this.errMsg.getError(error));
   }
+  CurrentTotalEmployee: number;
+  getTotalEmploymentData() {
+    this.CurrentTotalEmployee =
+      this.employmetForm.get('PermanentFemale').value +
+      this.employmetForm.get('PermanentMale').value +
+    this.employmetForm.get('TemporaryFemale').value +
+    this.employmetForm.get('TemporaryMale').value +
+    this.employmetForm.get('PermanentForeignFemale').value +
+    this.employmetForm.get('PermanentForeignMale').value +
+    this.employmetForm.get('TemporaryForeignFemale').value +
+    this.employmetForm.get('TemporaryForeignMale').value
+    return this.CurrentTotalEmployee;
+
+  }
 
   onSubmit() {
     this.formService.markFormGroupTouched(this.employmetForm);
     if (this.employmetForm.valid) {
-      if (this.employmetForm.get('totalEmployee').value > 0)
+      // alert(this.employmetForm.get('CurrentTotalEmployee').value)
+      console.log(this.getTotalEmploymentData())
+      if (this.getTotalEmploymentData() > 0) {
         if (!this.editMode) {
           this.employmentService.create(this.employmetForm.value)
             .subscribe(result => {
@@ -107,6 +123,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
               setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
             }, error => this.toastr.error(this.errMsg.getError(error)));
         }
+      }
       else {
         this.toastr.error('The sum of total Employee must be greater than zero');
       }
@@ -127,8 +144,10 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
       PermanentForeignMale: [0, [Validators.required, Validators.min(0)]],
       TemporaryForeignFemale: [0, [Validators.required, Validators.min(0)]],
       TemporaryForeignMale: [0, [Validators.required, Validators.min(0)]],
-      TotalPermanent: [{value: '', disabled: true}],
-      TotalTempo: [{value: '', disabled: true}],
+      TotalPermanent: [{ value: '', disabled: true }],
+      TotalTempo: [{ value: '', disabled: true }],
+
+      CurrentTotalEmployee: [{ value: '', disabled: true }],
 
       CurrentPermanentFemale: [0, [Validators.required, Validators.min(0)]],
       CurrentPermanentMale: [0, [Validators.required, Validators.min(0)]],
@@ -138,14 +157,14 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
       CurrentPermanentForeignMale: [0, [Validators.required, Validators.min(0)]],
       CurrentTemporaryForeignFemale: [0, [Validators.required, Validators.min(0)]],
       CurrentTemporaryForeignMale: [0, [Validators.required, Validators.min(0)]],
-      CurrentTotalPermanent: [{value: '', disabled: true}],
-      CurrentTotalTempo: [{value: '', disabled: true}],
+      CurrentTotalPermanent: [{ value: '', disabled: true }],
+      CurrentTotalTempo: [{ value: '', disabled: true }],
 
       Remark: [''],
       Quarter: [''],
       RegistrationYear: [''],
       ProjectStatus: [''],
-      totalEmployee: [{value: '', disabled: true}]
+      totalEmployee: [{ value: '', disabled: true }]
     });
 
     this.employmetForm.valueChanges.subscribe((data) => {

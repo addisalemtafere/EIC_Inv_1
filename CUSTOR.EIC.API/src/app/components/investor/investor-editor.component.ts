@@ -159,7 +159,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
   }
   checkServiceApplication() {
-    this.custService.getUserServiceApplication(this.investorId ).subscribe(res => {
+    // alert("sjdlkjslfdkjsd")
+    this.custService.getUserServiceApplication(this.investorId).subscribe(res => {
+      console.log(res)
       this.existingServiceApplication = res;
       this.ServiceApplicationId = this.existingServiceApplication.ServiceApplicationId;
       this.serviceApplicationStatus = this.existingServiceApplication.CurrentStatusId;
