@@ -97,7 +97,7 @@ namespace CUSTOR.EICOnline.DAL
             Investor inv = InvestorHelper.GetInvestor(postedInvestor);
             ServiceApplication existingServiceApplication = null;
             ServiceApplication serviceApplication = null;
-            int ServiceId = 1269;
+            int ServiceId = 1239;
             //inv.UserId = appUser.Id; //redundent
             //Context.CurrentUserId = appUser.Id;
             //Context.CurrentUserName = appUser.FullName;
@@ -210,7 +210,7 @@ namespace CUSTOR.EICOnline.DAL
             try
             {
                 var serviceApplication = await Context.ServiceApplication
-                                   .FirstOrDefaultAsync(s => s.InvestorId == investorId && s.ServiceId == 1269);
+                                   .FirstOrDefaultAsync(s => s.InvestorId == investorId && s.ServiceId == 1239);
                 return serviceApplication;
             }
             catch (Exception ex)

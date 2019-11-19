@@ -145,7 +145,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     if (this.ServiceId !== undefined && this.ServiceId == ServiceEnum.CommercialRegistration) {
       this.isCommercialReg = true;
     }
-    if (this.ServiceId !== undefined && this.ServiceId == 1269) {
+    if (this.ServiceId !== undefined && this.ServiceId == 1239) {
 
     }
     if (id < 1) {
