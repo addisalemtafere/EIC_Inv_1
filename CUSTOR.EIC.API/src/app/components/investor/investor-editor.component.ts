@@ -161,7 +161,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
   }
   checkServiceApplication() {
-    this.custService.getUserServiceApplication(this.investorId ).subscribe(res => {
+    this.custService.getUserServiceApplication(this.investorId).subscribe(res => {
+      console.log(res)
       this.existingServiceApplication = res;
       this.ServiceApplicationId = this.existingServiceApplication.ServiceApplicationId;
       this.serviceApplicationStatus = this.existingServiceApplication.CurrentStatusId;
@@ -368,6 +369,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     const cFather = this.investorForm.get('cFatherName');
     this.legalStatus.valueChanges.subscribe(
       (intLegal: number) => {
+        alert(intLegal)
         if (intLegal === 1) { // Sole
           // // console.log(intLegal);
             this.ClearCompanyValidators();
@@ -422,6 +424,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
           // this.Title.setValidators([Validators.required]);
           this.isCompany = false;
         } else {
+          // alert("here")
           this.ClearSoleValidators();
           this.tin.setValidators([Validators.compose([Validators.maxLength(10),
             Validators.pattern(NUMERIC_REGEX),

@@ -66,7 +66,7 @@
               <div>
                 <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
                   <mat-form-field fxFlex>
-                    <mat-label>{{'investors.editor.FirstName' | translate}}</mat-label>
+                    <mat-label>{{'investors.editor.FirstName' | translate}} <span *ngIf="!isInvestor">*</span></mat-label>
                     <input matInput formControlName="cFirstName" />
                     <!--<span *ngIf="isInvestor">-->
                     <mat-error *ngIf="firstName.hasError('required')">
@@ -85,7 +85,7 @@
                   </mat-form-field>
 
                   <mat-form-field fxFlex>
-                    <mat-label>{{'investors.editor.FatherName' | translate}}</mat-label>
+                    <mat-label>{{'investors.editor.FatherName' | translate}} <span *ngIf="!isInvestor">*</span></mat-label>
                     <input matInput formControlName="cFatherName" />
                     <!--<span *ngIf="isInvestor">-->
                     <mat-error *ngIf="fatherName.hasError('required')">
@@ -204,7 +204,7 @@
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
 
-              <mat-label>{{'investors.editor.WoredaAmharic' | translate}}</mat-label>
+              <mat-label>{{'investors.editor.WoredaAmharic' | translate}} <span *ngIf="!isInvestor">*</span> </mat-label>
               <input matInput formControlName="WoredaId" />
               <mat-error *ngIf="woreda.hasError('required')">
                 {{'common.validation.Required' | translate}}
@@ -218,7 +218,7 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
-              <mat-label>{{'investors.editor.WoredaEnglish' | translate}}</mat-label>
+              <mat-label>{{'investors.editor.WoredaEnglish' | translate}} <span *ngIf="!isInvestor">*</span></mat-label>
               <input matInput formControlName="WoredaEngId" />
               <mat-error *ngIf="woredaEng.hasError('required')">
                 {{'common.validation.Required' | translate}}
@@ -232,7 +232,7 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
-              <mat-label>{{'investors.editor.KebeleAmharic' | translate}}</mat-label>
+              <mat-label>{{'investors.editor.KebeleAmharic' | translate}}<span *ngIf="!isInvestor">*</span> </mat-label>
               <input matInput formControlName="KebeleId" />
               <mat-error *ngIf="kebele.hasError('required')">
                 {{'common.validation.Required' | translate}}
@@ -248,7 +248,7 @@
           </div>
           <div id="divAddress3" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
             <mat-form-field fxLayoutGap="4em">
-              <mat-label>{{'investors.editor.KebeleEnglish' | translate}}</mat-label>
+              <mat-label>{{'investors.editor.KebeleEnglish' | translate}} <span *ngIf="!isInvestor">*</span> </mat-label>
               <input matInput formControlName="KebeleEngId"/>
               <mat-error *ngIf="kebeleEng.hasError('required')">
                 {{'common.validation.Required' | translate}}
@@ -311,7 +311,7 @@
       </div>
       <!-- <mat-divider></mat-divider> -->
 
-      <div mat-dialog-actions style="margin: auto; text-align: center" *ngIf="isInvestor && serviceApplicationStatus !='44447'">
+      <div mat-dialog-actions style="margin: auto; text-align: center" *ngIf="serviceApplicationStatus !='44447'">
         <button mat-raised-button type="submit" *ngIf="!ServiceApplicationId"
         [disabled]="associateForm.invalid"
         color="primary" style="margin-right: 10px">
@@ -326,14 +326,11 @@
           {{'common.commands.Cancel' | translate}}
         </button>
       </div>
-      <div mat-dialog-actions style="margin: 15px; text-align: center" *ngIf="!isInvestor && serviceApplicationStatus !='44447'">
-        <!-- <button mat-raised-button (click)="approve()" color="primary" style="margin-right: 10px">
-          {{'common.commands.Approve' | translate}}
-        </button> -->
+      <!-- <div mat-dialog-actions style="margin: 15px; text-align: center" *ngIf="!isInvestor && serviceApplicationStatus !='44447'">
         <button mat-raised-button (click)="next()" color="warn" type="button">
           {{'common.commands.Next' | translate}}
         </button>
-      </div>
+      </div> -->
     </div>
   </form>
 

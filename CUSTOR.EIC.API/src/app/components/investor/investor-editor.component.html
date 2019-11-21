@@ -544,6 +544,17 @@
       </div>
     </div>
     <!--{{  investorForm.value | json }}-->
+
+    <!-- <pre>
+      {{investorForm.invalid}}
+     
+    </pre> -->
+    <pre>
+      {{investorForm.errors | json}}
+    </pre>
+    <!-- <pre>
+      {{errors}}
+    </pre> -->
     <div mat-dialog-actions style="margin: 15px; text-align: center" *ngIf="serviceApplicationStatus !='44447'">
       <button mat-raised-button type="submit" *ngIf="!ServiceApplicationId" 
       [disabled]="investorForm.invalid"
@@ -558,7 +569,10 @@
       <button mat-raised-button (click)="onBack()" *ngIf="!ServiceApplicationId" color="warn" type="button">
         {{'common.commands.Cancel' | translate}}
       </button>
-      <button mat-raised-button (click)="next()" *ngIf="ServiceApplicationId" color="warn" type="button">
+      <button mat-raised-button (click)="next()"
+       *ngIf="ServiceApplicationId"
+       [disabled]="investorForm.invalid"
+       color="warn" type="button">
         {{'common.commands.Next' | translate}}
       </button>
     </div>
