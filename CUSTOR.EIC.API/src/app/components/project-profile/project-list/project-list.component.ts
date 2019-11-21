@@ -189,13 +189,13 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
       const workFlowId = (serviceApplication.ServiceWorkflow[0].ServiceWorkflowId) ? serviceApplication.ServiceWorkflow[0].ServiceWorkflowId : 0;
       this.step = (serviceApplication.ServiceWorkflow[0].NextStepId) ? serviceApplication.ServiceWorkflow[0].NextStepId : 0;
     }
-      
+
     const id = serviceApplication.ServiceApplicationId;
     const projectId = serviceApplication.ProjectId;
     const serviceId = serviceApplication.ServiceId;
     const investorId = serviceApplication.InvestorId;
     const workFlowId = 0;
-    
+
     console.log(this.step);
    let stepIndex;
     switch (this.step) {
@@ -405,7 +405,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     if (serviceId == 1239){
       this.router.navigate(['investor-profile/' + investorId + '/' + serviceApplicationId + '/' + serviceId]);
     }
-    
+
   }
   getAllService() {
     this.service.getAll()
