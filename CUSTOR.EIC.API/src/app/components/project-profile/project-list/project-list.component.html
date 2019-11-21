@@ -79,6 +79,12 @@
         <!--        </div>-->
         <mat-table #table [dataSource]="dataSource">
 
+          <ng-container fxFlex="8" matColumnDef="No">
+            <mat-header-cell *matHeaderCellDef>No</mat-header-cell>
+            <mat-cell *matCellDef="let serviceApplicationList ; let i=index;">
+              {{i+1}}
+            </mat-cell>
+          </ng-container>
           <ng-container fxFlex="8" matColumnDef="ServiceName">
             <mat-header-cell *matHeaderCellDef>Service Name</mat-header-cell>
             <mat-cell *matCellDef="let serviceApplicationList">
