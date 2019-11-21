@@ -584,6 +584,8 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         'Description': pair.Description
       };
       this.applicationStatus.push(applicationStatus1);
+
+      console.log(applicationStatus1)
     });
   }
 
@@ -707,6 +709,9 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
         break;
       case ApplicationStatusEnum.Pending:
         className = 'Pending';
+        break;
+      case ApplicationStatusEnum.Rejected:
+        className = 'Rejected';
         break;
       case ApplicationStatusEnum.Submitted:
         className = 'Submitted';
