@@ -126,7 +126,8 @@ export const ApplicationStatus: any[] =
     {'Id': '44446', 'Description': 'Submitted', 'DescriptionEnglish': 'Submitted'},
     {'Id': '44447', 'Description': 'Approved', 'DescriptionEnglish': 'Approved'},
     {'Id': '44448', 'Description': 'Pending', 'DescriptionEnglish': 'Pending'},
-    {'Id': '44449', 'Description': 'Completed', 'DescriptionEnglish': 'Completed'}
+    {'Id': '44449', 'Description': 'Completed', 'DescriptionEnglish': 'Completed'},
+    { 'Id': '44440', 'Description': 'Rejected', 'DescriptionEnglish': 'Rejected'}
   ];
 // by gebre
 export const Decision: any[]=[
