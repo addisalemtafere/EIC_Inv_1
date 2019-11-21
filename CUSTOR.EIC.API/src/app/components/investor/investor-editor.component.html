@@ -102,36 +102,19 @@
           </mat-form-field>
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.GrandNameEng' | translate}}</mat-label>
-<<<<<<< HEAD
-            <input matInput formControlName="cGrandNameEng"/>
-            <!--            <mat-error *ngIf="grandNameEng.hasError('required')">-->
-            <!--              {{'common.validation.Required' | translate}}-->
-            <!--            </mat-error>-->
-=======
             <input matInput formControlName="cGrandNameEng" />
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
             <mat-error *ngIf="grandNameEng.hasError('maxlength')">
               {{'common.validation.MaxLengthChar' | translate: {'max': '15'} }}
             </mat-error>
             <mat-error *ngIf="grandNameEng.hasError('minlength')">
               {{'common.validation.MinLengthChar' | translate: {'min': '2'} }}
             </mat-error>
-<<<<<<< HEAD
-            <!--            <mat-error *ngIf="!grandNameEng.hasError('required') && !grandNameEng.hasError('maxlength')-->
-            <!--             && !grandNameEng.hasError('minlength')-->
-            <!--                                && grandNameEng.hasError('pattern')">-->
-            <!--              {{'common.validation.UseLatinOnly' | translate}}-->
-            <!--            </mat-error>-->
-          </mat-form-field>
-          <mat-form-field fxFlex>
-            <mat-label>{{'investors.editor.FirstName' | translate}}</mat-label>
-            <input matInput formControlName="cFirstName"/>
-=======
+
           </mat-form-field>
           <mat-form-field fxFlex>
             <mat-label>{{'investors.editor.FirstName' | translate}} <span *ngIf="!isInvestor">*</span></mat-label>
             <input matInput formControlName="cFirstName" />
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
+
             <!--<span *ngIf="isInvestor">-->
             <mat-error *ngIf="firstName.hasError('required')">
               {{'common.validation.Required' | translate}}
@@ -149,13 +132,9 @@
           </mat-form-field>
 
           <mat-form-field fxFlex>
-<<<<<<< HEAD
-            <mat-label>{{'investors.editor.FatherName' | translate}}</mat-label>
-            <input matInput formControlName="cFatherName"/>
-=======
+
             <mat-label >{{'investors.editor.FatherName' | translate}} <span *ngIf="!isInvestor">*</span></mat-label>
             <input matInput formControlName="cFatherName" />
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
             <!--<span *ngIf="isInvestor">-->
             <mat-error *ngIf="fatherName.hasError('required')">
               {{'common.validation.Required' | translate}}
@@ -173,14 +152,10 @@
           </mat-form-field>
 
           <mat-form-field fxFlex>
-<<<<<<< HEAD
-            <mat-label>{{'investors.editor.GrandName' | translate}}</mat-label>
-            <input matInput formControlName="cGrandName"/>
-=======
+
             <mat-label>{{'investors.editor.GrandName' | translate}} </mat-label>
-           
+
             <input matInput formControlName="cGrandName" />
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
             <!--<span *ngIf="isInvestor">-->
             <!--            <mat-error *ngIf="grandName.hasError('required')">-->
             <!--              {{'common.validation.Required' | translate}}-->
@@ -344,13 +319,9 @@
             <!--</mat-form-field>-->
 
             <mat-form-field fxLayoutGap="4em">
-<<<<<<< HEAD
-              <mat-label>{{'investors.editor.WoredaAmharic' | translate}}</mat-label>
-              <input matInput formControlName="WoredaId"/>
-=======
+
               <mat-label>{{'investors.editor.WoredaAmharic' | translate}} <span *ngIf="!isInvestor">*</span></mat-label>
               <input matInput formControlName="WoredaId" />
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
               <!--<span *ngIf="isInvestor">-->
               <mat-error *ngIf="woreda.hasError('required')">
                 {{'common.validation.Required' | translate}}
@@ -395,13 +366,9 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
-<<<<<<< HEAD
-              <mat-label>{{'investors.editor.KebeleEnglish' | translate}}</mat-label>
-              <input matInput formControlName="KebeleEngId"/>
-=======
+
               <mat-label>{{'investors.editor.KebeleEnglish' | translate}} <span *ngIf="!isInvestor">*</span></mat-label>
               <input matInput formControlName="KebeleEngId" />
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
               <!--<span *ngIf="isInvestor">-->
               <mat-error *ngIf="kebeleEng.hasError('required')">
                 {{'common.validation.Required' | translate}}
@@ -440,11 +407,8 @@
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.PhoneMobile' | translate}}</mat-label>
-<<<<<<< HEAD
               <input matInput formControlName="CellPhoneNo" required maxlength="10"/>
-=======
-              <input matInput formControlName="CellPhoneNo" required />
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
+
               <mat-error *ngIf="CellPhoneNo.hasError('required')">
                 {{'common.validation.Required' | translate}}
               </mat-error>
@@ -494,11 +458,8 @@
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2em" class="row">
         <mat-form-field fxFlex>
           <mat-label name="lblTIN">{{'users.editor.TIN' | translate}}</mat-label>
-<<<<<<< HEAD
           <input matInput formControlName="cTin" maxlength="10"/>
-=======
-          <input matInput formControlName="cTin" />
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
+
           <mat-error *ngIf="tin.hasError('required')">
             {{'common.validation.Required' | translate }}
           </mat-error>
@@ -547,7 +508,7 @@
 
     <!-- <pre>
       {{investorForm.invalid}}
-     
+
     </pre> -->
     <pre>
       {{investorForm.errors | json}}
@@ -556,7 +517,7 @@
       {{errors}}
     </pre> -->
     <div mat-dialog-actions style="margin: 15px; text-align: center" *ngIf="serviceApplicationStatus !='44447'">
-      <button mat-raised-button type="submit" *ngIf="!ServiceApplicationId" 
+      <button mat-raised-button type="submit" *ngIf="!ServiceApplicationId"
       [disabled]="investorForm.invalid"
         color="primary" style="margin-right: 10px">
         {{'common.commands.Save' | translate}}

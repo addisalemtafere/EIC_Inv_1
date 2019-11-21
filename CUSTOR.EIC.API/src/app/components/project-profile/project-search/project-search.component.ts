@@ -218,13 +218,14 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
   investorDetail(InvestorId: any, projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
     const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
     const investorId = this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
-    this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + serviceId + '/' + 1 ]);
+    this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + serviceId + '/' + 1]);
   }
 
   nextService(InvestorId: any, projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
 
     const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
     const investorId = this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
+
     switch (serviceId) {
       // case 13:
       case ServiceEnum.NewIP:
@@ -359,13 +360,18 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     this.serviceApplication.todoTask = this.todoTask;
     console.log(this.ServiceId);
     if (this.ServiceId != 1237) {
+
       if (this.isTitle == 1) {
         this.investorDetail(this.InvestorId, projectId, 0, ServiceId, projectStatus, 0);
       } else {
+
         this.serviceApplicationService
           .applicationStart(this.serviceApplication)
           .subscribe(result => {
+            console.log(result.ServiceApplicationId)
+            // this.router.navigate(['incentive-detail/' + projectId + '/' + 0 + '/' + 0 + '/' + 1]);
             this.nextService(this.InvestorId, projectId, result.ServiceApplicationId, ServiceId, projectStatus, result.ServiceWorkflow[0].ServiceWorkflowId);
+
           });
       }
 

@@ -1,11 +1,7 @@
 <form [formGroup]="letterForm" novalidate>
   <mat-card class="margin-2 margin-top-20">
 
-<<<<<<< HEAD
-    <div fxFlex="25" style="float: right;">
-=======
     <!-- <div fxFlex="25" style="float: right;">
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
       <div fxFlex="25" style="float: right;margin-right: 20px;">
         <span *ngIf="ShowSave">
           <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
@@ -17,17 +13,13 @@
           Letter</button>
       </span>
       <mat-divider></mat-divider>
-<<<<<<< HEAD
-    </div>
-    <span *ngIf="attachment">
-=======
     </div> -->
     <div fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em">
       <div class="block" fxLayoutGap="2em">
         <mat-form-field style="width: 150px">
           <mat-label>Letter Type</mat-label>
           <mat-select formControlName="LetterType" style="font-family: Calibri" type="text" [compareWith]="compareIds"
-            (selectionChange)="SetControls($event.value)" required>
+                      (selectionChange)="SetControls($event.value)" required>
             <option value="0">--Select--</option>
             <mat-option *ngFor="let LetterType of Lookups" [value]="LetterType.LookupId">
               <span>{{LetterType.English}}</span>
@@ -53,7 +45,7 @@
           <mat-form-field fxFlex="40">
             <mat-label>Revenue Branch</mat-label>
             <mat-select formControlName="RevenueBranch" style="font-family: Calibri" type="text"
-              [compareWith]="compareIds" required>
+                        [compareWith]="compareIds" required>
               <option value="0">--Select--</option>
               <mat-option *ngFor="let revenuebranch of Lookuprevenues" [value]="revenuebranch.Amharic">
                 <span>{{revenuebranch.Amharic}}</span>
@@ -63,13 +55,12 @@
         </span>
         <mat-form-field *ngIf="RequestedDate">
           <input placeholder="Request Date * :" required formControlName="RequestDate" matInput
-            [matDatepicker]="RequestDate">
+                 [matDatepicker]="RequestDate">
           <mat-datepicker-toggle matSuffix [for]="RequestDate"></mat-datepicker-toggle>
           <mat-datepicker #RequestDate>
           </mat-datepicker>
         </mat-form-field>
         <span *ngIf="attachment">
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
           <mat-form-field [fxFlex]="20">
             <mat-label>Attachment</mat-label>
             <input type="text" matInput required formControlName="Attachment">
@@ -81,61 +72,38 @@
             </mat-error>
           </mat-form-field>
         </span>
-<<<<<<< HEAD
 
-    <span *ngIf="isForDetails">
-=======
-        
       </div>
       <span *ngIf="isForDetails">
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
       <button mat-raised-button="" color="primary" *ngIf="enableButtonGenerate"
               (click)="generatePDF()">Generate Letter</button>
         </span>
-    <div fxFlex="25" style="float: right;margin-right: 20px;">
+      <div fxFlex="25" style="float: right;margin-right: 20px;">
         <span *ngIf="ShowSave">
         <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
         <mat-divider></mat-divider>
           </span>
+      </div>
     </div>
-
     <!--apiKey="4yzxfc219romk1dtk7h8c9q8zci4aj73ls684uxob669uvo4"-->
-<<<<<<< HEAD
-    <!--    <editor id="letterContent" apiKey="vjqlb0zduwhi2tlmowu26x439bchzpwpe0pu5es07n6hpryn" class="full-width"-->
-    <!--      formControlName="LetterContent" [init]="{plugins: 'print',-->
-    <!--            height : 600,-->
-    <!--            theme: 'modern',-->
-    <!--            toolbar_items_size: 'small'}">-->
-
-    <!--    </editor>-->
-
-  </mat-card>
-
-  <ejs-richtexteditor id='defaultRTE' [value]='rteValue' [placeholder]='placeholder' [showCharCount]='true'>
-  </ejs-richtexteditor>
-</form>
-<mat-card class="margin-2 padding-0" style="width: 920px">
-=======
     <!-- <editor id="letterContent" apiKey="vjqlb0zduwhi2tlmowu26x439bchzpwpe0pu5es07n6hpryn" class="full-width"
       formControlName="LetterContent" [init]="{plugins: 'print',
             height : 600,
             theme: 'modern',
             toolbar_items_size: 'small'}">
-
     </editor> -->
   </mat-card>
   <div fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em">
     <ejs-richtexteditor id='defaultRTE' [value]='rteValue'
-     [placeholder]='placeholder' 
-     [toolbarSettings]='tools' 
-     [height]='height'
-     [showCharCount]='true'>
+                        [placeholder]='placeholder'
+                        [toolbarSettings]='tools'
+                        [height]='height'
+                        [showCharCount]='true'>
     </ejs-richtexteditor>
   </div>
 </form>
 <br><br><br>
- <mat-card class="margin-2 padding-0" style="width: 920px">
->>>>>>> 394304123deb892a2ab2062a3007f8eafe196325
+<mat-card class="margin-2 padding-0" style="width: 920px">
   <mat-card-header>
     <mat-card-subtitle class="sub-title">List of Letters
     </mat-card-subtitle>
@@ -181,5 +149,3 @@
     </mat-table>
   </mat-card-content>
 </mat-card>
-
-
