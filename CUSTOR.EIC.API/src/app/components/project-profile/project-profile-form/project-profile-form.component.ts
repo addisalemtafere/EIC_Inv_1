@@ -113,6 +113,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   private workFlowId: any;
   private ServiceApplicationId: any;
   private currentLang: string;
+  private isInvestor: boolean;
 
 
   constructor(private route: ActivatedRoute,
@@ -175,10 +176,12 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
     // this.getDate();
+    this.getUserType();
     this.fillAddressLookups();
     this.formBuild();
     this.updateDateRange();
     this.formControlValueChanged();
+    
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();
@@ -206,7 +209,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         this.getAddressData(project.ProjectId);
       }, error => this.errMsg.getError(error));
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getAddressData(parent: number) {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
@@ -419,6 +424,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       this.formErrors = this.formService.validateForm(this.projectForm, this.formErrors, false);
     }
   }
+
   saveAddress() {
     this.projectForm.get('address').patchValue({
       ParentId: this.projectId
@@ -441,7 +447,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         });
     }
   }
-
+ 
   formBuild() {
     console.log(this.ServiceId);
     this.projectForm = this.formBuilder.group({
@@ -600,6 +606,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.allSiteList = result.filter((item) => {
       return item.SiteCode !== 'OnlineSite';
     });
+  }
+  goToNext() {
+    setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
   }
 
 }

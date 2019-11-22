@@ -48,10 +48,10 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
     this.investorName = localStorage.getItem('investorName');
     this.currentPosition = 'f';
     this.ServiceId = localStorage.getItem('ServiceId');
-  this.getUserType();
+    this.getUserType();
   }
   getUserType() {
-    this.isInvestor = this.accountService.getUserType();
+      this.isInvestor = this.accountService.getUserType();
   }
   move(index: number) {
     this.stepper.selectedIndex = index;
@@ -101,16 +101,20 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
   }
 
   next() {
+    console.log(this.ServiceId)
+    console.log(this.isInvestor)
     if (this.ServiceId === '1234') {
       this.toast.warning('You can not go next because you have not privilege');
     } else {
       this.currentPosition = 'f';
       if (this.currentPosition === 'b' || this.currentPosition === null) {
+        console.log("here")
         this.steeperIndex++;
       }
       if (this.steeperIndex < this.upeerLimit) {
         this.steeperIndex++;
         this.stepper.selectedIndex = this.steeperIndex;
+        console.log("or here")
       }
     }
   }

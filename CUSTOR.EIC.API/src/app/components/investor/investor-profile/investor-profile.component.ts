@@ -38,6 +38,7 @@ export class InvestorProfileComponent implements OnInit {
     public dialog: MatDialog,
     private accountService: AccountService) {
     this.investorId = this.activatedRoute.snapshot.params.InvestorId;
+    //InvestorId
     
   }
   checkServiceApplication() {
@@ -117,7 +118,14 @@ export class InvestorProfileComponent implements OnInit {
     // }
     console.log(this.ServiceApplicationId);
     if (this.ServiceApplicationId == undefined){
-      this.getServiceApplicationIdAndFinish();
+      console.log(this.investorId)
+     if(this.investorId == undefined || this.investorId == 0){
+        this.investorId = localStorage.getItem('InvestorId');
+        console.log(this.investorId)
+        this.getServiceApplicationIdAndFinish();
+     }
+     
+      
     }
     if (this.ServiceApplicationId != undefined){
       this.investorService.submitServiceApplication(this.ServiceApplicationId).subscribe(res => {
@@ -133,6 +141,9 @@ export class InvestorProfileComponent implements OnInit {
     
   }
   getServiceApplicationIdAndFinish(){
+    console.log("temlsdjflsd");
+    console.log(this.investorId);
+    
     this.investorService.getUserServiceApplication(this.investorId).subscribe(res => {
       this.existingServiceApplication = res;
       this.ServiceApplicationId = this.existingServiceApplication.ServiceApplicationId;

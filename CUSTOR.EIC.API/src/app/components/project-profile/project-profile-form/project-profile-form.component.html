@@ -276,14 +276,17 @@
           <!--Back-->
           <!--</button>-->
         </div>
-        <div style="text-align: center" fxFlex="67" fxFlexAlign="center">
+        <mat-card-actions fxLayoutAlign="end end">
           <button [disabled]="!projectForm.valid"
            mat-raised-button="" type="submit" color="primary">
             <!-- <mat-icon class="mat-18">done</mat-icon> -->
             <span class="agree">{{editMode ? 'update' : 'Save'}}</span>
 
           </button>
-        </div>
+          <button *ngIf="!isInvestor" mat-raised-button color="primary"
+            (click)="goToNext()">{{'common.commands.Next'|translate}}
+          </button>
+        </mat-card-actions>
       </div>
     </mat-card-content>
   </mat-card>

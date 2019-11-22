@@ -105,7 +105,7 @@ namespace EICOnline.Controllers
 
       ApplicationUser appUser = await accountManager.GetUserByUserNameAsync(postedInvestor.UserName);
       // to-do check if appUser is valid
-      InvestorDTO inv = InvestorRepo.SaveInvestor(postedInvestor, appUser);
+      InvestorDTO inv = await InvestorRepo.SaveInvestorAsync(postedInvestor, appUser);
 
       return CreatedAtAction("GetInvestor", inv);
     }

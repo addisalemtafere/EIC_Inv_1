@@ -510,12 +510,11 @@
     </pre> -->
     <div mat-dialog-actions style="margin: 15px; text-align: center" *ngIf="serviceApplicationStatus !='44447'">
       <button mat-raised-button type="submit" *ngIf="!ServiceApplicationId" 
-      [disabled]="investorForm.invalid"
         color="primary" style="margin-right: 10px">
         {{'common.commands.Save' | translate}}
       </button>
       <button mat-raised-button type="submit" *ngIf="ServiceApplicationId"
-       [disabled]="investorForm.invalid"
+      
       color="primary" style="margin-right: 10px">
         {{'common.commands.Update' | translate}}
       </button>
@@ -524,7 +523,7 @@
       </button>
       <button mat-raised-button (click)="next()"
        *ngIf="ServiceApplicationId"
-       [disabled]="investorForm.invalid"
+      
        color="warn" type="button">
         {{'common.commands.Next' | translate}}
       </button>
