@@ -115,12 +115,13 @@ export class ProjectProfileDetailComponent implements OnInit {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        // console.log(this.addressList);
+        console.log(this.addressList);
+        console.log(this.addressList.Region.Description);
       }, error => this.errMsg.getError(error));
   }
-
   getProjectDetail(projectId: number) {
     this.projectProfileService.ProjectsDetail(projectId).subscribe(result => {
+      console.log(result);
       this.projectDetail = result;
       this.projectCost = result.ProjectCost[0];
       this.projectEmployement = result.ProjectEmployment[0];
@@ -129,7 +130,7 @@ export class ProjectProfileDetailComponent implements OnInit {
       this.projectShare = result.ProjectNationalityComposition;
       this.projectInputs = result.ProjectInput;
 
-      this.getProjectStatus(result.ProjectStatus)
+      this.getProjectStatus(result.ProjectStatus);
       this.getProjectStage(result.ProjectStage)
     }, error => this.errMsg.getError(error));
   }

@@ -27,6 +27,7 @@ namespace EIC.Investment.API.Controllers
         [HttpGet]
         public IEnumerable<Address> GetAddress()
         {
+
             return _context.Address;
         }
 

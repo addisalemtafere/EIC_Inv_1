@@ -2,7 +2,14 @@ import {AfterContentChecked, AfterViewInit, Component, Input, OnDestroy, OnInit,
 import {AddressModel} from '../../../../model/address/Address.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {ALPHABET_WITHSPACE_REGEX, GENDERS, LEGAL_STATUS} from '../../../../const/consts';
+import {
+  ALPHABET_REGEX,
+  ALPHABET_WITHSPACE_REGEX, ALPHABET_WITHSPACEANDNUMBER_REGEX,
+  ET_ALPHABET_REGEX,
+  ET_ALPHABET_WITHSPACE_REGEX, ET_ALPHABET_WITHSPACEANDNUMBER_REGEX,
+  GENDERS,
+  LEGAL_STATUS, NUMERIC_REGEX
+} from '../../../../const/consts';
 import {KebeleModel} from '../../../../model/address/Kebele.model';
 import {Permission} from '../../../../model/security/permission.model';
 import {RegionModel} from '../../../../model/address/Region.model';
@@ -75,7 +82,11 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   @Input() errors: string[] = [];
   private workFlowId: any;
   investor: Investor;
-
+  private assoId: any;
+  public isInvestor: boolean;
+  public ServiceApplicationId;
+  existingServiceApplication: any;
+  serviceApplicationStatus: any;
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
@@ -93,9 +104,17 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.associate = <AssociateDTO>{};
     // initialize the form
     this.initForm();
+    if (!this.isInvestor) {
+      this.ClearNameValidators();
+    }
     // console.log(this.accountService.currentUser.Roles);
   }
 
+  ClearNameValidators() {
+    this.firstName.clearValidators();
+    this.fatherName.clearValidators();
+
+  }
 
   checkAuthoriation() {
     // if (!this.canManageInvestors) {
@@ -114,12 +133,19 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.currentLang = this.configService.language;
     const id = this.activatedRoute.snapshot.params['InvestorId'];
     this.investorId = this.activatedRoute.snapshot.params['InvestorId'];
+    this.assoId = this.activatedRoute.snapshot.params['associateId'];
     this.workFlowId = this.activatedRoute.snapshot.params['workFlowId'];
-
+    this.ServiceApplicationId = this.activatedRoute.snapshot.params['ServiceApplicationId'];
+    if (this.ServiceApplicationId == undefined) {
+      this.ServiceApplicationId = localStorage.getItem('user-serviceApplicationId');
+    }
+    this.getUserType();
     this.initStaticData(this.currentLang);
     this.fillAddressLookups();
+    this.formControlValueChanged();
+    this.checkServiceApplication();
     this.imgBase64 = '';
-    if (id < 1) {
+    if (id < 1 || this.assoId < 1) {
       this.isNewInvestor = true;
       // this.isCompany = false;
       this.associateId = 0;
@@ -127,12 +153,30 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       this.imgPhoto = '';
       return;
     }
-    if (id) {
+    if (id && this.assoId) {
       // to-do
       // get the selected investor either through @Input or shared service
+      this.getInvestor(this.assoId);
+
+    } else {
       this.getInvestor(id);
+
     }
 
+  }
+  checkServiceApplication() {
+    this.custService.checkServiceApplication(this.ServiceApplicationId).subscribe(res => {
+      this.existingServiceApplication = res;
+      this.serviceApplicationStatus = this.existingServiceApplication.CurrentStatusId
+      console.log(this.existingServiceApplication)
+    })
+  }
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+    // alert(this.isInvestor)
+  }
+  approve(){
+    console.log("approve")
   }
 
   private getPermissions() {
@@ -166,8 +210,11 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
       .getInvestor(id)
       .subscribe(result => {
           this.associate = result;
-          this.fillAddressLookups();
-          this.updateForm();
+          console.log(result);
+          if (result.LegalStatus == 1) {
+            this.fillAddressLookups();
+            this.updateForm();
+          }
         },
         error => this.toastr.error(error));
     this.loadingIndicator = false;
@@ -182,8 +229,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
           if (result == null) {
             this.isNewInvestor = true;
             this.getInvestorById(id);
-          }
-          else {
+          } else {
             this.isNewInvestor = false;
             this.updateForm();
             this.associateId = id;
@@ -211,7 +257,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   getInvestorTitle(id: any) {
-    this.lookUpService.getLookupByParentId(id).subscribe(result => {
+    this.lookUpService.getLookupByParentId(id, this.currentLang).subscribe(result => {
       // console.log(result);
       this.TitleLookup = result;
     });
@@ -232,8 +278,9 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   private getAllNations() {
-    this.addressService.getNationality()
+    this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
+        console.log(result);
         this.nationList = result;
       });
   }
@@ -290,13 +337,15 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
       cFatherNameEng: ['', [Validators.compose([Validators.required, Validators.minLength(2),
         Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]],
-      cGrandNameEng: [''],
-      cFirstName: [''],
-      cFatherName: [''],
-      cGrandName: [''],
-      cNationality: ['1'], // Ethiopian
+      cGrandNameEng: ['', Validators.pattern(ALPHABET_WITHSPACE_REGEX)],
+      cFirstName: ['', Validators.compose([Validators.minLength(1),
+        Validators.pattern(ET_ALPHABET_REGEX)])],
+      cFatherName: ['', Validators.compose([Validators.required, Validators.minLength(1),
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])],
+      cGrandName: ['', Validators.pattern(ET_ALPHABET_REGEX)],
+      cNationality: [''], // Ethiopian
       cGender: ['1'],
-      Title: [''],
+      Title: ['', Validators.required],
       workFlowId: this.workFlowId,
       Origin: [false],
       'address': new FormGroup({
@@ -391,7 +440,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     return this.associateService.create(this.getEditedInvestor())
       .subscribe((associate: AssociateDTO) => {
           this.saveCompleted(associate);
-          localStorage.setItem('profile-completed', 'true')
+          localStorage.setItem('profile-completed', 'true');
         },
         err => this.handleError(err)
       );
@@ -405,7 +454,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     this.loadingIndicator = false;
     this.toastr.success('Record saved successfully!');
     this.dataSharing.investorTabSelectedIndex.next(2);
-    //this.router.navigate(['/associate/list']);
+    // this.router.navigate(['/associate/list']);
     setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
   }
@@ -521,7 +570,11 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     const a2 = determineId(id2);
     return a1 === a2;
   }
-
+  back(){
+    this.dataSharing.currentIndex.next(2)
+    console.log(this.dataSharing.currentIndex.next(2))
+    setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
+  }
   onBack() {
     this.router.navigate(['associate/list']);
   }
@@ -571,19 +624,27 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   get region() {
-    return this.associateForm.get('RegionId');
+    return this.associateForm.get('address').get('RegionId');
   }
 
   get zone() {
-    return this.associateForm.get('ZoneId');
+    return this.associateForm.get('address').get('ZoneId');
   }
 
   get woreda() {
-    return this.associateForm.get('WoredaId');
+    return this.associateForm.get('address').get('WoredaId');
+  }
+
+  get woredaEng() {
+    return this.associateForm.get('address').get('WoredaEngId');
   }
 
   get kebele() {
-    return this.associateForm.get('KebeleId');
+    return this.associateForm.get('address').get('KebeleId');
+  }
+
+  get kebeleEng() {
+    return this.associateForm.get('address').get('KebeleEngId');
   }
 
   get houseNumber() {
@@ -591,7 +652,7 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   get phoneDirect() {
-    return this.associateForm.get('PhoneDirect');
+    return this.associateForm.get('TeleNo');
   }
 
   get CellPhoneNo() {
@@ -725,5 +786,44 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
 
 // =====================
 
+  formControlValueChanged() {
+    this.firstName.setValidators([Validators.compose([Validators.minLength(2),
+      Validators.pattern(ET_ALPHABET_REGEX)])]);
+    if (!this.isInvestor) {
+      this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
+    }
+    this.fatherName.setValidators([Validators.compose([Validators.minLength(2),
+      Validators.pattern(ET_ALPHABET_REGEX)])]);
+    if (!this.isInvestor) {
+      this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
+    }
+    this.grandName.setValidators([Validators.compose([Validators.minLength(1),
+      Validators.pattern(ET_ALPHABET_REGEX)])]);
+    if (!this.isInvestor) {
+      this.grandName.setValidators([Validators.compose([Validators.minLength(1),
+        Validators.pattern(ET_ALPHABET_WITHSPACE_REGEX)])]);
+    }
+    this.woredaEng.setValidators([Validators.compose([Validators.maxLength(20)])]);
+    if (!this.isInvestor) {
+      this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.maxLength(20)])]);
+    }
+    this.woreda.setValidators([Validators.compose([Validators.maxLength(20)])]);
+    if (!this.isInvestor) {
+      this.woreda.setValidators([Validators.compose([Validators.required, Validators.maxLength(20)])]);
+    }
+    this.kebeleEng.setValidators([Validators.compose([Validators.maxLength(20)])]);
+    if (!this.isInvestor) {
+      this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.maxLength(20)])]);
+    }
+    this.kebele.setValidators([Validators.compose([Validators.maxLength(20)])]);
+    if (!this.isInvestor) {
+      this.kebele.setValidators([Validators.compose([Validators.required, Validators.maxLength(20)])]);
+    }
+    this.nationality.setValidators([Validators.required]);
+    // this.phoneDirect.setValidators([Validators.compose([Validators.maxLength(10)])]);
+    // this.CellPhoneNo.setValidators([Validators.compose([Validators.required])]);
+  }
 }
 

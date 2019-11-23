@@ -6,6 +6,8 @@ import { ListWoredaComponent } from './list/list-woreda.component';
 import { EditWoredaComponent } from './edit/edit-woreda.component';
 import { WoredaComponent } from './woreda.component';
 import { SharedModule } from '../../../../../@custor/modules/shared.module';
+import {ZoneService} from "../zone/zone.service";
+import {WoredaService} from "./woreda.service";
 
 @NgModule({
   imports: [
@@ -14,6 +16,7 @@ import { SharedModule } from '../../../../../@custor/modules/shared.module';
     SharedModule
   ],
   declarations: [ListWoredaComponent, EditWoredaComponent, WoredaComponent],
-  exports: [ListWoredaComponent, EditWoredaComponent, WoredaComponent]
+  exports: [ListWoredaComponent, EditWoredaComponent, WoredaComponent],
+  providers:[WoredaService]
 })
 export class WoredaModule { }

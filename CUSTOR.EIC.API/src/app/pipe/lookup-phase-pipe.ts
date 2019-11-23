@@ -27,7 +27,7 @@ export class LookupPhasePipe implements PipeTransform {
 
   getLookups() {
 
-    this.lookUpService.getLookupByParentId(10781).subscribe(result => {
+    this.lookUpService.getLookupByParentId(10781,'en').subscribe(result => {
       this.allLookup = result;
     });
   }

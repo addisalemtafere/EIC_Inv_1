@@ -33,7 +33,7 @@ export class AppConfiguration {
     address: 'api/addresses',
 
     // site: 'api/sites/',
-    projectCost: 'api/projectCosts',
+    projectCost: 'api/ProjectCosts',
     ActualCost: 'api/projectCosts/ActualCost',
 
     projectCostByProjectID: 'api/ProjectCosts/ByProject',
@@ -44,7 +44,7 @@ export class AppConfiguration {
     employmentByProject: 'api/ProjectEmployments/ByProject',
     NationalityCompositions: 'api/ProjectNationalityCompositions',
     NationalityCompositionsByProject: 'api/ProjectNationalityCompositions/ByProject',
-    nationality: 'api/Nationalities',
+    nationality: 'api/Nationalities/ByLang',
     pRequirement: 'api/ProjectRequirements',
     pInput: 'api/ProjectInputs',
     InputsByProject: 'api/ProjectInputs/ByProject',
@@ -117,6 +117,7 @@ export class AppConfiguration {
     CountNotification: 'api/Notifications/CountNotification',
     investorAdress: 'api/certificate/investorAdress',
     projectRenewals: 'api/projectRenewals',
+    projectRenewalsbyId: 'api/projectRenewals/ByProjectId',
     ProjectCancellations: 'api/ProjectCancellations',
     projectList: 'api/Projects/list',
     ProjectOnlyByInvestorId: 'api/Projects/ProjectOnlyByInvestorId',
@@ -124,11 +125,14 @@ export class AppConfiguration {
     ProjectsGetProjectStatus: 'api/Projects/GetProjectStatus',
 
     ServiceApplicationsByInvestorId: 'api/ServiceApplications/ByInvestorId',
+    ServiceApplicationsByProjectId: 'api/ServiceApplications/ServiceApplicationWithProjectId',
     ServiceApplicationsByOfficerId: 'api/ServiceApplications/ByOfficerId',
 
     ServiceApplicationsByOfficerId2: 'api/ServiceApplications/ByOfficerId2',
     finalForApproval: 'api/ServiceApplications/finalForApproval',
+    ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
     ServiceApplicationsByOfficerId2ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
+    // ChangeApplicationStatus: 'api/ServiceApplications/ChangeApplicationStatus',
     ChangeInvestorApplicationStatus: 'api/ServiceApplications/ChangeInvestorApplicationStatus',
     ApplicationGroupByServiceId: 'api/ServiceApplications/ApplicationGroupByServiceId',
     ProjectGroupByStage: 'api/ServiceApplications/ProjectGroupByStage',
@@ -140,6 +144,7 @@ export class AppConfiguration {
     ServiceApplicationCancellation: 'api/ServiceApplications/ServiceApplicationCancellation',
     ServiceApplicationSubstitute: 'api/ServiceApplications/ServiceApplicationSubstitute',
     ServiceApplicationBillOfMaterial: 'api/ServiceApplications/ServiceApplicationBillOfMaterial',
+    BillOfMaterialByProjectId: 'api/ServiceApplications/BillOfMaterialByProjectId',
 
     ProjectsByInvestorId: 'api/Projects/ByInvestorId',
     SearchInvestor: 'api/SearchInvestor',
@@ -203,19 +208,21 @@ export class AppConfiguration {
     letter: 'api/letter',
     letters: 'api/letters',
 
-
     incentiveRequests: 'api/incentiveRequests/ByIds',
     incentiveRequest: 'api/incentiveRequest',
     incentiveRequestsothers: 'api/incentiveRequests/ByOtherServiceAppId',
     incentiveRequestsByProjectId: 'api/incentiveRequests/ByProjectId',
 
     IncentiveRequestDetail: 'api/IncentiveRequestDetail',
+    IncentiveRequestDetailByServiceApp: 'api/IncentiveRequestDetail',
     IncentiveRequestDetails: 'api/IncentiveRequestDetails',
     IncentiveBoMRequestItems: 'api/IncentiveBoMRequestItems',
 
     CapitalRegistrations: 'api/CapitalRegistrations',
     CapitalRegistrationsByProject: 'api/CapitalRegistrations/ByProject',
     incentiveRequestByServiceAppId: 'api/IncentiveRequest/ByServiceAppId',
+    incentiveRequestByProjectId: 'api/IncentiveRequest/ByProjectId',
+    incentiveRequestByServiceAppIds: 'api/IncentiveRequest/ByServiceAppIds',
 
     IncentiveRequestDetailofSparePart: 'api/IncentiveRequestDetail/getSparePart',
     incentiveRequestsDetailByProjectId: 'api/IncentiveRequestDetail/DetailByProjectId',
@@ -230,7 +237,9 @@ export class AppConfiguration {
 
 
     ByParentIdandByCode: 'api/lookup/ByParentIdandByCode',
-    IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/GetByProjectId',
+    IncentiveBoMImportItemByProjectIds: 'api/IncentiveBoMRequestItems/GetByProjectId',
+    IncentiveBoMImportItemByProjectId: 'api/IncentiveBoMRequestItems/ByProjectId',
+    IncentiveBoMImportItemByBomId: 'api/IncentiveBoMRequestItems/GetByBomId',
 
 
     lettersByProjectId: 'api/letters/ByProjectId',
@@ -263,7 +272,11 @@ export class AppConfiguration {
     followupedit: 'delete/followup',
     GetBussinessMajorCatagory: 'api/Business/GetBussinessMajorcata',
     GetBussinessCatagory: 'api/Business/GetBussinessCatagory',
-
+    Country: 'api/Country',
+    Countrys: 'api/Countrys',
+    National: 'api/Nationalities/GetDTO',
+    Nationalities: 'api/Nationalitys',
+    ServiceAppWithRenewal: 'api/projectRenewals/ServiceAppWithRenewal',
 
     url: (name, parm1?, parm2?, parm3?) => {
       let url = this.urls.baseUrl + this.urls[name];

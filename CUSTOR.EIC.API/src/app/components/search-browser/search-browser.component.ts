@@ -20,12 +20,14 @@ import {TodoTaskModel} from '../../model/TodoTask.model';
 import {ServiceModel} from '../../model/Service.model';
 import {Permission} from '../../model/security/permission.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
-import {ActivityModel} from "../../model/activity";
+import {ApplicationStatusEnum, ServiceEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-search-browser',
   templateUrl: './search-browser.component.html',
-  styleUrls: ['./search-browser.component.scss']
+  styleUrls: ['./search-browser.component.scss'],
+  providers: []
+
 })
 export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
@@ -59,12 +61,12 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   private investors: Investor[];
   public projectList: ProjectModel[];
   private ServiceId: any;
+  private Title: any;
   private isForDetail: any;
   private ServiceApplicationId: any;
   private InvestorId: any;
 
   constructor(public fb: FormBuilder,
-              private http: HttpClient,
               private invService: InvestorService,
               private projectService: ProjectProfileService,
               private dataSharing: DataSharingService,
@@ -82,6 +84,8 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
 
   ngOnInit() {
     this.ServiceId = this.route.snapshot.params['ServiceId'];
+    this.Title = this.route.snapshot.params['Title'];
+    console.log(this.ServiceId)
     this.initForm();
     this.getInvestors();
     this.title = localStorage.getItem('title');
@@ -152,36 +156,13 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     this.projectList = [];
     this.ServiceId = this.route.snapshot.params['ServiceId'];
 
-    if (this.ServiceId == 13) {
+    if (this.ServiceId == ServiceEnum.NewIP) {
       this.InvestorId = InvestorId;
       this.router.navigate(['/pro/' + 0 + '/' + 0 + '/' + this.ServiceId + '/' + 0 + '/' + InvestorId]);
-    }
-    else {
+    } else {
       // localStorage.setItem('InvestorId', InvestorId);
-      this.router.navigate(['/search-browser/' + this.ServiceId + '/' + InvestorId + '/' + 0]);
+      this.router.navigate(['/project-search/' + this.ServiceId + '/' + InvestorId + '/' + 0 + '/' + this.Title]);
 
-      this.invName = investorName;
-      this.loadingIndicator = true;
-      this.projectService.getProjectByInvestorId(InvestorId)
-        .subscribe(result => {
-            this.projectList = result;
-            this.title = 'ProjectDetail';
-            if (this.projectList.length == 0) {
-              this.loadingIndicator = false;
-              this.toastr.info('No active project records were found to list', 'Info', {
-                closeButton: true,
-              });
-            } else {
-              this.loadingIndicator = false;
-              this.investorShow = false;
-              this.dataSource = new MatTableDataSource<ProjectModel>(result);
-              this.dataSource.paginator = this.paginator;
-            }
-          },
-          error => {
-            this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
-          });
-      this.loadingIndicator = false;
     }
   }
 
@@ -252,7 +233,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   goToService(InvestorId: any, investorName: any) {
     localStorage.setItem('investorName', investorName);
     const serviceId = this.ServiceId;
-    if (serviceId === 13) {
+    if (serviceId === ServiceEnum.NewIP) {
       setTimeout(() => this.dataSharing.currentIndex.next(0), 0);
 
       localStorage.setItem('currentIndex', '0');
@@ -271,17 +252,17 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
     // console.log(serviceId);
 
     switch (serviceId) {
-      case 13:
+      case ServiceEnum.NewIP:
         this.router.navigate(['/pro/0/0/0/0/0']);//Fire
         break;
-      case 18:
+      case ServiceEnum.Renewal:
         if (projectStatus !== 4) {
           this.router.navigate(['/project-renewal/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
         } else {
           this.toastr.error('you can not renew this project it already cancelled', 'Not Allowed');
         }
         break;
-      case 19:
+      case ServiceEnum.CancellationOfIP:
         if (projectStatus !== 4) {
           this.router.navigate(['/project-cancellation/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ProjectId', projectId);
@@ -289,7 +270,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           this.toastr.error('you can not Cancelled  this project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1023:
+      case ServiceEnum.Expansion:
         if (projectStatus !== 4) {
           this.router.navigate(['pro/' + projectId + '/' + ServiceApplicationId + '/' + serviceId + '/' + 0 + '/' + 0]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -297,13 +278,13 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           this.toastr.error('you can not Expand  this project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1234:
+      case ServiceEnum.AfterCare:
         this.router.navigate(['/after-care/' + projectId]);
         break;
-      case 1028:
-        this.editProject(projectId, ServiceApplicationId, 13);
+      case ServiceEnum.AmendmentOfIP:
+        this.editProject(projectId, ServiceApplicationId, ServiceEnum.NewIP);
         break;
-      case 1027:
+      case ServiceEnum.SubstituteIP:
         if (projectStatus !== 4) {
           this.router.navigate(['/project-substitute/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ProjectId', projectId);
@@ -311,7 +292,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           this.toastr.error('you can not Cancelled  this project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1045:
+      case ServiceEnum.TaxHolidayIncentive:
         if (projectStatus !== 4) {
           this.router.navigate(['/tax-exemption/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -319,7 +300,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1046:
+      case ServiceEnum.DutyFreeIncentive:
         if (projectStatus !== 4) {
           this.router.navigate(['/incentive-request-item/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -327,7 +308,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1047:
+      case ServiceEnum.UploadingOfConstructionMaterial:
         if (projectStatus !== 4) {
           this.router.navigate(['bill-of-material/1/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -335,7 +316,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1054:
+      case ServiceEnum.UploadingOfRawMaterial:
         if (projectStatus !== 4) {
           this.router.navigate(['bill-of-material/2/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -343,7 +324,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1001:
+      case ServiceEnum.CapitalRegistration:
         if (projectStatus !== 4) {
           this.router.navigate(['capital-registration/', projectId]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -351,7 +332,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
           this.toastr.error('Project it already cancelled', 'Not Allowed');
         }
         break;
-      case 1236:
+      case ServiceEnum.BusinessLicense:
         if (projectStatus !== 4) {
           this.router.navigate(['business-tab/' + serviceId + '/' + investorId + '/' + ServiceApplicationId + '/' + projectId + '/' + workFlowId + '/' + 0]);
           localStorage.setItem('ParentProjectId', projectId);
@@ -366,7 +347,6 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
   }
 
   startApplication(projectList: ProjectModel) {
-
     const projectName = projectList.ProjectName;
     const projectId = projectList.ProjectId;
     const projectStatus = projectList.ProjectStatus;
@@ -386,7 +366,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.serviceApplication.ServiceId = this.ServiceId;
       this.serviceApplication.InvestorId = this.InvestorId;
       this.serviceApplication.CaseNumber = '1';
-      this.serviceApplication.CurrentStatusId = 44450;
+      this.serviceApplication.CurrentStatusId = ApplicationStatusEnum.Drafted;
       this.serviceApplication.IsSelfService = true;
       this.serviceApplication.IsPaid = true;
       this.serviceApplication.CreatedUserId = 1;

@@ -1,52 +1,58 @@
-import {AfterContentChecked, Component, OnInit, ViewChild} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {ProjectModel} from '../../../model/Project.model';
-import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ProjectProfileService} from '../../../Services/project-profile.service';
-import {AddressModel} from '../../../model/address/Address.model';
-import {AddressService} from '../../../Services/Address/address.service';
-import {RegionModel} from '../../../model/address/Region.model';
-import {ZoneModel} from '../../../model/address/Zone.model';
-import {WoredaModel} from '../../../model/address/Woreda.model';
-import {KebeleModel} from '../../../model/address/Kebele.model';
-import {ToastrService} from 'ngx-toastr';
-import {SiteService} from '../../../Services/site.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {FormOfOwnershipModel} from '../../../model/EnumModel';
-import {DataSharingService} from '../../../Services/data-sharing.service';
-import {ActivityService} from '../../setting/category-tabs/Activity/activity.service';
-import {ActivityModel} from '../../../model/activity';
-import {InvactivityService} from '../../setting/category-tabs/InvActivity/invactivity.service';
-import {InvActivityModel} from '../../../model/invactivity';
-import {ErrorMessage} from '@custor/services/errMessageService';
-import {FormService} from '@custor/validation/custom/form';
-import {CustomValidators} from '@custor/validation/custom/custom_validators';
-import {FormOfOwnership, ProjectStage} from '@custor/const/consts';
-import {InvestorService} from '../../investor/investor.service';
-import {UserActivityDataServices} from '../../../admin/user-detail/user-detail.service';
-import {AccountService} from '@custor/services/security/account.service';
-import {SiteModel} from '../../../model/Site.model';
-import {SectorService} from '../../setting/category-tabs/sector/sector.service';
-import {SubsectorService} from '../../setting/category-tabs/subsector/subsector.service';
-import {SectorModel} from '../../../model/sector';
-import {SubSectorModel} from '../../../model/subSector';
-import {Permission} from "../../../model/security/permission.model";
-import {ProjectStageModel} from "../../../model/lookupData";
-import {ProjectRenewalModel} from '../../../model/ProjectRenewal.model';
-import {ProjectRenewalService} from '../../../Services/project-renewal.service';
+import { AfterContentChecked, Component, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ProjectModel } from '../../../model/Project.model';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectProfileService } from '../../../Services/project-profile.service';
+import { AddressModel } from '../../../model/address/Address.model';
+import { AddressService } from '../../../Services/Address/address.service';
+import { RegionModel } from '../../../model/address/Region.model';
+import { ZoneModel } from '../../../model/address/Zone.model';
+import { WoredaModel } from '../../../model/address/Woreda.model';
+import { KebeleModel } from '../../../model/address/Kebele.model';
+import { ToastrService } from 'ngx-toastr';
+import { SiteService } from '../../../Services/site.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormOfOwnershipModel } from '../../../model/EnumModel';
+import { DataSharingService } from '../../../Services/data-sharing.service';
+import { ActivityService } from '../../setting/category-tabs/Activity/activity.service';
+import { ActivityModel } from '../../../model/activity';
+import { InvactivityService } from '../../setting/category-tabs/InvActivity/invactivity.service';
+import { InvActivityModel } from '../../../model/invactivity';
+import { ErrorMessage } from '@custor/services/errMessageService';
+import { FormService } from '@custor/validation/custom/form';
+import { CustomValidators } from '@custor/validation/custom/custom_validators';
+import { FormOfOwnership, ProjectStage } from '@custor/const/consts';
+import { InvestorService } from '../../investor/investor.service';
+import { UserActivityDataServices } from '../../../admin/user-detail/user-detail.service';
+import { AccountService } from '@custor/services/security/account.service';
+import { SiteModel } from '../../../model/Site.model';
+import { SectorService } from '../../setting/category-tabs/sector/sector.service';
+import { SubsectorService } from '../../setting/category-tabs/subsector/subsector.service';
+import { SectorModel } from '../../../model/sector';
+import { SubSectorModel } from '../../../model/subSector';
+import { Permission } from '../../../model/security/permission.model';
+import { ProjectStageModel } from '../../../model/lookupData';
+import { ProjectRenewalModel } from '../../../model/ProjectRenewal.model';
+import { ProjectRenewalService } from '../../../Services/project-renewal.service';
+import { ConfigurationService } from '@custor/services/configuration.service';
+import { ServiceEnum } from '../../../enum/enums';
+import { ET_ALPHABET_REGEX } from '../../../const/consts';
 
 @Component({
   selector: 'app-project-profile-form',
   templateUrl: './project-profile-form.component.html',
-  styleUrls: ['./project-profile-form.component.css']
+  styleUrls: ['./project-profile-form.component.css'],
+  providers: [ConfigurationService]
 })
 export class ProjectProfileFormComponent implements OnInit, AfterContentChecked {
   @ViewChild('costF') costForm: NgForm;
   formOfOwnershipList: FormOfOwnershipModel[] = [];
   subscription: Subscription;
+  public validateStart: boolean;
+  public validateOperation: boolean;
   serviceIdSubscription: Subscription;
-  public IsOromia: boolean = false;
+  public IsOromia = false;
   editMode = false;
   loading = false;
   date: any;
@@ -69,11 +75,12 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   projectStage: ProjectStageModel[] = [];
   approve: ProjectRenewalModel;
   public formErrors = {
+    // EnvironmentalImpact: 'Enter Description in between 2 - 100 characters!',
     ProjectName: 'at least three characters!',
-    ProjectDescription: '',
-    StartDate: '',
-    OperationDate: '',
-    EndingDate: '',
+    ProjectDescription: 'Enter Description in between 2 - 100 characters!',
+    StartDate: 'Enter a Valid Date!',
+    OperationDate: 'Enter a Valid Date!',
+    EndingDate: 'Enter a Valid Date!',
     Sector: '',
     SubSector: '',
     Region: '',
@@ -85,7 +92,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     SpecificAreaName: '',
     Remark: '',
     EnvironmentalImpact: '',
-    IndustrialParkId: '',
+    IndustrialParkId: 'Select Industrial Park',
     ProjectStage: ''
   };
 
@@ -105,28 +112,31 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
+  private currentLang: string;
+  private isInvestor: boolean;
 
 
   constructor(private route: ActivatedRoute,
-              private accountService: AccountService,
-              private router: Router,
-              public activityDataServices: UserActivityDataServices,
-              public accountServices: AccountService,
-              private formBuilder: FormBuilder,
-              private toastr: ToastrService,
-              private projectProfileService: ProjectProfileService,
-              private addressService: AddressService,
-              private investorService: InvestorService,
-              private errMsg: ErrorMessage,
-              private sectorService: SectorService,
-              private subSectorService: SubsectorService,
-              private siteService: SiteService,
-              public formService: FormService,
-              public snackbar: MatSnackBar,
-              public activityService: ActivityService,
-              public invactivityService: InvactivityService,
-              private dataSharing: DataSharingService,
-              public projectRenewalService: ProjectRenewalService) {
+    private accountService: AccountService,
+    private router: Router,
+    public activityDataServices: UserActivityDataServices,
+    public accountServices: AccountService,
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService,
+    private projectProfileService: ProjectProfileService,
+    private addressService: AddressService,
+    private investorService: InvestorService,
+    private errMsg: ErrorMessage,
+    private sectorService: SectorService,
+    private subSectorService: SubsectorService,
+    private configService: ConfigurationService,
+    private siteService: SiteService,
+    public formService: FormService,
+    public snackbar: MatSnackBar,
+    public activityService: ActivityService,
+    public invactivityService: InvactivityService,
+    private dataSharing: DataSharingService,
+    public projectRenewalService: ProjectRenewalService) {
     // this.project = <ProjectModel>{};
     // this.address = <AddressModel>{};
   }
@@ -159,15 +169,19 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
     // this.getDate();
+    this.getUserType();
     this.fillAddressLookups();
     this.formBuild();
     this.updateDateRange();
+    this.formControlValueChanged();
+    
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();
@@ -175,8 +189,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     } else {
       this.editMode = false;
     }
+    this.validateStart = true;
+    this.validateOperation = true;
   }
-
   getProjectDetail() {
     this.projectProfileService
       .getOneById(this.projectId)
@@ -186,15 +201,22 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
           this.projectIdEditing = project.ProjectId;
         }
         this.projectForm.patchValue(project);
+
+        this.projectForm.patchValue({
+          ProjectStage: project.ProjectStage.toString()
+        });
+
         this.getAddressData(project.ProjectId);
       }, error => this.errMsg.getError(error));
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getAddressData(parent: number) {
     this.addressService.getAddress(parent)
       .subscribe((result: AddressModel) => {
         this.addressList = result;
-        //this.getKebeleByWoredaId(result.WoredaId);
+        // this.getKebeleByWoredaId(result.WoredaId);
         this.addressId = result.AddressId;
         this.projectForm.get('address').patchValue(result);
       }, error => this.errMsg.getError(error));
@@ -214,25 +236,26 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllSector() {
-    this.sectorService.getSectors()
+    console.log(this.currentLang);
+    this.sectorService.getSectors(this.currentLang)
       .subscribe(result => {
-          this.sectorList = result;
-        },
+        this.sectorList = result;
+      },
         error => this.toastr.error(this.errMsg.getError(error)
         ));
   }
 
   getAllSubSector() {
-    this.subSectorService.getSubSectors()
+    this.subSectorService.getSubSectors(this.currentLang)
       .subscribe(result => {
-          this.subSectorList = result;
-          this.filterSubSectorList = result;
-        },
+        this.subSectorList = result;
+        this.filterSubSectorList = result;
+      },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   getAllActivityService() {
-    this.activityService.getActivitys()
+    this.activityService.getActivitys(this.currentLang)
       .subscribe(result => {
         this.activity = result;
         this.filterActivityLIst = result;
@@ -240,7 +263,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   getAllInvestmentActivity() {
-    this.invactivityService.getInActivitys()
+    this.invactivityService.getInActivitys(this.currentLang)
       .subscribe(result => {
         this.investmentActivity = result;
         this.filterInvestmentActivityList = result;
@@ -250,26 +273,26 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   getRegions() {
     this.addressService.getRegions()
       .subscribe(result => {
-          this.regions = result;
-        },
+        this.regions = result;
+      },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   getAllZones() {
     this.addressService.getAllZones()
       .subscribe(result => {
-          this.zones = result;
-          this.filteredZones = result;
-        },
+        this.zones = result;
+        this.filteredZones = result;
+      },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
   getAllWoredas() {
     this.addressService.getAllWoredas()
       .subscribe(result => {
-          this.woredas = result;
-          this.filteredWoredas = result;
-        },
+        this.woredas = result;
+        this.filteredWoredas = result;
+      },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
 
@@ -288,8 +311,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     }
     if (regionCode == 4) {
       this.IsOromia = true;
-    }
-    else {
+    } else {
       this.IsOromia = false;
     }
     this.filteredZones = null;
@@ -351,11 +373,32 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   }
 
   onSubmit() {
+    let D1 = new Date(this.StartDate.value);
+    let D2 = new Date(this.EndingDate.value);
+    let D3 = new Date(this.OperationDate.value);
+    if (D2 > D1) {
+      this.validateStart = true;
+    } else {
+      this.validateStart = false;
+    }
+    // else {
+    //   this.toastr.show('invalid Date for ending date');
+    // }
+    if (D3 < D2 && D3 > D1) {
+      this.validateOperation = true;
+    } else {
+      this.validateOperation = false;
+    }
+    // else {
+    //   this.toastr.show('invalid Date for operation date');
+    // }
+    // else {
+    //   this.toastr.show('Not Valid');
+    // }
     this.loading = true;
     this.formService.markFormGroupTouched(this.projectForm);
-    if (this.projectForm.valid) {
+    if (this.projectForm.valid && this.validateOperation && this.validateStart) {
       if (!this.editMode) {
-
         this.projectProfileService.create(this.projectForm.value)
           .subscribe(result => {
             this.projectId = result.ProjectId;
@@ -382,7 +425,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     }
   }
 
-
   saveAddress() {
     this.projectForm.get('address').patchValue({
       ParentId: this.projectId
@@ -392,6 +434,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         .subscribe(result => {
           this.notification('address updated');
         });
+      setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
+      setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
     } else {
       console.log(this.projectForm.get('address').value);
       this.addressService.saveAddress(this.projectForm.get('address').value)
@@ -403,30 +447,31 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         });
     }
   }
-
+ 
   formBuild() {
     console.log(this.ServiceId);
     this.projectForm = this.formBuilder.group({
       ProjectName: ['', Validators.compose([Validators.required,
-        CustomValidators.validateCharacters, Validators.minLength(2)])],
+      CustomValidators.validateCharacters, Validators.minLength(3)])],
       InvestorId: [this.InvestorId],
       ServiceId: [this.ServiceId],
       ParentProjectId: ['0'],
       CreatedUserName: this.accountServices.currentUser.UserName,
-      ProjectDescription: ['', [Validators.required, Validators.minLength(2)]],
+      ProjectDescription: ['', Validators.compose([Validators.required, Validators.minLength(2),
+      Validators.maxLength(100)])],
       StartDate: ['', [Validators.required]],
       OperationDate: ['', Validators.required],
-      SectorId: [''],
-      SubSectorId: [''],
-      ActivityId: [''],
+      SectorId: ['', Validators.required],
+      SubSectorId: ['', Validators.required],
+      ActivityId: ['', Validators.required],
+      InvActivityId: ['', Validators.required],
       IsOromiaSpecialZone: [''],
-      InvActivityId: [''],
       EndingDate: ['', Validators.required],
       IsSelfService: [false],
-      EnvironmentalImpact: ['', [Validators.required, Validators.minLength(2)]],
+      EnvironmentalImpact: ['', [Validators.required,Validators.minLength(2)]],
       AssignedUserId: [this.accountService.currentUser.Id],
       CreatedUserId: [this.accountService.currentUser.Id],
-      ProjectStage: ['', Validators.required],
+      ProjectStage: [null, Validators.required],
       InvestmentPermitNo: [''],
       'address': new FormGroup({
         ParentId: new FormControl(),
@@ -451,10 +496,13 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     if (this.canViewTasks) {
       this.projectForm.patchValue({
         IsSelfService: true
-      })
+      });
     }
   }
-
+  formControlValueChanged() {
+    this.ProjectName.setValidators([Validators.compose([Validators.required, Validators.minLength(3)])]);
+    // this.ProjectStage.setValidators([Validators.required]);
+  }
   initStaticData(currentLang) {
     let formOfOwnership: FormOfOwnershipModel = new FormOfOwnershipModel();
     FormOfOwnership.forEach(pair => {
@@ -473,6 +521,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         Description: pair.Description
       };
       this.projectStage.push(projectSage);
+      const toSelect = this.projectStage.find(c => c.Id == 1);
+      console.log(toSelect);
+      this.projectForm.get('ProjectStage').setValue(toSelect);
     });
   }
 
@@ -486,7 +537,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.projectForm.patchValue({
       ServiceId: this.ServiceId
     });
-    if (this.ServiceId == 1023 && !this.editMode) {
+    if (this.ServiceId == ServiceEnum.Expansion && !this.editMode) {
       this.projectForm.patchValue({
         ParentProjectId: localStorage.getItem('ParentProjectId')
       });
@@ -509,7 +560,40 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
   getIsChecked() {
     return this.projectForm.get('address').get('IsIndustrialPark').value;
   }
+  get ProjectDescription() {
+    return this.projectForm.get('ProjectDescription');
+  }
+  get ProjectName() {
+    return this.projectForm.get('ProjectName');
+  }
+  get EndingDate() {
+    return this.projectForm.get('EndingDate');
+  }
+  get StartDate() {
+    return this.projectForm.get('StartDate');
+  }
+  get OperationDate() {
+    return this.projectForm.get('OperationDate');
+  }
+  get SectorId() {
+    return this.projectForm.get('SectorId');
+  }
+  get SubSectorId() {
+    return this.projectForm.get('SubSectorId');
+  }
+  get ActivityId() {
+    return this.projectForm.get('ActivityId');
+  }
+  get InvActivityId() {
+    return this.projectForm.get('InvActivityId');
+  }
+  get EnvironmentalImpact() {
+    return this.projectForm.get('EnvironmentalImpact');
+  }
 
+  get ProjectStage() {
+    return this.projectForm.get('ProjectStage');
+  }
   get canViewTasks() {
     return this.accountService.userHasPermission(Permission.viewServiceList);
   }
@@ -522,6 +606,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.allSiteList = result.filter((item) => {
       return item.SiteCode !== 'OnlineSite';
     });
+  }
+  goToNext() {
+    setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
   }
 
 }

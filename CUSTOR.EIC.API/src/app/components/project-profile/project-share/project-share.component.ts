@@ -15,11 +15,14 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {InvestorService} from '../../investor/investor.service';
 import {Investor} from '../../../model/investor';
+import {ConfigurationService} from "@custor/services/configuration.service";
+import { AccountService } from '../../../../@custor/services/security/account.service';
 
 @Component({
   selector: 'app-project-share',
   templateUrl: './project-share.component.html',
-  styleUrls: ['./project-share.component.css']
+  styleUrls: ['./project-share.component.css'],
+  providers:[ConfigurationService]
 })
 export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChecked {
   projectShareForm: FormGroup;
@@ -47,7 +50,8 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
-
+  private currentLang :string;
+  isInvestor : boolean;
   constructor(private formBuilder: FormBuilder,
               private snackbar: MatSnackBar,
               public route: ActivatedRoute,
@@ -57,17 +61,20 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
               private toastr: ToastrService,
               private dataSharing: DataSharingService,
               private formService: FormService,
+              private accountService : AccountService,
               private addressService: AddressService,
+              private configService: ConfigurationService,
               private nationalityCompositionService: ProjectNationalityCompositionService) {
   }
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.ServiceId = this.route.snapshot.params['ServiceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'];
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
-    this.projectId = this.route.snapshot.params['ProjectId']
-
+    this.projectId = this.route.snapshot.params['ProjectId'];
+    this.getUserType();
     this.getAllNation();
     this.getInvestorType();
 
@@ -77,9 +84,11 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
     this.formBuild();
 
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getNationalityCompositionsByProject() {
-    this.nationalityCompositionService.NationalityCompositionsByProject(this.projectId).subscribe(result => {
+    this.nationalityCompositionService.NationalityCompositionsByProject(this.projectId, this.currentLang).subscribe(result => {
       if (result.length > 0) {
         this.nationalityCompositionData = result;
         this.dataSource = new MatTableDataSource<ProjectNationalityCompositionModel>(this.nationalityCompositionData);
@@ -97,6 +106,8 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
           .subscribe(result => {
             if (this.nationalityCompositionData.length < 1) {
               setTimeout(() => this.dataSharing.currentIndex.next(7), 0);
+            } else {
+              setTimeout(() => this.dataSharing.currentIndex.next(8), 0);
             }
             this.projectShareForm.addControl('ProjectNationalityCompositionId', new FormControl(''));
             this.nationalityCompositionData.push(result);
@@ -145,8 +156,9 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   private getAllNation() {
-    this.addressService.getNationality()
+    this.addressService.getNationality(this.currentLang)
       .subscribe(result => {
+        console.log(result);
         this.nationList = result;
       });
   }
@@ -209,7 +221,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   }
 
   private getInvestorType() {
-    this.invService.getInvestor(localStorage.getItem('InvestorId'))
+    this.invService.getInvestor(this.InvestorId)
       .subscribe((result: Investor) => {
         this.InvestorDetial = result;
         if (result.LegalStatus === 1) {
@@ -234,5 +246,11 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
 
   next() {
     this.dataSharing.steeperIndex.next(6);
+  }
+  goToNext(){
+    this.dataSharing.steeperIndex.next(6);
+  }
+  goBack(){
+    this.dataSharing.steeperIndex.next(4);
   }
 }

@@ -4,6 +4,8 @@ import {SharedModule} from "@custor/modules/shared.module";
 import {FollowupComponent} from "./followup.component";
 import {FollowupFormComponent} from './followup-form/followup-form.component';
 import {FollowupRoutingModule} from "./followup-routing.module";
+import {CatagoryService} from "../../Services/Catagory/Catagory.service";
+import {FollowupService} from "../../Services/followup/followup.service";
 
 @NgModule({
   imports: [
@@ -15,7 +17,8 @@ import {FollowupRoutingModule} from "./followup-routing.module";
     FollowupComponent,
     FollowupFormComponent
   ],
-  exports: [FollowupComponent]
+  exports: [FollowupComponent],
+  providers: [FollowupService]
 })
 export class FollowupModule {
 

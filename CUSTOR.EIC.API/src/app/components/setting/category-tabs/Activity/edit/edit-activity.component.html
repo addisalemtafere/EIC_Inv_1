@@ -15,7 +15,7 @@
             <mat-select formControlName="cSector" [compareWith]="compareIds"
                         (selectionChange)="filterSector($event.value)" required>
               <mat-option *ngFor="let sector of sectorModels" [value]="sector.SectorId">
-                <span>{{sector.DescriptionEnglishAlias}}</span>
+                <span>{{sector.DescriptionEnglish}}</span>
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -23,7 +23,7 @@
             <mat-label>{{'activity.subSector' | translate}}</mat-label>
             <mat-select formControlName="cSubSector" [compareWith]="compareIds" required>
               <mat-option *ngFor="let subsector of fillterssubsectorModels" [value]="subsector.SubSectorId">
-                <span>{{subsector.DescriptionEnglishAlias}}</span>
+                <span>{{subsector.DescriptionEnglish}}</span>
               </mat-option>
             </mat-select>
           </mat-form-field>

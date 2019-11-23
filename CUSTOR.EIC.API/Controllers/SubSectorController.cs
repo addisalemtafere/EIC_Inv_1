@@ -29,18 +29,18 @@ namespace EIC.Investment.API.Controllers.Controllers
       throw new InvalidOperationException("This is an unhandled exception");
     }
 
-    [HttpGet]
-    [Route("api/subsectorslookup")]
-    public async Task<IEnumerable<SubSector>> GetSubSector()
-    {
-      return await _SubSectorRepo.GetSubSectors();
-    }
+//    [HttpGet]
+//    [Route("api/subsectorslookup")]
+//    public async Task<IEnumerable<SubSector>> GetSubSector()
+//    {
+//      return await _SubSectorRepo.GetSubSectors();
+//    }
 
     [HttpGet]
-    [Route("api/subsectors")]
-    public async Task<IEnumerable<SubSector>> GetSubSector(int page = -1, int pageSize = 10)
+    [Route("api/subsectors/{lang}")]
+    public async Task<IEnumerable<SubSector>> GetSubSector(string lang, int page = -1, int pageSize = 10)
     {
-      return await _SubSectorRepo.GetSubSectors(page, pageSize);
+      return await _SubSectorRepo.GetSubSectors(lang, page, pageSize);
     }
 
     [HttpGet("api/subsector/ByParent/{id}")]
@@ -60,7 +60,7 @@ namespace EIC.Investment.API.Controllers.Controllers
     {
       if (!ModelState.IsValid)
         throw new ApiException("Model binding failed.", 500);
-      if (!_SubSectorRepo.Validate(PostedSubSector))
+      //if (!_SubSectorRepo.Validate(PostedSubSector))
         //throw new ApiException(_SubSectorRepo.ErrorMessage, 500, _SubSectorRepo.ValidationErrors);
 
         if (!await _SubSectorRepo.SaveAsync(PostedSubSector))

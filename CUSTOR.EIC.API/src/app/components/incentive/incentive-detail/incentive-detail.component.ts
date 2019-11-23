@@ -20,11 +20,13 @@ import {LookuptypesModel} from '../../../model/lookuptypes';
 import {determineId} from '@custor/helpers/compare';
 import {IncentiveRequestDetailModel} from '../../../model/IncentiveRequestDetail.Model';
 import {IncentiveRequestDetailService} from '../incentive-request/requested-items-list/requested-items-list.service';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-incentive-detail',
   templateUrl: './incentive-detail.component.html',
-  styleUrls: ['./incentive-detail.component.scss']
+  styleUrls: ['./incentive-detail.component.scss'],
+  providers:[ConfigurationService]
 })
 export class IncentiveDetailComponent implements OnInit {
   @ViewChild('form')
@@ -62,11 +64,13 @@ export class IncentiveDetailComponent implements OnInit {
   projectId: any;
   serviceId: any;
   serviceApplicationId: any;
+  private currentLang: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private letterService: LetterService,
               private lookUpTypeService: LookupTypeService,
+              private configService: ConfigurationService,
               public route: ActivatedRoute,
               private http: HttpClient,
               private snackbar: MatSnackBar,
@@ -86,6 +90,7 @@ export class IncentiveDetailComponent implements OnInit {
 
 
   ngOnInit() {
+    this.currentLang = this.configService.language;
     this.initForm();
     this.serviceId = this.activatedRoute.snapshot.params['serviceId'] || this.activatedRoute.snapshot.params['ServiceId'];
     this.serviceApplicationId = this.activatedRoute.snapshot.params['serviceApplicationId'] || this.activatedRoute.snapshot.params['ServiceApplicationId'];
@@ -107,7 +112,7 @@ export class IncentiveDetailComponent implements OnInit {
   }
 
   getLetters() {
-    this.letterService.getLetterLists(this.projectId)
+    this.letterService.getLetterLists(this.projectId, this.currentLang)
       .subscribe(result => {
           if (result) {
             this.letterModelList = result;
@@ -153,7 +158,7 @@ export class IncentiveDetailComponent implements OnInit {
     }
     this.currentCategoryId = categoryCode;
     console.log(this.currentCategoryId);
-    if (categoryCode === 10778 || categoryCode === 10782 || categoryCode === 10777 ) {
+    if (categoryCode === 10778 || categoryCode === 10782 || categoryCode === 10777) {
 
       this.isVisibleShowBalance = true;
 
@@ -173,18 +178,15 @@ export class IncentiveDetailComponent implements OnInit {
     console.log(this.currentCategoryId);
     if (this.currentCategoryId == 10778 || this.currentCategoryId == 10782) {      // this.router.navigate(['bom-balance/' + this.currentCategoryId + '/' + localStorage.getItem('ServiceApplicationId')]);
       this.router.navigate(['bom-balance/' + this.projectId + '/' + 0 + '/' + 0]);
-
     } else if (this.currentCategoryId == 10777) {
       this.router.navigate(['sparepart-balance/' + this.projectId + '/' + 0]);
     }
   }
 
   showLetter() {
-
     this.serviceId = 0;
     this.serviceApplicationId = 0;
-
-    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + this.isForDetail]);
+    this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + 1]);
   }
 
   compareIds(id1: any, id2: any): boolean {

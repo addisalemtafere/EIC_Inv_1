@@ -1,12 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {HomeComponent} from './components/home/home.component';
 import {AuthService} from '@custor/services/security/auth.service';
 import {AuthGuard} from '@custor/services/security/auth-guard.service';
-import {NotFoundComponent} from './components/not-found/not-found.component';
-import {ConfirmComponent} from './components/auth/register/confirm.component';
-import {LoginComponent} from './components/auth/login/login.component';
-import {AccessDeniedComponent} from './components/denied/denied.component';
 
 
 @NgModule({
@@ -37,10 +32,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         loadChildren: 'app/components/management-dashboard/management.module#ManagementModule',
         canActivate: [AuthGuard]
       },
-      {
-        path: 'login',
-        component: LoginComponent
-      },
+
       {
         path: 'service-list',
         // component: CustomerServiceStarterComponent
@@ -153,7 +145,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
       },
       {
         path: 'letter/:projectId/:serviceId/:serviceApplicationId/:isForDetail',
-        loadChildren: './components/project-profile/letter/letter.module#LetterModule',
+        loadChildren: 'app/components/project-profile/letter/letter.module#LetterModule',
         canActivate: [AuthGuard]
       },
       {
@@ -244,6 +236,16 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         loadChildren: 'app/components/appointment/appointment.module#AppointmentModule',
         canActivate: [AuthGuard]
       },
+      // {
+      //   path: 'amendment',
+      //   loadChildren: 'app/components/profile-amendment/amendment.module#AmendmentModule',
+      //   canActivate: [AuthGuard]
+      // },
+      // {
+      //   path: 'permit-amendment',
+      //   loadChildren: 'app/components/permit-amendment/permit-amendment.module#PermitAmendmentModule',
+      //   canActivate: [AuthGuard]
+      // },
       {
         path: 'archive-application',
         loadChildren: 'app/components/archive-application/archive-application.module#ArchiveApplicationModule',
@@ -278,7 +280,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         canActivate: [AuthGuard]
       },
       {
-        path: 'search-browser/:ServiceId/:InvestorId/:ProjectId',
+        path: 'search-browser/:ServiceId/:InvestorId/:ProjectId/:Title',
         loadChildren: 'app/components/search-browser/search-browser.module#SearchBrowserModule',
         canActivate: [AuthGuard]
       },
@@ -288,7 +290,10 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         canActivate: [AuthGuard]
       },
 
-      { path: 'confirm', component: ConfirmComponent },
+      {
+        path: 'confirm',
+        loadChildren: 'app/components/auth/register/confirm.module#ConfirmModule'
+      },
       {
         path: 'lookups',
         loadChildren: 'app/components/setting/lookup-tabs/lookups/lookups.module#LookupsModule',
@@ -328,7 +333,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
 
       {
         path: 'denied',
-        component: AccessDeniedComponent
+        loadChildren: 'app/components/denied/denied.module#DeniedModule'
       },
       {
         path: 'incentive-request-item/:ServiceId/:InvestorId/:ServiceApplicationId/:ProjectId/:workFlowId',
@@ -383,7 +388,7 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         canActivate: [AuthGuard]
       },
       {
-        path: 'investor-profile/:InvestorId',
+        path: 'investor-profile',
         loadChildren: 'app/components/investor/investor-profile/investor-profile.module#InvestorProfileModule',
         canActivate: [AuthGuard]
       },
@@ -395,8 +400,18 @@ import {AccessDeniedComponent} from './components/denied/denied.component';
         path: 'contact',
         loadChildren: 'app/components/contact/contact.module#ContactModule'
       },
-      { path: '', component: HomeComponent },
-      { path: '**', component: NotFoundComponent },
+      {
+        path: 'login',
+        loadChildren: 'app/components/auth/login/login.module#LoginModule'
+      },
+
+      {path: '', loadChildren: 'app/components/home/landing.module#LandingModule'},
+      {
+        path: 'project-search/:ServiceId/:InvestorId/:ProjectId/:Title',
+        loadChildren: 'app/components/project-profile/project-search/project-search.module#ProjectSearchModule',
+        canActivate: [AuthGuard]
+      },
+      {path: '**', loadChildren: 'app/components/not-found/not-found.module#NotFoundModule'},
     ])
   ],
   exports: [

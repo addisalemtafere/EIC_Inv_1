@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -284,7 +284,7 @@ namespace EICOnline.Controllers
                     await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
                 }
 
-                return Ok(); //????
+                return Ok();
             }
 
             var message = string.Join(" | ", ModelState.Values

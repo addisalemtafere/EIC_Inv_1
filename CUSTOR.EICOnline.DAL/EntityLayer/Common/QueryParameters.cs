@@ -8,7 +8,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     {
         public int PageNumber { get; set; } = 1;
 //        public int CustomerId { get; set; } = 1;
-        public int PageCount  { get; set; } = 10;
+        public int PageCount  { get; set; } = 5;
         public string Lang { get; set; }
     }
 }

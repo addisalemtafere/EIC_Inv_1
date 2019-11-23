@@ -11,33 +11,44 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
     public class LetterRepository : EFRepository<ApplicationDbContext, Letter>
     {
         public LetterRepository(ApplicationDbContext context) : base(context)
-        { }
-
-        public Task<List<Letter>> GetLetters(int id, string letterType, string letterType1, int page = 0, int pageSize = 15)
         {
+        }
+
+        public Task<List<Letter>> GetLetters(int id, string letterType, string letterType1, int page = 0,
+            int pageSize = 15)
+        {
+//            string query1 =
+//                $@"(select distinct (Select English from Lookup Where Lookup.LookupId=Letter.LetterType) as LetterType,LetterId,LetterContent,UserName,ProjectId,RequestDate,LetterNo from Letter)";
             IQueryable<Letter> Letters = Context.Letter
                 .Where(Let => Let.ProjectId == id && (Let.LetterType == letterType || Let.LetterType == letterType1))
+                //.FromSql(query1)
                 .OrderBy(Let => Let.LetterId);
             if (page > 0)
             {
                 Letters = Letters
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
             }
 
             return Letters.ToListAsync();
         }
 
-        public Task<List<Letter>> GetLettersByProjectId(int id, int page = 0, int pageSize = 15)
+        public Task<List<Letter>> GetLettersByProjectId(string lang, int id, int page = 0, int pageSize = 15)
         {
+//            string FieldName = StaticDataHelper.GetFieldName(lang);
+//            (Select {FieldName} from Lookup Where Lookup.LookupId=Letter.LetterType) as
+            string query1 =
+                $@"(select distinct  LetterType,LetterId,LetterContent,UserName,ProjectId,RequestDate,LetterNo from Letter)";
+
             IQueryable<Letter> Letters = Context.Letter
                 .Where(Let => Let.ProjectId == id)
+                .FromSql(query1)
                 .OrderBy(Let => Let.LetterId);
             if (page > 0)
             {
                 Letters = Letters
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
             }
 
             return Letters.ToListAsync();
@@ -48,9 +59,9 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             Letter letterIds = null;
             try
             {
-                int id = (int)LetterId;
+                int id = (int) LetterId;
                 letterIds = Context.Letter
-                                        .Where(lett => lett.LetterId == id).FirstOrDefault();
+                    .Where(lett => lett.LetterId == id).FirstOrDefault();
             }
             catch (InvalidOperationException)
             {
@@ -61,6 +72,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
             {
                 SetError(ex);
             }
+
             return letterIds;
         }
 
@@ -73,6 +85,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
                 SetError("Letter does not exist");
                 return false;
             }
+
             Context.Letter.Remove(Letter);
             return await SaveAsync();
         }

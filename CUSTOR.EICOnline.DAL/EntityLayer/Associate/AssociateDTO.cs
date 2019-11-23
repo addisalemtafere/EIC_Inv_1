@@ -53,4 +53,13 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public int? workFlowId { get; set; }
 
     }
+    public partial class AssociateListDTO
+    {
+        public string FullName { get; set; }
+        public string FullNameEng { get; set; }
+        public int AssociateId { get; set; }
+        public int Title { get; set; }
+        public string Tin { get; set; }
+        public string Nationality { get; set; }
+    }
 }

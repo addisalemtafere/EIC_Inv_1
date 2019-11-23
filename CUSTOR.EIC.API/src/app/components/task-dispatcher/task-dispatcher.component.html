@@ -4,7 +4,7 @@
     <mat-form-field>
       <mat-label>Select user: *</mat-label>
       <mat-select (selectionChange)="getUserDetail($event.value)">
-        <mat-option *ngFor="let user of userList" [value]="user.Id">
+        <mat-option *ngFor="let user of userList" [value]="user">
           {{user.FullName}}
         </mat-option>
       </mat-select>
@@ -21,7 +21,7 @@
     </span>
     <span class="summary">pending:
       <span matBadgePosition="center after" matBadgeColor="accent" style="padding: 5px;"
-        matBadge="{{pendingTask}}"></span>
+            matBadge="{{pendingTask}}"></span>
     </span>
   </div>
 
@@ -31,29 +31,31 @@
 
   <table style="height: 220px;display: block;overflow: auto;" class="scrollbar table full-width">
     <thead>
-      <th>No</th>
-      <th>Service Name</th>
-      <th>Assigned Date</th>
-      <th>Status</th>
-      <th>End Date</th>
-      <th>Assigned UserName</th>
+    <th>No</th>
+    <th>Service Name</th>
+    <th>Assigned Date</th>
+    <th>Status</th>
+    <th>End Date</th>
+    <th>Assigned By</th>
     </thead>
     <tbody style="overflow: auto;">
-      <tr *ngFor="let todo of todoList;let i=index;">
-        <td>{{i+1}}</td>
-        <td>{{todo?.ServiceApplication[0]?.ServiceId | servicePipe}}</td>
-        <td>{{todo.AssignedDate | date}}</td>
-        <td>
-          <!--<span class="error" *ngIf="todo.CurrentStatusId===44450">Drafted</span>-->
-          <!--<span class="error" *ngIf="todo.CurrentStatusId===44446">Submitted</span>-->
-          <span class="common-button-status  Approved" *ngIf="todo.CurrentStatusId===44447">Approved</span>
-          <span class="common-button-status btn-com Pending" *ngIf="todo.CurrentStatusId===44448">Pending</span>
-          <span class="common-button-status btn-com Completed" *ngIf="todo.CurrentStatusId===44449">Complete </span>
-          <span class="common-button-status btn-com Submitted" *ngIf="todo.CurrentStatusId===0">Waiting</span>
-        </td>
-        <td>{{todo.EndDate | date}}</td>
-        <td>{{todo.CreatedUserName}}</td>
-      </tr>
+    <tr *ngFor="let todo of todoList;let i=index;">
+      <td>{{i + 1}}</td>
+      <td>{{todo?.ServiceApplication[0]?.ServiceId | servicePipe}}</td>
+      <td>{{todo.AssignedDate | date}}</td>
+      <td>
+        <!--<span class="error" *ngIf="todo.CurrentStatusId===44450">Drafted</span>-->
+        <!--<span class="error" *ngIf="todo.CurrentStatusId===44446">Submitted</span>-->
+        <span [ngClass]="getClassType(todo.CurrentStatusId)"  class="common-button-status ">
+          {{getClassType(todo.CurrentStatusId)}}
+        </span>
+<!--        <span class="common-button-status btn-com Pending" *ngIf="todo.CurrentStatusId===44448">Pending</span>-->
+        <!--        <span class="common-button-status btn-com Completed" *ngIf="todo.CurrentStatusId===44449">Complete </span>-->
+        <span class="common-button-status btn-com Submitted" *ngIf="todo.CurrentStatusId===0">Waiting</span>
+      </td>
+      <td>{{todo.EndDate | date}}</td>
+      <td>{{todo.CreatedUserName}}</td>
+    </tr>
     </tbody>
   </table>
 </div>

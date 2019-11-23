@@ -40,7 +40,7 @@ export class Investor {
   PaidCapital = null;
   SighnedCapital = null;
 
-  UserId: string = null;
+  UserId?: string = null;
   IsExistingCustomer: boolean;
   // SiteCode: string = null;
   IsActive = true;
@@ -60,6 +60,7 @@ export class Investor {
   OtherAddress: string = null;
   UserName: string = null;
   AddressId = 0;
+  ServiceApplicationId = null;
   // createdDate: Date = null;
   // createdBy: string = null;
   // updatedDateDate = null;

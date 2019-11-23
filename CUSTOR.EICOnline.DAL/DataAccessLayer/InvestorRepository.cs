@@ -56,62 +56,133 @@ namespace CUSTOR.EICOnline.DAL
 
             return InvestorHelper.GetInvestorDTO(investor, add, cat.ToArray());
         }
-
-        public InvestorDTO SaveInvestor(InvestorDTO postedInvestor, ApplicationUser appUser)
+        public async Task<InvestorAuditDTO> GetInvestorAudit(int InvestorId)
         {
-            bool isUpdate = (postedInvestor.InvestorId > 0);
-            Investor inv = InvestorHelper.GetInvestor(postedInvestor);
-
-            inv.UserId = appUser.Id; //redundent
-
-            Context.CurrentUserId = appUser.Id;
-            Context.CurrentUserName = appUser.FullName;
-
+            InvestorAudit investor = null;
+            Address add = null;
+            ICollection<RegistrationCatagory> catagory = null;
+            //            string[] cat =;
+            List<int> cat = new List<int>();
             try
             {
-                if (isUpdate)
-                    Context.Update(inv);
-                else
-                    Context.Add(inv);
-                Context.SaveChanges();
+                int id = InvestorId;
+                investor = await Context.InvestorAudit
+                    .FirstOrDefaultAsync(inv => inv.InvestorId == id);
+                catagory = Context.RegistrationCatagorys.Where(inv => inv.InvestorId == id).ToList();
+                //int m = (int)AddressType.eInvestor;
 
-                // Add/Update Address
-                postedInvestor.InvestorId = inv.InvestorId;
-                Address address = InvestorHelper.GetAddress(postedInvestor);
-                address.ParentId = inv.InvestorId;
+                add = await Context.Address
+                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eInvestor);
 
-                if (isUpdate)
+                foreach (var item in catagory)
                 {
-                    address.AddressId = postedInvestor.AddressId;
-                    Context.Address.Update(address);
-                    Context.SaveChanges();
+                    cat.Add(System.Convert.ToInt32(item.MajorCatagoryCode));
                 }
-                else
-                {
-                    Context.Address.Add(address);
-                    Context.SaveChanges();
-                }
-
-                regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(inv.InvestorId);
-                foreach (var catagory in inv.RegistrationCatagories)
-                {
-                    RegistrationCatagory regCatagory = new RegistrationCatagory();
-                    regCatagory.InvestorId = inv.InvestorId;
-                    regCatagory.MajorCatagoryCode = catagory.ToString();
-                    Context.RegistrationCatagorys.Add(regCatagory);
-                    Context.SaveChanges();
-                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                SetError("Couldn't load Investor - invalid Investor id specified.");
+                return null;
             }
             catch (Exception ex)
             {
-                //transaction.Rollback();
-                SetError(ex.Message);
+                SetError(ex);
             }
 
-            //transaction.Commit();
+            return InvestorHelper.GetInvestorAuditDTO(investor, add, cat.ToArray());
+        }
+        public async Task<InvestorDTO> SaveInvestorAsync(InvestorDTO postedInvestor, ApplicationUser appUser)
+        {
+            bool isUpdate = (postedInvestor.InvestorId > 0);
+            Investor inv = InvestorHelper.GetInvestor(postedInvestor);
+           
+            ServiceApplication existingServiceApplication = null;
+            //ServiceApplication serviceApplication = null;
+            int ServiceId = 1269;
+            var service = Context.Service.FirstOrDefault(s => s.ServiceId == ServiceId);
+            using (var transaction = await Context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    if (isUpdate)
+                    {
+                        existingServiceApplication = Context.ServiceApplication.FirstOrDefault(s => s.ServiceApplicationId == postedInvestor.ServiceApplicationId);
+                        existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                        postedInvestor.ServiceApplicationId = postedInvestor.ServiceApplicationId;
+                        Context.Update(existingServiceApplication);
+                        Context.Update(inv);
+                    }
+
+                    else
+                    {
+                        inv.UserId = appUser.Id;
+                        Context.Add(inv);
+                        Context.SaveChanges();
+                        var squence = Context.Squences.FirstOrDefault();
+                        var lastSe = squence.LastSquence + 1;
+                        var perminumber = lastSe.ToString();
+                       
+                        var sa = new ServiceApplication
+                        {
+                            InvestorId = inv.InvestorId,
+                            CaseNumber = perminumber,
+                            ServiceId = ServiceId,
+                            CurrentStatusId = 44450,
+                            IsSelfService = true,
+                            StartDate = DateTime.Now,
+                            EventDatetime = DateTime.Now,
+                            IsPaid = true,
+                            CreatedUserId = 1,
+                            IsActive = false,
+                            //ServiceNameAmharic = service.DisplayName,
+                            //ServiceNameEnglish = service.DisplayNameEnglish,
+                        };
+                        Context.Add(sa);
+                        Context.SaveChanges();
+                        postedInvestor.ServiceApplicationId = sa.ServiceApplicationId;
+                    }
+
+
+                    // Add/Update Address
+                    postedInvestor.InvestorId = inv.InvestorId;
+                    Address address = InvestorHelper.GetAddress(postedInvestor);
+                    address.ParentId = inv.InvestorId;
+
+                    if (isUpdate)
+                    {
+                        address.AddressId = postedInvestor.AddressId;
+                        Context.Address.Update(address);
+                        Context.SaveChanges();
+                    }
+                    else
+                    {
+                        Context.Address.Add(address);
+                        Context.SaveChanges();
+                    }
+
+                    //regCatagoryRepo.DeleteRegistrationCatagoryByInvestorId(inv.InvestorId);
+                    //foreach (var catagory in inv.RegistrationCatagories)
+                    //{
+                    //    RegistrationCatagory regCatagory = new RegistrationCatagory();
+                    //    regCatagory.InvestorId = inv.InvestorId;
+                    //    regCatagory.MajorCatagoryCode = catagory.ToString();
+                    //    Context.RegistrationCatagorys.Add(regCatagory);
+                    //    Context.SaveChanges();
+                    //}
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                   
+                    string s = ex.Message;
+                    throw new Exception(ex.InnerException.ToString());
+                    transaction.Rollback();
+                }
+
+            }
 
             return postedInvestor;
-            //}
+            
         }
 
         public override async Task<Investor> GetRecord(object InvestorId)
@@ -137,6 +208,20 @@ namespace CUSTOR.EICOnline.DAL
             return investor;
         }
 
+        public async Task <ServiceApplication> GetUserServiceApplication (int investorId)
+        {
+            try
+            {
+                var serviceApplication = await Context.ServiceApplication
+                                   .FirstOrDefaultAsync(s => s.InvestorId == investorId && s.ServiceId == 1269);
+                return serviceApplication;
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
+        }
         public async Task<List<Investor>> GetRecordByUserId(object UserId)
         {
             List<Investor> investor = null;
@@ -183,6 +268,7 @@ namespace CUSTOR.EICOnline.DAL
             return investor;
         }
 
+       
         public async Task<List<Investor>> FindInvestor(SearchInvestorDto searchInvestorDto)
         {
             List<Investor> investor = null;
@@ -273,7 +359,41 @@ namespace CUSTOR.EICOnline.DAL
 
             return await investors.ToListAsync();
         }
+        public async Task<ServiceApplication> CheckUserServiceApplicationStatus(int serviceApplicationId)
+        {
+            try
+            {
+                var serviceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == serviceApplicationId);
+                return serviceApplication;
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
+        }
+        public async Task<ServiceApplication> finishProjectServiceApplication(int serviceApplicationId)
+        {
+            ServiceApplication existingServiceApplication = null;
+            try
+            {
+                existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == serviceApplicationId);
+                existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                existingServiceApplication.CurrentStep = 3;
+                existingServiceApplication.IsActive = true;
+                existingServiceApplication.CurrentStatusId = 44446;
+                Context.Update(existingServiceApplication);
+                Context.SaveChanges();
+                return existingServiceApplication;
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
 
+
+        }
         public async Task<bool> DeleteInvestor(int id)
         {
             using (var transaction = await Context.Database.BeginTransactionAsync())

@@ -22,9 +22,19 @@ export class ServiceapplicationService extends BaseService<ServiceApplicationMod
 
   // serviceListPre: ServiceModel[];
 
-  getServiceAppliactions(): Observable<ServiceApplicationModel[]> {
-    return this.httpClient.get<ServiceApplicationModel[]>(this.config.urls.url('serviceapplications')).pipe(
-      map(serviceApp => this.serviceApplicationModelList = serviceApp),
+  // getServiceAppliactions(): Observable<any> {
+  //   return this.httpClient.get<ServiceApplicationModel[]>(this.config.urls.url('serviceapplications')).pipe(
+  //     map(serviceApp => this.serviceApplicationModelList = serviceApp),
+  //     catchError(this.errMsg.parseObservableResponseError));
+  // }
+
+  getServiceAppliactions(managerParams: QueryParametersModel): Observable<any> {
+
+    const mParams = new HttpParams()
+      .append('PageCount', managerParams.PageSize.toString())
+      .append('PageNumber', managerParams.PageIndex.toString())
+      .append('Lang', managerParams.Lang);
+    return this.httpClient.get<any>(this.config.urls.url('serviceapplications'), {params: mParams}).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
 
@@ -41,14 +51,14 @@ export class ServiceapplicationService extends BaseService<ServiceApplicationMod
     return this.httpClient.get<ServiceApplicationModel>(this.config.urls.url('ServiceApplicationsByInvestorId', id)).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
-
+  getServiceApplicationsByProjectId(id, invId, serviceId): Observable<ServiceApplicationModel[]> {
+    return this.httpClient.get<ServiceApplicationModel[]>(this.config.urls.url('ServiceApplicationsByProjectId', id+'/'+ invId +'/'+ serviceId)).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
   getServiceApplicationsByOfficerId(id): Observable<ServiceApplicationModel[]> {
     return this.httpClient.get<ServiceApplicationModel>(this.config.urls.url('ServiceApplicationsByOfficerId', id)).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
-
-
-
 
 
   finalForApprovalServiceApplications(id): Observable<ServiceApplicationModel[]> {

@@ -1,15 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
+using CUSTOR.EICOnline.API.ViewModels.enums;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using EIC.Investment.API.ViewModels.Dto;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.KeyVault.Models;
 using Microsoft.EntityFrameworkCore;
+using Error = CUSTOR.API.ExceptionFilter.Error;
 
 namespace EIC.Investment.API.Controllers
 {
@@ -17,7 +21,7 @@ namespace EIC.Investment.API.Controllers
   [EnableCors("CorsPolicy")]
   [Produces("application/json")]
   [Route("api/Projects")]
-  public class ProjectsController : Controller
+  public class ProjectsController : ControllerBase
   {
     private readonly ApplicationDbContext _context;
     private readonly ProjectRepository _projectRepository;
@@ -178,111 +182,120 @@ namespace EIC.Investment.API.Controllers
     [HttpPost]
     public async Task<IActionResult> PostProject([FromBody] Project project)
     {
-      var investor = _context.Investors.FirstOrDefault(inv => inv.InvestorId == project.InvestorId);
-
-      var service = _context.Service.FirstOrDefault(inv => inv.ServiceId == project.ServiceId);
-
-      var squence = _context.Squences.FirstOrDefault();
-      var lastSe = squence.LastSquence + 1;
-
-      var perminumber = lastSe.ToString();
-
-
       var editedProject = project;
-      //editedProject.InvestorId = 1018;
-      //editedProject.ParentProjectId = 1;
-      editedProject.ProjectNameSort = "sort x";
-      editedProject.ProjectNameSoundX = "sound xxx";
-      editedProject.IsActive = false;
-      editedProject.IsDeleted = false;
-      editedProject.EventDatetime = DateTime.Now;
-      editedProject.StartDate = DateTime.Now;
-      editedProject.CreatedUserId = project.CreatedUserId;
-      editedProject.ProjectStatus = 9;
-      //editedProject.ProjectStage = 3;
-      editedProject.SiteId = 3;
-      // editedProject.InvestmentPermitNo = perminumber;
-      DateTime datTimeNow = DateTime.Now;
-      string format = "yyyy-MM-dd HH:mm:ss";
-      string sDateTime = datTimeNow.ToString(format);
-      var serviceApplication = new ServiceApplication
-      {
-        InvestorId = project.InvestorId,
-        CaseNumber = perminumber,
-        ServiceId = project.ServiceId,
-        CurrentStatusId = 44450,
-        IsSelfService = true,
-        IsPaid = true,
-        StartDate = DateTime.Now,
-        CreatedUserId = 1,
-        IsActive = false,
-        CreatedUserName = editedProject.CreatedUserName,
-        InvestorNameAmharic = investor.InvestorName,
-        InvestorNameEnglish = investor.InvestorNameEng,
-        ServiceNameAmharic = service.DisplayName,
-        ServiceNameEnglish = service.DisplayNameEnglish,
-        ProjectNameEnglish = project.ProjectName,
-        ProjectNameAmharic = project.ProjectName
-      };
 
-      var serviceWorkflow = new ServiceWorkflow
+      try
       {
-        StepId = 9,
-        ActionId = 3,
-        FromStatusId = 3,
-        ToStatusId = 5,
-        PerformedByRoleId = 1,
-        NextStepId = 13,
-        GenerateEmail = true,
-        GenerateLetter = true,
-        IsDocumentRequired = true,
-        ServiceId = project.ServiceId,
-        LegalStatusId = 3,
-        CreatedUserId = 1,
-        IsActive = false
-      };
-      if (!editedProject.IsSelfService)
-      {
-        // squence.LastSquence = lastSe;
-        // _context.Entry(squence).State = EntityState.Modified;
+        var investor = _context.Investors.FirstOrDefault(inv => inv.InvestorId == project.InvestorId);
 
-        serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
-        project.ServiceApplication.Add(serviceApplication);
-        _context.Project.Add(editedProject);
-        await _context.SaveChangesAsync();
-      }
+        var service = _context.Service.FirstOrDefault(inv => inv.ServiceId == project.ServiceId);
 
-      if (editedProject.IsSelfService)
-      {
-        TodoTask editeTodoTask = new TodoTask
+        var squence = _context.Squences.FirstOrDefault();
+        var lastSe = squence.LastSquence + 1;
+
+        var perminumber = lastSe.ToString();
+
+
+        //editedProject.InvestorId = 1018;
+        //editedProject.ParentProjectId = 1;
+        editedProject.ProjectNameSort = "sort x";
+        editedProject.ProjectNameSoundX = "sound xxx";
+        editedProject.IsActive = false;
+        editedProject.IsDeleted = false;
+        editedProject.EventDatetime = DateTime.Now;
+        editedProject.StartDate = DateTime.Now;
+        editedProject.CreatedUserId = project.CreatedUserId;
+        editedProject.ProjectStatus = 9;
+        //editedProject.ProjectStage = 3;
+        editedProject.SiteId = 3;
+        // editedProject.InvestmentPermitNo = perminumber;
+        DateTime datTimeNow = DateTime.Now;
+        string format = "yyyy-MM-dd HH:mm:ss";
+        string sDateTime = datTimeNow.ToString(format);
+
+
+        var serviceApplication = new ServiceApplication();
+
+        serviceApplication.InvestorId = project.InvestorId;
+        serviceApplication.CaseNumber = perminumber;
+        serviceApplication.ServiceId = project.ServiceId;
+        serviceApplication.CurrentStatusId = (int) ApplicationStatus.Drafted;
+        serviceApplication.IsSelfService = true;
+        serviceApplication.StartDate = DateTime.Now;
+        //serviceApplication.StartTime = DateTime.Now.ToLongTimeString();
+        serviceApplication.IsPaid = true;
+
+        serviceApplication.CreatedUserId = 1;
+        serviceApplication.IsActive = false;
+        serviceApplication.CreatedUserName = editedProject.CreatedUserName;
+        serviceApplication.InvestorNameAmharic = investor.InvestorName;
+        serviceApplication.InvestorNameEnglish = investor.InvestorNameEng;
+        serviceApplication.ServiceNameAmharic = service.DisplayName;
+        serviceApplication.ServiceNameEnglish = service.DisplayNameEnglish;
+        serviceApplication.ProjectNameEnglish = project.ProjectName;
+        serviceApplication.ProjectNameAmharic = project.ProjectName;
+
+
+        var serviceWorkflow = new ServiceWorkflow
         {
-          AssignedUserId = editedProject.CreatedUserId,
-          CreatedUserId = editedProject.CreatedUserId,
-          CreatedUserName = editedProject.CreatedUserName,
-          IsActive = true
+          StepId = 9,
+          ActionId = 3,
+          FromStatusId = 3,
+          ToStatusId = 5,
+          PerformedByRoleId = 1,
+          NextStepId = (int) ServiceEnum.NewIP,
+          GenerateEmail = true,
+          GenerateLetter = true,
+          IsDocumentRequired = true,
+          ServiceId = project.ServiceId,
+          LegalStatusId = 3,
+          CreatedUserId = 1,
+          IsActive = false
         };
-        serviceApplication.CurrentStatusId = 44446;
-        serviceApplication.IsSelfService = false;
+        if (!editedProject.IsSelfService)
+        {
+          serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
+          project.ServiceApplication.Add(serviceApplication);
+          _context.Project.Add(editedProject);
+          await _context.SaveChangesAsync();
+        }
 
-        squence.LastSquence = lastSe;
-        _context.Entry(squence).State = EntityState.Modified;
+        if (editedProject.IsSelfService)
+        {
+          TodoTask editeTodoTask = new TodoTask
+          {
+            AssignedUserId = editedProject.CreatedUserId,
+            CreatedUserId = editedProject.CreatedUserId,
+            CreatedUserName = editedProject.CreatedUserName,
+            IsActive = true
+          };
+//          serviceApplication.CurrentStatusId = 44446;
+          serviceApplication.CurrentStatusId = (int) ApplicationStatus.Submitted;
+          serviceApplication.IsSelfService = false;
 
-        serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
-        serviceApplication.TodoTask = editeTodoTask;
+          squence.LastSquence = lastSe;
+          _context.Entry(squence).State = EntityState.Modified;
 
-        _context.ServiceApplication.Add(serviceApplication);
-        editeTodoTask.ServiceApplication.Add(serviceApplication);
-        _context.TodoTask.Add(editeTodoTask);
+          serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
+          serviceApplication.TodoTask = editeTodoTask;
+
+          _context.ServiceApplication.Add(serviceApplication);
+          editeTodoTask.ServiceApplication.Add(serviceApplication);
+          _context.TodoTask.Add(editeTodoTask);
 
 //        serviceApplication.ServiceWorkflow.Add(serviceWorkflow);
-        project.ServiceApplication.Add(serviceApplication);
-        _context.Project.Add(editedProject);
+          project.ServiceApplication.Add(serviceApplication);
+          _context.Project.Add(editedProject);
 
-        await _context.SaveChangesAsync();
+          await _context.SaveChangesAsync();
+        }
+      }
+      catch (Exception e)
+      {
+        return StatusCode((int) HttpStatusCode.InternalServerError, new Error {Message = e.Message});
       }
 
-
-      return CreatedAtAction("GetProject", new {id = project.ProjectId}, editedProject);
+      return Ok(editedProject);
     }
 
     // DELETE: api/Projects/5

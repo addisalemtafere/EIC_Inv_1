@@ -8,9 +8,11 @@ import {Observable} from 'rxjs/internal/Observable';
 import {catchError} from 'rxjs/operators';
 import {ProjectCostModel} from "../model/ProjectCost.model";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class ProjectRequirementService extends BaseService<ProjectRequirementModel> {
   constructor(protected httpClient: HttpClient,
               protected appConfig: AppConfiguration,

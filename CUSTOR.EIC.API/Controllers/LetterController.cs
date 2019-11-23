@@ -39,10 +39,10 @@ namespace CUSTOR.EICOnline.API.Controllers
             return await _LetterRepo.GetLetters(id, letterType, letterType1, page, pageSize);
         }
         [HttpGet]
-        [Route("api/letters/ByProjectId/{id:int}")]
-        public async Task<IEnumerable<Letter>> GetLettersByProjectId(int id,  int page = -1, int pageSize = 10)
+        [Route("api/letters/ByProjectId/{id:int}/{lang}")]
+        public async Task<IEnumerable<Letter>> GetLettersByProjectId(string lang,int id,  int page = -1, int pageSize = 10)
         {
-            return await _LetterRepo.GetLettersByProjectId(id, page, pageSize);
+            return await _LetterRepo.GetLettersByProjectId(lang,id, page, pageSize);
         }
 
 

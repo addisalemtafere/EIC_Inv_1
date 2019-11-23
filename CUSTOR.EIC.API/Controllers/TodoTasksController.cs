@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CUSTOR.API.ExceptionFilter;
+using CUSTOR.EICOnline.API.ViewModels.enums;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -45,9 +46,8 @@ namespace CUSTOR.EICOnline.API.Controllers
     public int CountCompletedTask([FromRoute] string id)
     {
       var now = DateTime.Now;
-      var todoTask = _context.TodoTask
-        .Where(m => m.AssignedUserId == id && m.AssignedDate.Month >= now.Month  &&
-                    m.CurrentStatusId == 44449).Count();
+      var todoTask = _context.TodoTask.Count(m => m.AssignedUserId == id && m.AssignedDate.Month >= now.Month &&
+                                                  m.CurrentStatusId == (int) ApplicationStatus.Completed);
 
       return todoTask;
     }
@@ -56,8 +56,9 @@ namespace CUSTOR.EICOnline.API.Controllers
     public int CountPendingTask([FromRoute] string id)
     {
       var now = DateTime.Now;
-      var todoTask = _context.TodoTask.Where(m =>
-        m.AssignedUserId == id && m.AssignedDate.Month >= now.Month && m.CurrentStatusId == 44448).Count();
+      var todoTask = _context.TodoTask.Count(m =>
+        m.AssignedUserId == id && m.AssignedDate.Month >= now.Month &&
+        m.CurrentStatusId == (int) ApplicationStatus.Pending);
 
       return todoTask;
     }

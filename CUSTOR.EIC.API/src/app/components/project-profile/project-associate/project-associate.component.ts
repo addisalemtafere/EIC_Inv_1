@@ -13,6 +13,7 @@ import {ProjectAssociateService} from '../../../Services/project-associate.servi
 import {ProjectAssociateModel} from '../../../model/ProjectAssociate.model';
 import {ServiceApplicationService} from '../../../Services/service-application.service';
 import {ServiceapplicationService} from '../../setting/services-tabs/serviceApplication/serviceapplication.service';
+import { AccountService } from '../../../../@custor/services/security/account.service';
 
 @Component({
   selector: 'app-project-associate',
@@ -44,7 +45,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
-
+  public isInvestor : boolean;
   constructor(private formBuilder: FormBuilder,
               public route: ActivatedRoute,
               public serviceApplicationsServices: ServiceapplicationService,
@@ -53,6 +54,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
               private toastr: ToastrService,
               private dataSharing: DataSharingService,
               private formService: FormService,
+              private accountService :AccountService,
               // private addressService: AddressService,
               private associateService: AssociateService,
               private projectAssociateService: ProjectAssociateService
@@ -65,8 +67,8 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-
-
+    this.getUserType();
+    console.log(this.projectId);
     this.getAllAssociate();
     // this.getAssociateByProject();
     if (this.projectId > 1) {
@@ -75,11 +77,14 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
 
     this.formBuild();
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getAssociateByProject() {
     this.projectAssociateService.associateProject(this.projectId).subscribe(result => {
       if (result.length > 0) {
         this.associateData = result;
+        console.log(this.associateData);
         // this.dataSource = new MatTableDataSource<ProjectAssociateModel>(this.associateData);
         this.loading = false;
         this.updateList();
@@ -136,9 +141,10 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
 
 
   private getAllAssociate() {
-    this.associateService.getAssociateByInvestorId(+localStorage.getItem('InvestorId'))
+    this.associateService.getAssociateByInvestorId(this.InvestorId)
       .subscribe(result => {
         this.associateList = result;
+        console.log("ejhrr" + result);
         this.updateList();
       });
   }
@@ -198,6 +204,9 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
           this.getAssociateByProject();
           this.notification('saved');
           this.onClear();
+           this.dataSharing.steeperIndex.next(10);
+          setTimeout(() => this.dataSharing.steeperIndex.next(10), 0);
+          setTimeout(() => this.dataSharing.currentIndex.next(10), 0);
         });
     } else if (!$event.checked) {
       this.projectAssociateService.delete(data.projectAssociate.ProjectAssociateId)
@@ -205,6 +214,8 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
           this.getAssociateByProject();
           this.notification('deleted');
           this.onClear();
+          setTimeout(() => this.dataSharing.steeperIndex.next(9), 0);
+          setTimeout(() => this.dataSharing.currentIndex.next(9), 0);
         });
     }
     // console.log($event.target);
@@ -229,5 +240,11 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   next() {
     this.dataSharing.steeperIndex.next(8);
 
+  }
+  goToNext() {
+    this.dataSharing.steeperIndex.next(8);
+  }
+  goBack() {
+    this.dataSharing.steeperIndex.next(6);
   }
 }

@@ -8,9 +8,11 @@ import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ServiceApplicationModel} from '../../model/ServiceApplication.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class BillOfMaterialService extends BaseService<IncentiveBoMRequestItemModel> {
 
   constructor(
@@ -30,18 +32,28 @@ export class BillOfMaterialService extends BaseService<IncentiveBoMRequestItemMo
       catchError(this.errMsg.parseObservableResponseError));
   }
 
-  getBillOfMaterialByProjectId(id: number): Observable<IncentiveBoMRequestItemModel[]> {
-    return this.httpClient.get<IncentiveBoMRequestItemModel>(this.appConfig.urls.url('IncentiveBoMImportItemByProjectId') + '/' + id).pipe(
+  getBillOfMaterialByProjectId(id: number, lang: string): Observable<IncentiveBoMRequestItemModel[]> {
+    return this.httpClient.get<IncentiveBoMRequestItemModel>(this.appConfig.urls.url('IncentiveBoMImportItemByProjectId') + '/' + id + '/' + lang).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
 
-  // getBillOfMaterialByProjectId(id: number): Observable<IncentiveBoMRequestItemModel[]> {
-  //   return this.httpClient.get<IncentiveBoMRequestItemModel>(this.appConfig.urls.url('IncentiveBoMImportItemByProjectId') + '/' + id).pipe(
-  //     catchError(this.errMsg.parseObservableResponseError));
-  // }
+  getBillOfMaterialByProjectIds(id: number, lang: string): Observable<IncentiveBoMRequestItemModel[]> {
+    return this.httpClient.get<IncentiveBoMRequestItemModel>(this.appConfig.urls.url('IncentiveBoMImportItemByProjectIds') + '/' + id + '/' + lang).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
 
-  getBillOfMaterialByServiceApplicationId(id: number): Observable<ServiceApplicationModel> {
-    return this.httpClient.get<ServiceApplicationModel>(this.appConfig.urls.url('ServiceApplicationBillOfMaterial') + '/' + id).pipe(
+  getBillOfMaterialByBomId(id: number): Observable<IncentiveBoMRequestItemModel> {
+    return this.httpClient.get<IncentiveBoMRequestItemModel>(this.appConfig.urls.url('IncentiveBoMImportItemByBomId') + '/' + id).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getBillOfMaterialByServiceApplicationId(id: number, lang: string): Observable<IncentiveBoMRequestItemModel[]> {
+    return this.httpClient.get<IncentiveBoMRequestItemModel[]>(this.appConfig.urls.url('ServiceApplicationBillOfMaterial') + '/' + id + '/' + lang).pipe(
+      catchError(this.errMsg.parseObservableResponseError));
+  }
+
+  getBillOfMaterialProjectId(id: number, Phase: any, lang: string): Observable<IncentiveBoMRequestItemModel[]> {
+    return this.httpClient.get<IncentiveBoMRequestItemModel[]>(this.appConfig.urls.url('BillOfMaterialByProjectId') + '/' + id + '/' + Phase + '/' + lang).pipe(
       catchError(this.errMsg.parseObservableResponseError));
   }
 }

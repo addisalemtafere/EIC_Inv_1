@@ -16,11 +16,14 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
     public string CreatedUserName { get; set; }
     public DateTime? UpdatedEventDatetime { get; set; }
     public int? UpdatedUserId { get; set; }
+    public int ? AssociateAuditid { get; set; }
     public string UpdatedUserName { get; set; }
 
     public Guid? ObjectId { get; set; }
 
     public Associate Associate { get; set; }
     public Project Project { get; set; }
+
+
   }
 }

@@ -68,7 +68,7 @@
               <mat-form-field>
                 <mat-label>Raw Material Type * :</mat-label>
                 <input id="" type="text" matInput formControlName="RawMaterialType">
-                <mat-error></mat-error>
+                <mat-error align="start" *ngIf="formErrors.RawMaterialType">{{ formErrors.RawMaterialType }}</mat-error>
               </mat-form-field>
             </div>
 
@@ -92,10 +92,13 @@
 
 
             <div fxFlex="15" class="block">
-              <a class="custom-button pointer" color="primary" (click)="onSubmitRawMaterial()">
+              <button mat-raised-button="" color="primary"
+                [disabled]="!pRawMaterialForm.valid"
+                 (click)="onSubmitRawMaterial()">
                 <mat-icon color="primary" class="mat-18">done</mat-icon>
-                <span>Add</span>
-              </a>
+                <!--<span>Add</span>-->
+                <span class="agree">{{editModeInput ? 'update' : 'Add'}}</span>
+              </button>
             </div>
           </div>
 
@@ -170,3 +173,11 @@
   </mat-card-content>
 
 </mat-card>
+  <mat-card-actions fxLayoutAlign="center end" *ngIf="!isInvestor">
+    <button  color="warn" mat-raised-button (click)="goBack()">
+      {{'common.commands.Back'|translate}}
+    </button>
+    <button mat-raised-button color="link" (click)="goToNext()">
+      {{'common.commands.Next'|translate}}
+    </button>
+  </mat-card-actions>

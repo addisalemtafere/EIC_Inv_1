@@ -6,6 +6,7 @@
       "New": "New",
       "Edit": "Edit",
       "Save": "Save",
+      "Update":"Update",
       "Delete": "Delete",
       "Remove": "Remove",
       "Show": "Show",
@@ -14,6 +15,7 @@
       "Refresh": "Refresh",
       "Cancel": "Cancel",
       "Start": "Start",
+      "Finish": "Finish",
       "Close": "Close",
       "End": "End",
       "Stop": "Stop",
@@ -92,10 +94,17 @@
     "InvestorProfile": "My Profile",
     "BusinessProfile": "Business Profile",
     "associate": "Manager",
+    "Amendment": "Amendment",
+    "InvestorProfileAmendment":"Profile Amendment",
+    "InvestmentPermitAmendment":"Permit Amendment",
+
     "capitalRegistration": "Capital Registration",
     "customerRegistration": "Customer Registration",
     "changePassword": "Change Password",
-    "lettertemplate": "Letter Tempalte"
+    "lettertemplate": "Letter Tempalte",
+    "TaxExemption": "Tax Exemption",
+    "DutyFree": "Duty Free",
+    "DataBrowser": "Incentive Data Browser"
   },
   "pageHeader": {
     "Dashboard": "Dashboard",
@@ -174,8 +183,8 @@
       "KebeleAmharic": "Kebele(Amharic)",
       "KebeleEnglish": "Kebele(English)",
       "HouseNo": "House Number",
-      "PhoneDirect": "Telephine (Direct)",
-      "PhoneMobile": "Telephine (Mobile)",
+      "PhoneDirect": "Telephone (Direct)",
+      "PhoneMobile": "Telephone (Mobile)",
       "Fax": "Fax",
       "Pobox": "P.O.Box",
       "Email": "Email",
@@ -188,8 +197,82 @@
       "MangerAddress": "Manager Address",
       "PaidCapital": "Paid Capital",
       "SighnedCapital": "Signed Capital",
-      "FormOfOwnership": "Form Of Ownership"
+      "FormOfOwnership": "Form Of Ownership",
+      "ManagerProfile": "Manager Profile",
+      "InvestorProfile": "Investor Profile",
+      "CompanyProfile": "Company Profile",
+
+      "ProjectTitle":"Project Title",
+      "ProjectStage":"Project Stage",
+      "StartDate":"Start Date",
+      "EndingDate":"Ending Date",
+      "EnvironmentalImpact":"Environmental Impact",
+      "ProjectDescription":"Project Description",
+      "SpecificAreaName":"Specific Area Name",
+      "IndustrialPark":"Industrial Park",
+      "IsOromiaSpecialZone":" Is Oromia Special Zone ?",
+      "Sector":"Sector",
+      "SubSector":"SubSector",
+      "InvestmentActivity":"Investment Activity",
+      "Activity": "Activity",
+      "LandCost":"Land Cost",
+      "LandCostInBirr":"Land Cost In Birr",
+      "MachineryCost":"Machinery Cost",
+      "MachineryCostInBirr":"Machinery Cost In Birr",
+      "TransportCost":"Transport Cost",
+      "TransportCostInBirr":"Transport Cost In Birr",
+      "OfficeEquipmentCost":"Office Equipment Cost",
+      "OfficeEquipmentCostInBirr":"Office Equipment Cost In Birr",
+      "OtherCapitalCost":"Other Capital Cost",
+      "BuildingCost": "Building Cost",
+      "BuildingCostInBirr": "Building Cost In Birr",
+      "OtherCapitalCostInBirr":"Other Capital Cost In Birr",
+      "InitialWorkingCapitalCost":"Initial Working Capital Cost",
+      "InitialWorkingCapitalCostInBirr":"Initial Working Capital Cost In Birr",
+      "Total":"Total",
+      "TotalInBirr":"Total In Birr",
+      "EquityFinance":"Equity Finance",
+      "LoanFinance":"Loan Finance",
+      "OtherSourceFinance":"Other Source Finance",
+      "OtherSourceDescription":"Other Source of Finance Description",
+      "Unit":"Unit",
+      "ActualCostInForeign":"Actual Cost In Foreign",
+      "ExchangeRate":"Exchange Rate",
+      "Remark":"Remark",
+
+      "Quarter": "Quarter",
+      "RegistrationYear": "Registration Year",
+      "ProjectStatus": "Project Status",
+      "ProductName": "Product/Service Name",
+      "ProductQty": "Product Quantity",
+      "ProductUnit": "Product Unit",
+      "DomesticMarketShare": "Domestic Market Share",
+      "ExportMarketShare": "Export Market Share",
+
+      "ElectricPower": "ElectricPower",
+      "Water": "Water",
+      "OtherUtility": "Other Utility",
+      "LandIndustrial": "Land Industrial",
+      "LandAgricultural": "Land Agricultural",
+      "LandService": "Land Service",
+      "OwnLand": "Own Land",
+      "RentalLand": "Rental Land",
+      "LeaseLand": "Lease Land",
+
+      "RawMaterialType": "Raw Material Type",
+      "SharePercent": "Share Percent",
+      "Quantity": "Quantity",
+      "Description": "Description",
+      "CurrencyType": "Currency Type"
+      
+
+
     }
+  },
+  "TableHeaders":{
+   "FullNameAmh":"Name in Amh",
+   "FullNameEng":"Name in English"
+
   },
   "form": {
     "ErrorCaption": "Error in Form",
@@ -307,7 +390,8 @@
     "CurrencyType": "Currency Type",
     "Amount": "Amount",
     "InvoiceNo": "InvoiceNo",
-    "Phase": "Batch"
+    "Phase": "Batch",
+    "FileNo": "FileNo"
   },
   "incentiverequestitem": {
     "IncentiveItem": "Incentive Item",
@@ -320,7 +404,9 @@
   },
   "taxexemption": {
     "RevenueBranch": "Revenue Branch",
-    "ExemptionYear": "Exemption Year"
+    "ExemptionYear": "Exemption Year",
+    "FileNo": "FileNo",
+    "BusinessLicenseNo": "BusinessLicenseNo"
   },
   "billofmaterrial": {
     "Phase": "Batch",
@@ -411,8 +497,8 @@
       "Woreda": "Wereda",
       "Kebele": "Kebele",
       "HouseNo": "House Number",
-      "PhoneDirect": "Telephine (Direct)",
-      "PhoneMobile": "Telephine (Mobile)",
+      "PhoneDirect": "Telephone (Direct)",
+      "PhoneMobile": "Telephone (Mobile)",
       "Fax": "Fax",
       "Pobox": "P.O.Box",
       "Email": "Email",

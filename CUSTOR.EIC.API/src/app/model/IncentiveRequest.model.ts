@@ -14,6 +14,9 @@ export class IncentiveRequestModel {
   public CustomsSiteId?: number;
   public RequestDate?: Date;
   public InvoiceNo: string;
+  public FileNo: string;
+  public IsExporter: boolean;
+  public IsBankPermit: boolean;
   public Phase: number;
   public IncentiveItemRequest?: IncentiveRequestItemModel[];
 

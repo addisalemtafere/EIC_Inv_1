@@ -8,9 +8,11 @@ import {ServiceApplicationModel} from '../model/ServiceApplication.model';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError} from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class ProjectSubstituteService extends BaseService<ProjectSubstituteModel> {
 
   constructor(

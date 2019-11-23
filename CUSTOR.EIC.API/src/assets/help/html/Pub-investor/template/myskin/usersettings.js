@@ -17,20 +17,20 @@ var titleColor = "#ffffff";
 var backgroundColor = "#509de6";
 
 (function() {
-  var rh = window.rh, model = rh.model
+  var rh = window.rh, model = rh.model;
 
   model.publish(rh.consts('KEY_DIR'), "ltr");
   model.publish(rh.consts("KEY_MOBILE_TOC_DRILL_DOWN"), true);
   model.publish(rh.consts('KEY_DEFAULT_SEARCH_LOCATION'), "tabbar");
   model.publish(rh.consts('KEY_SEARCH_HIGHLIGHT_COLOR'), "#000000");
   model.publish(rh.consts('KEY_SEARCH_BG_COLOR'), "#FCFF00");
-	model.publish('l.desktop_sidebar_visible', true);	
+	model.publish('l.desktop_sidebar_visible', true);
 	model.publish('l.mobile_header_visible', false);
-	model.publish(rh.consts('KEY_CUSTOM_BUTTONS_CONFIG'), [{"image":"expand_all.svg","name":"Expand/Collapse All","onclick":"rh.model.publish(rh.consts('EVT_EXPAND_COLLAPSE_ALL'));return false;","title":"Expand/Collapse All"},{"image":"removesearch_mark.svg","name":"RemoveHighlight","onclick":"rh.model.publish(rh.consts('EVT_REMOVE_HIGHLIGHT'));return false;","title":"Remove Highlight"},{"image":"print_desktop.png","name":"Print","onclick":"rh.model.publish(rh.consts('EVT_PRINT_TOPIC'));return false;","title":"Print"}])
+	model.publish(rh.consts('KEY_CUSTOM_BUTTONS_CONFIG'), [{"image":"expand_all.svg","name":"Expand/Collapse All","onclick":"rh.model.publish(rh.consts('EVT_EXPAND_COLLAPSE_ALL'));return false;","title":"Expand/Collapse All"},{"image":"removesearch_mark.svg","name":"RemoveHighlight","onclick":"rh.model.publish(rh.consts('EVT_REMOVE_HIGHLIGHT'));return false;","title":"Remove Highlight"},{"image":"print_desktop.png","name":"Print","onclick":"rh.model.publish(rh.consts('EVT_PRINT_TOPIC'));return false;","title":"Print"}]);
 
   model.subscribe([rh.consts('KEY_DEFAULT_SEARCH_LOCATION'), rh.consts('KEY_FEATURE')], function() {
     var features = model.get(rh.consts('KEY_FEATURE')) || {},
-      searchResultInTabbar = model.get(rh.consts('KEY_DEFAULT_SEARCH_LOCATION')) === 'tabbar'
+      searchResultInTabbar = model.get(rh.consts('KEY_DEFAULT_SEARCH_LOCATION')) === 'tabbar';
     if (!features.toc && !features.idx && !features.glo && !features.filter && !searchResultInTabbar) {
       model.publish('l.desktop_sidebar_available', false);
     } else {

@@ -88,6 +88,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string UserName { get; set; }
         public int AddressId { get; set; }
 
-        
+        // ADDED BY FETIHA
+
+        public int ? ServiceApplicationId { get; set; }
+       // public int ? ServiceId { get; set; }
     }
 }

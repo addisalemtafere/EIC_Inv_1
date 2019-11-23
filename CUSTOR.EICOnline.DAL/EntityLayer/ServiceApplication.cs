@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 namespace CUSTOR.EICOnline.DAL.EntityLayer
 {
@@ -21,8 +23,9 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
 
         public int ServiceApplicationId { get; set; }
         public int? ProjectId { get; set; }
-        public int InvestorId { get; set; }
+        public int? InvestorId { get; set; }
         public int? ServiceId { get; set; }
+        public int? CurrentStep { get; set; }
         public int? TodoTaskId { get; set; }
         public string CaseNumber { get; set; }
         public string ServiceNameEnglish { get; set; }
@@ -31,11 +34,15 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string InvestorNameAmharic { get; set; }
         public string ProjectNameAmharic { get; set; }
         public string ProjectNameEnglish { get; set; }
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
+        //public string StartTime { get; set; }
         public DateTime? EndDate { get; set; }
+        //public string EndTime { get; set; }
         public int CurrentStatusId { get; set; }
         public bool IsSelfService { get; set; }
         public bool IsPaid { get; set; }
+
+//        public bool IsApproved { get; set; }
         public string WindowNumber { get; set; }
         public string Remark { get; set; }
         public bool? IsActive { get; set; }
@@ -52,7 +59,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public Investor Investor { get; set; }
 
         public Project Project { get; set; }
-
+        // ADDED BY FETIHA
+        public int ? Status { get; set; }
         //public IncentiveBoMRequestItem IncentiveBoMRequestItem { get; set; }
         public Service Service { get; set; }
         public TodoTask TodoTask { get; set; }
@@ -92,8 +100,27 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public string InvestorNameEnglish { get; set; }
         public string InvestorNameAmharic { get; set; }
         public string ProjectNameAmharic { get; set; }
+
         public string ProjectNameEnglish { get; set; }
+//                public bool IsApproved { get; set; }
+
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }
+
+    public partial class ServiceAppDto
+    {
+        [Key] public int IncentiveBoMRequestItemId { get; set; }
+        public int? ServiceApplicationId { get; set; }
+        public int? ProjectId { get; set; }
+        public int? Phase { get; set; }
+        public string Description { get; set; }
+        public string HsCode { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Balance { get; set; }
+        public string MesurmentUnit { get; set; }
+        public string RejectionReason { get; set; }
+        public bool? IsApproved { get; set; }
+    }
+    
 }

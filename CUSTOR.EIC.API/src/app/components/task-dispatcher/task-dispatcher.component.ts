@@ -1,12 +1,13 @@
-import { AuthService } from '@custor/services/security/auth.service';
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
-import { AccountService } from '@custor/services/security/account.service';
-import { User } from '../../model/security/user.model';
-import { MatDialogRef, MatTableDataSource } from '@angular/material';
-import { TodoTaskService } from '../../Services/todo-task.service';
-import { TodoTaskModel } from '../../model/TodoTask.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { DataSharingService } from '../../Services/data-sharing.service';
+import {AuthService} from '@custor/services/security/auth.service';
+import {AfterContentChecked, Component, OnInit} from '@angular/core';
+import {AccountService} from '@custor/services/security/account.service';
+import {User} from '../../model/security/user.model';
+import {MatDialogRef, MatTableDataSource} from '@angular/material';
+import {TodoTaskService} from '../../Services/todo-task.service';
+import {TodoTaskModel} from '../../model/TodoTask.model';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {DataSharingService} from '../../Services/data-sharing.service';
+import {ApplicationStatusEnum} from "../../enum/enums";
 
 @Component({
   selector: 'app-task-dispatcher',
@@ -24,13 +25,14 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
   assignedUserId: any;
   public completedTask: number | 0;
   public pendingTask: number | 0;
+  private assignedUserName: any;
 
   constructor(public accountService: AccountService,
-    private dialogRef: MatDialogRef<TaskDispatcherComponent>,
-    public fb: FormBuilder,
-    public authService: AuthService,
-    public dataSharingService: DataSharingService,
-    public todoTask: TodoTaskService) {
+              private dialogRef: MatDialogRef<TaskDispatcherComponent>,
+              public fb: FormBuilder,
+              public authService: AuthService,
+              public dataSharingService: DataSharingService,
+              public todoTask: TodoTaskService) {
   }
 
   ngOnInit() {
@@ -42,6 +44,7 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
     this.todoTaskForm = this.fb.group({
       ServiceApplicationId: '',
       AssignedUserId: '',
+      AssignedUserName: '',
       CreatedUserId: '',
       CreatedUserName: '',
     });
@@ -64,12 +67,15 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
     console.log(this.userList);
   }
 
-  getUserDetail(userId: any, userName?: any) {
+  getUserDetail(user: User) {
+    console.log(user);
+    console.log(user.FullName);
     // console.log(userId);
-    this.assignedUserId = userId;
-    this.getCompleted(userId);
-    this.getPending(userId);
-    this.todoTask.getAllById(userId).subscribe(result => {
+    this.assignedUserId = user.Id;
+    this.assignedUserName = user.FullName;
+    this.getCompleted(user.Id);
+    this.getPending(user.Id);
+    this.todoTask.getAllById(this.assignedUserId).subscribe(result => {
 
       this.todoList = result;
       this.loading = false;
@@ -114,9 +120,34 @@ export class TaskDispatcherComponent implements OnInit, AfterContentChecked {
     this.todoTaskForm.patchValue({
       ServiceApplicationId: localStorage.getItem('ServiceApplicationId'),
       AssignedUserId: this.assignedUserId,
+      AssignedUserName: this.assignedUserName,
       CreatedUserId: this.accountService.currentUser.Id,
       CreatedUserName: this.accountService.currentUser.UserName,
     });
+  }
+
+
+  getClassType(statusId: number) {
+
+    let className;
+    switch (statusId) {
+      case  ApplicationStatusEnum.approved :
+        className = 'Approved';
+        break;
+      case ApplicationStatusEnum.Completed:
+        className = 'Completed';
+        break;
+      case ApplicationStatusEnum.Drafted:
+        className = 'drafted';
+        break;
+      case ApplicationStatusEnum.Pending:
+        className = 'Pending';
+        break;
+      case ApplicationStatusEnum.Submitted:
+        className = 'Submitted';
+        break;
+    }
+    return className;
   }
 
 

@@ -11,11 +11,13 @@ import {ActivityModel} from '../../../../../model/activity';
 import {ActivityService} from '../activity.service';
 import {ErrorMessage} from '../../../../../../@custor/services/errMessageService';
 import {determineId} from '../../../../../../@custor/helpers/compare';
+import {ConfigurationService} from "@custor/services/configuration.service";
 
 @Component({
   selector: 'app-edit-activity',
   templateUrl: './edit-activity.component.html',
-  styleUrls: ['./edit-activity.component.css']
+  styleUrls: ['./edit-activity.component.css'],
+  providers: [ConfigurationService]
 })
 export class EditActivityComponent implements OnInit, OnDestroy {
   @ViewChild('form')
@@ -32,11 +34,13 @@ export class EditActivityComponent implements OnInit, OnDestroy {
   fillterssubsectorModels: SubSectorModel[] = [];
   activityForm: FormGroup;
   loadingIndicator: boolean;
+  private currentLang: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private http: HttpClient,
               private config: AppConfiguration,
+              private configService: ConfigurationService,
               private activityService: ActivityService, private errMsg: ErrorMessage,
               private toastr: ToastrService,
               private fb: FormBuilder) {
@@ -48,6 +52,8 @@ export class EditActivityComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params['id'];
+    this.currentLang = this.configService.language;
+
     if (id < 1) {
       this.isNewActivity = true;
       this.title = 'Create a new Service';
@@ -66,7 +72,7 @@ export class EditActivityComponent implements OnInit, OnDestroy {
   }
 
   getSector() {
-    this.activityService.getSector()
+    this.activityService.getSectors(this.currentLang)
       .subscribe(result => {
           this.sectorModels = result;
         },
@@ -74,13 +80,12 @@ export class EditActivityComponent implements OnInit, OnDestroy {
   }
 
   getSubSector() {
-    this.activityService.getSubSector()
+    this.activityService.getSubSector(this.currentLang)
       .subscribe(result => {
           this.subsectorModels = result;
           if (this.isNewActivity) {
             this.filterSector(this.activatedRoute.snapshot.params['sectorId']);
-          }
-          else {
+          } else {
             this.filterSector(this.activity.SubSector.SectorId);
           }
         },

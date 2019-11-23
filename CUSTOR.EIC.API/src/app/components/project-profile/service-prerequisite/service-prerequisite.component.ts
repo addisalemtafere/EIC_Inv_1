@@ -26,12 +26,14 @@ import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confi
 
 import {ActivatedRoute} from "@angular/router";
 import {AppConfiguration} from "../../../config/appconfig";
+import { AccountService } from '../../../../@custor/services/security/account.service';
 
 
 @Component({
   selector: 'app-service-prerequisite',
   templateUrl: './service-prerequisite.component.html',
-  styleUrls: ['./service-prerequisite.component.css']
+  styleUrls: ['./service-prerequisite.component.css'],
+  providers: [ServicePrerequisiteService, PreRequisiteDocumentService]
 })
 export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked {
   documentForm: FormGroup;
@@ -54,7 +56,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   @ViewChild('content') content: ElementRef;
 
   displayedColumns = ['No', 'PreRequisite', 'url', 'Action'];
-
+  isInvestor : boolean;
   document: FormArray;
   servicePreList: ServicePrerequisite[] = [];
   dataSource: any;
@@ -75,6 +77,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
               private investorService: InvestorService,
               public toast: ToastrService,
               public errMsg: ErrorMessage,
+               private accountService: AccountService,
               public route: ActivatedRoute,
               public userActivityDataServices: UserActivityDataServices,
               public config: AppConfiguration,
@@ -86,6 +89,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   }
 
   ngOnInit(): void {
+    
     this.servicePreList = [];
     this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
@@ -93,10 +97,13 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     this.workFlowId = (ServiceWorkflowId == undefined) ? '' : ServiceWorkflowId;
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.baseUrl = this.config.urls.baseUrl;
+    this.getUserType();
     this.createForm();
     this.getServicePrerequisite(this.ServiceId);
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   createForm() {
     this.documentForm = new FormGroup({
         Name: new FormControl(),
@@ -131,7 +138,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
 
   upload(i: number, files: FileList) {
     this.errors = []; // Clear error
-    console.log(this.workFlowId)
+    console.log(this.workFlowId);
     // console.log((!this.isValidFiles(files)));
     if (files && files[0].size > 0 && (this.isValidFiles(files))) {
       this.documentForm.patchValue({
@@ -211,6 +218,14 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     setTimeout(() => this.dataSharing.steeperIndex.next(9), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(9), 0);
   }
+  goToNext() {
+    console.log(7)
+    this.dataSharing.steeperIndex.next(8);
+  }
+  goBack() {
+    console.log(5557)
+    this.dataSharing.steeperIndex.next(6);
+  }
 
   getPreReqService(pre: any, investor: Investor) {
     this.servicePreList = [];
@@ -260,7 +275,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
       // Check the extension exists
       const exists = extensions.includes(ext);
       if (!exists) {
-        this.errors.push('Error, Pdf Extension Only allowed to attach : ' + files[i].name);
+        this.errors.push('Only documents with .pdf extension are allowed : ' + files[i].name);
         // this.toast.error('Error ,Pdf Extension Only allowed to attach :' + files[i].name, 'Error');
 
       }

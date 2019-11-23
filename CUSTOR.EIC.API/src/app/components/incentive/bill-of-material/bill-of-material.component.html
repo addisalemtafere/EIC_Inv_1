@@ -6,9 +6,8 @@
       <li class="mat-error" *ngFor="let error of errors;">{{error}}</li>
     </ol>
   </div>
-
-
 </div>
+
 <mat-card class="margin-2" style="background-color: #fafafa;">
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2em">
@@ -72,21 +71,32 @@
         <div class="block" fxLayoutGap="2em">
           <mat-form-field [fxFlex]="20">
             <mat-label>{{'billofmaterrial.Description' | translate}}</mat-label>
-            <input type="text" matInput
+            <input type="text" matInput required
                    formControlName="Description">
+            <mat-error *ngIf="Description.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
           </mat-form-field>
-          <mat-form-field [fxFlex]="20">
+          <mat-form-field [fxFlex]="10">
             <mat-label>{{'billofmaterrial.HsCode' | translate}}</mat-label>
             <input type="text" matInput
                    formControlName="HsCode">
-
           </mat-form-field>
-          <mat-form-field [fxFlex]="20">
+          <mat-form-field [fxFlex]="10">
             <mat-label>{{'billofmaterrial.Quantity' | translate}}</mat-label>
-            <input type="text" matInput
+            <input type="number" matInput required
                    formControlName="Quantity">
+            <mat-error *ngIf="Quantity.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+            <mat-error *ngIf="Quantity.hasError('maxlength')">
+              {{'common.validation.MaxLengthChar' | translate: {'max': '8'} }}
+            </mat-error>
+            <mat-error *ngIf="Quantity.hasError('pattern')">
+              {{'common.validation.NumberOnly' | translate}}
+            </mat-error>
           </mat-form-field>
-          <mat-form-field [fxFlex]="20">
+          <mat-form-field [fxFlex]="10">
             <mat-label>{{'billofmaterrial.MesurmentUnit' | translate}}</mat-label>
             <mat-select formControlName="MesurmentUnit" required>
               <option value="0">--Select--</option>
@@ -94,11 +104,27 @@
                 <span>{{unit.DescriptionEnglish}}</span>
               </mat-option>
             </mat-select>
+<!--            <mat-error *ngIf="MesurmentUnit.hasError('required')">-->
+<!--              {{'common.validation.Required' | translate}}-->
+<!--            </mat-error>-->
+          </mat-form-field>
+          <mat-form-field [fxFlex]="10">
+            <mat-label>{{'incentiverequest.Phase' | translate}}</mat-label>
+            <mat-select formControlName="Phase" style="font-family: Calibri" type="text" required
+                        [compareWith]="compareIds">
+              <option value="0">--Select--</option>
+              <mat-option *ngFor="let Phase of PhaseLookups" [value]="Phase.LookupId">
+                <span>{{Phase.English}}</span>
+              </mat-option>
+            </mat-select>
+<!--            <mat-error *ngIf="Phase.hasError('required')">-->
+<!--              {{'common.validation.Required' | translate}}-->
+<!--            </mat-error>-->
           </mat-form-field>
           <span *ngIf="!isInvestor">
-          <mat-form-field [fxFlex]="20">
+          <mat-form-field>
             <mat-label>{{'billofmaterrial.RejectionReason' | translate}}</mat-label>
-            <mat-select formControlName="RejectionReason" required>
+            <mat-select formControlName="RejectionReason">
               <option value="0">--Select--</option>
               <mat-option *ngFor="let RejectionReason of Lookups"
                           [value]="RejectionReason.LookupId">
@@ -107,13 +133,14 @@
             </mat-select>
           </mat-form-field>
           </span>
-        </div>
-
-        <div class="block" fxFlex="15%">
           <button [disabled]="!billOfMaterialForm.valid" class="custom-button" (click)="onSubmit()">
             <mat-icon color="accent" class="mat-18">done</mat-icon>
             {{editMode ? 'Update' : 'Add'}}
           </button>
+        </div>
+
+        <div class="block" fxFlex="10">
+
           <!--<a style="margin-left: 2px;" mat-raised-button class="pointer" (click)="onClear()" matTooltip="Clear Form">-->
           <!--<mat-icon color="accent" class="mat-18">clear_all</mat-icon>-->
           <!--Clear-->
@@ -129,7 +156,9 @@
 
 
     <div fxFlex="100%" *ngIf="itemList.length>0">
-
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
       <div class="spinner-container" *ngIf="loading">
         <mat-progress-bar mode="query"></mat-progress-bar>
       </div>
@@ -137,10 +166,9 @@
         <ng-container matColumnDef="No">
           <mat-header-cell [fxFlex]="6" *matHeaderCellDef>No</mat-header-cell>
           <mat-cell [fxFlex]="6" *matCellDef="let itemList;let i=index;">
-            {{i+1}}
+            {{i + 1}}
           </mat-cell>
         </ng-container>
-
         <ng-container matColumnDef="Description">
           <mat-header-cell fxFlex="30" *matHeaderCellDef>Description</mat-header-cell>
           <mat-cell fxFlex="30" *matCellDef="let itemList">
@@ -166,15 +194,22 @@
         </ng-container>
         <ng-container matColumnDef="RejectionReason">
           <mat-header-cell *matHeaderCellDef>Rejection Reason</mat-header-cell>
-          <mat-cell *matCellDef="let itemList"> {{itemList?.RejectionReason | lookupReasonPipe : 1}}
+          <mat-cell *matCellDef="let itemList"> {{itemList?.RejectionReason}}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="approval">
           <mat-header-cell *matHeaderCellDef>
             <span *ngIf="isInvestor"> Is Approved</span>
             <span *ngIf="!isInvestor">
-              <mat-checkbox></mat-checkbox>
-            Approve All</span>
+<!--              <mat-checkbox></mat-checkbox>-->
+              <!--               <mat-cell *matCellDef="let itemList">-->
+              <!--<mat-checkbox checked="false">approve</mat-checkbox>-->
+            <mat-checkbox [disabled]="isInvestor" [value]="itemList[0]?.IncentiveBoMRequestItemId"
+                          [checked]="itemList[0].IsApproved"
+                          (change)="onMangerControlChangedAll($event,itemList)">
+            Approve All</mat-checkbox>
+              <!--          </mat-cell>-->
+            </span>
           </mat-header-cell>
           <mat-cell *matCellDef="let itemList">
             <!--<mat-checkbox checked="false">approve</mat-checkbox>-->
@@ -215,7 +250,6 @@
       </mat-table>
 
       <mat-paginator
-
         #paginator
         [pageSize]="8"
         [pageSizeOptions]="[8, 10, 20]">

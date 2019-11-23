@@ -37,7 +37,9 @@ export class InvestorService extends EndpointFactory {
   private readonly InvestorByUserId: string = 'api/InvestorByUserId';
   private readonly InvestorByTIN: string = 'api/InvestorByTIN';
   private readonly SearchInvestor: string = 'api/SearchInvestor';
-
+  private readonly userServiceApplicationUrl: string = 'api/UserServiceApplication';
+  private readonly _submitServiceApplicationUrl: string = 'api/SubmitServiceApplication';
+  private readonly _checkServiceApplicationUrl: string = "api/CheckServiceApplication";
   get investorsUrl() {
     return this.config.baseUrl + this._investorsUrl;
   }
@@ -77,6 +79,16 @@ export class InvestorService extends EndpointFactory {
   get SearchInvestorUrl() {
     return this.config.baseUrl + this.SearchInvestor;
   }
+  get userServiceApplication() {
+    return this.config.baseUrl + this.userServiceApplicationUrl;
+  }
+  get submitServiceApplicationUrl() {
+    return this.config.baseUrl + this._submitServiceApplicationUrl;
+  }
+  get checkServiceApplicationUrl(){
+    return this.config.baseUrl + this._checkServiceApplicationUrl;
+
+  }
 
   // Declarations
   investorList: Investor[] = [];
@@ -107,9 +119,9 @@ export class InvestorService extends EndpointFactory {
   }
 
   getInvestor(id): Observable<any> {
-    console.log(this.investorUrl)
+    console.log(this.investorUrl);
     const endpointUrl = `${this.investorUrl}/${id}`;
-    return this.httpClient.get<Investor>(endpointUrl, this.getRequestHeaders()).pipe(
+    return this.httpClient.get<any>(endpointUrl, this.getRequestHeaders()).pipe(
       map(cust => {
         this.investor = cust;
         return this.investor;
@@ -140,6 +152,7 @@ export class InvestorService extends EndpointFactory {
   }
 
   saveInvestor(investor: Investor): Observable<any> {
+    // console.log();
     return this.httpClient.post<Investor>(this.investorUrl, investor, this.getRequestHeaders())
       .pipe(
         map(inv => {
@@ -259,6 +272,21 @@ export class InvestorService extends EndpointFactory {
         map(kList => this.allKebeleList = kList),
         catchError(err => observableThrowError(err || 'Server error')));
 
+  }
+  checkServiceApplication(serviceApplicationId){
+    const endPointUrl = `${this.checkServiceApplicationUrl}/${serviceApplicationId}`;
+    return this.httpClient.get(endPointUrl);
+  }
+  getUserServiceApplication(InvestorId){
+    console.log(InvestorId)
+    const endPointUrl = `${this.userServiceApplication}/${InvestorId}`;
+    console.log(endPointUrl)
+    return this.httpClient.get(endPointUrl)
+  }
+  submitServiceApplication(serviceApplicationId){
+    const endPointUrl = `${this.submitServiceApplicationUrl}/${serviceApplicationId}`;
+    console.log(endPointUrl)
+    return this.httpClient.put(endPointUrl, serviceApplicationId);
   }
 
   //   private handleError(error: any) {

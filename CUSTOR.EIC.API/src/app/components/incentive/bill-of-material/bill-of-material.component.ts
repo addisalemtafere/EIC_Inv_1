@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outpu
 import {DataSharingService} from '../../../Services/data-sharing.service';
 import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 import {ToastrService} from 'ngx-toastr';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {FormService} from '@custor/validation/custom/form';
 import {ServiceModel} from '../../../model/Service.model';
 import {AccountService} from '@custor/services/security/account.service';
@@ -20,11 +20,13 @@ import {Subscription} from 'rxjs';
 import {LookUpService} from '../../../Services/look-up.service';
 import {determineId} from '@custor/helpers/compare';
 import {IncentiveRequestDetailService} from '../incentive-request/requested-items-list/requested-items-list.service';
+import {ResultFunc} from "rxjs/internal-compatibility";
 
 @Component({
   selector: 'app-bill-of-material',
   templateUrl: './bill-of-material.component.html',
-  styleUrls: ['./bill-of-material.component.scss']
+  styleUrls: ['./bill-of-material.component.scss'],
+  providers: [ConfigurationService]
 })
 export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
@@ -54,6 +56,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   formErrors: {};
   public assigned: boolean;
   public itemList: IncentiveBoMRequestItemModel[] = [];
+  public IncentiveBoMRequestItemModel: IncentiveBoMRequestItemModel;
   billOfMaterialForm: FormGroup;
 
   editMode = false;
@@ -65,6 +68,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   productEdit: IncentiveBoMRequestItemModel;
   public stepperIndex: number;
   public isInvestor = false;
+  public isIncentiveSupervisor = false;
   public unitTypes: UnitType[] = [];
   PhaseLookups: LookupsModel[];
   public phaseId: number;
@@ -74,7 +78,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   private ProjectId: any;
   private currentLang: string;
   private IncentiveCategoryId: number;
-  private bool;
+  public isTrue: boolean;
 
   constructor(private billOfMaterilService: BillOfMaterialService,
               private errMsg: ErrorMessage,
@@ -99,6 +103,10 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     return this.documentForm.get('Phase');
   }
 
+  get MesurmentUnit() {
+    return this.documentForm.get('MesurmentUnit');
+  }
+
   getPhaseId(value: number) {
     this.phaseId = value;
   }
@@ -119,7 +127,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     }
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.ProjectId = this.route.snapshot.params['ProjectId'];
-    this.getBillOfMaterial(this.ServiceApplicationId);
+    this.getBillOfMaterial(this.ServiceApplicationId, this.currentLang);
     // this.getBillOfMaterial(this.ProjectId);
     this.initStaticData(this.currentLang);
 
@@ -131,12 +139,13 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   getItemLookup() {
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(10780)
+      .getLookupByParentId(10780, this.currentLang)
       .subscribe(result => {
           this.Lookups = result;
         },
         error => this.toastr.error(this.errMsg.getError(error)));
   }
+
 
   onMangerControlChanged($event, data?: IncentiveBoMRequestItemModel) {
     // console.log(data);
@@ -155,15 +164,40 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   }
 
+  onMangerControlChangedAll($event, data?: IncentiveBoMRequestItemModel[]) {
+    const id = $event.source.value;
+    if ($event.checked) {
+      for (let i of  data) {
+        this.billOfMaterilService.finalForApprovalBillOfMaterial(i.IncentiveBoMRequestItemId)
+          .subscribe(result => {
+            this.getBillOfMaterial(this.ServiceApplicationId, this.currentLang);
+          })
+      }
+    }
+    ;
+    if ($event.checked) {
+      this.toast.success('All Item approved  successfully');
+
+    }
+    // else if (!$event.checked) {
+    //   this.toast.success('Item approved cancelled successfully');
+    // }
+
+  }
+
   onSubmit() {
     this.formService.markFormGroupTouched(this.billOfMaterialForm);
     if (this.billOfMaterialForm.valid) {
       if (!this.editMode) {
         this.billOfMaterialForm.removeControl('IncentiveBoMRequestItemId');
+        this.billOfMaterialForm.get('ServiceApplicationId').patchValue(this.ServiceApplicationId);
+        this.billOfMaterialForm.get('ProjectId').patchValue(this.ProjectId);
+        this.billOfMaterialForm.get('IsApproved').patchValue(true);
+        //this.billOfMaterialForm.get('IncentiveCategoryId').patchValue('10778');
         this.billOfMaterilService.create(this.billOfMaterialForm.value)
           .subscribe((result: IncentiveBoMRequestItemModel) => {
             this.notification('saved');
-            this.getBillOfMaterial(this.ServiceApplicationId);
+            this.getBillOfMaterial(this.ServiceApplicationId, this.currentLang);
             this.itemList.push(result);
             // this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
             // this.getBillOfMaterial();
@@ -200,13 +234,22 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   }
 
   onEdit(index: number) {
-    this.editMode = true;
-    // console.log(index);
-
-    this.productEditIndex = index;
-    this.productEdit = this.itemList[index];
-    this.billOfMaterialForm.patchValue(this.productEdit);
-
+    if (!this.isInvestor) {
+      this.billOfMaterilService.getBillOfMaterialByBomId(this.itemList[index].IncentiveBoMRequestItemId)
+        .subscribe(result => {
+          this.IncentiveBoMRequestItemModel = result;
+          //console.log(result);
+          if (this.IncentiveBoMRequestItemModel.IsApproved == true) {
+            this.toast.error('You Cannot Edit Approved Items');
+            return true;
+          } else {
+            this.editMode = true;
+            this.productEditIndex = index;
+            this.productEdit = this.itemList[index];
+            this.billOfMaterialForm.patchValue(this.productEdit);
+          }
+        });
+    }
   }
 
   addItem() {
@@ -214,21 +257,33 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   }
 
   delete(index: number, id: number) {
-    this.billOfMaterilService.delete(id)
-      .subscribe(() => {
-        this.notification('Deleted');
-        this.itemList.splice(index, 1);
-        this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
-      });
+    if (!this.isInvestor) {
+      this.billOfMaterilService.getBillOfMaterialByBomId(this.itemList[index].IncentiveBoMRequestItemId)
+        .subscribe(result => {
+          this.IncentiveBoMRequestItemModel = result;
+          //console.log(result);
+          if (this.IncentiveBoMRequestItemModel.IsApproved == true) {
+            this.toast.error('You Cannot Delete Approved Items');
+            return true;
+          } else {
+            this.billOfMaterilService.delete(id)
+              .subscribe(() => {
+                this.notification('Deleted');
+                this.itemList.splice(index, 1);
+                this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(this.itemList);
+              });
+          }
+        });
+    }
   }
 
-  getBillOfMaterial(ServiceApplicationId: any) {
+  getBillOfMaterial(ServiceApplicationId: any, lang: any) {
     this.loading = true;
-    this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId)
+    this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, lang)
       .subscribe(result => {
-        this.itemList = result.IncentiveBoMRequestItem;
-        // console.log(result);
-        this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result.IncentiveBoMRequestItem);
+        console.log(result);
+        this.itemList = result;
+        this.dataSource = new MatTableDataSource<IncentiveBoMRequestItemModel>(result);
         this.loading = false;
         this.dataSource.paginator = this.paginator;
       }, error => this.errMsg.getError(error));
@@ -239,11 +294,10 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     if (this.phaseId == 0 || this.phaseId == null || this.phaseId == undefined) {
       this.toastr.error('Please Select Batch of Construction Materials Incentive');
       return true;
-    }
-    // else if (this.CheckExistance()) {
-    //   return true;
-    // }
-    else {
+    } else if (this.CheckExistance() == true) {
+      this.toastr.error('You Cannot Import Construction Materials, Because there is Uploaded data in this Batch');
+      return true;
+    } else {
       // this.loading = true;
       this.errors = []; // Clear error
       // Validate file size and allowed extensions
@@ -273,17 +327,22 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     }
   }
 
-  CheckExistance() {
+  public CheckExistance(): boolean {
     this.IncentiveRequestItemService
       .getIncentiveBoMRequestDetails(this.ProjectId, 10778, this.phaseId)
       .subscribe((items) => {
         this.BOMItems = items;
         if (this.BOMItems.length > 0) {
           this.toastr.error('You Cannot Import Construction Materials, Because there is Uploaded data in this Batch');
-          return true;
+          this.isTrue = true;
         }
       });
+    console.log(this.isTrue)
+    if (this.isTrue == true) {
+      return true;
+    } else {
       return false;
+    }
   }
 
   prepareSaveUser(): FormData {
@@ -329,6 +388,14 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       });
   }
 
+  get Quantity() {
+    return this.billOfMaterialForm.get('Quantity');
+  }
+
+  get Description() {
+    return this.billOfMaterialForm.get('Description');
+  }
+
   notification(message: string) {
     this.loading = false;
     this.toast.success(` Succesfully ${message} Data.!`, 'Success');
@@ -356,7 +423,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
   getLookup() {
     this.lookupSub = this.lookUpsService
-      .getLookupByParentId(10781)
+      .getLookupByParentId(10781, this.currentLang)
       .subscribe(result => {
           this.PhaseLookups = result;
         },
@@ -373,7 +440,14 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     this.documentForm = this.formBuilder.group({
       Name: new FormControl(),
       KeyWords: new FormControl(null),
+
       //Phase: new FormControl()
+    });
+    this.billOfMaterialForm = this.formBuilder.group({
+      Quantity: ['', Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')])],
+      Description: ['', Validators.required],
+      Phase: ['', Validators.required],
+      MesurmentUnit: ['', Validators.required]
     });
   }
 
@@ -433,6 +507,7 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
       Quantity: new FormControl(),
       MesurmentUnit: new FormControl(),
       IsApproved: new FormControl(),
+      Phase: new FormControl(),
     });
   }
 }

@@ -1,57 +1,30 @@
 <mat-card class="margin-2" fxLayoutAlign="center center ">
-  <!--<mat-card-header>-->
-  <!--<button mat-icon-button class="mr-16" (click)="back()" color="primary">-->
-  <!--<mat-icon>arrow_back</mat-icon>-->
-  <!--<span>Back</span>-->
-  <!--</button>-->
-  <!--</mat-card-header>-->
-  <!--<mat-divider></mat-divider>-->
-
   <mat-card-content>
-
-
-    <div style="font-weight: bold;" *ngIf="confirm" fxLayout="row" fxLayoutAlign="center left " fxLayoutGap="2em">
+    <div style="font-weight: bold;" *ngIf="confirm && canManageTask" fxLayout="row" fxLayoutAlign="center left "
+      fxLayoutGap="2em">
       <div class="  block" fxFlex="100%">
-        <!--<div class="hdr-brk sub-title">Confirmation</div>-->
-        <!--<div style="padding: 20px">-->
-        <!--&lt;!&ndash;<strong>Dear customer; Thank you for Applying. <br>&ndash;&gt;-->
-
-        <!--&lt;!&ndash;Your application will be review soon and we get back for any feed back:</strong>&ndash;&gt;-->
-
-        <!--</div>-->
         <div class="header-description">
-          <div style="height: 110px;" *ngIf="confirm" fxLayout="row" fxLayoutAlign="center center "
-               fxLayoutGap="2em">
+          <div style="height: 110px;" *ngIf="confirm" fxLayout="row" fxLayoutAlign="center center " fxLayoutGap="2em">
             <div fxFlex="30" class="thankYou" fxLayoutAlign="center right ">Thank</div>
             <div fxFlex="10">
-        <span fxLayoutAlign="center center " class="circleBase type1">
-                  <mat-icon style="font-size: 30px !important;color: white" class="mat-48">thumb_up</mat-icon>
-
-        </span>
-
+              <span fxLayoutAlign="center center " class="circleBase type1">
+                <mat-icon style="font-size: 30px !important;color: white" class="mat-48">thumb_up</mat-icon>
+              </span>
             </div>
             <div fxFlex="30" class="thankYou" fxLayoutAlign="center center ">You</div>
           </div>
           <div style="text-align: center">
             Your application Case Number is: <span class="strongText">{{ServiceApplicationId}}</span>
-
             <br>
             Click <strong class="strongText">Submit</strong>
             If you are done with your requests.<br>
             <mat-icon color="warn" class="mat-18">warning</mat-icon>
             If your application is not submitted, the application may
             not reviewed by our staff.
-            <!--so you to have submit otherwise it remains visible to you only.-->
-            <!--<br>-->
-            <!--Track your application by the <strong class="strongText">case number</strong>.-->
-            <!--you can track status, receive notifications, reserve time slot-->
-            <!--for visits, and provide additional inputs when requested.-->
           </div>
         </div>
-
         <div style="padding-top: 100px" fxLayoutAlign="center center" class="" fxFlex="">
-          <button (click)="submitApplication()" style="margin: 10px;background-color: #0c97a8;"
-                  mat-raised-button>
+          <button (click)="submitApplication()" style="margin: 10px;background-color: #0c97a8;" mat-raised-button>
             <mat-icon style="color: white;font-weight: bolder" class="48">done</mat-icon>
             <span style="margin: 10px;background-color: #0c97a8;font-weight: bolder;" class="agree">Submit</span>
           </button>
@@ -59,23 +32,23 @@
             <mat-icon class="mat-18">close</mat-icon>
             <span class="agree">close</span>
           </button>
-
-          <!--<button (click)="back()" style="margin: 10px;" color="warn" mat-raised-button>-->
-          <!--<mat-icon class="mat-18">x</mat-icon>-->
-          <!--<span>Close</span>-->
-          <!--</button>-->
         </div>
       </div>
-      <!--<div class="appGuid block" fxFlex="40%">-->
-      <!--&lt;!&ndash;<div class="hdr-brk sub-title">Application Service Detail</div>&ndash;&gt;-->
-      <!--<h3 style="color: #f17117!important;">Dear customer,<br>-->
-      <!--Thank you for Applying.<br>-->
-
-      <!--Your application will be review soon and we get back for any feed back:-->
-      <!--</h3>-->
-      <!--<mat-icon style="color: #f17117" class="mat-48">done</mat-icon>-->
-      <!--</div>-->
+    </div>
+    <div style="font-weight: bold;" *ngIf="!canManageTask" fxLayout="row" fxLayoutAlign="center left "
+      fxLayoutGap="2em">
+      <div class="  block" fxFlex="100%">
+        <div style="padding-top: 100px" fxLayoutAlign="center center" class="" fxFlex="">
+          <button (click)="addMessage()" style="margin: 10px;background-color: #0c97a8;" mat-raised-button>
+            <mat-icon style="color: white;font-weight: bolder" class="48">done</mat-icon>
+            <span style="margin: 10px;color: #f44336;font-weight: bolder;font-size: 19px;" class="agree">Approve</span>
+          </button>
+          <button (click)="back()" style="margin: 10px;" color="warn" mat-raised-button>
+            <mat-icon class="mat-18">close</mat-icon>
+            <span class="agree">close</span>
+          </button>
+        </div>
+      </div>
     </div>
   </mat-card-content>
-
 </mat-card>

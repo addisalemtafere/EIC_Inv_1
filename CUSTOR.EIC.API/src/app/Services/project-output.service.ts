@@ -7,9 +7,11 @@ import { ErrorMessage } from '../../@custor/services/errMessageService';
 import { Observable } from 'rxjs/internal/Observable';
 import { catchError, map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+//   {
+//   providedIn: 'root'
+// }
+)
 export class ProjectOutputService extends BaseService<ProjectOutputModel> {
   constructor(protected http: HttpClient,
     public appConfig: AppConfiguration,

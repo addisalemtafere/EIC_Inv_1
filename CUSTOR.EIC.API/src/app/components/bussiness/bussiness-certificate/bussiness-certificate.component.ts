@@ -27,6 +27,7 @@ import {Investor} from '../../../model/investor';
 import {AssociateService} from '../../../Services/associate.service';
 import {AssociateModel} from '../../../model/associate.model';
 import {BussinessModel} from '../../../model/bussiness/BussinessModel.model';
+import {ApplicationStatusEnum} from "../../../enum/enums";
 
 @Component({
   selector: 'app-bussiness-certificate',
@@ -195,7 +196,8 @@ export class BussinessCertificateComponent implements OnInit, AfterViewChecked {
   }
 
   private approve() {
-    this.lookup.Code = 44449;
+    // this.lookup.Code = 44449;
+    this.lookup.Code = ApplicationStatusEnum.Completed;
     this.serviceApplication.changeApplicationStatus(this.lookup, this.investorDetailList.ServiceApplicationId)
       .subscribe(result => {
         this.toast.success('Project approved successfully ', 'Success');

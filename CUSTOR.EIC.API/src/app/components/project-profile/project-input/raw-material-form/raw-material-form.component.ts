@@ -1,18 +1,19 @@
-import {AfterContentChecked, Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {FormService} from '@custor/validation/custom/form';
-import {ProjectProfileService} from '../../../../Services/project-profile.service';
-import {ToastrService} from 'ngx-toastr';
-import {MatSnackBar, MatTableDataSource} from '@angular/material';
-import {ProjectInputService} from '../../../../Services/project-input.service';
-import {ErrorMessage} from '@custor/services/errMessageService';
-import {ProjectRequirementService} from '../../../../Services/project-requirement.service';
-import {ProjectInputModel} from '../../../../model/ProjectInput.model';
-import {DataSharingService} from '../../../../Services/data-sharing.service';
-import {ProjectStatusModel, QuarterModel} from '../../../../model/lookupData';
-import {ProjectStatus, Quarter} from '@custor/const/consts';
+import { AfterContentChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormService } from '@custor/validation/custom/form';
+import { ProjectProfileService } from '../../../../Services/project-profile.service';
+import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar, MatTableDataSource } from '@angular/material';
+import { ProjectInputService } from '../../../../Services/project-input.service';
+import { ErrorMessage } from '@custor/services/errMessageService';
+import { ProjectRequirementService } from '../../../../Services/project-requirement.service';
+import { ProjectInputModel } from '../../../../model/ProjectInput.model';
+import { DataSharingService } from '../../../../Services/data-sharing.service';
+import { ProjectStatusModel, QuarterModel } from '../../../../model/lookupData';
+import { ProjectStatus, Quarter } from '@custor/const/consts';
+import { AccountService } from '../../../../../@custor/services/security/account.service';
 
 @Component({
   selector: 'app-raw-material-form',
@@ -38,18 +39,22 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
-
+  private isInvestor: boolean;
+  public formErrors = {
+    RawMaterialType: 'Minimum 2 Maximum 100 characters!',
+  }
   constructor(private formBuilder: FormBuilder,
-              private errMsg: ErrorMessage,
-              public route: ActivatedRoute,
-              public projectProfileService: ProjectProfileService,
-              private toastr: ToastrService,
-              private snackbar: MatSnackBar,
-              private formService: FormService,
-              private dataSharing: DataSharingService,
-              private dataSharingService: DataSharingService,
-              private pRequirementService: ProjectRequirementService,
-              private pInputService: ProjectInputService) {
+    private errMsg: ErrorMessage,
+    public route: ActivatedRoute,
+    public projectProfileService: ProjectProfileService,
+    private toastr: ToastrService,
+    private accountService : AccountService,
+    private snackbar: MatSnackBar,
+    private formService: FormService,
+    private dataSharing: DataSharingService,
+    private dataSharingService: DataSharingService,
+    private pRequirementService: ProjectRequirementService,
+    private pInputService: ProjectInputService) {
   }
 
   ngOnInit() {
@@ -59,7 +64,7 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-
+    this.getUserType();
     if (this.ServiceId === '1234') {
       this.getProjectStatus(this.route.snapshot.params['ProjectId']);
     }
@@ -75,7 +80,9 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
     //   });
   }
 
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getProjectRawMaterial() {
     this.pInputService.InputsByProject(this.projectId).subscribe(result => {
       if (typeof (result) !== 'undefined') {
@@ -95,7 +102,7 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
     this.pRawMaterialForm = this.formBuilder.group({
       ProjectInputId: new FormControl(''),
       ProjectId: new FormControl(this.projectId),
-      RawMaterialType: new FormControl('', [Validators.required]),
+      RawMaterialType: new FormControl('', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])),
       IsForeign: new FormControl('', [Validators.required]),
       Remark: new FormControl('', [Validators.minLength(2)]),
       Quarter: [''],
@@ -182,6 +189,16 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
     this.dataSharing.steeperIndex.next(this.stepperIndex);
     this.dataSharing.steeperIndex.next(4);
 
+  }
+  goToNext() {
+    console.log(this.stepperIndex)
+    this.dataSharing.steeperIndex.next(this.stepperIndex);
+    this.dataSharing.steeperIndex.next(3);
+  }
+  goBack() {
+    console.log(this.dataSharing.steeperIndex)
+    this.dataSharing.steeperIndex.next(this.stepperIndex);
+    this.dataSharing.steeperIndex.next(1);
   }
 
   initStaticData(currentLang) {

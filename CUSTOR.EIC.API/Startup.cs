@@ -11,8 +11,10 @@ using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.DataAccessLayer;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Address;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Bussiness;
+using CUSTOR.EICOnline.DAL.DataAccessLayer.Fetiha;
 using CUSTOR.EICOnline.DAL.DataAccessLayer.Incentive;
 using CUSTOR.EICOnline.DAL.EntityLayer;
+using CUSTOR.EICOnline.DAL.Helpers;
 using CUSTOR.Security;
 using EICOnline.Authorization;
 using EICOnline.Helpers;
@@ -55,17 +57,16 @@ namespace EICOnline.API
       try
       {
         services.AddMvc(options =>
-        {
-          options.Filters.Add(typeof(ModelValidationAttribute)); // add global modelstate filter
-          options.EnableEndpointRouting = false;
-
-        })
+          {
+            options.Filters.Add(typeof(ModelValidationAttribute)); // add global modelstate filter
+            options.EnableEndpointRouting = false;
+          })
           .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-           .ConfigureApiBehaviorOptions(options =>
-           {
-             options
-               .SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
-           })
+          .ConfigureApiBehaviorOptions(options =>
+          {
+            options
+              .SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
+          })
           .AddJsonOptions(opt =>
           {
             var resolver = opt.SerializerSettings.ContractResolver;
@@ -210,22 +211,16 @@ namespace EICOnline.API
               .AllowCredentials());
         });
 
-        var mappingConfig = new MapperConfiguration(mc =>
-        {
-          mc.AddProfile(new AutoMapperProfile());
-        });
+     
 
-        IMapper mapper = mappingConfig.CreateMapper();
-        services.AddSingleton(mapper);
-
-//        services.AddMvc();
+//        services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
 
 
         // Add framework services.
-        //services.AddMvc();
+        //services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
         services.AddSwaggerGen(c =>
         {
-          c.SwaggerDoc("v1", new Info { Title = IdentityServerConfig.ApiFriendlyName, Version = "v1" });
+          c.SwaggerDoc("v1", new Info {Title = IdentityServerConfig.ApiFriendlyName, Version = "v1"});
 
           //c.OperationFilter<AuthorizeCheckOperationFilter>();
 
@@ -245,7 +240,16 @@ namespace EICOnline.API
           c.IncludeXmlComments(xmlPath);
         });
 
-        Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
+        var mappingConfig = new MapperConfiguration(mc =>
+        {
+          mc.AddProfile(new AutoMapperProfile());
+          mc.AddProfile(new ApplicationMappingProfile());
+        });
+
+        IMapper mapper = mappingConfig.CreateMapper();
+        Mapper.Initialize(cfg => { cfg.AddProfile<AutoMapperProfile>(); cfg.ValidateInlineMaps = false; });
+
+        services.AddSingleton(mapper);
 
         services.AddScoped<ModelValidationAttribute>();
 
@@ -293,6 +297,7 @@ namespace EICOnline.API
         services.AddScoped<LetterRepository>();
         services.AddScoped<IncentiveRequestDetailRepository>();
         services.AddScoped<IncentiveRequestRepository>();
+        services.AddScoped<CountryRepository>();
 
         //Address
 
@@ -305,7 +310,12 @@ namespace EICOnline.API
         services.AddScoped<AssociateRepository>();
         services.AddScoped<IncentiveBoMRequestItemsRepository>();
 
-
+        // Repo Added by Fetiha
+        services.AddScoped<FAssociateRepository>();
+        services.AddScoped<FInvestorRepository>();
+        services.AddScoped<FProjectsRepository>();
+        services.AddScoped<FProjectOfficerRepository>();
+        //
         services.AddScoped<BudgetYearTypeRepository>();
         services.AddScoped<tblDivisionRepository>();
         services.AddScoped<tblMajorDivisionRepository>();
@@ -314,6 +324,8 @@ namespace EICOnline.API
         services.AddScoped<RegistrationRepository>();
         services.AddScoped<RegistrationCatagoryRepository>();
         services.AddScoped<BusinessLicensingGroupRepository>();
+        services.AddScoped<ProjectRenewalRepository>();
+        services.AddScoped<ProjectReplacementRepository>();
 
 
         // Repositories
@@ -374,6 +386,7 @@ namespace EICOnline.API
         //  options.ForwardClientCertificate = false;
         //});
 
+        services.Configure<SmtpConfig>(Configuration.GetSection("SmtpConfig"));
       }
       catch (Exception ex)
       {
@@ -395,9 +408,18 @@ namespace EICOnline.API
       EmailTemplates.Initialize(env, config);
 
       if (env.IsDevelopment())
-        app.UseDeveloperExceptionPage();
+//        app.UseDeveloperExceptionPage();
+        app.ConfigureExceptionHandler();
+
       else
-        app.UseExceptionHandler("/Home/Error");
+        app.ConfigureExceptionHandler();
+
+      // Enable middleware to serve generated Swagger as a JSON endpoint.
+      app.UseSwagger();
+
+      // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+      // specifying the Swagger JSON endpoint.
+      app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
 
       //Configure Cors
       app.UseCors("CorsPolicy");

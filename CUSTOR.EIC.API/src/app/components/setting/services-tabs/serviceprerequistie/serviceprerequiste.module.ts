@@ -8,6 +8,9 @@ import {ListServiceComponent} from './list/list-service.component';
 import {EditServiceComponent} from './edit/edit-service.component';
 import {DatePipe} from '@angular/common';
 import {SharedModule} from "@custor/modules/shared.module";
+import {SiteService} from "../../../../Services/site.service";
+import {ServicePrerequisiteService} from "./servicePrerequisite.service";
+import {PreRequisiteDocumentService} from "../../../../Services/pre-requisite-document.service";
 
 @NgModule({
   declarations: [ServicePreRequisiteComponent, ListServiceComponent, EditServiceComponent],
@@ -17,7 +20,11 @@ import {SharedModule} from "@custor/modules/shared.module";
     ServicePrerequsiteRoutingModule,
     SharedModule
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    ServicePrerequisiteService,
+    PreRequisiteDocumentService
+  ],
   // bootstrap: [ServiceComponent]
 })
 export class ServicePrerequsiteModule {

@@ -38,7 +38,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
               LookUpTypeId = l.LookUpTypeId,
               Description = (lang == "et") ? l.Description : l.DescriptionEnglish
             })
-            .Where(lookups => lookups.LookUpTypeId == 10774 || lookups.LookUpTypeId == 10775 || lookups.LookUpTypeId == 10776 || lookups.LookUpTypeId == 10777 || lookups.LookUpTypeId == 10778 || lookups.LookUpTypeId == 10779)
+            .Where(lookups => lookups.LookUpTypeId == 10774 || lookups.LookUpTypeId == 10775 || lookups.LookUpTypeId == 10776 || lookups.LookUpTypeId == 10777 || lookups.LookUpTypeId == 10778 || lookups.LookUpTypeId == 10779 || lookups.LookUpTypeId==10782)
             .ToListAsync();
       }
       catch (Exception ex)

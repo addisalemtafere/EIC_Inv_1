@@ -57,6 +57,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 GrandNameSoundx = string.Empty,
                 InvestorId = investorDTO.InvestorId,
                 IsActive = investorDTO.IsActive,
+                UserId = investorDTO.UserId,
                 IsDeleted = investorDTO.IsDeleted,
                 Nationality = investorDTO.Nationality,
                 BranchCountry = investorDTO.BranchCountry,
@@ -67,12 +68,63 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 LegalStatus = investorDTO.LegalStatus,
                 RegistrationDate = investorDTO.RegistrationDate,
                 RegistrationNumber = investorDTO.RegistrationNumber,
-
                 PaidCapital = investorDTO.PaidCapital,
                 SighnedCapital = investorDTO.SighnedCapital,
                 IsExistingCustomer = investorDTO.IsExistingCustomer,
                 RegistrationCatagories = investorDTO.RegistrationCatagories,
                 //SiteCode = investorDTO.SiteCode
+            };
+        }
+        public static InvestorAuditDTO GetInvestorAuditDTO(InvestorAudit inv , Address add , int [] category)
+        {
+            return new InvestorAuditDTO
+            {
+                FatherName = inv.FatherName,
+                FatherNameEng = inv.FatherNameEng,
+                FatherNameSort = string.Empty,
+                FatherNameSoundx = string.Empty,
+                FirstName = inv.FirstName,
+                FirstNameEng = inv.FirstNameEng,
+                FirstNameSort = string.Empty,
+                FirstNameSoundx = string.Empty,
+                Gender = inv.Gender,
+                GrandName = inv.GrandName,
+                GrandNameEng = inv.GrandNameEng,
+                GrandNameSort = string.Empty,
+                GrandNameSoundx = string.Empty,
+                InvestorId = inv.InvestorId,
+                IsActive = inv.IsActive,
+                IsDeleted = inv.IsDeleted,
+                Nationality = inv.Nationality,
+                BranchCountry = inv.BranchCountry,
+                IsEthiopianOrigin = inv.IsEthiopianOrigin,
+                Title = inv.Title,
+                Tin = inv.Tin,
+                FormOfOwnership = inv.FormOfOwnership,
+                LegalStatus = inv.LegalStatus,
+                RegistrationDate = inv.RegistrationDate,
+                RegistrationNumber = inv.RegistrationNumber,
+                PaidCapital = inv.PaidCapital,
+                SighnedCapital = inv.SighnedCapital,
+                IsExistingCustomer = inv.IsExistingCustomer,
+
+               // RegistrationCatagories = catagory,
+
+                //SiteCode = inv.SiteCode,
+                CellPhoneNo = add.CellPhoneNo,
+                Email = add.Email,
+                Fax = add.Fax,
+                HouseNo = add.HouseNo,
+                KebeleId = add.KebeleId,
+                KebeleEngId = add.KebeleEngId,
+                OtherAddress = add.OtherAddress,
+                RegionId = add.RegionId,
+                Pobox = add.Pobox,
+                TeleNo = add.TeleNo,
+                WoredaId = add.WoredaId,
+                WoredaEngId = add.WoredaEngId,
+                ZoneId = add.ZoneId,
+                AddressId = add.AddressId,
             };
         }
 
@@ -101,6 +153,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
                 IsEthiopianOrigin = inv.IsEthiopianOrigin,
                 Title = inv.Title,
                 Tin = inv.Tin,
+                UserId= inv.UserId,
                 FormOfOwnership = inv.FormOfOwnership,
                 LegalStatus = inv.LegalStatus,
                 RegistrationDate = inv.RegistrationDate,
