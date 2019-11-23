@@ -86,6 +86,11 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
   goToNext() {
     setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
   }
+  goBack() {
+    console.log("go back")
+    this.dataSharing.steeperIndex.next(0);
+    setTimeout(() => this.dataSharing.steeperIndex.next(0), 0);
+  }
 
   getProjectRequirement() {
     this.pRequirementService.RequirementByProject(this.projectId).subscribe(result => {

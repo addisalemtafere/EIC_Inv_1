@@ -13,6 +13,7 @@ import {ProjectAssociateService} from '../../../Services/project-associate.servi
 import {ProjectAssociateModel} from '../../../model/ProjectAssociate.model';
 import {ServiceApplicationService} from '../../../Services/service-application.service';
 import {ServiceapplicationService} from '../../setting/services-tabs/serviceApplication/serviceapplication.service';
+import { AccountService } from '../../../../@custor/services/security/account.service';
 
 @Component({
   selector: 'app-project-associate',
@@ -44,7 +45,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   private InvestorId: any;
   private workFlowId: any;
   private ServiceApplicationId: any;
-
+  public isInvestor : boolean;
   constructor(private formBuilder: FormBuilder,
               public route: ActivatedRoute,
               public serviceApplicationsServices: ServiceapplicationService,
@@ -53,6 +54,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
               private toastr: ToastrService,
               private dataSharing: DataSharingService,
               private formService: FormService,
+              private accountService :AccountService,
               // private addressService: AddressService,
               private associateService: AssociateService,
               private projectAssociateService: ProjectAssociateService
@@ -65,7 +67,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-
+    this.getUserType();
     console.log(this.projectId);
     this.getAllAssociate();
     // this.getAssociateByProject();
@@ -75,7 +77,9 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
 
     this.formBuild();
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getAssociateByProject() {
     this.projectAssociateService.associateProject(this.projectId).subscribe(result => {
       if (result.length > 0) {
@@ -236,5 +240,11 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
   next() {
     this.dataSharing.steeperIndex.next(8);
 
+  }
+  goToNext() {
+    this.dataSharing.steeperIndex.next(8);
+  }
+  goBack() {
+    this.dataSharing.steeperIndex.next(6);
   }
 }
