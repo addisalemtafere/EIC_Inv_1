@@ -218,7 +218,7 @@
               </a>
 
               <div *ngIf="serviceApplicationList.ServiceId !='1028' && serviceApplicationList?.CurrentStatusId === applicationS.Pending ||
-                    serviceApplicationList?.CurrentStatusId === applicationS.Completed">
+                    serviceApplicationList?.CurrentStatusId === applicationS.Completed || serviceApplicationList?.CurrentStatusId === applicationS.approved">
                 <span *ngIf="canViewTasks || canManageManageIncentiveAssignedServices">
 
                   <a class=" pointer a-link" color="accent" matTooltip="Click here for detail of the project"

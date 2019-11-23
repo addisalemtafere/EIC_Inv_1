@@ -26,8 +26,8 @@ import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confi
 import {DateService} from "../../../Services/date.service";
 import {ConfigurationService} from "@custor/services/configuration.service";
 import {ServiceEnum} from "../../../enum/enums";
-import { RichTextEditorComponent} from '@syncfusion/ej2-angular-richtexteditor';
-import { DataManager, Query } from '@syncfusion/ej2-data';
+import {RichTextEditorComponent} from '@syncfusion/ej2-angular-richtexteditor';
+import {DataManager, Query} from '@syncfusion/ej2-data';
 
 @Component({
   selector: 'app-letter',
@@ -83,7 +83,7 @@ export class LetterComponent implements OnInit {
   private currentLang: string;
   public gridData: any;
   public showTemplate: boolean = false;
-  public rteValue:string =``;
+  public rteValue: string = ``;
   public tools: object = {
     items: ['Undo', 'Redo', '|',
       'Bold', 'Italic', 'Underline', 'StrikeThrough', '|',
@@ -91,10 +91,11 @@ export class LetterComponent implements OnInit {
       'LowerCase', 'UpperCase', '|',
       'Formats', 'Alignments', '|', 'OrderedList', 'UnorderedList', '|',
       'Indent', 'Outdent', '|', 'CreateLink',
-      'Image', '|', 'ClearFormat', 'Print',  '|', 'FullScreen']
+      'Image', '|', 'ClearFormat', 'Print', '|', 'FullScreen']
   };
   public height: number = 1000;
- // public data: Object = '<p>Badminton</p>';
+
+  // public data: Object = '<p>Badminton</p>';
   constructor(
     private lettertepmlateService: LettertepmlateService,
     private letterService: LetterService,
@@ -128,12 +129,11 @@ export class LetterComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
     this.currentLang = this.configService.language;
     this.initForm();
     this.getEthiopianDate();
     this.ProjectId = this.route.snapshot.params['projectId'] || this.route.snapshot.params['ProjectId'];
+    this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['InvestorId'];
     if (this.route.snapshot.params['isForDetail'] == 1) {
       this.getLetter();
       this.getLookups();
@@ -171,10 +171,10 @@ export class LetterComponent implements OnInit {
   getLetter() {
     this.letterService.getLetterLists(this.ProjectId, this.currentLang)
       .subscribe(result => {
-        console.log(result)
+          console.log(result)
           if (result) {
             this.letterModelList = result;
-           
+
             // console.log(this.letterModelList);
             this.dataSource = new MatTableDataSource<LetterModel>(this.letterModelList);
           }
@@ -305,11 +305,11 @@ export class LetterComponent implements OnInit {
   getLetterTempalte(letterType: any) {
 
     this.lettertepmlateService.getletterTemplate(letterType).subscribe(result => {
-      this.showTemplate = true;
-      if (result) {
+        this.showTemplate = true;
+        if (result) {
           // console.log(result.LetterContent);
           this.letterTempalteModel = result;
-          this.rteValue = result.LetterContent.toString();
+          //this.rteValue = result.LetterContent.toString();
         }
       },
       error => this.errMsg.getError(error));
@@ -375,75 +375,67 @@ export class LetterComponent implements OnInit {
   }
 
   generatePDF() {
-    console.log("helloW");
-    console.log(this.addressList.Region.Description);
-    //this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g, this.projectModel.Investor.InvestorName);
     this.ShowSave = true;
-    this.rteValue = this.rteValue.replace(/{{FullName}}/g, this.projectModel.Investor.InvestorName);
-  
-    this.rteValue = this.rteValue.replace(/{{FullNameEng}}/g, this.projectModel.Investor.InvestorNameEng.toUpperCase());
-    
-    this.rteValue = this.rteValue.replace(/{{TeleNo}}/g,  this.InvestoraddressList.CellPhoneNo);
-    
-    this.rteValue = this.rteValue.replace(/{{Region}}/g, this.addressList.Region.Description);
-
-    this.rteValue = this.rteValue.replace(/{{Capital}}/g,
-      (this.projectModel.ProjectCost[0].OtherCapitalCost + this.projectModel.ProjectCost[0].EquityFinance + this.projectModel.ProjectCost[0].LoanFinance).toString());
-  
-    this.rteValue = this.rteValue.replace(/{{InvActivity}}/g,
-      this.projectModel.InvestmentActivity.Description);
-
-    this.rteValue = this.rteValue.replace(/{{ReqDate}}/g,
-      new Date().toDateString());
-     this.rteValue = this.rteValue.replace(/{{InvestmentPermitNo}}/g,
-      this.projectModel.InvestmentPermitNo);
-    this.rteValue = this.rteValue.replace(/{{StartDate}}/g,
-     new Date(this.projectModel.StartDate).getMonth() +
+    console.log(this.projectModel.Investor.InvestorName)
+    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameAmh}}/g, this.projectModel.Investor.InvestorName);
+    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g, this.projectModel.Investor.InvestorName.toString());
+    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameEng}}/g, this.projectModel.Investor.InvestorNameEng.toUpperCase());
+    this.LetterContent = this.LetterContent.replace(/{{StartDate}}/g,
+      new Date(this.projectModel.StartDate).getMonth() +
       '/' + new Date(this.projectModel.StartDate).getDay() + '/' + new Date(this.projectModel.StartDate).getFullYear());
 
-    
-    this.rteValue = this.rteValue.replace(/{{InvActivityEng}}/g,
+    this.LetterContent = this.LetterContent.replace(/{{InvActivity}}/g,
+      this.projectModel.InvestmentActivity.Description);
+    this.LetterContent = this.LetterContent.replace(/{{InvActivityEng}}/g,
       this.projectModel.InvestmentActivity.DescriptionEnglish);
-    this.rteValue = this.rteValue.replace(/{{RegionEng}}/g,
-      this.addressList.Region.DescriptionEnglish);
-    this.rteValue = this.rteValue.replace(/{{ExemptionYear}}/g,
+    this.LetterContent = this.LetterContent.replace(/{{InvestmentPermitNo}}/g,
+      this.projectModel.InvestmentPermitNo);
+    this.LetterContent = this.LetterContent.replace(/{{ExemptionYear}}/g,
       this.projectModel.IsOromiaSpecialZone ? this.projectModel.InvestmentActivity.InAddisOromiaAreas.toString() : this.projectModel.InvestmentActivity.InOtherAreas.toString());
     const formModel = this.letterForm.value;
-    this.rteValue = this.rteValue.replace(/{{Num}}/g,
+    this.LetterContent = this.LetterContent.replace(/{{Num}}/g,
       formModel.Attachment);
-    this.rteValue = this.rteValue.replace(/{{CategoryCode}}/g,
+    this.LetterContent = this.LetterContent.replace(/{{CategoryCode}}/g,
       this.projectModel.InvestmentActivity.Code);
     // this.LetterContent = this.LetterContent.replace(/{{ChassisNo}}/g,
     //   formModel.ChassisNo);
-      console.log(this.projectModel);
-    this.rteValue = this.rteValue.replace(/{{CapitalInBirr}}/g,
+    this.LetterContent = this.LetterContent.replace(/{{Capital}}/g,
       (this.projectModel.ProjectCost[0].LandCostInBirr + this.projectModel.ProjectCost[0].BuildingCostInBirr + this.projectModel.ProjectCost[0].MachineryCostInBirr + this.projectModel.ProjectCost[0].TransportCostInBirr + this.projectModel.ProjectCost[0].OfficeEquipmentCostInBirr + this.projectModel.ProjectCost[0].OtherCapitalCostInBirr + this.projectModel.ProjectCost[0].InitialWorkingCapitalCostInBirr).toString());
-    if (this.ServiceId == ServiceEnum.TaxHolidayIncentive) {
-      this.rteValue = this.rteValue.replace(/{{OrgName}}/g,
+    // this.LetterContent = this.LetterContent.replace(/{{CapitalInBirr}}/g,
+    //   (this.projectModel.ProjectCost[0].LandCostInBirr + this.projectModel.ProjectCost[0].BuildingCostInBirr + this.projectModel.ProjectCost[0].MachineryCostInBirr + this.projectModel.ProjectCost[0].TransportCostInBirr + this.projectModel.ProjectCost[0].OfficeEquipmentCostInBirr + this.projectModel.ProjectCost[0].OtherCapitalCostInBirr + this.projectModel.ProjectCost[0].InitialWorkingCapitalCostInBirr).toString());
+    if (this.ServiceId == '1045') {
+      this.LetterContent = this.LetterContent.replace(/{{OrgName}}/g,
         this.taxExemptionModel.RevenueBranchDescription);
     }
 
-   
-    this.rteValue = this.rteValue.replace(/{{ReqDateAmh}}/g,
+    this.LetterContent = this.LetterContent.replace(/{{ReqDate}}/g,
+      new Date().toDateString());
+    this.LetterContent = this.LetterContent.replace(/{{ReqDateAmh}}/g,
       this.todayEthioDate);
 
-    if (this.ServiceId !== ServiceEnum.TaxHolidayIncentive && this.ServiceId != ServiceEnum.NewIP) {
-      this.rteValue = this.rteValue.replace(/{{InvoiceNo}}/g,
+    if (this.ServiceId !== '1045' && this.ServiceId !== '13') {
+      this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
         this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
       );
     }
-   
-   
- 
+    console.log(this.InvestoraddressList.CellPhoneNo)
+    this.LetterContent = this.LetterContent.replace(/{{TeleNo}}/g,
+      this.InvestoraddressList.CellPhoneNo);
+    this.LetterContent = this.LetterContent.replace(/{{Region}}/g,
+      this.addressList.Region.Description);
+    this.LetterContent = this.LetterContent.replace(/{{RegionEng}}/g,
+      this.addressList.Region.DescriptionEnglish);
+
+
     // this.letterTempalteModel.LetterContent = this.LetterContent;
     //   this.letterForm.patchValue({
-      //   LetterContent: this.LetterContent
-      //  });
-    this.letterTempalteModel.LetterContent = this.rteValue;
+    //   LetterContent: this.LetterContent
+    //  });
+    this.rteValue = this.LetterContent;
     this.letterForm.patchValue({
       LetterContent: this.rteValue
     });
-  
+
 
   }
 
