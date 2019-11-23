@@ -191,13 +191,13 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
 
   }
   goToNext() {
-    console.log(this.stepperIndex)
-    this.dataSharing.steeperIndex.next(this.stepperIndex);
+    // console.log(this.stepperIndex)
+    // this.dataSharing.steeperIndex.next(this.stepperIndex);
     this.dataSharing.steeperIndex.next(3);
   }
   goBack() {
-    console.log(this.dataSharing.steeperIndex)
-    this.dataSharing.steeperIndex.next(this.stepperIndex);
+    // console.log(this.dataSharing.steeperIndex)
+    // this.dataSharing.steeperIndex.next(this.stepperIndex);
     this.dataSharing.steeperIndex.next(1);
   }
 
