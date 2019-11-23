@@ -285,12 +285,12 @@
         <button [disabled]="!employmetForm.valid" mat-raised-button="" color="primary" mat-button (click)="onSubmit()">
           <span class="agree">{{editMode ? 'update' : 'Save'}}</span>
         </button>
-        <button color="warn" mat-raised-button (click)="goBack()" *ngIf="!isInvestor">
+        <!-- <button color="warn" mat-raised-button (click)="goBack()" *ngIf="!isInvestor">
           {{'common.commands.Back'|translate}}
         </button>
         <button mat-raised-button color="link" (click)="goToNext()" *ngIf="!isInvestor">
           {{'common.commands.Next'|translate}}
-        </button>
+        </button> -->
       </mat-card-actions>
     </div>
   </form>

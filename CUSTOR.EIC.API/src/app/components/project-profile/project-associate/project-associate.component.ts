@@ -67,7 +67,7 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-    this.getUserType();
+    // this.getUserType();
     console.log(this.projectId);
     this.getAllAssociate();
     // this.getAssociateByProject();
@@ -241,10 +241,10 @@ export class ProjectAssociateComponent implements OnInit, AfterContentChecked {
     this.dataSharing.steeperIndex.next(8);
 
   }
-  goToNext() {
-    this.dataSharing.steeperIndex.next(8);
-  }
-  goBack() {
-    this.dataSharing.steeperIndex.next(6);
-  }
+  // goToNext() {
+  //   this.dataSharing.steeperIndex.next(8);
+  // }
+  // goBack() {
+  //   this.dataSharing.steeperIndex.next(6);
+  // }
 }

@@ -74,7 +74,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-    this.getUserType();
+    // this.getUserType();
     this.getAllNation();
     this.getInvestorType();
 
@@ -247,10 +247,11 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   next() {
     this.dataSharing.steeperIndex.next(6);
   }
-  goToNext(){
-    this.dataSharing.steeperIndex.next(6);
+   goToNext(){
+    this.dataSharing.currentIndex.next(6);
+     // this.dataSharing.steeperIndex.next(6);
   }
-  goBack(){
-    this.dataSharing.steeperIndex.next(4);
-  }
+  // goBack(){
+  //   this.dataSharing.steeperIndex.next(4);
+  // }
 }

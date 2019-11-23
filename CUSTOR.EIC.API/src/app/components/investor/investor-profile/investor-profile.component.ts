@@ -91,11 +91,11 @@ export class InvestorProfileComponent implements OnInit {
         this.steeperIndex = index;
         this.move(this.steeperIndex);
       });
-    this.subscription = this.dataSharing.currentIndex
-      .subscribe(index => {
-        this.nextIndex = index;
-        this.upeerLimit = index;
-      });
+    // this.subscription = this.dataSharing.currentIndex
+    //   .subscribe(index => {
+    //     this.nextIndex = index;
+    //     this.upeerLimit = index;
+    //   });
 
     this.userName = this.accountService.currentUser.FullName;
 

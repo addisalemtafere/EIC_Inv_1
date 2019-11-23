@@ -97,7 +97,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     this.workFlowId = (ServiceWorkflowId == undefined) ? '' : ServiceWorkflowId;
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.baseUrl = this.config.urls.baseUrl;
-    this.getUserType();
+    // this.getUserType();
     this.createForm();
     this.getServicePrerequisite(this.ServiceId);
   }
@@ -220,12 +220,13 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   }
   goToNext() {
     console.log(7)
-    this.dataSharing.steeperIndex.next(8);
+    this.dataSharing.currentIndex.next(9);
+    // this.dataSharing.steeperIndex.next(8);
   }
-  goBack() {
-    console.log(5557)
-    this.dataSharing.steeperIndex.next(6);
-  }
+  // goBack() {
+  //   console.log(5557)
+  //   this.dataSharing.steeperIndex.next(6);
+  // }
 
   getPreReqService(pre: any, investor: Investor) {
     this.servicePreList = [];

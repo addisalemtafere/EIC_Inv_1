@@ -82,7 +82,7 @@
       <app-raw-material-form></app-raw-material-form>
     </ng-template>
   </mat-tab>
-  <mat-tab [disabled]="nextIndex<3" label="Cost">
+  <mat-tab [disabled]="nextIndex<4" label="Cost">
     <ng-template matTabContent>
       <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
@@ -139,7 +139,7 @@
       <app-project-share></app-project-share>
     </ng-template>
   </mat-tab>
-  <mat-tab [disabled]="nextIndex<6 || ServiceId==='1234'" label="Product">
+  <mat-tab [disabled]="nextIndex < 7 || ServiceId==='1234'" label="Product">
     <ng-template matTabContent>
       <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
@@ -177,7 +177,7 @@
       <app-service-prerequisite></app-service-prerequisite>
     </ng-template>
   </mat-tab>
-  <mat-tab [disabled]="nextIndex<8|| ServiceId==='1234'" label="Manager">
+  <mat-tab [disabled]="nextIndex<9|| ServiceId==='1234'" label="Manager">
     <ng-template matTabContent>
       <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
