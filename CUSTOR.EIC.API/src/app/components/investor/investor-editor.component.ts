@@ -834,6 +834,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     return this.custService.saveInvestor(this.getEditedInvestor())
       .subscribe((investor) => {
           console.log(investor);
+          console.log(investor.InvestorId)
+          localStorage.setItem('InvestorId', investor.InvestorId.toString());
           this.isNew = this.getEditedInvestor().IsExistingCustomer == true ? 1 : 0;
 
           // const IsExistingCustomer = this.route.snapshot.params['IsExistingCustomer'];

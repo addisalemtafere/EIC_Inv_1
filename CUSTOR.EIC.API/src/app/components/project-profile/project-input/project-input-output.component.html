@@ -157,7 +157,7 @@
           <!--Back-->
           <!--</button>-->
         </div>
-        <div style="text-align: center" fxFlex="67" fxFlexAlign="center">
+        <mat-card-actions fxLayoutAlign="end end">
           <button *ngIf="!editMode" [disabled]="!pIOform.valid" mat-raised-button="" color="primary"
                   (click)="onSubmit()">
             <mat-icon class="mat-18">done</mat-icon>
@@ -168,7 +168,8 @@
             <mat-icon class="mat-18">done</mat-icon>
             <span>Update</span>
           </button>
-        </div>
+           
+        </mat-card-actions>
         <div fxFlex="15">
 
           <!--<button [disabled]="!pIOform.valid" class="custom-button" (click)="next()" color="warn" type="button">-->
@@ -179,5 +180,10 @@
       </div>
     </div>
   </form>
+  <mat-card-actions>
+    <button mat-raised-button color="primary"
+      (click)="goToNext()">{{'common.commands.Next'|translate}}
+    </button>
+  </mat-card-actions>
 </mat-card>
 

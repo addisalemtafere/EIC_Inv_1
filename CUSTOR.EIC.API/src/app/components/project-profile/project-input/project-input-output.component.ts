@@ -1,19 +1,19 @@
-import {AfterContentChecked, Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import {ProjectRequirementService} from '../../../Services/project-requirement.service';
-import {ToastrService} from 'ngx-toastr';
-import {Subscription} from 'rxjs';
-import {DataSharingService} from '../../../Services/data-sharing.service';
-import {MatSnackBar} from '@angular/material';
-import {ProjectRequirementModel} from '../../../model/ProjectRequirement.model';
-import {FormService} from '../../../../@custor/validation/custom/form';
-import {ErrorMessage} from '../../../../@custor/services/errMessageService';
-import {ActivatedRoute} from '@angular/router';
-import {ProjectProfileService} from '../../../Services/project-profile.service';
-import {ProjectStatusModel, QuarterModel} from '../../../model/lookupData';
-import {ProjectStatus, Quarter} from '@custor/const/consts';
-
+import { ProjectRequirementService } from '../../../Services/project-requirement.service';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { DataSharingService } from '../../../Services/data-sharing.service';
+import { MatSnackBar } from '@angular/material';
+import { ProjectRequirementModel } from '../../../model/ProjectRequirement.model';
+import { FormService } from '../../../../@custor/validation/custom/form';
+import { ErrorMessage } from '../../../../@custor/services/errMessageService';
+import { ActivatedRoute } from '@angular/router';
+import { ProjectProfileService } from '../../../Services/project-profile.service';
+import { ProjectStatusModel, QuarterModel } from '../../../model/lookupData';
+import { ProjectStatus, Quarter } from '@custor/const/consts';
+import { AccountService } from '@custor/services/security/account.service';
 @Component({
   selector: 'app-project-input-output',
   templateUrl: './project-input-output.component.html',
@@ -28,6 +28,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
   loading = false;
   subscription: Subscription;
   projectId: any;
+  isInvestor: boolean;
   public formErrors = {
     ElectricPower: 'Minimum 0 Maximum 1000 kwhMinimum value is 0!',
     Water: '',
@@ -50,15 +51,16 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
   private workFlowId: any;
 
   constructor(private formBuilder: FormBuilder,
-              private errMsg: ErrorMessage,
-              public route: ActivatedRoute,
-              public projectProfileService: ProjectProfileService,
-              private toastr: ToastrService,
-              private snackbar: MatSnackBar,
-              private formService: FormService,
-              private dataSharing: DataSharingService,
-              private dataSharingService: DataSharingService,
-              private pRequirementService: ProjectRequirementService) {
+    private errMsg: ErrorMessage,
+    public route: ActivatedRoute,
+    public projectProfileService: ProjectProfileService,
+    private toastr: ToastrService,
+    private snackbar: MatSnackBar,
+    private accountService: AccountService,
+    private formService: FormService,
+    private dataSharing: DataSharingService,
+    private dataSharingService: DataSharingService,
+    private pRequirementService: ProjectRequirementService) {
   }
 
   ngOnInit() {
@@ -68,7 +70,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-
+    this.getUserType();
     if (this.ServiceId === '1234') {
       this.getProjectStatus(this.route.snapshot.params['ProjectId']);
     }
@@ -77,6 +79,12 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
     }
     this.initStaticData('en');
 
+  }
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
+  goToNext() {
+    setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
   }
 
   getProjectRequirement() {
@@ -122,21 +130,21 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
     this.pIOform = this.formBuilder.group({
       ProjectId: [],
       ElectricPower: [0, [Validators.required, Validators.min(0)]],
-      Water: [0, [Validators.required,Validators.min(0)]],
+      Water: [0, [Validators.required, Validators.min(0)]],
       OtherUtility: [0, [Validators.min(0)]],
-      LandIndustrial: [0, [Validators.required,Validators.min(0)]],
-      LandAgricultural: [0, [Validators.required,Validators.min(0)]],
-      LandService: [0, [Validators.required,Validators.min(0)]],
-      OwnLand: [0, [Validators.required,Validators.min(0)]],
-      LeaseLand: [0, [Validators.required,Validators.min(0)]],
-      RentalLand: [0, [Validators.required,Validators.min(0)]],
+      LandIndustrial: [0, [Validators.required, Validators.min(0)]],
+      LandAgricultural: [0, [Validators.required, Validators.min(0)]],
+      LandService: [0, [Validators.required, Validators.min(0)]],
+      OwnLand: [0, [Validators.required, Validators.min(0)]],
+      LeaseLand: [0, [Validators.required, Validators.min(0)]],
+      RentalLand: [0, [Validators.required, Validators.min(0)]],
       Quarter: [''],
       RegistrationYear: [''],
       ProjectStatus: [''],
       Remark: ['', [Validators.minLength(2)]],
       workFlowId: [this.workFlowId]
     })
-    ;
+      ;
 
     this.pIOform.valueChanges.subscribe((data) => {
       this.formErrors = this.formService.validateForm(this.pIOform, this.formErrors, true);
