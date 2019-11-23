@@ -177,7 +177,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
     // this.getDate();
-    this.getUserType();
+    // this.getUserType();
     this.fillAddressLookups();
     this.formBuild();
     this.updateDateRange();
@@ -608,9 +608,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       return item.SiteCode !== 'OnlineSite';
     });
   }
-  goToNext() {
-    console.log(this.dataSharing)
-    setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
-  }
+  // goToNext() {
+  //   console.log(this.dataSharing)
+  //   setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+  // }
 
 }

@@ -102,7 +102,7 @@ export class ProjectCostComponent
       'ServiceApplicationId'
       ];
     this.projectId = this.route.snapshot.params['ProjectId'];
-    this.getUserType();
+    // this.getUserType();
     if (this.ServiceId == '1234') {
       // this.projectId = this.route.snapshot.params['ProjectId']
       this.getProjectStatus(this.projectId);
@@ -182,7 +182,7 @@ export class ProjectCostComponent
             .update(this.projectCostForm.value, this.costId)
             .subscribe(result => {
               this.notification('updated');
-              setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
+              // setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
             });
         }
@@ -382,13 +382,13 @@ export class ProjectCostComponent
   next() {
     this.dataSharing.steeperIndex.next(4);
   }
-  goToNext() {
-    console.log(4)
-    this.dataSharing.steeperIndex.next(4);
-  }
-  goBack(){
-    this.dataSharing.steeperIndex.next(2);
-  }
+  // goToNext() {
+  //   console.log(4)
+  //   this.dataSharing.steeperIndex.next(4);
+  // }
+  // goBack(){
+  //   this.dataSharing.steeperIndex.next(2);
+  // }
  
 
   private getProjectStatus(projectId: any) {

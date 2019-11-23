@@ -68,7 +68,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-    this.getUserType();
+    // this.getUserType();
 
     if (this.ServiceId === '1234') {
       this.getProjectStatus(this.projectId);
@@ -124,7 +124,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
           this.employmentService.update(this.employmetForm.value, this.empId)
             .subscribe(result => {
               this.notification('updated');
-              setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
+              // setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
             }, error => this.toastr.error(this.errMsg.getError(error)));
         }
@@ -200,12 +200,12 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   next() {
     this.dataSharing.steeperIndex.next(5);
   }
-  goBack(){
-    this.dataSharing.steeperIndex.next(3);
-  }
-  goToNext(){
-    this.dataSharing.steeperIndex.next(5);
-  }
+  // goBack(){
+  //   this.dataSharing.steeperIndex.next(3);
+  // }
+  // goToNext(){
+  //   this.dataSharing.steeperIndex.next(5);
+  // }
 
   back() {
     window.history.back();

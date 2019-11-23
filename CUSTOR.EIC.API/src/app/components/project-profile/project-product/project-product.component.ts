@@ -84,7 +84,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-    this.getUserType();
+    // this.getUserType();
     // if (this.ServiceId === '1234') {
     if (+this.ServiceId == ServiceEnum.AfterCare) {
       this.getProjectStatus(this.projectId);
@@ -251,12 +251,12 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
 
   }
 
-  goToNext() {
-    this.dataSharing.steeperIndex.next(7);
-  }
-  goBack() {
-    this.dataSharing.steeperIndex.next(5);
-  }
+  // goToNext() {
+  //   this.dataSharing.steeperIndex.next(7);
+  // }
+  // goBack() {
+  //   this.dataSharing.steeperIndex.next(5);
+  // }
   initStaticData(currentLang) {
 
     let unit: UnitType = new UnitType();
