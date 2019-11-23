@@ -46,6 +46,7 @@ import { ET_ALPHABET_REGEX } from '../../../const/consts';
   providers: [ConfigurationService]
 })
 export class ProjectProfileFormComponent implements OnInit, AfterContentChecked {
+  // @ViewChild('stepper') stepper: MatStepper;
   @ViewChild('costF') costForm: NgForm;
   formOfOwnershipList: FormOfOwnershipModel[] = [];
   subscription: Subscription;
@@ -608,6 +609,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     });
   }
   goToNext() {
+    console.log(this.dataSharing)
     setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
   }
 
