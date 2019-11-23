@@ -570,7 +570,11 @@ export class AssociateFormComponent implements OnInit, AfterViewInit, OnDestroy,
     const a2 = determineId(id2);
     return a1 === a2;
   }
-
+  back(){
+    this.dataSharing.currentIndex.next(2)
+    console.log(this.dataSharing.currentIndex.next(2))
+    setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
+  }
   onBack() {
     this.router.navigate(['associate/list']);
   }
