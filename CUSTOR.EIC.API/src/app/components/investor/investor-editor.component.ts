@@ -100,10 +100,11 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   private isNew: any;
   private CurrentUserId: string;
   public tinExist: boolean;
-  existingServiceApplication : any;
-  serviceApplicationStatus : any;
+  existingServiceApplication: any;
+  serviceApplicationStatus: any;
 
-  investorId : any;
+  investorId: any;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
@@ -160,6 +161,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.getInvestor(id);
     }
   }
+
   checkServiceApplication() {
     this.custService.getUserServiceApplication(this.investorId).subscribe(res => {
       console.log(res)
@@ -169,6 +171,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       console.log(this.existingServiceApplication)
     })
   }
+
   get canManageInvestors() {
     return this.accountService.userHasPermission(Permission.manageInvestorsPermission);
   }
@@ -369,16 +372,15 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     const cFather = this.investorForm.get('cFatherName');
     this.legalStatus.valueChanges.subscribe(
       (intLegal: number) => {
-        alert(intLegal)
         if (intLegal === 1) { // Sole
           // // console.log(intLegal);
-            this.ClearCompanyValidators();
-            this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-              Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-            this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-              Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+          this.ClearCompanyValidators();
+          this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+          this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
 
-            this.grandNameEng.setValidators([Validators.compose([Validators.minLength(1), Validators.maxLength(15),
+          this.grandNameEng.setValidators([Validators.compose([Validators.minLength(1), Validators.maxLength(15),
 
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
           this.grandNameEng.setValidators([Validators.compose([Validators.minLength(1), Validators.maxLength(15),
@@ -861,10 +863,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
             } else {
               console.log("am here")
-              if(this.ServiceApplicationId != undefined){
-                this.router.navigate(['investor-profile/' + investor.InvestorId +'/'+this.ServiceApplicationId]);
-              }
-              else{
+              if (this.ServiceApplicationId != undefined) {
+                this.router.navigate(['investor-profile/' + investor.InvestorId + '/' + this.ServiceApplicationId]);
+              } else {
                 this.router.navigate(['investor-profile/' + investor.InvestorId])
               }
               setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
@@ -880,13 +881,15 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         err => this.handleError(err)
       );
   }
-  next(){
+
+  next() {
     console.log(this.dataSharing.currentIndex)
     // this.dataSharing.currentIndex.next(2);
     // this.router.navigate(['investor-profile/' + this.investor + '/' + this.ServiceApplicationId]);
     setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
   }
+
   getRegistrationCatagoryData(Tin: string) {
     this.registrationCatagoryService.getRegistrationCatagoriesByTin(Tin)
       .subscribe((result: RegistrationCatagory[]) => {
