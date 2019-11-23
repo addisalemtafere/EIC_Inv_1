@@ -15,6 +15,7 @@ import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {ProjectStatusModel, QuarterModel, UnitType} from '../../../model/lookupData';
 import {ProjectStatus, Quarter, UnitTypes} from '@custor/const/consts';
 import {ServiceEnum} from "../../../enum/enums";
+import { AccountService } from '../../../../@custor/services/security/account.service';
 
 @Component({
   selector: 'app-project-product',
@@ -25,6 +26,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
   productForm: FormGroup;
   editMode = false;
   loading = false;
+  isInvestor : boolean;
   projectId: number;
   dataSource: any;
   productEditIndex: number;
@@ -67,6 +69,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
               private snackbar: MatSnackBar,
               private dataSharing: DataSharingService,
               private formService: FormService,
+              private accountService :AccountService,
               private dataSharingService: DataSharingService,
               private pRequirementService: ProjectRequirementService,
               private pInputService: ProjectInputService,
@@ -81,7 +84,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-
+    this.getUserType();
     // if (this.ServiceId === '1234') {
     if (+this.ServiceId == ServiceEnum.AfterCare) {
       this.getProjectStatus(this.projectId);
@@ -94,7 +97,9 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
 
     this.autoSum();
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getProjectOutPut() {
     this.pOutputService.getPOutPutByProject(this.projectId).subscribe(result => {
       if (result.length > 0) {
@@ -246,7 +251,12 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
 
   }
 
-
+  goToNext() {
+    this.dataSharing.steeperIndex.next(7);
+  }
+  goBack() {
+    this.dataSharing.steeperIndex.next(5);
+  }
   initStaticData(currentLang) {
 
     let unit: UnitType = new UnitType();

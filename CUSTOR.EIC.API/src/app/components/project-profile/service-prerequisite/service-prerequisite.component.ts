@@ -26,6 +26,7 @@ import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confi
 
 import {ActivatedRoute} from "@angular/router";
 import {AppConfiguration} from "../../../config/appconfig";
+import { AccountService } from '../../../../@custor/services/security/account.service';
 
 
 @Component({
@@ -55,7 +56,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   @ViewChild('content') content: ElementRef;
 
   displayedColumns = ['No', 'PreRequisite', 'url', 'Action'];
-
+  isInvestor : boolean;
   document: FormArray;
   servicePreList: ServicePrerequisite[] = [];
   dataSource: any;
@@ -76,6 +77,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
               private investorService: InvestorService,
               public toast: ToastrService,
               public errMsg: ErrorMessage,
+               private accountService: AccountService,
               public route: ActivatedRoute,
               public userActivityDataServices: UserActivityDataServices,
               public config: AppConfiguration,
@@ -87,6 +89,7 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   }
 
   ngOnInit(): void {
+    
     this.servicePreList = [];
     this.ServiceId = this.route.snapshot.params['ServiceId'] || this.route.snapshot.params['serviceId'];
     this.InvestorId = this.route.snapshot.params['InvestorId'] || this.route.snapshot.params['investorId'];
@@ -94,10 +97,13 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
     this.workFlowId = (ServiceWorkflowId == undefined) ? '' : ServiceWorkflowId;
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.baseUrl = this.config.urls.baseUrl;
+    this.getUserType();
     this.createForm();
     this.getServicePrerequisite(this.ServiceId);
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   createForm() {
     this.documentForm = new FormGroup({
         Name: new FormControl(),
@@ -211,6 +217,14 @@ export class ServicePrerequisiteComponent implements OnInit, AfterContentChecked
   next() {
     setTimeout(() => this.dataSharing.steeperIndex.next(9), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(9), 0);
+  }
+  goToNext() {
+    console.log(7)
+    this.dataSharing.steeperIndex.next(8);
+  }
+  goBack() {
+    console.log(5557)
+    this.dataSharing.steeperIndex.next(6);
   }
 
   getPreReqService(pre: any, investor: Investor) {

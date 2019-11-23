@@ -12,6 +12,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { ProjectProfileService } from '../../../Services/project-profile.service';
 import { ProjectStatusModel, QuarterModel } from '../../../model/lookupData';
 import { ProjectStatus, Quarter } from '@custor/const/consts';
+import { AccountService } from '../../../../@custor/services/security/account.service';
 
 @Component({
   selector: 'app-project-employment',
@@ -26,6 +27,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
 
   subscription: Subscription;
   empId: any;
+  isInvestor: boolean;
   public formErrors = {
     PermanentFemale: 'Must be positive number!',
     PermanentMale: 'Must be positive number!',
@@ -55,6 +57,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
     private dataSharingService: DataSharingService,
     private toastr: ToastrService,
     private dataSharing: DataSharingService,
+    private accountService: AccountService,
     private employmentService: ProjectEmploymentService) {
     this.employmentData = <ProjectEmploymentModel>{};
   }
@@ -65,7 +68,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-
+    this.getUserType();
 
     if (this.ServiceId === '1234') {
       this.getProjectStatus(this.projectId);
@@ -77,7 +80,9 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
 
     this.formBuild();
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getEmployment() {
     this.employmentService.employmentByProject(this.projectId).subscribe(result => {
       if (typeof (result) !== 'undefined') {
@@ -194,7 +199,12 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
 
   next() {
     this.dataSharing.steeperIndex.next(5);
-
+  }
+  goBack(){
+    this.dataSharing.steeperIndex.next(3);
+  }
+  goToNext(){
+    this.dataSharing.steeperIndex.next(5);
   }
 
   back() {

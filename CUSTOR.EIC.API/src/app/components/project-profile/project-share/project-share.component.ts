@@ -16,6 +16,7 @@ import {ProjectProfileService} from '../../../Services/project-profile.service';
 import {InvestorService} from '../../investor/investor.service';
 import {Investor} from '../../../model/investor';
 import {ConfigurationService} from "@custor/services/configuration.service";
+import { AccountService } from '../../../../@custor/services/security/account.service';
 
 @Component({
   selector: 'app-project-share',
@@ -50,7 +51,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
   private workFlowId: any;
   private ServiceApplicationId: any;
   private currentLang :string;
-
+  isInvestor : boolean;
   constructor(private formBuilder: FormBuilder,
               private snackbar: MatSnackBar,
               public route: ActivatedRoute,
@@ -60,6 +61,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
               private toastr: ToastrService,
               private dataSharing: DataSharingService,
               private formService: FormService,
+              private accountService : AccountService,
               private addressService: AddressService,
               private configService: ConfigurationService,
               private nationalityCompositionService: ProjectNationalityCompositionService) {
@@ -72,7 +74,7 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-
+    this.getUserType();
     this.getAllNation();
     this.getInvestorType();
 
@@ -82,7 +84,9 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
     this.formBuild();
 
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getNationalityCompositionsByProject() {
     this.nationalityCompositionService.NationalityCompositionsByProject(this.projectId, this.currentLang).subscribe(result => {
       if (result.length > 0) {
@@ -242,5 +246,11 @@ export class ProjectShareComponent implements OnInit, OnDestroy, AfterContentChe
 
   next() {
     this.dataSharing.steeperIndex.next(6);
+  }
+  goToNext(){
+    this.dataSharing.steeperIndex.next(6);
+  }
+  goBack(){
+    this.dataSharing.steeperIndex.next(4);
   }
 }
