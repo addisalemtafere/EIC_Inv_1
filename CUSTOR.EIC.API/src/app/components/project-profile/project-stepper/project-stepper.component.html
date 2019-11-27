@@ -24,7 +24,7 @@
   </mat-tab>
   <mat-tab [disabled]="nextIndex <1 || ServiceId==='1234'" label="Profile">
     <ng-template matTabContent>
-      <div fxLayout="row" fxLayoutAlign="center">
+      <!-- <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
           <button class="next-button" (click)="back()" type="button">
             Back
@@ -37,7 +37,7 @@
             Next
           </button>
         </div>
-      </div>
+      </div> -->
 
       <app-project-profile-form></app-project-profile-form>
 
@@ -46,7 +46,7 @@
   <mat-tab [disabled]="nextIndex<2 || ServiceId==='1234'" label="Input">
     <ng-template matTabContent>
 
-      <div fxLayout="row" fxLayoutAlign="center">
+      <!-- <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
           <button class="next-button" (click)="back()" type="button">
             Back
@@ -59,7 +59,7 @@
             Next
           </button>
         </div>
-      </div>
+      </div> -->
       <app-project-input-output></app-project-input-output>
     </ng-template>
   </mat-tab>
@@ -84,7 +84,7 @@
   </mat-tab>
   <mat-tab [disabled]="nextIndex<4" label="Cost">
     <ng-template matTabContent>
-      <div fxLayout="row" fxLayoutAlign="center">
+      <!-- <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
           <button class="next-button" (click)="back()" type="button">
             Back
@@ -97,13 +97,13 @@
             Next
           </button>
         </div>
-      </div>
+      </div> -->
       <app-project-cost></app-project-cost>
     </ng-template>
   </mat-tab>
   <mat-tab [disabled]="nextIndex<5 || ServiceId==='1234'" label="Employment">
     <ng-template matTabContent>
-      <div fxLayout="row" fxLayoutAlign="center">
+      <!-- <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
           <button class="next-button" (click)="back()" type="button">
             Back
@@ -116,7 +116,7 @@
             Next
           </button>
         </div>
-      </div>
+      </div> -->
       <app-project-employment></app-project-employment>
     </ng-template>
   </mat-tab>
