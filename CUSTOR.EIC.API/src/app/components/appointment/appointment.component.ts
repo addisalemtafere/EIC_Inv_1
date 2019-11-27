@@ -24,6 +24,7 @@ export class AppointmentComponent implements OnInit {
   displayedColumnsNotification = [
     'date', 'subject', 'message'
   ];
+  private isInvestor: any;
 
   constructor(private errMsg: ErrorMessage,
               private router: Router,
@@ -37,7 +38,26 @@ export class AppointmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllNotification(this.accountService.currentUser.Id);
+
+    this.getUserType();
+    if (this.isInvestor) {
+      this.getAllNotification(this.accountService.currentUser.Id);
+    } else {
+      this.getAllNotificationByUserName(this.accountService.currentUser.UserName);
+    }
+  }
+
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
+
+  getAllNotificationByUserName(userName: any) {
+    this.notifificationService.CountNotificationByUserName(userName)
+      .subscribe(result => {
+        this.dataSourceNotitification = new MatTableDataSource<NotificationModel>(result);
+        this.loading = false;
+        //this.filterNotification(result);
+      }, error => this.errMsg.getError(error));
   }
 
   getAllNotification(investorId: any) {

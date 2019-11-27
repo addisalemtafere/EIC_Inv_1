@@ -182,7 +182,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.formBuild();
     this.updateDateRange();
     this.formControlValueChanged();
-    
+
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();
@@ -416,7 +416,6 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         this.projectProfileService.update(this.projectForm.value, this.projectIdEditing)
           .subscribe(result => {
             this.projectId = result.ProjectId;
-
             this.notification('project updated');
             this.saveAddress();
           });
@@ -448,7 +447,7 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         });
     }
   }
- 
+
   formBuild() {
     console.log(this.ServiceId);
     this.projectForm = this.formBuilder.group({

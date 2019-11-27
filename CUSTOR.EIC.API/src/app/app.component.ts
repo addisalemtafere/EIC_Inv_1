@@ -179,8 +179,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
           if (this.authService.isLoggedIn) {
             setTimeout(() => this.isLoggedIn$ = observableOf(true));
-            this.countNotification(this.accountService.currentUser.Id);
             this.getUserType();
+            if (this.isInvestor) {
+              this.countNotification(this.accountService.currentUser.Id);
+            } else {
+              this.countNotificationByUserNames(this.accountService.currentUser.UserName);
+            }
             // this.CheckLoginStatus();
 
           } else {
@@ -189,9 +193,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         } else {
           if (this.authService.isLoggedIn) {
             setTimeout(() => this.isLoggedIn$ = observableOf(true));
-            this.countNotification(this.accountService.currentUser.Id);
             this.getUserType();
-
+            if (this.isInvestor) {
+              this.countNotification(this.accountService.currentUser.Id);
+            } else {
+              this.countNotificationByUserNames(this.accountService.currentUser.UserName);
+            }
 
           } else {
             setTimeout(() => this.isLoggedIn$ = observableOf(false));
@@ -304,7 +311,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         this.numberOfNotification = result;
       });
   }
-
+  countNotificationByUserNames(userName: any) {
+    this.notificationService.CountNotificationByUserNames(userName)
+      .subscribe(result => {
+        this.numberOfNotification = result;
+      });
+  }
   ngAfterContentChecked(): void {
     this.isLogged = localStorage.getItem('loggIn');
 

@@ -19,6 +19,7 @@ export class NotificationsComponent implements OnInit {
   public notitficationList: NotificationModel[];
   private loading: boolean;
   private notifications: NotificationModel;
+  isInvestor: boolean;
 
   constructor(private    dialogRef: MatDialogRef<NotificationsComponent>,
               private errMsg: ErrorMessage,
@@ -34,7 +35,16 @@ export class NotificationsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getAllNotification(this.accountService.currentUser.Id);
+    this.getUserType();
+    if (this.isInvestor) {
+      this.getAllNotification(this.accountService.currentUser.Id);
+    } else {
+      this.getAllNotificationByUserName(this.accountService.currentUser.UserName);
+    }
+  }
+
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
   }
 
   getAllNotification(investorId: any) {
@@ -44,6 +54,15 @@ export class NotificationsComponent implements OnInit {
         this.filterNotification(result);
       }, error => this.errMsg.getError(error));
   }
+
+  getAllNotificationByUserName(userName: any) {
+    this.notifificationService.CountNotificationByUserName(userName)
+      .subscribe(result => {
+        this.loading = false;
+        this.filterNotification(result);
+      }, error => this.errMsg.getError(error));
+  }
+
 
   filterNotification(notification: NotificationModel[]) {
     // // console.log(notification);

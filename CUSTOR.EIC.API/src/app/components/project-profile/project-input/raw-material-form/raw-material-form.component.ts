@@ -130,6 +130,7 @@ export class RawMaterialFormComponent implements OnInit, AfterContentChecked {
       this.pInputService.update(this.pRawMaterialForm.value, this.projectInputData[this.inputEditIndex].ProjectInputId)
         .subscribe(result => {
           this.toastr.success('Successfully Updated', 'Sucess');
+          setTimeout(() => this.dataSharing.currentIndex.next(4), 0);
           this.projectInputData[this.inputEditIndex] = result;
           this.dataSource = new MatTableDataSource<ProjectInputModel>(this.projectInputData);
           this.pRawMaterialForm.reset();
