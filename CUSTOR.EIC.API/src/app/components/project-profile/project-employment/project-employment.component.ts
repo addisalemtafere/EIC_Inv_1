@@ -117,7 +117,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
         if (!this.editMode) {
           this.employmentService.create(this.employmetForm.value)
             .subscribe(result => {
-              setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
+              setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
               this.notification('saved');
             }, error => this.toastr.error(this.errMsg.getError(error)));

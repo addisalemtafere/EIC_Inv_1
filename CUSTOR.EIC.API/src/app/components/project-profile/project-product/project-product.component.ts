@@ -121,6 +121,7 @@ export class ProjectProductComponent implements OnInit, OnDestroy, AfterViewChec
             this.notification('saved');
             if (this.productData.length < 1) {
               // setTimeout(() => this.dataSharing.steeperIndex.next(7), 0);
+              setTimeout(() => this.dataSharing.steeperIndex.next(7), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(8), 0);
             }
             this.productData.push(result);

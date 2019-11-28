@@ -113,7 +113,9 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
         this.pRequirementService.create(this.getUtility())
           .subscribe(result => {
             this.notification('Saved');
-            setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+            // setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+            // setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
+            setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
             setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
 
           }, error => this.toastr.error(this.errMsg.getError(error)));

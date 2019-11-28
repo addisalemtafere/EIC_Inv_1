@@ -172,7 +172,7 @@ export class ProjectCostComponent
           this.projectCostService
             .create(this.projectCostForm.value)
             .subscribe(result => {
-              setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
+              setTimeout(() => this.dataSharing.steeperIndex.next(4), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
               this.notification('saved');
             });
