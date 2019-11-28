@@ -38,7 +38,6 @@ export class AppointmentComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.getUserType();
     if (this.isInvestor) {
       this.getAllNotification(this.accountService.currentUser.Id);
