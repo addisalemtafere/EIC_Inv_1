@@ -183,6 +183,8 @@ export class ProjectCostComponent
             .subscribe(result => {
               this.notification('updated');
               // setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
+              // setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
+              setTimeout(() => this.dataSharing.steeperIndex.next(4), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
             });
         }
@@ -352,9 +354,9 @@ export class ProjectCostComponent
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
 
     this.loading = false;
-    this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
-      duration: 3000
-    });
+    // this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
+    //   duration: 3000
+    // });
   }
 
   getExchangeRate() {

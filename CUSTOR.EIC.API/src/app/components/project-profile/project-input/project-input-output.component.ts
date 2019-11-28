@@ -121,9 +121,19 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
         this.pRequirementService.update(this.getUtility(), this.rawInputId)
           .subscribe(result => {
             this.notification('update');
-            // this.dataSharing.currentIndex.next(3);
-            setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+            console.log("hererererere");
+            setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
             setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
+            // this.dataSharing.currentIndex
+            //   .subscribe(index => {
+            //     console.log(index)
+            //     if (index) {
+            //       
+            //     }
+            //   })
+            // this.dataSharing.currentIndex.next(3);
+            // setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+            // setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
           }, error => this.toastr.error(this.errMsg.getError(error)));
       }
     } else {
@@ -165,9 +175,9 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
 
     this.loading = false;
-    this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
-      duration: 3000,
-    });
+    // this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
+    //   duration: 3000,
+    // });
   }
 
   getUtility(): ProjectRequirementModel {

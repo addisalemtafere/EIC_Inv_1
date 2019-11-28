@@ -126,6 +126,8 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
             .subscribe(result => {
               this.notification('updated');
               // setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
+              //setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
+              setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
             }, error => this.toastr.error(this.errMsg.getError(error)));
         }
@@ -182,9 +184,9 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
 
     this.loading = false;
-    this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
-      duration: 3000,
-    });
+    // this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
+    //   duration: 3000,
+    // });
   }
 
   onClear() {

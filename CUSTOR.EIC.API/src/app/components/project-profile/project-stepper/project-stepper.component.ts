@@ -119,9 +119,20 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
         this.stepper.selectedIndex = this.steeperIndex;
         console.log("or here")
       }
+      else if (this.steeperIndex == 6){
+        console.log(this.currentPosition)
+        if (this.currentPosition === 'f'){
+          setTimeout(() => this.dataSharing.steeperIndex.next(7), 0);
+          setTimeout(() => this.dataSharing.currentIndex.next(8), 0);
+          console.log("exceptional")
+        }
+      }
       else{
         this.upeerLimit;
+        console.log("final else")
         console.log(this.upeerLimit)
+        setTimeout(() => this.dataSharing.steeperIndex.next(8), 0);
+        setTimeout(() => this.dataSharing.currentIndex.next(9), 0);
         this.stepper.selectedIndex = this.upeerLimit;
       }
     }

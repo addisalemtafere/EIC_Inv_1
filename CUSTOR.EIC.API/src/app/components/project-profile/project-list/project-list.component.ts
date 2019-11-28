@@ -341,8 +341,17 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
     localStorage.setItem('investorName', investorName);
     localStorage.setItem('projectName', projectName);
-    setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
-    setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
+    this.dataSharing.currentIndex
+      .subscribe(index => {
+        console.log(index)
+        if (index == 0) {
+          setTimeout(() => this.dataSharing.steeperIndex.next(0), 0);
+          //setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+        }
+      });
+     // return;
+    // setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
+    // setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
 
     switch (serviceId) {
       case ServiceEnum.NewIP:
