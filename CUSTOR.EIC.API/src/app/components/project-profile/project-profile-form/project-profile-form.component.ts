@@ -459,25 +459,16 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
          
           setTimeout(() => this.dataSharing.projectId.next(this.projectId), 0);
           this.notification('address saved');
-          this.dataSharing.currentIndex
-            .subscribe(index => {
-              console.log(index)
-              if(index == null || index == 0){
-                setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
-                setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
-              }
-            })
+          setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+          setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
           // this.dataSharing.currentIndex
           //   .subscribe(index => {
-          //     console.log("current index ", index)
+          //     console.log(index)
+          //     if(index == null || index == 0){
+          //       setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+          //       setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+          //     }
           //   })
-          // this.dataSharing.steeperIndex
-          //   .subscribe(index => {
-          //     console.log("steeper index ", index)
-          //   })
-          //   return;
-          // setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
-          // setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
         });
     }
   }
