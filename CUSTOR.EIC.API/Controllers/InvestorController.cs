@@ -58,11 +58,11 @@ namespace EICOnline.Controllers
       return await InvestorRepo.GetInvestor(id);
     }
 
-    [HttpGet("api/investorAudit/{id:int}")]
-    public async Task<InvestorAuditDTO> GetInvestorAudit(int id)
-    {
-      return await InvestorRepo.GetInvestorAudit(id);
-    }
+//    [HttpGet("api/investorAudit/{id:int}")]
+//         public async Task<InvestorAuditDTO> GetInvestorAudit(int id)
+//         {
+//           return await InvestorRepo.GetInvestorAudit(id);
+//         }
     [HttpGet("api/InvestorByUserId/{id}")]
     public async Task<IEnumerable<Investor>> GetInvestorByUserId(string id)
     {
