@@ -168,7 +168,7 @@
         <form class="mt-2" [formGroup]="managerForm" novalidate fxLayout="column" autocomplete="off">
           <h4 class="sub-header mt-2">{{'investors.editor.ManagerProfile' | translate}}</h4>
           <div fxLayout="row wrap" fxLayoutAlign="" fxLayoutGap="1em">
-           
+
             <mat-form-field fxFlex>
               <mat-label>{{'investors.editor.FirstName' | translate}}</mat-label>
               <input matInput formControlName="FirstName" required />
@@ -178,7 +178,7 @@
               <mat-error *ngIf="!firstName.hasError('required') && firstName.hasError('minlength')">
                 {{'common.validation.MinLengthChar' | translate: {'min':'2'} }}
               </mat-error>
-            
+
               <mat-error *ngIf="!firstName.hasError('required') && !firstName.hasError('minlength')
                                                                   && firstName.hasError('pattern')">
                 {{'common.validation.UseEthiopicOnly' | translate}}
@@ -211,7 +211,7 @@
                             {{'common.validation.MaxLengthNum' | translate: {'max':'100'} }}
                           </mat-error> -->
             </mat-form-field>
-          
+
           </div>
           <div fxLayout="row wrap" fxLayoutGap="1em">
             <mat-form-field fxFlex>
@@ -232,7 +232,7 @@
                             {{'common.validation.MaxLengthNum' | translate: {'max':'100'} }}
                           </mat-error>-->
             </mat-form-field>
-           
+
             <mat-form-field fxFlex>
               <mat-label>{{'investors.editor.FirstNameEng' | translate }}</mat-label>
               <input matInput formControlName="FirstNameEng" required />
@@ -331,7 +331,7 @@
               <input matInput id="BirthDate" [matDatepicker]="BirthDate" formControlName="BirthDate" />
               <mat-datepicker-toggle matSuffix [for]="BirthDate"></mat-datepicker-toggle>
               <mat-datepicker #BirthDate></mat-datepicker>
-      
+
             </mat-form-field> -->
           </div>
           <h4 class="sub-header mt-2">{{'investors.editor.ManagerAddress' | translate}}</h4>
@@ -365,7 +365,7 @@
             <mat-form-field fxFlex>
 
               <mat-label>{{'investors.editor.WoredaAmharic' | translate}}</mat-label>
-              <mat-select formControlName="WoredaId" required (selectionChange)="filterWoreda($event.value)"
+              <mat-select formControlName="WoredaId" required
                 [compareWith]="compareIds">
 
                 <mat-option *ngFor="let w of filteredWoredas" [value]="w.WoredaId">

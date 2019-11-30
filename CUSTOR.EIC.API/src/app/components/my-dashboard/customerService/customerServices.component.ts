@@ -76,7 +76,7 @@ export class CustomerServiceStarterComponent implements OnInit {
         case ServiceEnum.CancellationOfIP:
         case ServiceEnum.SubstituteIP:
         case ServiceEnum.AmendmentOfIP:
-        case 1237:
+        case 1239:
           this.router.navigate(['/investor-project-list/' + serviceId]);
           break;
 

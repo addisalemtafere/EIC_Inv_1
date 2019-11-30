@@ -6,34 +6,34 @@
   <mat-card-content>
     <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
       <form [formGroup]="employmentForm" novalidate>
-        <div fxLayout="row wrap" fxLayoutAlign="start" *ngIf="ServiceId=='1234'" class="content" fxLayout.lt-sm="column"
-          fxLayoutGap="2em">
-          <mat-form-field>
-            <mat-label>Quarter</mat-label>
-            <mat-select formControlName="Quarter" required>
-              <mat-option *ngFor="let row of Quarter" [value]="row.Id">
-                <span>{{row.DescriptionEnglish}}</span>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <input placeholder="Registration Year* :" matInput formControlName="RegistrationYear"
-              [matDatepicker]="RegistrationYear">
-            <mat-datepicker-toggle matSuffix [for]="RegistrationYear"></mat-datepicker-toggle>
-            <mat-datepicker #RegistrationYear></mat-datepicker>
+<!--        <div fxLayout="row wrap" fxLayoutAlign="start" *ngIf="ServiceId=='1234'" class="content" fxLayout.lt-sm="column"-->
+<!--          fxLayoutGap="2em">-->
+<!--          <mat-form-field>-->
+<!--            <mat-label>Quarter</mat-label>-->
+<!--            <mat-select formControlName="Quarter" required>-->
+<!--              <mat-option *ngFor="let row of Quarter" [value]="row.Id">-->
+<!--                <span>{{row.DescriptionEnglish}}</span>-->
+<!--              </mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+<!--          <mat-form-field>-->
+<!--            <input placeholder="Registration Year* :" matInput formControlName="RegistrationYear"-->
+<!--              [matDatepicker]="RegistrationYear">-->
+<!--            <mat-datepicker-toggle matSuffix [for]="RegistrationYear"></mat-datepicker-toggle>-->
+<!--            <mat-datepicker #RegistrationYear></mat-datepicker>-->
 
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>ProjectStatus</mat-label>
-            <mat-select [disabled]="true" formControlName="ProjectStatus" required>
-              <option value="0">--Select--</option>
-              <label>Project Status</label>
-              <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
-                <span>{{status.DescriptionEnglish}}</span>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+<!--          </mat-form-field>-->
+<!--          <mat-form-field>-->
+<!--            <mat-label>ProjectStatus</mat-label>-->
+<!--            <mat-select [disabled]="true" formControlName="ProjectStatus" required>-->
+<!--              <option value="0">&#45;&#45;Select&#45;&#45;</option>-->
+<!--              <label>Project Status</label>-->
+<!--              <mat-option *ngFor="let status of projectStatus" [value]="status.Id">-->
+<!--                <span>{{status.DescriptionEnglish}}</span>-->
+<!--              </mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+<!--        </div>-->
         <h4 class="sub-title">Permanent</h4>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
           <mat-form-field>
@@ -93,77 +93,77 @@
               type="number">
           </mat-form-field>
         </div>
-        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em"
-          *ngIf="ServiceId=='1023'">
-          <!-- <h4>Current</h4> -->
-          <h4 class="sub-title">Permanent</h4>
-          <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
-            <mat-form-field>
-              <input name="PermanentFemale" matInput formControlName="CurrentPermanentFemale" type="number" #pf
-                placeholder="Female * :">
-            </mat-form-field>
-            <mat-form-field>
-              <input name="PermanentMale" matInput formControlName="CurrentPermanentMale" placeholder="Male * :" #pm
-                type="number">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
-            <mat-form-field>
-              <input formControlName="CurrentPermanentForeignFemale" type="number" matInput #pff
-                placeholder="Foreign Female * :">
-            </mat-form-field>
-            <mat-form-field>
-              <input formControlName="CurrentPermanentForeignMale" matInput type="number" #pfm
-                placeholder="Foreign Male * :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <input formControlName="CurrentTotalPermanent" value="{{pf.value*1+pff.value*1+pm.value*1+pfm.value*1}}"
-                type="number" #totalPermanent matInput placeholder="Total">
-            </mat-form-field>
-          </div>
-          <br>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <h4 class="sub-title">Temporary</h4>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
-            <mat-form-field>
-              <input name="TemporaryFemale" matInput #Tf formControlName="CurrentTemporaryFemale"
-                placeholder="Female * :" type="number">
-            </mat-form-field>
-            <mat-form-field>
-              <input formControlName="CurrentTemporaryMale" #TM type="number" matInput placeholder="male * :">
+<!--        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em"-->
+<!--          *ngIf="ServiceId=='1023'">-->
+<!--          &lt;!&ndash; <h4>Current</h4> &ndash;&gt;-->
+<!--          <h4 class="sub-title">Permanent</h4>-->
+<!--          <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <input name="PermanentFemale" matInput formControlName="CurrentPermanentFemale" type="number" #pf-->
+<!--                placeholder="Female * :">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <input name="PermanentMale" matInput formControlName="CurrentPermanentMale" placeholder="Male * :" #pm-->
+<!--                type="number">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <input formControlName="CurrentPermanentForeignFemale" type="number" matInput #pff-->
+<!--                placeholder="Foreign Female * :">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <input formControlName="CurrentPermanentForeignMale" matInput type="number" #pfm-->
+<!--                placeholder="Foreign Male * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <input formControlName="CurrentTotalPermanent" value="{{pf.value*1+pff.value*1+pm.value*1+pfm.value*1}}"-->
+<!--                type="number" #totalPermanent matInput placeholder="Total">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <br>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <h4 class="sub-title">Temporary</h4>-->
+<!--          </div>-->
+<!--          <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <input name="TemporaryFemale" matInput #Tf formControlName="CurrentTemporaryFemale"-->
+<!--                placeholder="Female * :" type="number">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <input formControlName="CurrentTemporaryMale" #TM type="number" matInput placeholder="male * :">-->
 
-            </mat-form-field>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <input formControlName="CurrentTemporaryForeignFemale" #TFF type="number" matInput
-                placeholder="Foreign Female * :">
-            </mat-form-field>
-            <mat-form-field>
-              <input formControlName="CurrentTemporaryForeignMale" #TFM type="number" matInput
-                placeholder="Foreign Male * :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <input formControlName="CurrentTotalTempo" type="number" #TotalTempo
-                value="{{Tf.value*1+TM.value*1+TFF.value*1+TFM.value*1}}" matInput placeholder="Total">
-            </mat-form-field>
-          </div>
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <input formControlName="CurrentTemporaryForeignFemale" #TFF type="number" matInput-->
+<!--                placeholder="Foreign Female * :">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <input formControlName="CurrentTemporaryForeignMale" #TFM type="number" matInput-->
+<!--                placeholder="Foreign Male * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <input formControlName="CurrentTotalTempo" type="number" #TotalTempo-->
+<!--                value="{{Tf.value*1+TM.value*1+TFF.value*1+TFM.value*1}}" matInput placeholder="Total">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
 
-          <!-- <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2em">
-            <div class="block" fxFlexAlign="end">
-              <mat-form-field>
-                <mat-label>Total Employee</mat-label>
-                <input matInput value="{{TotalTempo.value*1+totalPermanent.value*1}}"
-                  formControlName="CurrenttotalEmployee" type="number">
-              </mat-form-field>
-            </div>
-          </div> -->
-        </div>
+<!--          &lt;!&ndash; <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2em">-->
+<!--            <div class="block" fxFlexAlign="end">-->
+<!--              <mat-form-field>-->
+<!--                <mat-label>Total Employee</mat-label>-->
+<!--                <input matInput value="{{TotalTempo.value*1+totalPermanent.value*1}}"-->
+<!--                  formControlName="CurrenttotalEmployee" type="number">-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+<!--          </div> &ndash;&gt;-->
+<!--        </div>-->
         <!-- <div fxLayoutGap="3em" align="center">
           <div style="padding: 20px" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">
 

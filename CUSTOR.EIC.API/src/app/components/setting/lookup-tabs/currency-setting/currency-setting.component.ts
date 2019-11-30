@@ -29,6 +29,7 @@ export class CurrencySettingComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('hi')
     this.initForm();
     this.getExchangeRate();
   }

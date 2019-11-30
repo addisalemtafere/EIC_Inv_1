@@ -17,9 +17,7 @@ var titleColor = "#ffffff";
 var backgroundColor = "#509de6";
 
 (function() {
-
   var rh = window.rh, model = rh.model;
-
 
   model.publish(rh.consts('KEY_DIR'), "ltr");
   model.publish(rh.consts("KEY_MOBILE_TOC_DRILL_DOWN"), true);

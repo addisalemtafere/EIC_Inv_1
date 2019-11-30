@@ -36,18 +36,18 @@
   <ItemGroup>
     <ProjectReference Include="..\CUSTOR.EICOnline.DAL\CUSTOR.EICOnline.DAL.csproj" />
   </ItemGroup>
-<!--<<<<<<< HEAD-->
+
 
   <ItemGroup>
     <Folder Include="wwwroot\upload\" />
     <Folder Include="wwwroot\photo\" />
   </ItemGroup>
 
-<!--=======-->
+
   <ItemGroup>
     <TypeScriptCompile Include="src\app\ap-material.module.ts" />
   </ItemGroup>
-<!-->>>>>>> b08dba696cda3570c8d8ba2ff5fa850b94ff654d-->
+
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>

@@ -3,187 +3,187 @@
     <form [formGroup]="projectCostForm" countryCity novalidate #costF>
       <input type="number" formControlName="ProjectId" hidden>
       <mat-card-content>
-        <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"
-          fxLayoutGap="2em">
-          <div class="block" fxFlex="">
-            <mat-form-field>
-              <mat-label>Quarter</mat-label>
-              <mat-select formControlName="Quarter" [compareWith]="compareIds" required>
-                <mat-option *ngFor="let row of Quarter" [value]="row.Id">
-                  <span>{{row.DescriptionEnglish}}</span>
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="block" fxFlex>
-            <mat-form-field>
-              <input placeholder="Registration Year* :" matInput formControlName="ReagistrationYear"
-                [matDatepicker]="ReagistrationYear">
-              <mat-datepicker-toggle matSuffix [for]="ReagistrationYear"></mat-datepicker-toggle>
-              <mat-datepicker #ReagistrationYear></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class="block" fxFlex="">
-            <mat-form-field>
-              <mat-select [disabled]="true" formControlName="ProjectStatus" [compareWith]="compareIds" required>
-                <option value="0">--Select--</option>
-                <label>Project Status</label>
-                <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
-                  <span>{{status.DescriptionEnglish}}</span>
-                </mat-option>
-              </mat-select>
+<!--        <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"-->
+<!--          fxLayoutGap="2em">-->
+<!--          <div class="block" fxFlex="">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>Quarter</mat-label>-->
+<!--              <mat-select formControlName="Quarter" [compareWith]="compareIds" required>-->
+<!--                <mat-option *ngFor="let row of Quarter" [value]="row.Id">-->
+<!--                  <span>{{row.DescriptionEnglish}}</span>-->
+<!--                </mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div class="block" fxFlex>-->
+<!--            <mat-form-field>-->
+<!--              <input placeholder="Registration Year* :" matInput formControlName="ReagistrationYear"-->
+<!--                [matDatepicker]="ReagistrationYear">-->
+<!--              <mat-datepicker-toggle matSuffix [for]="ReagistrationYear"></mat-datepicker-toggle>-->
+<!--              <mat-datepicker #ReagistrationYear></mat-datepicker>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div class="block" fxFlex="">-->
+<!--            <mat-form-field>-->
+<!--              <mat-select [disabled]="true" formControlName="ProjectStatus" [compareWith]="compareIds" required>-->
+<!--                <option value="0">&#45;&#45;Select&#45;&#45;</option>-->
+<!--                <label>Project Status</label>-->
+<!--                <mat-option *ngFor="let status of projectStatus" [value]="status.Id">-->
+<!--                  <span>{{status.DescriptionEnglish}}</span>-->
+<!--                </mat-option>-->
+<!--              </mat-select>-->
 
-            </mat-form-field>
-          </div>
-        </div>
-        <div *ngIf="!(ServiceId=='1234' && editMode) " style="padding: 10px 20px; border-right: 1px solid #eee;">
-          <h4 class="sub-title" *ngIf="!(ServiceId=='1234' && (ServiceId=='1234' && editMode))">
-            Cost Break Down
-          </h4>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.LandCost' | translate}}</mat-label>
-              <input formControlName="LandCost" #LC matInput type="number">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.LandCostInBirr' | translate}}</mat-label>
-              <input formControlName="LandCostInBirr" #LCInBirr matInput type="number"
-                placeholder="Land Cost/Birr/ * :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.BuildingCost' | translate}}</mat-label>
-              <input formControlName="BuildingCost" #BC matInput type="number" placeholder="Building Cost * :">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.BuildingCostInBirr' | translate}}</mat-label>
-              <input formControlName="BuildingCostInBirr" #BCInBirr matInput type="number"
-                placeholder="Building Cost/Birr/ * :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.MachineryCost' | translate}}</mat-label>
-              <input formControlName="MachineryCost" #MC matInput type="number" placeholder="Machinery Cost * :">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.MachineryCostInBirr' | translate}}</mat-label>
-              <input formControlName="MachineryCostInBirr" #MCInBirr matInput type="number"
-                placeholder="Machinery Cost/Birr/ * :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.TransportCost' | translate}}</mat-label>
-              <input matInput formControlName="TransportCost" type="number" #TC placeholder="TransportCost * :">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.TransportCostInBirr' | translate}}</mat-label>
-              <input matInput formControlName="TransportCostInBirr" type="number" #TCInBirr
-                placeholder="TransportCost/Birr/ * :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OfficeEquipmentCost' | translate}}</mat-label>
-              <input formControlName="OfficeEquipmentCost" type="number" #OEC matInput
-                placeholder="Office Equipment Cost * :">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OfficeEquipmentCostInBirr' | translate}}</mat-label>
-              <input formControlName="OfficeEquipmentCostInBirr" type="number" #OECInBirr matInput
-                placeholder="Office Equipment Cost/Birr/ * :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OtherCapitalCost' | translate}}</mat-label>
-              <input formControlName="OtherCapitalCost" type="number" #OCC matInput
-                placeholder="Other Capital Cost * :">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OtherCapitalCostInBirr' | translate}}</mat-label>
-              <input formControlName="OtherCapitalCostInBirr" type="number" #OCCInBirr matInput
-                placeholder="Other Capital Cost/Birr/ * :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div *ngIf="!(ServiceId=='1234' && editMode) " style="padding: 10px 20px; border-right: 1px solid #eee;">-->
+<!--          <h4 class="sub-title" *ngIf="!(ServiceId=='1234' && (ServiceId=='1234' && editMode))">-->
+<!--            Cost Break Down-->
+<!--          </h4>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.LandCost' | translate}}</mat-label>-->
+<!--              <input formControlName="LandCost" #LC matInput type="number">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.LandCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="LandCostInBirr" #LCInBirr matInput type="number"-->
+<!--                placeholder="Land Cost/Birr/ * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.BuildingCost' | translate}}</mat-label>-->
+<!--              <input formControlName="BuildingCost" #BC matInput type="number" placeholder="Building Cost * :">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.BuildingCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="BuildingCostInBirr" #BCInBirr matInput type="number"-->
+<!--                placeholder="Building Cost/Birr/ * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.MachineryCost' | translate}}</mat-label>-->
+<!--              <input formControlName="MachineryCost" #MC matInput type="number" placeholder="Machinery Cost * :">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.MachineryCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="MachineryCostInBirr" #MCInBirr matInput type="number"-->
+<!--                placeholder="Machinery Cost/Birr/ * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.TransportCost' | translate}}</mat-label>-->
+<!--              <input matInput formControlName="TransportCost" type="number" #TC placeholder="TransportCost * :">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.TransportCostInBirr' | translate}}</mat-label>-->
+<!--              <input matInput formControlName="TransportCostInBirr" type="number" #TCInBirr-->
+<!--                placeholder="TransportCost/Birr/ * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OfficeEquipmentCost' | translate}}</mat-label>-->
+<!--              <input formControlName="OfficeEquipmentCost" type="number" #OEC matInput-->
+<!--                placeholder="Office Equipment Cost * :">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OfficeEquipmentCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="OfficeEquipmentCostInBirr" type="number" #OECInBirr matInput-->
+<!--                placeholder="Office Equipment Cost/Birr/ * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OtherCapitalCost' | translate}}</mat-label>-->
+<!--              <input formControlName="OtherCapitalCost" type="number" #OCC matInput-->
+<!--                placeholder="Other Capital Cost * :">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OtherCapitalCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="OtherCapitalCostInBirr" type="number" #OCCInBirr matInput-->
+<!--                placeholder="Other Capital Cost/Birr/ * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
 
-            <mat-form-field>
-              <mat-label>{{'investors.editor.InitialWorkingCapitalCost' | translate}}</mat-label>
-              <input formControlName="InitialWorkingCapitalCost" type="number" matInput #IWCC
-                placeholder="Initial Working Capital Cost * :">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.InitialWorkingCapitalCostInBirr' | translate}}</mat-label>
-              <input formControlName="InitialWorkingCapitalCostInBirr" type="number" matInput #IWCCInBirr
-                placeholder="Initial Working Capital Cost/Birr/ * :">
-            </mat-form-field>
-          </div>
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.InitialWorkingCapitalCost' | translate}}</mat-label>-->
+<!--              <input formControlName="InitialWorkingCapitalCost" type="number" matInput #IWCC-->
+<!--                placeholder="Initial Working Capital Cost * :">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.InitialWorkingCapitalCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="InitialWorkingCapitalCostInBirr" type="number" matInput #IWCCInBirr-->
+<!--                placeholder="Initial Working Capital Cost/Birr/ * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
 
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.Total' | translate}}</mat-label>
-              <input type="number" #TotalCost matInput formControlName="Total" placeholder="Total">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.TotalInBirr' | translate}}</mat-label>
-              <input type="number" #TotalCostInBirr matInput formControlName="TotalInBirr" placeholder="Total/Birr/">
-            </mat-form-field>
-          </div>
-          <h4 class="sub-title"> Source of Finance </h4>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.EquityFinance' | translate}}</mat-label>
-              <input formControlName="EquityFinance" type="number" #EF matInput placeholder="Equity Finance">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.LoanFinance' | translate}}</mat-label>
-              <input formControlName="LoanFinance" type="number" #LF matInput placeholder="Loan Finance * :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OtherSourceFinance' | translate}}</mat-label>
-              <input #OSF type="number" formControlName="OtherSourceFinance" matInput
-                placeholder="Other Source Finance * :">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OtherSourceDescription' | translate}}</mat-label>
-              <input formControlName="OtherSourceDescription" matInput placeholder="Other Source Description  :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.Unit' | translate}}</mat-label>
-              <mat-select [disabled]="true" formControlName="Unit" [compareWith]="compareIds" required>
-                <option value="0">--Select--</option>
-                <mat-option *ngFor="let currency of currencyTypes" [value]="currency.Id">
-                  <span>{{currency.DescriptionEnglish}}</span>
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.ActualCostInForeign' | translate}}</mat-label>
-              <input formControlName="ActualCostInForeign" type="number" matInput
-                placeholder="Actual Cost In Foreign" />
-            </mat-form-field>
-            <div class="block" fxFlex="">
-              <mat-form-field>
-                <mat-label>{{'investors.editor.ExchangeRate' | translate}}</mat-label>
-                <input formControlName="ExchangeRate" type="number" matInput placeholder="ETB Exchange Rate" />
-              </mat-form-field>
-            </div>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field class="full-width">
-              <mat-label>{{'investors.editor.Remark' | translate}}</mat-label>
-              <textarea matInput formControlName="Remark" rows="4"></textarea>
-            </mat-form-field>
-          </div>
-        </div>
-       
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.Total' | translate}}</mat-label>-->
+<!--              <input type="number" #TotalCost matInput formControlName="Total" placeholder="Total">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.TotalInBirr' | translate}}</mat-label>-->
+<!--              <input type="number" #TotalCostInBirr matInput formControlName="TotalInBirr" placeholder="Total/Birr/">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <h4 class="sub-title"> Source of Finance </h4>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.EquityFinance' | translate}}</mat-label>-->
+<!--              <input formControlName="EquityFinance" type="number" #EF matInput placeholder="Equity Finance">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.LoanFinance' | translate}}</mat-label>-->
+<!--              <input formControlName="LoanFinance" type="number" #LF matInput placeholder="Loan Finance * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OtherSourceFinance' | translate}}</mat-label>-->
+<!--              <input #OSF type="number" formControlName="OtherSourceFinance" matInput-->
+<!--                placeholder="Other Source Finance * :">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OtherSourceDescription' | translate}}</mat-label>-->
+<!--              <input formControlName="OtherSourceDescription" matInput placeholder="Other Source Description  :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.Unit' | translate}}</mat-label>-->
+<!--              <mat-select [disabled]="true" formControlName="Unit" [compareWith]="compareIds" required>-->
+<!--                <option value="0">&#45;&#45;Select&#45;&#45;</option>-->
+<!--                <mat-option *ngFor="let currency of currencyTypes" [value]="currency.Id">-->
+<!--                  <span>{{currency.DescriptionEnglish}}</span>-->
+<!--                </mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.ActualCostInForeign' | translate}}</mat-label>-->
+<!--              <input formControlName="ActualCostInForeign" type="number" matInput-->
+<!--                placeholder="Actual Cost In Foreign" />-->
+<!--            </mat-form-field>-->
+<!--            <div class="block" fxFlex="">-->
+<!--              <mat-form-field>-->
+<!--                <mat-label>{{'investors.editor.ExchangeRate' | translate}}</mat-label>-->
+<!--                <input formControlName="ExchangeRate" type="number" matInput placeholder="ETB Exchange Rate" />-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field class="full-width">-->
+<!--              <mat-label>{{'investors.editor.Remark' | translate}}</mat-label>-->
+<!--              <textarea matInput formControlName="Remark" rows="4"></textarea>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--        </div>-->
+
       </mat-card-content>
     </form>
   </div>
@@ -198,232 +198,232 @@
         </mat-error>
       </div>
       <mat-card-content>
-        <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"
-          fxLayoutGap="2em">
-          <div class="block" fxFlex="">
-            <mat-form-field>
-              <mat-label>Quarter</mat-label>
-              <mat-select formControlName="Quarter" [compareWith]="compareIds" required>
-                <mat-option *ngFor="let row of Quarter" [value]="row.Id">
-                  <span>{{row.DescriptionEnglish}}</span>
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="block" fxFlex>
-            <mat-form-field>
-              <input placeholder="Registration Year* :" matInput formControlName="ReagistrationYear"
-                [matDatepicker]="ReagistrationYear">
-              <mat-datepicker-toggle matSuffix [for]="ReagistrationYear"></mat-datepicker-toggle>
-              <mat-datepicker #ReagistrationYear></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class="block" fxFlex="">
-            <mat-form-field>
-              <mat-select [disabled]="true" formControlName="ProjectStatus" [compareWith]="compareIds" required>
-                <option value="0">--Select--</option>
-                <label>Project Status</label>
-                <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
-                  <span>{{status.DescriptionEnglish}}</span>
-                </mat-option>
-              </mat-select>
+<!--        <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"-->
+<!--          fxLayoutGap="2em">-->
+<!--          <div class="block" fxFlex="">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>Quarter</mat-label>-->
+<!--              <mat-select formControlName="Quarter" [compareWith]="compareIds" required>-->
+<!--                <mat-option *ngFor="let row of Quarter" [value]="row.Id">-->
+<!--                  <span>{{row.DescriptionEnglish}}</span>-->
+<!--                </mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div class="block" fxFlex>-->
+<!--            <mat-form-field>-->
+<!--              <input placeholder="Registration Year* :" matInput formControlName="ReagistrationYear"-->
+<!--                [matDatepicker]="ReagistrationYear">-->
+<!--              <mat-datepicker-toggle matSuffix [for]="ReagistrationYear"></mat-datepicker-toggle>-->
+<!--              <mat-datepicker #ReagistrationYear></mat-datepicker>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div class="block" fxFlex="">-->
+<!--            <mat-form-field>-->
+<!--              <mat-select [disabled]="true" formControlName="ProjectStatus" [compareWith]="compareIds" required>-->
+<!--                <option value="0">&#45;&#45;Select&#45;&#45;</option>-->
+<!--                <label>Project Status</label>-->
+<!--                <mat-option *ngFor="let status of projectStatus" [value]="status.Id">-->
+<!--                  <span>{{status.DescriptionEnglish}}</span>-->
+<!--                </mat-option>-->
+<!--              </mat-select>-->
 
-            </mat-form-field>
-          </div>
-        </div>
-        <div *ngIf="!(ServiceId=='1234' && editMode) " style="padding: 10px 20px; border-right: 1px solid #eee;">
-          <h4 *ngIf="!(ServiceId=='1234' && (ServiceId=='1234' && editMode))" class="sub-title"> Cost Break Down</h4>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.LandCost' | translate}}</mat-label>
-              <input formControlName="LandCost" #LC matInput type="number" required>
-              <mat-error *ngIf="LandCost.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.LandCostInBirr' | translate}}</mat-label>
-              <input formControlName="LandCostInBirr" #LCInBirr matInput type="number" placeholder="Land Cost/Birr/ * :"
-                required>
-              <mat-error *ngIf="LandCostInBirr.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.BuildingCost' | translate}}</mat-label>
-              <input formControlName="BuildingCost" #BC matInput type="number" placeholder="Building Cost * :">
-              <mat-error *ngIf="BuildingCost.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.BuildingCostInBirr' | translate}}</mat-label>
-              <input formControlName="BuildingCostInBirr" #BCInBirr matInput type="number"
-                placeholder="Building Cost/Birr/ * :">
-              <mat-error *ngIf="BuildingCostInBirr.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.MachineryCost' | translate}}</mat-label>
-              <input formControlName="MachineryCost" #MC matInput type="number" placeholder="Machinery Cost * :">
-              <mat-error *ngIf="MachineryCost.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.MachineryCostInBirr' | translate}}</mat-label>
-              <input formControlName="MachineryCostInBirr" #MCInBirr matInput type="number"
-                placeholder="Machinery Cost/Birr/ * :">
-              <mat-error *ngIf="MachineryCostInBirr.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.TransportCost' | translate}}</mat-label>
-              <input matInput formControlName="TransportCost" type="number" #TC placeholder="TransportCost * :">
-              <mat-error *ngIf="TransportCost.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.TransportCostInBirr' | translate}}</mat-label>
-              <input matInput formControlName="TransportCostInBirr" type="number" #TCInBirr
-                placeholder="TransportCost/Birr/ * :">
-              <mat-error *ngIf="TransportCostInBirr.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OfficeEquipmentCost' | translate}}</mat-label>
-              <input formControlName="OfficeEquipmentCost" type="number" #OEC matInput
-                placeholder="Office Equipment Cost * :">
-                  <mat-error *ngIf="OfficeEquipmentCost.hasError('required')">
-                    {{'common.validation.Required' | translate}}
-                  </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OfficeEquipmentCostInBirr' | translate}}</mat-label>
-              <input formControlName="OfficeEquipmentCostInBirr" type="number" #OECInBirr matInput
-                placeholder="Office Equipment Cost/Birr/ * :">
-                <mat-error *ngIf="OfficeEquipmentCostInBirr.hasError('required')">
-                  {{'common.validation.Required' | translate}}
-                </mat-error>
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OtherCapitalCost' | translate}}</mat-label>
-              <input formControlName="OtherCapitalCost" type="number" #OCC matInput
-                placeholder="Other Capital Cost * :">
-                  <mat-error *ngIf="OtherCapitalCost.hasError('required')">
-                    {{'common.validation.Required' | translate}}
-                  </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OtherCapitalCostInBirr' | translate}}</mat-label>
-              <input formControlName="OtherCapitalCostInBirr" type="number" #OCCInBirr
-               matInput
-                placeholder="Other Capital Cost/Birr/ * :">
-                  <mat-error *ngIf="OtherCapitalCostInBirr.hasError('required')">
-                    {{'common.validation.Required' | translate}}
-                  </mat-error>
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div *ngIf="!(ServiceId=='1234' && editMode) " style="padding: 10px 20px; border-right: 1px solid #eee;">-->
+<!--          <h4 *ngIf="!(ServiceId=='1234' && (ServiceId=='1234' && editMode))" class="sub-title"> Cost Break Down</h4>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.LandCost' | translate}}</mat-label>-->
+<!--              <input formControlName="LandCost" #LC matInput type="number" required>-->
+<!--              <mat-error *ngIf="LandCost.hasError('required')">-->
+<!--                {{'common.validation.Required' | translate}}-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.LandCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="LandCostInBirr" #LCInBirr matInput type="number" placeholder="Land Cost/Birr/ * :"-->
+<!--                required>-->
+<!--              <mat-error *ngIf="LandCostInBirr.hasError('required')">-->
+<!--                {{'common.validation.Required' | translate}}-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.BuildingCost' | translate}}</mat-label>-->
+<!--              <input formControlName="BuildingCost" #BC matInput type="number" placeholder="Building Cost * :">-->
+<!--              <mat-error *ngIf="BuildingCost.hasError('required')">-->
+<!--                {{'common.validation.Required' | translate}}-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.BuildingCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="BuildingCostInBirr" #BCInBirr matInput type="number"-->
+<!--                placeholder="Building Cost/Birr/ * :">-->
+<!--              <mat-error *ngIf="BuildingCostInBirr.hasError('required')">-->
+<!--                {{'common.validation.Required' | translate}}-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.MachineryCost' | translate}}</mat-label>-->
+<!--              <input formControlName="MachineryCost" #MC matInput type="number" placeholder="Machinery Cost * :">-->
+<!--              <mat-error *ngIf="MachineryCost.hasError('required')">-->
+<!--                {{'common.validation.Required' | translate}}-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.MachineryCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="MachineryCostInBirr" #MCInBirr matInput type="number"-->
+<!--                placeholder="Machinery Cost/Birr/ * :">-->
+<!--              <mat-error *ngIf="MachineryCostInBirr.hasError('required')">-->
+<!--                {{'common.validation.Required' | translate}}-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.TransportCost' | translate}}</mat-label>-->
+<!--              <input matInput formControlName="TransportCost" type="number" #TC placeholder="TransportCost * :">-->
+<!--              <mat-error *ngIf="TransportCost.hasError('required')">-->
+<!--                {{'common.validation.Required' | translate}}-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.TransportCostInBirr' | translate}}</mat-label>-->
+<!--              <input matInput formControlName="TransportCostInBirr" type="number" #TCInBirr-->
+<!--                placeholder="TransportCost/Birr/ * :">-->
+<!--              <mat-error *ngIf="TransportCostInBirr.hasError('required')">-->
+<!--                {{'common.validation.Required' | translate}}-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OfficeEquipmentCost' | translate}}</mat-label>-->
+<!--              <input formControlName="OfficeEquipmentCost" type="number" #OEC matInput-->
+<!--                placeholder="Office Equipment Cost * :">-->
+<!--                  <mat-error *ngIf="OfficeEquipmentCost.hasError('required')">-->
+<!--                    {{'common.validation.Required' | translate}}-->
+<!--                  </mat-error>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OfficeEquipmentCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="OfficeEquipmentCostInBirr" type="number" #OECInBirr matInput-->
+<!--                placeholder="Office Equipment Cost/Birr/ * :">-->
+<!--                <mat-error *ngIf="OfficeEquipmentCostInBirr.hasError('required')">-->
+<!--                  {{'common.validation.Required' | translate}}-->
+<!--                </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OtherCapitalCost' | translate}}</mat-label>-->
+<!--              <input formControlName="OtherCapitalCost" type="number" #OCC matInput-->
+<!--                placeholder="Other Capital Cost * :">-->
+<!--                  <mat-error *ngIf="OtherCapitalCost.hasError('required')">-->
+<!--                    {{'common.validation.Required' | translate}}-->
+<!--                  </mat-error>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OtherCapitalCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="OtherCapitalCostInBirr" type="number" #OCCInBirr-->
+<!--               matInput-->
+<!--                placeholder="Other Capital Cost/Birr/ * :">-->
+<!--                  <mat-error *ngIf="OtherCapitalCostInBirr.hasError('required')">-->
+<!--                    {{'common.validation.Required' | translate}}-->
+<!--                  </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
 
-            <mat-form-field>
-              <mat-label>{{'investors.editor.InitialWorkingCapitalCost' | translate}}</mat-label>
-              <input formControlName="InitialWorkingCapitalCost" type="number" matInput #IWCC
-                placeholder="Initial Working Capital Cost * :">
-              <mat-error *ngIf="InitialWorkingCapitalCost.hasError('required')">
-                {{'common.validation.Required' | translate}}
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.InitialWorkingCapitalCostInBirr' | translate}}</mat-label>
-              <input formControlName="InitialWorkingCapitalCostInBirr" type="number" matInput #IWCCInBirr
-                placeholder="Initial Working Capital Cost/Birr/ * :">
-                <mat-error *ngIf="InitialWorkingCapitalCostInBirr.hasError('required')">
-                  {{'common.validation.Required' | translate}}
-                </mat-error>
-            </mat-form-field>
-          </div>
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.InitialWorkingCapitalCost' | translate}}</mat-label>-->
+<!--              <input formControlName="InitialWorkingCapitalCost" type="number" matInput #IWCC-->
+<!--                placeholder="Initial Working Capital Cost * :">-->
+<!--              <mat-error *ngIf="InitialWorkingCapitalCost.hasError('required')">-->
+<!--                {{'common.validation.Required' | translate}}-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.InitialWorkingCapitalCostInBirr' | translate}}</mat-label>-->
+<!--              <input formControlName="InitialWorkingCapitalCostInBirr" type="number" matInput #IWCCInBirr-->
+<!--                placeholder="Initial Working Capital Cost/Birr/ * :">-->
+<!--                <mat-error *ngIf="InitialWorkingCapitalCostInBirr.hasError('required')">-->
+<!--                  {{'common.validation.Required' | translate}}-->
+<!--                </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
 
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.Total' | translate}}</mat-label>
-              <input type="number" #TotalCost matInput formControlName="Total" placeholder="Total">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.TotalInBirr' | translate}}</mat-label>
-              <input type="number" #TotalCostInBirr matInput formControlName="TotalInBirr" placeholder="Total/Birr/">
-            </mat-form-field>
-          </div>
-          <h4 class="sub-title"> Source of Finance </h4>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.EquityFinance' | translate}}</mat-label>
-              <input formControlName="EquityFinance" type="number" #EF matInput placeholder="Equity Finance">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.LoanFinance' | translate}}</mat-label>
-              <input formControlName="LoanFinance" type="number" #LF matInput placeholder="Loan Finance * :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OtherSourceFinance' | translate}}</mat-label>
-              <input #OSF type="number" formControlName="OtherSourceFinance" matInput
-                placeholder="Other Source Finance * :">
-                <mat-error *ngIf="OtherSourceFinance.hasError('required')">
-                  {{'common.validation.Required' | translate}}
-                </mat-error>
-                
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.OtherSourceDescription' | translate}}</mat-label>
-              <input formControlName="OtherSourceDescription" matInput placeholder="Other Source Description  :">
-            </mat-form-field>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field>
-              <mat-label>{{'investors.editor.CurrencyType' | translate}} == {{Unit}}</mat-label>
-              <mat-select [disabled]="true" formControlName="Unit" [compareWith]="compareIds" required>
-                <option value="0">--Select--</option>
-                <mat-option *ngFor="let currency of currencyTypes" [value]="currency.Id">
-                  <span>{{currency.DescriptionEnglish}}</span>
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{'investors.editor.ActualCostInForeign' | translate}}</mat-label>
-              <input formControlName="ActualCostInForeign" type="number" matInput
-                placeholder="Actual Cost In Foreign" />
-            </mat-form-field>
-            <div class="block" fxFlex="">
-              <mat-form-field>
-                <mat-label>{{'investors.editor.ExchangeRate' | translate}}</mat-label>
-                <input formControlName="ExchangeRate" type="number" matInput placeholder="ETB Exchange Rate" />
-             
-              </mat-form-field>
-            </div>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-            <mat-form-field class="full-width">
-              <mat-label>{{'investors.editor.Remark' | translate}}</mat-label>
-              <textarea matInput formControlName="Remark" rows="4"></textarea>
-            </mat-form-field>
-          </div>
-        </div>
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.Total' | translate}}</mat-label>-->
+<!--              <input type="number" #TotalCost matInput formControlName="Total" placeholder="Total">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.TotalInBirr' | translate}}</mat-label>-->
+<!--              <input type="number" #TotalCostInBirr matInput formControlName="TotalInBirr" placeholder="Total/Birr/">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <h4 class="sub-title"> Source of Finance </h4>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.EquityFinance' | translate}}</mat-label>-->
+<!--              <input formControlName="EquityFinance" type="number" #EF matInput placeholder="Equity Finance">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.LoanFinance' | translate}}</mat-label>-->
+<!--              <input formControlName="LoanFinance" type="number" #LF matInput placeholder="Loan Finance * :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OtherSourceFinance' | translate}}</mat-label>-->
+<!--              <input #OSF type="number" formControlName="OtherSourceFinance" matInput-->
+<!--                placeholder="Other Source Finance * :">-->
+<!--                <mat-error *ngIf="OtherSourceFinance.hasError('required')">-->
+<!--                  {{'common.validation.Required' | translate}}-->
+<!--                </mat-error>-->
+<!--                -->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.OtherSourceDescription' | translate}}</mat-label>-->
+<!--              <input formControlName="OtherSourceDescription" matInput placeholder="Other Source Description  :">-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.CurrencyType' | translate}} == {{Unit}}</mat-label>-->
+<!--              <mat-select [disabled]="true" formControlName="Unit" [compareWith]="compareIds" required>-->
+<!--                <option value="0">&#45;&#45;Select&#45;&#45;</option>-->
+<!--                <mat-option *ngFor="let currency of currencyTypes" [value]="currency.Id">-->
+<!--                  <span>{{currency.DescriptionEnglish}}</span>-->
+<!--                </mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--              <mat-label>{{'investors.editor.ActualCostInForeign' | translate}}</mat-label>-->
+<!--              <input formControlName="ActualCostInForeign" type="number" matInput-->
+<!--                placeholder="Actual Cost In Foreign" />-->
+<!--            </mat-form-field>-->
+<!--            <div class="block" fxFlex="">-->
+<!--              <mat-form-field>-->
+<!--                <mat-label>{{'investors.editor.ExchangeRate' | translate}}</mat-label>-->
+<!--                <input formControlName="ExchangeRate" type="number" matInput placeholder="ETB Exchange Rate" />-->
+<!--             -->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">-->
+<!--            <mat-form-field class="full-width">-->
+<!--              <mat-label>{{'investors.editor.Remark' | translate}}</mat-label>-->
+<!--              <textarea matInput formControlName="Remark" rows="4"></textarea>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--        </div>-->
         <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2em">
           <!-- <mat-error
                 *ngIf="projectCostForm.hasError('sumIsNotEqual') && (projectCostForm.touched || projectCostForm.dirty)"

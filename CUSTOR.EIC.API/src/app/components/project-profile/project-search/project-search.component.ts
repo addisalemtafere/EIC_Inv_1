@@ -359,7 +359,7 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     this.serviceApplication.IsActive = false;
     this.serviceApplication.todoTask = this.todoTask;
     console.log(this.ServiceId);
-    if (this.ServiceId != 1237) {
+    if (this.ServiceId != 1239) {
 
       if (this.isTitle == 1) {
         this.investorDetail(this.InvestorId, projectId, 0, ServiceId, projectStatus, 0);

@@ -35,7 +35,6 @@ import {MessageModule} from "./notification/message.module";
 
     ProjectInputOutputComponent,
     ProjectStepperComponent,
-    ProjectStepperComponent,
     ProjectAssociateComponent
   ],
   imports: [

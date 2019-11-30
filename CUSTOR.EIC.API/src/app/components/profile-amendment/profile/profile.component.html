@@ -19,7 +19,7 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
-              <mat-label>{{'investors.editor.FormOfOwnership' | translate}} {{formOfOwnership}}</mat-label>
+              <mat-label>{{'investors.editor.FormOfOwnership' | translate}} </mat-label>
               <mat-select formControlName="FormOfOwnership"
                 [compareWith]="compareIds" required>
                 <mat-option *ngFor="let item of formOfOwnershipList;" [value]="item.Id">
@@ -89,7 +89,7 @@
             </mat-form-field>
           </div>
           <div fxLayout="row wrap" fxLayoutAlign=""  *ngIf="!isCompanyView" fxLayoutGap="2em" class="profile-registration">
-          
+
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'investors.editor.Nationality' | translate}}</mat-label>
               <mat-select formControlName="Nationality" [compareWith]="compareIds">
@@ -170,7 +170,7 @@
               <input matInput formControlName="OtherAddress" width="800px" />
             </mat-form-field>
           </div>
-        </form> 
+        </form>
       </div>
       <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
         <form [formGroup]="profileTestForm" novalidate fxLayout="column" autocomplete="off">
@@ -193,7 +193,7 @@
                   {{item.Desc}}
                 </mat-option>
               </mat-select>
-        
+
             </mat-form-field>
             <mat-form-field fxLayoutGap="4em">
               <mat-label>{{'users.editor.TIN' | translate}} </mat-label>
@@ -435,7 +435,7 @@
             </mat-form-field>
           </div>
           <mat-card-actions fxLayoutAlign="end end">
-            <button [disabled]="profileTestForm.invalid" 
+            <button [disabled]="profileTestForm.invalid"
             mat-raised-button color="primary" *ngIf="!updateData"
               (click)="create()">{{'common.commands.Save'|translate}}</button>
             <button [disabled]="profileTestForm.invalid" mat-raised-button color="primary" *ngIf="updateData"

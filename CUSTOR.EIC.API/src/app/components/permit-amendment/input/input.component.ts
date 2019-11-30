@@ -32,7 +32,7 @@ export class InputComponent implements OnInit {
   loading = false;
   subscription: Subscription;
   projectId: any;
-  ServiceId: number;
+  ServiceId: any;
   serviceId: number;
   AllowCascading = true;
   updateData = false;

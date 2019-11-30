@@ -172,7 +172,7 @@
 
 
     <div fxFlex="50" style="padding: 10px 20px; border-right: 1px solid #eee;">
-      <form class="margin-2" (ngSubmit)="onSubmit()" [formGroup]="projectAmendForm" novalidate>
+      <form class="margin-2" [formGroup]="projectAmendForm" novalidate>
         <h4 class="sub-title">Project Information</h4>
         <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
 
@@ -298,7 +298,7 @@
             </mat-checkbox>
           </div>
           <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
-         
+
             <mat-form-field *ngIf="projectAmendForm.controls.IsIndustrialPark.value ==true" >
               <mat-label>{{'investors.editor.IndustrialPark' | translate}}</mat-label>
               <mat-select formControlName="IndustrialParkId">
@@ -369,7 +369,7 @@
     </div>
   </mat-card-content>
 </mat-card>
-<div *ngIf="loading" class="loadme-circleBounce">
-  <div class="loadme-circleBounce1"></div>
-  <div class="loadme-circleBounce2"></div>
-</div>
+<!--<div *ngIf="loading" class="loadme-circleBounce">-->
+<!--  <div class="loadme-circleBounce1"></div>-->
+<!--  <div class="loadme-circleBounce2"></div>-->
+<!--</div>-->
