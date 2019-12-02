@@ -12,6 +12,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { ProjectProfileService } from '../../../Services/project-profile.service';
 import { ProjectStatusModel, QuarterModel } from '../../../model/lookupData';
 import { ProjectStatus, Quarter } from '@custor/const/consts';
+import { AccountService } from '../../../../@custor/services/security/account.service';
 
 @Component({
   selector: 'app-project-employment',
@@ -26,6 +27,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
 
   subscription: Subscription;
   empId: any;
+  isInvestor: boolean;
   public formErrors = {
     PermanentFemale: 'Must be positive number!',
     PermanentMale: 'Must be positive number!',
@@ -47,6 +49,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
   private projectId: any;
 
   constructor(private formBuilder: FormBuilder,
+
     public formService: FormService,
     private errMsg: ErrorMessage,
     public route: ActivatedRoute,
@@ -55,6 +58,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
     private dataSharingService: DataSharingService,
     private toastr: ToastrService,
     private dataSharing: DataSharingService,
+    private accountService: AccountService,
     private employmentService: ProjectEmploymentService) {
     this.employmentData = <ProjectEmploymentModel>{};
   }
@@ -65,7 +69,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-
+    // this.getUserType();
 
     if (this.ServiceId === '1234') {
       this.getProjectStatus(this.projectId);
@@ -77,7 +81,9 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
 
     this.formBuild();
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getEmployment() {
     this.employmentService.employmentByProject(this.projectId).subscribe(result => {
       if (typeof (result) !== 'undefined') {
@@ -92,12 +98,12 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
     this.CurrentTotalEmployee =
       this.employmetForm.get('PermanentFemale').value +
       this.employmetForm.get('PermanentMale').value +
-    this.employmetForm.get('TemporaryFemale').value +
-    this.employmetForm.get('TemporaryMale').value +
-    this.employmetForm.get('PermanentForeignFemale').value +
-    this.employmetForm.get('PermanentForeignMale').value +
-    this.employmetForm.get('TemporaryForeignFemale').value +
-    this.employmetForm.get('TemporaryForeignMale').value
+      this.employmetForm.get('TemporaryFemale').value +
+      this.employmetForm.get('TemporaryMale').value +
+      this.employmetForm.get('PermanentForeignFemale').value +
+      this.employmetForm.get('PermanentForeignMale').value +
+      this.employmetForm.get('TemporaryForeignFemale').value +
+      this.employmetForm.get('TemporaryForeignMale').value
     return this.CurrentTotalEmployee;
 
   }
@@ -111,7 +117,7 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
         if (!this.editMode) {
           this.employmentService.create(this.employmetForm.value)
             .subscribe(result => {
-              setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
+              setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
               this.notification('saved');
             }, error => this.toastr.error(this.errMsg.getError(error)));
@@ -119,7 +125,9 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
           this.employmentService.update(this.employmetForm.value, this.empId)
             .subscribe(result => {
               this.notification('updated');
-              setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
+              // setTimeout(() => this.dataSharing.steeperIndex.next(6), 0);
+              //setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
+              setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(6), 0);
             }, error => this.toastr.error(this.errMsg.getError(error)));
         }
@@ -176,9 +184,9 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
 
     this.loading = false;
-    this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
-      duration: 3000,
-    });
+    // this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
+    //   duration: 3000,
+    // });
   }
 
   onClear() {
@@ -194,8 +202,13 @@ export class ProjectEmploymentComponent implements OnInit, AfterContentChecked {
 
   next() {
     this.dataSharing.steeperIndex.next(5);
-
   }
+  // goBack(){
+  //   this.dataSharing.steeperIndex.next(3);
+  // }
+  // goToNext(){
+  //   this.dataSharing.steeperIndex.next(5);
+  // }
 
   back() {
     window.history.back();

@@ -46,6 +46,7 @@ import { ET_ALPHABET_REGEX } from '../../../const/consts';
   providers: [ConfigurationService]
 })
 export class ProjectProfileFormComponent implements OnInit, AfterContentChecked {
+  // @ViewChild('stepper') stepper: MatStepper;
   @ViewChild('costF') costForm: NgForm;
   formOfOwnershipList: FormOfOwnershipModel[] = [];
   subscription: Subscription;
@@ -176,12 +177,12 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
     // this.getDate();
-    this.getUserType();
+    // this.getUserType();
     this.fillAddressLookups();
     this.formBuild();
     this.updateDateRange();
     this.formControlValueChanged();
-    
+
     this.initStaticData('en');
     if (this.projectId > 1) {
       this.getProjectDetail();
@@ -415,8 +416,8 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
         this.projectProfileService.update(this.projectForm.value, this.projectIdEditing)
           .subscribe(result => {
             this.projectId = result.ProjectId;
-
             this.notification('project updated');
+            console.log("project updated")
             this.saveAddress();
           });
       }
@@ -430,24 +431,48 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       ParentId: this.projectId
     });
     if (this.editMode && typeof (this.addressId) !== 'undefined') {
+      // console.log("hhkhksdhfkjshdf");
+      // console.log(this.dataSharing.steeperIndex.sub);
+      // console.log(this.dataSharing.currentIndex.next)
+      // this.dataSharing.steeperIndex
+      //   .subscribe(index => {
+      //     console.log("steeper index" ,index)
+      //   })
+    
+      // return;
       this.addressService.updateAddress(this.projectForm.get('address').value, this.addressId)
         .subscribe(result => {
           this.notification('address updated');
+          this.dataSharing.currentIndex
+            .subscribe(index => {
+              console.log(index)
+              if(index == null || index == 0){
+                setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+                setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+              }
+            })
         });
-      setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
-      setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
     } else {
       console.log(this.projectForm.get('address').value);
       this.addressService.saveAddress(this.projectForm.get('address').value)
         .subscribe(result => {
+         
           setTimeout(() => this.dataSharing.projectId.next(this.projectId), 0);
           this.notification('address saved');
-          setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
+          setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
           setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+          // this.dataSharing.currentIndex
+          //   .subscribe(index => {
+          //     console.log(index)
+          //     if(index == null || index == 0){
+          //       setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+          //       setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+          //     }
+          //   })
         });
     }
   }
- 
+
   formBuild() {
     console.log(this.ServiceId);
     this.projectForm = this.formBuilder.group({
@@ -607,8 +632,9 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       return item.SiteCode !== 'OnlineSite';
     });
   }
-  goToNext() {
-    setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
-  }
+  // goToNext() {
+  //   console.log(this.dataSharing)
+  //   setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+  // }
 
 }

@@ -37,7 +37,7 @@ namespace CUSTOR.EICOnline.DAL
                 //int m = (int)AddressType.eInvestor;
 
                 add = await Context.Address
-                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eInvestor);
+                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eInvestor);
 
                 foreach (var item in catagory)
                 {
@@ -56,6 +56,7 @@ namespace CUSTOR.EICOnline.DAL
 
             return InvestorHelper.GetInvestorDTO(investor, add, cat.ToArray());
         }
+
         public async Task<InvestorAuditDTO> GetInvestorAudit(int InvestorId)
         {
             InvestorAudit investor = null;
@@ -72,7 +73,7 @@ namespace CUSTOR.EICOnline.DAL
                 //int m = (int)AddressType.eInvestor;
 
                 add = await Context.Address
-                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eInvestor);
+                    .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eInvestor);
 
                 foreach (var item in catagory)
                 {
@@ -91,14 +92,15 @@ namespace CUSTOR.EICOnline.DAL
 
             return InvestorHelper.GetInvestorAuditDTO(investor, add, cat.ToArray());
         }
+
         public async Task<InvestorDTO> SaveInvestorAsync(InvestorDTO postedInvestor, ApplicationUser appUser)
         {
             bool isUpdate = (postedInvestor.InvestorId > 0);
             Investor inv = InvestorHelper.GetInvestor(postedInvestor);
-           
+
             ServiceApplication existingServiceApplication = null;
             //ServiceApplication serviceApplication = null;
-            int ServiceId = 1269;
+            int ServiceId = 1237;
             var service = Context.Service.FirstOrDefault(s => s.ServiceId == ServiceId);
             using (var transaction = await Context.Database.BeginTransactionAsync())
             {
@@ -106,7 +108,8 @@ namespace CUSTOR.EICOnline.DAL
                 {
                     if (isUpdate)
                     {
-                        existingServiceApplication = Context.ServiceApplication.FirstOrDefault(s => s.ServiceApplicationId == postedInvestor.ServiceApplicationId);
+                        existingServiceApplication = Context.ServiceApplication.FirstOrDefault(s =>
+                            s.ServiceApplicationId == postedInvestor.ServiceApplicationId);
                         existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
                         postedInvestor.ServiceApplicationId = postedInvestor.ServiceApplicationId;
                         Context.Update(existingServiceApplication);
@@ -121,7 +124,7 @@ namespace CUSTOR.EICOnline.DAL
                         var squence = Context.Squences.FirstOrDefault();
                         var lastSe = squence.LastSquence + 1;
                         var perminumber = lastSe.ToString();
-                       
+
                         var sa = new ServiceApplication
                         {
                             InvestorId = inv.InvestorId,
@@ -173,16 +176,13 @@ namespace CUSTOR.EICOnline.DAL
                 }
                 catch (Exception ex)
                 {
-                   
                     string s = ex.Message;
                     throw new Exception(ex.InnerException.ToString());
                     transaction.Rollback();
                 }
-
             }
 
             return postedInvestor;
-            
         }
 
         public override async Task<Investor> GetRecord(object InvestorId)
@@ -190,7 +190,7 @@ namespace CUSTOR.EICOnline.DAL
             Investor investor = null;
             try
             {
-                int id = (int)InvestorId;
+                int id = (int) InvestorId;
                 investor = await Context.Investors
                     //.Include(p => p.Associate)
                     .FirstOrDefaultAsync(inv => inv.InvestorId == id);
@@ -208,12 +208,13 @@ namespace CUSTOR.EICOnline.DAL
             return investor;
         }
 
-        public async Task <ServiceApplication> GetUserServiceApplication (int investorId)
+        public async Task<ServiceApplication> GetUserServiceApplication(int investorId)
         {
             try
             {
                 var serviceApplication = await Context.ServiceApplication
-                                   .FirstOrDefaultAsync(s => s.InvestorId == investorId && s.ServiceId == 1269);
+                    .FirstOrDefaultAsync(s => s.InvestorId == investorId && s.ServiceId == 1237);
+
                 return serviceApplication;
             }
             catch (Exception ex)
@@ -222,12 +223,13 @@ namespace CUSTOR.EICOnline.DAL
                 throw new Exception(ex.InnerException.ToString());
             }
         }
+
         public async Task<List<Investor>> GetRecordByUserId(object UserId)
         {
             List<Investor> investor = null;
             try
             {
-                string id = (string)UserId;
+                string id = (string) UserId;
                 investor = await Context.Investors
                     .Where(inv => inv.UserId == id)
                     .ToListAsync();
@@ -250,7 +252,7 @@ namespace CUSTOR.EICOnline.DAL
             List<Investor> investor = null;
             try
             {
-                string id = (string)Tin;
+                string id = (string) Tin;
                 investor = await Context.Investors
                     .Where(inv => inv.Tin == id)
                     .ToListAsync();
@@ -268,7 +270,7 @@ namespace CUSTOR.EICOnline.DAL
             return investor;
         }
 
-       
+
         public async Task<List<Investor>> FindInvestor(SearchInvestorDto searchInvestorDto)
         {
             List<Investor> investor = null;
@@ -359,11 +361,14 @@ namespace CUSTOR.EICOnline.DAL
 
             return await investors.ToListAsync();
         }
+
         public async Task<ServiceApplication> CheckUserServiceApplicationStatus(int serviceApplicationId)
         {
             try
             {
-                var serviceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == serviceApplicationId);
+                var serviceApplication =
+                    await Context.ServiceApplication.FirstOrDefaultAsync(s =>
+                        s.ServiceApplicationId == serviceApplicationId);
                 return serviceApplication;
             }
             catch (Exception ex)
@@ -372,12 +377,15 @@ namespace CUSTOR.EICOnline.DAL
                 throw new Exception(ex.InnerException.ToString());
             }
         }
+
         public async Task<ServiceApplication> finishProjectServiceApplication(int serviceApplicationId)
         {
             ServiceApplication existingServiceApplication = null;
             try
             {
-                existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == serviceApplicationId);
+                existingServiceApplication =
+                    await Context.ServiceApplication.FirstOrDefaultAsync(s =>
+                        s.ServiceApplicationId == serviceApplicationId);
                 existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
                 existingServiceApplication.CurrentStep = 3;
                 existingServiceApplication.IsActive = true;
@@ -391,9 +399,8 @@ namespace CUSTOR.EICOnline.DAL
                 string s = ex.Message;
                 throw new Exception(ex.InnerException.ToString());
             }
-
-
         }
+
         public async Task<bool> DeleteInvestor(int id)
         {
             using (var transaction = await Context.Database.BeginTransactionAsync())
@@ -414,7 +421,7 @@ namespace CUSTOR.EICOnline.DAL
 
 
                     var add = await Context.Address
-                        .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int)AddressType.eManager);
+                        .FirstOrDefaultAsync(a => a.ParentId == id && a.AddressType == (int) AddressType.eManager);
 
                     if (add != null)
                     {

@@ -7,7 +7,7 @@
     <mat-card-content>
 
       <div style="margin-bottom: 40px;" *ngIf="ServiceId=='1234'" fxLayout="row" fxLayoutAlign="start center"
-           fxLayoutGap="2em">
+        fxLayoutGap="2em">
         <div class="block" fxFlex="" style="margin-left: 20px">
           <mat-form-field>
             <mat-label>Quarter</mat-label>
@@ -21,10 +21,8 @@
         </div>
         <div class="block" fxFlex>
           <mat-form-field>
-            <input placeholder="Registration Year* :"
-                   matInput
-                   formControlName="RegistrationYear"
-                   [matDatepicker]="RegistrationYear">
+            <input placeholder="Registration Year* :" matInput formControlName="RegistrationYear"
+              [matDatepicker]="RegistrationYear">
             <mat-datepicker-toggle matSuffix [for]="RegistrationYear"></mat-datepicker-toggle>
             <mat-datepicker #RegistrationYear></mat-datepicker>
             <!--<mat-error align="start" *ngIf="formErrors.RegistrationYear" class="form__error">-->
@@ -62,36 +60,29 @@
         <div class="block" fxFlex="">
           <mat-form-field>
             <mat-label>Electric Power (kwh) :</mat-label>
-            <input name="ElectricPower"
-                   type="number"
-                   matInput  formControlName="ElectricPower" [maxlength]="16">
-            <mat-error align="start" *ngIf="formErrors.ElectricPower" class="form__error">{{ formErrors.ElectricPower }}</mat-error>
+            <input name="ElectricPower" type="number" matInput formControlName="ElectricPower" [maxlength]="16">
+            <mat-error align="start" *ngIf="formErrors.ElectricPower" class="form__error">{{ formErrors.ElectricPower }}
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="block" fxFlex="">
           <mat-form-field>
             <mat-label>Water (m2) :</mat-label>
-            <input type="number"
-                   matInput
-                   formControlName="Water">
+            <input type="number" matInput formControlName="Water">
             <mat-error align="start" *ngIf="formErrors.Water">{{ formErrors.Water }}</mat-error>
           </mat-form-field>
         </div>
         <div class="block" fxFlex="">
           <mat-form-field>
             <mat-label>Other Utility :</mat-label>
-            <input type="number"
-                   matInput
-                   formControlName="OtherUtility">
+            <input type="number" matInput formControlName="OtherUtility">
             <mat-error align="start" *ngIf="formErrors.OtherUtility">{{ formErrors.OtherUtility }}</mat-error>
           </mat-form-field>
         </div>
         <div class="block" fxFlex="">
           <mat-form-field>
             <mat-label>Land Industrial (Sq.m) :</mat-label>
-            <input type="number"
-                   matInput
-                   formControlName="LandIndustrial">
+            <input type="number" matInput formControlName="LandIndustrial">
             <mat-error align="start" *ngIf="formErrors.LandIndustrial">{{ formErrors.LandIndustrial }}</mat-error>
           </mat-form-field>
         </div>
@@ -100,9 +91,7 @@
         <div class="block" fxFlex="25%">
           <mat-form-field>
             <mat-label>Land Agricultural (Sq.m) :</mat-label>
-            <input type="number"
-                   matInput
-                   formControlName="LandAgricultural">
+            <input type="number" matInput formControlName="LandAgricultural">
             <mat-error align="start" *ngIf="formErrors.LandAgricultural">{{ formErrors.LandAgricultural }}</mat-error>
           </mat-form-field>
         </div>
@@ -149,41 +138,22 @@
     </mat-card-content>
     <mat-divider></mat-divider>
     <div style="padding-top: 20px" align="center">
-      <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2em">
-
-        <div fxFlex="15">
-
-          <!--<button class="custom-button" (click)="next()" color="warn" type="button">-->
-          <!--Back-->
-          <!--</button>-->
-        </div>
-        <mat-card-actions fxLayoutAlign="end end">
+        <mat-card-actions fxLayoutAlign="center end">
           <button *ngIf="!editMode" [disabled]="!pIOform.valid" mat-raised-button="" color="primary"
-                  (click)="onSubmit()">
-            <mat-icon class="mat-18">done</mat-icon>
-            <span class="agree">Save</span>
-
+            (click)="onSubmit()">
+            {{'common.commands.Save'|translate}}
           </button>
-          <button *ngIf="editMode" [disabled]="!pIOform.valid" class="custom-button" (click)="onSubmit()">
-            <mat-icon class="mat-18">done</mat-icon>
-            <span>Update</span>
+          <button *ngIf="editMode" [disabled]="!pIOform.valid" color="primary" mat-raised-button (click)="onSubmit()">
+            {{'common.commands.Update'|translate}}
           </button>
-           
+         
+          <!-- <button mat-raised-button color="warn" *ngIf="!isInvestor" (click)="goBack()">
+            {{'common.commands.Back'|translate}}
+          </button>
+          <button mat-raised-button color="link" *ngIf="!isInvestor" (click)="goToNext()">
+            {{'common.commands.Next'|translate}}
+          </button> -->
         </mat-card-actions>
-        <div fxFlex="15">
-
-          <!--<button [disabled]="!pIOform.valid" class="custom-button" (click)="next()" color="warn" type="button">-->
-          <!--Next-->
-          <!--</button>-->
-        </div>
-
-      </div>
     </div>
   </form>
-  <mat-card-actions>
-    <button mat-raised-button color="primary"
-      (click)="goToNext()">{{'common.commands.Next'|translate}}
-    </button>
-  </mat-card-actions>
 </mat-card>
-

@@ -48,7 +48,7 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
     this.investorName = localStorage.getItem('investorName');
     this.currentPosition = 'f';
     this.ServiceId = localStorage.getItem('ServiceId');
-    this.getUserType();
+    // this.getUserType();
   }
   getUserType() {
       this.isInvestor = this.accountService.getUserType();
@@ -102,7 +102,10 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
 
   next() {
     console.log(this.ServiceId)
-    console.log(this.isInvestor)
+    console.log(this.steeperIndex)
+    console.log(this.upeerLimit)
+    console.log(this.steeperIndex < this.upeerLimit)
+    // console.log(this.isInvestor)
     if (this.ServiceId === '1234') {
       this.toast.warning('You can not go next because you have not privilege');
     } else {
@@ -115,6 +118,23 @@ export class ProjectStepperComponent implements OnInit, AfterViewInit, AfterCont
         this.steeperIndex++;
         this.stepper.selectedIndex = this.steeperIndex;
         console.log("or here")
+      }
+      else if (this.steeperIndex == 6){
+        console.log(this.currentPosition)
+        if (this.currentPosition === 'f'){
+          setTimeout(() => this.dataSharing.steeperIndex.next(7), 0);
+          setTimeout(() => this.dataSharing.currentIndex.next(8), 0);
+          console.log("exceptional")
+        }
+      }
+      else{
+        this.upeerLimit;
+        console.log("final else")
+        console.log(this.steeperIndex)
+        console.log(this.upeerLimit)
+        setTimeout(() => this.dataSharing.steeperIndex.next(this.steeperIndex), 0);
+        setTimeout(() => this.dataSharing.currentIndex.next(this.steeperIndex++), 0);
+        this.stepper.selectedIndex = this.upeerLimit;
       }
     }
   }

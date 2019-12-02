@@ -99,9 +99,12 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
   public isInvestor: boolean;
   private isNew: any;
   private CurrentUserId: string;
-  existingServiceApplication : any;
-  serviceApplicationStatus : any;
-  investorId : any;
+  public tinExist: boolean;
+  existingServiceApplication: any;
+  serviceApplicationStatus: any;
+
+  investorId: any;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               public dataSharing: DataSharingService,
@@ -129,8 +132,8 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
 
 
   ngOnInit() {
-    
-  
+
+
     this.loadingIndicator = false;
     this.currentLang = this.configService.language;
     this.initStaticData('this.currentLang');
@@ -141,7 +144,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.getMajorDivisions();
     this.checkServiceApplication();
     const id = this.route.snapshot.params['InvestorId'];
-   
+
     if (this.ServiceId !== undefined && this.ServiceId == ServiceEnum.CommercialRegistration) {
       this.isCommercialReg = true;
     }
@@ -158,6 +161,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.getInvestor(id);
     }
   }
+
   checkServiceApplication() {
     this.custService.getUserServiceApplication(this.investorId).subscribe(res => {
       console.log(res)
@@ -167,6 +171,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       console.log(this.existingServiceApplication)
     })
   }
+
   get canManageInvestors() {
     return this.accountService.userHasPermission(Permission.manageInvestorsPermission);
   }
@@ -345,7 +350,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     });
   }
 
- 
+
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
     console.log(this.isInvestor);
@@ -367,55 +372,57 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     const cFather = this.investorForm.get('cFatherName');
     this.legalStatus.valueChanges.subscribe(
       (intLegal: number) => {
-        // alert(intLegal)
         if (intLegal === 1) { // Sole
           // // console.log(intLegal);
-            this.ClearCompanyValidators();
-            this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-              Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-            this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
-              Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-
-            this.grandNameEng.setValidators([Validators.compose([Validators.minLength(1), Validators.maxLength(15),
+          this.ClearCompanyValidators();
+          this.firstNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
             Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
-          this.firstName.setValidators([Validators.compose([ Validators.minLength(2),
+          this.fatherNameEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15),
+            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+
+          this.grandNameEng.setValidators([Validators.compose([Validators.minLength(1), Validators.maxLength(15),
+
+            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+          this.grandNameEng.setValidators([Validators.compose([Validators.minLength(1), Validators.maxLength(15),
+            Validators.pattern(ALPHABET_WITHSPACE_REGEX)])]);
+          this.firstName.setValidators([Validators.compose([Validators.minLength(2),
             Validators.pattern(ET_ALPHABET_REGEX)])]);
           if (!this.isInvestor) {
-          this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
-            Validators.pattern(ET_ALPHABET_REGEX)])]);
-          }
-            this.fatherName.setValidators([Validators.compose([ Validators.minLength(2),
+            this.firstName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
+          }
+          this.fatherName.setValidators([Validators.compose([Validators.minLength(2),
+            Validators.pattern(ET_ALPHABET_REGEX)])]);
           if (!this.isInvestor) {
             this.fatherName.setValidators([Validators.compose([Validators.required, Validators.minLength(2),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
           }
-            this.grandName.setValidators([Validators.compose([ Validators.minLength(1), Validators.maxLength(50)])]);
+          this.grandName.setValidators([Validators.compose([Validators.minLength(1), Validators.maxLength(50)])]);
           if (!this.isInvestor) {
 
             this.grandName.setValidators([Validators.compose([Validators.minLength(1), Validators.maxLength(50),
               Validators.pattern(ET_ALPHABET_REGEX)])]);
           }
-            this.woreda.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15)])]);
+          this.woreda.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15)])]);
           if (!this.isInvestor) {
             this.woreda.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15)])]);
           }
-            this.woredaEng.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15)])]);
+          this.woredaEng.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15)])]);
           if (!this.isInvestor) {
             this.woredaEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15)])]);
           }
-            this.kebele.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15)])]);
+          this.kebele.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15)])]);
           if (!this.isInvestor) {
             this.kebele.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15)])]);
           }
-            this.kebeleEng.setValidators([Validators.compose([ Validators.minLength(2), Validators.maxLength(15)])]);
+          this.kebeleEng.setValidators([Validators.compose([Validators.minLength(2), Validators.maxLength(15)])]);
           if (!this.isInvestor) {
             this.kebeleEng.setValidators([Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(15)])]);
           }
-            this.email.setValidators(Validators.compose([Validators.pattern(EMAIL_REGEX)]));
-            this.phoneDirect.setValidators(Validators.compose([Validators.pattern(NUMERIC_WITHPERIOD_REGEX), Validators.maxLength(10)]));
-            this.nationality.setValidators([Validators.required]);
-            this.gender.setValidators([Validators.required]);
+          this.email.setValidators(Validators.compose([Validators.pattern(EMAIL_REGEX)]));
+          this.phoneDirect.setValidators(Validators.compose([Validators.pattern(NUMERIC_WITHPERIOD_REGEX), Validators.maxLength(10)]));
+          this.nationality.setValidators([Validators.required]);
+          this.gender.setValidators([Validators.required]);
           // this.Title.setValidators([Validators.required]);
           this.isCompany = false;
         } else {
@@ -431,7 +438,7 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
             Validators.pattern(ET_ALPHABET_REGEX), Validators.minLength(2),
             Validators.maxLength(100)])]);
           if (!this.isInvestor) {
-            this.companyName.setValidators([Validators.compose([ Validators.required,
+            this.companyName.setValidators([Validators.compose([Validators.required,
               Validators.pattern(ET_ALPHABET_WITHSPACEANDNUMBER_REGEX), Validators.minLength(2),
               Validators.maxLength(100)])]);
           }
@@ -746,6 +753,19 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
     return a1 === a2;
   }
 
+  private getTinNumberCount() {
+    this.custService.getInvestorByTIN(this.tin.value)
+      .subscribe(result => {
+          if (result) {
+            this.tinExist = true;
+            console.log(this.tinExist)
+          }
+        },
+        error => {
+          this.toastr.error(`Error: "${Utilities.getHttpResponseMessage(error)}"`);
+        });
+  }
+
   public onSubmit() {
     // put dummy values to avoid conditional validation issues
     if (this.isCompany) {
@@ -789,6 +809,13 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.toastr.error('TIN must be 10 digits long');
       return;
     }
+    // if (this.route.snapshot.params['InvestorId'] == 0) {
+    //   this.getTinNumberCount();
+    //   if (this.tinExist) {
+    //     this.toastr.error('This TIN Number Exist');
+    //     return;
+    //   }
+    // }
     // if (this.investorForm.get('ZoneId').value < 1) {
     //   this.toastr.error('Please select zone');
     //   return;
@@ -838,10 +865,9 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
               setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
             } else {
               console.log("am here")
-              if(this.ServiceApplicationId != undefined){
-                this.router.navigate(['investor-profile/' + investor.InvestorId +'/'+this.ServiceApplicationId]);
-              }
-              else{
+              if (this.ServiceApplicationId != undefined) {
+                this.router.navigate(['investor-profile/' + investor.InvestorId + '/' + this.ServiceApplicationId]);
+              } else {
                 this.router.navigate(['investor-profile/' + investor.InvestorId])
               }
               setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
@@ -857,13 +883,15 @@ export class EditInvestorComponent implements OnInit, AfterViewInit, OnDestroy, 
         err => this.handleError(err)
       );
   }
-  next(){
+
+  next() {
     console.log(this.dataSharing.currentIndex)
     // this.dataSharing.currentIndex.next(2);
     // this.router.navigate(['investor-profile/' + this.investor + '/' + this.ServiceApplicationId]);
     setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
     setTimeout(() => this.dataSharing.currentIndex.next(1), 0);
   }
+
   getRegistrationCatagoryData(Tin: string) {
     this.registrationCatagoryService.getRegistrationCatagoriesByTin(Tin)
       .subscribe((result: RegistrationCatagory[]) => {

@@ -65,7 +65,7 @@
            fxLayoutAlign.xs="start center"
            fxLayoutGap="2em">
         <div fxLayout.xs="row wrap" fxLayoutGap="2em">
-          <div fxFlex="">
+          <div [fxFlex]="20">
             <mat-form-field>
               <mat-label>Product/Service Name</mat-label>
               <input type="text" matInput
@@ -102,7 +102,7 @@
           <!--<mat-error align="start" *ngIf="formErrors.ProductValue">{{ formErrors.ProductValue }}-->
           <!--</mat-error>-->
           <!--</mat-form-field>-->
-          <div fxLayout.xs="row wrap"
+          <div
                fxLayoutGap="2em"
                formGroupName="sharePercent">
             <div>
@@ -251,3 +251,11 @@
   </div>
 </mat-card>
 
+  <!-- <mat-card-actions fxLayoutAlign="center end" *ngIf="!isInvestor">
+    <button color="warn" mat-raised-button (click)="goBack()">
+      {{'common.commands.Back'|translate}}
+    </button>
+    <button mat-raised-button color="link" (click)="goToNext()">
+      {{'common.commands.Next'|translate}}
+    </button>
+  </mat-card-actions> -->

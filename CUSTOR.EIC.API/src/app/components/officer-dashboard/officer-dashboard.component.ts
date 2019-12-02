@@ -1,9 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatTableDataSource} from '@angular/material';
 
 import {ServiceApplicationService} from '../../Services/service-application.service';
 import {Permission} from '../../model/security/permission.model';
 import {AccountService} from '@custor/services/security/account.service';
+import {NotificationModel} from "../../model/Notification.model";
+import {NotificationService} from "../../Services/notification.service";
+import {ErrorMessage} from "@custor/services/errMessageService";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'officer-dashboard',
@@ -63,9 +67,15 @@ export class OfficerDashboardComponent implements OnInit {
   projectStageSum: any [];
   legendPosition = 'Right';
   showLegendP1 = false;
-
+  loading = true;
+  public notitficationList: NotificationModel[];
+  public dataSourceNotitification: MatTableDataSource<NotificationModel>;
+  displayedColumnsNotification = ['subject', 'date', 'message', 'Action'];
   constructor(public dialog: MatDialog,
               private accountService: AccountService,
+              private errMsg: ErrorMessage,
+              private router: Router,
+              private notifificationService: NotificationService,
               private serviceApplicationService: ServiceApplicationService) {
     // Object.assign(this, {single});
 
@@ -74,12 +84,37 @@ export class OfficerDashboardComponent implements OnInit {
 
 
   ngOnInit() {
+    this.getAllNotificationByUserName(this.accountService.currentUser.UserName);
+
     // this.getAllService();
   }
 
 
+  getAllNotificationByUserName(userName: any) {
+    this.notifificationService.CountNotificationByUserName(userName)
+      .subscribe(result => {
+        this.dataSourceNotitification = new MatTableDataSource<NotificationModel>(result);
+        console.log(result)
+        this.loading = false;
+        this.notitficationList = result;
+        //this.filterNotification(result);
+      }, error => this.errMsg.getError(error));
+  }
 
+  filterNotification(notification: NotificationModel[]) {
+    // // console.log(notification);
+    this.notitficationList = [];
+    for (let i = 0; i < notification.length; i++) {
+      if (notification[i].isActive === true) {
 
+        this.notitficationList.push(notification[i]);
+      }
+    }
+
+  }
+  viewNotificationDetail() {
+    this.router.navigate(['appointment']);
+  }
 
   get canViewTasks() {
     return this.accountService.userHasPermission(Permission.viewServiceList);

@@ -179,8 +179,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
           if (this.authService.isLoggedIn) {
             setTimeout(() => this.isLoggedIn$ = observableOf(true));
-            this.countNotification(this.accountService.currentUser.Id);
             this.getUserType();
+            if (this.isInvestor) {
+              this.countNotification(this.accountService.currentUser.Id);
+            } else {
+              this.countNotificationByUserNames(this.accountService.currentUser.UserName);
+            }
             // this.CheckLoginStatus();
 
           } else {
@@ -189,9 +193,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         } else {
           if (this.authService.isLoggedIn) {
             setTimeout(() => this.isLoggedIn$ = observableOf(true));
-            this.countNotification(this.accountService.currentUser.Id);
             this.getUserType();
-
+            if (this.isInvestor) {
+              this.countNotification(this.accountService.currentUser.Id);
+            } else {
+              this.countNotificationByUserNames(this.accountService.currentUser.UserName);
+            }
 
           } else {
             setTimeout(() => this.isLoggedIn$ = observableOf(false));
@@ -210,8 +217,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
-  //  alert(this.isInvestor);
-
   }
 
   CheckLoginStatus() {
@@ -273,7 +278,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
       this.router.navigate(['/investor-tab/1235/' + 0 + '/' + 0 + '/' + 0 + '/' + 0]);
     } else {
       this.router.navigate(['search-browser/' + serviceId + '/' + 0 + '/' + 0 + '/' + this.isTitle]);
-
     }
     // }
   }
@@ -307,7 +311,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
         this.numberOfNotification = result;
       });
   }
-
+  countNotificationByUserNames(userName: any) {
+    this.notificationService.CountNotificationByUserNames(userName)
+      .subscribe(result => {
+        this.numberOfNotification = result;
+      });
+  }
   ngAfterContentChecked(): void {
     this.isLogged = localStorage.getItem('loggIn');
 
@@ -322,7 +331,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
   }
 
   Investor() {
-    
+
     console.log(localStorage.getItem('InvestorId'))
     if (localStorage.getItem('InvestorId') !== null || localStorage.getItem('profile-completed') == 'false') {
       if (localStorage.getItem('profile-completed') == 'false') {

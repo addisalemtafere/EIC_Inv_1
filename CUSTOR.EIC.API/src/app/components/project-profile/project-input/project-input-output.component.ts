@@ -70,7 +70,7 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
     this.workFlowId = this.route.snapshot.params['workFlowId'];
     this.ServiceApplicationId = this.route.snapshot.params['ServiceApplicationId'];
     this.projectId = this.route.snapshot.params['ProjectId'];
-    this.getUserType();
+    // this.getUserType();
     if (this.ServiceId === '1234') {
       this.getProjectStatus(this.route.snapshot.params['ProjectId']);
     }
@@ -83,9 +83,14 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
   getUserType() {
     this.isInvestor = this.accountService.getUserType();
   }
-  goToNext() {
-    setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
-  }
+  // goToNext() {
+  //   setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
+  // }
+  // goBack() {
+  //   console.log("go back")
+  //   this.dataSharing.steeperIndex.next(0);
+  //   setTimeout(() => this.dataSharing.steeperIndex.next(0), 0);
+  // }
 
   getProjectRequirement() {
     this.pRequirementService.RequirementByProject(this.projectId).subscribe(result => {
@@ -108,7 +113,9 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
         this.pRequirementService.create(this.getUtility())
           .subscribe(result => {
             this.notification('Saved');
-            setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+            // setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+            // setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
+            setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
             setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
 
           }, error => this.toastr.error(this.errMsg.getError(error)));
@@ -116,9 +123,19 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
         this.pRequirementService.update(this.getUtility(), this.rawInputId)
           .subscribe(result => {
             this.notification('update');
-            // this.dataSharing.currentIndex.next(3);
-            setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+            console.log("hererererere");
+            setTimeout(() => this.dataSharing.steeperIndex.next(2), 0);
             setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
+            // this.dataSharing.currentIndex
+            //   .subscribe(index => {
+            //     console.log(index)
+            //     if (index) {
+            //       
+            //     }
+            //   })
+            // this.dataSharing.currentIndex.next(3);
+            // setTimeout(() => this.dataSharing.steeperIndex.next(3), 0);
+            // setTimeout(() => this.dataSharing.currentIndex.next(3), 0);
           }, error => this.toastr.error(this.errMsg.getError(error)));
       }
     } else {
@@ -160,9 +177,9 @@ export class ProjectInputOutputComponent implements OnInit, AfterContentChecked 
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
 
     this.loading = false;
-    this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
-      duration: 3000,
-    });
+    // this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
+    //   duration: 3000,
+    // });
   }
 
   getUtility(): ProjectRequirementModel {

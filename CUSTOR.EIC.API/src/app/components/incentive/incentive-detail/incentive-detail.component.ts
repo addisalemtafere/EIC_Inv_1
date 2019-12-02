@@ -107,7 +107,7 @@ export class IncentiveDetailComponent implements OnInit {
 
   initForm() {
     this.incentiveDetailForm = this.fb.group({
-      //IncentiveCategoryId: ['', Validators.required]
+      IncentiveCategoryId: ['']
     });
   }
 
@@ -159,9 +159,7 @@ export class IncentiveDetailComponent implements OnInit {
     this.currentCategoryId = categoryCode;
     console.log(this.currentCategoryId);
     if (categoryCode === 10778 || categoryCode === 10782 || categoryCode === 10777) {
-
       this.isVisibleShowBalance = true;
-
     } else {
       this.isVisibleShowBalance = false;
     }
@@ -186,6 +184,8 @@ export class IncentiveDetailComponent implements OnInit {
   showLetter() {
     this.serviceId = 0;
     this.serviceApplicationId = 0;
+    // console.log('letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + 1)
+    // return
     this.router.navigate(['letter/' + this.projectId + '/' + this.serviceId + '/' + this.serviceApplicationId + '/' + 1]);
   }
 

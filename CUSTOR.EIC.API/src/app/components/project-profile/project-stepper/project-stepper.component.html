@@ -24,7 +24,7 @@
   </mat-tab>
   <mat-tab [disabled]="nextIndex <1 || ServiceId==='1234'" label="Profile">
     <ng-template matTabContent>
-      <div fxLayout="row" fxLayoutAlign="center">
+      <!-- <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
           <button class="next-button" (click)="back()" type="button">
             Back
@@ -37,7 +37,7 @@
             Next
           </button>
         </div>
-      </div>
+      </div> -->
 
       <app-project-profile-form></app-project-profile-form>
 
@@ -46,7 +46,7 @@
   <mat-tab [disabled]="nextIndex<2 || ServiceId==='1234'" label="Input">
     <ng-template matTabContent>
 
-      <div fxLayout="row" fxLayoutAlign="center">
+      <!-- <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
           <button class="next-button" (click)="back()" type="button">
             Back
@@ -59,7 +59,7 @@
             Next
           </button>
         </div>
-      </div>
+      </div> -->
       <app-project-input-output></app-project-input-output>
     </ng-template>
   </mat-tab>
@@ -82,9 +82,9 @@
       <app-raw-material-form></app-raw-material-form>
     </ng-template>
   </mat-tab>
-  <mat-tab [disabled]="nextIndex<3" label="Cost">
+  <mat-tab [disabled]="nextIndex<4" label="Cost">
     <ng-template matTabContent>
-      <div fxLayout="row" fxLayoutAlign="center">
+      <!-- <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
           <button class="next-button" (click)="back()" type="button">
             Back
@@ -97,13 +97,13 @@
             Next
           </button>
         </div>
-      </div>
+      </div> -->
       <app-project-cost></app-project-cost>
     </ng-template>
   </mat-tab>
   <mat-tab [disabled]="nextIndex<5 || ServiceId==='1234'" label="Employment">
     <ng-template matTabContent>
-      <div fxLayout="row" fxLayoutAlign="center">
+      <!-- <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
           <button class="next-button" (click)="back()" type="button">
             Back
@@ -116,7 +116,7 @@
             Next
           </button>
         </div>
-      </div>
+      </div> -->
       <app-project-employment></app-project-employment>
     </ng-template>
   </mat-tab>
@@ -139,7 +139,7 @@
       <app-project-share></app-project-share>
     </ng-template>
   </mat-tab>
-  <mat-tab [disabled]="nextIndex<6 || ServiceId==='1234'" label="Product">
+  <mat-tab [disabled]="nextIndex < 7 || ServiceId==='1234'" label="Product">
     <ng-template matTabContent>
       <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">
@@ -177,7 +177,7 @@
       <app-service-prerequisite></app-service-prerequisite>
     </ng-template>
   </mat-tab>
-  <mat-tab [disabled]="nextIndex<8|| ServiceId==='1234'" label="Manager">
+  <mat-tab [disabled]="nextIndex<9|| ServiceId==='1234'" label="Manager">
     <ng-template matTabContent>
       <div fxLayout="row" fxLayoutAlign="center">
         <div fxFlex="15">

@@ -38,4 +38,16 @@ export class NotificationService extends BaseService<NotificationModel> {
       catchError(this.errMsg.parseObservableResponseError)
     );
   }
+  CountNotificationByUserName(id: number): Observable<any> {
+    return this.httpClient.get<any>(this.appConfig.urls.url('ByUserName') + '/' + id).pipe(
+      map((data: any) => data as any),
+      catchError(this.errMsg.parseObservableResponseError)
+    );
+  }
+  CountNotificationByUserNames(id: number): Observable<any> {
+    return this.httpClient.get<any>(this.appConfig.urls.url('CountNotificationByUserName') + '/' + id).pipe(
+      map((data: any) => data as any),
+      catchError(this.errMsg.parseObservableResponseError)
+    );
+  }
 }

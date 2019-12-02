@@ -189,13 +189,13 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
       const workFlowId = (serviceApplication.ServiceWorkflow[0].ServiceWorkflowId) ? serviceApplication.ServiceWorkflow[0].ServiceWorkflowId : 0;
       this.step = (serviceApplication.ServiceWorkflow[0].NextStepId) ? serviceApplication.ServiceWorkflow[0].NextStepId : 0;
     }
-      
+
     const id = serviceApplication.ServiceApplicationId;
     const projectId = serviceApplication.ProjectId;
     const serviceId = serviceApplication.ServiceId;
     const investorId = serviceApplication.InvestorId;
     const workFlowId = 0;
-    
+
     console.log(this.step);
    let stepIndex;
     switch (this.step) {
@@ -341,8 +341,17 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
 
     localStorage.setItem('investorName', investorName);
     localStorage.setItem('projectName', projectName);
-    setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
-    setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
+    this.dataSharing.currentIndex
+      .subscribe(index => {
+        console.log(index)
+        if (index == 0) {
+          setTimeout(() => this.dataSharing.steeperIndex.next(0), 0);
+          //setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+        }
+      });
+     // return;
+    // setTimeout(() => this.dataSharing.steeperIndex.next(stepIndex), 0);
+    // setTimeout(() => this.dataSharing.currentIndex.next(stepIndex), 0);
 
     switch (serviceId) {
       case ServiceEnum.NewIP:
@@ -405,7 +414,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
     if (serviceId == 1239){
       this.router.navigate(['investor-profile/' + investorId + '/' + serviceApplicationId + '/' + serviceId]);
     }
-    
+
   }
   getAllService() {
     this.service.getAll()

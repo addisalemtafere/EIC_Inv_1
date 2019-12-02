@@ -35,6 +35,7 @@ export class ProjectCostComponent
   implements OnInit, OnDestroy, AfterContentChecked {
   editMode = false;
   loading = false;
+  isInvestor : boolean;
   // subscription: Subscription;
   costId: number;
   projectId: number;
@@ -101,7 +102,7 @@ export class ProjectCostComponent
       'ServiceApplicationId'
       ];
     this.projectId = this.route.snapshot.params['ProjectId'];
-
+    // this.getUserType();
     if (this.ServiceId == '1234') {
       // this.projectId = this.route.snapshot.params['ProjectId']
       this.getProjectStatus(this.projectId);
@@ -115,7 +116,9 @@ export class ProjectCostComponent
     this.getExchangeRate();
     this.formControlValueChanged();
   }
-
+  getUserType() {
+    this.isInvestor = this.accountService.getUserType();
+  }
   getProjectCost() {
     this.projectCostService.getCostByProjectId(this.projectId).subscribe(
       result => {
@@ -169,7 +172,7 @@ export class ProjectCostComponent
           this.projectCostService
             .create(this.projectCostForm.value)
             .subscribe(result => {
-              setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
+              setTimeout(() => this.dataSharing.steeperIndex.next(4), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
               this.notification('saved');
             });
@@ -179,7 +182,9 @@ export class ProjectCostComponent
             .update(this.projectCostForm.value, this.costId)
             .subscribe(result => {
               this.notification('updated');
-              setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
+              // setTimeout(() => this.dataSharing.steeperIndex.next(5), 0);
+              // setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
+              setTimeout(() => this.dataSharing.steeperIndex.next(4), 0);
               setTimeout(() => this.dataSharing.currentIndex.next(5), 0);
             });
         }
@@ -349,9 +354,9 @@ export class ProjectCostComponent
     this.toastr.success(` Succesfully ${message} Data.!`, 'Success');
 
     this.loading = false;
-    this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
-      duration: 3000
-    });
+    // this.snackbar.open(` Succesfully ${message} Data.!`, 'Close', {
+    //   duration: 3000
+    // });
   }
 
   getExchangeRate() {
@@ -374,10 +379,19 @@ export class ProjectCostComponent
     this.sumAll();
     this.sumAllInBirr();
   }
+  
 
   next() {
     this.dataSharing.steeperIndex.next(4);
   }
+  // goToNext() {
+  //   console.log(4)
+  //   this.dataSharing.steeperIndex.next(4);
+  // }
+  // goBack(){
+  //   this.dataSharing.steeperIndex.next(2);
+  // }
+ 
 
   private getProjectStatus(projectId: any) {
     this.projectProfileService.getProjectStatus(projectId).subscribe(result => {

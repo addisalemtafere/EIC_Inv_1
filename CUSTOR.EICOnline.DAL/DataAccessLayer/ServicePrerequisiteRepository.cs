@@ -96,10 +96,11 @@ namespace CUSTOR.EICOnline.DAL
 
             return servicePrerequisites;
         }
-        public async Task<List<ServicePrerequisite>> GetAllServicePrerequisitesBySectorId(int SectorId)
+
+        public async Task<List<ServicePrerequisite>> GetAllServicePrerequisitesBySectorId(int ServiceId)
         {
             var servicePrerequisites = await Context.ServicePrerequisite
-                .Where(p => p.ServiceId == SectorId).ToListAsync();
+                .Where(p => p.ServiceId == ServiceId && p.IsDocument == true).ToListAsync();
 
             return servicePrerequisites;
         }

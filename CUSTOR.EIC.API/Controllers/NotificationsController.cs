@@ -49,8 +49,14 @@ namespace CUSTOR.EICOnline.API.Controllers
     {
       var notification = _context.Notifications.Where(m => m.ToUserId == id).AsEnumerable()
         .OrderByDescending(m => m.NotitficationId);
+      return notification;
+    }
 
-
+    [HttpGet("ByUserName/{id}")]
+    public IEnumerable<Notification> GetNotificationByUserName([FromRoute] string id)
+    {
+      var notification = _context.Notifications.Where(m => m.FromUserId == id).AsEnumerable()
+        .OrderByDescending(m => m.NotitficationId);
       return notification;
     }
 
@@ -100,6 +106,15 @@ namespace CUSTOR.EICOnline.API.Controllers
       return NoContent();
     }
 
+    [HttpGet("CountNotificationByUserName/{id}")]
+    public async Task<int> CountNotificationByUserName([FromRoute] string id)
+    {
+      var notification = _context.Notifications.Where(m => m.FromUserId == id && m.isActive).Count();
+
+
+      return notification;
+    }
+
 
     [HttpGet("CountNotification/{id}")]
     public async Task<int> CountNotification([FromRoute] string id)
@@ -144,10 +159,12 @@ namespace CUSTOR.EICOnline.API.Controllers
       {
 //        serviceApplication.IsApproved = true; //Todo
       }
-      if ((int)ApplicationStatus.Pending == Convert.ToInt32(notification.CurrentStatus))
+
+      if ((int) ApplicationStatus.Pending == Convert.ToInt32(notification.CurrentStatus))
       {
-        serviceApplication.CurrentStatusId = (int)ApplicationStatus.Drafted;
+        serviceApplication.CurrentStatusId = (int) ApplicationStatus.Drafted;
       }
+
       _context.Entry(serviceApplication).State = EntityState.Modified;
 
       _context.Notifications.Add(edtitedNotification);

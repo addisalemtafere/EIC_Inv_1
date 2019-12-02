@@ -16,7 +16,7 @@
               <mat-form-field style="width: 250px;padding: 10px;">
                 <mat-label>{{'letterTemplate.LetterType' | translate}}</mat-label>
                 <mat-select formControlName="LetterType" style="font-family: Calibri" type="text"
-                  [compareWith]="compareIds" required>
+                            [compareWith]="compareIds" required>
                   <option value="0">--Select--</option>
                   <mat-option *ngFor="let LetterType of Lookups" [value]="LetterType.LookupId">
                     <span>{{LetterType.English}}</span>
@@ -31,7 +31,7 @@
             </div>
           </div>
           <div fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em"
-            style="padding: 10px;" fxFill="100">
+               style="padding: 10px;" fxFill="100">
             <ejs-richtexteditor id='apiRTE' #apiRTE [placeholder]='placeholder' [showCharCount]='true'>
             </ejs-richtexteditor>
           </div>
@@ -56,8 +56,8 @@
 <mat-card class="mat-elevation-z8 " style="margin-top: 2em" >
   <mat-card-header>
     <mat-card-subtitle class="sub-title">List of Letter Template
-      <button  class="custom-button pull-right" (click)="addLetter()" 
-      style="margin-left: 59em">ADD</button>
+      <button  class="custom-button pull-right" (click)="addLetter()"
+               style="margin-left: 59em">ADD</button>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
@@ -83,12 +83,12 @@
         <mat-cell fxFlex="18" *matCellDef="let LetterTemplateModels;let i=index;">
           <div>
             <a class="pointer" mat-min-fab matTooltip="Click here to edit the product"
-              (click)="onEditLetterTemplate(i)">
+               (click)="onEditLetterTemplate(i)">
               <mat-icon color="primary" class="mat-18">edit</mat-icon>
               Edit
             </a>
             <a class="pointer" mat--mini-fab color="warn" matTooltip="Click here to delete the product"
-              (click)="deleteLetterTemplate(i,LetterTemplateModels.IncentiveRequestItemId)">
+               (click)="deleteLetterTemplate(i,LetterTemplateModels.IncentiveRequestItemId)">
               <mat-icon color="warn">delete</mat-icon>
               Delete
             </a>
