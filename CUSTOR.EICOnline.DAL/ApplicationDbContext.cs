@@ -31,9 +31,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         //by Fetiha
         public DbSet<InvestorAudit> InvestorAudit { get; set; }
         public DbSet<AssociateAudit> AssociateAudit { get; set; }
-
         public DbSet<ProjectAudit> ProjectAudit { get; set; }
-
         public DbSet<AddressAudit> AddressAudit { get; set; }
         public DbSet<ProjectCostAudit> ProjectCostAudit { get; set; }
         public DbSet<ProjectNationalityCompositionAudit> ProjectNationalityCompositionAudit { get; set; }

@@ -211,7 +211,7 @@ namespace EICOnline.API
               .AllowCredentials());
         });
 
-     
+
 
 //        services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
 
@@ -390,8 +390,8 @@ namespace EICOnline.API
       }
       catch (Exception ex)
       {
-        var s = ex.Message;
-        throw new Exception(ex.Message);
+//        var s = ex.Message;
+//        throw new Exception(ex.Message);
       }
     }
 

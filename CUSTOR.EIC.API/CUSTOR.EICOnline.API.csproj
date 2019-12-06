@@ -30,7 +30,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="SendGrid" Version="9.10.0" />
-    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="17.3.0.26" />
+    <!--<PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="17.3.0.26" />-->
     <!--<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />-->
   </ItemGroup>
   <ItemGroup>

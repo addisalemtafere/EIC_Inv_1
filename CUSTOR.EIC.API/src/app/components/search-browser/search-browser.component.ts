@@ -373,7 +373,7 @@ export class SearchBrowserComponent implements OnInit, AfterContentChecked {
       this.serviceApplication.IsActive = false;
       this.serviceApplication.todoTask = this.todoTask;
       console.log(this.ServiceId);
-      if (this.ServiceId != 1237) {
+      if (this.ServiceId != 1239) {
         this.serviceApplicationService
           .applicationStart(this.serviceApplication)
           .subscribe(result => {
