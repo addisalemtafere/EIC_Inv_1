@@ -213,9 +213,13 @@ namespace CUSTOR.EICOnline.DAL
                         if (postedAssociate.InvestorId>0)
                         {
                             {
-                                var investoProfile = Context.Investors.First(s => s.InvestorId == postedAssociate.InvestorId);
-                                investoProfile.IsActive = true;
-                                Context.Entry(investoProfile).State = EntityState.Modified;
+                                var investoProfile = Context.Investors.FirstOrDefault(s => s.InvestorId == postedAssociate.InvestorId);
+                                if (investoProfile != null)
+                                {
+                                    investoProfile.IsActive = true;
+                                    Context.Entry(investoProfile).State = EntityState.Modified;
+                                }
+                               
                             }  
                         }
                     }

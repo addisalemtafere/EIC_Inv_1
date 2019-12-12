@@ -143,6 +143,7 @@ export class InvestorProfileComponent implements OnInit {
     console.log(this.investorId);
 
     this.investorService.getUserServiceApplication(this.investorId).subscribe(res => {
+      console.log(res)
       this.existingServiceApplication = res;
       this.ServiceApplicationId = this.existingServiceApplication.ServiceApplicationId;
       this.serviceApplicationStatus = this.existingServiceApplication.CurrentStatusId;

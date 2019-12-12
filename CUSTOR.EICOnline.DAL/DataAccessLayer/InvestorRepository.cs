@@ -100,7 +100,7 @@ namespace CUSTOR.EICOnline.DAL
 
             ServiceApplication existingServiceApplication = null;
             //ServiceApplication serviceApplication = null;
-            int ServiceId = 1239;
+            int ServiceId = (int)ServiceEnum.ProfileRegistration;
             var service = Context.Service.FirstOrDefault(s => s.ServiceId == ServiceId);
             using (var transaction = await Context.Database.BeginTransactionAsync())
             {
@@ -110,9 +110,37 @@ namespace CUSTOR.EICOnline.DAL
                     {
                         existingServiceApplication = Context.ServiceApplication.FirstOrDefault(s =>
                             s.ServiceApplicationId == postedInvestor.ServiceApplicationId);
-                        existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                        if(existingServiceApplication == null)
+                        {
+                            var squence = Context.Squences.FirstOrDefault();
+                            var lastSe = squence.LastSquence + 1;
+                            var perminumber = lastSe.ToString();
+                            var sa = new ServiceApplication
+                            {
+                                InvestorId = inv.InvestorId,
+                                CaseNumber = perminumber,
+                                ServiceId = ServiceId,
+                                CurrentStatusId = 44450,
+                                IsSelfService = true,
+                                StartDate = DateTime.Now,
+                                EventDatetime = DateTime.Now,
+                                IsPaid = true,
+                                CreatedUserId = 1,
+                                IsActive = false,
+                                //ServiceNameAmharic = service.DisplayName,
+                                //ServiceNameEnglish = service.DisplayNameEnglish,
+                            };
+                            Context.Add(sa);
+                            Context.SaveChanges();
+                        }
+                        else
+                        {
+                            existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                            Context.Update(existingServiceApplication);
+                        }
+                      
                         postedInvestor.ServiceApplicationId = postedInvestor.ServiceApplicationId;
-                        Context.Update(existingServiceApplication);
+                        
                         Context.Update(inv);
                     }
 
@@ -213,7 +241,7 @@ namespace CUSTOR.EICOnline.DAL
             try
             {
                 var serviceApplication = await Context.ServiceApplication
-                    .FirstOrDefaultAsync(s => s.InvestorId == investorId && s.ServiceId == 1239);
+                    .FirstOrDefaultAsync(s => s.InvestorId == investorId && s.ServiceId == (int)ServiceEnum.ProfileRegistration);
 
                 return serviceApplication;
             }

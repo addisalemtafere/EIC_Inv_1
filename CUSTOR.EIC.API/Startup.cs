@@ -30,6 +30,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -53,7 +54,7 @@ namespace EICOnline.API
     public void ConfigureServices(IServiceCollection services)
     {
       //services.ConfigureIISIntegration();
-
+      IdentityModelEventSource.ShowPII = true;
       try
       {
         services.AddMvc(options =>
