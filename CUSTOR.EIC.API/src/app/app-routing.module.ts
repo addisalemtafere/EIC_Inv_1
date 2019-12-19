@@ -236,6 +236,11 @@ import {AuthGuard} from '@custor/services/security/auth-guard.service';
         loadChildren: 'app/components/appointment/appointment.module#AppointmentModule',
         canActivate: [AuthGuard]
       },
+      {
+        path: 'aftercare',
+        loadChildren: 'app/components/aftercare/aftercare.module#AfterCareModule',
+        canActivate: [AuthGuard]
+      },
       // {
       //   path: 'amendment',
       //   loadChildren: 'app/components/profile-amendment/amendment.module#AmendmentModule',

@@ -1,0 +1,147 @@
+<mat-card-header class="custom-mat-card-header"  fxLayout="row" style="margin-top: 20px;">
+  <div fxFlex="50" fxLayoutAlign="start">
+    <h3>Employment Form</h3>
+  </div>
+</mat-card-header>
+<mat-card class="mat-elevation-z8  margin-2 padding-0" >
+  <mat-card-header class="custom-mat-card-header" fxLayout="row">
+    <div fxFlex fxLayoutAlign="end">
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div fxFlex="100" style="padding: 10px 20px; border-right: 1px solid #eee;">
+      <form [formGroup]="employmentForm" novalidate>
+        <div fxLayout="row wrap" *ngIf="!viewOnly" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <mat-label>Quarter</mat-label>
+            <mat-select formControlName="Quarter" required>
+              <mat-option *ngFor="let row of Quarter" [value]="row.Id">
+                <span>{{row.DescriptionEnglish}}</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input placeholder="Registration Year* :" matInput formControlName="RegistrationYear"
+              [matDatepicker]="RegistrationYear">
+            <mat-datepicker-toggle matSuffix [for]="RegistrationYear"></mat-datepicker-toggle>
+            <mat-datepicker #RegistrationYear></mat-datepicker>
+
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>ProjectStatus</mat-label>
+            <mat-select formControlName="ProjectStatus" required>
+              <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
+                <span>{{status.DescriptionEnglish}}</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Decision</mat-label>
+            <mat-select formControlName="Decision" required>
+              <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
+                <span>{{status.DescriptionEnglish}}</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" *ngIf="!viewOnly" fxLayoutAlign="start" fxLayoutGap="2em">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Leave a comment" formControlName="Remark"></textarea>
+          </mat-form-field>
+        </div>
+        <h4 class="sub-title">Permanent</h4>
+       <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <input name="PermanentFemale" matInput formControlName="PermanentFemale" type="number" #pf
+              placeholder="Female * :">
+            <mat-error *ngIf="PermanentFemale.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input name="PermanentMale" matInput formControlName="PermanentMale" placeholder="Male * :" #pm
+              type="number">
+            <mat-error *ngIf="PermanentMale.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+              <mat-form-field>
+                <input formControlName="PermanentForeignFemale" type="number" matInput #pff placeholder="Foreign Female * :">
+                <mat-error *ngIf="PermanentForeignFemale.hasError('required')">
+                  {{'common.validation.Required' | translate}}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input formControlName="PermanentForeignMale" matInput type="number" #pfm placeholder="Foreign Male * :">
+                <mat-error *ngIf="PermanentForeignMale.hasError('required')">
+                  {{'common.validation.Required' | translate}}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field style="width: 50px!important;">
+                <input formControlName="TotalPermanent" value="{{pf.value*1+pff.value*1+pm.value*1+pfm.value*1}}" type="number"
+                  #totalPermanent matInput placeholder="Total">
+              </mat-form-field>
+        </div>
+        <h4 class="sub-title">Temporary</h4>
+        <div fxLayout="row wrap" fxLayoutAlign="start " class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <input name="TemporaryFemale" matInput #Tf formControlName="TemporaryFemale" placeholder="Female * :"
+              type="number">
+            <mat-error *ngIf="TemporaryFemale.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input formControlName="TemporaryMale" #TM type="number" matInput placeholder="male * :">
+            <mat-error *ngIf="TemporaryMale.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+        <mat-form-field>
+            <input formControlName="TemporaryForeignFemale" #TFF type="number" matInput
+              placeholder="Foreign Female * :">
+            <mat-error *ngIf="TemporaryForeignFemale.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input formControlName="TemporaryForeignMale" #TFM type="number" matInput placeholder="Foreign Male * :">
+            <mat-error *ngIf="TemporaryForeignMale.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+           <mat-form-field style="width: 40px!important;">
+            <input formControlName="TotalTempo" type="number" #TotalTempo
+              value="{{Tf.value*1+TM.value*1+TFF.value*1+TFM.value*1}}" matInput placeholder="Total">
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2em">
+          <mat-form-field>
+            <mat-label>Total Employee</mat-label>
+            <input matInput value="{{TotalTempo.value*1+totalPermanent.value*1}}" formControlName="totalEmployee"
+              type="number">
+          </mat-form-field>
+        </div>
+        
+        <mat-card-actions fxLayoutAlign="center end" *ngIf="!viewOnly" >
+          <button mat-raised-button color="primary" 
+          [disabled]="employmentForm.invalid" (click)="create()"
+            *ngIf="!updateData">
+            <span class="agree">{{'common.commands.Save'|translate}}</span>
+          </button>
+          <button mat-raised-button color="primary" 
+            (click)="update()" 
+            *ngIf="updateData">
+            <span>{{'common.commands.Update'|translate}}</span>
+          </button>
+          <button mat-raised-button  
+            (click)="back()" 
+            >
+            <span>{{'common.commands.Back'|translate}}</span>
+          </button>
+        </mat-card-actions>
+       
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

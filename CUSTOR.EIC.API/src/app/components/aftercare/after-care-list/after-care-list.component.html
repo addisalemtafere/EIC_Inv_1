@@ -1,0 +1,35 @@
+<!-- <p>
+  after-care-list works!
+</p> -->
+<mat-card class="margin-2">
+  <mat-card-content>
+    <div fxLayout="row" fxLayoutAlign="start  " fxLayoutGap="2em">
+      <div class="  block" fxFlex="100%">
+        <mat-list fxLayout="column" style="margin: 10px 20px;" fxFlex.lt-md="100" fxFlex.gt-sm="100" fxLayoutGap="10px"
+          class="custom-mat-list">
+          <mat-list-item class="mat-elevation-z2" (click)="goToEmploymentList()">
+            Project Employment
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2" (click)="goToProductList()">
+            Project Product
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2" (click)="goToInputList()">
+            Project Input
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2" (click)="goToCostList()">
+            Project Cost 
+          </mat-list-item>
+          <!--  <mat-list-item class="mat-elevation-z2">
+            Project Employment Data Updated
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2">
+            Project Share Data Updated
+          </mat-list-item>
+          <mat-list-item class="mat-elevation-z2">
+            Project Product Data Updated
+          </mat-list-item> -->
+        </mat-list>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

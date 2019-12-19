@@ -154,6 +154,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public int? Quarter { get; set; }
         public DateTime? RegistrationYear { get; set; }
         public int? ServiceApplicationId { get; set; }
+        public int? ServiceType { get; set; }
+        public int? Decision { get; set; }
     }
     public partial class ProjectRequirementServiceApplicationAudit : ProjectRequirementAudit
     {
@@ -208,6 +210,8 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public DateTime? ReagistrationYear { get; set; }
         public int? UpdatedUserId { get; set; }
         public int? ServiceApplicationId { get; set; }
+        public int? Dicision { get; set; }
+        public int? ServiceType { get; set; }
         public string UpdatedUserName { get; set; }
         public Guid? ObjectId { get; set; }
 
@@ -250,6 +254,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public int? CurrentTemporaryForeignMale { get; set; }
 
         public string Remark { get; set; }
+        public int ? Decision { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
         public DateTime EventDatetime { get; set; }
@@ -263,6 +268,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         [NotMapped]
         public int? workFlowId { get; set; }
         public int? ServiceApplicationId { get; set; }
+        public int? ServiceType { get; set; }
 
         public Project Project { get; set; }
 
@@ -345,6 +351,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer.Fetiha
         public int? ProjectStatus { get; set; }
         public int? Quarter { get; set; }
         public int? ServiceApplicationId { get; set; }
+        public int? ServiceType { get; set; }
         public DateTime? RegistrationYear { get; set; }
     }
     public partial class ProjectOutputInvestorAudit : ProjectOutputAudit

@@ -25,7 +25,7 @@ namespace CUSTOR.EICOnline.API.ViewModels.enums
     DutyFreeIncentive = 1046,
     UploadingOfConstructionMaterial = 1047,
     UploadingOfRawMaterial = 1054,
-    ProfileRegistration = 1269,
+    ProfileRegistration = 1239,
     ProfileAmendment = 1270,
     BusinessLicense =1236
   }

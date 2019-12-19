@@ -118,7 +118,7 @@
           </mat-list>
         </mat-expansion-panel>
 
-         <mat-expansion-panel *ngIf="isInvestor" #profile [class.mat-elevation-z0]="!profile.expanded">
+         <!-- <mat-expansion-panel *ngIf="isInvestor" #profile [class.mat-elevation-z0]="!profile.expanded">
           <mat-expansion-panel-header style="font-size: 16px;">
             <mat-panel-title>
               <mat-icon>assessment</mat-icon>
@@ -127,11 +127,11 @@
           </mat-expansion-panel-header>
 
           <mat-list dense class="mat-expansion-panel-body">
-            <!-- <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLinkActive="active"
+             <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLinkActive="active"
               routerLink="/amendment">
               <mat-icon color="primary" class="mat-18">account_circle</mat-icon>
               {{ "mainMenu.InvestorProfileAmendment" | translate }}
-            </a> -->
+            </a> 
             <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLinkActive="active"
               routerLink="/permit-amendment">
               <mat-icon color="primary" class="mat-18">edit</mat-icon>
@@ -139,7 +139,7 @@
             </a>
 
           </mat-list>
-        </mat-expansion-panel> 
+        </mat-expansion-panel>  -->
         <!--<a *ngIf="canViewTasks " mat-list-item routerLinkActive="active"-->
         <!--(click)="gotoCustomerRegistration()">-->
         <!--<mat-icon>people</mat-icon>-->
@@ -149,6 +149,10 @@
         <a *ngIf="isInvestor" mat-list-item routerLinkActive="active" routerLink="/appointment">
           <mat-icon>announcement</mat-icon>
           Notifications
+        </a>
+        <a *ngIf="!isInvestor" mat-list-item routerLinkActive="active" routerLink="/aftercare">
+          <mat-icon>announcement</mat-icon>
+          After Care
         </a>
 
         <a *ngIf="isInvestor"

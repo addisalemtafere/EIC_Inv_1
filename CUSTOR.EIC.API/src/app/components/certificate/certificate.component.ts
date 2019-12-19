@@ -135,6 +135,7 @@ export class CertificateComponent implements OnInit {
     this.custService
       .getInvestor(this.InvestorId).subscribe(result => {
         console.log(result);
+       return;
         if (result.FirstName.toString() === '') {
           this.router.navigate(['investor-profile/' + this.InvestorId]);
         } else {

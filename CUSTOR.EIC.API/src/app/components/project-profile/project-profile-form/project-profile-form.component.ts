@@ -443,14 +443,18 @@ export class ProjectProfileFormComponent implements OnInit, AfterContentChecked 
       this.addressService.updateAddress(this.projectForm.get('address').value, this.addressId)
         .subscribe(result => {
           this.notification('address updated');
-          this.dataSharing.currentIndex
-            .subscribe(index => {
-              console.log(index)
-              if(index == null || index == 0){
-                setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
-                setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
-              }
-            })
+          setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+          setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+          // this.dataSharing.currentIndex
+          //   .subscribe(index => {
+          //     console.log(index)
+          //     setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+          //     setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+          //     if(index == null || index == 0){
+          //       setTimeout(() => this.dataSharing.steeperIndex.next(1), 0);
+          //       setTimeout(() => this.dataSharing.currentIndex.next(2), 0);
+          //     }
+          //   })
         });
     } else {
       console.log(this.projectForm.get('address').value);

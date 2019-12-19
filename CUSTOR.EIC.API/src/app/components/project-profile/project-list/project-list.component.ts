@@ -399,8 +399,8 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
   }
   review(serviceId, investorId, serviceApplicationId, projectId, workflowId){
     console.log(serviceId)
-    console.log(serviceId == 1269)
-    console.log(serviceId == '1269')
+    console.log(serviceId == 1239)
+    console.log(serviceId == '1239')
     // console.log(investorId)
     // console.log(serviceApplicationId);
     // console.log(projectId);

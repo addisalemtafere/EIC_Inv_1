@@ -1,0 +1,57 @@
+
+<mat-card-header class="custom-mat-card-header" fxLayout="row" style="margin-bottom: 20px;">
+  <div fxFlex="50" fxLayoutAlign="start">
+    <h3>Employment List</h3>
+  </div>
+  <div fxFlex="50" style="margin-top:20px">
+      <button mat-raised-button color="primary" style="margin-right:15px;" (click)="add()">Add</button>
+    <button mat-raised-button color="primary" (click)="viewOriginal()" >View Original</button>
+  
+  </div>
+</mat-card-header>
+<mat-card class="margin-2 padding-0 mat-elevation-z8">
+
+  <mat-card-content>
+    <mat-table style="border:1px solid #f1f1f1;" class="full-width" #table [dataSource]="dataSource">
+      <ng-container style="width: 10px !important;" matColumnDef="No">
+        <mat-header-cell style="width: 10px !important;" *matHeaderCellDef>#</mat-header-cell>
+        <mat-cell style="width: 10px !important;" *matCellDef="let employmentList;let i=index;">
+          {{i+1}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Date">
+        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+        <mat-cell *matCellDef="let employmentList"> {{employmentList.EventDatetime}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let employmentList"> {{employmentList.CreatedUserId}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Total_Employee">
+        <mat-header-cell *matHeaderCellDef>Total Employee</mat-header-cell>
+        <mat-cell *matCellDef="let employmentList"> {{employmentList.TemporaryFemale}} + {{employmentList.TemporaryMale}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let employmentList;let i=index;">
+          <div>
+            <a class="pointer" mat-min-fab matTooltip="Click here to edit the Share"
+              (click)="onEdit(employmentList.ProjectEmploymentId)">
+              <mat-icon color="primary" class="mat-18">edit</mat-icon>
+              Edit
+            </a>
+          </div>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns">
+      </mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>

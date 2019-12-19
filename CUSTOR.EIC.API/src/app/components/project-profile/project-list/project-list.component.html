@@ -155,7 +155,8 @@
                 </a>
                 <a class="pointer custom-button2"
                 *ngIf="serviceApplicationList?.CurrentStatusId!==applicationS.Drafted && serviceApplicationList?.CurrentStatusId!==applicationS.Completed
-                  && serviceApplicationList.IsSelfService==true && serviceApplicationList.ServiceId !='1028' && serviceApplicationList.ServiceId !='1239'"
+                  && serviceApplicationList.IsSelfService==true && serviceApplicationList.ServiceId !='1028'
+                   && serviceApplicationList.ServiceId !='1239'"
                    (click)="nextStep(18,
                     serviceApplicationList.ProjectId,
                     serviceApplicationList.ServiceApplicationId,
@@ -174,7 +175,8 @@
                                 serviceApplicationList.ProjectId,0)">
                   REVIEW
                 </a> -->
-                <a class="pointer custom-button2" *ngIf="serviceApplicationList.ServiceId=='1028' || serviceApplicationList.ServiceId=='1239'"
+                <a class="pointer custom-button2" *ngIf="serviceApplicationList.ServiceId=='1028' 
+                || serviceApplicationList.ServiceId=='1239'"
                    (click)="review(serviceApplicationList.ServiceId,
                                 serviceApplicationList.InvestorId,
                                 serviceApplicationList.ServiceApplicationId,

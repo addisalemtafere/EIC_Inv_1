@@ -54,7 +54,7 @@ namespace EICOnline.API
     public void ConfigureServices(IServiceCollection services)
     {
       //services.ConfigureIISIntegration();
-      IdentityModelEventSource.ShowPII = true;
+     // IdentityModelEventSource.ShowPII = true;
       try
       {
         services.AddMvc(options =>
@@ -316,6 +316,7 @@ namespace EICOnline.API
         services.AddScoped<FInvestorRepository>();
         services.AddScoped<FProjectsRepository>();
         services.AddScoped<FProjectOfficerRepository>();
+        services.AddScoped<FAfterCareRepository>();
         //
         services.AddScoped<BudgetYearTypeRepository>();
         services.AddScoped<tblDivisionRepository>();

@@ -27,7 +27,7 @@ export enum ServiceEnum {
   UploadingOfConstructionMaterial = 1047,
   UploadingOfRawMaterial = 1054,
   BusinessLicense = 1236,
-  ProfileRegistration = 1269,
+  ProfileRegistration = 1239,
   ProfileAmendment = 1270,
   PermitAmendment = 1028
 }

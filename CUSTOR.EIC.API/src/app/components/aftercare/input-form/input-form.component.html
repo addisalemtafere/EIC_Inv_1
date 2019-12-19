@@ -1,0 +1,133 @@
+<mat-card-header class="custom-mat-card-header" fxLayout="row" style="margin-top: 20px;">
+  <div fxFlex="50" fxLayoutAlign="start">
+    <h3>Requirement Form</h3>
+  </div>
+</mat-card-header>
+<mat-card>
+  <mat-card-content>
+    <div fxFlex="100" style="padding: 10px 20px; border-right: 1px solid #eee;">
+      <form class="margin-2" [formGroup]="projectInputForm" novalidate>
+        <div style="margin-bottom: 40px;" fxLayout="row" *ngIf="!viewOnly" fxLayoutAlign="start center" fxLayoutGap="2em">
+          <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+            <mat-form-field>
+              <mat-label>{{'investors.editor.Quarter' | translate}}</mat-label>
+              <mat-select formControlName="Quarter" required>
+                <mat-option *ngFor="let row of Quarter" [value]="row.Id">
+                  <span>{{row.DescriptionEnglish}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input placeholder="Registration Year* :" matInput formControlName="RegistrationYear"
+                [matDatepicker]="RegistrationYear">
+              <mat-datepicker-toggle matSuffix [for]="RegistrationYear"></mat-datepicker-toggle>
+              <mat-datepicker #RegistrationYear></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{'investors.editor.ProjectStatus' | translate}}</mat-label>
+              <mat-select formControlName="ProjectStatus" required>
+                <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
+                  <span>{{status.DescriptionEnglish}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Decision</mat-label>
+              <mat-select formControlName="Decision" required>
+                <mat-option *ngFor="let status of projectStatus" [value]="status.Id">
+                  <span>{{status.DescriptionEnglish}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <h4 class="sub-title">Project Input</h4>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <mat-label>{{'investors.editor.ElectricPower' | translate}} (kwh) :</mat-label>
+            <input name="ElectricPower" type="number" matInput formControlName="ElectricPower" required
+              [maxlength]="16">
+            <mat-error *ngIf="ElectricPower.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'investors.editor.Water' | translate}} (m2) :</mat-label>
+            <input type="number" matInput formControlName="Water" required>
+            <mat-error *ngIf="Water.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+       <mat-form-field>
+            <mat-label>{{'investors.editor.OtherUtility' | translate}} </mat-label>
+            <input type="number" matInput formControlName="OtherUtility">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'investors.editor.LandIndustrial' | translate}} (Sq.m) :</mat-label>
+            <input type="number" matInput formControlName="LandIndustrial" required>
+            <mat-error *ngIf="LandIndustrial.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <mat-label>{{'investors.editor.LandAgricultural' | translate}} (Sq.m) :</mat-label>
+            <input type="number" required matInput formControlName="LandAgricultural">
+            <mat-error *ngIf="LandAgricultural.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'investors.editor.LandService' | translate}} (Sq.m) :</mat-label>
+            <input type="number" matInput formControlName="LandService" required>
+            <mat-error *ngIf="LandService.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+         <mat-form-field>
+            <mat-label>{{'investors.editor.OwnLand' | translate}} (Sq.m) :</mat-label>
+            <input type="number" matInput formControlName="OwnLand" required>
+            <mat-error *ngIf="OwnLand.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'investors.editor.LeaseLand' | translate}} (Sq.m) :</mat-label>
+            <input type="number" matInput formControlName="LeaseLand" required>
+            <mat-error *ngIf="LeaseLand.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start" class="content" fxLayout.lt-sm="column" fxLayoutGap="2em">
+          <mat-form-field>
+            <mat-label>{{'investors.editor.RentalLand' | translate}} (Sq.m) :</mat-label>
+            <input type="number" matInput formControlName="RentalLand" required>
+            <mat-error *ngIf="RentalLand.hasError('required')">
+              {{'common.validation.Required' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>{{'investors.editor.Remark' | translate}}</mat-label>
+            <textarea type="number" matInput formControlName="Remark"></textarea>
+          </mat-form-field>
+        </div>
+        <mat-card-actions fxLayoutAlign="center end" *ngIf="!viewOnly"> 
+          <button [disabled]="!projectInputForm.valid" *ngIf="!updateData" mat-raised-button color="primary"
+            (click)="create()">
+            <span class="agree">{{'common.commands.Save'|translate}}</span>
+          </button>
+          <button [disabled]="!projectInputForm.valid"
+           *ngIf="updateData" mat-raised-button color="primary"
+            (click)="update()">
+            <span>{{'common.commands.Update'|translate}} </span>
+          </button>
+          <button mat-raised-button (click)="back()">
+            <span>{{'common.commands.Back'|translate}}</span>
+          </button>
+        </mat-card-actions>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
