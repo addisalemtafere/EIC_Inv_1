@@ -12,6 +12,7 @@ export class IncentiveRequestModel {
   public UnitId?: number;
   public Quantity: number;
   public CustomsSiteId?: number;
+  public CustomsSite?: string;
   public RequestDate?: Date;
   public InvoiceNo: string;
   public FileNo: string;

@@ -69,6 +69,7 @@ export class LetterComponent implements OnInit {
   chassisNo = false;
   enableButtonGenerate = false;
   InoviceNo: string;
+  CustomsSite: string;
   RequestDate: any;
   public ServiceId: any;
   public ProjectId: any;
@@ -375,15 +376,12 @@ export class LetterComponent implements OnInit {
   }
 
   generatePDF() {
+    console.log(this.LetterContent)
     this.ShowSave = true;
-    console.log(this.projectModel.Investor.InvestorName)
-    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameAmh}}/g, this.projectModel.Investor.InvestorName);
-    this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/g, this.projectModel.Investor.InvestorName.toString());
+    // this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullName}}/, this.projectModel.Investor.InvestorName.toString());
     this.LetterContent = this.letterTempalteModel.LetterContent.replace(/{{FullNameEng}}/g, this.projectModel.Investor.InvestorNameEng.toUpperCase());
     this.LetterContent = this.LetterContent.replace(/{{StartDate}}/g,
-      new Date(this.projectModel.StartDate).getMonth() +
-      '/' + new Date(this.projectModel.StartDate).getDay() + '/' + new Date(this.projectModel.StartDate).getFullYear());
-
+      new Date(this.projectModel.StartDate).toLocaleDateString());
     this.LetterContent = this.LetterContent.replace(/{{InvActivity}}/g,
       this.projectModel.InvestmentActivity.Description);
     this.LetterContent = this.LetterContent.replace(/{{InvActivityEng}}/g,
@@ -417,6 +415,9 @@ export class LetterComponent implements OnInit {
       this.LetterContent = this.LetterContent.replace(/{{InvoiceNo}}/g,
         this.InoviceNo = this.incentiveRequestModelList[0].InvoiceNo
       );
+      this.LetterContent = this.LetterContent.replace(/{{CustomsSite}}/g,
+        this.CustomsSite = this.incentiveRequestModelList[0].CustomsSite
+      );
     }
     console.log(this.InvestoraddressList.CellPhoneNo)
     this.LetterContent = this.LetterContent.replace(/{{TeleNo}}/g,
@@ -431,11 +432,12 @@ export class LetterComponent implements OnInit {
     //   this.letterForm.patchValue({
     //   LetterContent: this.LetterContent
     //  });
-    this.rteValue = this.LetterContent;
+    var letterContent = this.LetterContent
+      .replace("{{FullName}}", this.projectModel.Investor.InvestorName.toString())
+    this.rteValue = letterContent;
     this.letterForm.patchValue({
       LetterContent: this.rteValue
     });
-
 
   }
 

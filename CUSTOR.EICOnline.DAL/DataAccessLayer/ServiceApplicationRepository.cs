@@ -140,7 +140,7 @@ namespace CUSTOR.EICOnline.DAL
                 .Include(s => s.ServiceWorkflow)
                 .Include(s => s.TodoTask)
                 .OrderByDescending(s => s.ServiceApplicationId)
-                .Where(s => s.CurrentStatusId == applicationStatus)
+                .Where(s => s.CurrentStatusId == applicationStatus || s.ServiceId==13 || s.ServiceId==18 || s.ServiceId==19 || s.ServiceId==1023 || s.ServiceId==1027 || s.ServiceId==1028)
                 .Paging(queryParameter.PageCount, queryParameter.PageNumber)
                 .ToListAsync();
 

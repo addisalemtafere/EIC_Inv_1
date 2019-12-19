@@ -3,7 +3,7 @@
   <mat-card class="margin-2" style="box-shadow: none;border: 1px solid #dddddd">
 
     <form #form="ngForm" [formGroup]="incentiveRequestItemForm" novalidate>
-
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       <mat-card-content>
         <div>
           <div fxLayout.xs="row wrap" fxLayoutAlign.xs="start center" fxLayoutGap="2em">
@@ -38,7 +38,7 @@
               <span *ngIf="isBOMRequired">
             <mat-form-field style="width: 150px">
               <mat-label>Incentive Item</mat-label>
-              <mat-select formControlName="BOMIncentiveItemId" [compareWith]="compareIds" required
+              <mat-select #BOMIncentiveItemId formControlName="BOMIncentiveItemId" [compareWith]="compareIds" required
                           (selectionChange)="BOMIncentiveItemSelected($event.value)">
                 <option value="0">--Select--</option>
                 <mat-option *ngFor="let IncentiveItem of BOMItems" [value]="IncentiveItem.IncentiveBoMRequestItemId">

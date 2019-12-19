@@ -499,7 +499,7 @@ namespace EIC.Investment.API.Controllers
     public PagedResult<ServiceApplication> SearchProject([FromQuery] QueryParameters queryParameters,
       [FromBody] SearchDto searchDto)
     {
-      var query = _context.ServiceApplication as IQueryable<ServiceApplication>;
+      var query = _context.ServiceApplication .Where(s => s.ServiceId==13 || s.ServiceId==18 || s.ServiceId==19 || s.ServiceId==1023 || s.ServiceId==1027 || s.ServiceId==1028) as IQueryable<ServiceApplication>;
 
       if (!string.IsNullOrEmpty(searchDto.Tin))
       {

@@ -36,7 +36,7 @@ namespace EICOnline.API
           WebHost.CreateDefaultBuilder(args)
             .UseStartup<Startup>()
             .UseSetting(WebHostDefaults.DetailedErrorsKey, "true")
-            .UseUrls(urls: "http://40.117.47.168");
+            .UseUrls(urls: "http://localhost:5050");
     //.UseContentRoot(Directory.GetCurrentDirectory())
     //.UseIISIntegration()
     //.ConfigureKestrel((context, options) =>

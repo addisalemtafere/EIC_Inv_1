@@ -179,6 +179,20 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
     }
   }
 
+  assignCopy(){
+    this.BOMItems = Object.assign([], this.items);
+  }
+  filterItem(value){
+    console.log('hi')
+    if(!value){
+      this.assignCopy();
+    } // when nothing has typed
+    this.BOMItems = Object.assign([], this.items).filter(
+      item => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1
+    )
+  }
+
+
   ngOnInit() {
     this.currentLang = this.configService.language;
     this.initForm();
@@ -640,8 +654,8 @@ export class RequestedItemsListComponent implements OnInit, OnDestroy, AfterCont
       ApprovedQty: formModel.ApprovedQty,
       Amount: formModel.Amount,
       RequestDate: formModel.RequestDate,
-      CurrencyType:1, //this.incentiveRequestItemForm.get('CurrencyType').value,//formModel.CurrencyType,
-      CurrencyRate:"27.68", //this.incentiveRequestItemForm.get('CurrencyRate').value,//formModel.ExRate,
+      CurrencyType: 1, //this.incentiveRequestItemForm.get('CurrencyType').value,//formModel.CurrencyType,
+      CurrencyRate: "27.68", //this.incentiveRequestItemForm.get('CurrencyRate').value,//formModel.ExRate,
       ChassisNo: formModel.ChassisNo,
       MotorNo: formModel.MotorNo,
       Description: formModel.Description,

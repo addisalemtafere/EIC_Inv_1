@@ -294,7 +294,8 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
     if (this.phaseId == 0 || this.phaseId == null || this.phaseId == undefined) {
       this.toastr.error('Please Select Batch of Construction Materials Incentive');
       return true;
-    } else if (this.CheckExistance() == true) {
+    }
+    else if (this.CheckExistance() == true) {
       this.toastr.error('You Cannot Import Construction Materials, Because there is Uploaded data in this Batch');
       return true;
     } else {
