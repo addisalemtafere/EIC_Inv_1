@@ -60,19 +60,6 @@
           <mat-datepicker #RequestDate>
           </mat-datepicker>
         </mat-form-field>
-        <span *ngIf="attachment">
-          <mat-form-field [fxFlex]="20">
-            <mat-label>Attachment</mat-label>
-            <input type="text" matInput required formControlName="Attachment">
-            <mat-error *ngIf="Attachment.hasError('pattern')">
-              Only neumbric charcters are allowed!
-            </mat-error>
-            <mat-error *ngIf="!Attachment.hasError('maxlength')">
-              Maximum charcters length is 2!
-            </mat-error>
-          </mat-form-field>
-        </span>
-
       </div>
       <span *ngIf="isForDetails">
       <button mat-raised-button="" color="primary" *ngIf="enableButtonGenerate"

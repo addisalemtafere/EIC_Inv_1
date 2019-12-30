@@ -640,7 +640,7 @@ export class ProjectListComponent implements OnInit, AfterContentChecked, AfterV
       }, error => this.errMsg.getError(error));
   }
 
-  private getManagerParameters(): QueryParametersModel {
+   private getManagerParameters(): QueryParametersModel {
     const params = new QueryParametersModel();
 
     params.PageIndex = this.paginationService.page;

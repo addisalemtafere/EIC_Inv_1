@@ -14,50 +14,54 @@ namespace CUSTOR.EICOnline.DAL
         public ServiceApplicationRepository(ApplicationDbContext context) : base(context)
         {
         }
+
         public ServiceApplicationAmendment GetServiceList(int projectId, int serviceApplicationId)
         {
             try
             {
                 var serviceApplicationAmendList = Context.ServiceApplicationAmendment
-                                                     .FirstOrDefault(m => m.ServiceApplicationId == serviceApplicationId);
+                    .FirstOrDefault(m => m.ServiceApplicationId == serviceApplicationId);
                 return serviceApplicationAmendList;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.InnerException.ToString());
             }
+        }
 
-        }
-        public  ServiceApplication CheckServiceApplicationApi(int investorId, int requestedServiceId)
+        public ServiceApplication CheckServiceApplicationApi(int investorId, int requestedServiceId)
         {
             ServiceApplication sa = null;
             try
             {
                 sa = Context.ServiceApplication.OrderByDescending(m => m.UpdatedEventDatetime)
-                    .FirstOrDefault(m => m.ServiceId == requestedServiceId && m.InvestorId == investorId && m.IsActive != true);  
+                    .FirstOrDefault(m =>
+                        m.ServiceId == requestedServiceId && m.InvestorId == investorId && m.IsActive != true);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.InnerException.ToString());
             }
-            
+
             return sa;
         }
-        public  ServiceApplication CheckProjectServiceApplication(int projectId, int requestedServiceId)
+
+        public ServiceApplication CheckProjectServiceApplication(int projectId, int requestedServiceId)
         {
             ServiceApplication sa = null;
             try
             {
                 sa = Context.ServiceApplication.OrderByDescending(m => m.UpdatedEventDatetime)
-                     .FirstOrDefault(m => m.ServiceId == requestedServiceId && m.ProjectId == projectId);  
+                    .FirstOrDefault(m => m.ServiceId == requestedServiceId && m.ProjectId == projectId);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.InnerException.ToString());
             }
-            
+
             return sa;
         }
+
         public ServiceApplication GetRecord(int ServiceApplicationId)
         {
             ServiceApplication order = null;
@@ -118,7 +122,8 @@ namespace CUSTOR.EICOnline.DAL
             List<ServiceApplication> query = await Context.ServiceApplication
                 .OrderByDescending(s => s.ServiceApplicationId)
                 .Where(t => t.TodoTask.AssignedUserId == UserId && (t.CurrentStatusId == applicationStatus ||
-                            t.CurrentStatusId == applicationStatus2 || t.CurrentStatusId == applicationStatus3))
+                                                                    t.CurrentStatusId == applicationStatus2 ||
+                                                                    t.CurrentStatusId == applicationStatus3))
                 .Include(s => s.ServiceWorkflow)
                 .Include(s => s.TodoTask)
                 .Paging(queryParameter.PageCount, queryParameter.PageNumber)
@@ -129,7 +134,8 @@ namespace CUSTOR.EICOnline.DAL
                 Items = query,
                 ItemsCount = Context.ServiceApplication.Count(t =>
                     t.TodoTask.AssignedUserId == UserId && (t.CurrentStatusId == applicationStatus ||
-                    t.CurrentStatusId == applicationStatus2 || t.CurrentStatusId == applicationStatus3))
+                                                            t.CurrentStatusId == applicationStatus2 ||
+                                                            t.CurrentStatusId == applicationStatus3))
             };
         }
 
@@ -140,7 +146,8 @@ namespace CUSTOR.EICOnline.DAL
                 .Include(s => s.ServiceWorkflow)
                 .Include(s => s.TodoTask)
                 .OrderByDescending(s => s.ServiceApplicationId)
-                .Where(s => s.CurrentStatusId == applicationStatus || s.ServiceId==13 || s.ServiceId==18 || s.ServiceId==19 || s.ServiceId==1023 || s.ServiceId==1027 || s.ServiceId==1028)
+                .Where(s => s.CurrentStatusId == applicationStatus || s.ServiceId == 13 || s.ServiceId == 18 ||
+                            s.ServiceId == 19 || s.ServiceId == 1023 || s.ServiceId == 1027 || s.ServiceId == 1028)
                 .Paging(queryParameter.PageCount, queryParameter.PageNumber)
                 .ToListAsync();
 
@@ -151,168 +158,188 @@ namespace CUSTOR.EICOnline.DAL
                 ItemsCount = Context.ServiceApplication.Count(s => s.CurrentStatusId == applicationStatus)
             };
         }
-        public async Task <ServiceApplication> ManageServiceApplication(int ? ServiceApplicationId,int? InvestorId , int? ServiceId , int ? ProjectId, int? CurrentStep)
+
+//        public async Task<int> GetAllServiceApplicationCount(int applicationStatus)
+//        {
+//            var query = Context.ServiceApplication
+//                .Where(s => s.CurrentStatusId == applicationStatus && s.ServiceId == 13 && s.ServiceId == 1023).Count();
+//            return query;
+//        }
+//
+//        public async Task<List<ServiceApplication>> SubmitedServiceapplications(int applicationStatus)
+//        {
+//            List<ServiceApplication> query = await Context.ServiceApplication
+//                .Where(s => s.CurrentStatusId == applicationStatus && (s.ServiceId == 13 || s.ServiceId == 1023))
+//                .ToListAsync();
+//            return query;
+//        }
+
+        public async Task<ServiceApplication> ManageServiceApplication(int? ServiceApplicationId, int? InvestorId,
+            int? ServiceId, int? ProjectId, int? CurrentStep)
         {
             ServiceApplication existingServiceApplication = null;
             ServiceApplicationAmendment existingAmendmentServiceApplication = null;
             ServiceApplicationAmendment AmendmentServiceApplication = null;
             ServiceApplication serviceApplication = null;
-                try
+            try
+            {
+                if (ServiceApplicationId != 0)
                 {
-                    if (ServiceApplicationId != 0)
+                    existingServiceApplication =
+                        await Context.ServiceApplication.FirstOrDefaultAsync(s =>
+                            s.ServiceApplicationId == ServiceApplicationId);
+                    existingAmendmentServiceApplication =
+                        await Context.ServiceApplicationAmendment.FirstOrDefaultAsync(s =>
+                            s.ServiceApplicationId == ServiceApplicationId);
+
+                    if (existingServiceApplication != null)
                     {
-                        existingServiceApplication = await Context.ServiceApplication.FirstOrDefaultAsync(s => s.ServiceApplicationId == ServiceApplicationId);
-                        existingAmendmentServiceApplication = await Context.ServiceApplicationAmendment.FirstOrDefaultAsync(s => s.ServiceApplicationId == ServiceApplicationId);
-
-                        if (existingServiceApplication != null)
-                        {
-                            existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
-                            existingServiceApplication.CurrentStep = CurrentStep;
-                            Context.Update(existingServiceApplication);
-                        }
-                        if(existingAmendmentServiceApplication != null)
-                        {
-                            if (CurrentStep == 1)
-                            {
-                                existingAmendmentServiceApplication.ProfileUpdate = 1;
-                            }
-                            else if (CurrentStep == 2)
-                            {
-                                existingAmendmentServiceApplication.InputUpdate = 1;
-                            }
-                            else if (CurrentStep == 3)
-                            {
-                                existingAmendmentServiceApplication.RawMaterialUpdate = 1;
-                            }
-                            else if (CurrentStep == 4)
-                            {
-                                existingAmendmentServiceApplication.CostUpdate = 1;
-                            }
-                            else if (CurrentStep == 5)
-                            {
-                                existingAmendmentServiceApplication.EmploymentUpdate = 1;
-                            }
-                            else if (CurrentStep == 6)
-                            {
-                                existingAmendmentServiceApplication.ShareUpdate = 1;
-                            }
-                            else if (CurrentStep == 7)
-                            {
-                                existingAmendmentServiceApplication.ProfileUpdate = 1;
-                            }
-                            Context.Update(existingServiceApplication);
-                        }
-
-                        Context.SaveChanges();
-                       // transaction.Commit();
-                        return existingServiceApplication;
+                        existingServiceApplication.UpdatedEventDatetime = DateTime.Now;
+                        existingServiceApplication.CurrentStep = CurrentStep;
+                        Context.Update(existingServiceApplication);
                     }
-                    else
+
+                    if (existingAmendmentServiceApplication != null)
                     {
-                        var service = Context.Service.FirstOrDefault(s => s.ServiceId == ServiceId);
-                        var project = Context.Project.FirstOrDefault(p => p.ProjectId == ProjectId);
-                        var squence = Context.Squences.FirstOrDefault();
-                        var lastSe = squence.LastSquence + 1;
-                        var perminumber = lastSe.ToString();
-                        serviceApplication = new ServiceApplication
-                        {
-                            InvestorId = InvestorId,
-                            ProjectId = ProjectId,
-                            CaseNumber = perminumber,
-                            ServiceId = ServiceId,
-                            IsSelfService = true,
-                            StartDate = DateTime.Now,
-                            EventDatetime = DateTime.Now,
-                            IsPaid = true,
-                            CreatedUserId = 1,
-                            IsActive = false,
-                            ServiceNameAmharic = service.DisplayName,
-                            ServiceNameEnglish = service.DisplayNameEnglish,
-                            CurrentStatusId = (int)ApplicationStatus.Drafted,
-                            ProjectNameEnglish = project.ProjectName,
-                            ProjectNameAmharic = project.ProjectName,
-                            CurrentStep = CurrentStep,
-                        };
-                        Context.Add(serviceApplication);
-                        Context.SaveChanges();
-                        
                         if (CurrentStep == 1)
                         {
-                            AmendmentServiceApplication = new ServiceApplicationAmendment
-                            {
-                                ServiceApplicationId = serviceApplication.ServiceApplicationId,
-                                ProfileUpdate = 1
-                            };
-                            Context.Add(AmendmentServiceApplication);
+                            existingAmendmentServiceApplication.ProfileUpdate = 1;
                         }
                         else if (CurrentStep == 2)
                         {
-                            AmendmentServiceApplication = new ServiceApplicationAmendment
-                            {
-                                ServiceApplicationId = serviceApplication.ServiceApplicationId,
-                                InputUpdate = 1
-                            };
-                            Context.Add(AmendmentServiceApplication);
+                            existingAmendmentServiceApplication.InputUpdate = 1;
                         }
                         else if (CurrentStep == 3)
                         {
-                            AmendmentServiceApplication = new ServiceApplicationAmendment
-                            {
-                                ServiceApplicationId = serviceApplication.ServiceApplicationId,
-                                RawMaterialUpdate = 1
-                            };
-                            Context.Add(AmendmentServiceApplication);
+                            existingAmendmentServiceApplication.RawMaterialUpdate = 1;
                         }
                         else if (CurrentStep == 4)
                         {
-                            AmendmentServiceApplication = new ServiceApplicationAmendment
-                            {
-                                ServiceApplicationId = serviceApplication.ServiceApplicationId,
-                                CostUpdate = 1
-                            };
-                            Context.Add(AmendmentServiceApplication);
+                            existingAmendmentServiceApplication.CostUpdate = 1;
                         }
                         else if (CurrentStep == 5)
                         {
-                            AmendmentServiceApplication = new ServiceApplicationAmendment
-                            {
-                                ServiceApplicationId = serviceApplication.ServiceApplicationId,
-                                EmploymentUpdate = 1
-                            };
-                            Context.Add(AmendmentServiceApplication);
+                            existingAmendmentServiceApplication.EmploymentUpdate = 1;
                         }
                         else if (CurrentStep == 6)
                         {
-                            AmendmentServiceApplication = new ServiceApplicationAmendment
-                            {
-                                ServiceApplicationId = serviceApplication.ServiceApplicationId,
-                                ShareUpdate = 1
-                            };
-                            Context.Add(AmendmentServiceApplication);
+                            existingAmendmentServiceApplication.ShareUpdate = 1;
                         }
                         else if (CurrentStep == 7)
                         {
-                            AmendmentServiceApplication = new ServiceApplicationAmendment
-                            {
-                                ServiceApplicationId = serviceApplication.ServiceApplicationId,
-                                ProfileUpdate = 1
-                            };
-                            Context.Add(AmendmentServiceApplication);
+                            existingAmendmentServiceApplication.ProfileUpdate = 1;
                         }
-                       
-                        Context.SaveChanges();
-                       // transaction.Commit();
-                        return serviceApplication;
+
+                        Context.Update(existingServiceApplication);
                     }
 
+                    Context.SaveChanges();
+                    // transaction.Commit();
+                    return existingServiceApplication;
                 }
-                catch (Exception ex)
+                else
                 {
-                    string s = ex.Message;
-                    throw new Exception(ex.InnerException.ToString());
+                    var service = Context.Service.FirstOrDefault(s => s.ServiceId == ServiceId);
+                    var project = Context.Project.FirstOrDefault(p => p.ProjectId == ProjectId);
+                    var squence = Context.Squences.FirstOrDefault();
+                    var lastSe = squence.LastSquence + 1;
+                    var perminumber = lastSe.ToString();
+                    serviceApplication = new ServiceApplication
+                    {
+                        InvestorId = InvestorId,
+                        ProjectId = ProjectId,
+                        CaseNumber = perminumber,
+                        ServiceId = ServiceId,
+                        IsSelfService = true,
+                        StartDate = DateTime.Now,
+                        EventDatetime = DateTime.Now,
+                        IsPaid = true,
+                        CreatedUserId = 1,
+                        IsActive = false,
+                        ServiceNameAmharic = service.DisplayName,
+                        ServiceNameEnglish = service.DisplayNameEnglish,
+                        CurrentStatusId = (int) ApplicationStatus.Drafted,
+                        ProjectNameEnglish = project.ProjectName,
+                        ProjectNameAmharic = project.ProjectName,
+                        CurrentStep = CurrentStep,
+                    };
+                    Context.Add(serviceApplication);
+                    Context.SaveChanges();
+
+                    if (CurrentStep == 1)
+                    {
+                        AmendmentServiceApplication = new ServiceApplicationAmendment
+                        {
+                            ServiceApplicationId = serviceApplication.ServiceApplicationId,
+                            ProfileUpdate = 1
+                        };
+                        Context.Add(AmendmentServiceApplication);
+                    }
+                    else if (CurrentStep == 2)
+                    {
+                        AmendmentServiceApplication = new ServiceApplicationAmendment
+                        {
+                            ServiceApplicationId = serviceApplication.ServiceApplicationId,
+                            InputUpdate = 1
+                        };
+                        Context.Add(AmendmentServiceApplication);
+                    }
+                    else if (CurrentStep == 3)
+                    {
+                        AmendmentServiceApplication = new ServiceApplicationAmendment
+                        {
+                            ServiceApplicationId = serviceApplication.ServiceApplicationId,
+                            RawMaterialUpdate = 1
+                        };
+                        Context.Add(AmendmentServiceApplication);
+                    }
+                    else if (CurrentStep == 4)
+                    {
+                        AmendmentServiceApplication = new ServiceApplicationAmendment
+                        {
+                            ServiceApplicationId = serviceApplication.ServiceApplicationId,
+                            CostUpdate = 1
+                        };
+                        Context.Add(AmendmentServiceApplication);
+                    }
+                    else if (CurrentStep == 5)
+                    {
+                        AmendmentServiceApplication = new ServiceApplicationAmendment
+                        {
+                            ServiceApplicationId = serviceApplication.ServiceApplicationId,
+                            EmploymentUpdate = 1
+                        };
+                        Context.Add(AmendmentServiceApplication);
+                    }
+                    else if (CurrentStep == 6)
+                    {
+                        AmendmentServiceApplication = new ServiceApplicationAmendment
+                        {
+                            ServiceApplicationId = serviceApplication.ServiceApplicationId,
+                            ShareUpdate = 1
+                        };
+                        Context.Add(AmendmentServiceApplication);
+                    }
+                    else if (CurrentStep == 7)
+                    {
+                        AmendmentServiceApplication = new ServiceApplicationAmendment
+                        {
+                            ServiceApplicationId = serviceApplication.ServiceApplicationId,
+                            ProfileUpdate = 1
+                        };
+                        Context.Add(AmendmentServiceApplication);
+                    }
+
+                    Context.SaveChanges();
+                    // transaction.Commit();
+                    return serviceApplication;
                 }
-            
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                throw new Exception(ex.InnerException.ToString());
+            }
         }
     }
-    
 }

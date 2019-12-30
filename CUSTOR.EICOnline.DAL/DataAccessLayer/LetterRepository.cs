@@ -41,7 +41,7 @@ namespace CUSTOR.EICOnline.DAL.DataAccessLayer
                 $@"(select distinct  LetterType,LetterId,LetterContent,UserName,ProjectId,RequestDate,LetterNo from Letter)";
 
             IQueryable<Letter> Letters = Context.Letter
-                .Where(Let => Let.ProjectId == id)
+                .Where(Let => Let.ProjectId == id && Let.LetterType != null)
                 .FromSql(query1)
                 .OrderBy(Let => Let.LetterId);
             if (page > 0)

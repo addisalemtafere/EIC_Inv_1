@@ -9,6 +9,8 @@ import {ServiceService} from '../../Services/service.service';
 import {NotificationModel} from '../../model/Notification.model';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {FormService} from '@custor/validation/custom/form';
+import {Permission} from "../../model/security/permission.model";
+import {ServiceapplicationService} from "../setting/services-tabs/serviceApplication/serviceapplication.service";
 
 @Component({
   selector: 'app-notifications',
@@ -17,9 +19,11 @@ import {FormService} from '@custor/validation/custom/form';
 })
 export class NotificationsComponent implements OnInit {
   public notitficationList: NotificationModel[];
+  public subimtedList: any;
   private loading: boolean;
   private notifications: NotificationModel;
   isInvestor: boolean;
+  isSubmited: boolean;
 
   constructor(private    dialogRef: MatDialogRef<NotificationsComponent>,
               private errMsg: ErrorMessage,
@@ -30,6 +34,7 @@ export class NotificationsComponent implements OnInit {
               private service: ServiceService,
               private formBuilder: FormBuilder,
               private formService: FormService,
+              private serviceApplication: ServiceapplicationService,
               private notifificationService: NotificationService) {
   }
 
@@ -38,9 +43,19 @@ export class NotificationsComponent implements OnInit {
     this.getUserType();
     if (this.isInvestor) {
       this.getAllNotification(this.accountService.currentUser.Id);
+      this.isSubmited = false;
+    } else if (this.canManageTask) {
+      this.isSubmited = true;
+      console.log('here')
+      this.getAllNotifications();
     } else {
+      this.isSubmited = false;
       this.getAllNotificationByUserName(this.accountService.currentUser.UserName);
     }
+  }
+
+  get canManageTask() {
+    return this.accountService.userHasPermission(Permission.manageTasks);
   }
 
   getUserType() {
@@ -52,6 +67,14 @@ export class NotificationsComponent implements OnInit {
       .subscribe(result => {
         this.loading = false;
         this.filterNotification(result);
+      }, error => this.errMsg.getError(error));
+  }
+
+  getAllNotifications() {
+    this.serviceApplication.getServiceAppliactionsSubmited()
+      .subscribe(result => {
+        console.log(result)
+        this.subimtedList = result;
       }, error => this.errMsg.getError(error));
   }
 
@@ -69,7 +92,6 @@ export class NotificationsComponent implements OnInit {
     this.notitficationList = [];
     for (let i = 0; i < notification.length; i++) {
       if (notification[i].isActive === true) {
-
         this.notitficationList.push(notification[i]);
       }
     }

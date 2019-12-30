@@ -80,6 +80,8 @@ export class AppConfiguration {
     site: 'api/site',
 
     serviceapplications: 'api/serviceapplications',
+    countServiceapplications: 'api/serviceapplications/count',
+    SubmitedServiceapplications: 'api/serviceapplications/SubmitedServiceapplications',
     serviceapplication: 'api/serviceapplication',
 
     sectors: 'api/sectors',
@@ -116,6 +118,7 @@ export class AppConfiguration {
     ChangeStatus: 'api/Notifications/ChangeStatus',
     ByUserName: 'api/Notifications/ByUserName',
     CountNotification: 'api/Notifications/CountNotification',
+    CountNotifications: 'api/Notifications/CountNotifications',
     CountNotificationByUserName: 'api/Notifications/CountNotificationByUserName',
     investorAdress: 'api/certificate/investorAdress',
     projectRenewals: 'api/projectRenewals',
@@ -223,6 +226,7 @@ export class AppConfiguration {
     CapitalRegistrations: 'api/CapitalRegistrations',
     CapitalRegistrationsByProject: 'api/CapitalRegistrations/ByProject',
     incentiveRequestByServiceAppId: 'api/IncentiveRequest/ByServiceAppId',
+    incentiveRequestByServiceAppIdForLetter: 'api/IncentiveRequest/ByServiceAppIdForLetter',
     incentiveRequestByProjectId: 'api/IncentiveRequest/ByProjectId',
     incentiveRequestByServiceAppIds: 'api/IncentiveRequest/ByServiceAppIds',
 

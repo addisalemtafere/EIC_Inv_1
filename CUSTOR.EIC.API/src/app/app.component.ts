@@ -28,6 +28,7 @@ import {ToastrService} from 'ngx-toastr';
 import {Permission} from './model/security/permission.model';
 import {NgxUiLoaderService} from "ngx-ui-loader";
 import {ServiceEnum} from "./enum/enums";
+import {ServiceapplicationService} from "./components/setting/services-tabs/serviceApplication/serviceapplication.service";
 // import {NgxUiLoaderService} from "ngx-ui-loader";
 
 // import { ToastrService } from 'ngx-toastr';
@@ -65,6 +66,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
               private translationService: AppTranslationService,
               public configurations: ConfigurationService,
               public router: Router,
+              private serviceApplication: ServiceapplicationService,
               private ngxService: NgxUiLoaderService,
               public route: ActivatedRoute,
               public accountService: AccountService,
@@ -182,6 +184,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
             this.getUserType();
             if (this.isInvestor) {
               this.countNotification(this.accountService.currentUser.Id);
+            } else if (this.canManageTask) {
+              this.countNotifications();
             } else {
               this.countNotificationByUserNames(this.accountService.currentUser.UserName);
             }
@@ -196,6 +200,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
             this.getUserType();
             if (this.isInvestor) {
               this.countNotification(this.accountService.currentUser.Id);
+            } else if (this.canManageTask) {
+              this.countNotifications();
             } else {
               this.countNotificationByUserNames(this.accountService.currentUser.UserName);
             }
@@ -208,6 +214,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
     });
     this.ngxService.stop(); // start foreground loading with 'default' id
 
+  }
+
+  get canManageTask() {
+    return this.accountService.userHasPermission(Permission.manageTasks);
   }
 
   gotoCustomerRegistration() {
@@ -305,18 +315,27 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked, AfterC
 
   }
 
-  countNotification(investorId: any) {
-    this.notificationService.CountNotification(investorId)
+  countNotification(InvestorId: any) {
+    this.notificationService.CountNotification(InvestorId)
       .subscribe(result => {
         this.numberOfNotification = result;
       });
   }
+
+  countNotifications() {
+    this.serviceApplication.getCountServiceAppliactions()
+      .subscribe(result => {
+        this.numberOfNotification = result;
+      });
+  }
+
   countNotificationByUserNames(userName: any) {
     this.notificationService.CountNotificationByUserNames(userName)
       .subscribe(result => {
         this.numberOfNotification = result;
       });
   }
+
   ngAfterContentChecked(): void {
     this.isLogged = localStorage.getItem('loggIn');
 

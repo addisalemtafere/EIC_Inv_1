@@ -38,7 +38,19 @@ namespace EIC.Investment.API.Controllers
     {
       return await _repository.GetAllServiceApplication(queryParameters, (int) ApplicationStatus.Submitted);
     }
+    [HttpGet("count")]
 
+    public async Task<int> GetAllServiceApplicationCount()
+    {
+      var notification = _context.ServiceApplication.Where(m => m.CurrentStatusId == 44446 && (m.ServiceId == 13 || m.ServiceId == 1023)).Count();
+      return notification;
+    }
+    [HttpGet("SubmitedServiceapplications")]
+    public async Task<List<ServiceApplication>> SubmitedServiceapplication()
+    {
+      var notification = _context.ServiceApplication.Where(m => m.CurrentStatusId == 44446 && (m.ServiceId == 13 || m.ServiceId == 1023)).ToList();
+      return notification;
+    }
 
     [HttpGet("{id}")]
     public async Task<ServiceApplication> GetServiceApplication([FromRoute] int id)
@@ -134,11 +146,13 @@ namespace EIC.Investment.API.Controllers
         .SingleOrDefaultAsync(m => m.ServiceApplicationId == id);
       return serviceApplication;
     }
+
     [HttpGet("CheckServiceApplication/{investorId}/{requestedServiceId}")]
     public ServiceApplication CheckServiceApplication(int investorId, int requestedServiceId)
     {
       return _repository.CheckServiceApplicationApi(investorId, requestedServiceId);
     }
+
     [HttpGet("GetServiceList/{projectId}/{serviceApplicationId}")]
     public ServiceApplicationAmendment GetServiceList(int projectId, int serviceApplicationId)
     {
@@ -150,6 +164,7 @@ namespace EIC.Investment.API.Controllers
     {
       return _repository.CheckProjectServiceApplication(projectId, requestedServiceId);
     }
+
     [HttpGet("ByInvestorId/{id}")]
     public IEnumerable<ServiceApplication> GetServiceApplicationByInvestorId([FromRoute] int id)
     {
@@ -499,7 +514,9 @@ namespace EIC.Investment.API.Controllers
     public PagedResult<ServiceApplication> SearchProject([FromQuery] QueryParameters queryParameters,
       [FromBody] SearchDto searchDto)
     {
-      var query = _context.ServiceApplication .Where(s => s.ServiceId==13 || s.ServiceId==18 || s.ServiceId==19 || s.ServiceId==1023 || s.ServiceId==1027 || s.ServiceId==1028) as IQueryable<ServiceApplication>;
+      var query = _context.ServiceApplication.Where(s =>
+        s.ServiceId == 13 || s.ServiceId == 18 || s.ServiceId == 19 || s.ServiceId == 1023 || s.ServiceId == 1027 ||
+        s.ServiceId == 1028) as IQueryable<ServiceApplication>;
 
       if (!string.IsNullOrEmpty(searchDto.Tin))
       {

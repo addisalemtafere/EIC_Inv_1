@@ -237,7 +237,7 @@ export class LetterComponent implements OnInit {
   }
 
   getIncentiveDetails() {
-    this.incentiveRequestService.getIncentiveRequestByServiceApplicationId(this.ServiceApplicationId, this.currentLang)//34517
+    this.incentiveRequestService.getIncentiveRequestByServiceApplicationIdForLetter(this.ServiceApplicationId, this.currentLang)//34517
       .subscribe(result => {
           if (result) {
             // console.log(this.incentiveRequestModelList);
@@ -347,7 +347,9 @@ export class LetterComponent implements OnInit {
     this.ShowSave = true;
     this.editMode = true;
     this.letterEditIndex = index;
+    console.log(this.letterModelList[index])
     this.letterModel = this.letterModelList[index];
+    this.rteValue=this.letterModelList[index].LetterContent
     this.letterForm.patchValue(
       this.letterModel
     );
@@ -418,7 +420,11 @@ export class LetterComponent implements OnInit {
       this.LetterContent = this.LetterContent.replace(/{{CustomsSite}}/g,
         this.CustomsSite = this.incentiveRequestModelList[0].CustomsSite
       );
+      this.LetterContent = this.LetterContent.replace(/{{ChassisNo}}/g,
+        this.incentiveRequestModelList[0].ChassisNo
+      );
     }
+
     console.log(this.InvestoraddressList.CellPhoneNo)
     this.LetterContent = this.LetterContent.replace(/{{TeleNo}}/g,
       this.InvestoraddressList.CellPhoneNo);
@@ -432,8 +438,10 @@ export class LetterComponent implements OnInit {
     //   this.letterForm.patchValue({
     //   LetterContent: this.LetterContent
     //  });
-    var letterContent = this.LetterContent
+    var letterContent1 = this.LetterContent
       .replace("{{FullName}}", this.projectModel.Investor.InvestorName.toString())
+    var letterContent = letterContent1
+      .replace("{{FullNameAmh}}", this.projectModel.Investor.InvestorName.toString())
     this.rteValue = letterContent;
     this.letterForm.patchValue({
       LetterContent: this.rteValue

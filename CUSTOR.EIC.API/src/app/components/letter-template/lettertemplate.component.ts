@@ -114,7 +114,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentLang = this.configService.language;
     this.initForm();
-    this.getIncentiveReaquestItmes();
+    this.getLetterTempaltes();
     this.getItemLookup();
   }
   addLetter(){
@@ -127,7 +127,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     this.letterTemplateForm.reset();
   }
 
-  getIncentiveReaquestItmes() {
+  getLetterTempaltes() {
     this.LettertepmlateService.getLetterTemplateList(this.currentLang).subscribe(result => {
       if (result.length > 0) {
         this.LetterTemplateModels = result;
@@ -169,7 +169,6 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit() {
-    console.log(this.getEditedLetterTemplate());
     this.loadingIndicator = true;
     return this.LettertepmlateService.saveletterTemplate(
       this.getEditedLetterTemplate()).subscribe((LetterTemplateModel: LetterTemplateModel) => {
@@ -182,7 +181,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     this.editMode = true;
     this.letterTemplateItemtEditIndex = index;
     this.LetterTemplateModel = this.LetterTemplateModels[index];
-    console.log(this.LetterTemplateModel);
+    this.rteValue=this.LetterTemplateModels[index].LetterContent
     this.letterTemplateForm.patchValue(
       this.LetterTemplateModel
     );
@@ -220,7 +219,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     if (LetterTemplateModel) {
       this.LetterTemplateModel = LetterTemplateModel;
       //this.dataSource = new MatTableDataSource<LetterTemplateModel>(this.LetterTemplateModels);
-      this.getIncentiveReaquestItmes();
+      this.getLetterTempaltes();
     }
     this.onClear();
     this.loadingIndicator = false;
@@ -239,7 +238,7 @@ export class LettertemplateComponent implements OnInit, OnDestroy {
     const formModel = this.letterTemplateForm.value;
     console.log(formModel);
     alert(this.rteObj.value);
-    // 
+    //
     // if(this.isNewLetterTempalte !== true){
     //   this.LetterTemplateId = this.LetterTemplateModel.LetterTemplateId
     // }

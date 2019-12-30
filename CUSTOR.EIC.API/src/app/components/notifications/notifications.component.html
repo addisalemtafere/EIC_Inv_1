@@ -6,6 +6,7 @@
       <div><span> All Notifications</span></div>
     </mat-list-item>
     <mat-divider></mat-divider>
+    <span *ngIf="!isSubmited">
     <mat-list-item *ngFor="let item of notitficationList" style="border-bottom: 1px solid #cccccc">
       <table width="100%">
         <a (click)="show(item.NotitficationId)" class="pointer" style="    text-decoration: none;
@@ -27,6 +28,21 @@
         </a>
       </table>
     </mat-list-item>
+    </span>
+    <span *ngIf="isSubmited">
+    <mat-list-item *ngFor="let item of subimtedList" style="border-bottom: 1px solid #cccccc">
+      <table width="100%">
+          <tr>
+            <td style="    width: 281px;" fxFlex="80%">
+              <div style="font-weight: bolder;color: #3c8dbc;text-decoration: underline;">{{item.InvestorNameEnglish}}</div>
+              <div>
+                {{item.InvestorNameEnglish}}
+              </div>
+            </td>
+          </tr>
+      </table>
+    </mat-list-item>
+    </span>
   </mat-list>
 
 </div>

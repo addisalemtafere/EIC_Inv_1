@@ -110,8 +110,6 @@ namespace CUSTOR.EICOnline.API.Controllers
     public async Task<int> CountNotificationByUserName([FromRoute] string id)
     {
       var notification = _context.Notifications.Where(m => m.FromUserId == id && m.isActive).Count();
-
-
       return notification;
     }
 
@@ -120,8 +118,6 @@ namespace CUSTOR.EICOnline.API.Controllers
     public async Task<int> CountNotification([FromRoute] string id)
     {
       var notification = _context.Notifications.Where(m => m.ToUserId == id && m.isActive).Count();
-
-
       return notification;
     }
 

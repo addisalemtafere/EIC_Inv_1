@@ -10,7 +10,7 @@ namespace CUSTOR.EICOnline.DAL
     public class PagedResult<T>
     {
         public List<ServiceApplication> Items { get; set; }
-
-        public int ItemsCount { get; set; }
+        public List<ServiceAppDto> Item { get; set; }
+       public int ItemsCount { get; set; }
     }
 }

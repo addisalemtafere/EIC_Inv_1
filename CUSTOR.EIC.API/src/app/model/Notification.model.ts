@@ -8,5 +8,6 @@ export class NotificationModel {
   public CreatedDate: Date;
   public FromUserId: string;
   public ToUserId: string;
+  public InvestorNameEnglish: string;
   public isActive: boolean;
 }
