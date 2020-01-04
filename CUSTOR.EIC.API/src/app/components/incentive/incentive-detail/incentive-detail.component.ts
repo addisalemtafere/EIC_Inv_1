@@ -21,6 +21,7 @@ import {determineId} from '@custor/helpers/compare';
 import {IncentiveRequestDetailModel} from '../../../model/IncentiveRequestDetail.Model';
 import {IncentiveRequestDetailService} from '../incentive-request/requested-items-list/requested-items-list.service';
 import {ConfigurationService} from "@custor/services/configuration.service";
+import {IncentiveRequestService} from '../../incentive/incentive-request/incentive-request.service';
 
 @Component({
   selector: 'app-incentive-detail',
@@ -43,6 +44,7 @@ export class IncentiveDetailComponent implements OnInit {
   editMode = false;
   loading = false;
   dataSource: any;
+  dataSourceSummary:any;
   dataSourceLetter: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
   letterTempalteModel: LetterTemplateModel;
@@ -52,13 +54,16 @@ export class IncentiveDetailComponent implements OnInit {
   currentCategoryId: number;
   isForDetail = 1;
   displayedColumns = [
-    'No', 'IncentiveItem', 'Quantity', 'Amount', 'RequestDate'
+    'No', 'IncentiveItem','RequestDate', 'Quantity', 'Amount'
   ];
-
+  displayedColumnsSummary = [
+    'IncentiveCategory','RequestDate', 'Quantity', 'Amount'
+  ];
   subscription: Subscription;
   loadingIndicator: boolean;
 
   isVisibleShowBalance = false;
+  isVisibleShowSummary = false;
   public isInvestor: boolean;
   incentiveDetailForm: FormGroup;
   projectId: any;
@@ -81,6 +86,7 @@ export class IncentiveDetailComponent implements OnInit {
               public settingService: ApplicationSettingService,
               private IncentiveRequestItemService: IncentiveRequestDetailService,
               private errMsg: ErrorMessage,
+              private IncentiveRequestService: IncentiveRequestService,
               private toastr: ToastrService,
               private fb: FormBuilder) {
     this.IncentiveRequestModel = <IncentiveRequestModel>{};
@@ -160,8 +166,10 @@ export class IncentiveDetailComponent implements OnInit {
     console.log(this.currentCategoryId);
     if (categoryCode === 10778 || categoryCode === 10782 || categoryCode === 10777) {
       this.isVisibleShowBalance = true;
+      this.isVisibleShowSummary=false;
     } else {
       this.isVisibleShowBalance = false;
+      this.isVisibleShowSummary=false;
     }
     this.getIncentiveRequestItemsBytCategoryCode(this.projectId, categoryCode);
   }
@@ -180,7 +188,20 @@ export class IncentiveDetailComponent implements OnInit {
       this.router.navigate(['sparepart-balance/' + this.projectId + '/' + 0]);
     }
   }
+  showSummary() {
+    this.getIncentiveReaquestItmesByProjectId(this.projectId);
+  }
 
+  getIncentiveReaquestItmesByProjectId(projectId) {
+    this.IncentiveRequestService.getIncentiveRequestByProjectsId(projectId,this.currentLang).subscribe(result => {
+      if (result.length > 0) {
+        this.isVisibleShowSummary=true;
+        this.IncentiveRequestModels = result;
+        this.dataSourceSummary = new MatTableDataSource<IncentiveRequestModel>(result);
+        this.loading = false;
+      }
+    }, error => this.errMsg.getError(error));
+  }
   showLetter() {
     this.serviceId = 0;
     this.serviceApplicationId = 0;

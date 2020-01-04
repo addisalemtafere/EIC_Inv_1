@@ -47,7 +47,7 @@
       <app-payment></app-payment>
     </ng-template>
   </mat-tab>
-  <mat-tab *ngIf="!isInvestor && isRenewal"  [disabled]="nextIndex<5"  label="Certificate">
+  <mat-tab *ngIf="!isInvestor && isRenewal"    label="Certificate">
     <ng-template matTabContent>
      <app-certificate></app-certificate>
     </ng-template>

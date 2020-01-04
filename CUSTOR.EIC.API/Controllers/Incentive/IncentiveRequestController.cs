@@ -1,4 +1,4 @@
-﻿using CUSTOR.API.ExceptionFilter;
+using CUSTOR.API.ExceptionFilter;
 using CUSTOR.EICOnline.DAL;
 using CUSTOR.EICOnline.DAL.EntityLayer;
 using CUSTOR.EICOnline.DAL.EntityLayer.Incentive;

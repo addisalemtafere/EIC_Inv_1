@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +15,7 @@ using CUSTOR.API.ExceptionFilter;
 using Microsoft.AspNetCore.Cors;
 using System.Data.SqlClient;
 using CUSTOR.EICOnline.API.ViewModels.enums;
+using IdentityServer4.Extensions;
 
 namespace CUSTOR.EICOnline.API.Controllers.Incentive
 {
@@ -138,6 +139,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
     {
       return await _itemsRepository.GetIncentiveBoMRequestItemByProjectId(id, lang, page, pageSize);
     }
+
 //    [HttpGet]
 //    [Route("GetByProjectId/{id:int}/{lang}")]
 //    public async Task<IEnumerable<IncentiveBoMRequestItemDTO>> GetIncentiveRequestsByProjectId(int id, string lang,
@@ -238,9 +240,9 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
 
     [HttpPost]
     [Route("ImportItem")]
-    public async Task<IList<IncentiveBoMRequestItem>> PostAsync([FromForm] DocumentVM vm, int page = -1, int pageSize = 10)
+//    public async Task<IList<IncentiveBoMRequestItem>> PostAsync([FromForm] DocumentVM vm, int page = -1,int pageSize = 10)
+    public async Task<IList<IncentiveBoMRequestItem>> PostAsync([FromForm] DocumentVM vm)
     {
-
       var filePath = Path.Combine(_hostingEnvironment.WebRootPath, vm.Name);
 
       using (var stream = new FileStream(filePath, FileMode.Create))
@@ -261,21 +263,23 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
 
         for (int i = 2; i <= totalRows; i++)
         {
-          incentiveBoMRequestItems.Add(new IncentiveBoMRequestItem
-          {
-            Description = workSheet.Cells[i, 1].Value.ToString(),
-            HsCode = workSheet.Cells[i, 2].Value.ToString(),
-            Quantity = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
-            ApprovedQuantity = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
-            Balance = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
-            MesurmentUnit = workSheet.Cells[i, 4].Value.ToString(),
-            UploadDate = DateTime.Now,
-            EventDatetime = DateTime.Now,
-            Phase = vm.PhaseId,
-            IncentiveCategoryId = vm.IncentiveCategoryId,
-            ProjectId = vm.ProjectId,
-            ServiceApplicationId = vm.ServiceApplicationId,
-          });
+          if (!workSheet.Cells[i, 1].IsNullOrEmpty() && !workSheet.Cells[i, 2].IsNullOrEmpty() &&
+              !workSheet.Cells[i, 3].IsNullOrEmpty() && !workSheet.Cells[i, 4].IsNullOrEmpty())
+            incentiveBoMRequestItems.Add(new IncentiveBoMRequestItem
+            {
+              Description = workSheet.Cells[i, 1].Value.ToString(),
+              HsCode = workSheet.Cells[i, 2].Value.ToString(),
+              Quantity = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
+              ApprovedQuantity = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
+              Balance = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
+              MesurmentUnit = workSheet.Cells[i, 4].Value.ToString(),
+              UploadDate = DateTime.Now,
+              EventDatetime = DateTime.Now,
+              Phase = vm.PhaseId,
+              IncentiveCategoryId = vm.IncentiveCategoryId,
+              ProjectId = vm.ProjectId,
+              ServiceApplicationId = vm.ServiceApplicationId,
+            });
 
 
           //_context.incentiveBoMRequestItems.Add(postProjectSubstitute);
@@ -285,14 +289,17 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         //ServiceApplication.Add(serviceApplication);
         _context.IncentiveBoMRequestItem.AddRange(incentiveBoMRequestItems);
         _context.SaveChanges();
-        IQueryable<IncentiveBoMRequestItem> incentiveBomItems= incentiveBoMRequestItems as IQueryable<IncentiveBoMRequestItem>;
+        IQueryable<IncentiveBoMRequestItem> incentiveBomItems =
+          incentiveBoMRequestItems as IQueryable<IncentiveBoMRequestItem>;
+        //
+        //        if (page > 0)
+        //        {
+        //          incentiveBomItems = incentiveBomItems
+        //            .Skip((page - 1) * pageSize)
+        //            .Take(pageSize);
+        //        }
 
-        if (page > 0)
-        {
-          incentiveBomItems = incentiveBomItems
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize);
-        }
+        //        return await incentiveBomItems.ToListAsync();
         return await incentiveBomItems.ToListAsync();
       }
     }

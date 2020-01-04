@@ -44,6 +44,7 @@ import {DocumentPipePipe} from './pipe/document-pipe.pipe';
 import {CustomerServicesService} from './components/home/customer-service.service';
 import {SharedModule} from '@custor/modules/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FilterService, GridModule, GroupService, PageService, SortService} from '@syncfusion/ej2-angular-grids';
 // commented by fetiha
 // import { NotificationsComponent} from './components/notifications/notifications.component';
 import {BaseComponent} from './components/base-components/base.component';
@@ -122,7 +123,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-
+    GridModule,
 
     TranslateModule.forRoot({
       loader: {
@@ -189,6 +190,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AddressService,
     AppConfiguration,
     ErrorMessage,
+    PageService,
+    SortService, FilterService, GroupService
     // ServicePrerequisiteService,
     // CustomerServicesService
   ],

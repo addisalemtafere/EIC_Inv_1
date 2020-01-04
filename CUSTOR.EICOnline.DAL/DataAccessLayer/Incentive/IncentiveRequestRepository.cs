@@ -109,8 +109,8 @@ namespace CUSTOR.EICOnline.DAL
             }
 
             return IncentiveRequests.ToListAsync();
-        }
-        
+        }      
+
         public Task<List<IncentiveRequestsDTO>> GetIncentiveRequestsByServiceAppIdsForLetter(string lang, int id, int page = 0,
             int pageSize = 15)
         {
@@ -132,13 +132,13 @@ namespace CUSTOR.EICOnline.DAL
 
             return IncentiveRequests.ToListAsync();
         }
-        public Task<List<IncentiveRequestsDTO>> GetIncentiveRequestsByProjectIds(string lang, int id, int page = 0,
+        public async Task<List<IncentiveRequestsDTO>> GetIncentiveRequestsByProjectIds(string lang, int id, int page = 0,
             int pageSize = 15)
         {
             string FieldNameOther = StaticDataHelper.GetFieldNameOther(lang);
             string query1 =
                 $@"(select Distinct IncentiveRequest.IncentiveRequestId,ServiceApplicationId,IncentiveRequest.ProjectId,(Select Distinct {FieldNameOther} from LookUpType WHERE LookUpType.LookUpTypeId=IncentiveRequest.IncentiveCategoryId ) as IncentiveCategory,IncentiveRequest.IncentiveCategoryId,IncentiveRequest.Amount,
-                    IncentiveRequest.Quantity,InvoiceNo,CustomsSiteId,IncentiveRequest.RequestDate,IncentiveRequest.CurrencyRate,IncentiveRequest.CurrencyType,(Select Distinct Amharic from LookUp WHERE LookUp.LookUpId=IncentiveRequest.CustomsSiteId ) as CustomsSite,IsExporter,IsBankPermit,FileNo,Phase               
+                    IncentiveRequest.Quantity,InvoiceNo,CustomsSiteId,IncentiveRequest.RequestDate,IncentiveRequest.CurrencyRate,IncentiveRequest.CurrencyType,(Select Distinct Amharic from LookUp WHERE LookUp.LookUpId=IncentiveRequest.CustomsSiteId ) as CustomsSite,IsExporter,IsBankPermit,FileNo,Phase,'' as ChassisNo               
 					from IncentiveRequest)";
             
             IQueryable<IncentiveRequestsDTO> IncentiveRequests = Context.IncentiveRequestsDTO
@@ -151,7 +151,7 @@ namespace CUSTOR.EICOnline.DAL
                     .Take(pageSize);
             }
 
-            return IncentiveRequests.ToListAsync();
+            return await IncentiveRequests.ToListAsync();
         }
         public Task<List<IncentiveRequestDTO>> GetIncentiveRequestsByServiceAppIdss(string lang, int id, int page = 0,
             int pageSize = 15)

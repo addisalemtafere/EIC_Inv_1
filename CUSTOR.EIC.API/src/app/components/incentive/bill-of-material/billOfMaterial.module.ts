@@ -8,6 +8,7 @@ import {ServiceConfirmationModule} from '../../project-profile/service-confirmat
 import {LetterModule} from '../../project-profile/letter/letter.module';
 import {MessageModule} from "../../project-profile/notification/message.module";
 import {BillOfMaterialService} from "../../../Services/incentive/bill-of-material.service";
+import {GridModule} from "@syncfusion/ej2-angular-grids";
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import {BillOfMaterialService} from "../../../Services/incentive/bill-of-materia
     BillOfMaterialRoutingModule,
     ServiceConfirmationModule,
     LetterModule,
-    MessageModule
+    MessageModule,
+    GridModule
   ],
   declarations: [
     BillOfMaterialComponent,

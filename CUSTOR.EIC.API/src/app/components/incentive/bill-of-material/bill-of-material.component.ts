@@ -21,6 +21,7 @@ import {LookUpService} from '../../../Services/look-up.service';
 import {determineId} from '@custor/helpers/compare';
 import {IncentiveRequestDetailService} from '../incentive-request/requested-items-list/requested-items-list.service';
 import {ResultFunc} from "rxjs/internal-compatibility";
+import { GridLine, GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'app-bill-of-material',
@@ -30,7 +31,7 @@ import {ResultFunc} from "rxjs/internal-compatibility";
 })
 export class BillOfMaterialComponent implements OnInit, AfterViewInit {
 
-  dataSource: any;
+  public dataSource: any;
   loading: boolean;
   searchForm: FormGroup;
   documentForm: FormGroup;
@@ -276,7 +277,9 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
         });
     }
   }
-
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
   getBillOfMaterial(ServiceApplicationId: any, lang: any) {
     this.loading = true;
     this.billOfMaterilService.getBillOfMaterialByServiceApplicationId(ServiceApplicationId, lang)
@@ -373,9 +376,6 @@ export class BillOfMaterialComponent implements OnInit, AfterViewInit {
   // }
 
   // }
-  ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-  }
 
   clear() {
     this.billOfMaterialForm.reset();
