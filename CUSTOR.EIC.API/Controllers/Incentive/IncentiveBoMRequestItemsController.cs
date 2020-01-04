@@ -300,7 +300,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         //        }
 
         //        return await incentiveBomItems.ToListAsync();
-        return  incentiveBomItems;
+        return  incentiveBoMRequestItems;
       }
     }
 
