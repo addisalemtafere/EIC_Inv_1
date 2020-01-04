@@ -240,7 +240,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
 
     [HttpPost]
     [Route("ImportItem")]
-//    public async Task<IList<IncentiveBoMRequestItem>> PostAsync([FromForm] DocumentVM vm, int page = -1,int pageSize = 10)
+//    public Task<IList<IncentiveBoMRequestItem>> PostAsync([FromForm] DocumentVM vm, int page = -1,int pageSize = 10)
     public async Task<IList<IncentiveBoMRequestItem>> PostAsync([FromForm] DocumentVM vm)
     {
       var filePath = Path.Combine(_hostingEnvironment.WebRootPath, vm.Name);
@@ -289,8 +289,8 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         //ServiceApplication.Add(serviceApplication);
         _context.IncentiveBoMRequestItem.AddRange(incentiveBoMRequestItems);
         _context.SaveChanges();
-        IQueryable<IncentiveBoMRequestItem> incentiveBomItems =
-          incentiveBoMRequestItems as IQueryable<IncentiveBoMRequestItem>;
+        // IQueryable<IncentiveBoMRequestItem> incentiveBomItems =
+        //   incentiveBoMRequestItems as IQueryable<IncentiveBoMRequestItem>;
         //
         //        if (page > 0)
         //        {
@@ -300,7 +300,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         //        }
 
         //        return await incentiveBomItems.ToListAsync();
-        return await incentiveBomItems.ToListAsync();
+        return  incentiveBomItems;
       }
     }
 
