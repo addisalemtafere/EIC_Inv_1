@@ -57,7 +57,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         [HttpGet("ByProjectId/{id}")]
         public async Task<IEnumerable<IncentiveRequestDetail>> GetIncentiveDetailsByProjectId(int id, int page = -1, int pageSize = 15)
         {
-            return await _IncentiveRequestDetailRepoo.GetIncentiveRequestDetailsByProjectId(id, page, pageSize);
+          return await _IncentiveRequestDetailRepoo.GetIncentiveRequestDetailsByProjectId(id, page, pageSize);
         }
         //[HttpGet("BillOfMaterial/{id}")]
         //public async Task<IEnumerable<IncentiveRequestDetail>> GetIncentiveDetailsByProjectId(int id, int page = -1, int pageSize = 15)

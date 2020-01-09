@@ -129,6 +129,7 @@ namespace CUSTOR.EICOnline.DAL.EntityLayer
         public DbSet<IncentiveLog> IncentiveLogs { get; set; }
         public DbSet<Squence> Squences { get; set; }
         public DbSet<IncentiveBoMRequestItem> IncentiveBoMRequestItem { get; set; }
+        public DbSet<BomError> BomError { get; set; }
         public DbSet<IncentiveBoMRequestItemDTO> IncentiveBoMRequestItemDTO { get; set; }
         public DbSet<IncentiveTaxExemptionRequest> IncentiveTaxExemptionRequest { get; set; }
         public DbSet<ApplicationSetting> ApplicationSetting { get; set; }

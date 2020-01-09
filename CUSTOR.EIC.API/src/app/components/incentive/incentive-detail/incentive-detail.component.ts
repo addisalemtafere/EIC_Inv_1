@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {LookupTypeService} from '../../../Services/lookup-type.service';
 import {AppConfiguration} from '../../../config/appconfig';
 import {ToastrService} from 'ngx-toastr';
-import {MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource,PageEvent} from '@angular/material';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LookUpService} from '../../../Services/look-up.service';
@@ -22,6 +22,8 @@ import {IncentiveRequestDetailModel} from '../../../model/IncentiveRequestDetail
 import {IncentiveRequestDetailService} from '../incentive-request/requested-items-list/requested-items-list.service';
 import {ConfigurationService} from "@custor/services/configuration.service";
 import {IncentiveRequestService} from '../../incentive/incentive-request/incentive-request.service';
+import {QueryParametersModel} from "../../../model/QueryParameters.model";
+import {PaginationService} from "@custor/services/pagination.service";
 
 @Component({
   selector: 'app-incentive-detail',
@@ -70,7 +72,7 @@ export class IncentiveDetailComponent implements OnInit {
   serviceId: any;
   serviceApplicationId: any;
   private currentLang: string;
-
+  totalCount:number;
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private letterService: LetterService,
@@ -88,6 +90,7 @@ export class IncentiveDetailComponent implements OnInit {
               private errMsg: ErrorMessage,
               private IncentiveRequestService: IncentiveRequestService,
               private toastr: ToastrService,
+              public paginationService: PaginationService,
               private fb: FormBuilder) {
     this.IncentiveRequestModel = <IncentiveRequestModel>{};
     // initialize the form
@@ -101,7 +104,7 @@ export class IncentiveDetailComponent implements OnInit {
     this.serviceId = this.activatedRoute.snapshot.params['serviceId'] || this.activatedRoute.snapshot.params['ServiceId'];
     this.serviceApplicationId = this.activatedRoute.snapshot.params['serviceApplicationId'] || this.activatedRoute.snapshot.params['ServiceApplicationId'];
     this.projectId = this.activatedRoute.snapshot.params['projectId'] || this.activatedRoute.snapshot.params['ProjectId'];
-    //// console.log(this.serviceId);
+    console.log(this.serviceId);
     this.route.params
       .subscribe((params: Params) => {
         this.getIncentiveRequestItems(this.projectId);
@@ -129,6 +132,15 @@ export class IncentiveDetailComponent implements OnInit {
         error => this.errMsg.getError(error));
   }
 
+  private getManagerParameters(): QueryParametersModel {
+    const params = new QueryParametersModel();
+
+    params.PageIndex = this.paginationService.page;
+    params.PageSize = this.paginationService.pageCount;
+    params.Lang = this.configService.language;
+    return params;
+  }
+
   getIncentiveRequestItems(projectId) {
     this.IncentiveRequestItemService.getIncentiveRequestDetailsByProjectId(projectId).subscribe(result => {
       if (result.length > 0) {
@@ -139,7 +151,10 @@ export class IncentiveDetailComponent implements OnInit {
       }
     }, error => this.errMsg.getError(error));
   }
-
+  switchPage(event: PageEvent) {
+    this.paginationService.change(event);
+    this.getIncentiveRequestItems(this.projectId);
+  }
   getIncentiveRequestItemsBytCategoryCode(projectId, categoryId) {
     this.IncentiveRequestItemService.getIncentiveRequestDetailsBytCategoryCode(this.activatedRoute.snapshot.params['projectId'], categoryId).subscribe(result => {
       if (result.length > 0) {

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient,HttpParams} from '@angular/common/http';
 import {AppConfiguration} from '../../../../config/appconfig';
 import {ErrorMessage} from '@custor/services/errMessageService';
 import {IncentiveBoMRequestItemModel} from '../../../../model/incentive/IncentiveBoMRequestItem.model';
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/internal/operators';
 import {IncentiveRequestDetailModel} from '../../../../model/IncentiveRequestDetail.Model';
-
+import {QueryParametersModel} from "../../../../model/QueryParameters.model";
 
 @Injectable({
   providedIn: 'root'

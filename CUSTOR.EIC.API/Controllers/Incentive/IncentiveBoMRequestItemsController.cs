@@ -75,7 +75,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         serviceApplication.IsActive = true;
         serviceApplication.EndDate = DateTime.Now;
         //serviceApplication.EndTime = DateTime.Now.ToLongTimeString();
-        serviceApplication.CurrentStatusId = (int) ApplicationStatus.Completed;
+        serviceApplication.CurrentStatusId = (int)ApplicationStatus.Completed;
         _context.Entry(serviceApplication).State = EntityState.Modified;
 
         ServiceWorkflowHistory serviceWorkflowHistory = new ServiceWorkflowHistory();
@@ -140,13 +140,13 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       return await _itemsRepository.GetIncentiveBoMRequestItemByProjectId(id, lang, page, pageSize);
     }
 
-//    [HttpGet]
-//    [Route("GetByProjectId/{id:int}/{lang}")]
-//    public async Task<IEnumerable<IncentiveBoMRequestItemDTO>> GetIncentiveRequestsByProjectId(int id, string lang,
-//      int page = -1, int pageSize = 10)
-//    {
-//      return await _itemsRepository.GetIncentiveBoMRequestItemByProjectId(id, lang, page, pageSize);
-//    }
+    //    [HttpGet]
+    //    [Route("GetByProjectId/{id:int}/{lang}")]
+    //    public async Task<IEnumerable<IncentiveBoMRequestItemDTO>> GetIncentiveRequestsByProjectId(int id, string lang,
+    //      int page = -1, int pageSize = 10)
+    //    {
+    //      return await _itemsRepository.GetIncentiveBoMRequestItemByProjectId(id, lang, page, pageSize);
+    //    }
     // PUT: api/IncentiveBoMRequestItems/5
     [HttpPut("{id}")]
     public async Task<IncentiveBoMRequestItem> PutIncentiveBoMRequestItem([FromRoute] int id,
@@ -207,7 +207,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
       _context.IncentiveBoMRequestItem.Add(incentiveBoMRequestItem);
       await _context.SaveChangesAsync();
 
-      return CreatedAtAction("GetIncentiveBoMRequestItem", new {id = incentiveBoMRequestItem.IncentiveBoMRequestItemId},
+      return CreatedAtAction("GetIncentiveBoMRequestItem", new { id = incentiveBoMRequestItem.IncentiveBoMRequestItemId },
         incentiveBoMRequestItem);
     }
 
@@ -240,9 +240,10 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
 
     [HttpPost]
     [Route("ImportItem")]
-//    public Task<IList<IncentiveBoMRequestItem>> PostAsync([FromForm] DocumentVM vm, int page = -1,int pageSize = 10)
+    //    public Task<IList<IncentiveBoMRequestItem>> PostAsync([FromForm] DocumentVM vm, int page = -1,int pageSize = 10)
     public async Task<IList<IncentiveBoMRequestItem>> PostAsync([FromForm] DocumentVM vm)
     {
+      string ErrorDescription = string.Empty;
       var filePath = Path.Combine(_hostingEnvironment.WebRootPath, vm.Name);
 
       using (var stream = new FileStream(filePath, FileMode.Create))
@@ -260,19 +261,21 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         int totalRows = workSheet.Dimension.Rows;
 
         List<IncentiveBoMRequestItem> incentiveBoMRequestItems = new List<IncentiveBoMRequestItem>();
+        List<BomError> errors = new List<BomError>();
 
         for (int i = 2; i <= totalRows; i++)
         {
-          if (!workSheet.Cells[i, 1].IsNullOrEmpty() && !workSheet.Cells[i, 2].IsNullOrEmpty() &&
-              !workSheet.Cells[i, 3].IsNullOrEmpty() && !workSheet.Cells[i, 4].IsNullOrEmpty())
+          if (!workSheet.Cells[i, 2].IsNullOrEmpty() && !workSheet.Cells[i, 3].IsNullOrEmpty() &&
+              !workSheet.Cells[i, 4].IsNullOrEmpty() && !workSheet.Cells[i, 5].IsNullOrEmpty())
+          {
             incentiveBoMRequestItems.Add(new IncentiveBoMRequestItem
             {
-              Description = workSheet.Cells[i, 1].Value.ToString(),
-              HsCode = workSheet.Cells[i, 2].Value.ToString(),
-              Quantity = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
-              ApprovedQuantity = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
-              Balance = Convert.ToDecimal(workSheet.Cells[i, 3].Value),
-              MesurmentUnit = workSheet.Cells[i, 4].Value.ToString(),
+              Description = workSheet.Cells[i, 2].Value.ToString(),
+              HsCode = workSheet.Cells[i, 3].Value.ToString(),
+              Quantity = Convert.ToDecimal(workSheet.Cells[i, 4].Value),
+              ApprovedQuantity = Convert.ToDecimal(workSheet.Cells[i, 4].Value),
+              Balance = Convert.ToDecimal(workSheet.Cells[i, 4].Value),
+              MesurmentUnit = workSheet.Cells[i, 5].Value.ToString(),
               UploadDate = DateTime.Now,
               EventDatetime = DateTime.Now,
               Phase = vm.PhaseId,
@@ -280,13 +283,40 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
               ProjectId = vm.ProjectId,
               ServiceApplicationId = vm.ServiceApplicationId,
             });
+          }
+          else
+          {
+            ErrorDescription = string.Empty;
+            if (workSheet.Cells[i, 2].IsNullOrEmpty())
+            {
+              ErrorDescription = "Item is Empity or Null ";
+            }
+            if (workSheet.Cells[i, 3].IsNullOrEmpty())
+            {
+              ErrorDescription += "HsCode is Empity or Null ";
+            }
+            if (workSheet.Cells[i, 4].IsNullOrEmpty())
+            {
+              ErrorDescription += "Quantity is Empity or Null ";
+            }
+            if (workSheet.Cells[i, 5].IsNullOrEmpty())
+            {
+              ErrorDescription += "Measurement is Empity or Null ";
+            }
+            errors.Add(new BomError
+            {
+              Description = ErrorDescription,
+              Row = Convert.ToInt16(workSheet.Cells[i, 1].Value),
+              ProjectId = vm.ProjectId,
+              Phase = vm.PhaseId,
+              EventDatetime = DateTime.Now,
+            });
+          }
 
-
-          //_context.incentiveBoMRequestItems.Add(postProjectSubstitute);
         }
+        _context.BomError.AddRange(errors);
+        _context.SaveChanges();
 
-
-        //ServiceApplication.Add(serviceApplication);
         _context.IncentiveBoMRequestItem.AddRange(incentiveBoMRequestItems);
         _context.SaveChanges();
         // IQueryable<IncentiveBoMRequestItem> incentiveBomItems =
@@ -300,7 +330,7 @@ namespace CUSTOR.EICOnline.API.Controllers.Incentive
         //        }
 
         //        return await incentiveBomItems.ToListAsync();
-        return  incentiveBoMRequestItems;
+        return incentiveBoMRequestItems;
       }
     }
 
