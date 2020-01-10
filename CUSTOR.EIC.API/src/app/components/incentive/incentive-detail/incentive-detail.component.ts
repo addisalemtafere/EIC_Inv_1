@@ -15,15 +15,13 @@ import {AngConfirmDialogComponent} from '@custor/components/confirm-dialog/confi
 import {HttpClient} from '@angular/common/http';
 import {LetterModel} from '../../../model/letterModel';
 import {LetterService} from '../../project-profile/letter/letter.service';
-import {LetterTemplateModel} from '../../../model/letter-template.model';
 import {LookuptypesModel} from '../../../model/lookuptypes';
 import {determineId} from '@custor/helpers/compare';
 import {IncentiveRequestDetailModel} from '../../../model/IncentiveRequestDetail.Model';
 import {IncentiveRequestDetailService} from '../incentive-request/requested-items-list/requested-items-list.service';
 import {ConfigurationService} from "@custor/services/configuration.service";
 import {IncentiveRequestService} from '../../incentive/incentive-request/incentive-request.service';
-import {QueryParametersModel} from "../../../model/QueryParameters.model";
-import {PaginationService} from "@custor/services/pagination.service";
+
 
 @Component({
   selector: 'app-incentive-detail',
@@ -37,24 +35,18 @@ export class IncentiveDetailComponent implements OnInit {
   incentiveRequestItemSub: Subscription;
   lookupSub: Subscription;
   title: string;
-  isNewIncentiveRequestItem = false;
   IncentiveRequestModel: IncentiveRequestModel;
   IncentiveRequestModels: IncentiveRequestModel[] = [];
   items: IncentiveRequestDetailModel[] = [];
-
-  incentiveRequestItemForm: FormGroup;
   editMode = false;
   loading = false;
   dataSource: any;
   dataSourceSummary:any;
   dataSourceLetter: any;
   confirmDialogRef: MatDialogRef<AngConfirmDialogComponent>;
-  letterTempalteModel: LetterTemplateModel;
-  letterModel: LetterModel;
   letterModelList: LetterModel[] = [];
   IncentiveCategoryLookup: LookuptypesModel[];
   currentCategoryId: number;
-  isForDetail = 1;
   displayedColumns = [
     'No', 'IncentiveItem','RequestDate', 'Quantity', 'Amount'
   ];
@@ -90,7 +82,6 @@ export class IncentiveDetailComponent implements OnInit {
               private errMsg: ErrorMessage,
               private IncentiveRequestService: IncentiveRequestService,
               private toastr: ToastrService,
-              public paginationService: PaginationService,
               private fb: FormBuilder) {
     this.IncentiveRequestModel = <IncentiveRequestModel>{};
     // initialize the form
@@ -108,9 +99,7 @@ export class IncentiveDetailComponent implements OnInit {
     this.route.params
       .subscribe((params: Params) => {
         this.getIncentiveRequestItems(this.projectId);
-        // this.getLetters();
         this.getIncentiveCategory();
-        // }
       });
   }
 
@@ -132,34 +121,20 @@ export class IncentiveDetailComponent implements OnInit {
         error => this.errMsg.getError(error));
   }
 
-  private getManagerParameters(): QueryParametersModel {
-    const params = new QueryParametersModel();
-
-    params.PageIndex = this.paginationService.page;
-    params.PageSize = this.paginationService.pageCount;
-    params.Lang = this.configService.language;
-    return params;
-  }
-
   getIncentiveRequestItems(projectId) {
     this.IncentiveRequestItemService.getIncentiveRequestDetailsByProjectId(projectId).subscribe(result => {
       if (result.length > 0) {
         this.items = result;
-        // console.log(this.items);
         this.dataSource = new MatTableDataSource<IncentiveRequestDetailModel>(this.items);
         this.loading = false;
       }
     }, error => this.errMsg.getError(error));
   }
-  switchPage(event: PageEvent) {
-    this.paginationService.change(event);
-    this.getIncentiveRequestItems(this.projectId);
-  }
+
   getIncentiveRequestItemsBytCategoryCode(projectId, categoryId) {
-    this.IncentiveRequestItemService.getIncentiveRequestDetailsBytCategoryCode(this.activatedRoute.snapshot.params['projectId'], categoryId).subscribe(result => {
+    this.IncentiveRequestItemService.getIncentiveRequestDetailsBytCategoryCode(this.projectId, categoryId).subscribe(result => {
       if (result.length > 0) {
         this.items = result;
-        // console.log(this.items);
         this.dataSource = new MatTableDataSource<IncentiveRequestDetailModel>(this.items);
         this.loading = false;
       }

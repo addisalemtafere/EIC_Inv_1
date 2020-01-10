@@ -215,12 +215,6 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  investorDetail(InvestorId: any, projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
-    const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
-    const investorId = this.route.snapshot.params['InvestorId']; //localStorage.getItem('InvestorId');
-    this.router.navigate(['incentive-detail/' + projectId + '/' + ServiceApplicationId + '/' + serviceId + '/' + 1]);
-  }
-
   nextService(InvestorId: any, projectId: any, ServiceApplicationId: any, ServiceId: any, projectStatus: any, workFlowId: any) {
 
     const serviceId = +ServiceId; //+localStorage.getItem('ServiceId');
@@ -360,11 +354,11 @@ export class ProjectSearchComponent implements OnInit, AfterContentChecked {
     this.serviceApplication.todoTask = this.todoTask;
     console.log(this.ServiceId);
     if (this.ServiceId != 1239) {
-
+      console.log(this.isTitle)
       if (this.isTitle == 1) {
-        this.investorDetail(this.InvestorId, projectId, 0, ServiceId, projectStatus, 0);
+        this.router.navigate(['incentive-detail/' + projectId + '/' + 0 + '/' + 0 + '/' + 1]);
       } else {
-
+        console.log(this.isTitle)
         this.serviceApplicationService
           .applicationStart(this.serviceApplication)
           .subscribe(result => {
